@@ -52,12 +52,18 @@
             display:block;
             img {
                 display:block;
-                margin:0 auto 2.2em auto;
+                margin:0 0 2.2em 0;
                 text-align:center;
             }
         }
         &.img-wrap-desktop {
             display:none;
+        }
+    }
+    @media screen and (max-width:$device-small) {
+        &.img-wrap-mobile img {
+          margin-left:auto;
+          margin-right:auto;
         }
     }
 }
