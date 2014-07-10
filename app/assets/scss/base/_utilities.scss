@@ -47,7 +47,7 @@
     &.img-wrap-mobile {
         display:none;
     }
-    @media screen and (max-width:$device-small) {
+    @media screen and (max-width:$device-medium) {
         &.img-wrap-mobile {
             display:block;
             img {
