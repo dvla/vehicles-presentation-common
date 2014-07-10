@@ -25,6 +25,8 @@
         color:$black-2;
         line-height: 1.2em;
         padding-bottom: .3em;
+        padding-left:0;
+        padding-right:0;
         .ie & {
             font-size: 19px;
             padding-bottom: .5em;
@@ -224,7 +226,6 @@
                 @include sr-only;
             }
             select {
-                min-width: 5em;
                 max-width: 10em;
                 line-height:normal;
 

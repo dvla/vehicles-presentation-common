@@ -46,6 +46,25 @@
 .disposal-date {
     legend {
         margin-top:20px;
+        padding-bottom:0.5em;
+    }
+    .todays-date {
+        margin-bottom:10px;
+        margin-bottom:1rem;
+        @media screen and (max-width:$device-small) {
+          margin-bottom:15px;
+          margin-bottom:1.5rem;
+        }
+
+        a {
+            font-size:0.9em;
+            text-decoration:none;
+            color:$govuk-blue;
+            cursor:pointer;
+            &:hover {
+                text-decoration:underline;
+            }
+        }
     }
     .ie6 & {
         .form-date .form-item {
