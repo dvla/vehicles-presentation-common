@@ -52,19 +52,41 @@
         margin-bottom:10px;
         margin-bottom:1rem;
         @media screen and (max-width:$device-small) {
-          margin-bottom:15px;
-          margin-bottom:1.5rem;
+          margin-bottom:12px;
+          margin-bottom:1.25rem;
         }
 
-        a {
+        button {
+            -webkit-appearance:none;
+            border:0 none;
+            padding:0;
             font-size:0.9em;
-            text-decoration:none;
+            background:none;
             color:$govuk-blue;
             cursor:pointer;
-            &:hover {
+            @include box-shadow(none);
+            &:hover,
+            &:active {
+                background:none;
+                color:$govuk-blue;
                 text-decoration:underline;
             }
+            .ie & {
+              font-size:15px;
+            }
+            .ie8 &,
+            .ie7 & {
+              padding-right:0;
+              padding-left:0;
+            }
+            @media screen and (max-width:$device-small) {
+              padding:0.6em 0;
+              margin-top:0;
+            }
         }
+    }
+    .form-date {
+      clear:both;
     }
     .ie6 & {
         .form-date .form-item {
