@@ -15,14 +15,14 @@ import services.address_lookup.gds.domain.Address
 import services.address_lookup.gds.domain.Details
 import services.address_lookup.gds.domain.Location
 import services.address_lookup.gds.domain.Presentation
-import services.fakes.FakeAddressLookupService.PostcodeInvalid
+import services.fakes.FakeAddressLookupService.PostcodeWithoutAddresses
 import services.fakes.FakeAddressLookupService.PostcodeValid
 
 final class FakeAddressLookupWebServiceImpl(responseOfPostcodeWebService: Future[Response],
                                             responseOfUprnWebService: Future[Response]) extends AddressLookupWebService {
   override def callPostcodeWebService(postcode: String, trackingId: String)
                                      (implicit lang: Lang): Future[Response] =
-    if (postcode == PostcodeInvalid.toUpperCase) Future {
+    if (postcode == PostcodeWithoutAddresses.toUpperCase) Future {
       FakeResponse(status = OK, fakeJson = None)
     }
     else responseOfPostcodeWebService

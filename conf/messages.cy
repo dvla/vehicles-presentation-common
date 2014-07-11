@@ -345,7 +345,7 @@ ms.vehiclesService.response.unableToProcessApplication = Nid ydym yn gallu prose
 
 #micro-service error page
 micro_service_error.title=Mae''n ddrwg gennym
-micro_service_error.text=Mae''r gwasanaeth ar gael dros dro. Os gwelwch yn dda ceisiwch eto yn hwyrach neu anfonwch V5C gwblhau / 3 i DVLA
+micro_service_error.text=Mae''r gwasanaeth ar gael dros dro.
 micro_service_error.back.button=Ceisiwch eto
 micro_service_error.exit.button=Gadael
 
