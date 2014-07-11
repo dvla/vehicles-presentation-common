@@ -4,7 +4,7 @@ import helpers.disposal_of_vehicle.CookieFactoryForUISpecs
 import helpers.disposal_of_vehicle.ProgressBar.progressStep
 import helpers.tags.UiTag
 import helpers.UiSpec
-import helpers.webbrowser.{TestGlobal, TestHarness}
+import helpers.webbrowser.{WebDriverFactory, TestGlobal, TestHarness}
 import mappings.disposal_of_vehicle.Dispose.TodaysDateOfDisposal
 import org.openqa.selenium.{By, WebDriver}
 import org.scalatest.concurrent.Eventually.{eventually, PatienceConfig, scaled}
@@ -209,7 +209,44 @@ final class DisposeIntegrationSpec extends UiSpec with TestHarness {
       ErrorPanel.numberOfErrors should equal(1)
     }
 
-    "does not proceed when milage has non-numeric (Html5Validation enabled)" taggedAs UiTag in new WebBrowser(app = fakeAppWithHtml5ValidationConfig) {
+    /* TODO Had to comment out because of this error on the build server. Investigate then restore.
+
+      org.openqa.selenium.WebDriverException: Cannot find firefox binary in PATH. Make sure firefox is installed. OS appears to be: LINUX
+[info] Build info: version: '2.42.2', revision: '6a6995d31c7c56c340d6f45a76976d43506cd6cc', time: '2014-06-03 10:52:47'
+[info] System info: host: '***REMOVED***', ip: '***REMOVED***', os.name: 'Linux', os.arch: 'amd64', os.version: '2.6.32-431.el6.x86_64', java.version: '1.7.0_55'
+[info] Driver info: driver.version: FirefoxDriver
+[info]     at org.openqa.selenium.firefox.internal.Executable.<init>(Executable.java:72)
+[info]     at org.openqa.selenium.firefox.FirefoxBinary.<init>(FirefoxBinary.java:59)
+[info]     at org.openqa.selenium.firefox.FirefoxBinary.<init>(FirefoxBinary.java:55)
+[info]     at org.openqa.selenium.firefox.FirefoxDriver.<init>(FirefoxDriver.java:99)
+[info]     at helpers.webbrowser.WebDriverFactory$.firefoxDriver(WebDriverFactory.scala:75)
+[info]     at helpers.webbrowser.WebDriverFactory$.webDriver(WebDriverFactory.scala:34)
+[info]     at views.disposal_of_vehicle.DisposeSuccessIntegrationSpec$$anonfun$3$$anonfun$apply$mcV$sp$16$$anonfun$apply$mcV$sp$17$$anon$16.<init>(DisposeSuccessIntegrationSpec.scala:180)
+[info]     at views.disposal_of_vehicle.DisposeSuccessIntegrationSpec$$anonfun$3$$anonfun$apply$mcV$sp$16$$anonfun$apply$mcV$sp$17.apply$mcV$sp(DisposeSuccessIntegrationSpec.scala:180)
+[info]     at views.disposal_of_vehicle.DisposeSuccessIntegrationSpec$$anonfun$3$$anonfun$apply$mcV$sp$16$$anonfun$apply$mcV$sp$17.apply(DisposeSuccessIntegrationSpec.scala:180)
+[info]     at views.disposal_of_vehicle.DisposeSuccessIntegrationSpec$$anonfun$3$$anonfun$apply$mcV$sp$16$$anonfun$apply$mcV$sp$17.apply(DisposeSuccessIntegrationSpec.scala:180)
+[info]     ...
+
+    "does not proceed when milage has non-numeric (Html5Validation enabled)" taggedAs UiTag in new WebBrowser(
+        app = fakeAppWithHtml5ValidationEnabledConfig,
+        webDriver = WebDriverFactory.webDriver(targetBrowser = "firefox", javascriptEnabled = true)) {
+      go to BeforeYouStartPage
+      cacheSetup()
+      go to DisposePage
+      mileage enter MileageInvalid
+      dateOfDisposalDay select DateOfDisposalDayValid
+      dateOfDisposalMonth select DateOfDisposalMonthValid
+      dateOfDisposalYear select DateOfDisposalYearValid
+      click on consent
+      click on lossOfRegistrationConsent
+
+      click on dispose
+
+      page.url should equal(DisposePage.url)
+      ErrorPanel.hasErrors should equal(false)
+    }*/
+
+    "display one validation error message when milage has non-numeric (Html5Validation disabled)" taggedAs UiTag in new WebBrowser(app = fakeAppWithHtml5ValidationDisabledConfig) {
       go to BeforeYouStartPage
       cacheSetup()
       go to DisposePage
@@ -223,22 +260,6 @@ final class DisposeIntegrationSpec extends UiSpec with TestHarness {
       click on dispose
 
       ErrorPanel.numberOfErrors should equal(1)
-    }
-
-    "does not proceed when milage has non-numeric (Html5Validation disabled)" taggedAs UiTag in new WebBrowser(app = fakeAppWithHtml5ValidationConfig) {
-      go to BeforeYouStartPage
-      cacheSetup()
-      go to DisposePage
-      mileage enter MileageInvalid
-      dateOfDisposalDay select DateOfDisposalDayValid
-      dateOfDisposalMonth select DateOfDisposalMonthValid
-      dateOfDisposalYear select DateOfDisposalYearValid
-      click on consent
-      click on lossOfRegistrationConsent
-
-      click on dispose
-
-      page.title should equal(DisposePage.title)
     }
   }
 
@@ -285,7 +306,11 @@ final class DisposeIntegrationSpec extends UiSpec with TestHarness {
       dealerDetails().
       vehicleDetailsModel()
 
-  private val fakeAppWithHtml5ValidationConfig = FakeApplication(
+  private val fakeAppWithHtml5ValidationEnabledConfig = FakeApplication(
     withGlobal = Some(TestGlobal),
     additionalConfiguration = Map("html5Validation.enabled" -> true))
+
+  private val fakeAppWithHtml5ValidationDisabledConfig = FakeApplication(
+    withGlobal = Some(TestGlobal),
+    additionalConfiguration = Map("html5Validation.enabled" -> false))
 }

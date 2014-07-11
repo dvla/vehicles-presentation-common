@@ -177,7 +177,7 @@ final class DisposeSuccessIntegrationSpec extends UiSpec with TestHarness {
     }
 
     /*
-    Had to comment out because of this error on the build server. Investigate then restore.
+    TODO Had to comment out because of this error on the build server. Investigate then restore.
 
       org.openqa.selenium.WebDriverException: Cannot find firefox binary in PATH. Make sure firefox is installed. OS appears to be: LINUX
 [info] Build info: version: '2.42.2', revision: '6a6995d31c7c56c340d6f45a76976d43506cd6cc', time: '2014-06-03 10:52:47'

@@ -7,8 +7,8 @@ import mappings.disposal_of_vehicle.VehicleLookup.ExitId
 import mappings.disposal_of_vehicle.VehicleLookup.SubmitId
 import mappings.disposal_of_vehicle.VehicleLookup.VehicleRegistrationNumberId
 import org.openqa.selenium.WebDriver
-import services.fakes.brute_force_protection.FakeBruteForcePreventionWebServiceImpl
 import services.fakes.FakeVehicleLookupWebService.{ReferenceNumberValid, RegistrationNumberValid}
+import services.fakes.brute_force_protection.FakeBruteForcePreventionWebServiceImpl.VrmLocked
 
 object VehicleLookupPage extends Page with WebBrowserDSL {
   final val address = "/sell-to-the-trade/vehicle-lookup"
@@ -28,15 +28,15 @@ object VehicleLookupPage extends Page with WebBrowserDSL {
   def happyPath(referenceNumber: String = ReferenceNumberValid, registrationNumber: String = RegistrationNumberValid)
                (implicit driver: WebDriver) = {
     go to VehicleLookupPage
-    documentReferenceNumber.value = referenceNumber
-    VehicleLookupPage.vehicleRegistrationNumber.value = registrationNumber
+    documentReferenceNumber enter referenceNumber
+    VehicleLookupPage.vehicleRegistrationNumber enter registrationNumber
     click on findVehicleDetails
   }
 
   def tryLockedVrm()(implicit driver: WebDriver) = {
     go to VehicleLookupPage
-    documentReferenceNumber.value = ReferenceNumberValid
-    VehicleLookupPage.vehicleRegistrationNumber.value = FakeBruteForcePreventionWebServiceImpl.VrmLocked
+    documentReferenceNumber enter ReferenceNumberValid
+    VehicleLookupPage.vehicleRegistrationNumber enter VrmLocked
     click on findVehicleDetails
   }
 }
