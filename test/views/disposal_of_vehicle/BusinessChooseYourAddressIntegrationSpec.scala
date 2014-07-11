@@ -18,7 +18,7 @@ import services.fakes.FakeAddressLookupService
 import services.fakes.FakeAddressLookupService.PostcodeValid
 
 final class BusinessChooseYourAddressIntegrationSpec extends UiSpec with TestHarness {
-  "go to page" should {
+  "business choose your address page" should {
     "display the page" taggedAs UiTag in new WebBrowser {
       go to BeforeYouStartPage
       cacheSetup()
@@ -48,12 +48,13 @@ final class BusinessChooseYourAddressIntegrationSpec extends UiSpec with TestHar
       page.title should equal(SetupTradeDetailsPage.title)
     }
 
-    "not display 'No addresses found' message when address service returns addresses" taggedAs UiTag in new WebBrowser {
+    "display appropriate content when address service returns addresses" taggedAs UiTag in new WebBrowser {
       SetupTradeDetailsPage.happyPath()
       page.source.contains("No addresses found for that postcode") should equal(false) // Does not contain message
+      page.source should include("""<a id="enterAddressManuallyButton" href""")
     }
 
-    "should display the postcode entered in the previous page" taggedAs UiTag in new WebBrowser {
+    "display the postcode entered in the previous page" taggedAs UiTag in new WebBrowser {
       SetupTradeDetailsPage.happyPath()
       page.source.contains(FakeAddressLookupService.PostcodeValid.toUpperCase) should equal(true)
     }
@@ -73,10 +74,11 @@ final class BusinessChooseYourAddressIntegrationSpec extends UiSpec with TestHar
       )
     }
 
-    "display 'No addresses found' message when address service returns no addresses" taggedAs UiTag in new WebBrowser {
+    "display appropriate content when address service returns no addresses" taggedAs UiTag in new WebBrowser {
       SetupTradeDetailsPage.submitPostcodeWithoutAddresses
 
       page.source should include("No addresses found for that postcode") // Does not contain the positive message
+      page.source should include("""<a id="enterAddressManuallyButton" class="button"""")
     }
 
     "contain the hidden csrfToken field" taggedAs UiTag in new WebBrowser {
@@ -88,11 +90,21 @@ final class BusinessChooseYourAddressIntegrationSpec extends UiSpec with TestHar
     }
   }
 
-  "manualAddress button" should {
+  "manualAddress button that is displayed when addresses have been found" should {
     "go to the manual address entry page" taggedAs UiTag in new WebBrowser {
       go to BeforeYouStartPage
       cacheSetup()
       go to BusinessChooseYourAddressPage
+
+      click on manualAddress
+
+      page.title should equal(EnterAddressManuallyPage.title)
+    }
+  }
+
+  "manualAddress button that is displayed when no addresses have been found" should {
+    "go to the manual address entry page" taggedAs UiTag in new WebBrowser {
+      SetupTradeDetailsPage.submitPostcodeWithoutAddresses
 
       click on manualAddress
 
