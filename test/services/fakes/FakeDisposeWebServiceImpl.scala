@@ -82,4 +82,5 @@ object FakeDisposeWebServiceImpl {
 
   final val ConsentValid = "true"
   final val MileageValid = "20000"
+  final val MileageInvalid = "INVALID"
 }

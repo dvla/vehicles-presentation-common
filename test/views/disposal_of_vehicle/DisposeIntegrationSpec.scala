@@ -4,7 +4,7 @@ import helpers.disposal_of_vehicle.CookieFactoryForUISpecs
 import helpers.disposal_of_vehicle.ProgressBar.progressStep
 import helpers.tags.UiTag
 import helpers.UiSpec
-import helpers.webbrowser.TestHarness
+import helpers.webbrowser.{TestGlobal, TestHarness}
 import mappings.disposal_of_vehicle.Dispose.TodaysDateOfDisposal
 import org.openqa.selenium.{By, WebDriver}
 import org.scalatest.concurrent.Eventually.{eventually, PatienceConfig, scaled}
@@ -26,7 +26,10 @@ import pages.disposal_of_vehicle.DisposePage.useTodaysDate
 import pages.disposal_of_vehicle.DisposeSuccessPage
 import pages.disposal_of_vehicle.SetupTradeDetailsPage
 import pages.disposal_of_vehicle.VehicleLookupPage
+import play.api.test.FakeApplication
 import services.fakes.FakeDateServiceImpl.{DateOfDisposalDayValid, DateOfDisposalMonthValid, DateOfDisposalYearValid}
+import services.fakes.FakeDisposeWebServiceImpl.MileageInvalid
+import pages.disposal_of_vehicle.DisposePage.mileage
 
 final class DisposeIntegrationSpec extends UiSpec with TestHarness {
   "go to page" should {
@@ -205,6 +208,38 @@ final class DisposeIntegrationSpec extends UiSpec with TestHarness {
 
       ErrorPanel.numberOfErrors should equal(1)
     }
+
+    "does not proceed when milage has non-numeric (Html5Validation enabled)" taggedAs UiTag in new WebBrowser(app = fakeAppWithHtml5ValidationConfig) {
+      go to BeforeYouStartPage
+      cacheSetup()
+      go to DisposePage
+      mileage enter MileageInvalid
+      dateOfDisposalDay select DateOfDisposalDayValid
+      dateOfDisposalMonth select DateOfDisposalMonthValid
+      dateOfDisposalYear select DateOfDisposalYearValid
+      click on consent
+      click on lossOfRegistrationConsent
+
+      click on dispose
+
+      ErrorPanel.numberOfErrors should equal(1)
+    }
+
+    "does not proceed when milage has non-numeric (Html5Validation disabled)" taggedAs UiTag in new WebBrowser(app = fakeAppWithHtml5ValidationConfig) {
+      go to BeforeYouStartPage
+      cacheSetup()
+      go to DisposePage
+      mileage enter MileageInvalid
+      dateOfDisposalDay select DateOfDisposalDayValid
+      dateOfDisposalMonth select DateOfDisposalMonthValid
+      dateOfDisposalYear select DateOfDisposalYearValid
+      click on consent
+      click on lossOfRegistrationConsent
+
+      click on dispose
+
+      page.title should equal(DisposePage.title)
+    }
   }
 
   "back button" should {
@@ -249,4 +284,8 @@ final class DisposeIntegrationSpec extends UiSpec with TestHarness {
     CookieFactoryForUISpecs.
       dealerDetails().
       vehicleDetailsModel()
+
+  private val fakeAppWithHtml5ValidationConfig = FakeApplication(
+    withGlobal = Some(TestGlobal),
+    additionalConfiguration = Map("html5Validation.enabled" -> true))
 }
