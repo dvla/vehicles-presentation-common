@@ -3,7 +3,7 @@ package pages.disposal_of_vehicle
 import helpers.webbrowser.{Element, Page, TextField, WebBrowserDSL, WebDriverFactory}
 import mappings.disposal_of_vehicle.SetupTradeDetails.{SubmitId, TraderNameId, TraderPostcodeId}
 import org.openqa.selenium.WebDriver
-import services.fakes.FakeAddressLookupService.{PostcodeInvalid, PostcodeValid, TraderBusinessNameValid}
+import services.fakes.FakeAddressLookupService.{PostcodeWithoutAddresses, PostcodeValid, TraderBusinessNameValid}
 
 object SetupTradeDetailsPage extends Page with WebBrowserDSL {
   final val address = "/sell-to-the-trade/setup-trade-details"
@@ -25,10 +25,10 @@ object SetupTradeDetailsPage extends Page with WebBrowserDSL {
     click on lookup
   }
 
-  def submitInvalidPostcode(implicit driver: WebDriver) = {
+  def submitPostcodeWithoutAddresses(implicit driver: WebDriver) = {
     go to SetupTradeDetailsPage
     traderName enter TraderBusinessNameValid
-    traderPostcode enter PostcodeInvalid
+    traderPostcode enter PostcodeWithoutAddresses
     click on lookup
   }
 }

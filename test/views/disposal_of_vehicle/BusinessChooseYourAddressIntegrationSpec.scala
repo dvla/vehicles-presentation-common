@@ -74,7 +74,7 @@ final class BusinessChooseYourAddressIntegrationSpec extends UiSpec with TestHar
     }
 
     "display 'No addresses found' message when address service returns no addresses" taggedAs UiTag in new WebBrowser {
-      SetupTradeDetailsPage.submitInvalidPostcode
+      SetupTradeDetailsPage.submitPostcodeWithoutAddresses
 
       page.source should include("No addresses found for that postcode") // Does not contain the positive message
     }
