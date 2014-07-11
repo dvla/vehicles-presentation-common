@@ -43,6 +43,9 @@
     img {
         width:100%;
         max-width:$max-width;
+        .ie6 & {
+            width:$max-width;
+        }
     }
     &.img-wrap-mobile {
         display:none;
