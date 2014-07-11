@@ -28,8 +28,11 @@
             <dd>@traderPostcode</dd>
         </dl>
 
+        <br/>
+
         @if(dropDownOptions.isEmpty) {
-        <h2>@Messages("disposal_businessChooseYourAddress_noaddressesfound")</h2>
+        <h2>@Messages("disposal_businessChooseYourAddress_noaddressesfound.h2.1")</h2>
+        <h2>@Messages("disposal_businessChooseYourAddress_noaddressesfound.h2.2")</h2>
         } else {
             @valtechSelect(businessChooseYourAddressForm(AddressSelectId),
                 options = dropDownOptions.toSeq,
@@ -37,13 +40,15 @@
             )
         }
 
-        <br/>
-        <a id="@EnterAddressManuallyButtonId" href="@controllers.disposal_of_vehicle.routes.EnterAddressManually.present()">@Messages("disposal_businessChooseYourAddress.manualAddressEntry")</a>
-
-        @{/* Note primary button moved to first button as per https://www.gov.uk/service-manual/user-centered-design/resources/forms.html#buttons */}
+        @if(dropDownOptions.nonEmpty) {
+            <a id="@EnterAddressManuallyButtonId" href="@controllers.disposal_of_vehicle.routes.EnterAddressManually.present()">@Messages("disposal_businessChooseYourAddress.manualAddressEntry")</a>
+        }
         <div class="form-steps">
+            @if(dropDownOptions.isEmpty) {
+                <a class="button" href="@controllers.disposal_of_vehicle.routes.EnterAddressManually.present()">@Messages("disposal_businessChooseYourAddress.manualAddressEntry.enterManuallyButton")</a>
+            }
             @if(dropDownOptions.nonEmpty) {
-            <button id="@SelectId" type="submit" name="action" class="button">@Messages("disposal_businessChooseYourAddress.submitbutton")</button>
+                <button id="@SelectId" type="submit" name="action" class="button">@Messages("disposal_businessChooseYourAddress.submitbutton")</button>
             }
             <a id="@BackId" href="@controllers.disposal_of_vehicle.routes.SetUpTradeDetails.present()" class="button-secondary">@Messages("disposal_businessChooseYourAddress.backbutton")</a>
         </div>
