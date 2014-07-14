@@ -1,24 +1,39 @@
-import sbt._
-import sbt.Keys._
-import play.Project._
-import net.litola.SassPlugin
+import java.net.URLClassLoader
 import de.johoop.jacoco4sbt.JacocoPlugin._
+import net.litola.SassPlugin
 import org.scalastyle.sbt.ScalastylePlugin
+import play.Project._
+import sbt.Keys._
+import sbt._
 import templemore.sbt.cucumber.CucumberPlugin
 
+object Resolvers {
+  val nexus = "http://rep002-01.skyscape.preview-dvla.co.uk:8081/nexus/content/repositories"
+
+  val projectResolvers = Seq(
+    "spray repo" at "http://repo.spray.io/",
+    "local nexus snapshots" at s"$nexus/snapshots",
+    "local nexus releases" at s"$nexus/releases"
+  )
+
+  val publisher = publishTo <<= version { v: String =>
+    if (v.trim.endsWith("SNAPSHOT"))
+      Some("snapshots" at s"$nexus/snapshots")
+    else
+      Some("releases" at s"$nexus/releases")
+  }
+}
+
 object ApplicationBuild extends Build {
+  import Resolvers._
+
   val appName         = "vehicles-online"
 
   val appVersion      = "1.0-SNAPSHOT"
 
-  val nexus = "http://rep002-01.skyscape.preview-dvla.co.uk:8081/nexus/content/repositories"
-
   val appDependencies = Seq(
     cache,
     filters,
-//    "dvla" %% "os-address-lookup" % "0.1" % "test" withSources() withJavadoc(),
-//    "dvla" %% "vehicles-lookup" % "0.1" % "test" withSources() withJavadoc(),
-//    "dvla" %% "vehicles-dispose-fulfil" % "0.1" % "test" withSources() withJavadoc(),
     "org.seleniumhq.selenium" % "selenium-java" % "2.42.2" % "test" withSources() withJavadoc(),
     "com.github.detro" % "phantomjsdriver" % "1.2.0" % "test" withSources() withJavadoc(),
     "info.cukes" % "cucumber-scala_2.10" % "1.1.7" % "test" withSources() withJavadoc(),
@@ -95,6 +110,65 @@ object ApplicationBuild extends Build {
   val appSettings: Seq[Def.Setting[_]] = myOrganization ++ SassPlugin.sassSettings ++ myScalaVersion ++ compilerOptions ++ myConcurrentRestrictions ++
     myTestOptions ++ excludeTest ++ myJavaOptions ++ fork ++ jcoco ++ scalaCheck ++ requireJsSettings ++ cukes
 
+  lazy val OsAddressLookup = Project("OsAddressLookup", file("vehicles-services/a"))
+    .settings(libraryDependencies ++= Seq("dvla" %% "os-address-lookup" % "0.1"))
+    .settings(resolvers ++= projectResolvers)
+    .settings(net.virtualvoid.sbt.graph.Plugin.graphSettings: _*)
+
+  lazy val VehiclesLookup = Project("VehiclesLookup", file("vehicles-services/b"))
+    .settings(libraryDependencies ++= Seq("dvla" %% "vehicles-lookup" % "0.1"))
+    .settings(resolvers ++= projectResolvers)
+    .settings(net.virtualvoid.sbt.graph.Plugin.graphSettings: _*)
+
+  lazy val VehiclesDisposeFulfil = Project("VehiclesDisposeFulfil", file("vehicles-services/c"))
+    .settings(libraryDependencies ++= Seq("dvla" %% "vehicles-dispose-fulfil" % "0.1"))
+    .settings(resolvers ++= projectResolvers)
+    .settings(net.virtualvoid.sbt.graph.Plugin.graphSettings: _*)
+
+  lazy val vehiclesOnline = ScopeFilter(inProjects(ThisProject), inConfigurations(Runtime))
+  lazy val scopeOsAddressLookup = ScopeFilter(inProjects(LocalProject(OsAddressLookup.id)), inConfigurations(Runtime))
+  lazy val scopeVehiclesLookup = ScopeFilter(inProjects(LocalProject(VehiclesLookup.id)), inConfigurations(Runtime))
+  lazy val scopeVehiclesDisposeFulfil = ScopeFilter(
+    inProjects(LocalProject(VehiclesDisposeFulfil.id)), inConfigurations(Runtime)
+  )
+
+  lazy val sandbox = taskKey[Unit]("Runs the sandbox'")
+  lazy val sandboxTask = sandbox := {
+    val cpVehiclesOnline = fullClasspath.all(vehiclesOnline).value.flatten
+    val cpOsAddressLookup = fullClasspath.all(scopeOsAddressLookup).value.flatten
+    val cpVehiclesLookup = fullClasspath.all(scopeVehiclesLookup).value.flatten
+    val cpeVehiclesDisposeFulfil = fullClasspath.all(scopeVehiclesDisposeFulfil).value.flatten
+
+//    println("vehicles-onlien-cp")
+//    cpVehiclesOnline.foreach(println)
+//    println()
+//    println("os-address-lookup-cp")
+//    cpOsAddressLookup.foreach(println)
+//    println()
+//    println("vehicles-lookup")
+//    cpVehiclesLookup.foreach(println)
+//    println()
+//    println("vehicles-dispose-fulfil")
+//    cpeVehiclesDisposeFulfil.foreach(println)
+
+
+    cpVehiclesOnline.map(_.data.toURI.toURL).toArray.foreach(println)
+
+    val osalClassLoader = new URLClassLoader(
+      cpOsAddressLookup.map(_.data.toURI.toURL).toArray,
+      this.getClass.getClassLoader
+    )
+
+    import scala.reflect.runtime.universe.runtimeMirror
+    import scala.reflect.runtime.universe.newTermName
+    lazy val mirror = runtimeMirror(osalClassLoader)
+    val bootSymbol = mirror.staticModule("dvla.microservice.Boot").asModule
+    val boot = mirror.reflectModule(bootSymbol).instance
+    val mainMethodSymbol = bootSymbol.typeSignature.member(newTermName("main")).asMethod
+    val bootMirror = mirror.reflect(boot)
+
+    bootMirror.reflectMethod(mainMethodSymbol).apply(Array[String]())
+  }
 
   val main = play.Project(
     appName,
@@ -103,18 +177,7 @@ object ApplicationBuild extends Build {
     settings = play.Project.playScalaSettings ++ jacoco.settings ++ ScalastylePlugin.Settings
   ).settings(appSettings: _*)
    .settings(net.virtualvoid.sbt.graph.Plugin.graphSettings: _*)
-   .settings(
-      resolvers ++= Seq(
-        "spray repo" at "http://repo.spray.io/",
-        "local nexus snapshots" at s"$nexus/snapshots",
-        "local nexus releases" at s"$nexus/releases"
-      )
-    ).settings(
-      publishTo <<= version { v: String =>
-        if (v.trim.endsWith("SNAPSHOT"))
-          Some("snapshots" at s"$nexus/snapshots")
-        else
-          Some("releases" at s"$nexus/releases")
-      }
-    )
+   .settings(resolvers ++= projectResolvers)
+   .settings(publisher)
+   .settings(sandboxTask)
 }
