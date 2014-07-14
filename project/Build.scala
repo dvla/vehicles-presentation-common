@@ -1,11 +1,14 @@
+import java.io.{FileOutputStream, OutputStream}
 import java.net.URLClassLoader
 import de.johoop.jacoco4sbt.JacocoPlugin._
 import net.litola.SassPlugin
+import org.apache.commons.io.IOUtils
 import org.scalastyle.sbt.ScalastylePlugin
 import play.Project._
 import sbt.Keys._
 import sbt._
 import templemore.sbt.cucumber.CucumberPlugin
+import scala.concurrent.Future
 
 object Resolvers {
   val nexus = "http://rep002-01.skyscape.preview-dvla.co.uk:8081/nexus/content/repositories"
@@ -139,35 +142,43 @@ object ApplicationBuild extends Build {
     val cpVehiclesLookup = fullClasspath.all(scopeVehiclesLookup).value.flatten
     val cpeVehiclesDisposeFulfil = fullClasspath.all(scopeVehiclesDisposeFulfil).value.flatten
 
-//    println("vehicles-onlien-cp")
-//    cpVehiclesOnline.foreach(println)
-//    println()
-//    println("os-address-lookup-cp")
-//    cpOsAddressLookup.foreach(println)
-//    println()
-//    println("vehicles-lookup")
-//    cpVehiclesLookup.foreach(println)
-//    println()
-//    println("vehicles-dispose-fulfil")
-//    cpeVehiclesDisposeFulfil.foreach(println)
-
-
     cpVehiclesOnline.map(_.data.toURI.toURL).toArray.foreach(println)
 
+    sys.props += "config.resource" -> "application.conf"
     val osalClassLoader = new URLClassLoader(
       cpOsAddressLookup.map(_.data.toURI.toURL).toArray,
-      this.getClass.getClassLoader
+      this.getClass.getClassLoader.getParent.getParent
     )
 
-    import scala.reflect.runtime.universe.runtimeMirror
-    import scala.reflect.runtime.universe.newTermName
-    lazy val mirror = runtimeMirror(osalClassLoader)
-    val bootSymbol = mirror.staticModule("dvla.microservice.Boot").asModule
-    val boot = mirror.reflectModule(bootSymbol).instance
-    val mainMethodSymbol = bootSymbol.typeSignature.member(newTermName("main")).asMethod
-    val bootMirror = mirror.reflect(boot)
+    IOUtils.write("""
+                    |ordnancesurvey.requesttimeout = "9999"
+                    |ordnancesurvey.apiversion = "testing"
+                    |ordnancesurvey.beta06.username = "testUser"
+                    |ordnancesurvey.beta06.password = "testPass"
+                    |ordnancesurvey.beta06.baseurl = "https://localhost/ord-serv:1234"
+                    |ordnancesurvey.preproduction.apikey = "someApiKey"
+                    |ordnancesurvey.preproduction.baseurl = "http://baseUrl"
+                  """.stripMargin, new FileOutputStream(new File(classDirectory.all(scopeOsAddressLookup).value.head, "os-address-lookup.conf")))
 
-    bootMirror.reflectMethod(mainMethodSymbol).apply(Array[String]())
+    val t = new Thread() {
+      override def run() {
+        Thread.currentThread().setContextClassLoader(osalClassLoader)
+
+        import scala.reflect.runtime.universe.runtimeMirror
+        import scala.reflect.runtime.universe.newTermName
+        lazy val mirror = runtimeMirror(osalClassLoader)
+        val bootSymbol = mirror.staticModule("dvla.microservice.Boot").asModule
+        val boot = mirror.reflectModule(bootSymbol).instance
+        val mainMethodSymbol = bootSymbol.typeSignature.member(newTermName("main")).asMethod
+        val bootMirror = mirror.reflect(boot)
+        bootMirror.reflectMethod(mainMethodSymbol).apply(Array[String]())
+      }
+    }
+
+    t.start()
+
+    t.join()
+
   }
 
   val main = play.Project(
