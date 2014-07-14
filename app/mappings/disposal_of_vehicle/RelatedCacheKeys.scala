@@ -1,5 +1,6 @@
 package mappings.disposal_of_vehicle
 
+import mappings.common.Help.HelpCacheKey
 import mappings.common.PreventGoingToDisposePage.{PreventGoingToDisposePageCacheKey, DisposeOccurredCacheKey}
 import mappings.disposal_of_vehicle.BusinessChooseYourAddress.BusinessChooseYourAddressCacheKey
 import mappings.disposal_of_vehicle.Dispose.DisposeFormModelCacheKey
@@ -8,6 +9,7 @@ import mappings.disposal_of_vehicle.Dispose.DisposeFormTimestampIdCacheKey
 import mappings.disposal_of_vehicle.Dispose.DisposeFormTransactionIdCacheKey
 import mappings.disposal_of_vehicle.Dispose.DisposeModelCacheKey
 import mappings.disposal_of_vehicle.EnterAddressManually.EnterAddressManuallyCacheKey
+import mappings.disposal_of_vehicle.MicroserviceError.MicroServiceErrorRefererCacheKey
 import mappings.disposal_of_vehicle.SetupTradeDetails.SetupTradeDetailsCacheKey
 import mappings.disposal_of_vehicle.TraderDetails.TraderDetailsCacheKey
 import mappings.disposal_of_vehicle.VehicleLookup.VehicleLookupDetailsCacheKey
@@ -48,5 +50,9 @@ object RelatedCacheKeys {
       EnterAddressManuallyCacheKey)
 
   // The full set of cache keys. These are removed at the start of the process in the "before_you_start" page
-  val FullSet = TradeDetailsSet ++ DisposeSet ++ Set(PreventGoingToDisposePageCacheKey) ++ Set(DisposeOccurredCacheKey)
+  val FullSet = TradeDetailsSet.++(DisposeSet)
+                              .++(Set(PreventGoingToDisposePageCacheKey))
+                              .++(Set(DisposeOccurredCacheKey))
+                              .++(Set(HelpCacheKey))
+                              .++(Set(MicroServiceErrorRefererCacheKey))
 }

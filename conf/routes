@@ -54,6 +54,7 @@ GET         /sell-to-the-trade/uprn-not-found                           @control
 GET         /sell-to-the-trade/duplicate-sell-to-the-trade-error        @controllers.disposal_of_vehicle.DuplicateDisposalError.present
 
 GET         /sell-to-the-trade/service-error                            @controllers.disposal_of_vehicle.MicroServiceError.present
+GET         /sell-to-the-trade/service-error/try-again                  @controllers.disposal_of_vehicle.MicroServiceError.back
 
 GET         /sell-to-the-trade/soap-endpoint-error                      @controllers.disposal_of_vehicle.SoapEndpointError.present
 
@@ -65,7 +66,7 @@ GET         /sell-to-the-trade/error/:exceptionDigest                   @control
 POST        /sell-to-the-trade/error/:exceptionDigest                   @controllers.disposal_of_vehicle.Error.submit(exceptionDigest)
 
 GET         /sell-to-the-trade/help                                     @controllers.common.Help.present
-POST        /sell-to-the-trade/help                                     @controllers.common.Help.back
+GET         /sell-to-the-trade/help/back                                @controllers.common.Help.back
 
 GET         /with-language/:chosenLanguage                              controllers.common.AlternateLanguages.withLanguage(chosenLanguage: String)
 
