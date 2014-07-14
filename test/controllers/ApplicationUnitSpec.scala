@@ -41,9 +41,8 @@ final class ApplicationUnitSpec extends UnitSpec {
     override def around[T: AsResult](t: => T): Result =
     {
       Helpers.running(app) {
-        val prefix = app.routes.map(_.prefix)
         try AsResult.effectively(t)
-        finally prefix.map { p => app.routes.map(_.setPrefix(p)) }
+        finally app.routes.map(_.setPrefix("/"))
       }
     }
    }
