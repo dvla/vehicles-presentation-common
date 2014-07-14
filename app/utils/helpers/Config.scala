@@ -40,4 +40,6 @@ class Config {
 
   // Progress step indicator
   val isProgressBarEnabled: Boolean = getProperty("progressBar.enabled", default = true)
+
+  val isHtml5ValidationEnabled: Boolean = getProperty("html5Validation.enabled", default = false)
 }
