@@ -121,7 +121,6 @@ object ApplicationBuild extends Build {
     ScopeFilter(inProjects(LocalProject(name)), inConfigurations(Runtime))
   )
 
-
   lazy val (osAddressLookup, scopeOsAddressLookup) = sandPrj("os-address-lookup", "0.1")
   lazy val (vehiclesLookup, scopeVehiclesLookup) = sandPrj("vehicles-lookup", "0.1")
   lazy val (vehiclesDisposeFulfil, scopeVehiclesDisposeFulfil) = sandPrj("vehicles-dispose-fulfil", "0.1")
@@ -130,53 +129,51 @@ object ApplicationBuild extends Build {
 
   lazy val sandbox = taskKey[Unit]("Runs the sandbox'")
   lazy val sandboxTask = sandbox := {
+
+    def runPrj(project: ScopeFilter, props: String, fileName: String): Thread = {
+      val prjClassPath = fullClasspath.all(project).value.flatten
+      val prjClassloader = new URLClassLoader(
+        prjClassPath.map(_.data.toURI.toURL).toArray,
+        this.getClass.getClassLoader.getParent.getParent
+      )
+
+      val f = new java.io.File(classDirectory.all(project).value.head, fileName)
+      f.getParentFile.mkdirs()
+      IOUtils.write(props, new FileOutputStream(f))
+
+      val t = new Thread() {
+        override def run() {
+          Thread.currentThread().setContextClassLoader(prjClassloader)
+
+          import scala.reflect.runtime.universe.runtimeMirror
+          import scala.reflect.runtime.universe.newTermName
+          lazy val mirror = runtimeMirror(prjClassloader)
+          val bootSymbol = mirror.staticModule("dvla.microservice.Boot").asModule
+          val boot = mirror.reflectModule(bootSymbol).instance
+          val mainMethodSymbol = bootSymbol.typeSignature.member(newTermName("main")).asMethod
+          val bootMirror = mirror.reflect(boot)
+          bootMirror.reflectMethod(mainMethodSymbol).apply(Array[String]())
+        }
+      }
+      t.start()
+      t
+    }
+
     val cpVehiclesOnline = fullClasspath.all(vehiclesOnline).value.flatten
-    val cpOsAddressLookup = fullClasspath.all(scopeOsAddressLookup).value.flatten
     val cpVehiclesLookup = fullClasspath.all(scopeVehiclesLookup).value.flatten
     val cpeVehiclesDisposeFulfil = fullClasspath.all(scopeVehiclesDisposeFulfil).value.flatten
 
-//    cpOsAddressLookup.map(_.data.toURI.toURL).toArray.foreach(println)
-
-    sys.props += "config.resource" -> "application.conf"
-    val osalClassLoader = new URLClassLoader(
-      cpOsAddressLookup.map(_.data.toURI.toURL).toArray,
-      this.getClass.getClassLoader.getParent.getParent
-    )
-
-//    def projectSettings(project: ScopeFilter): File
-
-    val f = new java.io.File(classDirectory.all(scopeOsAddressLookup).value.head, "os-address-lookup.conf")
-    f.getParentFile.mkdirs()
-
-    IOUtils.write("""
-                    |ordnancesurvey.requesttimeout = "9999"
-                    |ordnancesurvey.apiversion = "testing"
-                    |ordnancesurvey.beta06.username = "testUser"
-                    |ordnancesurvey.beta06.password = "testPass"
-                    |ordnancesurvey.beta06.baseurl = "https://localhost/ord-serv:1234"
-                    |ordnancesurvey.preproduction.apikey = "someApiKey"
-                    |ordnancesurvey.preproduction.baseurl = "http://baseUrl"
-                  """.stripMargin, new FileOutputStream(f))
-
-    val t = new Thread() {
-      override def run() {
-        Thread.currentThread().setContextClassLoader(osalClassLoader)
-
-        import scala.reflect.runtime.universe.runtimeMirror
-        import scala.reflect.runtime.universe.newTermName
-        lazy val mirror = runtimeMirror(osalClassLoader)
-        val bootSymbol = mirror.staticModule("dvla.microservice.Boot").asModule
-        val boot = mirror.reflectModule(bootSymbol).instance
-        val mainMethodSymbol = bootSymbol.typeSignature.member(newTermName("main")).asMethod
-        val bootMirror = mirror.reflect(boot)
-        bootMirror.reflectMethod(mainMethodSymbol).apply(Array[String]())
-      }
-    }
-
-    t.start()
-
-    t.join()
-
+    runPrj(
+      scopeOsAddressLookup,
+      """ordnancesurvey.requesttimeout = "9999"
+       |ordnancesurvey.apiversion = "testing"
+       |ordnancesurvey.beta06.username = "testUser"
+       |ordnancesurvey.beta06.password = "testPass"
+       |ordnancesurvey.beta06.baseurl = "https://localhost/ord-serv:1234"
+       |ordnancesurvey.preproduction.apikey = "someApiKey"
+       |ordnancesurvey.preproduction.baseurl = "http://baseUrl"""".stripMargin,
+      "os-address-lookup"
+    ).join()
   }
 
   val main = play.Project(
