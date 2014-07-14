@@ -9,7 +9,6 @@ import mappings.disposal_of_vehicle.RelatedCacheKeys
 import org.openqa.selenium.{By, WebElement, WebDriver}
 import helpers.disposal_of_vehicle.CookieFactoryForUISpecs
 import pages.disposal_of_vehicle.ErrorPage.startAgain
-import ProgressBar.progressStep
 
 final class ErrorIntegrationSpec extends UiSpec with TestHarness {
   "go to page" should {
@@ -28,7 +27,7 @@ final class ErrorIntegrationSpec extends UiSpec with TestHarness {
 
       go to ErrorPage
 
-      page.title should not contain progressStep
+      page.source should not contain ProgressBar.div
     }
 
     "contain the hidden csrfToken field" taggedAs UiTag in new WebBrowser {

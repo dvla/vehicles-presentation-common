@@ -7,9 +7,7 @@ import helpers.tags.UiTag
 import helpers.webbrowser.TestHarness
 import mappings.common.Help.HelpCacheKey
 import org.openqa.selenium.WebDriver
-import pages.common.HelpPanel.help
 import pages.disposal_of_vehicle.HelpPage.{back, exit}
-import ProgressBar.progressStep
 import pages.disposal_of_vehicle.{BeforeYouStartPage, HelpPage, VehicleLookupPage}
 import pages.common.HelpPanel.help
 
@@ -24,7 +22,7 @@ final class HelpIntegrationSpec extends UiSpec with TestHarness {
     "not display any progress indicator when progressBar is set to true" taggedAs UiTag in new ProgressBarTrue {
       go to HelpPage
 
-      page.title should not contain progressStep
+      page.source should not contain ProgressBar.div
     }
   }
 
