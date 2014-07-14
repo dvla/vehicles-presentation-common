@@ -1,8 +1,9 @@
 package controllers
 
-import helpers.{UnitSpec}
+import helpers.UnitSpec
 import org.mockito.Mockito.when
-import play.api.test.{WithApplication, FakeApplication, FakeRequest}
+import org.specs2.execute.{Result, AsResult}
+import play.api.test.{Helpers, WithApplication, FakeApplication, FakeRequest}
 import play.api.test.Helpers._
 import utils.helpers.Config
 
@@ -21,13 +22,31 @@ final class ApplicationUnitSpec extends UnitSpec {
       redirectLocation(result) should equal(Some("/testStart"))
     }
 
-    "redirect the user to the start url when there is an application context set " in
-      new WithApplication(app = FakeApplication(additionalConfiguration = Map("application.context" -> "/testContext/"))) {
+    "redirect the user to the start url when there is an application context set " in new WithApplicationContext("/testContext/") {
+      try {
         implicit val config = configWithStartUrl("/testStart")
         val result = new ApplicationRoot().index(FakeRequest())
         redirectLocation(result) should equal(Some("/testContext/testStart"))
+      } finally {
+
       }
+    }
   }
+
+  // This Application allows us to safely apply an application context and ensure that the changes are reverted
+  // once the test has finished executing. This is because the default Router object contains global shared state
+  class WithApplicationContext(context: String) extends play.api.test.WithApplication (
+    app = FakeApplication(additionalConfiguration = Map("application.context" -> context))
+  ){
+    override def around[T: AsResult](t: => T): Result =
+    {
+      Helpers.running(app) {
+        val prefix = app.routes.map(_.prefix)
+        try AsResult.effectively(t)
+        finally prefix.map { p => app.routes.map(_.setPrefix(p)) }
+      }
+    }
+   }
 
   private def configWithStartUrl(startUrl: String): Config = {
     val config = mock[Config]
