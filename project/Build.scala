@@ -8,7 +8,6 @@ import play.Project._
 import sbt.Keys._
 import sbt._
 import templemore.sbt.cucumber.CucumberPlugin
-import scala.concurrent.Future
 
 object Resolvers {
   val nexus = "http://rep002-01.skyscape.preview-dvla.co.uk:8081/nexus/content/repositories"
@@ -113,27 +112,21 @@ object ApplicationBuild extends Build {
   val appSettings: Seq[Def.Setting[_]] = myOrganization ++ SassPlugin.sassSettings ++ myScalaVersion ++ compilerOptions ++ myConcurrentRestrictions ++
     myTestOptions ++ excludeTest ++ myJavaOptions ++ fork ++ jcoco ++ scalaCheck ++ requireJsSettings ++ cukes
 
-  lazy val OsAddressLookup = Project("OsAddressLookup", file("vehicles-services/a"))
-    .settings(libraryDependencies ++= Seq("dvla" %% "os-address-lookup" % "0.1"))
-    .settings(resolvers ++= projectResolvers)
-    .settings(net.virtualvoid.sbt.graph.Plugin.graphSettings: _*)
 
-  lazy val VehiclesLookup = Project("VehiclesLookup", file("vehicles-services/b"))
-    .settings(libraryDependencies ++= Seq("dvla" %% "vehicles-lookup" % "0.1"))
-    .settings(resolvers ++= projectResolvers)
-    .settings(net.virtualvoid.sbt.graph.Plugin.graphSettings: _*)
+  def sandPrj(name: String, version: String): (Project, ScopeFilter) = (
+    Project(name, file(s"sandbox/$name"))
+      .settings(libraryDependencies ++= Seq("dvla" %% name % version))
+      .settings(resolvers ++= projectResolvers)
+      .settings(net.virtualvoid.sbt.graph.Plugin.graphSettings: _*),
+    ScopeFilter(inProjects(LocalProject(name)), inConfigurations(Runtime))
+  )
 
-  lazy val VehiclesDisposeFulfil = Project("VehiclesDisposeFulfil", file("vehicles-services/c"))
-    .settings(libraryDependencies ++= Seq("dvla" %% "vehicles-dispose-fulfil" % "0.1"))
-    .settings(resolvers ++= projectResolvers)
-    .settings(net.virtualvoid.sbt.graph.Plugin.graphSettings: _*)
+
+  lazy val (osAddressLookup, scopeOsAddressLookup) = sandPrj("os-address-lookup", "0.1")
+  lazy val (vehiclesLookup, scopeVehiclesLookup) = sandPrj("vehicles-lookup", "0.1")
+  lazy val (vehiclesDisposeFulfil, scopeVehiclesDisposeFulfil) = sandPrj("vehicles-dispose-fulfil", "0.1")
 
   lazy val vehiclesOnline = ScopeFilter(inProjects(ThisProject), inConfigurations(Runtime))
-  lazy val scopeOsAddressLookup = ScopeFilter(inProjects(LocalProject(OsAddressLookup.id)), inConfigurations(Runtime))
-  lazy val scopeVehiclesLookup = ScopeFilter(inProjects(LocalProject(VehiclesLookup.id)), inConfigurations(Runtime))
-  lazy val scopeVehiclesDisposeFulfil = ScopeFilter(
-    inProjects(LocalProject(VehiclesDisposeFulfil.id)), inConfigurations(Runtime)
-  )
 
   lazy val sandbox = taskKey[Unit]("Runs the sandbox'")
   lazy val sandboxTask = sandbox := {
@@ -142,13 +135,18 @@ object ApplicationBuild extends Build {
     val cpVehiclesLookup = fullClasspath.all(scopeVehiclesLookup).value.flatten
     val cpeVehiclesDisposeFulfil = fullClasspath.all(scopeVehiclesDisposeFulfil).value.flatten
 
-    cpVehiclesOnline.map(_.data.toURI.toURL).toArray.foreach(println)
+//    cpOsAddressLookup.map(_.data.toURI.toURL).toArray.foreach(println)
 
     sys.props += "config.resource" -> "application.conf"
     val osalClassLoader = new URLClassLoader(
       cpOsAddressLookup.map(_.data.toURI.toURL).toArray,
       this.getClass.getClassLoader.getParent.getParent
     )
+
+//    def projectSettings(project: ScopeFilter): File
+
+    val f = new java.io.File(classDirectory.all(scopeOsAddressLookup).value.head, "os-address-lookup.conf")
+    f.getParentFile.mkdirs()
 
     IOUtils.write("""
                     |ordnancesurvey.requesttimeout = "9999"
@@ -158,7 +156,7 @@ object ApplicationBuild extends Build {
                     |ordnancesurvey.beta06.baseurl = "https://localhost/ord-serv:1234"
                     |ordnancesurvey.preproduction.apikey = "someApiKey"
                     |ordnancesurvey.preproduction.baseurl = "http://baseUrl"
-                  """.stripMargin, new FileOutputStream(new File(classDirectory.all(scopeOsAddressLookup).value.head, "os-address-lookup.conf")))
+                  """.stripMargin, new FileOutputStream(f))
 
     val t = new Thread() {
       override def run() {
