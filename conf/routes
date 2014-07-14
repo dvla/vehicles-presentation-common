@@ -16,7 +16,7 @@ GET         /assets/*file                                               controll
 ######################
 
 #page 1 - Before You Start (GET request not POST on submission because we are not posting any data)
-GET         /                                                           controllers.Application.index
+GET         /                                                           @controllers.Application.index
 GET         /sell-to-the-trade/before-you-start                         @controllers.disposal_of_vehicle.BeforeYouStart.present
 POST        /sell-to-the-trade/before-you-start                         @controllers.disposal_of_vehicle.BeforeYouStart.submit
 

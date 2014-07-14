@@ -42,4 +42,6 @@ class Config {
   val isProgressBarEnabled: Boolean = getProperty("progressBar.enabled", default = true)
 
   val isHtml5ValidationEnabled: Boolean = getProperty("html5Validation.enabled", default = false)
+
+  val startUrl: String = getProperty("start.page", default = "NOT FOUND")
 }
