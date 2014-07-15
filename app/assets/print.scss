@@ -39,22 +39,22 @@ body {
 }
 
 .vehicles-online {
-  display:inline-block;
-  vertical-align:top;
-  padding:20px;
-  margin-bottom:50px;
+    display:inline-block;
+    vertical-align:top;
+    padding:20px;
+    margin-bottom:50px;
 }
 
 .global-header h1, h2, h3, h4, h5, h6 {
     font-weight: bold;
 }
 h1, h2, h3, h4 {
-  margin-top:0;
-  margin-bottom:15px;
+    margin-top:0;
+    margin-bottom:15px;
 }
 p {
-  margin-top:0;
-  margin-bottom:10px;
+    margin-top:0;
+    margin-bottom:10px;
 }
 h2, h3, h4, p, ul {
     orphans: 3;
@@ -180,23 +180,23 @@ dl {
 }
 
 a {
-  text-decoration: underline;
-  word-wrap: break-word;
-  &:visited {
     text-decoration: underline;
     word-wrap: break-word;
-  }
-  &[href^="/"]:after {
-    content: " (https://www.gov.uk" attr(href) ")";
-    font-size: 90%;
-  }
-  &[href^="http://"]:after, &[href^="https://"]:after {
-    content: " (" attr(href) ")";
-    font-size: 90%;
-  }
-  &[href^="javascript:"]:after, &[href^="#"]:after {
-    content: "";
-  }
+    &:visited {
+        text-decoration: underline;
+        word-wrap: break-word;
+    }
+    &[href^="/"]:after {
+        content: " (https://www.gov.uk" attr(href) ")";
+        font-size: 90%;
+    }
+    &[href^="http://"]:after, &[href^="https://"]:after {
+        content: " (" attr(href) ")";
+        font-size: 90%;
+    }
+    &[href^="javascript:"]:after, &[href^="#"]:after {
+        content: "";
+    }
 }
 
 img {
@@ -210,81 +210,75 @@ img {
 .first-col,
 .second-col {
   > div {
-    margin-bottom:20px;
+      margin-bottom:20px;
   }
 }
 
 dl.summary-detail-list {
-  display:inline-block;
-  vertical-align:top;
-  width:100%;
-  margin-top:0;
-  dt {
-    float:left;
-    clear:both;
-    min-width:120px;
-  }
-  dd {
-    float:left;
-  }
+    display:inline-block;
+    vertical-align:top;
+    width:100%;
+    margin-top:0;
+    dt {
+        float:left;
+        clear:both;
+        min-width:120px;
+    }
+    dd {
+        float:left;
+    }
 }
 
 .enter-address-manually form {
-  fieldset > .form-item {
-    margin-bottom:0;
-  }
+    fieldset > .form-item {
+        margin-bottom:0;
+    }
 }
 
 p.transaction-id {
-  font-weight:bold;
-  br {
-    display:none;
-  }
+    font-weight:bold;
+    br {
+        display:none;
+    }
 }
 
 
 .global-header {
-  background: transparent;
-  margin-top: 10px;
-  #logo {
-    position: relative;
-    display: block;
-    width: 166px;
-    height: 30px;
-    overflow: hidden;
-    img {
-      position: absolute;
-      left: -46px;
-      top: -62px;
-      max-width: none !important;
-      width: 200%;
-      height: 300%;
-      border: none;
+    background: transparent;
+    margin-top: 10px;
+    #logo {
+        position: relative;
+        display: block;
+        width: 166px;
+        height: 30px;
+        overflow: hidden;
+        img {
+            position: absolute;
+            left: -46px;
+            top: -62px;
+            max-width: none !important;
+            width: 200%;
+            height: 300%;
+            border: none;
+        }
+        &:after {
+            display: none;
+        }
     }
-    &:after {
-      display: none;
+    #search, .search-toggle {
+        display: none;
     }
-  }
-  #search, .search-toggle {
-    display: none;
-  }
-}
-
-.done-questions {
-  .start-again, .question-number, li.done .undo {
-    display: none;
-  }
 }
 
 .form-item {
-  clear:both;
-  display:inline-block;
-  vertical-align:top;
-  width:100%;
-  margin:0 0 10px 0;
+    clear:both;
+    display:inline-block;
+    vertical-align:top;
+    width:100%;
+    margin:0 0 10px 0;
 }
 .form-declaration {
-  margin-bottom:0 !important;
+    margin-bottom:0 !important;
 }
 
 fieldset {
