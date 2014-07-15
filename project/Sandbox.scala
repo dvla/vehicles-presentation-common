@@ -7,8 +7,6 @@ import Resolvers._
 
 object Sandbox extends Plugin {
 
-
-
   def sandPrj(name: String, version: String): (Project, ScopeFilter) = (
     Project(name, file(s"sandbox/$name"))
       .settings(libraryDependencies ++= Seq("dvla" %% name % version))
@@ -28,14 +26,12 @@ object Sandbox extends Plugin {
   lazy val sandbox = taskKey[Unit]("Runs the sandbox'")
   lazy val sandboxTask = sandbox := {
 
-    def runPrj(project: ScopeFilter, props: String, fileName: String): Thread = {
-      val prjClassPath = fullClasspath.all(project).value.flatten
+    def runPrj(prjClassPath: Seq[Attributed[File]], classDirectory: File, props: String, fileName: String): Thread = {
       val prjClassloader = new URLClassLoader(
         prjClassPath.map(_.data.toURI.toURL).toArray,
         this.getClass.getClassLoader.getParent.getParent
       )
-
-      val f = new java.io.File(classDirectory.all(project).value.head, fileName)
+      val f = new java.io.File(classDirectory, fileName)
       f.getParentFile.mkdirs()
       IOUtils.write(props, new FileOutputStream(f))
 
@@ -62,7 +58,8 @@ object Sandbox extends Plugin {
     val cpeVehiclesDisposeFulfil = fullClasspath.all(scopeVehiclesDisposeFulfil).value.flatten
 
     runPrj(
-      scopeOsAddressLookup,
+      fullClasspath.all(scopeOsAddressLookup).value.flatten,
+      classDirectory.all(scopeOsAddressLookup).value.head,
       """ordnancesurvey.requesttimeout = "9999"
         |ordnancesurvey.apiversion = "testing"
         |ordnancesurvey.beta06.username = "testUser"
