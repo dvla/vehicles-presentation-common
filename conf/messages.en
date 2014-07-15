@@ -211,7 +211,7 @@ disposal_businessChooseYourAddress.manualAddressEntry = My address is not in the
 disposal_businessChooseYourAddress.manualAddressEntry.enterManuallyButton = Enter address
 error.dropDownInvalid = Please select a value from the drop down list.
 disposal_businessChooseYourAddress_noaddressesfound.h2.1 = No addresses found for that postcode. 
-disposal_businessChooseYourAddress_noaddressesfound.h2.2 = Please either 'Enter address' or click 'Back' to try again.
+disposal_businessChooseYourAddress_noaddressesfound.h2.2 = Please either ''Enter address'' or click ''Back'' to try again.
 
 #page 3 - manual address entry
 disposal_enteraddressmanually.title = Enter address
