@@ -8,12 +8,12 @@ import Resolvers._
 object Sandbox extends Plugin {
 
   def sandPrj(name: String, version: String): (Project, ScopeFilter) = (
-    Project(name, file(s"sandbox/$name"))
+    Project(name, file(s"target/sandbox/$name"))
       .settings(libraryDependencies ++= Seq("dvla" %% name % version))
       .settings(resolvers ++= projectResolvers)
       .settings(net.virtualvoid.sbt.graph.Plugin.graphSettings: _*),
     ScopeFilter(inProjects(LocalProject(name)), inConfigurations(Runtime))
-    )
+  )
 
   lazy val (osAddressLookup, scopeOsAddressLookup) = sandPrj("os-address-lookup", "0.1")
   lazy val (vehiclesLookup, scopeVehiclesLookup) = sandPrj("vehicles-lookup", "0.1")
@@ -26,17 +26,15 @@ object Sandbox extends Plugin {
   lazy val sandbox = taskKey[Unit]("Runs the sandbox'")
   lazy val sandboxTask = sandbox := {
 
-    def runPrj(prjClassPath: Seq[Attributed[File]], classDirectory: File, props: String, fileName: String): Thread = {
+    def runPrj(prjClassPath: Seq[Attributed[File]], classDirectory: File, props: String, fileName: String): Unit = {
       val prjClassloader = new URLClassLoader(
         prjClassPath.map(_.data.toURI.toURL).toArray,
         this.getClass.getClassLoader.getParent.getParent
       )
-      val f = new java.io.File(classDirectory, fileName)
+      val f = new java.io.File(classDirectory, s"$fileName.conf")
       f.getParentFile.mkdirs()
       IOUtils.write(props, new FileOutputStream(f))
 
-      val t = new Thread() {
-        override def run() {
           Thread.currentThread().setContextClassLoader(prjClassloader)
 
           import scala.reflect.runtime.universe.runtimeMirror
@@ -47,15 +45,7 @@ object Sandbox extends Plugin {
           val mainMethodSymbol = bootSymbol.typeSignature.member(newTermName("main")).asMethod
           val bootMirror = mirror.reflect(boot)
           bootMirror.reflectMethod(mainMethodSymbol).apply(Array[String]())
-        }
-      }
-      t.start()
-      t
     }
-
-    val cpVehiclesOnline = fullClasspath.all(vehiclesOnline).value.flatten
-    val cpVehiclesLookup = fullClasspath.all(scopeVehiclesLookup).value.flatten
-    val cpeVehiclesDisposeFulfil = fullClasspath.all(scopeVehiclesDisposeFulfil).value.flatten
 
     runPrj(
       fullClasspath.all(scopeOsAddressLookup).value.flatten,
@@ -67,7 +57,26 @@ object Sandbox extends Plugin {
         |ordnancesurvey.beta06.baseurl = "https://localhost/ord-serv:1234"
         |ordnancesurvey.preproduction.apikey = "someApiKey"
         |ordnancesurvey.preproduction.baseurl = "http://baseUrl"""".stripMargin,
-      "os-address-lookup"
-    ).join()
+      osAddressLookup.id
+    )
+    runPrj(
+      fullClasspath.all(scopeVehiclesLookup).value.flatten,
+      classDirectory.all(scopeVehiclesLookup).value.head,
+      """getVehicleDetails.baseurl = "http://localhost:8084/GetVehicleDetailsImpl"
+        |APPLICATION_CD = "WEBDTT"
+        |CHANNEL_CD = "WEBDTT"
+        |SERVICE_TYPE_CD = "E"
+        |CONTACT_ID = "1"""".stripMargin,
+      vehiclesLookup.id
+    )
+    runPrj(
+      fullClasspath.all(scopeVehiclesDisposeFulfil).value.flatten,
+      classDirectory.all(scopeVehiclesDisposeFulfil).value.head,
+      """vss.baseurl = "http://localhost:8085/demo/services/DisposeToTradeService"
+        |APPLICATION_CD = "WEBDTT"
+        |SERVICE_TYPE_CD = "WEBDTT"
+        |ORG_BUSINESS_UNIT = "WEBDTT"""".stripMargin,
+      vehiclesDisposeFulfil.id
+    )
   }
 }
