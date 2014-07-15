@@ -35,8 +35,6 @@ object ApplicationBuild extends Build {
     "org.apache.httpcomponents" % "httpclient" % "4.3.4" withSources() withJavadoc()
   )
 
-  credentials += Credentials(Path.userHome / ".sbt/.credentials")
-
   val cukes = CucumberPlugin.cucumberSettings ++
     Seq (
       CucumberPlugin.cucumberFeaturesLocation := "./test/acceptance/disposal_of_vehicle/",
@@ -97,7 +95,6 @@ object ApplicationBuild extends Build {
   val appSettings: Seq[Def.Setting[_]] = myOrganization ++ SassPlugin.sassSettings ++ myScalaVersion ++ compilerOptions ++ myConcurrentRestrictions ++
     myTestOptions ++ excludeTest ++ myJavaOptions ++ fork ++ jcoco ++ scalaCheck ++ requireJsSettings ++ cukes
 
-
   val main = play.Project(
     appName,
     appVersion,
@@ -105,6 +102,7 @@ object ApplicationBuild extends Build {
     settings = play.Project.playScalaSettings ++ jacoco.settings ++ ScalastylePlugin.Settings
   ).settings(appSettings: _*)
    .settings(net.virtualvoid.sbt.graph.Plugin.graphSettings: _*)
+   .settings(credentials += Credentials(Path.userHome / ".sbt/.credentials"))
    .settings(
       resolvers ++= Seq(
         "spray repo" at "http://repo.spray.io/",
