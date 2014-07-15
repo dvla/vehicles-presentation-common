@@ -136,11 +136,11 @@ confirm_vehicle_details.button2 = Diddymu
 #page 1 - Before You Start
 disposal_beforeyoustart.title = Cael gwared cerbyd i mewn i''r fasnach foduron
 disposal_beforeyoustart.p1 = Cyn i chi ddechrau:
-
 disposal_beforeyoustart.listitem1 = Bydd angen y dystysgrif cofrestru cerbyd mwyaf diweddar (V5C) chi. Gallwch wirio hyn drwy ddefnyddio
 disposal_beforeyoustart.listitem1linktext = Gwasanaeth Ymholiadau Cerbydau (GYC)
 
-disposal_beforeyoustart.listitem2 = Ni ddylai fod unrhyw angen i''r V5C newidiadau a rhaid i''r enw a chyfeiriad y ceidwad cofrestredig fod yn gyfoes ac yn gywir.
+disposal_beforeyoustart.listitem2 = Os oes gan y cerbyd yn cael ei werthu rhif cofrestru personol, mae'n rhaid i'r ceidwad yn deall y bydd y rhif cofrestru yn cael ei werthu gyda'r cerbyd. Os yw'r ceidwad yn awyddus i gadw rhif cofrestru personol, rhaid iddynt
+disposal_beforeyoustart.listitem2.link = wneud cais i gadw neu ei drosglwyddo i gerbyd arall ar V317
 
 disposal_beforeyoustart.listitem3 = Os oes gan y cerbyd yn cael ei werthu rhif cofrestru personol, Mae''n rhaid i''r ceidwad yn deall y bydd y rhif cofrestru yn cael ei werthu gyda''r cerbyd. Os yw''r ceidwad yn awyddus i gadw rhif cofrestru personol, rhaid iddynt gadw yn gyntaf neu ei drosglwyddo i gerbyd arall.
 disposal_beforeyoustart.listitem4 = Os yw''r cerbyd wedi''i drethu ar hyn o bryd ac mae mwy nag un mis llawn ar ôl, rhaid i'r ceidwad
