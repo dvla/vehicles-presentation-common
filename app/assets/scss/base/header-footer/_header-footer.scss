@@ -73,12 +73,6 @@
     }
 }
 
-@media (min-width: 769px) {
-    .global-header .header-logo {
-        //width: 33.33%;
-    }
-}
-
 @import '_header-phase';
 @import '_header-prompts-messages';
 @import '_footer';

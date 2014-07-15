@@ -54,9 +54,10 @@
         &.img-wrap-mobile {
             display:block;
             img {
-                display:block;
+                display:inline-block;
+                vertical-align:top;
                 margin:0 0 2.2em 0;
-                text-align:center;
+                text-align:left;
             }
         }
         &.img-wrap-desktop {
@@ -65,6 +66,7 @@
     }
     @media screen and (max-width:$device-small) {
         &.img-wrap-mobile img {
+          display:block;
           margin-left:auto;
           margin-right:auto;
         }
