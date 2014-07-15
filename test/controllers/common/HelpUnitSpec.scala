@@ -57,17 +57,25 @@ final class HelpUnitSpec extends UnitSpec {
       // No previous page cookie, which can only happen if they wiped their cookies after
       // page presented or they are calling the route directly.
       val result = help.back(request)
-      whenReady(result) {
-        r => r.header.headers.get(LOCATION) should equal(Some(BeforeYouStartPage.address))
+      whenReady(result) { r =>
+        r.header.headers.get(LOCATION) should equal(Some(BeforeYouStartPage.address))
       }
     }
 
-    "redirect to previous page" in new WithApplication {
+    "redirect to previous page and discard the referer cookie" in new WithApplication {
       val request = FakeRequest().
         withCookies(CookieFactoryForUnitSpecs.help(origin = SetupTradeDetailsPage.address))
       val result = help.back(request)
-      whenReady(result) {
-        r => r.header.headers.get(LOCATION) should equal(Some(SetupTradeDetailsPage.address))
+      whenReady(result) { r =>
+        r.header.headers.get(LOCATION) should equal(Some(SetupTradeDetailsPage.address))
+        val cookies = fetchCookiesFromHeaders(r)
+        // The cookie should have been discarded which is identified by a negative maxAge
+        val msErrorCookie = cookies.find(_.name == HelpCacheKey)
+        msErrorCookie.get.maxAge match {
+          case Some(maxAge) if maxAge < 0 => // Success
+          case Some(maxAge) => fail(s"maxAge should be negative but was $maxAge")
+          case _ => fail("should be some maxAge")
+        }
       }
     }
   }

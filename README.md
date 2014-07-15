@@ -1,3 +1,5 @@
+Master [![Build Status](https://travis-ci.org/dvla/vehicles-online.svg?branch=master)](https://travis-ci.org/dvla/vehicles-online)
+
 DVLA Vehicles Online
 ====================
 

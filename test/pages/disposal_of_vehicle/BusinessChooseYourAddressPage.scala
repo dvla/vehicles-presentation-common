@@ -11,7 +11,7 @@ import services.fakes.FakeAddressLookupWebServiceImpl.traderUprnValid
 object BusinessChooseYourAddressPage extends Page with WebBrowserDSL {
   final val address: String = "/sell-to-the-trade/business-choose-your-address"
   override val url: String = WebDriverFactory.testUrl + address.substring(1)
-  final override val title = "Select your Trader address"
+  final override val title = "Select your trader address"
   final val titleCy = "Dewiswch eich cyfeiriad masnach"
 
   def chooseAddress(implicit driver: WebDriver): SingleSel = singleSel(id(AddressSelectId))

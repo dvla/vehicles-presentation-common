@@ -191,4 +191,11 @@ object CookieFactoryForUISpecs {
     addCookie(key, "")
     this
   }
+
+  def microServiceError(origin: String)(implicit webDriver: WebDriver) = {
+    val key = mappings.disposal_of_vehicle.MicroserviceError.MicroServiceErrorRefererCacheKey
+    val value = origin
+    addCookie(key, value)
+    this
+  }
 }

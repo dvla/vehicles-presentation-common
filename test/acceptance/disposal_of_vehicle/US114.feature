@@ -7,7 +7,7 @@ Feature: US114: Disposal to Trade - transaction failure codes and messages
     Given details are entered that correspond to a vehicle that has a valid clean record and has no markers or error codes
     When this is submitted along with any other mandatory information
     Then the next step in the dispose transaction "Sell a vehicle into the motor trade: summary" is shown
-    And a message is displayed "A letter will be sent to the name and address on the V5C within 4 weeks. If they do not receive a letter in this time they must contact DVLA Customer Enquiries on 0300 790 6802 as they could still be liable for this vehicle. Please print this page and pass to the customer."
+    And a message is displayed "A letter will be sent to the name and address on the V5C within 4 weeks. If they do not receive a letter in this time they must contact DVLA Customer Enquiries on 0300 790 6802 as they could still be liable for this vehicle. Please print the this page and pass it to the customer."
 
   Scenario:
     Given details are entered that correspond to a vehicle that has a valid record but does have markers or error codes
