@@ -35,6 +35,8 @@ object ApplicationBuild extends Build {
     "org.apache.httpcomponents" % "httpclient" % "4.3.4" withSources() withJavadoc()
   )
 
+  credentials += Credentials(Path.userHome / ".sbt/.credentials")
+
   val cukes = CucumberPlugin.cucumberSettings ++
     Seq (
       CucumberPlugin.cucumberFeaturesLocation := "./test/acceptance/disposal_of_vehicle/",
