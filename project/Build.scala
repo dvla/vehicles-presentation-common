@@ -8,6 +8,7 @@ import play.Project._
 import sbt.Keys._
 import sbt._
 import templemore.sbt.cucumber.CucumberPlugin
+import Sandbox._
 
 object Resolvers {
   val nexus = "http://rep002-01.skyscape.preview-dvla.co.uk:8081/nexus/content/repositories"
@@ -121,6 +122,7 @@ object ApplicationBuild extends Build {
     ScopeFilter(inProjects(LocalProject(name)), inConfigurations(Runtime))
   )
 
+
   lazy val (osAddressLookup, scopeOsAddressLookup) = sandPrj("os-address-lookup", "0.1")
   lazy val (vehiclesLookup, scopeVehiclesLookup) = sandPrj("vehicles-lookup", "0.1")
   lazy val (vehiclesDisposeFulfil, scopeVehiclesDisposeFulfil) = sandPrj("vehicles-dispose-fulfil", "0.1")
@@ -176,6 +178,8 @@ object ApplicationBuild extends Build {
     ).join()
   }
 
+  override def r
+
   val main = play.Project(
     appName,
     appVersion,
@@ -186,4 +190,5 @@ object ApplicationBuild extends Build {
    .settings(resolvers ++= projectResolvers)
    .settings(publisher)
    .settings(sandboxTask)
+   .settings(projects ++= sandboxedProjects)
 }
