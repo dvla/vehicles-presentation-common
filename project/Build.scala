@@ -1,14 +1,11 @@
-import java.io.{FileOutputStream, OutputStream}
-import java.net.URLClassLoader
+import Sandbox._
 import de.johoop.jacoco4sbt.JacocoPlugin._
 import net.litola.SassPlugin
-import org.apache.commons.io.IOUtils
 import org.scalastyle.sbt.ScalastylePlugin
 import play.Project._
 import sbt.Keys._
 import sbt._
 import templemore.sbt.cucumber.CucumberPlugin
-import Sandbox._
 
 object Resolvers {
   val nexus = "http://rep002-01.skyscape.preview-dvla.co.uk:8081/nexus/content/repositories"
@@ -122,6 +119,7 @@ object ApplicationBuild extends Build {
     .settings(net.virtualvoid.sbt.graph.Plugin.graphSettings: _*)
     .settings(resolvers ++= projectResolvers)
     .settings(publisher)
+    .settings(runMicroServicesTask)
     .settings(sandboxTask)
 
   override def projects = Seq(rootPrj) ++ sandboxedProjects

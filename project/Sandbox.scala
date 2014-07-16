@@ -2,7 +2,7 @@ import java.io.FileOutputStream
 import java.net.URLClassLoader
 import org.apache.commons.io.IOUtils
 import sbt._
-import sbt.Keys.{classDirectory, fullClasspath, resolvers, libraryDependencies}
+import sbt.Keys._
 import Resolvers._
 
 object Sandbox extends Plugin {
@@ -13,7 +13,7 @@ object Sandbox extends Plugin {
       .settings(resolvers ++= projectResolvers)
       .settings(net.virtualvoid.sbt.graph.Plugin.graphSettings: _*),
     ScopeFilter(inProjects(LocalProject(name)), inConfigurations(Runtime))
-  )
+    )
 
   lazy val (osAddressLookup, scopeOsAddressLookup) = sandPrj("os-address-lookup", "0.1")
   lazy val (vehiclesLookup, scopeVehiclesLookup) = sandPrj("vehicles-lookup", "0.1")
@@ -23,8 +23,8 @@ object Sandbox extends Plugin {
 
   lazy val vehiclesOnline = ScopeFilter(inProjects(ThisProject), inConfigurations(Runtime))
 
-  lazy val sandbox = taskKey[Unit]("Runs the sandbox'")
-  lazy val sandboxTask = sandbox := {
+  lazy val runMicroServices = taskKey[Unit]("Runs all the required by the sandbox micro services'")
+  lazy val runMicroServicesTask = runMicroServices := {
 
     def runPrj(prjClassPath: Seq[Attributed[File]], classDirectory: File, props: String, fileName: String): Unit = {
       val prjClassloader = new URLClassLoader(
@@ -35,16 +35,16 @@ object Sandbox extends Plugin {
       f.getParentFile.mkdirs()
       IOUtils.write(props, new FileOutputStream(f))
 
-          Thread.currentThread().setContextClassLoader(prjClassloader)
+      Thread.currentThread().setContextClassLoader(prjClassloader)
 
-          import scala.reflect.runtime.universe.runtimeMirror
-          import scala.reflect.runtime.universe.newTermName
-          lazy val mirror = runtimeMirror(prjClassloader)
-          val bootSymbol = mirror.staticModule("dvla.microservice.Boot").asModule
-          val boot = mirror.reflectModule(bootSymbol).instance
-          val mainMethodSymbol = bootSymbol.typeSignature.member(newTermName("main")).asMethod
-          val bootMirror = mirror.reflect(boot)
-          bootMirror.reflectMethod(mainMethodSymbol).apply(Array[String]())
+      import scala.reflect.runtime.universe.runtimeMirror
+      import scala.reflect.runtime.universe.newTermName
+      lazy val mirror = runtimeMirror(prjClassloader)
+      val bootSymbol = mirror.staticModule("dvla.microservice.Boot").asModule
+      val boot = mirror.reflectModule(bootSymbol).instance
+      val mainMethodSymbol = bootSymbol.typeSignature.member(newTermName("main")).asMethod
+      val bootMirror = mirror.reflect(boot)
+      bootMirror.reflectMethod(mainMethodSymbol).apply(Array[String]())
     }
 
     runPrj(
@@ -78,5 +78,10 @@ object Sandbox extends Plugin {
         |ORG_BUSINESS_UNIT = "WEBDTT"""".stripMargin,
       vehiclesDisposeFulfil.id
     )
+  }
+
+  lazy val sandbox = taskKey[Unit]("Runs the whole sandbox for manual testing including microservices, webapp and legacy stubs'")
+  lazy val sandboxTask = sandbox <<= (runMicroServices, (run in Runtime).toTask("")) { (body, stop) =>
+    body doFinally stop
   }
 }
