@@ -86,6 +86,21 @@
             margin:0;
         }
 
+
+        p,
+        dd {
+          //float:left;
+          clear:both;
+          -ms-word-break: break-all;
+          word-break: break-all;
+          word-break: break-word;
+          word-wrap: break-word;
+          webkit-hyphens: auto;
+          -moz-hyphens: auto;
+          hyphens: auto;
+        }
+
+
         dt, dd {
             @include copy-19;
             margin-bottom:0;
@@ -106,8 +121,9 @@
             }
         }
         dd {
+            //float:left;
             @include to-uppercase;
-            overflow:hidden;
+            //overflow:hidden;
 
             @media screen and (max-width: $device-small) {
                 clear:both;
