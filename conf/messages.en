@@ -186,7 +186,7 @@ disposal_beforeyoustart.listitem4.link = apply for a road tax refund on a V14.
 disposal_beforeyoustart.button = Start now
 
 #page 2 - set-up trade details
-disposal_setuptradedetails.title = Provide your Trader details
+disposal_setuptradedetails.title = Provide your trader details
 disposal_setuptradedetails.name = Sell a vehicle into the motor trade
 disposal_setuptradedetails.p1 = Set-up trade details
 disposal_setuptradedetails.tradernamelabel = Trader name
@@ -229,7 +229,7 @@ address.postcode.validation = Enter a valid postcode
 addressAndPostcode.addressLines.line2 = Street name
 addressAndPostcode.addressLines.line3 = Area
 addressAndPostcode.addressLines.postTown = Town or city
-error.address.characterInvalid = Address contains invalid characters
+error.address.characterInvalid = Must only contain valid characters A-Z, 0-9, etc
 error.postTown.characterInvalid = Town or city contains invalid characters
 
 #page 3 - uprn not found
@@ -331,21 +331,17 @@ disposal_disposefailure.transactionid = {0}
 disposal_vehiclelookupfailure.title = Look-up was unsuccessful
 disposal_vehiclelookupfailure.name = Failure
 disposal_vehiclelookupfailure.p1 = The service is temporarily unavailable. Please try again later or send a completed V5C/3 to DVLA, Swansea, SA99 1BD
-#disposal_vehiclelookupfailure.button = Vehicle Lookup
 disposal_vehiclelookupfailure.button = Try again
-#disposal_vehiclelookupfailure.button2 = Setup New Trader Details
 disposal_vehiclelookupfailure.button2 = Exit
-vehicle_lookup_vrm_not_found.p1 = The vehicle registration number and/or V5C document reference number entered does not match the most recent V5C issued for this vehicle. The V5C Document Reference Number entered is either not valid or does not come from the most recent V5C issued for this vehicle.
+vehicle_lookup_vrm_not_found.p1 = The vehicle registration number and/or V5C document reference number entered does not match the most recent V5C issued for this vehicle. The V5C document reference number entered is either not valid or does not come from the most recent V5C issued for this vehicle.
 vehicle_lookup_vrm_not_found.p2 = Please make sure you have the most recent V5C and try again.
-vehicle_lookup_vrm_not_found.p3 = Only three attempts will be allowed to retrieve vehicle details. After the third attempt the system will prevent further access to the vehicles record for 10 minutes. Other vehicles can be processed during this period.For each vehicle registration number, only three attempts can be made to retrieve the vehicle details.
-vehicle_lookup_document_reference_mismatch.p1 = The V5C Document Reference Number entered is either not valid or does not come from the most recent V5C issued for this vehicle.
+vehicle_lookup_vrm_not_found.p3 = Only 3 attempts will be allowed to retrieve vehicle details. After the third attempt the system will prevent further access to the vehicles record for 10 minutes. Other vehicles can be processed during this period.
+vehicle_lookup_document_reference_mismatch.p1 = The V5C document reference number entered is either not valid or does not come from the most recent V5C issued for this vehicle.
 vehicle_lookup_document_reference_mismatch.p2 = Please make sure you have the most recent V5C and try again.
-vehicle_lookup_document_reference_mismatch.p3 = For each vehicle registration number, only three attempts can be made to retrieve the vehicle details.
-disposal_vehiclelookupfailure.warnAboutLockout = After a third unsuccessful attempt the system prevents further attempts to access the vehicle''s records for 10 minutes. This is to safeguard vehicle records. Other vehicles can be processed using this service during this period.
+vehicle_lookup_document_reference_mismatch.p3 = For each vehicle registration number, only 3 attempts can be made to retrieve the vehicle details.
 
 addressAndPostcode.addressLines.buildingNameOrNumber = Building name or number
 error.address.maxLengthOfLinesConcatenated = Address can have no more than 120 characters
-error.address.characterinvalid = Must only contain valid characters A-Z, 0-9, etc. Invalid characters are not allowed
 addressAndPostcode.addressLines = Address
 addressAndPostcode.postcode = Postcode
 error.validTraderBusinessName = Must be between 2 and 58 characters and only contain valid characters (a-z, A-Z, 0-9, +, -, ‘, &, @, () and ,)
@@ -380,7 +376,7 @@ ms.vehiclesService.response.unableToProcessApplication-address = DVLA, Longview 
 
 #micro-service error page
 micro_service_error.title=We are sorry
-micro_service_error.text=The service is temporarily unavailable
+micro_service_error.text=The service is temporarily unavailable.
 micro_service_error.back.button=Try again
 micro_service_error.exit.button=Exit
 
@@ -398,7 +394,7 @@ soap_endpoint_error.exit.button=Exit
 
 #vrm locked
 vrm_locked.title=Registration mark is locked
-vrm_locked.text1= There have been 3 unsuccessful attempts to access the vehicle details. For security reasons the vehicle registration number is now locked for 10 minutes. During this period other vehicles can be processed by selecting ‘Sell another vehicle’ below.There have been three attempts to access the vehicle details without success. The vehicle registration number is now locked for 10 minutes as a safeguard. During this period other vehicles can be processed.
+vrm_locked.text1= There have been 3 unsuccessful attempts to access the vehicle details. For security reasons the vehicle registration number is now locked for 10 minutes. During this period other vehicles can be processed by selecting ‘Sell another vehicle’ below.
 vrm_locked.text2=Locked at
 vrm_locked.text3.1= If you need help please call our contact centre on
 vrm_locked.text3.2=0300 790 6801
