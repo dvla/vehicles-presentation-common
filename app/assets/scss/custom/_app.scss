@@ -76,6 +76,8 @@
     //this could be a DL element, or a wrapping div
     .summary-detail-list {
         @include clearfix;
+        width:100%;
+
         margin:23px 0 20px 0;
         margin:2.3rem 0 2rem 0;
         //padding:10px;
@@ -86,20 +88,20 @@
             margin:0;
         }
 
+        @include summary-detail-list-item-float-one-col;
 
+        //prevent long text from breaking out of container. see:
+        //css-tricks.com/snippets/css/prevent-long-urls-from-breaking-out-of-container/
         p,
         dd {
-          //float:left;
-          clear:both;
-          -ms-word-break: break-all;
-          word-break: break-all;
-          word-break: break-word;
-          word-wrap: break-word;
-          webkit-hyphens: auto;
-          -moz-hyphens: auto;
-          hyphens: auto;
+          -ms-word-break:break-all;
+          word-break:break-all;
+          word-break:break-word;
+          word-wrap:break-word;
+          webkit-hyphens:auto;
+          -moz-hyphens:auto;
+          hyphens:auto;
         }
-
 
         dt, dd {
             @include copy-19;
@@ -157,6 +159,9 @@
                 clear:both;
                 margin-bottom:2em;
             }
+            .summary-detail-list {
+                @include summary-detail-list-item-float-two-col-first;
+            }
         }
         .second-col {
             @include clearfix;
@@ -168,6 +173,10 @@
                 clear:both;
                 margin-bottom:2em;
             }
+            .summary-detail-list {
+                @include summary-detail-list-item-float-two-col-second;
+            }
         }
+        
     }
 }
