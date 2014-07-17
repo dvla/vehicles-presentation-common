@@ -42,7 +42,7 @@ object Sandbox extends Plugin {
       finally Thread.currentThread().setContextClassLoader(currentContextClassLoader)
     }
 
-    def runScalaMain(prjClassLoader: ClassLoader, mainClass: String): Unit = withClassLoader(prjClassLoader) {
+    def runScalaMain(mainClass: String)(prjClassLoader: ClassLoader): Unit = withClassLoader(prjClassLoader) {
       import scala.reflect.runtime.universe.runtimeMirror
       import scala.reflect.runtime.universe.newTermName
       lazy val mirror = runtimeMirror(prjClassLoader)
@@ -53,7 +53,7 @@ object Sandbox extends Plugin {
       bootMirror.reflectMethod(mainMethodSymbol).apply(Array[String]())
     }
 
-    def runJavaMain(prjClassLoader: ClassLoader, mainClassName: String): Unit = withClassLoader(prjClassLoader) {
+    def runJavaMain(mainClassName: String)(prjClassLoader: ClassLoader): Unit = withClassLoader(prjClassLoader) {
       val mainClass = prjClassLoader.loadClass(mainClassName)
       val mainMethod = mainClass.getMethod("main", classOf[Array[String]])
       mainMethod.invoke(null, Array[String]())
@@ -61,10 +61,9 @@ object Sandbox extends Plugin {
 
     def runProject(prjClassPath: Seq[Attributed[File]],
                    classDirectory: File,
-                   mainClass: String,
                    props: String,
                    fileName: String,
-                   runMainMethod: (ClassLoader, String) => Unit = runScalaMain): Unit = {
+                   runMainMethod: (ClassLoader) => Unit = runScalaMain("dvla.microservice.Boot")): Unit = {
       val f = new java.io.File(classDirectory, s"$fileName.conf")
       f.getParentFile.mkdirs()
       IOUtils.write(props, new FileOutputStream(f))
@@ -74,13 +73,12 @@ object Sandbox extends Plugin {
         getClass.getClassLoader.getParent.getParent
       )
 
-      runMainMethod(prjClassloader, mainClass)
+      runMainMethod(prjClassloader)
     }
 
     runProject(
       fullClasspath.all(scopeOsAddressLookup).value.flatten,
       classDirectory.all(scopeOsAddressLookup).value.head,
-      "dvla.microservice.Boot",
       """ordnancesurvey.requesttimeout = "9999"
         |ordnancesurvey.apiversion = "tessd"
         |ordnancesurvey.beta06.username = "werw"
@@ -93,7 +91,6 @@ object Sandbox extends Plugin {
     runProject(
       fullClasspath.all(scopeVehiclesLookup).value.flatten,
       classDirectory.all(scopeVehiclesLookup).value.head,
-      "dvla.microservice.Boot",
       """getVehicleDetails.baseurl = "http://lo"
         |APPLICATION_CD = "sdfdfs"
         |CHANNEL_CD = "erty"
@@ -104,7 +101,6 @@ object Sandbox extends Plugin {
     runProject(
       fullClasspath.all(scopeVehiclesDisposeFulfil).value.flatten,
       classDirectory.all(scopeVehiclesDisposeFulfil).value.head,
-      "dvla.microservice.Boot",
       """vss.baseurl = "http://l"
         |APPLICATION_CD = "oiu"
         |SERVICE_TYPE_CD = "ouew"
@@ -114,10 +110,9 @@ object Sandbox extends Plugin {
     runProject(
       fullClasspath.all(scopeLegacyStubs).value.flatten,
       classDirectory.all(scopeLegacyStubs).value.head,
-      "service.LegacyServicesRunner",
       "",
       legacyStubs.id,
-      runJavaMain
+      runJavaMain("service.LegacyServicesRunner")
     )
   }
 
