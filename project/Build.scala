@@ -1,24 +1,39 @@
-import sbt._
-import sbt.Keys._
-import play.Project._
-import net.litola.SassPlugin
+import Sandbox._
 import de.johoop.jacoco4sbt.JacocoPlugin._
+import net.litola.SassPlugin
 import org.scalastyle.sbt.ScalastylePlugin
+import play.Project._
+import sbt.Keys._
+import sbt._
 import templemore.sbt.cucumber.CucumberPlugin
 
+object Resolvers {
+  val nexus = "http://rep002-01.skyscape.preview-dvla.co.uk:8081/nexus/content/repositories"
+
+  val projectResolvers = Seq(
+    "spray repo" at "http://repo.spray.io/",
+    "local nexus snapshots" at s"$nexus/snapshots",
+    "local nexus releases" at s"$nexus/releases"
+  )
+
+  val publisher = publishTo <<= version { v: String =>
+    if (v.trim.endsWith("SNAPSHOT"))
+      Some("snapshots" at s"$nexus/snapshots")
+    else
+      Some("releases" at s"$nexus/releases")
+  }
+}
+
 object ApplicationBuild extends Build {
+  import Resolvers._
+
   val appName         = "vehicles-online"
 
   val appVersion      = "1.0-SNAPSHOT"
 
-  val nexus = "http://rep002-01.skyscape.preview-dvla.co.uk:8081/nexus/content/repositories"
-
   val appDependencies = Seq(
     cache,
     filters,
-//    "dvla" %% "os-address-lookup" % "0.1" % "test" withSources() withJavadoc(),
-//    "dvla" %% "vehicles-lookup" % "0.1" % "test" withSources() withJavadoc(),
-//    "dvla" %% "vehicles-dispose-fulfil" % "0.1" % "test" withSources() withJavadoc(),
     "org.seleniumhq.selenium" % "selenium-java" % "2.42.2" % "test" withSources() withJavadoc(),
     "com.github.detro" % "phantomjsdriver" % "1.2.0" % "test" withSources() withJavadoc(),
     "info.cukes" % "cucumber-scala_2.10" % "1.1.7" % "test" withSources() withJavadoc(),
@@ -95,7 +110,7 @@ object ApplicationBuild extends Build {
   val appSettings: Seq[Def.Setting[_]] = myOrganization ++ SassPlugin.sassSettings ++ myScalaVersion ++ compilerOptions ++ myConcurrentRestrictions ++
     myTestOptions ++ excludeTest ++ myJavaOptions ++ fork ++ jcoco ++ scalaCheck ++ requireJsSettings ++ cukes
 
-  val main = play.Project(
+  private val rootPrj = play.Project(
     appName,
     appVersion,
     appDependencies,
@@ -103,18 +118,15 @@ object ApplicationBuild extends Build {
   ).settings(appSettings: _*)
    .settings(net.virtualvoid.sbt.graph.Plugin.graphSettings: _*)
    .settings(credentials += Credentials(Path.userHome / ".sbt/.credentials"))
-   .settings(
-      resolvers ++= Seq(
-        "spray repo" at "http://repo.spray.io/",
-        "local nexus snapshots" at s"$nexus/snapshots",
-        "local nexus releases" at s"$nexus/releases"
-      )
-    ).settings(
-      publishTo <<= version { v: String =>
-        if (v.trim.endsWith("SNAPSHOT"))
-          Some("snapshots" at s"$nexus/snapshots")
-        else
-          Some("releases" at s"$nexus/releases")
-      }
-    )
+   .settings(resolvers ++= projectResolvers)
+   .settings(publisher)
+   .settings(net.virtualvoid.sbt.graph.Plugin.graphSettings: _*)
+   .settings(resolvers ++= projectResolvers)
+   .settings(publisher)
+   .settings(runMicroServicesTask)
+   .settings(sandboxTask)
+
+  override def projects = Seq(rootPrj) ++ sandboxedProjects
+
+  override def rootProject = Some(rootPrj)
 }
