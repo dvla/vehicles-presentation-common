@@ -110,6 +110,22 @@ final class DisposeFormSpec extends UnitSpec {
       result.errors(0).key should equal(DateOfDisposalId)
       result.errors(0).message should equal("error.invalid")
     }
+
+    "reject if date entered is an invalid date" in {
+      val day = "31"
+      val month = "2"
+      val year = DateOfDisposalYearValid
+
+      // Attempting to dispose with an invalid date.
+      val result = formWithValidDefaults(
+        dayOfDispose = day,
+        monthOfDispose = month,
+        yearOfDispose = year)
+
+      result.errors should have length 1
+      result.errors(0).key should equal(DateOfDisposalId)
+      result.errors(0).message should equal("error.invalid")
+    }
   }
 
   "consent" should {
