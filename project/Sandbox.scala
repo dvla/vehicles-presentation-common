@@ -43,7 +43,6 @@ object Sandbox extends Plugin {
     }
 
     def runScalaMain(prjClassLoader: ClassLoader, mainClass: String): Unit = withClassLoader(prjClassLoader) {
-      println(s"Starting $mainClass")
       import scala.reflect.runtime.universe.runtimeMirror
       import scala.reflect.runtime.universe.newTermName
       lazy val mirror = runtimeMirror(prjClassLoader)
@@ -66,10 +65,7 @@ object Sandbox extends Plugin {
                    props: String,
                    fileName: String,
                    runMainMethod: (ClassLoader, String) => Unit = runScalaMain): Unit = {
-      println("######### class directory:" + classDirectory.getAbsolutePath)
       val f = new java.io.File(classDirectory, s"$fileName.conf")
-
-      println("######### file written:" + f.getAbsolutePath)
       f.getParentFile.mkdirs()
       IOUtils.write(props, new FileOutputStream(f))
 
@@ -77,8 +73,6 @@ object Sandbox extends Plugin {
         prjClassPath.map(_.data.toURI.toURL).toArray,
         getClass.getClassLoader.getParent.getParent
       )
-
-      prjClassPath.map(_.data.toURI.toURL).foreach(println)
 
       runMainMethod(prjClassloader, mainClass)
     }
@@ -88,19 +82,19 @@ object Sandbox extends Plugin {
       classDirectory.all(scopeOsAddressLookup).value.head,
       "dvla.microservice.Boot",
       """ordnancesurvey.requesttimeout = "9999"
-        |ordnancesurvey.apiversion = "testing"
-        |ordnancesurvey.beta06.username = "testUser"
-        |ordnancesurvey.beta06.password = "testPass"
-        |ordnancesurvey.beta06.baseurl = "https://localhost/ord-serv:1234"
-        |ordnancesurvey.preproduction.apikey = "someApiKey"
-        |ordnancesurvey.preproduction.baseurl = "http://baseUrl"""".stripMargin,
+        |ordnancesurvey.apiversion = "tessd"
+        |ordnancesurvey.beta06.username = "werw"
+        |ordnancesurvey.beta06.password = "esdfdsf"
+        |ordnancesurvey.beta06.baseurl = "https://a"
+        |ordnancesurvey.preproduction.apikey = "sdfsdfsdf"
+        |ordnancesurvey.preproduction.baseurl = "http://a"""".stripMargin,
       osAddressLookup.id
     )
     runProject(
       fullClasspath.all(scopeVehiclesLookup).value.flatten,
       classDirectory.all(scopeVehiclesLookup).value.head,
       "dvla.microservice.Boot",
-      """getVehicleDetails.baseurl = "http://localhost:8082/lsImpl"
+      """getVehicleDetails.baseurl = "http://lo"
         |APPLICATION_CD = "sdfdfs"
         |CHANNEL_CD = "erty"
         |SERVICE_TYPE_CD = "E"
@@ -111,7 +105,7 @@ object Sandbox extends Plugin {
       fullClasspath.all(scopeVehiclesDisposeFulfil).value.flatten,
       classDirectory.all(scopeVehiclesDisposeFulfil).value.head,
       "dvla.microservice.Boot",
-      """vss.baseurl = "http://localhost:8082/demo/services/Dis"
+      """vss.baseurl = "http://l"
         |APPLICATION_CD = "oiu"
         |SERVICE_TYPE_CD = "ouew"
         |ORG_BUSINESS_UNIT = "adfadf"""".stripMargin,
