@@ -50,17 +50,25 @@
     &.img-wrap-mobile {
         display:none;
     }
-    @media screen and (max-width:$device-small) {
+    @media screen and (max-width:$device-medium) {
         &.img-wrap-mobile {
             display:block;
             img {
-                display:block;
-                margin:0 auto 2.2em auto;
-                text-align:center;
+                display:inline-block;
+                vertical-align:top;
+                margin:0 0 2.2em 0;
+                text-align:left;
             }
         }
         &.img-wrap-desktop {
             display:none;
+        }
+    }
+    @media screen and (max-width:$device-small) {
+        &.img-wrap-mobile img {
+          display:block;
+          margin-left:auto;
+          margin-right:auto;
         }
     }
 }

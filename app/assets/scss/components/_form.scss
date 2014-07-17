@@ -290,12 +290,15 @@
                 margin: {
                     right:0;
                 }
-                padding: {
-                    left:0;
-                    right:0;
-                }
             }
 
+        }
+        .button,
+        .button-secondary {
+          @media screen and (max-width: $device-small) {
+            padding-left:0;
+            padding-right:0;
+          }
         }
         br {
             clear:both;

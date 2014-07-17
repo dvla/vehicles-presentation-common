@@ -9,7 +9,7 @@
       width:940px;
     }
 
-   	@media screen and (max-width: $device-small) {
+   	@media screen and (max-width: $device-medium) {
         border-top: 10px solid phase-colour($phase);
     }
 
@@ -101,7 +101,7 @@
             font-weight:bold;
             clear:left;
 
-            @media screen and (max-width: $device-small) {
+            @media screen and (max-width: $device-medium) {
                 padding-top:0;
                 margin-bottom:0;
             }
@@ -110,7 +110,7 @@
             @include to-uppercase;
             overflow:hidden;
 
-            @media screen and (max-width: $device-small) {
+            @media screen and (max-width: $device-medium) {
                 clear:both;
             }
         }
@@ -136,7 +136,7 @@
             @include clearfix;
             width:47%;
             float:left;
-            @media screen and (max-width: $device-small) {
+            @media screen and (max-width: $device-medium) {
                 float:none;
                 width:100%;
                 clear:both;
@@ -147,7 +147,7 @@
             @include clearfix;
             width:47%;
             float:right;
-            @media screen and (max-width: $device-small) {
+            @media screen and (max-width: $device-medium) {
                 float:none;
                 width:100%;
                 clear:both;
