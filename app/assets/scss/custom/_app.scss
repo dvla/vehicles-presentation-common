@@ -4,6 +4,7 @@
     background: $white;
     margin: 0 auto;
     max-width: 980px;
+    .ie7 &,
     .ie6 & {
       width:940px;
     }
