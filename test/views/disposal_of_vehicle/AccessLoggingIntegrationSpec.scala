@@ -16,70 +16,69 @@ import pages.disposal_of_vehicle.{BeforeYouStartPage, BusinessChooseYourAddressP
 import play.api.LoggerLike
 import play.api.test.FakeApplication
 
-class AccessLoggingIntegrationSpec extends UiSpec with TestHarness with MockitoSugar  with WebBrowserDSL {
-  val mockLogger = new MockLogger
+class AccessLoggingIntegrationSpec extends UiSpec with TestHarness with MockitoSugar with WebBrowserDSL {
 
   "Access Logging" should {
-    "Log access that complete with success" in new WebBrowser(testApp) {
+    
+    "Log access that complete with success" in new WebBrowser(testApp1) {
       go to BeforeYouStartPage
 
-      val infoLogs = mockLogger.captureLogInfos(2)
-      infoLogs.get(0) should include("""] "GET / HTTP/1.1" 303""")
-      infoLogs.get(1) should include("""] "GET /sell-to-the-trade/before-you-start HTTP/1.1" 200""")
+      val infoLogs = mockLoggerTest1.captureLogInfos(1)
+      infoLogs.get(0) should include( """] "GET /sell-to-the-trade/before-you-start HTTP/1.1" 200""")
     }
 
-    "Log access that are completed because of Exception" in new WebBrowser(testApp) {
+    "Log access that are completed because of Exception" in new WebBrowser(testApp2) {
       val httpClient = HttpClients.createDefault()
       val post = new HttpPost(BusinessChooseYourAddressPage.url)
       val httpResponse = httpClient.execute(post)
       httpResponse.close()
 
-      val infoLogs = mockLogger.captureLogInfos(4)
-      infoLogs.get(2) should include("""] "POST /sell-to-the-trade/business-choose-your-address HTTP/1.1" 303""")
-      infoLogs.get(3) should include("""] "GET /sell-to-the-trade/error/""")
+      val infoLogs = mockLoggerTest2.captureLogInfos(2)
+      infoLogs.get(0) should include( """] "POST /sell-to-the-trade/business-choose-your-address HTTP/1.1" 303""")
+      infoLogs.get(1) should include( """] "GET /sell-to-the-trade/error/""")
     }
 
-    "Log access to unknown urls" in new WebBrowser(testApp) {
+    "Log access to unknown urls" in new WebBrowser(testApp3) {
       val httpClient = HttpClients.createDefault()
       val post = new HttpPost(WebDriverFactory.testUrl + "/some/unknown/url")
       val httpResponse = httpClient.execute(post)
       httpResponse.close()
 
-      val infoLogs = mockLogger.captureLogInfos(6)
+      val infoLogs = mockLoggerTest3.captureLogInfos(2)
 
-      infoLogs.get(4) should include("""] "POST /some/unknown/url HTTP/1.1" 303""")
-      infoLogs.get(5) should include("""] "GET /sell-to-the-trade/error/""")
+      infoLogs.get(0) should include( """] "POST /some/unknown/url HTTP/1.1" 303""")
+      infoLogs.get(1) should include( """] "GET /sell-to-the-trade/error/""")
     }
 
-    "not log any access for the healthcheck url" in new WebBrowser(testApp) {
+    "not log any access for the healthcheck url" in new WebBrowser(testApp4) {
       val httpClient = HttpClients.createDefault()
       val post = new HttpGet(WebDriverFactory.testUrl + "/healthcheck")
       val httpResponse = httpClient.execute(post)
       httpResponse.close()
 
-      val infoLogs = mockLogger.captureLogInfos(6)
+      val infoLogs = mockLoggerTest4.captureLogInfos(0)
     }
 
-    "not log any access for the healthcheck url with parameters" in new WebBrowser(testApp) {
+    "not log any access for the healthcheck url with parameters" in new WebBrowser(testApp5) {
       val httpClient = HttpClients.createDefault()
       val post = new HttpGet(WebDriverFactory.testUrl + "/healthcheck?param1=a&b=c")
       val httpResponse = httpClient.execute(post)
       httpResponse.close()
 
-      val infoLogs = mockLogger.captureLogInfos(6)
+      val infoLogs = mockLoggerTest5.captureLogInfos(0)
     }
 
-    "log any access for the healthcheck url that has extra in the path or parameters" in new WebBrowser(testApp) {
+    "log any access for the healthcheck url that has extra in the path or parameters" in new WebBrowser(testApp6) {
       val httpClient = HttpClients.createDefault()
       val post = new HttpGet(WebDriverFactory.testUrl + "/healthcheck/some/extra")
       val httpResponse = httpClient.execute(post)
       httpResponse.close()
 
-      val infoLogs = mockLogger.captureLogInfos(7)
+      val infoLogs = mockLoggerTest6.captureLogInfos(1)
     }
   }
 
-  class TGlobal extends GlobalLike with TestComposition {
+  private class TestGlobalWithMockLogger(mockLogger: MockLogger) extends GlobalLike with TestComposition {
 
     override lazy val injector: Injector = Guice.createInjector(testModule(new ScalaModule {
       override def configure(): Unit = {
@@ -88,5 +87,27 @@ class AccessLoggingIntegrationSpec extends UiSpec with TestHarness with MockitoS
     }))
   }
 
-  def testApp = FakeApplication(withGlobal = Some(new TGlobal))
+  private val mockLoggerTest1 = new MockLogger
+
+  private def testApp1 = FakeApplication(withGlobal = Some(new TestGlobalWithMockLogger(mockLoggerTest1)))
+
+  private val mockLoggerTest2 = new MockLogger
+
+  private def testApp2 = FakeApplication(withGlobal = Some(new TestGlobalWithMockLogger(mockLoggerTest2)))
+
+  private val mockLoggerTest3 = new MockLogger
+
+  private def testApp3 = FakeApplication(withGlobal = Some(new TestGlobalWithMockLogger(mockLoggerTest3)))
+
+  private val mockLoggerTest4 = new MockLogger
+
+  private def testApp4 = FakeApplication(withGlobal = Some(new TestGlobalWithMockLogger(mockLoggerTest4)))
+
+  private val mockLoggerTest5 = new MockLogger
+
+  private def testApp5 = FakeApplication(withGlobal = Some(new TestGlobalWithMockLogger(mockLoggerTest5)))
+
+  private val mockLoggerTest6 = new MockLogger
+
+  private def testApp6 = FakeApplication(withGlobal = Some(new TestGlobalWithMockLogger(mockLoggerTest6)))
 }
