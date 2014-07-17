@@ -314,7 +314,6 @@ select_default = Dewiswch
 
 addressAndPostcode.addressLines.buildingNameOrNumber = Enw''r adeilad neu rif
 error.address.maxLengthOfLinesConcatenated = Gall gyfeiriad gael mwy na 120 o gymeriadau
-error.address.characterinvalid = Nid yw nodau annilys chaniateir
 addressAndPostcode.addressLines = Cyfeiriad
 addressAndPostcode.postcode = Cod post
 error.validTraderBusinessName = Rhaid iddo fod rhwng dwy a 58 cymeriadau a ydynt yn cynnwys nodau annilys

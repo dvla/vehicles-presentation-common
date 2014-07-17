@@ -8,7 +8,7 @@ import services.fakes.FakeAddressLookupService.{PostcodeWithoutAddresses, Postco
 object SetupTradeDetailsPage extends Page with WebBrowserDSL {
   final val address = "/sell-to-the-trade/setup-trade-details"
   override val url: String = WebDriverFactory.testUrl + address.substring(1)
-  final override val title: String = "Provide your Trader details"
+  final override val title: String = "Provide your trader details"
 
   def traderName(implicit driver: WebDriver): TextField = textField(id(TraderNameId))
 

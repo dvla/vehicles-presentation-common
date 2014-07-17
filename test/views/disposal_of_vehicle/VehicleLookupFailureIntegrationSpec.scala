@@ -65,35 +65,48 @@ final class VehicleLookupFailureIntegrationSpec extends UiSpec with TestHarness 
       webDriver.manage().getCookieNamed(VehicleLookupResponseCodeCacheKey) should equal(null)
     }
 
-    "not display warnAboutLockout messages when 1 attempt has been made" taggedAs UiTag in new WebBrowser {
+    "display messages that show that the number of brute force attempts does not impact which messages are displayed when 1 attempt has been made" taggedAs UiTag in new WebBrowser {
       go to BeforeYouStartPage
 
       CookieFactoryForUISpecs.
         dealerDetails().
         bruteForcePreventionViewModel(attempts = 1, maxAttempts = MaxAttempts).
         vehicleLookupFormModel().
-        vehicleLookupResponseCode(responseCode = "vehicle_lookup_document_reference_mismatch")
+        vehicleLookupResponseCode(responseCode = "vehicle_lookup_vrm_not_found")
 
       go to VehicleLookupFailurePage
 
-      page.source should include("For each vehicle registration number, only three attempts can be made to retrieve the vehicle details.")
-      page.source should not include "After a third unsuccessful attempt the system prevents further attempts to access the vehicle's records for 10 minutes. This is to safeguard vehicle records. Other vehicles can be processed using this service during this period."
+      page.source should include("Only 3 attempts will be allowed to retrieve vehicle details.")
     }
 
-    "display warnAboutLockout messages when 2 attempts have been made" taggedAs UiTag in new WebBrowser {
+    "display messages that show that the number of brute force attempts does not impact which messages are displayed when 2 attempts have been made" taggedAs UiTag in new WebBrowser {
       go to BeforeYouStartPage
 
       CookieFactoryForUISpecs.
         dealerDetails().
         bruteForcePreventionViewModel(attempts = 2, maxAttempts = MaxAttempts).
         vehicleLookupFormModel().
+        vehicleLookupResponseCode(responseCode = "vehicle_lookup_vrm_not_found")
+
+      go to VehicleLookupFailurePage
+
+      page.source should include("Only 3 attempts will be allowed to retrieve vehicle details.")
+    }
+
+    "display appropriate messages for document reference mismatch" taggedAs UiTag in new WebBrowser {
+      go to BeforeYouStartPage
+
+      CookieFactoryForUISpecs.
+        dealerDetails().
+        bruteForcePreventionViewModel().
+        vehicleLookupFormModel().
         vehicleLookupResponseCode(responseCode = "vehicle_lookup_document_reference_mismatch")
 
       go to VehicleLookupFailurePage
 
-      page.source should include("For each vehicle registration number, only three attempts can be made to retrieve the vehicle details.")
-      page.source should include("After a third unsuccessful attempt the system prevents further attempts to access the vehicle's records for 10 minutes. This is to safeguard vehicle records. Other vehicles can be processed using this service during this period.")
+      page.source should include("For each vehicle registration number, only 3 attempts can be made to retrieve the vehicle details.")
     }
+
   }
 
   "vehicleLookup button" should {
