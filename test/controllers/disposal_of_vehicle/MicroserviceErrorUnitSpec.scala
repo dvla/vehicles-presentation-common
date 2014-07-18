@@ -3,8 +3,9 @@ package controllers.disposal_of_vehicle
 import common.ClientSideSessionFactory
 import controllers.disposal_of_vehicle.Common.PrototypeHtml
 import helpers.{UnitSpec, WithApplication}
-import helpers.common.CookieHelper.fetchCookiesFromHeaders
+import helpers.common.CookieHelper.{fetchCookiesFromHeaders, verifyCookieHasBeenDiscarded}
 import helpers.disposal_of_vehicle.CookieFactoryForUnitSpecs
+import mappings.common.PreventGoingToDisposePage.PreventGoingToDisposePageCacheKey
 import mappings.disposal_of_vehicle.MicroserviceError.MicroServiceErrorRefererCacheKey
 import org.mockito.Mockito.when
 import pages.disposal_of_vehicle.{DisposePage, VehicleLookupPage}
@@ -48,6 +49,20 @@ final class MicroserviceErrorUnitSpec extends UnitSpec {
         cookies.find(_.name == MicroServiceErrorRefererCacheKey).get.value should equal(referer)
       }
     }
+
+    "remove the interstitial cookie so we redirect to the page identified in the referer cookie and stay there" in new WithApplication {
+      val referer = DisposePage.address
+      val request = FakeRequest().
+        withHeaders(REFERER -> referer).
+        withCookies(CookieFactoryForUnitSpecs.preventGoingToDisposePage())
+      // Set the previous page.
+      val result = microServiceError.present(request)
+      whenReady(result) { r =>
+        val cookies = fetchCookiesFromHeaders(r)
+        cookies.find(_.name == MicroServiceErrorRefererCacheKey).get.value should equal(referer)
+        verifyCookieHasBeenDiscarded(PreventGoingToDisposePageCacheKey, cookies)
+      }
+    }
   }
 
   "try again" should {
@@ -67,20 +82,13 @@ final class MicroserviceErrorUnitSpec extends UnitSpec {
       whenReady(result) { r =>
         r.header.headers.get(LOCATION) should equal(Some(DisposePage.address))
         val cookies = fetchCookiesFromHeaders(r)
-        // The cookie should have been discarded which is identified by a negative maxAge
-        val msErrorCookie = cookies.find(_.name == MicroServiceErrorRefererCacheKey)
-        msErrorCookie.get.maxAge match {
-          case Some(maxAge) if maxAge < 0 => // Success
-          case Some(maxAge) => fail(s"maxAge should be negative but was $maxAge")
-          case _ => fail("should be some maxAge")
-        }
+        verifyCookieHasBeenDiscarded(MicroServiceErrorRefererCacheKey, cookies)
       }
     }
   }
 
   private val microServiceError = injector.getInstance(classOf[MicroServiceError])
 
-  private lazy val present = {
-    microServiceError.present(FakeRequest())
-  }
+  private lazy val present = microServiceError.present(FakeRequest())
+
 }
