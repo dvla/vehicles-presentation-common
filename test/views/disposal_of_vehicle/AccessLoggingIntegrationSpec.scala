@@ -19,7 +19,6 @@ import play.api.test.FakeApplication
 class AccessLoggingIntegrationSpec extends UiSpec with TestHarness with MockitoSugar with WebBrowserDSL {
 
   "Access Logging" should {
-    
     "Log access that complete with success" in new WebBrowser(testApp1) {
       go to BeforeYouStartPage
 
