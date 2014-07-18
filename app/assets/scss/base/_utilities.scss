@@ -3,6 +3,7 @@
 @function phase-colour($phase) {
     @if $phase == "alpha" { @return $alpha-colour; }
     @if $phase == "beta" { @return $beta-colour; }
+    @else { @return $govuk-blue; }
 }
 
 @mixin clearfix {
