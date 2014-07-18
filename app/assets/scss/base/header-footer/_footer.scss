@@ -148,7 +148,7 @@
 
             a {
                 display:block;
-                background:url("images/govuk-crest.png") no-repeat 100% 0;
+                background:url($image-path + "govuk-crest.png") no-repeat 100% 0;
                 text-align:right;
                 text-decoration:none;
                 padding:115px 0 0 0;
@@ -169,12 +169,12 @@
                     only screen and (min-device-pixel-ratio: 2), 
                     only screen and (min-resolution: 192dpi), 
                     only screen and (min-resolution: 2dppx) {
-                        background-image:url("images/govuk-crest-2x.png");
+                        background-image:url($image-path + "govuk-crest-2x.png");
                         background-size:125px 102px;
                 }
 
                 .ie6 & {
-                    background-image:("images/govuk-crest-ie.png");
+                    background-image:($image-path + "govuk-crest-ie.png");
                 }
             }
         }
