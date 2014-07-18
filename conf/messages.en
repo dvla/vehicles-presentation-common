@@ -21,10 +21,6 @@ global.buttonnavcancel = Cancel
 global.buttonnavupdate = Update
 global.buttonnavprint = Print
 
-footer.helpdesk = Help
-footer.privacypolicy = Cookies
-footer.contact = Contact
-footer.welsh = Cymraeg
 footer.builtbyintro = Built by
 footer.builtby = Driver & Vehicle Licensing Agency
 
