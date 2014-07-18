@@ -1,7 +1,7 @@
 package services.brute_force_prevention
 
 import helpers.UnitSpec
-import org.mockito.Mockito._
+import org.mockito.Mockito.when
 import play.api.libs.ws.Response
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
