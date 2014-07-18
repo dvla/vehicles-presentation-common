@@ -1,9 +1,10 @@
 require.config({
     paths: {
-        'jquery': 'lib/jquery/jquery-1.9.1',
+        'jquery': 'lib/jquery/jquery-1.9.1.min',
         'jquery-migrate': 'lib/jquery/jquery-migrate-1.2.1.min',
         'header-footer-only': 'header-footer-only'
-    }
+    },
+    optimize: "none"
 });
 
 require(["jquery", "jquery-migrate", "header-footer-only"],function($) {
