@@ -181,8 +181,7 @@ disposal_beforeyoustart.listitem2 = If the vehicle being sold has a personal reg
 disposal_beforeyoustart.listitem2.link = Apply to retain a vehicle registration number (V317).
 
 disposal_beforeyoustart.listitem3 = This service can only be used to notify the sale of a vehicle into the motor trade. Any other services such as changing address or selling to a private individual cannot currently be made online. These requests must be made by sending the V5C to the DVLA, Swansea, SA99 1BA.
-disposal_beforeyoustart.listitem4 = If the vehicle is currently taxed and there is more than one full month left to run, the keeper must
-disposal_beforeyoustart.listitem4.link = apply for a road tax refund on a V14.
+disposal_beforeyoustart.listitem4 = Once you have completed this service, DVLA will issue an automatic refund for any full remaining months of vehicle tax to the address on the V5C, and any direct debit (DD) will also be cancelled.
 disposal_beforeyoustart.button = Start now
 
 #page 2 - set-up trade details
@@ -301,7 +300,7 @@ disposal_disposeconfirmation.vehiclemake = Make
 disposal_disposeconfirmation.vehiclemodel = Model
 disposal_disposeconfirmation.vehiclekeeper = Keeper
 disposal_disposeconfirmation.disposedto = Sold to
-disposal_disposeconfirmation.exkeeper = A letter will be sent to the name and address on the V5C within 4 weeks. If they do not receive a letter in this time they must contact DVLA Customer Enquiries on 0300 790 6802 as they could still be liable for this vehicle. If the vehicle is currently taxed and there is more than one full month left to run, the keeper must apply for a refund on a V14.
+disposal_disposeconfirmation.exkeeper = A letter will be sent to the name and address on the V5C within 4 weeks. If they do not receive a letter in this time they must contact DVLA Customer Enquiries on 0300 790 6802 as they could still be liable for this vehicle. DVLA will automatically issue a refund for any full remaining months of vehicle tax and cancel any direct debits (DD). The refund will be sent to the address on the V5C.
 disposal_disposeconfirmation.exkeeper-p2 = Please print this page and pass to the customer.
 disposal_disposeconfirmation.sendbutton = Send
 disposal_disposeconfirmation.transactionid = {0}
