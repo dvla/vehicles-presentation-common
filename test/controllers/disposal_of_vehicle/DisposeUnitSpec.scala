@@ -45,7 +45,6 @@ import pages.disposal_of_vehicle.DisposeSuccessPage
 import pages.disposal_of_vehicle.DuplicateDisposalErrorPage
 import pages.disposal_of_vehicle.MicroServiceErrorPage
 import pages.disposal_of_vehicle.SetupTradeDetailsPage
-import pages.disposal_of_vehicle.SoapEndpointErrorPage
 import pages.disposal_of_vehicle.VehicleLookupPage
 import play.api.libs.json.Json
 import play.api.test.FakeRequest

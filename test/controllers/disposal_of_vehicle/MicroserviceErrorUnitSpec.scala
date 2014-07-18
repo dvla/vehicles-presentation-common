@@ -50,7 +50,7 @@ final class MicroserviceErrorUnitSpec extends UnitSpec {
       }
     }
 
-    "remove the interstitial cookie so we redirect to the page identified in the referer cookie and stay there" in new WithApplication {
+    "remove the interstitial cookie so we redirect to the page identified in the referer cookie and are not redirected elsewhere" in new WithApplication {
       val referer = DisposePage.address
       val request = FakeRequest().
         withHeaders(REFERER -> referer).

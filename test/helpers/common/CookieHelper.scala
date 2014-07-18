@@ -9,7 +9,7 @@ object CookieHelper {
     result.header.headers.get(SET_COOKIE).toSeq.flatMap(Cookies.decode)
 
   def verifyCookieHasBeenDiscarded(cookieName: String, cookies: Seq[Cookie]) = {
-    // The cookie should have been discarded which is identified by a negative maxAge
+    // A discarded cookie is identified by a negative maxAge
     val cookie = cookies.find(_.name == cookieName)
     cookie.get.maxAge match {
       case Some(maxAge) if maxAge < 0 => // Success
