@@ -76,6 +76,7 @@ Running the application
 
 3.  Repeat *step 1* for each required microservice (if any).
 
+
 ### Running with production logging
 
 To emulate production-level logging:
@@ -90,6 +91,23 @@ To emulate production-level logging:
 3.  Open in Web browser:
 
         http://localhost:9000/
+
+Running the sandbox
+-------------------
+Vehicles-online depends on three services in order to succesfully complate a disposal. These are:
+1. os-address-lookup
+1. vehicles-lookup
+1. vehicles-dispose-fulfil
+
+Vehicles-lookup and vehicles-dispose-fulfil depend on two legacy stub services.
+All these are located in different git repositories and need to be manually clonned built and run if the vehicles-online is going to run normally.
+The sandbox provides a way to run all the required microservices along with the vehicles-online itself with a single command.
+
+The sandbox is implemented as a single sbt task so you can run it like every other sbt task. Just do ```sbt sandbox```. This will download the latest versions of the services and will start them. After the sandbox is started the app is running on http://localhost:9000 and the user should be able to go all the way to disposing a vehicle.
+
+If here are any local changes to the vehicles-online code base they would be automatically picked up next time the browser is refreshed.
+
+
 
 Session encryption
 ------------------
