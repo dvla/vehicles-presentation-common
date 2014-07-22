@@ -290,6 +290,7 @@ consent = Consent
 disposal_dispose.loss_of_registration.consent = I confirm that the current keeper understands that the registration number will be lost on the sale of this vehicle
 disposal_dispose.loss_of_registration.consent.notgiven = You must confirm that you have made the keeper aware that they will lose the registration number associated with this vehicle
 lossOfRegistrationConsent = Consent
+mileage = Mileage
 
 #page 6 - summary
 disposal_disposeconfirmation.title = Summary
@@ -392,7 +393,7 @@ soap_endpoint_error.back.button=Back
 soap_endpoint_error.exit.button=Exit
 
 #vrm locked
-vrm_locked.title=Registration mark is locked
+vrm_locked.title=Registration number is locked
 vrm_locked.text1= There have been 3 unsuccessful attempts to access the vehicle details. For security reasons the vehicle registration number is now locked for 10 minutes. During this period other vehicles can be processed by selecting ‘Sell another vehicle’ below.
 vrm_locked.text2=Locked at
 vrm_locked.text3.1= If you need help please call our contact centre on
