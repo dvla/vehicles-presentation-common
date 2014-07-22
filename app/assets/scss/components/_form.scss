@@ -53,6 +53,11 @@
                 font-size: 14px;
             }
         }
+        & + .form-hint {
+            display: block;
+            color: $grey-1;
+            margin: 3px;
+        }
     }
 
     input[type="text"],
