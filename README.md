@@ -28,9 +28,35 @@ separate projects:
 These services are mocked for automated testing, but must be running locally for manual testing/development of dependant
 components within the presentation layer.
 
-Development environment
------------------------
 
+Development prerequisites
+-----------------------
+1.  JDK 1.7 must be installed
+1.  Install SASS. The [current documentation][install-sass] suggests:
+    2. Install Ruby
+    
+       Mac: `brew install ruby` Add the bin folder to the path as suggested during the install
+
+       Debian Linux: `sudo apt-get install ruby`
+    2. Install SASS
+    
+       Mac & Debian Linux: `sudo gem install sass`
+
+1.  Install SBT.  The [current documentation][install-sbt] suggests:
+
+    Mac: `brew install sbt`
+    
+    Debian Linux: `sudo apt-get install sbt`
+
+1.  Increase 'permanent generation space' requirements for SBT.
+
+    2. Mac: Create the file `~/.sbtconfig` with the following content:
+
+        `SBT_OPTS="-XX:+UseConcMarkSweepGC -XX:+CMSClassUnloadingEnabled -XX:PermSize=256M -XX:MaxPermSize=2048M $SBT_OPTS"`
+    2. Linux: edit ~/.bashrc and add 
+    
+        `export SBT_OPTS="-XX:+UseConcMarkSweepGC -XX:+CMSClassUnloadingEnabled -XX:PermSize=256M -XX:MaxPermSize=2048M$SBT_OPTS"`
+        
 1.  Each project must be checked-out to the same directory using the following names:
 
     -   `vehicles-online`
@@ -38,24 +64,7 @@ Development environment
     -   `vehicles-lookup`
     -   `<<the appropriate secrets repo>>'
     -   `os-address-lookup`
-
-2.  JDK 1.7 must be installed
-
-3.  Install SASS. The [current documentation][install-sass] suggests:
-
-        sudo gem install sass
-
-4.  Install SBT.  The [current documentation][install-sbt] suggests:
-
-        brew install sbt
-
-5.  Increase 'permanent generation space' requirements for SBT.
-
-    Create the file `~/.sbtconfig` with the following content:
-
-        SBT_OPTS="$SBT_OPTS -XX:+UseConcMarkSweepGC -XX:+CMSClassUnloadingEnabled -XX:PermSize=256M -XX:MaxPermSize=2048M"
-
-6.  Decrypt secret keys:
+1.  Decrypt secret keys:
 
         cd <<the appropriate secrets repo>>
         ./setup XYZ
