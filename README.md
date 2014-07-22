@@ -52,11 +52,11 @@ Development prerequisites
 
     Mac: Create the file `~/.sbtconfig` with the following content:
 
-        `SBT_OPTS="-XX:+UseConcMarkSweepGC -XX:+CMSClassUnloadingEnabled -XX:PermSize=256M -XX:MaxPermSize=2048M $SBT_OPTS"`
+        SBT_OPTS="-XX:+UseConcMarkSweepGC -XX:+CMSClassUnloadingEnabled -XX:PermSize=256M -XX:MaxPermSize=2048M $SBT_OPTS"
         
     Linux: edit ~/.bashrc and add 
     
-        `export SBT_OPTS="-XX:+UseConcMarkSweepGC -XX:+CMSClassUnloadingEnabled -XX:PermSize=256M -XX:MaxPermSize=2048M$SBT_OPTS"`
+        export SBT_OPTS="-XX:+UseConcMarkSweepGC -XX:+CMSClassUnloadingEnabled -XX:PermSize=256M -XX:MaxPermSize=2048M$SBT_OPTS"
         
 Compiling
 ---------
