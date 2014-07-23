@@ -371,7 +371,7 @@ disposal.help.back_button = Back
 
 # micro-service response codes
 ms.vehiclesService.response.applicationBeingProcessed.p1 = The application is being processed.
-ms.vehiclesService.response.applicationBeingProcessed.p2 = Please do not send the original V5C/3 (disposal slip) to DVLA, Swansea, SA99 1BD
+ms.vehiclesService.response.applicationBeingProcessed.p2 = Please do not send the original V5C/3 (disposal slip) to DVLA.
 
 ms.vehiclesService.response.unableToProcessApplication-title = Transaction Unsuccessful
 ms.vehiclesService.response.unableToProcessApplication = We are unable to process the transaction at this time. Please send the V5C/3 to the following address;

@@ -32,9 +32,6 @@ title = Messages("disposal_disposeconfirmation.title")
         <div class="form-steps">
 
             <div class="step">
-                @{/* TODO implemented JS and SCSS only. May need Scala work for unique ID? */
-                    /* TODO do we need 'value'? */
-                }
                 <button id="printDisposalSuccess" type="button" name="action" value="printDisposalSuccess" class="button js-only print-button">@Messages("global.buttonnavprint")</button>
             </div>
 
@@ -42,7 +39,6 @@ title = Messages("disposal_disposeconfirmation.title")
             <div class="step">
                 @form(action = controllers.disposal_of_vehicle.routes.DisposeSuccess.newDisposal()) {
                 @CsrfHelper.hiddenFormField
-                @* TODO UI please check the classes being used for this button, it was changed to grey by adding the button-secondary but I've kept the old class on there. *@
                 <button id="@NewDisposalId" type="submit" name="action" class="button button-new-disposal button-secondary">@Messages("disposal_disposeconfirmation.newdisposalbutton")</button>
                 }
             </div>
