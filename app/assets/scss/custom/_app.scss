@@ -9,12 +9,8 @@
       width:940px;
     }
 
-   	@media screen and (max-width: $device-medium) {
-        border-top: 10px solid phase-colour($phase);
-    }
-
     .section-content {
-        padding: 1.7em 1em 0 1em;
+        padding:1.7em 15px 0 15px;
         margin-bottom:4em;
         @include clearfix;
         .ie7 & {
@@ -124,10 +120,7 @@
             }
         }
         dd {
-            //float:left;
             @include to-uppercase;
-            //overflow:hidden;
-
             @media screen and (max-width: $device-medium) {
                 clear:both;
             }

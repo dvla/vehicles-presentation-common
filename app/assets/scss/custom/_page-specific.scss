@@ -53,8 +53,8 @@
         margin-bottom:1rem;
 
         @media screen and (max-width:$device-medium) {
-          margin-bottom:12px;
-          margin-bottom:1.25rem;
+            margin-bottom:12px;
+            margin-bottom:1.25rem;
         }
 
         button {
@@ -105,6 +105,6 @@
 //disposal success
 .disposal-sucesss {
   .ie8 & .button-new-disposal {
-    min-width:180px;
+      min-width:180px;
   }
 }
