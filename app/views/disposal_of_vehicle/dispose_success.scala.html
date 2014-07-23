@@ -81,10 +81,10 @@ title = Messages("disposal_disposeconfirmation.title")
             <dd>@data.vehicleModel</dd>
 
             <dt>@Messages("disposal_disposeconfirmation.mileage")</dt>
-            @if(data.mileage == None) {
+            @if(formModel.mileage == None) {
             <dd>@Messages("disposal_disposeconfirmation.mileageNotEntered")</dd>
             } else {
-            <dd>@{java.text.NumberFormat.getIntegerInstance().format(data.mileage.get)}</dd>
+            <dd>@{java.text.NumberFormat.getIntegerInstance().format(formModel.mileage.get)}</dd>
             }
 
             <dt>@Messages("disposal_disposeconfirmation.disposedto")</dt>

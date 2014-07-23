@@ -71,8 +71,7 @@ final class DisposeSuccess @Inject()(implicit clientSideSessionFactory: ClientSi
       dealerName = traderDetails.traderName,
       dealerAddress = traderDetails.traderAddress,
       transactionId = transactionId,
-      registrationNumber = registrationNumber,
-      mileage = disposeFormModel.mileage
+      registrationNumber = registrationNumber
     )
 }
 

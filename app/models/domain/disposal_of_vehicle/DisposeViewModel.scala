@@ -5,5 +5,4 @@ final case class DisposeViewModel(vehicleMake: String,
                                   dealerName: String,
                                   dealerAddress: AddressViewModel,
                                   transactionId: Option[String] = None,
-                                  registrationNumber: String,
-                                  mileage: Option[Int] = None)
+                                  registrationNumber: String)
