@@ -316,6 +316,7 @@ disposal_disposeconfirmation.backbutton = Back
 disposal_disposeconfirmation.newdisposalbutton = Sell another vehicle
 disposal_disposeconfirmation.disposaldate = Date of sale
 disposal_disposeconfirmation.mileage = Mileage
+disposal_disposeconfirmation.mileageNotEntered = NOT ENTERED
 disposal_disposeconfirmation.noMileageEntered = No mileage entered
 disposal_disposeconfirmation.exitbutton = Finish
 disposal_disposeconfirmation.survey = Take a survey

@@ -80,6 +80,13 @@ title = Messages("disposal_disposeconfirmation.title")
             <dt>@Messages("disposal_disposeconfirmation.vehiclemodel")</dt>
             <dd>@data.vehicleModel</dd>
 
+            <dt>@Messages("disposal_disposeconfirmation.mileage")</dt>
+            @if(data.mileage == None) {
+            <dd>@Messages("disposal_disposeconfirmation.mileageNotEntered")</dd>
+            } else {
+            <dd>@{java.text.NumberFormat.getIntegerInstance().format(data.mileage.get)}</dd>
+            }
+
             <dt>@Messages("disposal_disposeconfirmation.disposedto")</dt>
             <dd>
                 @data.dealerName<br />

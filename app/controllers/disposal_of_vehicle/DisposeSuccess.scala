@@ -31,6 +31,7 @@ final class DisposeSuccess @Inject()(implicit clientSideSessionFactory: ClientSi
              Some(registrationNumber)) =>
          val disposeViewModel = createViewModel(
            traderDetails,
+           disposeFormModel,
            vehicleDetails,
            Some(transactionId),
            registrationNumber
@@ -60,17 +61,23 @@ final class DisposeSuccess @Inject()(implicit clientSideSessionFactory: ClientSi
   }
 
   private def createViewModel(traderDetails: TraderDetailsModel,
+                              disposeFormModel: DisposeFormModel,
                               vehicleDetails: VehicleDetailsModel,
                               transactionId: Option[String],
-                              registrationNumber: String): DisposeViewModel =
+                              registrationNumber: String): DisposeViewModel = {
+    val formatter = java.text.NumberFormat.getIntegerInstance
+//println("********* " + "1000".format("#,###"))
+//println("********* " + String.format("%,d", 1000.toString))
     DisposeViewModel(
       vehicleMake = vehicleDetails.vehicleMake,
       vehicleModel = vehicleDetails.vehicleModel,
       dealerName = traderDetails.traderName,
       dealerAddress = traderDetails.traderAddress,
       transactionId = transactionId,
-      registrationNumber = registrationNumber
+      registrationNumber = registrationNumber,
+      mileage = disposeFormModel.mileage
     )
+  }
 }
 
 class SurveyUrl @Inject()(implicit clientSideSessionFactory: ClientSideSessionFactory,

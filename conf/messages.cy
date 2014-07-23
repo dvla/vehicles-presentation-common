@@ -274,6 +274,7 @@ disposal_disposeconfirmation.backbutton = Holau
 disposal_disposeconfirmation.newdisposalbutton = Gwaredu Newydd
 disposal_disposeconfirmation.disposaldate = Dyddiad gwaredu
 disposal_disposeconfirmation.mileage = Milltiroedd
+disposal_disposeconfirmation.mileageNotEntered = HEB EU COFRESTRU
 disposal_disposeconfirmation.noMileageEntered = Naddo milltiroedd gofnodi
 disposal_disposeconfirmation.exitbutton = Gadael
 disposal_disposeconfirmation.survey = Arolwg
