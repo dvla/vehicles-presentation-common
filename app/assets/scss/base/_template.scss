@@ -64,6 +64,11 @@ button {
     }
 }
 
+.print-only {
+    display:none !important;
+}
+
+
 //main content wrapper
 #main {
     background:$white;

@@ -64,7 +64,7 @@
                                 <ul class="proposition-links">
                                     <li><a id="@HelpId" href="@controllers.common.routes.Help.present()">@{Messages("main.banner.help")}</a></li>
                                     <li>@feedback()</li>
-                                    <li>@alternateLanguages()</li>
+                                    @*<li>@alternateLanguages()</li>*@
                                 </ul>
                             </div>
                         </div>
@@ -96,6 +96,9 @@
                     </div>
                     @if(!Play.isTest) {
                         @* Do not fetch external assets when testing. Ideally we should have asset local and in version control *@
+                        <div class="copyright print-only">
+                            <img src="@routes.Assets.at("images/govuk-crest.png")" alt="Crown Copyright">
+                        </div>
                         <div class="copyright">
                             <a href="http://www.nationalarchives.gov.uk/information-management/our-services/crown-copyright.htm" target="_blank">&copy;
                                 Crown Copyright</a>

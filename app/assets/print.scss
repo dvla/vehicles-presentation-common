@@ -63,6 +63,9 @@ h2, h3, h4, p, ul {
 h2, h3, h4, .info-notice {
     page-break-after: avoid;
 }
+.print-only {
+  display:block;
+}
 .global-header {
     h1 {
       font-family: "nta",Arial,sans-serif;
@@ -244,29 +247,35 @@ p.transaction-id {
 
 
 .global-header {
-    background: transparent;
-    margin-top: 10px;
-    #logo {
+    background:transparent;
+    padding:20px;
+    margin:0;
+
+    .header-logo {
         position: relative;
         display: block;
-        width: 166px;
-        height: 30px;
+        //width: 166px;
+        //height:30px;
         overflow: hidden;
-        img {
-            position: absolute;
-            left: -46px;
-            top: -62px;
-            max-width: none !important;
-            width: 200%;
-            height: 300%;
-            border: none;
+        a {
+            font-size:26pt;
+            font-weight:bold;
+            text-decoration:none;
+            &[href^="http://"]:after, 
+            &[href^="https://"]:after {
+                content:'';
+            }
+
         }
         &:after {
             display: none;
         }
     }
-    #search, .search-toggle {
-        display: none;
+    h1 {
+        border:0 none;
+    }
+    .header-proposition ul { 
+        display:none;
     }
 }
 
@@ -287,6 +296,7 @@ fieldset {
     border:0 none !important;
 }
 
+.form-hint,
 label {
     display:block !important;
     width:100%;
@@ -297,17 +307,26 @@ select {
     background: #fff !important;
 }
 
-footer{
+.footer {
+    padding:20px;
     ul {
         padding-left:0;
     }
+    .copyright {
+        margin-bottom:25px;
+    }
 }
 
+//page specific
+.vehicles-online .img-wrap img {
+    width:200px;
+}
+
+
 //hide specific elements/sections
-.global-header .header-logo,
-.global-header .header-phase,
+.print-message,
 .vehicles-online .prototype,
-.footer,
+.footer .footer-meta-inner,
 body .actions,
 .visuallyhidden,
 #local-locator-form,
