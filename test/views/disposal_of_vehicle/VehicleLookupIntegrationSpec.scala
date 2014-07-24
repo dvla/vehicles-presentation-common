@@ -138,10 +138,9 @@ final class VehicleLookupIntegrationSpec extends UiSpec with TestHarness {
     /* TODO Had to comment out because of this error on the build server. Investigate then restore.
 
       org.openqa.selenium.WebDriverException: Cannot find firefox binary in PATH. Make sure firefox is installed. OS appears to be: LINUX
-      [info] Build info: version: '2.42.2', revision: '6a6995d31c7c56c340d6f45a76976d43506cd6cc', time: '2014-06-03 10:52:47'
-    [info] System info: host: '***REMOVED***', ip: '***REMOVED***', os.name: 'Linux', os.arch: 'amd64', os.version: '2.6.32-431.el6.x86_64', java.version: '1.7.0_55'
+    [info] Build info: version: '2.42.2', revision: '6a6995d31c7c56c340d6f45a76976d43506cd6cc', time: '2014-06-03 10:52:47'
     [info] Driver info: driver.version: FirefoxDriver
-      [info]     at org.openqa.selenium.firefox.internal.Executable.<init>(Executable.java:72)
+    [info]     at org.openqa.selenium.firefox.internal.Executable.<init>(Executable.java:72)
     [info]     at org.openqa.selenium.firefox.FirefoxBinary.<init>(FirefoxBinary.java:59)
     [info]     at org.openqa.selenium.firefox.FirefoxBinary.<init>(FirefoxBinary.java:55)
     [info]     at org.openqa.selenium.firefox.FirefoxDriver.<init>(FirefoxDriver.java:99)
