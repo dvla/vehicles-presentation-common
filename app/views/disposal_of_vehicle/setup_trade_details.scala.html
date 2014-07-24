@@ -25,7 +25,7 @@
                         '_showConstraints -> false,
                         'maxLength -> TraderNameMaxLength))
 
-            @valtechInputText(traderLookupForm(TraderPostcodeId), args =
+            @valtechInputText(traderLookupForm(TraderPostcodeId), hintText = Some(Messages("disposal_setuptradedetails.traderpostcode.hint")), args =
                     Map('_label -> Messages("disposal_setuptradedetails.traderpostcodelabel"),
                         '_showConstraints -> false,
                         'maxLength -> Postcode.MaxLength))

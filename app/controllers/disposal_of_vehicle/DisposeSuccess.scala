@@ -31,6 +31,7 @@ final class DisposeSuccess @Inject()(implicit clientSideSessionFactory: ClientSi
              Some(registrationNumber)) =>
          val disposeViewModel = createViewModel(
            traderDetails,
+           disposeFormModel,
            vehicleDetails,
            Some(transactionId),
            registrationNumber
@@ -60,6 +61,7 @@ final class DisposeSuccess @Inject()(implicit clientSideSessionFactory: ClientSi
   }
 
   private def createViewModel(traderDetails: TraderDetailsModel,
+                              disposeFormModel: DisposeFormModel,
                               vehicleDetails: VehicleDetailsModel,
                               transactionId: Option[String],
                               registrationNumber: String): DisposeViewModel =

@@ -56,8 +56,6 @@ GET         /sell-to-the-trade/duplicate-sell-to-the-trade-error        @control
 GET         /sell-to-the-trade/service-error                            @controllers.disposal_of_vehicle.MicroServiceError.present
 GET         /sell-to-the-trade/service-error/try-again                  @controllers.disposal_of_vehicle.MicroServiceError.back
 
-GET         /sell-to-the-trade/soap-endpoint-error                      @controllers.disposal_of_vehicle.SoapEndpointError.present
-
 GET         /sell-to-the-trade/vrm-locked                               @controllers.disposal_of_vehicle.VrmLocked.present
 POST        /sell-to-the-trade/vrm-locked/new-disposal                  @controllers.disposal_of_vehicle.VrmLocked.newDisposal
 POST        /sell-to-the-trade/vrm-locked/exit                          @controllers.disposal_of_vehicle.VrmLocked.exit

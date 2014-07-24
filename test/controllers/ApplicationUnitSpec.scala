@@ -4,7 +4,7 @@ import helpers.UnitSpec
 import org.mockito.Mockito.when
 import org.specs2.execute.{Result, AsResult}
 import play.api.test.{Helpers, WithApplication, FakeApplication, FakeRequest}
-import play.api.test.Helpers._
+import play.api.test.Helpers.{redirectLocation, defaultAwaitTimeout}
 import utils.helpers.Config
 
 final class ApplicationUnitSpec extends UnitSpec {
@@ -23,13 +23,9 @@ final class ApplicationUnitSpec extends UnitSpec {
     }
 
     "redirect the user to the start url when there is an application context set " in new WithApplicationContext("/testContext/") {
-      try {
         implicit val config = configWithStartUrl("/testStart")
         val result = new ApplicationRoot().index(FakeRequest())
         redirectLocation(result) should equal(Some("/testContext/testStart"))
-      } finally {
-
-      }
     }
   }
 
@@ -45,7 +41,7 @@ final class ApplicationUnitSpec extends UnitSpec {
         finally app.routes.map(_.setPrefix("/"))
       }
     }
-   }
+  }
 
   private def configWithStartUrl(startUrl: String): Config = {
     val config = mock[Config]

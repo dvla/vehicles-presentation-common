@@ -4,7 +4,11 @@ import com.tzavellas.sse.guice.ScalaModule
 import controllers.disposal_of_vehicle.Common.PrototypeHtml
 import common.{ClearTextClientSideSessionFactory, ClientSideSessionFactory}
 import controllers.disposal_of_vehicle
-import services.fakes.FakeAddressLookupService.{TraderBusinessNameValid, BuildingNameOrNumberValid, Line2Valid, Line3Valid, PostTownValid}
+import services.fakes.FakeAddressLookupService.TraderBusinessNameValid
+import services.fakes.FakeAddressLookupService.BuildingNameOrNumberValid
+import services.fakes.FakeAddressLookupService.Line2Valid
+import services.fakes.FakeAddressLookupService.Line3Valid
+import services.fakes.FakeAddressLookupService.PostTownValid
 import services.fakes.FakeVehicleLookupWebService.ReferenceNumberValid
 import services.fakes.FakeVehicleLookupWebService.RegistrationNumberValid
 import services.fakes.FakeVehicleLookupWebService.RegistrationNumberWithSpaceValid
@@ -55,12 +59,15 @@ import services.fakes.FakeAddressLookupWebServiceImpl.traderUprnValid
 import services.fakes.{FakeDateServiceImpl, FakeResponse}
 import services.vehicle_lookup.{VehicleLookupServiceImpl, VehicleLookupWebService}
 import utils.helpers.Config
-import services.fakes.brute_force_protection.FakeBruteForcePreventionWebServiceImpl.{VrmLocked, VrmAttempt2, responseFirstAttempt, responseSecondAttempt, VrmThrows}
+import services.fakes.brute_force_protection.FakeBruteForcePreventionWebServiceImpl.VrmLocked
+import services.fakes.brute_force_protection.FakeBruteForcePreventionWebServiceImpl.VrmAttempt2
+import services.fakes.brute_force_protection.FakeBruteForcePreventionWebServiceImpl.responseFirstAttempt
+import services.fakes.brute_force_protection.FakeBruteForcePreventionWebServiceImpl.responseSecondAttempt
+import services.fakes.brute_force_protection.FakeBruteForcePreventionWebServiceImpl.VrmThrows
 
 final class VehicleLookupUnitSpec extends UnitSpec {
 
   "present" should {
-
     "display the page" in new WithApplication {
       present.futureValue.header.status should equal(play.api.http.Status.OK)
     }

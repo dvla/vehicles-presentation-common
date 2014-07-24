@@ -8,7 +8,7 @@ object VrmLockedPage extends Page with WebBrowserDSL {
   final val address = "/sell-to-the-trade/vrm-locked"
   override val url: String = WebDriverFactory.testUrl + address.substring(1)
 
-  final override val title = "Registration mark is locked"
+  final override val title = "Registration number is locked"
 
   def newDisposal(implicit driver: WebDriver): Element = find(id(NewDisposalId)).get
 

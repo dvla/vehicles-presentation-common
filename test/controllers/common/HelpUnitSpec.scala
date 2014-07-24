@@ -2,7 +2,7 @@ package controllers.common
 
 import common.ClientSideSessionFactory
 import controllers.disposal_of_vehicle.Common.PrototypeHtml
-import helpers.common.CookieHelper.fetchCookiesFromHeaders
+import helpers.common.CookieHelper.{fetchCookiesFromHeaders, verifyCookieHasBeenDiscarded}
 import helpers.disposal_of_vehicle.CookieFactoryForUnitSpecs
 import helpers.{UnitSpec, WithApplication}
 import mappings.common.Help.HelpCacheKey
@@ -69,13 +69,7 @@ final class HelpUnitSpec extends UnitSpec {
       whenReady(result) { r =>
         r.header.headers.get(LOCATION) should equal(Some(SetupTradeDetailsPage.address))
         val cookies = fetchCookiesFromHeaders(r)
-        // The cookie should have been discarded which is identified by a negative maxAge
-        val msErrorCookie = cookies.find(_.name == HelpCacheKey)
-        msErrorCookie.get.maxAge match {
-          case Some(maxAge) if maxAge < 0 => // Success
-          case Some(maxAge) => fail(s"maxAge should be negative but was $maxAge")
-          case _ => fail("should be some maxAge")
-        }
+        verifyCookieHasBeenDiscarded(HelpCacheKey, cookies)
       }
     }
   }

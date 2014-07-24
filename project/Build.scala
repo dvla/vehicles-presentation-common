@@ -107,8 +107,11 @@ object ApplicationBuild extends Build {
 
   val jcoco = Seq(parallelExecution in jacoco.Config := false)
 
+  // Disable documentation generation to save time for the CI build process
+  val disableScalaDoc = Seq(sources in doc in Compile := List())
+
   val appSettings: Seq[Def.Setting[_]] = myOrganization ++ SassPlugin.sassSettings ++ myScalaVersion ++ compilerOptions ++ myConcurrentRestrictions ++
-    myTestOptions ++ excludeTest ++ myJavaOptions ++ fork ++ jcoco ++ scalaCheck ++ requireJsSettings ++ cukes
+    myTestOptions ++ excludeTest ++ myJavaOptions ++ fork ++ jcoco ++ scalaCheck ++ requireJsSettings ++ cukes ++ disableScalaDoc
 
   private val rootPrj = play.Project(
     appName,
