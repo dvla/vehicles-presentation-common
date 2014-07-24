@@ -22,10 +22,10 @@
     background-color: $light-blue-25;
     .cookie-message-wrapper {
         margin:0 auto;
-    }
-    .ie6 & {
-        padding-left:1em;
-        padding-right:1em;
+        .ie7 &,
+        .ie6 & {
+            width:920px;
+        }
     }
 } 
 

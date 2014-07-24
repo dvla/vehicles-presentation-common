@@ -2,23 +2,30 @@
 
 .global-header {
     background-color: $header-colour;
-    width: 100%;
+    width:100%;
     h1 a:focus {
-        background-color: transparent;
-        outline: none;
+        background-color:transparent;
+        outline:none;
     }
     a:focus {
-        color: $black-2;
+        color:$black-2;
     }
 
     .header-wrapper {
-        max-width: 990px;
-        margin: 0 auto;
-        padding: 0.5em 0;
+        max-width:990px;
+        margin:0 auto;
+        padding:0.5em 0;
+        .ie7 & {
+            width:940px;
+        }
+        .ie6 & {
+            width:910px;
+        }
+
         &:after {
-            content: "";
-            display: block;
-            clear: both;
+            content:"";
+            display:block;
+            clear:both;
         }
         > .content {
           margin:0 15px;
@@ -26,9 +33,9 @@
     }
     .header-global {
         &:after {
-            content: "";
-            display: block;
-            clear: both;
+            content:"";
+            display:block;
+            clear:both;
         }
         .header-logo {
             float: left;
@@ -97,6 +104,11 @@
                     vertical-align:middle;
                     width:auto;
                     padding:0 15px 0 0;
+                    .ie7 &,
+                    .ie6 & {
+                        display:inline;
+                    }
+
                     a {
                         color:$white;
                         font-weight:700;
