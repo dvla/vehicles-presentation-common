@@ -23,6 +23,7 @@
         }
         .ie6 & {
             margin-bottom:15px;
+            width:940px;
         }
     }
     .header-logo {
@@ -69,12 +70,6 @@
 @media (max-width: $device-small) {
     .global-header .header-wrapper {
         padding: 0.5em 0;
-    }
-}
-
-@media (min-width: 769px) {
-    .global-header .header-logo {
-        //width: 33.33%;
     }
 }
 

@@ -45,7 +45,6 @@ import pages.disposal_of_vehicle.DisposeSuccessPage
 import pages.disposal_of_vehicle.DuplicateDisposalErrorPage
 import pages.disposal_of_vehicle.MicroServiceErrorPage
 import pages.disposal_of_vehicle.SetupTradeDetailsPage
-import pages.disposal_of_vehicle.SoapEndpointErrorPage
 import pages.disposal_of_vehicle.VehicleLookupPage
 import play.api.libs.json.Json
 import play.api.test.FakeRequest
@@ -228,7 +227,7 @@ final class DisposeUnitSpec extends UnitSpec {
       }
     }
 
-    "redirect to soap endpoint error page when service is unavailable" in new WithApplication {
+    "redirect to micro-service error page when service is unavailable" in new WithApplication {
       val request = buildCorrectlyPopulatedRequest.
         withCookies(CookieFactoryForUnitSpecs.vehicleLookupFormModel()).
         withCookies(CookieFactoryForUnitSpecs.disposeModel()).
@@ -237,7 +236,7 @@ final class DisposeUnitSpec extends UnitSpec {
         disposeWebService(disposeServiceStatus = SERVICE_UNAVAILABLE, disposeServiceResponse = None))
       val result = disposeFailure.submit(request)
       whenReady(result) { r =>
-        r.header.headers.get(LOCATION) should equal(Some(SoapEndpointErrorPage.address))
+        r.header.headers.get(LOCATION) should equal(Some(MicroServiceErrorPage.address))
       }
     }
 

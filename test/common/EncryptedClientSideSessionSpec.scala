@@ -20,7 +20,8 @@ final class EncryptedClientSideSessionSpec extends UnitSpec {
     }
 
     "return a deterministic hashed cookie name (the hash will always be the same value for the same inputs)" in new WithApplication {
-      val encryptedClientSideSession = new EncryptedClientSideSession("trackingId", SessionSecretKey)(noCookieFlags, noEncryption, sha1Hashing)
+      val encryptedClientSideSession =
+        new EncryptedClientSideSession("trackingId", SessionSecretKey)(noCookieFlags, noEncryption, sha1Hashing)
       val encryptedCookieName1 = encryptedClientSideSession.nameCookie(CookieName)
       val encryptedCookieName2 = encryptedClientSideSession.nameCookie(CookieName)
       encryptedCookieName1.value should equal(encryptedCookieName2.value)
@@ -36,8 +37,7 @@ final class EncryptedClientSideSessionSpec extends UnitSpec {
     }
 
     "allow the client to extract the encrypted value from the cookie" in new WithApplication(app = fakeAppWithConfig) {
-      implicit val aesEncryption =
-        new AesEncryption with CookieEncryption
+      implicit val aesEncryption = new AesEncryption with CookieEncryption
       val encryptedClientSideSession =
         new EncryptedClientSideSession("trackingId", SessionSecretKey)(noCookieFlags, aesEncryption, sha1Hashing)
       val cookieNameType = encryptedClientSideSession.nameCookie(CookieName)

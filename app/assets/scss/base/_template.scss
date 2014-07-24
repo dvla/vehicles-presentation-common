@@ -78,7 +78,7 @@ button {
     padding: 0.750em 1em 0 1em;
     background-color: phase-colour($phase);
 
-    @media screen and (max-width: $device-small) {
+    @media screen and (max-width: $device-medium) {
         margin: .9em .9em 0 .9em;
         padding-top:0.7em;
         padding-bottom: 0.7em;

@@ -45,9 +45,7 @@ final class VehicleLookupFailure @Inject()()
                                           vehicleLookupResponseCode: String)(implicit request: Request[AnyContent]) = {
     Ok(views.html.disposal_of_vehicle.vehicle_lookup_failure(
       data = vehicleLookUpFormModelDetails,
-      responseCodeVehicleLookupMSErrorMessage = vehicleLookupResponseCode,
-      attempts = bruteForcePreventionViewModel.attempts,
-      maxAttempts = bruteForcePreventionViewModel.maxAttempts)
+      responseCodeVehicleLookupMSErrorMessage = vehicleLookupResponseCode)
     ).
     discardingCookies(DiscardingCookie(name = VehicleLookupResponseCodeCacheKey))
   }

@@ -132,7 +132,7 @@
         }
         h1, h2, h3 {
             display: inline-block;
-            background: url(images/icon-tick-green.gif) left 3px no-repeat;
+            background: url($image-path + "icon-tick-green.gif") left 3px no-repeat;
             padding-left:40px;
             @include bold-27;
             .ie7 &, .ie6 & {
@@ -140,7 +140,7 @@
                 background: none;
                 padding-left:0;
             }
-            @media screen and (max-width: $device-small) {
+            @media screen and (max-width: $device-medium) {
                 background-position: left top;
             }
         }
@@ -224,7 +224,7 @@
 
         ol, ul {
           padding-left:2.2em;
-          @media screen and (max-width: $device-small) {
+          @media screen and (max-width: $device-medium) {
           	padding-left:0;
           }
         }

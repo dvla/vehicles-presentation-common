@@ -29,7 +29,7 @@ import org.joda.time.format.ISODateTimeFormat
 import play.api.Logger
 import play.api.data.Forms.mapping
 import play.api.data.{Form, FormError}
-import play.api.mvc._
+import play.api.mvc.{Action, AnyContent, Controller, Call, Request, SimpleResult}
 import services.DateService
 import services.dispose_service.DisposeService
 import utils.helpers.Config
@@ -203,14 +203,14 @@ final class Dispose @Inject()(webService: DisposeService, dateService: DateServi
           Logger.warn("Dispose soap endpoint redirecting to duplicate disposal page")
           routes.DuplicateDisposalError.present()
         case _ =>
-          Logger.warn(s"Dispose micro-service failed redirecting to error page $disposeResponseCode")
+          Logger.warn(s"Dispose micro-service failed so now redirecting to micro service error page. " +
+            s"Code returned from ms was $disposeResponseCode")
           routes.MicroServiceError.present()
       }
 
     def handleHttpStatusCode(statusCode: Int): Call =
       statusCode match {
         case OK => routes.DisposeSuccess.present()
-        case SERVICE_UNAVAILABLE => routes.SoapEndpointError.present()
         case _ => routes.MicroServiceError.present()
       }
 

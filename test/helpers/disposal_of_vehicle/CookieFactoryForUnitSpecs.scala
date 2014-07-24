@@ -5,9 +5,13 @@ import composition.TestComposition
 import mappings.common.Help.HelpCacheKey
 import mappings.common.PreventGoingToDisposePage.{PreventGoingToDisposePageCacheKey, DisposeOccurredCacheKey}
 import mappings.disposal_of_vehicle.BusinessChooseYourAddress.BusinessChooseYourAddressCacheKey
-import mappings.disposal_of_vehicle.Dispose._
-import mappings.disposal_of_vehicle.Dispose.{DisposeFormModelCacheKey, DisposeFormRegistrationNumberCacheKey}
+import mappings.disposal_of_vehicle.Dispose.DisposeFormModelCacheKey
+import mappings.disposal_of_vehicle.Dispose.DisposeFormRegistrationNumberCacheKey
+import mappings.disposal_of_vehicle.Dispose.DisposeFormTimestampIdCacheKey
+import mappings.disposal_of_vehicle.Dispose.DisposeFormTransactionIdCacheKey
+import mappings.disposal_of_vehicle.Dispose.SurveyRequestTriggerDateCacheKey
 import mappings.disposal_of_vehicle.EnterAddressManually.EnterAddressManuallyCacheKey
+import mappings.disposal_of_vehicle.MicroserviceError.MicroServiceErrorRefererCacheKey
 import mappings.disposal_of_vehicle.RelatedCacheKeys.SeenCookieMessageKey
 import mappings.disposal_of_vehicle.SetupTradeDetails.SetupTradeDetailsCacheKey
 import mappings.disposal_of_vehicle.TraderDetails.TraderDetailsCacheKey
@@ -27,7 +31,7 @@ import models.domain.disposal_of_vehicle.SetupTradeDetailsModel
 import models.domain.disposal_of_vehicle.TraderDetailsModel
 import models.domain.disposal_of_vehicle.VehicleDetailsModel
 import models.domain.disposal_of_vehicle.VehicleLookupFormModel
-import pages.disposal_of_vehicle.HelpPage
+import pages.disposal_of_vehicle.{VehicleLookupPage, HelpPage}
 import play.api.libs.json.{Writes, Json}
 import play.api.mvc.Cookie
 import services.fakes.brute_force_protection.FakeBruteForcePreventionWebServiceImpl.MaxAttempts
@@ -257,4 +261,10 @@ object CookieFactoryForUnitSpecs extends TestComposition { // TODO can we make t
 
   def disposeSurveyUrl(surveyUrl: String): Cookie =
     createCookie(SurveyRequestTriggerDateCacheKey, surveyUrl)
+
+  def microServiceError(origin: String = VehicleLookupPage.address): Cookie = {
+    val key = MicroServiceErrorRefererCacheKey
+    val value = origin
+    createCookie(key, value)
+  }
 }

@@ -1,4 +1,4 @@
-@(field: play.api.data.Field, args: Map[Symbol, Any] = Map.empty)(implicit handler: helper.FieldConstructor, lang: Lang)
+@(field: play.api.data.Field, hintText: Option[String] = None, args: Map[Symbol, Any] = Map.empty)(implicit handler: helper.FieldConstructor, lang: Lang)
 
 @import constraints.common.Required.RequiredField
 @import play.api.templates.PlayMagic.toHtmlArgs
@@ -8,6 +8,10 @@
 
 @input(field, args.toSeq:_*) { (id, name, value, htmlArgs) =>
     @valtechLabel(field, args)
+
+    @if(hintText.isDefined) {
+        <span class="form-hint">@hintText.get</span>
+    }
 
     <input type="text"
         id="@id"

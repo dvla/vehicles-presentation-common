@@ -1,22 +1,23 @@
 package controllers.disposal_of_vehicle
 
 import com.tzavellas.sse.guice.ScalaModule
-import Common.ExitButtonHtml
-import Common.PrototypeHtml
+import controllers.disposal_of_vehicle.Common.PrototypeHtml
 import common.{ClearTextClientSideSessionFactory, ClientSideSessionFactory}
 import controllers.disposal_of_vehicle
-import services.fakes.FakeAddressLookupService
-import services.fakes.FakeVehicleLookupWebService
-import FakeAddressLookupService.{TraderBusinessNameValid, BuildingNameOrNumberValid, Line2Valid, Line3Valid, PostTownValid}
-import FakeVehicleLookupWebService.ReferenceNumberValid
-import FakeVehicleLookupWebService.RegistrationNumberValid
-import FakeVehicleLookupWebService.RegistrationNumberWithSpaceValid
-import FakeVehicleLookupWebService.vehicleDetailsNoResponse
-import FakeVehicleLookupWebService.vehicleDetailsResponseDocRefNumberNotLatest
-import FakeVehicleLookupWebService.vehicleDetailsResponseNotFoundResponseCode
-import FakeVehicleLookupWebService.vehicleDetailsResponseSuccess
-import FakeVehicleLookupWebService.vehicleDetailsResponseVRMNotFound
-import FakeVehicleLookupWebService.vehicleDetailsServerDown
+import services.fakes.FakeAddressLookupService.TraderBusinessNameValid
+import services.fakes.FakeAddressLookupService.BuildingNameOrNumberValid
+import services.fakes.FakeAddressLookupService.Line2Valid
+import services.fakes.FakeAddressLookupService.Line3Valid
+import services.fakes.FakeAddressLookupService.PostTownValid
+import services.fakes.FakeVehicleLookupWebService.ReferenceNumberValid
+import services.fakes.FakeVehicleLookupWebService.RegistrationNumberValid
+import services.fakes.FakeVehicleLookupWebService.RegistrationNumberWithSpaceValid
+import services.fakes.FakeVehicleLookupWebService.vehicleDetailsNoResponse
+import services.fakes.FakeVehicleLookupWebService.vehicleDetailsResponseDocRefNumberNotLatest
+import services.fakes.FakeVehicleLookupWebService.vehicleDetailsResponseNotFoundResponseCode
+import services.fakes.FakeVehicleLookupWebService.vehicleDetailsResponseSuccess
+import services.fakes.FakeVehicleLookupWebService.vehicleDetailsResponseVRMNotFound
+import services.fakes.FakeVehicleLookupWebService.vehicleDetailsServerDown
 import helpers.common.CookieHelper.fetchCookiesFromHeaders
 import helpers.disposal_of_vehicle.CookieFactoryForUnitSpecs
 import helpers.JsonUtils.deserializeJsonToModel
@@ -47,8 +48,8 @@ import play.api.libs.ws.Response
 import play.api.test.FakeRequest
 import play.api.test.Helpers.{LOCATION, contentAsString, defaultAwaitTimeout}
 import scala.concurrent.duration.DurationInt
-import scala.concurrent.{ExecutionContext, Future}
-import ExecutionContext.Implicits.global
+import scala.concurrent.Future
+import scala.concurrent.ExecutionContext.Implicits.global
 import services.brute_force_prevention.BruteForcePreventionService
 import services.brute_force_prevention.BruteForcePreventionServiceImpl
 import services.brute_force_prevention.BruteForcePreventionWebService
@@ -58,11 +59,13 @@ import services.fakes.FakeAddressLookupWebServiceImpl.traderUprnValid
 import services.fakes.{FakeDateServiceImpl, FakeResponse}
 import services.vehicle_lookup.{VehicleLookupServiceImpl, VehicleLookupWebService}
 import utils.helpers.Config
-import FakeBruteForcePreventionWebServiceImpl.{VrmLocked, VrmAttempt2, responseFirstAttempt, responseSecondAttempt, VrmThrows}
+import services.fakes.brute_force_protection.FakeBruteForcePreventionWebServiceImpl.VrmLocked
+import services.fakes.brute_force_protection.FakeBruteForcePreventionWebServiceImpl.VrmAttempt2
+import services.fakes.brute_force_protection.FakeBruteForcePreventionWebServiceImpl.responseFirstAttempt
+import services.fakes.brute_force_protection.FakeBruteForcePreventionWebServiceImpl.responseSecondAttempt
+import services.fakes.brute_force_protection.FakeBruteForcePreventionWebServiceImpl.VrmThrows
 
 final class VehicleLookupUnitSpec extends UnitSpec {
-  val testDuration = 7.days.toMillis
-  implicit val dateService = new DateServiceImpl
 
   "present" should {
     "display the page" in new WithApplication {
@@ -86,21 +89,21 @@ final class VehicleLookupUnitSpec extends UnitSpec {
       content should include(RegistrationNumberValid)
     }
 
-    "not display exit button when DisposeOccurredCacheKey cookie is missing" in new WithApplication {
+    "not display exit anchor when DisposeOccurredCacheKey cookie is missing" in new WithApplication {
       val request = FakeRequest().
         withCookies(CookieFactoryForUnitSpecs.traderDetailsModel())
       val result = vehicleLookupResponseGenerator().present(request)
       val content = contentAsString(result)
-      content should not include ExitButtonHtml
+      content should not include ExitAnchorHtml
     }
 
-    "display exit button when DisposeOccurredCacheKey cookie is present" in new WithApplication {
+    "display exit anchor when DisposeOccurredCacheKey cookie is present" in new WithApplication {
       val request = FakeRequest().
         withCookies(CookieFactoryForUnitSpecs.traderDetailsModel()).
         withCookies(CookieFactoryForUnitSpecs.disposeOccurred)
       val result = vehicleLookupResponseGenerator().present(request)
       val content = contentAsString(result)
-      content should include(ExitButtonHtml)
+      content should include(ExitAnchorHtml)
     }
 
     "display data captured in previous pages" in new WithApplication {
@@ -307,20 +310,20 @@ final class VehicleLookupUnitSpec extends UnitSpec {
         r.findAllIn(contentAsString(result)).length should equal(1)
     }
 
-    "replace max length error message for vehicle registration mark with standard error message (US43)" in new WithApplication {
+    "replace max length error message for vehicle registration number with standard error message (US43)" in new WithApplication {
       val request = buildCorrectlyPopulatedRequest(registrationNumber = "PJ05YYYX").
         withCookies(CookieFactoryForUnitSpecs.traderDetailsModel())
       val result = vehicleLookupResponseGenerator().submit(request)
-      val count = "Must be valid format".r.findAllIn(contentAsString(result)).length
+      val count = "Must be as shown on the latest V5C".r.findAllIn(contentAsString(result)).length
 
       count should equal(2)
     }
 
-    "replace required and min length error messages for vehicle registration mark with standard error message (US43)" in new WithApplication {
+    "replace required and min length error messages for vehicle registration number with standard error message (US43)" in new WithApplication {
       val request = buildCorrectlyPopulatedRequest(registrationNumber = "").
         withCookies(CookieFactoryForUnitSpecs.traderDetailsModel())
       val result = vehicleLookupResponseGenerator().submit(request)
-      val count = "Must be valid format".r.findAllIn(contentAsString(result)).length
+      val count = "Must be as shown on the latest V5C".r.findAllIn(contentAsString(result)).length
 
       count should equal(2) // The same message is displayed in 2 places - once in the validation-summary at the top of the page and once above the field.
     }
@@ -543,6 +546,8 @@ final class VehicleLookupUnitSpec extends UnitSpec {
     }
   }
 
+  private final val ExitAnchorHtml = """a id="exit""""
+
   private def responseThrows: Future[Response] = Future {
     throw new RuntimeException("This error is generated deliberately by a test")
   }
@@ -632,16 +637,19 @@ final class VehicleLookupUnitSpec extends UnitSpec {
     vehicleLookupResponseGenerator(vehicleDetailsResponseSuccess).present(request)
   }
 
-  def lookupWithMockConfig(config: Config): VehicleLookup =
+  private def lookupWithMockConfig(config: Config): VehicleLookup =
     testInjector(new ScalaModule() {
       override def configure(): Unit = bind[Config].toInstance(config)
     }).getInstance(classOf[VehicleLookup])
 
-  def mockSurveyConfig(url: String = "http://test/survey/url"): Config = {
+  private def mockSurveyConfig(url: String = "http://test/survey/url"): Config = {
     val config = mock[Config]
     val surveyUrl = url
     when(config.prototypeSurveyUrl).thenReturn(surveyUrl)
     when(config.prototypeSurveyPrepositionInterval).thenReturn(testDuration)
     config
   }
+
+  private val testDuration = 7.days.toMillis
+  private implicit val dateService = new DateServiceImpl
 }

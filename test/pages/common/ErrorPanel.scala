@@ -9,4 +9,6 @@ object ErrorPanel extends WebBrowserDSL {
 
   def text(implicit driver: WebDriver): String =
     driver.findElement(By.cssSelector(".validation-summary")).getText
+
+  def hasErrors(implicit driver: WebDriver): Boolean = find(id("validation-summary")).isDefined
 }

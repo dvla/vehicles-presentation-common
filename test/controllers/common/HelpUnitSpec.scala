@@ -2,7 +2,7 @@ package controllers.common
 
 import common.ClientSideSessionFactory
 import controllers.disposal_of_vehicle.Common.PrototypeHtml
-import helpers.common.CookieHelper.fetchCookiesFromHeaders
+import helpers.common.CookieHelper.{fetchCookiesFromHeaders, verifyCookieHasBeenDiscarded}
 import helpers.disposal_of_vehicle.CookieFactoryForUnitSpecs
 import helpers.{UnitSpec, WithApplication}
 import mappings.common.Help.HelpCacheKey
@@ -57,17 +57,19 @@ final class HelpUnitSpec extends UnitSpec {
       // No previous page cookie, which can only happen if they wiped their cookies after
       // page presented or they are calling the route directly.
       val result = help.back(request)
-      whenReady(result) {
-        r => r.header.headers.get(LOCATION) should equal(Some(BeforeYouStartPage.address))
+      whenReady(result) { r =>
+        r.header.headers.get(LOCATION) should equal(Some(BeforeYouStartPage.address))
       }
     }
 
-    "redirect to previous page" in new WithApplication {
+    "redirect to previous page and discard the referer cookie" in new WithApplication {
       val request = FakeRequest().
         withCookies(CookieFactoryForUnitSpecs.help(origin = SetupTradeDetailsPage.address))
       val result = help.back(request)
-      whenReady(result) {
-        r => r.header.headers.get(LOCATION) should equal(Some(SetupTradeDetailsPage.address))
+      whenReady(result) { r =>
+        r.header.headers.get(LOCATION) should equal(Some(SetupTradeDetailsPage.address))
+        val cookies = fetchCookiesFromHeaders(r)
+        verifyCookieHasBeenDiscarded(HelpCacheKey, cookies)
       }
     }
   }

@@ -1,12 +1,32 @@
-import sbt._
-import sbt.Keys._
-import play.Project._
-import net.litola.SassPlugin
+import Sandbox._
 import de.johoop.jacoco4sbt.JacocoPlugin._
+import net.litola.SassPlugin
 import org.scalastyle.sbt.ScalastylePlugin
+import play.Project._
+import sbt.Keys._
+import sbt._
 import templemore.sbt.cucumber.CucumberPlugin
 
+object Resolvers {
+  val nexus = "http://rep002-01.skyscape.preview-dvla.co.uk:8081/nexus/content/repositories"
+
+  val projectResolvers = Seq(
+    "spray repo" at "http://repo.spray.io/",
+    "local nexus snapshots" at s"$nexus/snapshots",
+    "local nexus releases" at s"$nexus/releases"
+  )
+
+  val publisher = publishTo <<= version { v: String =>
+    if (v.trim.endsWith("SNAPSHOT"))
+      Some("snapshots" at s"$nexus/snapshots")
+    else
+      Some("releases" at s"$nexus/releases")
+  }
+}
+
 object ApplicationBuild extends Build {
+  import Resolvers._
+
   val appName         = "vehicles-online"
 
   val appVersion      = "1.0-SNAPSHOT"
@@ -59,7 +79,7 @@ object ApplicationBuild extends Build {
    */
   val jsConfig = "custom.js"
 
-  val myOrganization = Seq(organization := "Driver & Vehicle Licensing Agency")
+  val myOrganization = Seq(organization := "dvla", organizationName := "Driver & Vehicle Licensing Agency")
 
   val compilerOptions = Seq(scalacOptions := Seq("-deprecation", "-unchecked", "-feature", "-Xlint", "-language:reflectiveCalls", "-Xmax-classfile-name", "128"))
 
@@ -87,14 +107,29 @@ object ApplicationBuild extends Build {
 
   val jcoco = Seq(parallelExecution in jacoco.Config := false)
 
-  val appSettings: Seq[Def.Setting[_]] = myOrganization ++ SassPlugin.sassSettings ++ myScalaVersion ++ compilerOptions ++ myConcurrentRestrictions ++
-    myTestOptions ++ excludeTest ++ myJavaOptions ++ fork ++ jcoco ++ scalaCheck ++ requireJsSettings ++ cukes
+  // Disable documentation generation to save time for the CI build process
+  val disableScalaDoc = Seq(sources in doc in Compile := List())
 
-  val main = play.Project(
+  val appSettings: Seq[Def.Setting[_]] = myOrganization ++ SassPlugin.sassSettings ++ myScalaVersion ++ compilerOptions ++ myConcurrentRestrictions ++
+    myTestOptions ++ excludeTest ++ myJavaOptions ++ fork ++ jcoco ++ scalaCheck ++ requireJsSettings ++ cukes ++ disableScalaDoc
+
+  private val rootPrj = play.Project(
     appName,
     appVersion,
     appDependencies,
     settings = play.Project.playScalaSettings ++ jacoco.settings ++ ScalastylePlugin.Settings
   ).settings(appSettings: _*)
    .settings(net.virtualvoid.sbt.graph.Plugin.graphSettings: _*)
+   .settings(credentials += Credentials(Path.userHome / ".sbt/.credentials"))
+   .settings(resolvers ++= projectResolvers)
+   .settings(publisher)
+   .settings(net.virtualvoid.sbt.graph.Plugin.graphSettings: _*)
+   .settings(resolvers ++= projectResolvers)
+   .settings(publisher)
+   .settings(runMicroServicesTask)
+   .settings(sandboxTask)
+
+  override def projects = Seq(rootPrj) ++ sandboxedProjects
+
+  override def rootProject = Some(rootPrj)
 }

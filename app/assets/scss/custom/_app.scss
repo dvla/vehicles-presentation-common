@@ -4,8 +4,12 @@
     background: $white;
     margin: 0 auto;
     max-width: 980px;
+    .ie7 &,
+    .ie6 & {
+      width:940px;
+    }
 
-   	@media screen and (max-width: $device-small) {
+   	@media screen and (max-width: $device-medium) {
         border-top: 10px solid phase-colour($phase);
     }
 
@@ -73,6 +77,8 @@
     //this could be a DL element, or a wrapping div
     .summary-detail-list {
         @include clearfix;
+        width:100%;
+
         margin:23px 0 20px 0;
         margin:2.3rem 0 2rem 0;
         //padding:10px;
@@ -81,6 +87,21 @@
 
         p {
             margin:0;
+        }
+
+        @include summary-detail-list-item-float-one-col;
+
+        //prevent long text from breaking out of container. see:
+        //css-tricks.com/snippets/css/prevent-long-urls-from-breaking-out-of-container/
+        p,
+        dd {
+          -ms-word-break:break-all;
+          word-break:break-all;
+          word-break:break-word;
+          word-wrap:break-word;
+          webkit-hyphens:auto;
+          -moz-hyphens:auto;
+          hyphens:auto;
         }
 
         dt, dd {
@@ -97,16 +118,17 @@
             font-weight:bold;
             clear:left;
 
-            @media screen and (max-width: $device-small) {
+            @media screen and (max-width: $device-medium) {
                 padding-top:0;
                 margin-bottom:0;
             }
         }
         dd {
+            //float:left;
             @include to-uppercase;
-            overflow:hidden;
+            //overflow:hidden;
 
-            @media screen and (max-width: $device-small) {
+            @media screen and (max-width: $device-medium) {
                 clear:both;
             }
         }
@@ -132,23 +154,30 @@
             @include clearfix;
             width:47%;
             float:left;
-            @media screen and (max-width: $device-small) {
+            @media screen and (max-width: $device-medium) {
                 float:none;
                 width:100%;
                 clear:both;
                 margin-bottom:2em;
+            }
+            .summary-detail-list {
+                @include summary-detail-list-item-float-two-col-first;
             }
         }
         .second-col {
             @include clearfix;
             width:47%;
             float:right;
-            @media screen and (max-width: $device-small) {
+            @media screen and (max-width: $device-medium) {
                 float:none;
                 width:100%;
                 clear:both;
                 margin-bottom:2em;
             }
+            .summary-detail-list {
+                @include summary-detail-list-item-float-two-col-second;
+            }
         }
+        
     }
 }

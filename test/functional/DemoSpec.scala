@@ -76,8 +76,8 @@ final class DemoSpec extends FeatureSpec with GivenWhenThen with Matchers with B
         When("I click the dispose button")
         click on DisposePage.dispose
 
-        Then("I should see \"Sell a vehicle into the motor trade: summary \"")
-        page.text should include("Sell a vehicle into the motor trade: summary")
+        Then("I should see \"Summary \"")
+        page.text should include("Summary")
       }
     }
   }

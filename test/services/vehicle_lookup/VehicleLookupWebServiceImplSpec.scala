@@ -10,23 +10,7 @@ import utils.helpers.Config
 
 class VehicleLookupWebServiceImplSpec  extends UnitSpec  with WireMockFixture {
 
-  implicit val clientSideSessionFactory = injector.getInstance(classOf[ClientSideSessionFactory])
-  val lookupService = new VehicleLookupWebServiceImpl(new Config() {
-    override val vehicleLookupMicroServiceBaseUrl = s"http://localhost:$wireMockPort"
-  })
-
-  val trackingId = "track-id-test"
-
-  val request = VehicleDetailsRequest(
-    referenceNumber = "ref number",
-    registrationNumber = "reg number",
-    userName = "user name"
-  )
-
-  implicit val vehiclesDetailsFormat = Json.format[VehicleDetailsRequest]
-
   "callDisposeService" should {
-
     "send the serialised json request" in {
       val resultFuture = lookupService.callVehicleLookupService(request, trackingId)
       whenReady(resultFuture, timeout) { result =>
@@ -37,4 +21,18 @@ class VehicleLookupWebServiceImplSpec  extends UnitSpec  with WireMockFixture {
       }
     }
   }
+
+  implicit val clientSideSessionFactory = injector.getInstance(classOf[ClientSideSessionFactory])
+  val lookupService = new VehicleLookupWebServiceImpl(new Config() {
+    override val vehicleLookupMicroServiceBaseUrl = s"http://localhost:$wireMockPort"
+  })
+  implicit val vehiclesDetailsFormat = Json.format[VehicleDetailsRequest]
+
+  val trackingId = "track-id-test"
+
+  val request = VehicleDetailsRequest(
+    referenceNumber = "ref number",
+    registrationNumber = "reg number",
+    userName = "user name"
+  )
 }

@@ -136,14 +136,15 @@ confirm_vehicle_details.button2 = Diddymu
 #page 1 - Before You Start
 disposal_beforeyoustart.title = Cael gwared cerbyd i mewn i''r fasnach foduron
 disposal_beforeyoustart.p1 = Cyn i chi ddechrau:
-
 disposal_beforeyoustart.listitem1 = Bydd angen y dystysgrif cofrestru cerbyd mwyaf diweddar (V5C) chi. Gallwch wirio hyn drwy ddefnyddio
 disposal_beforeyoustart.listitem1linktext = Gwasanaeth Ymholiadau Cerbydau (GYC)
 
-disposal_beforeyoustart.listitem2 = Ni ddylai fod unrhyw angen i''r V5C newidiadau a rhaid i''r enw a chyfeiriad y ceidwad cofrestredig fod yn gyfoes ac yn gywir.
+disposal_beforeyoustart.listitem2 = Os oes gan y cerbyd yn cael ei werthu rhif cofrestru personol, mae'n rhaid i'r ceidwad yn deall y bydd y rhif cofrestru yn cael ei werthu gyda'r cerbyd. Os yw'r ceidwad yn awyddus i gadw rhif cofrestru personol, rhaid iddynt
+disposal_beforeyoustart.listitem2.link = wneud cais i gadw neu ei drosglwyddo i gerbyd arall ar V317
 
 disposal_beforeyoustart.listitem3 = Os oes gan y cerbyd yn cael ei werthu rhif cofrestru personol, Mae''n rhaid i''r ceidwad yn deall y bydd y rhif cofrestru yn cael ei werthu gyda''r cerbyd. Os yw''r ceidwad yn awyddus i gadw rhif cofrestru personol, rhaid iddynt gadw yn gyntaf neu ei drosglwyddo i gerbyd arall.
-
+disposal_beforeyoustart.listitem4 = Os yw''r cerbyd wedi''i drethu ar hyn o bryd ac mae mwy nag un mis llawn ar ôl, rhaid i'r ceidwad
+disposal_beforeyoustart.listitem4.link = wneud cais am ad-daliad ar V14
 disposal_beforeyoustart.button = Ddechrau nawr
 
 #page 3
@@ -166,7 +167,7 @@ disposal_enteraddressmanually.title = Rhowch gyfeiriad llaw
 disposal_enteraddressmanually.submitbutton = Nesaf
 disposal_enteraddressmanually.backbutton = Yn ôl
 addressAndPostcode_addressLines = Cyfeiriad
-address.lines.label = Cyfeiriad
+address.lines.label = Adeiladu a strydoedd
 address.buildingNameOrNumber.label =
 address.line2.label=
 address.line3.label=
@@ -176,7 +177,7 @@ address.postcode.label.prompt = e.g. SA99 1BD
 address.postcode.validation = Rhowch god post dilys
 addressAndPostcode.addressLines.line2 = Enwau strydoedd
 addressAndPostcode.addressLines.line3 = Ardal
-addressAndPostcode.addressLines.postTown = Postiwch y dref
+addressAndPostcode.addressLines.postTown = Tref neu ddinas
 error.address.characterInvalid = Cyfeiriad yn cynnwys nodau annilys
 error.postTown.characterInvalid = Tref bost yn cynnwys nodau annilys
 
@@ -313,7 +314,6 @@ select_default = Dewiswch
 
 addressAndPostcode.addressLines.buildingNameOrNumber = Enw''r adeilad neu rif
 error.address.maxLengthOfLinesConcatenated = Gall gyfeiriad gael mwy na 120 o gymeriadau
-error.address.characterinvalid = Nid yw nodau annilys chaniateir
 addressAndPostcode.addressLines = Cyfeiriad
 addressAndPostcode.postcode = Cod post
 error.validTraderBusinessName = Rhaid iddo fod rhwng dwy a 58 cymeriadau a ydynt yn cynnwys nodau annilys
@@ -344,7 +344,7 @@ ms.vehiclesService.response.unableToProcessApplication = Nid ydym yn gallu prose
 
 #micro-service error page
 micro_service_error.title=Mae''n ddrwg gennym
-micro_service_error.text=Mae''r gwasanaeth ar gael dros dro. Os gwelwch yn dda ceisiwch eto yn hwyrach neu anfonwch V5C gwblhau / 3 i DVLA
+micro_service_error.text=Mae''r gwasanaeth ar gael dros dro.
 micro_service_error.back.button=Ceisiwch eto
 micro_service_error.exit.button=Gadael
 

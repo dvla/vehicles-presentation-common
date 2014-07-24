@@ -2,7 +2,7 @@
 
 @if(form.isDefined) {
     @if(form.get.hasErrors) {
-        <div class="validation-summary">
+        <div id="validation-summary" class="validation-summary">
             <h2>@Messages("errorsummary.title")</h2>
 
             <ol>
