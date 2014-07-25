@@ -1,14 +1,23 @@
 import java.io.StringReader
 import java.net.URLClassLoader
-import java.util.regex.Pattern
 import com.typesafe.config.ConfigFactory
-import org.apache.commons.io.{FileUtils, IOUtils}
+import org.apache.commons.io.FileUtils
 import sbt.Keys._
 import sbt._
-import Resolvers._
 import scala.sys.process.Process
 
+object CommonResolvers {
+  val nexus = "http://rep002-01.skyscape.preview-dvla.co.uk:8081/nexus/content/repositories"
+
+  val projectResolvers = Seq(
+    "spray repo" at "http://repo.spray.io/",
+    "local nexus snapshots" at s"$nexus/snapshots",
+    "local nexus releases" at s"$nexus/releases"
+  )
+}
+
 object Sandbox extends Plugin {
+
   val legacyServicesStubsPort = 18086
   val secretProperty = "DECRYPT_PASSWORD"
   val gitHost = "gitlab.preview-dvla.co.uk"
@@ -19,7 +28,7 @@ object Sandbox extends Plugin {
   def sandPrj(name: String, deps: ModuleID*): (Project, ScopeFilter) = (
     Project(name, file(s"target/sandbox/$name"))
       .settings(libraryDependencies ++= deps)
-      .settings(resolvers ++= projectResolvers)
+      .settings(resolvers ++= CommonResolvers.projectResolvers)
       .settings(net.virtualvoid.sbt.graph.Plugin.graphSettings: _*),
     ScopeFilter(inProjects(LocalProject(name)), inConfigurations(Runtime))
   )
