@@ -8,7 +8,7 @@ import helpers.disposal_of_vehicle.CookieFactoryForUnitSpecs
 import helpers.JsonUtils.deserializeJsonToModel
 import helpers.UnitSpec
 import helpers.WithApplication
-import mappings.common.AddressAndPostcode.AddressAndPostcodeId
+import controllers.disposal_of_vehicle.EnterAddressManually.AddressAndPostcodeId
 import mappings.common.AddressLines.{AddressLinesId, BuildingNameOrNumberId, PostTownId, Line2Id, Line3Id}
 import mappings.common.Postcode.PostcodeId
 import mappings.disposal_of_vehicle.TraderDetails.TraderDetailsCacheKey

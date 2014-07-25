@@ -3,7 +3,7 @@ package controllers.disposal_of_vehicle
 import com.google.inject.Inject
 import common.ClientSideSessionFactory
 import common.CookieImplicits.{RichCookies, RichForm, RichSimpleResult}
-import mappings.common.AddressAndPostcode.{AddressAndPostcodeId, addressAndPostcode}
+import mappings.common.AddressAndPostcode.addressAndPostcode
 import models.domain.disposal_of_vehicle.AddressViewModel
 import models.domain.disposal_of_vehicle.EnterAddressManuallyModel
 import models.domain.disposal_of_vehicle.SetupTradeDetailsModel
@@ -22,7 +22,7 @@ final class EnterAddressManually @Inject()()
 
   private[disposal_of_vehicle] val form = Form(
     mapping(
-      AddressAndPostcodeId -> addressAndPostcode
+      EnterAddressManually.AddressAndPostcodeId -> addressAndPostcode
     )(EnterAddressManuallyModel.apply)(EnterAddressManuallyModel.unapply)
   )
 
@@ -78,4 +78,8 @@ final class EnterAddressManually @Inject()()
       "addressAndPostcode.postcode",
       FormError("addressAndPostcode.postcode", "error.address.postcode.invalid")
     ).distinctErrors
+}
+
+object EnterAddressManually {
+  final val AddressAndPostcodeId = "addressAndPostcode"
 }

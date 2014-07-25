@@ -8,7 +8,6 @@ import play.api.data.Forms.mapping
 import play.api.data.Mapping
 
 object AddressAndPostcode {
-  final val AddressAndPostcodeId = "addressAndPostcode"
   final val AddressAndPostcodeCacheKey = "addressAndPostcodeCacheKey"
 
   val addressAndPostcode: Mapping[AddressAndPostcodeModel] = mapping(

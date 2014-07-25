@@ -1,7 +1,7 @@
 package pages.disposal_of_vehicle
 
 import helpers.webbrowser.{Element, Page, TextField, WebBrowserDSL, WebDriverFactory}
-import mappings.common.AddressAndPostcode.AddressAndPostcodeId
+import controllers.disposal_of_vehicle.EnterAddressManually.AddressAndPostcodeId
 import mappings.common.AddressLines.{AddressLinesId, BuildingNameOrNumberId, Line2Id, Line3Id, PostTownId}
 import mappings.disposal_of_vehicle.EnterAddressManually.{BackId, NextId}
 import org.openqa.selenium.WebDriver
