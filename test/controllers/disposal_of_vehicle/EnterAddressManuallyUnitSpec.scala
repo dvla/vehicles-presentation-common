@@ -11,8 +11,8 @@ import helpers.WithApplication
 import mappings.common.AddressAndPostcode.AddressAndPostcodeId
 import mappings.common.AddressLines.{AddressLinesId, BuildingNameOrNumberId, PostTownId, Line2Id, Line3Id}
 import mappings.common.Postcode.PostcodeId
-import mappings.disposal_of_vehicle.TraderDetails.TraderDetailsCacheKey
 import models.domain.disposal_of_vehicle.{EnterAddressManuallyModel, TraderDetailsModel}
+import models.domain.disposal_of_vehicle.TraderDetailsModel.TraderDetailsCacheKey
 import org.mockito.Mockito.when
 import pages.disposal_of_vehicle.{SetupTradeDetailsPage, VehicleLookupPage}
 import play.api.mvc.SimpleResult

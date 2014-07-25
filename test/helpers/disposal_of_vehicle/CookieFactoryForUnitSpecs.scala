@@ -12,7 +12,6 @@ import mappings.disposal_of_vehicle.Dispose.DisposeFormTransactionIdCacheKey
 import mappings.disposal_of_vehicle.Dispose.SurveyRequestTriggerDateCacheKey
 import mappings.disposal_of_vehicle.MicroserviceError.MicroServiceErrorRefererCacheKey
 import mappings.disposal_of_vehicle.RelatedCacheKeys.SeenCookieMessageKey
-import mappings.disposal_of_vehicle.TraderDetails.TraderDetailsCacheKey
 import mappings.disposal_of_vehicle.VehicleLookup.VehicleLookupResponseCodeCacheKey
 import models.DayMonthYear
 import models.domain.common.{AddressLinesModel, AddressAndPostcodeModel}
@@ -27,6 +26,7 @@ import models.domain.disposal_of_vehicle.EnterAddressManuallyModel.EnterAddressM
 import models.domain.disposal_of_vehicle.SetupTradeDetailsModel
 import models.domain.disposal_of_vehicle.SetupTradeDetailsModel.SetupTradeDetailsCacheKey
 import models.domain.disposal_of_vehicle.TraderDetailsModel
+import models.domain.disposal_of_vehicle.TraderDetailsModel.TraderDetailsCacheKey
 import models.domain.disposal_of_vehicle.VehicleDetailsModel
 import models.domain.disposal_of_vehicle.VehicleDetailsModel.VehicleLookupDetailsCacheKey
 import models.domain.disposal_of_vehicle.VehicleLookupFormModel
