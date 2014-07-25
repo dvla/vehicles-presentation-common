@@ -6,8 +6,8 @@ import controllers.disposal_of_vehicle.Common.PrototypeHtml
 import helpers.common.CookieHelper.fetchCookiesFromHeaders
 import helpers.disposal_of_vehicle.CookieFactoryForUnitSpecs
 import helpers.{UnitSpec, WithApplication}
-import mappings.common.PreventGoingToDisposePage.PreventGoingToDisposePageCacheKey
 import mappings.disposal_of_vehicle.Dispose.SurveyRequestTriggerDateCacheKey
+import models.domain.disposal_of_vehicle.DisposeFormModel.PreventGoingToDisposePageCacheKey
 import org.joda.time.Instant
 import org.mockito.Mockito.when
 import pages.disposal_of_vehicle.{BeforeYouStartPage, SetupTradeDetailsPage, VehicleLookupPage}

@@ -6,8 +6,8 @@ import helpers.disposal_of_vehicle.CookieFactoryForUISpecs
 import ProgressBar.progressStep
 import helpers.tags.UiTag
 import helpers.webbrowser.TestHarness
-import mappings.common.PreventGoingToDisposePage.{DisposeOccurredCacheKey, PreventGoingToDisposePageCacheKey}
 import mappings.disposal_of_vehicle.RelatedCacheKeys
+import models.domain.disposal_of_vehicle.DisposeFormModel.{DisposeOccurredCacheKey, PreventGoingToDisposePageCacheKey}
 import org.openqa.selenium.{By, WebDriver, WebElement}
 import pages.disposal_of_vehicle.DisposeSuccessPage.{exitDisposal, newDisposal}
 import pages.disposal_of_vehicle.{BeforeYouStartPage, DisposeSuccessPage, SetupTradeDetailsPage, VehicleLookupPage}

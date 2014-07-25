@@ -4,13 +4,13 @@ import com.google.inject.Inject
 import common.CookieImplicits.{RichCookies, RichForm, RichSimpleResult}
 import common.{ClientSideSessionFactory, LogFormats}
 import mappings.common.DocumentReferenceNumber.referenceNumber
-import mappings.common.PreventGoingToDisposePage.{DisposeOccurredCacheKey, PreventGoingToDisposePageCacheKey}
 import mappings.common.VehicleRegistrationNumber.registrationNumber
 import mappings.disposal_of_vehicle.RelatedCacheKeys
 import mappings.disposal_of_vehicle.Dispose.SurveyRequestTriggerDateCacheKey
 import mappings.disposal_of_vehicle.VehicleLookup.DocumentReferenceNumberId
 import mappings.disposal_of_vehicle.VehicleLookup.VehicleRegistrationNumberId
 import models.domain.disposal_of_vehicle.BruteForcePreventionViewModel
+import models.domain.disposal_of_vehicle.DisposeFormModel.{DisposeOccurredCacheKey, PreventGoingToDisposePageCacheKey}
 import models.domain.disposal_of_vehicle.TraderDetailsModel
 import models.domain.disposal_of_vehicle.VehicleDetailsDto
 import models.domain.disposal_of_vehicle.VehicleDetailsModel

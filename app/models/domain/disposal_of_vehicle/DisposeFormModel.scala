@@ -13,4 +13,6 @@ object DisposeFormModel {
   implicit val JsonFormat = Json.format[DisposeFormModel]
   final val DisposeFormModelCacheKey = "disposeForm"
   implicit val Key = CacheKey[DisposeFormModel](value = DisposeFormModelCacheKey)
+  final val DisposeOccurredCacheKey = "disposeOccurredCacheKey"
+  final val PreventGoingToDisposePageCacheKey = "preventGoingToDisposePage"
 }

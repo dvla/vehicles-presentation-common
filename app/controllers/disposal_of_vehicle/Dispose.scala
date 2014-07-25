@@ -6,7 +6,6 @@ import common.CookieImplicits.{RichCookies, RichForm, RichSimpleResult}
 import constraints.common.DayMonthYear.{validDate, after, notInFuture}
 import mappings.common.Consent.consent
 import mappings.common.DayMonthYear.dayMonthYear
-import mappings.common.PreventGoingToDisposePage.PreventGoingToDisposePageCacheKey
 import mappings.common.Mileage.mileage
 import mappings.disposal_of_vehicle.Dispose.MileageId
 import mappings.disposal_of_vehicle.Dispose.DateOfDisposalId
@@ -17,6 +16,7 @@ import mappings.disposal_of_vehicle.Dispose.DisposeFormTransactionIdCacheKey
 import mappings.disposal_of_vehicle.Dispose.DisposeFormRegistrationNumberCacheKey
 import mappings.disposal_of_vehicle.Dispose.DisposeFormTimestampIdCacheKey
 import models.domain.disposal_of_vehicle.DisposeFormModel
+import models.domain.disposal_of_vehicle.DisposeFormModel.PreventGoingToDisposePageCacheKey
 import models.domain.disposal_of_vehicle.TraderDetailsModel
 import models.domain.disposal_of_vehicle.VehicleDetailsModel
 import models.domain.disposal_of_vehicle.DisposeViewModel

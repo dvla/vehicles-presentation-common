@@ -3,7 +3,6 @@ package helpers.disposal_of_vehicle
 import common.{ClientSideSessionFactory, CookieFlags, ClearTextClientSideSession}
 import composition.TestComposition
 import mappings.common.Help.HelpCacheKey
-import mappings.common.PreventGoingToDisposePage.{PreventGoingToDisposePageCacheKey, DisposeOccurredCacheKey}
 import mappings.disposal_of_vehicle.Dispose.DisposeFormRegistrationNumberCacheKey
 import mappings.disposal_of_vehicle.Dispose.DisposeFormTimestampIdCacheKey
 import mappings.disposal_of_vehicle.Dispose.DisposeFormTransactionIdCacheKey
@@ -19,6 +18,7 @@ import models.domain.disposal_of_vehicle.BusinessChooseYourAddressModel
 import models.domain.disposal_of_vehicle.BusinessChooseYourAddressModel.BusinessChooseYourAddressCacheKey
 import models.domain.disposal_of_vehicle.DisposeFormModel
 import models.domain.disposal_of_vehicle.DisposeFormModel.DisposeFormModelCacheKey
+import models.domain.disposal_of_vehicle.DisposeFormModel.{DisposeOccurredCacheKey, PreventGoingToDisposePageCacheKey}
 import models.domain.disposal_of_vehicle.DisposeModel
 import models.domain.disposal_of_vehicle.DisposeModel.DisposeModelCacheKey
 import models.domain.disposal_of_vehicle.EnterAddressManuallyModel

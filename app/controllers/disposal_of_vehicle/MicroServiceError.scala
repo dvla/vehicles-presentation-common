@@ -4,8 +4,8 @@ import com.google.inject.Inject
 import common.ClientSideSessionFactory
 import common.CookieImplicits.{RichCookies, RichSimpleResult}
 import controllers.disposal_of_vehicle.routes.VehicleLookup
-import mappings.common.PreventGoingToDisposePage.PreventGoingToDisposePageCacheKey
 import mappings.disposal_of_vehicle.MicroserviceError.MicroServiceErrorRefererCacheKey
+import models.domain.disposal_of_vehicle.DisposeFormModel.PreventGoingToDisposePageCacheKey
 import play.api.mvc.{Action, Controller}
 import utils.helpers.Config
 
