@@ -28,7 +28,6 @@ import helpers.UnitSpec
 import helpers.WithApplication
 import mappings.disposal_of_vehicle.Dispose.ConsentId
 import mappings.disposal_of_vehicle.Dispose.DateOfDisposalId
-import mappings.disposal_of_vehicle.Dispose.DisposeFormModelCacheKey
 import mappings.disposal_of_vehicle.Dispose.DisposeFormRegistrationNumberCacheKey
 import mappings.disposal_of_vehicle.Dispose.DisposeFormTimestampIdCacheKey
 import mappings.disposal_of_vehicle.Dispose.DisposeFormTransactionIdCacheKey
@@ -36,6 +35,7 @@ import mappings.disposal_of_vehicle.Dispose.LossOfRegistrationConsentId
 import mappings.disposal_of_vehicle.Dispose.MileageId
 import models.DayMonthYear
 import models.domain.disposal_of_vehicle.{DisposeResponse, DisposeRequest, DisposalAddressDto}
+import models.domain.disposal_of_vehicle.DisposeFormModel.DisposeFormModelCacheKey
 import models.domain.disposal_of_vehicle.DisposeModel.DisposeModelCacheKey
 import org.mockito.ArgumentCaptor
 import org.mockito.Matchers.any

@@ -3,7 +3,6 @@ package mappings.disposal_of_vehicle
 object Dispose {
   final val MileageId = "mileage"
   final val DateOfDisposalId = "dateOfDisposal"
-  final val DisposeFormModelCacheKey = "disposeForm"
   final val DisposeFormTransactionIdCacheKey = "disposeFormTransactionId"
   final val DisposeFormTimestampIdCacheKey = "disposeFormTimestampId"
   final val DisposeFormRegistrationNumberCacheKey = "disposeFormRegistrationNumber"
