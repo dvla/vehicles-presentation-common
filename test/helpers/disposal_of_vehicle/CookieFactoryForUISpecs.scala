@@ -3,7 +3,6 @@ package helpers.disposal_of_vehicle
 import mappings.common.AlternateLanguages.{EnId, CyId}
 import mappings.disposal_of_vehicle.BusinessChooseYourAddress.BusinessChooseYourAddressCacheKey
 import mappings.disposal_of_vehicle.EnterAddressManually.EnterAddressManuallyCacheKey
-import mappings.disposal_of_vehicle.SetupTradeDetails.SetupTradeDetailsCacheKey
 import mappings.disposal_of_vehicle.TraderDetails.TraderDetailsCacheKey
 import models.DayMonthYear
 import models.domain.common.{AddressLinesModel, AddressAndPostcodeModel}
@@ -15,6 +14,7 @@ import models.domain.disposal_of_vehicle.DisposeFormModel
 import models.domain.disposal_of_vehicle.DisposeModel
 import models.domain.disposal_of_vehicle.EnterAddressManuallyModel
 import models.domain.disposal_of_vehicle.SetupTradeDetailsModel
+import models.domain.disposal_of_vehicle.SetupTradeDetailsModel.SetupTradeDetailsCacheKey
 import models.domain.disposal_of_vehicle.TraderDetailsModel
 import models.domain.disposal_of_vehicle.VehicleDetailsModel
 import models.domain.disposal_of_vehicle.VehicleLookupFormModel

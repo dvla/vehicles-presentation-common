@@ -10,7 +10,6 @@ object SetupTradeDetails {
   final val TraderNameId = "traderName"
 
   final val TraderPostcodeId = "traderPostcode"
-  final val SetupTradeDetailsCacheKey = "setupTraderDetails"
   final val SubmitId = "submit"
 
   def traderBusinessName (minLength: Int = TraderNameMinLength,

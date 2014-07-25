@@ -9,12 +9,13 @@ import helpers.UnitSpec
 import helpers.WithApplication
 import mappings.disposal_of_vehicle.SetupTradeDetails
 import models.domain.disposal_of_vehicle.SetupTradeDetailsModel
+import models.domain.disposal_of_vehicle.SetupTradeDetailsModel.SetupTradeDetailsCacheKey
 import org.mockito.Mockito.when
 import pages.disposal_of_vehicle.BusinessChooseYourAddressPage
 import play.api.test.FakeRequest
 import play.api.test.Helpers.{OK, LOCATION, BAD_REQUEST, contentAsString, defaultAwaitTimeout}
 import services.fakes.FakeAddressLookupService.{TraderBusinessNameValid, PostcodeValid}
-import SetupTradeDetails.{TraderNameMaxLength, SetupTradeDetailsCacheKey, TraderNameId, TraderPostcodeId}
+import SetupTradeDetails.{TraderNameMaxLength, TraderNameId, TraderPostcodeId}
 import utils.helpers.Config
 
 final class SetUpTradeDetailsUnitSpec extends UnitSpec {
