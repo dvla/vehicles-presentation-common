@@ -10,7 +10,8 @@ import services.fakes.FakeAddressLookupWebServiceImpl.traderUprnValid
 import helpers.common.CookieHelper.fetchCookiesFromHeaders
 import helpers.disposal_of_vehicle.CookieFactoryForUnitSpecs
 import helpers.{UnitSpec, WithApplication}
-import mappings.disposal_of_vehicle.BusinessChooseYourAddress.{BusinessChooseYourAddressCacheKey, AddressSelectId}
+import mappings.disposal_of_vehicle.BusinessChooseYourAddress.AddressSelectId
+import models.domain.disposal_of_vehicle.BusinessChooseYourAddressModel.BusinessChooseYourAddressCacheKey
 import models.domain.disposal_of_vehicle.TraderDetailsModel.TraderDetailsCacheKey
 import org.mockito.Mockito.when
 import pages.disposal_of_vehicle.{SetupTradeDetailsPage, VehicleLookupPage, UprnNotFoundPage}
