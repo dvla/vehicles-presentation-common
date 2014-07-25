@@ -1,12 +1,10 @@
 package services.fakes
 
-import models.domain.disposal_of_vehicle.PostcodeToAddressResponseDto
-import models.domain.disposal_of_vehicle.UprnAddressPairDto
-import models.domain.disposal_of_vehicle.UprnToAddressResponseDto
 import play.api.http.Status.OK
 import play.api.i18n.Lang
 import play.api.libs.json.Json
 import play.api.libs.ws.Response
+import services.address_lookup.ordnance_survey.{UprnToAddressResponseDto, UprnAddressPairDto, PostcodeToAddressResponseDto}
 import viewmodels.AddressViewModel
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future

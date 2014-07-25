@@ -1,11 +1,10 @@
 package services.fakes
 
-import models.domain.disposal_of_vehicle.{DisposeRequestDto, DisposeResponseDto}
 import play.api.Logger
 import play.api.http.Status.OK
 import play.api.libs.json.Json
 import play.api.libs.ws.Response
-import services.dispose_service.DisposeWebService
+import services.dispose_service.{DisposeResponseDto, DisposeRequestDto, DisposeWebService}
 import services.fakes.FakeVehicleLookupWebService.RegistrationNumberValid
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future

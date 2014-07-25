@@ -1,7 +1,6 @@
 package services.vehicle_lookup
 
 import javax.inject.Inject
-import models.domain.disposal_of_vehicle.{VehicleDetailsRequestDto, VehicleDetailsResponseDto}
 import play.api.Logger
 import play.api.http.Status
 import scala.concurrent.ExecutionContext.Implicits.global

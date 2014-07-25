@@ -11,10 +11,7 @@ import mappings.disposal_of_vehicle.VehicleLookup.DocumentReferenceNumberId
 import mappings.disposal_of_vehicle.VehicleLookup.VehicleRegistrationNumberId
 import viewmodels.DisposeFormViewModel.{DisposeOccurredCacheKey, PreventGoingToDisposePageCacheKey}
 import viewmodels.TraderDetailsViewModel
-import models.domain.disposal_of_vehicle.VehicleDetailsDto
 import viewmodels.VehicleDetailsViewModel
-import models.domain.disposal_of_vehicle.VehicleDetailsRequestDto
-import models.domain.disposal_of_vehicle.VehicleDetailsResponseDto
 import viewmodels.VehicleLookupFormViewModel
 import viewmodels.VehicleLookupFormViewModel.VehicleLookupResponseCodeCacheKey
 import play.api.data.Forms.mapping
@@ -26,7 +23,7 @@ import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 import services.brute_force_prevention.BruteForcePreventionService
 import services.DateService
-import services.vehicle_lookup.VehicleLookupService
+import services.vehicle_lookup.{VehicleDetailsResponseDto, VehicleDetailsRequestDto, VehicleDetailsDto, VehicleLookupService}
 import utils.helpers.Config
 import utils.helpers.FormExtensions.formBinding
 

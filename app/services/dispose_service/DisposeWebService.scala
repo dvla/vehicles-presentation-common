@@ -1,6 +1,5 @@
 package services.dispose_service
 
-import models.domain.disposal_of_vehicle.DisposeRequestDto
 import play.api.libs.ws.Response
 import scala.concurrent.Future
 

@@ -2,12 +2,12 @@ package services.vehicle_lookup
 
 import com.google.inject.Inject
 import common.LogFormats
-import models.domain.disposal_of_vehicle.VehicleDetailsRequestDto
 import play.api.Logger
 import play.api.libs.json.Json
 import play.api.libs.ws.{Response, WS}
 import services.HttpHeaders
 import utils.helpers.Config
+
 import scala.concurrent.Future
 
 final class VehicleLookupWebServiceImpl @Inject()(config: Config) extends VehicleLookupWebService {

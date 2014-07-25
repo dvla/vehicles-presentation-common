@@ -7,7 +7,6 @@ import helpers.disposal_of_vehicle.InvalidVRMFormat.allInvalidVrmFormats
 import helpers.disposal_of_vehicle.ValidVRMFormat.allValidVrmFormats
 import helpers.UnitSpec
 import mappings.disposal_of_vehicle.VehicleLookup.{DocumentReferenceNumberId, VehicleRegistrationNumberId}
-import models.domain.disposal_of_vehicle.{VehicleDetailsRequestDto, VehicleDetailsResponseDto}
 import org.mockito.Matchers.{any, anyString}
 import org.mockito.Mockito.when
 import play.api.http.Status.OK
@@ -23,7 +22,7 @@ import services.fakes.FakeVehicleLookupWebService.ReferenceNumberValid
 import services.fakes.FakeVehicleLookupWebService.RegistrationNumberValid
 import services.fakes.FakeVehicleLookupWebService.vehicleDetailsResponseSuccess
 import services.fakes.{FakeDateServiceImpl, FakeResponse}
-import services.vehicle_lookup.{VehicleLookupServiceImpl, VehicleLookupWebService}
+import services.vehicle_lookup.{VehicleDetailsResponseDto, VehicleDetailsRequestDto, VehicleLookupServiceImpl, VehicleLookupWebService}
 import utils.helpers.Config
 
 final class VehicleLookupFormSpec extends UnitSpec {

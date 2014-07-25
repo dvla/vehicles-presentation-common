@@ -1,8 +1,8 @@
 package viewmodels
 
 import models.domain.common.CacheKey
-import models.domain.disposal_of_vehicle.VehicleDetailsDto
 import play.api.libs.json.Json
+import services.vehicle_lookup.VehicleDetailsDto
 
 final case class VehicleDetailsViewModel(registrationNumber: String,
                                vehicleMake: String,

@@ -1,12 +1,8 @@
-package models.domain.disposal_of_vehicle
+package services.dispose_service
 
-import mappings.common.AddressLines.BuildingNameOrNumberIndex
-import mappings.common.AddressLines.BuildingNameOrNumberHolder
-import mappings.common.AddressLines.emptyLine
-import mappings.common.AddressLines.Line2Index
-import mappings.common.AddressLines.Line3Index
-import mappings.common.AddressLines.LineMaxLength
+import mappings.common.AddressLines.{BuildingNameOrNumberHolder, BuildingNameOrNumberIndex, Line2Index, Line3Index, LineMaxLength, emptyLine}
 import viewmodels.AddressViewModel
+
 import scala.annotation.tailrec
 
 case class DisposalAddressDto(line: Seq[String], postTown: Option[String], postCode: String, uprn: Option[Long])

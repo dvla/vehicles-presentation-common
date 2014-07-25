@@ -2,7 +2,6 @@ package services.address_lookup.ordnance_survey
 
 import common.ClearTextClientSideSessionFactory
 import helpers.UnitSpec
-import models.domain.disposal_of_vehicle.{UprnToAddressResponseDto, PostcodeToAddressResponseDto}
 import play.api.http.Status.{OK, NOT_FOUND}
 import play.api.libs.json.Json
 import play.api.libs.json.JsValue

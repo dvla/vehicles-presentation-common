@@ -31,7 +31,6 @@ import mappings.disposal_of_vehicle.Dispose.DateOfDisposalId
 import mappings.disposal_of_vehicle.Dispose.LossOfRegistrationConsentId
 import mappings.disposal_of_vehicle.Dispose.MileageId
 import models.DayMonthYear
-import models.domain.disposal_of_vehicle.{DisposeResponseDto, DisposeRequestDto, DisposalAddressDto}
 import viewmodels.DisposeFormViewModel.DisposeFormModelCacheKey
 import viewmodels.DisposeFormViewModel.DisposeFormRegistrationNumberCacheKey
 import viewmodels.DisposeFormViewModel.DisposeFormTimestampIdCacheKey
@@ -59,7 +58,7 @@ import play.api.test.Helpers.SERVICE_UNAVAILABLE
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 import services.DateService
-import services.dispose_service.{DisposeServiceImpl, DisposeWebService, DisposeService}
+import services.dispose_service._
 import services.fakes.FakeDateServiceImpl.{DateOfDisposalDayValid, DateOfDisposalMonthValid, DateOfDisposalYearValid}
 import services.fakes.FakeVehicleLookupWebService.{ReferenceNumberValid, RegistrationNumberValid}
 import services.fakes.{FakeDisposeWebServiceImpl, FakeResponse}

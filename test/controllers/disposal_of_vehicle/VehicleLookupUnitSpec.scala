@@ -32,7 +32,6 @@ import BruteForcePreventionViewModel.BruteForcePreventionViewModelCacheKey
 import viewmodels.VehicleLookupFormViewModel.VehicleLookupFormModelCacheKey
 import viewmodels.VehicleLookupFormViewModel.VehicleLookupResponseCodeCacheKey
 import viewmodels.{VehicleLookupFormViewModel}
-import models.domain.disposal_of_vehicle.{VehicleDetailsResponseDto, VehicleDetailsRequestDto}
 import org.joda.time.Instant
 import org.mockito.ArgumentCaptor
 import org.mockito.Matchers.any
@@ -59,7 +58,7 @@ import services.DateServiceImpl
 import services.fakes.brute_force_protection.FakeBruteForcePreventionWebServiceImpl
 import services.fakes.FakeAddressLookupWebServiceImpl.traderUprnValid
 import services.fakes.{FakeDateServiceImpl, FakeResponse}
-import services.vehicle_lookup.{VehicleLookupServiceImpl, VehicleLookupWebService}
+import services.vehicle_lookup.{VehicleDetailsResponseDto, VehicleDetailsRequestDto, VehicleLookupServiceImpl, VehicleLookupWebService}
 import utils.helpers.Config
 import services.fakes.brute_force_protection.FakeBruteForcePreventionWebServiceImpl.VrmLocked
 import services.fakes.brute_force_protection.FakeBruteForcePreventionWebServiceImpl.VrmAttempt2

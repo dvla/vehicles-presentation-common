@@ -1,12 +1,12 @@
 package services.dispose_service
 
 import com.google.inject.Inject
-import models.domain.disposal_of_vehicle.DisposeRequestDto
 import play.api.libs.json.Json
 import play.api.libs.ws.{Response, WS}
-import scala.concurrent.Future
 import services.HttpHeaders
 import utils.helpers.Config
+
+import scala.concurrent.Future
 
 final class DisposeWebServiceImpl @Inject()(config: Config)  extends DisposeWebService {
   private val endPoint: String = s"${config.disposeVehicleMicroServiceBaseUrl}/vehicles/dispose/v1"

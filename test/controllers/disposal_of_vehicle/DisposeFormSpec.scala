@@ -7,12 +7,11 @@ import mappings.common.DayMonthYear.{DayId, MonthId, YearId}
 import mappings.common.Mileage
 import mappings.disposal_of_vehicle.Dispose.{ConsentId, DateOfDisposalId, LossOfRegistrationConsentId, MileageId}
 import models.DayMonthYear
-import models.domain.disposal_of_vehicle.DisposeRequestDto
 import org.mockito.Matchers.any
 import org.mockito.Mockito.when
 import play.api.libs.json.Json
 import services.DateService
-import services.dispose_service.{DisposeServiceImpl, DisposeWebService}
+import services.dispose_service.{DisposeRequestDto, DisposeServiceImpl, DisposeWebService}
 import services.fakes.FakeDateServiceImpl.{DateOfDisposalDayValid, DateOfDisposalMonthValid, DateOfDisposalYearValid}
 import services.fakes.FakeDisposeWebServiceImpl.{ConsentValid, MileageValid, disposeResponseSuccess}
 import services.fakes.FakeResponse

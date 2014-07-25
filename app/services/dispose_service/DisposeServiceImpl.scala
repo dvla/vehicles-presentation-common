@@ -2,7 +2,6 @@ package services.dispose_service
 
 import javax.inject.Inject
 import common.LogFormats
-import models.domain.disposal_of_vehicle.{DisposeRequestDto, DisposeResponseDto}
 import play.api.Logger
 import play.api.http.Status.OK
 import utils.helpers.Config

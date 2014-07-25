@@ -17,14 +17,14 @@ import viewmodels.DisposeFormViewModel.DisposeFormRegistrationNumberCacheKey
 import viewmodels.DisposeFormViewModel.DisposeFormTimestampIdCacheKey
 import viewmodels.DisposeFormViewModel.DisposeFormTransactionIdCacheKey
 import viewmodels.DisposeFormViewModel.PreventGoingToDisposePageCacheKey
-import models.domain.disposal_of_vehicle.{DisposeModel, DisposeRequestDto, DisposeResponseDto, DisposalAddressDto}
+import models.domain.disposal_of_vehicle.DisposeModel
 import org.joda.time.format.ISODateTimeFormat
 import play.api.Logger
 import play.api.data.Forms.mapping
 import play.api.data.{Form, FormError}
 import play.api.mvc.{Action, AnyContent, Controller, Call, Request, SimpleResult}
 import services.DateService
-import services.dispose_service.DisposeService
+import services.dispose_service.{DisposeResponseDto, DisposeRequestDto, DisposalAddressDto, DisposeService}
 import utils.helpers.Config
 import utils.helpers.FormExtensions.formBinding
 import views.html.disposal_of_vehicle.dispose

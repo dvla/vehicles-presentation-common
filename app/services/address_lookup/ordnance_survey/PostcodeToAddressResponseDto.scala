@@ -1,4 +1,4 @@
-package models.domain.disposal_of_vehicle
+package services.address_lookup.ordnance_survey
 
 import play.api.libs.json.Json
 

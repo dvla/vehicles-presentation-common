@@ -3,7 +3,6 @@ package services.dispose_service
 import com.github.tomakehurst.wiremock.client.WireMock.{equalTo, postRequestedFor, urlEqualTo}
 import common.ClientSideSessionFactory
 import helpers.{UnitSpec, WireMockFixture}
-import models.domain.disposal_of_vehicle.{DisposalAddressDto, DisposeRequestDto}
 import play.api.libs.json.Json
 import services.HttpHeaders
 import utils.helpers.Config

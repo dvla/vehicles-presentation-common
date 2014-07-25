@@ -1,9 +1,8 @@
 package services.fakes
 
-import models.domain.disposal_of_vehicle.{VehicleDetailsDto, VehicleDetailsRequestDto, VehicleDetailsResponseDto}
 import play.api.http.Status.{OK, SERVICE_UNAVAILABLE}
 import play.api.libs.json.Json
-import services.vehicle_lookup.VehicleLookupWebService
+import services.vehicle_lookup.{VehicleDetailsResponseDto, VehicleDetailsRequestDto, VehicleDetailsDto, VehicleLookupWebService}
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
