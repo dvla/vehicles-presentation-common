@@ -32,7 +32,8 @@
                         @valtechInputText(vehicleLookupForm(VehicleRegistrationNumberId), args =
                         Map('_label -> Messages("disposal_vehiclelookup.vrninputlabel"),
                         'maxLength -> VehicleRegistrationNumber.MaxLength,
-                        '_showConstraints -> false))
+                        '_showConstraints -> false,
+                        'autofocus -> true))
 
                         @valtechInputText(vehicleLookupForm(DocumentReferenceNumberId), args =
                             Map('_label -> Messages("disposal_vehiclelookup.refnumlabel"),
