@@ -1,4 +1,4 @@
-package models.domain.disposal_of_vehicle
+package viewmodels
 
 import models.domain.common.{BruteForcePreventionResponse, CacheKey}
 import play.api.libs.json.Json

@@ -1,4 +1,6 @@
-package models.domain.disposal_of_vehicle
+package viewmodels
+
+import models.domain.disposal_of_vehicle.AddressViewModel
 
 final case class DisposeViewModel(vehicleMake: String,
                                   vehicleModel: String,
