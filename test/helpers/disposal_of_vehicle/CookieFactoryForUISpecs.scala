@@ -16,7 +16,9 @@ import models.domain.disposal_of_vehicle.BruteForcePreventionViewModel
 import models.domain.disposal_of_vehicle.BruteForcePreventionViewModel.BruteForcePreventionViewModelCacheKey
 import models.domain.disposal_of_vehicle.BusinessChooseYourAddressModel
 import models.domain.disposal_of_vehicle.DisposeFormModel
+import models.domain.disposal_of_vehicle.DisposeFormModel.DisposeFormModelCacheKey
 import models.domain.disposal_of_vehicle.DisposeModel
+import models.domain.disposal_of_vehicle.DisposeModel.DisposeModelCacheKey
 import models.domain.disposal_of_vehicle.EnterAddressManuallyModel
 import models.domain.disposal_of_vehicle.EnterAddressManuallyModel.EnterAddressManuallyCacheKey
 import models.domain.disposal_of_vehicle.SetupTradeDetailsModel
@@ -152,7 +154,7 @@ object CookieFactoryForUISpecs {
   }
 
   def disposeFormModel()(implicit webDriver: WebDriver) = {
-    val key = mappings.disposal_of_vehicle.Dispose.DisposeFormModelCacheKey
+    val key = DisposeFormModelCacheKey
     val value = DisposeFormModel(mileage = None,
       dateOfDisposal = DayMonthYear.today,
       consent = FakeDisposeWebServiceImpl.ConsentValid,
@@ -165,7 +167,7 @@ object CookieFactoryForUISpecs {
                    registrationNumber: String = RegistrationNumberValid,
                    dateOfDisposal: DayMonthYear = DayMonthYear.today,
                    mileage: Option[Int] = None)(implicit webDriver: WebDriver) = {
-    val key = mappings.disposal_of_vehicle.Dispose.DisposeModelCacheKey
+    val key = DisposeModelCacheKey
     val value = DisposeModel(referenceNumber = referenceNumber,
       registrationNumber = registrationNumber,
       dateOfDisposal = dateOfDisposal,
