@@ -5,7 +5,7 @@ import common.ClientSideSessionFactory
 import common.CookieImplicits.{RichCookies, RichSimpleResult}
 import controllers.disposal_of_vehicle.routes.VehicleLookup
 import mappings.disposal_of_vehicle.MicroserviceError.MicroServiceErrorRefererCacheKey
-import models.domain.disposal_of_vehicle.DisposeFormModel.PreventGoingToDisposePageCacheKey
+import viewmodels.DisposeFormViewModel.PreventGoingToDisposePageCacheKey
 import play.api.mvc.{Action, Controller}
 import utils.helpers.Config
 

@@ -31,12 +31,13 @@ import mappings.disposal_of_vehicle.Dispose.DateOfDisposalId
 import mappings.disposal_of_vehicle.Dispose.LossOfRegistrationConsentId
 import mappings.disposal_of_vehicle.Dispose.MileageId
 import models.DayMonthYear
-import models.domain.disposal_of_vehicle.{DisposeResponse, DisposeRequest, DisposalAddressDto}
-import models.domain.disposal_of_vehicle.DisposeFormModel.DisposeFormModelCacheKey
-import models.domain.disposal_of_vehicle.DisposeFormModel.DisposeFormRegistrationNumberCacheKey
-import models.domain.disposal_of_vehicle.DisposeFormModel.DisposeFormTimestampIdCacheKey
-import models.domain.disposal_of_vehicle.DisposeFormModel.DisposeFormTransactionIdCacheKey
-import models.domain.disposal_of_vehicle.DisposeModel.DisposeModelCacheKey
+import models.domain.disposal_of_vehicle.{DisposeResponseDto, DisposeRequestDto, DisposalAddressDto}
+import viewmodels.DisposeFormViewModel.DisposeFormModelCacheKey
+import viewmodels.DisposeFormViewModel.DisposeFormRegistrationNumberCacheKey
+import viewmodels.DisposeFormViewModel.DisposeFormTimestampIdCacheKey
+import viewmodels.DisposeFormViewModel.DisposeFormTransactionIdCacheKey
+import viewmodels.DisposeViewModel
+import DisposeViewModel.DisposeModelCacheKey
 import org.mockito.ArgumentCaptor
 import org.mockito.Matchers.any
 import org.mockito.Mockito.{when, verify, times}
@@ -215,9 +216,9 @@ final class DisposeUnitSpec extends UnitSpec {
         withCookies(CookieFactoryForUnitSpecs.vehicleLookupFormModel()).
         withCookies(CookieFactoryForUnitSpecs.vehicleDetailsModel()).
         withCookies(CookieFactoryForUnitSpecs.traderDetailsModel())
-      val disposeResponseThrows = mock[(Int, Option[DisposeResponse])]
+      val disposeResponseThrows = mock[(Int, Option[DisposeResponseDto])]
       val mockWebServiceThrows = mock[DisposeService]
-      when(mockWebServiceThrows.invoke(any[DisposeRequest], any[String])).thenReturn(Future.failed(new RuntimeException))
+      when(mockWebServiceThrows.invoke(any[DisposeRequestDto], any[String])).thenReturn(Future.failed(new RuntimeException))
       implicit val clientSideSessionFactory = injector.getInstance(classOf[ClientSideSessionFactory])
       implicit val config: Config = mock[Config]
       val dispose = new disposal_of_vehicle.Dispose(mockWebServiceThrows, dateServiceStubbed())
@@ -344,8 +345,8 @@ final class DisposeUnitSpec extends UnitSpec {
         withCookies(CookieFactoryForUnitSpecs.traderDetailsModel()).
         withCookies(CookieFactoryForUnitSpecs.trackingIdModel())
       val mockDisposeService = mock[DisposeService]
-      when(mockDisposeService.invoke(any(classOf[DisposeRequest]), any[String])).
-        thenReturn(Future[(Int, Option[DisposeResponse])] {
+      when(mockDisposeService.invoke(any(classOf[DisposeRequestDto]), any[String])).
+        thenReturn(Future[(Int, Option[DisposeResponseDto])] {
         (200, None)
       })
       implicit val clientSideSessionFactory = injector.getInstance(classOf[ClientSideSessionFactory])
@@ -354,7 +355,7 @@ final class DisposeUnitSpec extends UnitSpec {
       val result = dispose.submit(request)
       whenReady(result) { r =>
         val trackingIdCaptor = ArgumentCaptor.forClass(classOf[String])
-        verify(mockDisposeService).invoke(any[DisposeRequest], trackingIdCaptor.capture())
+        verify(mockDisposeService).invoke(any[DisposeRequestDto], trackingIdCaptor.capture())
         trackingIdCaptor.getValue should be(TrackingIdValue)
       }
     }
@@ -619,16 +620,16 @@ final class DisposeUnitSpec extends UnitSpec {
 
   private def disposeServiceMock(): DisposeService = {
     val disposeServiceMock = mock[DisposeService]
-    when(disposeServiceMock.invoke(any[DisposeRequest], any[String])).thenReturn(Future {
+    when(disposeServiceMock.invoke(any[DisposeRequestDto], any[String])).thenReturn(Future {
       (0, None)
     })
     disposeServiceMock
   }
 
   private def disposeWebService(disposeServiceStatus: Int = OK,
-                                disposeServiceResponse: Option[DisposeResponse] = Some(disposeResponseSuccess)): DisposeWebService = {
+                                disposeServiceResponse: Option[DisposeResponseDto] = Some(disposeResponseSuccess)): DisposeWebService = {
     val disposeWebService = mock[DisposeWebService]
-    when(disposeWebService.callDisposeService(any[DisposeRequest], any[String])).thenReturn(Future {
+    when(disposeWebService.callDisposeService(any[DisposeRequestDto], any[String])).thenReturn(Future {
       val fakeJson = disposeServiceResponse map (Json.toJson(_))
       new FakeResponse(status = disposeServiceStatus, fakeJson = fakeJson) // Any call to a webservice will always return this successful response.
     })
@@ -685,7 +686,7 @@ final class DisposeUnitSpec extends UnitSpec {
                                      prConsent: Boolean = FakeDisposeWebServiceImpl.ConsentValid.toBoolean,
                                      keeperConsent: Boolean = FakeDisposeWebServiceImpl.ConsentValid.toBoolean,
                                      mileage: Option[Int] = Some(MileageValid.toInt)) =
-    DisposeRequest(
+    DisposeRequestDto(
       referenceNumber = referenceNumber,
       registrationNumber = registrationNumber,
       traderName = traderName,

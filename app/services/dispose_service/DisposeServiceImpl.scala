@@ -2,7 +2,7 @@ package services.dispose_service
 
 import javax.inject.Inject
 import common.LogFormats
-import models.domain.disposal_of_vehicle.{DisposeRequest, DisposeResponse}
+import models.domain.disposal_of_vehicle.{DisposeRequestDto, DisposeResponseDto}
 import play.api.Logger
 import play.api.http.Status.OK
 import utils.helpers.Config
@@ -11,7 +11,7 @@ import scala.concurrent.Future
 
 final class DisposeServiceImpl @Inject()(config: Config, ws: DisposeWebService) extends DisposeService {
 
-  override def invoke(cmd: DisposeRequest, trackingId: String): Future[(Int, Option[DisposeResponse])] = {
+  override def invoke(cmd: DisposeRequestDto, trackingId: String): Future[(Int, Option[DisposeResponseDto])] = {
     val vrm = LogFormats.anonymize(cmd.registrationNumber)
     val refNo = LogFormats.anonymize(cmd.referenceNumber)
     val postcode = LogFormats.anonymize(cmd.traderAddress.postCode)
@@ -22,7 +22,7 @@ final class DisposeServiceImpl @Inject()(config: Config, ws: DisposeWebService) 
     ws.callDisposeService(cmd, trackingId).map { resp =>
       Logger.debug(s"Http response code from dispose vehicle micro-service was: ${resp.status}")
 
-      if (resp.status == OK) (resp.status, resp.json.asOpt[DisposeResponse])
+      if (resp.status == OK) (resp.status, resp.json.asOpt[DisposeResponseDto])
       else (resp.status, None)
     }
   }

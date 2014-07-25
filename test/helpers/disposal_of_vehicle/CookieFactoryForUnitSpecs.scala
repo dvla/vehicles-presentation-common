@@ -10,27 +10,26 @@ import models.DayMonthYear
 import models.domain.common.{AddressLinesModel, AddressAndPostcodeModel}
 import viewmodels._
 import BruteForcePreventionViewModel.BruteForcePreventionViewModelCacheKey
-import models.domain.disposal_of_vehicle.BusinessChooseYourAddressModel
-import models.domain.disposal_of_vehicle.BusinessChooseYourAddressModel.BusinessChooseYourAddressCacheKey
-import models.domain.disposal_of_vehicle.DisposeFormModel
-import models.domain.disposal_of_vehicle.DisposeFormModel.DisposeFormModelCacheKey
-import models.domain.disposal_of_vehicle.DisposeFormModel.DisposeFormRegistrationNumberCacheKey
-import models.domain.disposal_of_vehicle.DisposeFormModel.DisposeFormTimestampIdCacheKey
-import models.domain.disposal_of_vehicle.DisposeFormModel.DisposeFormTransactionIdCacheKey
-import models.domain.disposal_of_vehicle.DisposeFormModel.DisposeOccurredCacheKey
-import models.domain.disposal_of_vehicle.DisposeFormModel.PreventGoingToDisposePageCacheKey
-import models.domain.disposal_of_vehicle.DisposeModel
-import models.domain.disposal_of_vehicle.DisposeModel.DisposeModelCacheKey
+import viewmodels.BusinessChooseYourAddressViewModel
+import viewmodels.BusinessChooseYourAddressViewModel.BusinessChooseYourAddressCacheKey
+import viewmodels.DisposeFormViewModel
+import viewmodels.DisposeFormViewModel.DisposeFormModelCacheKey
+import viewmodels.DisposeFormViewModel.DisposeFormRegistrationNumberCacheKey
+import viewmodels.DisposeFormViewModel.DisposeFormTimestampIdCacheKey
+import viewmodels.DisposeFormViewModel.DisposeFormTransactionIdCacheKey
+import viewmodels.DisposeFormViewModel.DisposeOccurredCacheKey
+import viewmodels.DisposeFormViewModel.PreventGoingToDisposePageCacheKey
+import DisposeViewModel.DisposeModelCacheKey
 import EnterAddressManuallyViewModel.EnterAddressManuallyCacheKey
-import models.domain.disposal_of_vehicle.SetupTradeDetailsModel
-import models.domain.disposal_of_vehicle.SetupTradeDetailsModel.SetupTradeDetailsCacheKey
-import models.domain.disposal_of_vehicle.TraderDetailsModel
-import models.domain.disposal_of_vehicle.TraderDetailsModel.TraderDetailsCacheKey
-import models.domain.disposal_of_vehicle.VehicleDetailsModel
-import models.domain.disposal_of_vehicle.VehicleDetailsModel.VehicleLookupDetailsCacheKey
-import models.domain.disposal_of_vehicle.VehicleLookupFormModel
-import models.domain.disposal_of_vehicle.VehicleLookupFormModel.VehicleLookupFormModelCacheKey
-import models.domain.disposal_of_vehicle.VehicleLookupFormModel.VehicleLookupResponseCodeCacheKey
+import viewmodels.SetupTradeDetailsViewModel
+import viewmodels.SetupTradeDetailsViewModel.SetupTradeDetailsCacheKey
+import viewmodels.TraderDetailsViewModel
+import viewmodels.TraderDetailsViewModel.TraderDetailsCacheKey
+import viewmodels.VehicleDetailsViewModel
+import viewmodels.VehicleDetailsViewModel.VehicleLookupDetailsCacheKey
+import viewmodels.VehicleLookupFormViewModel
+import viewmodels.VehicleLookupFormViewModel.VehicleLookupFormModelCacheKey
+import viewmodels.VehicleLookupFormViewModel.VehicleLookupResponseCodeCacheKey
 import org.joda.time.DateTime
 import pages.disposal_of_vehicle.{VehicleLookupPage, HelpPage}
 import play.api.libs.json.{Writes, Json}
@@ -76,14 +75,14 @@ object CookieFactoryForUnitSpecs extends TestComposition { // TODO can we make t
 
   def setupTradeDetails(traderPostcode: String = PostcodeValid): Cookie = {
     val key = SetupTradeDetailsCacheKey
-    val value = SetupTradeDetailsModel(traderBusinessName = TraderBusinessNameValid,
+    val value = SetupTradeDetailsViewModel(traderBusinessName = TraderBusinessNameValid,
       traderPostcode = traderPostcode)
     createCookie(key, value)
   }
 
   def businessChooseYourAddress(): Cookie = {
     val key = BusinessChooseYourAddressCacheKey
-    val value = BusinessChooseYourAddressModel(uprnSelected = traderUprnValid.toString)
+    val value = BusinessChooseYourAddressViewModel(uprnSelected = traderUprnValid.toString)
     createCookie(key, value)
   }
 
@@ -109,7 +108,7 @@ object CookieFactoryForUnitSpecs extends TestComposition { // TODO can we make t
                          postTown: String = PostTownValid,
                          traderPostcode: String = PostcodeValid): Cookie = {
     val key = TraderDetailsCacheKey
-    val value = TraderDetailsModel(
+    val value = TraderDetailsViewModel(
       traderName = TraderBusinessNameValid,
       traderAddress = AddressViewModel(
         uprn = uprn,
@@ -124,7 +123,7 @@ object CookieFactoryForUnitSpecs extends TestComposition { // TODO can we make t
                                              postTown: String = PostTownValid,
                                              traderPostcode: String = PostcodeValid): Cookie = {
     val key = TraderDetailsCacheKey
-    val value = TraderDetailsModel(
+    val value = TraderDetailsViewModel(
       traderName = TraderBusinessNameValid,
       traderAddress = AddressViewModel(
         uprn = uprn,
@@ -140,7 +139,7 @@ object CookieFactoryForUnitSpecs extends TestComposition { // TODO can we make t
                               postTown: String = PostTownValid,
                               traderPostcode: String = PostcodeValid): Cookie = {
     val key = TraderDetailsCacheKey
-    val value = TraderDetailsModel(
+    val value = TraderDetailsViewModel(
       traderName = TraderBusinessNameValid,
       traderAddress = AddressViewModel(
         uprn = uprn,
@@ -154,7 +153,7 @@ object CookieFactoryForUnitSpecs extends TestComposition { // TODO can we make t
                                  postTown: String = PostTownValid,
                                  traderPostcode: String = PostcodeValid): Cookie = {
     val key = TraderDetailsCacheKey
-    val value = TraderDetailsModel(
+    val value = TraderDetailsViewModel(
       traderName = TraderBusinessNameValid,
       traderAddress = AddressViewModel(uprn = uprn, address = Seq(postTown, traderPostcode)
       )
@@ -179,7 +178,7 @@ object CookieFactoryForUnitSpecs extends TestComposition { // TODO can we make t
   def vehicleLookupFormModel(referenceNumber: String = ReferenceNumberValid,
                              registrationNumber: String = RegistrationNumberValid): Cookie = {
     val key = VehicleLookupFormModelCacheKey
-    val value = VehicleLookupFormModel(
+    val value = VehicleLookupFormViewModel(
       referenceNumber = referenceNumber,
       registrationNumber = registrationNumber
     )
@@ -191,7 +190,7 @@ object CookieFactoryForUnitSpecs extends TestComposition { // TODO can we make t
                           vehicleModel: String = VehicleModelValid,
                           keeperName: String = KeeperNameValid): Cookie = {
     val key = VehicleLookupDetailsCacheKey
-    val value = VehicleDetailsModel(
+    val value = VehicleDetailsViewModel(
       registrationNumber = registrationNumber,
       vehicleMake = vehicleMake,
       vehicleModel = vehicleModel
@@ -204,7 +203,7 @@ object CookieFactoryForUnitSpecs extends TestComposition { // TODO can we make t
 
   def disposeFormModel(mileage: Option[Int] = None): Cookie = {
     val key = DisposeFormModelCacheKey
-    val value = DisposeFormModel(
+    val value = DisposeFormViewModel(
       mileage = mileage,
       dateOfDisposal = DayMonthYear(
         FakeDateServiceImpl.DateOfDisposalDayValid.toInt,
@@ -244,7 +243,7 @@ object CookieFactoryForUnitSpecs extends TestComposition { // TODO can we make t
                    dateOfDisposal: DayMonthYear = DayMonthYear.today,
                    mileage: Option[Int] = None): Cookie = {
     val key = DisposeModelCacheKey
-    val value = DisposeModel(
+    val value = DisposeViewModel(
       referenceNumber = referenceNumber,
       registrationNumber = registrationNumber,
       dateOfDisposal = dateOfDisposal,

@@ -1,8 +1,8 @@
 package services.vehicle_lookup
 
-import models.domain.disposal_of_vehicle.{VehicleDetailsRequest, VehicleDetailsResponse}
+import models.domain.disposal_of_vehicle.{VehicleDetailsRequestDto, VehicleDetailsResponseDto}
 import scala.concurrent.Future
 
 trait VehicleLookupService {
-  def invoke(cmd: VehicleDetailsRequest, trackingId: String): (Future[(Int, Option[VehicleDetailsResponse])])
+  def invoke(cmd: VehicleDetailsRequestDto, trackingId: String): (Future[(Int, Option[VehicleDetailsResponseDto])])
 }

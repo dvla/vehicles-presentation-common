@@ -12,8 +12,8 @@ import viewmodels.EnterAddressManuallyViewModel
 import EnterAddressManuallyViewModel.AddressAndPostcodeId
 import mappings.common.AddressLines.{AddressLinesId, BuildingNameOrNumberId, PostTownId, Line2Id, Line3Id}
 import mappings.common.Postcode.PostcodeId
-import models.domain.disposal_of_vehicle.TraderDetailsModel
-import models.domain.disposal_of_vehicle.TraderDetailsModel.TraderDetailsCacheKey
+import viewmodels.TraderDetailsViewModel
+import viewmodels.TraderDetailsViewModel.TraderDetailsCacheKey
 import org.mockito.Mockito.when
 import pages.disposal_of_vehicle.{SetupTradeDetailsPage, VehicleLookupPage}
 import play.api.mvc.SimpleResult
@@ -123,7 +123,7 @@ final class EnterAddressManuallyUnitSpec extends UnitSpec {
         cookies.find(_.name == traderDetailsCookieName) match {
           case Some(cookie) =>
             val json = cookie.value
-            val model = deserializeJsonToModel[TraderDetailsModel](json)
+            val model = deserializeJsonToModel[TraderDetailsViewModel](json)
             val expectedData = Seq(BuildingNameOrNumberValid.toUpperCase,
               Line2Valid.toUpperCase,
               Line3Valid.toUpperCase,
@@ -283,7 +283,7 @@ final class EnterAddressManuallyUnitSpec extends UnitSpec {
       cookies.find(_.name == traderDetailsCookieName) match {
         case Some(cookie) =>
           val json = cookie.value
-          val model = deserializeJsonToModel[TraderDetailsModel](json)
+          val model = deserializeJsonToModel[TraderDetailsViewModel](json)
           val expectedData = Seq(buildingName,
             line2,
             line3,

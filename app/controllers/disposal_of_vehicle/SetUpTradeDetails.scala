@@ -5,7 +5,7 @@ import common.ClientSideSessionFactory
 import common.CookieImplicits.{RichForm, RichSimpleResult}
 import mappings.common.Postcode.postcode
 import mappings.disposal_of_vehicle.SetupTradeDetails.{TraderNameId, TraderPostcodeId, traderBusinessName}
-import models.domain.disposal_of_vehicle.SetupTradeDetailsModel
+import viewmodels.SetupTradeDetailsViewModel
 import play.api.data.Forms.mapping
 import play.api.data.{Form, FormError}
 import play.api.mvc.{Action, Controller}
@@ -19,7 +19,7 @@ final class SetUpTradeDetails @Inject()()(implicit clientSideSessionFactory: Cli
     mapping(
       TraderNameId -> traderBusinessName(),
       TraderPostcodeId -> postcode
-    )(SetupTradeDetailsModel.apply)(SetupTradeDetailsModel.unapply)
+    )(SetupTradeDetailsViewModel.apply)(SetupTradeDetailsViewModel.unapply)
   )
 
   def present = Action { implicit request =>

@@ -5,17 +5,17 @@ import common.ClientSideSessionFactory
 import common.CookieImplicits.{RichCookies, RichSimpleResult}
 import mappings.disposal_of_vehicle.Dispose.SurveyRequestTriggerDateCacheKey
 import mappings.disposal_of_vehicle.RelatedCacheKeys
-import models.domain.disposal_of_vehicle.{DisposeFormModel, TraderDetailsModel, VehicleDetailsModel}
-import models.domain.disposal_of_vehicle.DisposeFormModel.DisposeFormRegistrationNumberCacheKey
-import models.domain.disposal_of_vehicle.DisposeFormModel.DisposeFormTimestampIdCacheKey
-import models.domain.disposal_of_vehicle.DisposeFormModel.DisposeFormTransactionIdCacheKey
-import models.domain.disposal_of_vehicle.DisposeFormModel.DisposeOccurredCacheKey
-import models.domain.disposal_of_vehicle.DisposeFormModel.PreventGoingToDisposePageCacheKey
+import viewmodels.{DisposeFormViewModel, TraderDetailsViewModel, VehicleDetailsViewModel}
+import models.domain.disposal_of_vehicle.DisposeModel
+import viewmodels.DisposeFormViewModel.DisposeFormRegistrationNumberCacheKey
+import viewmodels.DisposeFormViewModel.DisposeFormTimestampIdCacheKey
+import viewmodels.DisposeFormViewModel.DisposeFormTransactionIdCacheKey
+import viewmodels.DisposeFormViewModel.DisposeOccurredCacheKey
+import viewmodels.DisposeFormViewModel.PreventGoingToDisposePageCacheKey
 import org.joda.time.format.DateTimeFormat
 import play.api.mvc.{Action, Controller, Request}
 import services.DateService
 import utils.helpers.Config
-import viewmodels.DisposeViewModel
 
 final class DisposeSuccess @Inject()(implicit clientSideSessionFactory: ClientSideSessionFactory,
                                      config: Config,
@@ -23,9 +23,9 @@ final class DisposeSuccess @Inject()(implicit clientSideSessionFactory: ClientSi
                                      dateService: DateService) extends Controller {
 
   def present = Action { implicit request =>
-    (request.cookies.getModel[TraderDetailsModel],
-     request.cookies.getModel[DisposeFormModel],
-     request.cookies.getModel[VehicleDetailsModel],
+    (request.cookies.getModel[TraderDetailsViewModel],
+     request.cookies.getModel[DisposeFormViewModel],
+     request.cookies.getModel[VehicleDetailsViewModel],
      request.cookies.getString(DisposeFormTransactionIdCacheKey),
      request.cookies.getString(DisposeFormRegistrationNumberCacheKey),
      request.cookies.getString(DisposeFormTimestampIdCacheKey)) match {
@@ -51,7 +51,7 @@ final class DisposeSuccess @Inject()(implicit clientSideSessionFactory: ClientSi
   }
 
   def newDisposal = Action { implicit request =>
-    (request.cookies.getModel[TraderDetailsModel], request.cookies.getModel[VehicleDetailsModel]) match {
+    (request.cookies.getModel[TraderDetailsViewModel], request.cookies.getModel[VehicleDetailsViewModel]) match {
       case (Some(traderDetails), Some(vehicleDetails)) =>
         Redirect(routes.VehicleLookup.present()).
           discardingCookies(RelatedCacheKeys.DisposeSet).
@@ -68,12 +68,12 @@ final class DisposeSuccess @Inject()(implicit clientSideSessionFactory: ClientSi
       withCookie(SurveyRequestTriggerDateCacheKey, dateService.now.getMillis.toString)
   }
 
-  private def createViewModel(traderDetails: TraderDetailsModel,
-                              disposeFormModel: DisposeFormModel,
-                              vehicleDetails: VehicleDetailsModel,
+  private def createViewModel(traderDetails: TraderDetailsViewModel,
+                              disposeFormModel: DisposeFormViewModel,
+                              vehicleDetails: VehicleDetailsViewModel,
                               transactionId: Option[String],
-                              registrationNumber: String): DisposeViewModel =
-    DisposeViewModel(
+                              registrationNumber: String): DisposeModel =
+    DisposeModel(
       vehicleMake = vehicleDetails.vehicleMake,
       vehicleModel = vehicleDetails.vehicleModel,
       dealerName = traderDetails.traderName,

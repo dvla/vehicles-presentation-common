@@ -3,20 +3,20 @@ package controllers.disposal_of_vehicle
 import com.google.inject.Inject
 import common.ClientSideSessionFactory
 import common.CookieImplicits.RichCookies
-import models.domain.disposal_of_vehicle.DisposeFormModel.DisposeFormTransactionIdCacheKey
-import models.domain.disposal_of_vehicle.{DisposeFormModel, TraderDetailsModel, VehicleDetailsModel}
+import models.domain.disposal_of_vehicle.DisposeModel
+import viewmodels.{DisposeFormViewModel, TraderDetailsViewModel, VehicleDetailsViewModel}
+import viewmodels.DisposeFormViewModel.DisposeFormTransactionIdCacheKey
 import play.api.Logger
 import play.api.mvc.{Action, Controller}
 import utils.helpers.Config
-import viewmodels.DisposeViewModel
 
 final class DisposeFailure @Inject()()(implicit clientSideSessionFactory: ClientSideSessionFactory,
                                        config: Config) extends Controller {
 
   def present = Action { implicit request =>
-    (request.cookies.getModel[TraderDetailsModel],
-     request.cookies.getModel[DisposeFormModel],
-     request.cookies.getModel[VehicleDetailsModel],
+    (request.cookies.getModel[TraderDetailsViewModel],
+     request.cookies.getModel[DisposeFormViewModel],
+     request.cookies.getModel[VehicleDetailsViewModel],
      request.cookies.getString(DisposeFormTransactionIdCacheKey)) match {
       case (Some(dealerDetails), Some(disposeFormModel), Some(vehicleDetails), Some(transactionId)) =>
         val disposeViewModel = createViewModel(dealerDetails, vehicleDetails, Some(transactionId))
@@ -27,10 +27,10 @@ final class DisposeFailure @Inject()()(implicit clientSideSessionFactory: Client
     }
   }
 
-  private def createViewModel(traderDetails: TraderDetailsModel,
-                              vehicleDetails: VehicleDetailsModel,
-                              transactionId: Option[String]): DisposeViewModel =
-    DisposeViewModel(
+  private def createViewModel(traderDetails: TraderDetailsViewModel,
+                              vehicleDetails: VehicleDetailsViewModel,
+                              transactionId: Option[String]): DisposeModel =
+    DisposeModel(
       registrationNumber = vehicleDetails.registrationNumber,
       vehicleMake = vehicleDetails.vehicleMake,
       vehicleModel = vehicleDetails.vehicleModel,

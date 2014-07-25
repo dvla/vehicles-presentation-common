@@ -1,8 +1,8 @@
 package services.fakes
 
-import models.domain.disposal_of_vehicle.PostcodeToAddressResponse
-import models.domain.disposal_of_vehicle.UprnAddressPair
-import models.domain.disposal_of_vehicle.UprnToAddressResponse
+import models.domain.disposal_of_vehicle.PostcodeToAddressResponseDto
+import models.domain.disposal_of_vehicle.UprnAddressPairDto
+import models.domain.disposal_of_vehicle.UprnToAddressResponseDto
 import play.api.http.Status.OK
 import play.api.i18n.Lang
 import play.api.libs.json.Json
@@ -40,16 +40,16 @@ object FakeAddressLookupWebServiceImpl {
   }
 
   def uprnAddressPairWithDefaults(uprn: String = traderUprnValid.toString, houseName: String = "presentationProperty stub", houseNumber: String = "123") =
-    UprnAddressPair(uprn, address = addressSeq(houseName, houseNumber).mkString(", "))
+    UprnAddressPairDto(uprn, address = addressSeq(houseName, houseNumber).mkString(", "))
 
-  def postcodeToAddressResponseValid: PostcodeToAddressResponse = {
+  def postcodeToAddressResponseValid: PostcodeToAddressResponseDto = {
     val results = Seq(
       uprnAddressPairWithDefaults(),
       uprnAddressPairWithDefaults(uprn = "67890", houseNumber = "456"),
       uprnAddressPairWithDefaults(uprn = "111213", houseNumber = "789")
     )
 
-    PostcodeToAddressResponse(addresses = results)
+    PostcodeToAddressResponseDto(addresses = results)
   }
 
   def responseValidForPostcodeToAddress: Future[Response] = {
@@ -61,7 +61,7 @@ object FakeAddressLookupWebServiceImpl {
   }
 
   def responseValidForPostcodeToAddressNotFound: Future[Response] = {
-    val inputAsJson = Json.toJson(PostcodeToAddressResponse(addresses = Seq.empty))
+    val inputAsJson = Json.toJson(PostcodeToAddressResponseDto(addresses = Seq.empty))
 
     Future {
       FakeResponse(status = OK, fakeJson = Some(inputAsJson))
@@ -70,7 +70,7 @@ object FakeAddressLookupWebServiceImpl {
 
   val uprnToAddressResponseValid = {
     val uprnAddressPair = uprnAddressPairWithDefaults()
-    UprnToAddressResponse(addressViewModel = Some(AddressViewModel(uprn = Some(uprnAddressPair.uprn.toLong), address = uprnAddressPair.address.split(", "))))
+    UprnToAddressResponseDto(addressViewModel = Some(AddressViewModel(uprn = Some(uprnAddressPair.uprn.toLong), address = uprnAddressPair.address.split(", "))))
   }
 
   def responseValidForUprnToAddress: Future[Response] = {
@@ -82,7 +82,7 @@ object FakeAddressLookupWebServiceImpl {
   }
 
   def responseValidForUprnToAddressNotFound: Future[Response] = {
-    val inputAsJson = Json.toJson(UprnToAddressResponse(addressViewModel = None))
+    val inputAsJson = Json.toJson(UprnToAddressResponseDto(addressViewModel = None))
 
     Future {
       FakeResponse(status = OK, fakeJson = Some(inputAsJson))

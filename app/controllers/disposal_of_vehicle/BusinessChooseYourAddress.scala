@@ -7,7 +7,7 @@ import mappings.common.DropDown.addressDropDown
 import mappings.disposal_of_vehicle.BusinessChooseYourAddress.AddressSelectId
 import viewmodels.EnterAddressManuallyViewModel
 import EnterAddressManuallyViewModel.EnterAddressManuallyCacheKey
-import models.domain.disposal_of_vehicle.{BusinessChooseYourAddressModel, SetupTradeDetailsModel, TraderDetailsModel}
+import viewmodels.{BusinessChooseYourAddressViewModel, SetupTradeDetailsViewModel, TraderDetailsViewModel}
 import play.api.data.Forms.mapping
 import play.api.data.{Form, FormError}
 import play.api.i18n.Lang
@@ -31,11 +31,11 @@ final class BusinessChooseYourAddress @Inject()(addressLookupService: AddressLoo
       Validation is done when we make a second web call with the UPRN,
       so if a bad guy is injecting a non-existent UPRN then it will fail at that step instead */
       AddressSelectId -> addressDropDown
-    )(BusinessChooseYourAddressModel.apply)(BusinessChooseYourAddressModel.unapply)
+    )(BusinessChooseYourAddressViewModel.apply)(BusinessChooseYourAddressViewModel.unapply)
   )
 
   def present = Action.async { implicit request =>
-    request.cookies.getModel[SetupTradeDetailsModel] match {
+    request.cookies.getModel[SetupTradeDetailsViewModel] match {
       case Some(setupTradeDetailsModel) =>
         val session = clientSideSessionFactory.getSession(request.cookies)
         fetchAddresses(setupTradeDetailsModel)(session, lang).map { addresses =>
@@ -53,7 +53,7 @@ final class BusinessChooseYourAddress @Inject()(addressLookupService: AddressLoo
   def submit = Action.async { implicit request =>
     form.bindFromRequest.fold(
       invalidForm =>
-        request.cookies.getModel[SetupTradeDetailsModel] match {
+        request.cookies.getModel[SetupTradeDetailsViewModel] match {
           case Some(setupTradeDetails) =>
             implicit val session = clientSideSessionFactory.getSession(request.cookies)
             fetchAddresses(setupTradeDetails).map { addresses =>
@@ -68,7 +68,7 @@ final class BusinessChooseYourAddress @Inject()(addressLookupService: AddressLoo
           }
         },
       validForm =>
-        request.cookies.getModel[SetupTradeDetailsModel] match {
+        request.cookies.getModel[SetupTradeDetailsViewModel] match {
           case Some(setupTradeDetailsModel) =>
             implicit val session = clientSideSessionFactory.getSession(request.cookies)
             lookupUprn(validForm, setupTradeDetailsModel.traderBusinessName)
@@ -80,20 +80,20 @@ final class BusinessChooseYourAddress @Inject()(addressLookupService: AddressLoo
     )
   }
 
-  private def formWithReplacedErrors(form: Form[BusinessChooseYourAddressModel])(implicit request: Request[_]) =
+  private def formWithReplacedErrors(form: Form[BusinessChooseYourAddressViewModel])(implicit request: Request[_]) =
     form.replaceError(AddressSelectId, "error.required",
       FormError(key = AddressSelectId, message = "disposal_businessChooseYourAddress.address.required", args = Seq.empty)).
       distinctErrors
 
-  private def fetchAddresses(model: SetupTradeDetailsModel)(implicit session: ClientSideSession, lang: Lang) =
+  private def fetchAddresses(model: SetupTradeDetailsViewModel)(implicit session: ClientSideSession, lang: Lang) =
     addressLookupService.fetchAddressesForPostcode(model.traderPostcode, session.trackingId)
 
-  private def lookupUprn(model: BusinessChooseYourAddressModel, traderName: String)
+  private def lookupUprn(model: BusinessChooseYourAddressViewModel, traderName: String)
                         (implicit request: Request[_], session: ClientSideSession) = {
     val lookedUpAddress = addressLookupService.fetchAddressForUprn(model.uprnSelected.toString, session.trackingId)
     lookedUpAddress.map {
       case Some(addressViewModel) =>
-        val traderDetailsModel = TraderDetailsModel(traderName = traderName, traderAddress = addressViewModel)
+        val traderDetailsModel = TraderDetailsViewModel(traderName = traderName, traderAddress = addressViewModel)
         /* The redirect is done as the final step within the map so that:
          1) we are not blocking threads
          2) the browser does not change page before the future has completed and written to the cache. */

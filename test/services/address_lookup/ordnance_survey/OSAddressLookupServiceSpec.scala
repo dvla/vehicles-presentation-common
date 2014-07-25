@@ -2,7 +2,7 @@ package services.address_lookup.ordnance_survey
 
 import common.ClearTextClientSideSessionFactory
 import helpers.UnitSpec
-import models.domain.disposal_of_vehicle.{UprnToAddressResponse, PostcodeToAddressResponse}
+import models.domain.disposal_of_vehicle.{UprnToAddressResponseDto, PostcodeToAddressResponseDto}
 import play.api.http.Status.{OK, NOT_FOUND}
 import play.api.libs.json.Json
 import play.api.libs.json.JsValue
@@ -35,7 +35,7 @@ final class OSAddressLookupServiceSpec extends UnitSpec {
     }
 
     "return empty seq when response status is Ok but results is empty" in {
-      val service = addressServiceMock(responsePostcode(OK, PostcodeToAddressResponse(addresses = Seq.empty)))
+      val service = addressServiceMock(responsePostcode(OK, PostcodeToAddressResponseDto(addresses = Seq.empty)))
 
       val result = service.fetchAddressesForPostcode(PostcodeValid, ClearTextClientSideSessionFactory.DefaultTrackingId)
 
@@ -91,7 +91,7 @@ final class OSAddressLookupServiceSpec extends UnitSpec {
     }
 
     "return None when response status not 200 OK" in {
-      val service = addressServiceMock(responseUprn(NOT_FOUND, UprnToAddressResponse(addressViewModel = None)))
+      val service = addressServiceMock(responseUprn(NOT_FOUND, UprnToAddressResponseDto(addressViewModel = None)))
 
       val result = service.fetchAddressForUprn(traderUprnValid.toString, ClearTextClientSideSessionFactory.DefaultTrackingId)
 
@@ -101,7 +101,7 @@ final class OSAddressLookupServiceSpec extends UnitSpec {
     }
 
     "return none when response status is 200 OK but results is empty" in {
-      val service = addressServiceMock(responseUprn(OK, UprnToAddressResponse(addressViewModel = None)))
+      val service = addressServiceMock(responseUprn(OK, UprnToAddressResponseDto(addressViewModel = None)))
 
       val result = service.fetchAddressForUprn(traderUprnValid.toString, ClearTextClientSideSessionFactory.DefaultTrackingId)
 
@@ -144,13 +144,13 @@ final class OSAddressLookupServiceSpec extends UnitSpec {
   }
 
   private def responsePostcode(statusCode: Int,
-                       input: PostcodeToAddressResponse = postcodeToAddressResponseValid): Future[Response] = {
+                       input: PostcodeToAddressResponseDto = postcodeToAddressResponseValid): Future[Response] = {
     val inputAsJson = Json.toJson(input)
     response(statusCode, inputAsJson)
   }
 
   private def responseUprn(statusCode: Int,
-                   input: UprnToAddressResponse = uprnToAddressResponseValid): Future[Response] = {
+                   input: UprnToAddressResponseDto = uprnToAddressResponseValid): Future[Response] = {
     val inputAsJson = Json.toJson(input)
     response(statusCode, inputAsJson)
   }

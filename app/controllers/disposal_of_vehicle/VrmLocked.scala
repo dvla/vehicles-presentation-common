@@ -4,7 +4,7 @@ import com.google.inject.Inject
 import common.ClientSideSessionFactory
 import common.CookieImplicits.{RichCookies, RichSimpleResult}
 import mappings.disposal_of_vehicle.RelatedCacheKeys
-import models.domain.disposal_of_vehicle.TraderDetailsModel
+import viewmodels.TraderDetailsViewModel
 import play.api.Logger
 import play.api.mvc.{Action, Controller}
 import utils.helpers.Config
@@ -25,7 +25,7 @@ final class VrmLocked @Inject()()(implicit clientSideSessionFactory: ClientSideS
   }
 
   def newDisposal = Action { implicit request =>
-    request.cookies.getModel[TraderDetailsModel] match {
+    request.cookies.getModel[TraderDetailsViewModel] match {
       case (Some(traderDetails)) =>
         Redirect(routes.VehicleLookup.present()).discardingCookies(RelatedCacheKeys.DisposeSet)
       case _ => Redirect(routes.SetUpTradeDetails.present())

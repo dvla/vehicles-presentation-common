@@ -9,14 +9,14 @@ import mappings.disposal_of_vehicle.RelatedCacheKeys
 import mappings.disposal_of_vehicle.Dispose.SurveyRequestTriggerDateCacheKey
 import mappings.disposal_of_vehicle.VehicleLookup.DocumentReferenceNumberId
 import mappings.disposal_of_vehicle.VehicleLookup.VehicleRegistrationNumberId
-import models.domain.disposal_of_vehicle.DisposeFormModel.{DisposeOccurredCacheKey, PreventGoingToDisposePageCacheKey}
-import models.domain.disposal_of_vehicle.TraderDetailsModel
+import viewmodels.DisposeFormViewModel.{DisposeOccurredCacheKey, PreventGoingToDisposePageCacheKey}
+import viewmodels.TraderDetailsViewModel
 import models.domain.disposal_of_vehicle.VehicleDetailsDto
-import models.domain.disposal_of_vehicle.VehicleDetailsModel
-import models.domain.disposal_of_vehicle.VehicleDetailsRequest
-import models.domain.disposal_of_vehicle.VehicleDetailsResponse
-import models.domain.disposal_of_vehicle.VehicleLookupFormModel
-import models.domain.disposal_of_vehicle.VehicleLookupFormModel.VehicleLookupResponseCodeCacheKey
+import viewmodels.VehicleDetailsViewModel
+import models.domain.disposal_of_vehicle.VehicleDetailsRequestDto
+import models.domain.disposal_of_vehicle.VehicleDetailsResponseDto
+import viewmodels.VehicleLookupFormViewModel
+import viewmodels.VehicleLookupFormViewModel.VehicleLookupResponseCodeCacheKey
 import play.api.data.Forms.mapping
 import play.api.data.{Form, FormError}
 import play.api.Logger
@@ -41,11 +41,11 @@ final class VehicleLookup @Inject()(bruteForceService: BruteForcePreventionServi
     mapping(
       DocumentReferenceNumberId -> referenceNumber,
       VehicleRegistrationNumberId -> registrationNumber
-    )(VehicleLookupFormModel.apply)(VehicleLookupFormModel.unapply)
+    )(VehicleLookupFormViewModel.apply)(VehicleLookupFormViewModel.unapply)
   )
 
   def present = Action { implicit request =>
-    request.cookies.getModel[TraderDetailsModel] match {
+    request.cookies.getModel[TraderDetailsViewModel] match {
       case Some(traderDetails) =>
         Ok(views.html.disposal_of_vehicle.vehicle_lookup(
           traderDetails,
@@ -61,7 +61,7 @@ final class VehicleLookup @Inject()(bruteForceService: BruteForcePreventionServi
     form.bindFromRequest.fold(
       invalidForm =>
         Future {
-          request.cookies.getModel[TraderDetailsModel] match {
+          request.cookies.getModel[TraderDetailsViewModel] match {
             case Some(traderDetails) =>
               val formWithReplacedErrors = invalidForm.replaceError(
                 VehicleRegistrationNumberId,
@@ -107,12 +107,12 @@ final class VehicleLookup @Inject()(bruteForceService: BruteForcePreventionServi
       .withCookie(SurveyRequestTriggerDateCacheKey, dateService.now.getMillis.toString)
   }
 
-  private def convertToUpperCaseAndRemoveSpaces(model: VehicleLookupFormModel): VehicleLookupFormModel =
+  private def convertToUpperCaseAndRemoveSpaces(model: VehicleLookupFormViewModel): VehicleLookupFormViewModel =
     model.copy(registrationNumber = model.registrationNumber.replace(" ", "")
       .toUpperCase)
 
   def back = Action { implicit request =>
-    request.cookies.getModel[TraderDetailsModel] match {
+    request.cookies.getModel[TraderDetailsViewModel] match {
       case Some(dealerDetails) =>
         if (dealerDetails.traderAddress.uprn.isDefined) Redirect(routes.BusinessChooseYourAddress.present())
         else Redirect(routes.EnterAddressManually.present())
@@ -120,7 +120,7 @@ final class VehicleLookup @Inject()(bruteForceService: BruteForcePreventionServi
     }
   }
 
-  private def bruteForceAndLookup(formModel: VehicleLookupFormModel)
+  private def bruteForceAndLookup(formModel: VehicleLookupFormViewModel)
                                  (implicit request: Request[_]): Future[SimpleResult] =
 
     bruteForceService.isVrmLookupPermitted(formModel.registrationNumber).flatMap { bruteForcePreventionViewModel =>
@@ -142,12 +142,12 @@ final class VehicleLookup @Inject()(bruteForceService: BruteForcePreventionServi
         Redirect(routes.MicroServiceError.present())
     }
 
-  private def lookupVehicleResult(model: VehicleLookupFormModel,
+  private def lookupVehicleResult(model: VehicleLookupFormViewModel,
                                   bruteForcePreventionViewModel: BruteForcePreventionViewModel)
                                  (implicit request: Request[_]): Future[SimpleResult] = {
     def vehicleFoundResult(vehicleDetailsDto: VehicleDetailsDto) =
       Redirect(routes.Dispose.present()).
-        withCookie(VehicleDetailsModel.fromDto(vehicleDetailsDto)).
+        withCookie(VehicleDetailsViewModel.fromDto(vehicleDetailsDto)).
         discardingCookie(PreventGoingToDisposePageCacheKey) // US320: we have successfully called the lookup service so we cannot be coming back from a dispose success (as the doc id will have changed and the call sould fail).
 
     def vehicleNotFoundResult(responseCode: String) = {
@@ -171,7 +171,7 @@ final class VehicleLookup @Inject()(bruteForceService: BruteForcePreventionServi
       Redirect(routes.MicroServiceError.present())
     }
 
-    def createResultFromVehicleLookupResponse(vehicleDetailsResponse: VehicleDetailsResponse)
+    def createResultFromVehicleLookupResponse(vehicleDetailsResponse: VehicleDetailsResponseDto)
                                              (implicit request: Request[_]) =
       vehicleDetailsResponse.responseCode match {
         case Some(responseCode) => vehicleNotFoundResult(responseCode) // There is only a response code when there is a problem.
@@ -184,7 +184,7 @@ final class VehicleLookup @Inject()(bruteForceService: BruteForcePreventionServi
       }
 
     def vehicleLookupSuccessResponse(responseStatusVehicleLookupMS: Int,
-                                     vehicleDetailsResponse: Option[VehicleDetailsResponse])
+                                     vehicleDetailsResponse: Option[VehicleDetailsResponseDto])
                                     (implicit request: Request[_]) =
       responseStatusVehicleLookupMS match {
         case OK =>
@@ -197,13 +197,13 @@ final class VehicleLookup @Inject()(bruteForceService: BruteForcePreventionServi
       }
 
     val trackingId = request.cookies.trackingId()
-    val vehicleDetailsRequest = VehicleDetailsRequest(
+    val vehicleDetailsRequest = VehicleDetailsRequestDto(
       referenceNumber = model.referenceNumber,
       registrationNumber = model.registrationNumber,
-      userName = request.cookies.getModel[TraderDetailsModel].fold("")(_.traderName)
+      userName = request.cookies.getModel[TraderDetailsViewModel].fold("")(_.traderName)
     )
     vehicleLookupService.invoke(vehicleDetailsRequest, trackingId).map {
-      case (responseStatusVehicleLookupMS: Int, vehicleDetailsResponse: Option[VehicleDetailsResponse]) =>
+      case (responseStatusVehicleLookupMS: Int, vehicleDetailsResponse: Option[VehicleDetailsResponseDto]) =>
         vehicleLookupSuccessResponse(
           responseStatusVehicleLookupMS = responseStatusVehicleLookupMS,
           vehicleDetailsResponse = vehicleDetailsResponse).

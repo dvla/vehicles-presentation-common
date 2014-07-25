@@ -1,5 +1,5 @@
-@(data: viewmodels.DisposeViewModel,
-        disposeForm: Form[models.domain.disposal_of_vehicle.DisposeFormModel],
+@(data: models.domain.disposal_of_vehicle.DisposeModel,
+        disposeForm: Form[viewmodels.DisposeFormViewModel],
         dateService: services.DateService)(implicit lang: Lang,
         token: filters.csrf_prevention.CsrfPreventionAction.CsrfPreventionToken,
         config: utils.helpers.Config)

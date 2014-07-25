@@ -6,7 +6,7 @@ import helpers.{UnitSpec, WithApplication}
 import helpers.common.CookieHelper.{fetchCookiesFromHeaders, verifyCookieHasBeenDiscarded}
 import helpers.disposal_of_vehicle.CookieFactoryForUnitSpecs
 import mappings.disposal_of_vehicle.MicroserviceError.MicroServiceErrorRefererCacheKey
-import models.domain.disposal_of_vehicle.DisposeFormModel.PreventGoingToDisposePageCacheKey
+import viewmodels.DisposeFormViewModel.PreventGoingToDisposePageCacheKey
 import org.mockito.Mockito.when
 import pages.disposal_of_vehicle.{DisposePage, VehicleLookupPage}
 import play.api.test.FakeRequest

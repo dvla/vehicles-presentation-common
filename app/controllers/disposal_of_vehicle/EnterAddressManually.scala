@@ -3,7 +3,7 @@ package controllers.disposal_of_vehicle
 import com.google.inject.Inject
 import common.ClientSideSessionFactory
 import common.CookieImplicits.{RichCookies, RichForm, RichSimpleResult}
-import models.domain.disposal_of_vehicle.{SetupTradeDetailsModel, TraderDetailsModel}
+import viewmodels.{SetupTradeDetailsViewModel, TraderDetailsViewModel}
 import play.api.Logger
 import play.api.data.{Form, FormError}
 import play.api.mvc.{Action, Controller, Request}
@@ -21,7 +21,7 @@ final class EnterAddressManually @Inject()()
   )
 
   def present = Action { implicit request =>
-    request.cookies.getModel[SetupTradeDetailsModel] match {
+    request.cookies.getModel[SetupTradeDetailsViewModel] match {
       case Some(setupTradeDetails) =>
         Ok(enter_address_manually(form.fill(), traderPostcode = setupTradeDetails.traderPostcode))
       case None => Redirect(routes.SetUpTradeDetails.present())
@@ -31,7 +31,7 @@ final class EnterAddressManually @Inject()()
   def submit = Action { implicit request =>
     form.bindFromRequest.fold(
       invalidForm =>
-        request.cookies.getModel[SetupTradeDetailsModel] match {
+        request.cookies.getModel[SetupTradeDetailsViewModel] match {
           case Some(setupTradeDetails) =>
             BadRequest(enter_address_manually(formWithReplacedErrors(invalidForm), setupTradeDetails.traderPostcode))
           case None =>
@@ -39,13 +39,13 @@ final class EnterAddressManually @Inject()()
             Redirect(routes.SetUpTradeDetails.present())
         },
       validForm =>
-        request.cookies.getModel[SetupTradeDetailsModel] match {
+        request.cookies.getModel[SetupTradeDetailsViewModel] match {
           case Some(setupTradeDetails) =>
             val traderAddress = AddressViewModel.from(
               validForm.addressAndPostcodeModel,
               setupTradeDetails.traderPostcode
             )
-            val traderDetailsModel = TraderDetailsModel(
+            val traderDetailsModel = TraderDetailsViewModel(
               traderName = setupTradeDetails.traderBusinessName,
               traderAddress = traderAddress
             )

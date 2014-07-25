@@ -1,6 +1,6 @@
 package services.fakes
 
-import models.domain.disposal_of_vehicle.{DisposeRequest, DisposeResponse}
+import models.domain.disposal_of_vehicle.{DisposeRequestDto, DisposeResponseDto}
 import play.api.Logger
 import play.api.http.Status.OK
 import play.api.libs.json.Json
@@ -13,8 +13,8 @@ import scala.concurrent.Future
 final class FakeDisposeWebServiceImpl extends DisposeWebService {
   import FakeDisposeWebServiceImpl._
 
-  override def callDisposeService(request: DisposeRequest, trackingId: String): Future[Response] = Future {
-    val disposeResponse: DisposeResponse = {
+  override def callDisposeService(request: DisposeRequestDto, trackingId: String): Future[Response] = Future {
+    val disposeResponse: DisposeResponseDto = {
       request.referenceNumber match {
         case SimulateMicroServiceUnavailable => throw new RuntimeException("simulateMicroServiceUnavailable")
         case SimulateSoapEndpointFailure => disposeResponseSoapEndpointFailure
@@ -34,48 +34,48 @@ object FakeDisposeWebServiceImpl {
   private final val SimulateSoapEndpointFailure = "9" * 11
 
   val disposeResponseSuccess =
-    DisposeResponse(transactionId = TransactionIdValid,
+    DisposeResponseDto(transactionId = TransactionIdValid,
       registrationNumber = RegistrationNumberValid,
       auditId = AuditIdValid)
 
   val disposeResponseSoapEndpointFailure =
-    DisposeResponse(transactionId = "", // No transactionId because the soap endpoint is down
+    DisposeResponseDto(transactionId = "", // No transactionId because the soap endpoint is down
       registrationNumber = "",
       auditId = "",
       responseCode = None)
 
   val disposeResponseFailureWithResponseCode =
-    DisposeResponse(transactionId = TransactionIdValid, // We should always get back a transaction id even for failure scenarios. Only exception is if the soap endpoint is down
+    DisposeResponseDto(transactionId = TransactionIdValid, // We should always get back a transaction id even for failure scenarios. Only exception is if the soap endpoint is down
       registrationNumber = "",
       auditId = "",
       responseCode = Some("ms.vehiclesService.response.unableToProcessApplication"))
 
   val disposeResponseFailureWithDuplicateDisposal =
-    DisposeResponse(transactionId = TransactionIdValid, // We should always get back a transaction id even for failure scenarios. Only exception is if the soap endpoint is down
+    DisposeResponseDto(transactionId = TransactionIdValid, // We should always get back a transaction id even for failure scenarios. Only exception is if the soap endpoint is down
       registrationNumber = "",
       auditId = "",
       responseCode = Some("ms.vehiclesService.response.duplicateDisposalToTrade"))
 
   val disposeResponseSoapEndpointTimeout =
-    DisposeResponse(transactionId = "", // No transactionId because the soap endpoint is down
+    DisposeResponseDto(transactionId = "", // No transactionId because the soap endpoint is down
       registrationNumber = "",
       auditId = "",
       responseCode = None)
 
   val disposeResponseApplicationBeingProcessed =
-    DisposeResponse(transactionId = TransactionIdValid,
+    DisposeResponseDto(transactionId = TransactionIdValid,
       registrationNumber = RegistrationNumberValid,
       auditId = AuditIdValid,
       responseCode = None)
 
   val disposeResponseUnableToProcessApplication =
-    DisposeResponse(transactionId = "", // No transactionId because the soap endpoint is down
+    DisposeResponseDto(transactionId = "", // No transactionId because the soap endpoint is down
       registrationNumber = "",
       auditId = "",
       responseCode = Some("ms.vehiclesService.response.unableToProcessApplication"))
 
   val disposeResponseUndefinedError =
-    DisposeResponse(transactionId = "", // No transactionId because the soap endpoint is down
+    DisposeResponseDto(transactionId = "", // No transactionId because the soap endpoint is down
       registrationNumber = "",
       auditId = "",
       responseCode = Some("undefined"))

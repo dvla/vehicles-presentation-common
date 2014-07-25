@@ -3,7 +3,7 @@ package services.address_lookup.ordnance_survey
 import javax.inject.Inject
 
 import common.LogFormats
-import models.domain.disposal_of_vehicle.{PostcodeToAddressResponse, UprnToAddressResponse}
+import models.domain.disposal_of_vehicle.{PostcodeToAddressResponseDto, UprnToAddressResponseDto}
 import play.api.Logger
 import play.api.i18n.Lang
 import play.api.libs.ws.Response
@@ -18,8 +18,8 @@ final class AddressLookupServiceImpl @Inject()(ws: AddressLookupWebService) exte
   override def fetchAddressesForPostcode(postcode: String, trackingId: String)
                                         (implicit lang: Lang): Future[Seq[(String, String)]] = {
 
-    def extractFromJson(resp: Response): Option[PostcodeToAddressResponse] =
-      resp.json.asOpt[PostcodeToAddressResponse]
+    def extractFromJson(resp: Response): Option[PostcodeToAddressResponseDto] =
+      resp.json.asOpt[PostcodeToAddressResponseDto]
 
     def toDropDown(resp: Response): Seq[(String, String)] =
       extractFromJson(resp) match {
@@ -47,8 +47,8 @@ final class AddressLookupServiceImpl @Inject()(ws: AddressLookupWebService) exte
                                   (implicit lang: Lang): Future[Option[AddressViewModel]] = {
 
     // Extract result from response and return as a view model.
-    def extractFromJson(resp: Response): Option[UprnToAddressResponse] = {
-      resp.json.asOpt[UprnToAddressResponse]
+    def extractFromJson(resp: Response): Option[UprnToAddressResponseDto] = {
+      resp.json.asOpt[UprnToAddressResponseDto]
     }
 
     def toViewModel(resp: Response) =

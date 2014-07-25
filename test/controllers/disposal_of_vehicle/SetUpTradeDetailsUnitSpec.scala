@@ -8,8 +8,8 @@ import helpers.JsonUtils.deserializeJsonToModel
 import helpers.UnitSpec
 import helpers.WithApplication
 import mappings.disposal_of_vehicle.SetupTradeDetails
-import models.domain.disposal_of_vehicle.SetupTradeDetailsModel
-import models.domain.disposal_of_vehicle.SetupTradeDetailsModel.SetupTradeDetailsCacheKey
+import viewmodels.SetupTradeDetailsViewModel
+import viewmodels.SetupTradeDetailsViewModel.SetupTradeDetailsCacheKey
 import org.mockito.Mockito.when
 import pages.disposal_of_vehicle.BusinessChooseYourAddressPage
 import play.api.test.FakeRequest
@@ -70,7 +70,7 @@ final class SetUpTradeDetailsUnitSpec extends UnitSpec {
           cookies.find(_.name == cookieName) match {
             case Some(cookie) =>
               val json = cookie.value
-              val model = deserializeJsonToModel[SetupTradeDetailsModel](json)
+              val model = deserializeJsonToModel[SetupTradeDetailsViewModel](json)
               model.traderBusinessName should equal(TraderBusinessNameValid.toUpperCase)
               model.traderPostcode should equal(PostcodeValid.toUpperCase)
             case None => fail(s"$cookieName cookie not found")

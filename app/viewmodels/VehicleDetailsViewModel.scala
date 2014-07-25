@@ -1,22 +1,23 @@
-package models.domain.disposal_of_vehicle
+package viewmodels
 
 import models.domain.common.CacheKey
+import models.domain.disposal_of_vehicle.VehicleDetailsDto
 import play.api.libs.json.Json
 
-final case class VehicleDetailsModel(registrationNumber: String,
+final case class VehicleDetailsViewModel(registrationNumber: String,
                                vehicleMake: String,
                                vehicleModel: String)
 
-object VehicleDetailsModel {
+object VehicleDetailsViewModel {
   // Create a VehicleDetailsModel from the given VehicleDetailsDto. We do this in order get the data out of the response from micro-service call
   def fromDto(model: VehicleDetailsDto) =
-    VehicleDetailsModel(
+    VehicleDetailsViewModel(
       registrationNumber = model.registrationNumber,
       vehicleMake = model.vehicleMake,
       vehicleModel = model.vehicleModel
     )
 
-  implicit val JsonFormat = Json.format[VehicleDetailsModel]
+  implicit val JsonFormat = Json.format[VehicleDetailsViewModel]
   final val VehicleLookupDetailsCacheKey = "vehicleLookupDetails"
-  implicit val Key = CacheKey[VehicleDetailsModel](VehicleLookupDetailsCacheKey)
+  implicit val Key = CacheKey[VehicleDetailsViewModel](VehicleLookupDetailsCacheKey)
 }

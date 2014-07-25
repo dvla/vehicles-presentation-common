@@ -6,27 +6,26 @@ import models.DayMonthYear
 import models.domain.common.{AddressLinesModel, AddressAndPostcodeModel}
 import viewmodels._
 import BruteForcePreventionViewModel.BruteForcePreventionViewModelCacheKey
-import models.domain.disposal_of_vehicle.BusinessChooseYourAddressModel
-import models.domain.disposal_of_vehicle.BusinessChooseYourAddressModel.BusinessChooseYourAddressCacheKey
-import models.domain.disposal_of_vehicle.DisposeFormModel
-import models.domain.disposal_of_vehicle.DisposeFormModel.DisposeFormModelCacheKey
-import models.domain.disposal_of_vehicle.DisposeFormModel.DisposeFormRegistrationNumberCacheKey
-import models.domain.disposal_of_vehicle.DisposeFormModel.DisposeFormTimestampIdCacheKey
-import models.domain.disposal_of_vehicle.DisposeFormModel.DisposeFormTransactionIdCacheKey
-import models.domain.disposal_of_vehicle.DisposeFormModel.DisposeOccurredCacheKey
-import models.domain.disposal_of_vehicle.DisposeFormModel.PreventGoingToDisposePageCacheKey
-import models.domain.disposal_of_vehicle.DisposeModel
-import models.domain.disposal_of_vehicle.DisposeModel.DisposeModelCacheKey
+import viewmodels.BusinessChooseYourAddressViewModel
+import viewmodels.BusinessChooseYourAddressViewModel.BusinessChooseYourAddressCacheKey
+import viewmodels.DisposeFormViewModel
+import viewmodels.DisposeFormViewModel.DisposeFormModelCacheKey
+import viewmodels.DisposeFormViewModel.DisposeFormRegistrationNumberCacheKey
+import viewmodels.DisposeFormViewModel.DisposeFormTimestampIdCacheKey
+import viewmodels.DisposeFormViewModel.DisposeFormTransactionIdCacheKey
+import viewmodels.DisposeFormViewModel.DisposeOccurredCacheKey
+import viewmodels.DisposeFormViewModel.PreventGoingToDisposePageCacheKey
+import DisposeViewModel.DisposeModelCacheKey
 import EnterAddressManuallyViewModel.EnterAddressManuallyCacheKey
-import models.domain.disposal_of_vehicle.SetupTradeDetailsModel
-import models.domain.disposal_of_vehicle.SetupTradeDetailsModel.SetupTradeDetailsCacheKey
-import models.domain.disposal_of_vehicle.TraderDetailsModel
-import models.domain.disposal_of_vehicle.TraderDetailsModel.TraderDetailsCacheKey
-import models.domain.disposal_of_vehicle.VehicleDetailsModel
-import models.domain.disposal_of_vehicle.VehicleDetailsModel.VehicleLookupDetailsCacheKey
-import models.domain.disposal_of_vehicle.VehicleLookupFormModel
-import models.domain.disposal_of_vehicle.VehicleLookupFormModel.VehicleLookupFormModelCacheKey
-import models.domain.disposal_of_vehicle.VehicleLookupFormModel.VehicleLookupResponseCodeCacheKey
+import viewmodels.SetupTradeDetailsViewModel
+import viewmodels.SetupTradeDetailsViewModel.SetupTradeDetailsCacheKey
+import viewmodels.TraderDetailsViewModel
+import viewmodels.TraderDetailsViewModel.TraderDetailsCacheKey
+import viewmodels.VehicleDetailsViewModel
+import viewmodels.VehicleDetailsViewModel.VehicleLookupDetailsCacheKey
+import viewmodels.VehicleLookupFormViewModel
+import viewmodels.VehicleLookupFormViewModel.VehicleLookupFormModelCacheKey
+import viewmodels.VehicleLookupFormViewModel.VehicleLookupResponseCodeCacheKey
 import org.joda.time.DateTime
 import org.openqa.selenium.{WebDriver, Cookie}
 import play.api.libs.json.{Writes, Json}
@@ -73,7 +72,7 @@ object CookieFactoryForUISpecs {
 
   def setupTradeDetails(traderPostcode: String = PostcodeValid)(implicit webDriver: WebDriver) = {
     val key = SetupTradeDetailsCacheKey
-    val value = SetupTradeDetailsModel(traderBusinessName = TraderBusinessNameValid,
+    val value = SetupTradeDetailsViewModel(traderBusinessName = TraderBusinessNameValid,
       traderPostcode = traderPostcode)
     addCookie(key, value)
     this
@@ -81,7 +80,7 @@ object CookieFactoryForUISpecs {
 
   def businessChooseYourAddress(uprn: Long = traderUprnValid)(implicit webDriver: WebDriver) = {
     val key = BusinessChooseYourAddressCacheKey
-    val value = BusinessChooseYourAddressModel(uprnSelected = uprn.toString)
+    val value = BusinessChooseYourAddressViewModel(uprnSelected = uprn.toString)
     addCookie(key, value)
     this
   }
@@ -99,7 +98,7 @@ object CookieFactoryForUISpecs {
 
   def dealerDetails(address: AddressViewModel = addressWithoutUprn)(implicit webDriver: WebDriver) = {
     val key = TraderDetailsCacheKey
-    val value = TraderDetailsModel(traderName = TraderBusinessNameValid, traderAddress = address)
+    val value = TraderDetailsViewModel(traderName = TraderBusinessNameValid, traderAddress = address)
     addCookie(key, value)
     this
   }
@@ -124,7 +123,7 @@ object CookieFactoryForUISpecs {
                              registrationNumber: String = RegistrationNumberValid)
                             (implicit webDriver: WebDriver) = {
     val key = VehicleLookupFormModelCacheKey
-    val value = VehicleLookupFormModel(referenceNumber = referenceNumber,
+    val value = VehicleLookupFormViewModel(referenceNumber = referenceNumber,
       registrationNumber = registrationNumber)
     addCookie(key, value)
     this
@@ -136,7 +135,7 @@ object CookieFactoryForUISpecs {
                           keeperName: String = KeeperNameValid)
                          (implicit webDriver: WebDriver) = {
     val key = VehicleLookupDetailsCacheKey
-    val value = VehicleDetailsModel(registrationNumber = registrationNumber,
+    val value = VehicleDetailsViewModel(registrationNumber = registrationNumber,
       vehicleMake = vehicleMake,
       vehicleModel = vehicleModel)
     addCookie(key, value)
@@ -153,7 +152,7 @@ object CookieFactoryForUISpecs {
 
   def disposeFormModel()(implicit webDriver: WebDriver) = {
     val key = DisposeFormModelCacheKey
-    val value = DisposeFormModel(mileage = None,
+    val value = DisposeFormViewModel(mileage = None,
       dateOfDisposal = DayMonthYear.today,
       consent = FakeDisposeWebServiceImpl.ConsentValid,
       lossOfRegistrationConsent = FakeDisposeWebServiceImpl.ConsentValid)
@@ -166,7 +165,7 @@ object CookieFactoryForUISpecs {
                    dateOfDisposal: DayMonthYear = DayMonthYear.today,
                    mileage: Option[Int] = None)(implicit webDriver: WebDriver) = {
     val key = DisposeModelCacheKey
-    val value = DisposeModel(referenceNumber = referenceNumber,
+    val value = DisposeViewModel(referenceNumber = referenceNumber,
       registrationNumber = registrationNumber,
       dateOfDisposal = dateOfDisposal,
       consent = "true",

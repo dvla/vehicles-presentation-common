@@ -2,7 +2,7 @@ package services.vehicle_lookup
 
 import com.google.inject.Inject
 import common.LogFormats
-import models.domain.disposal_of_vehicle.VehicleDetailsRequest
+import models.domain.disposal_of_vehicle.VehicleDetailsRequestDto
 import play.api.Logger
 import play.api.libs.json.Json
 import play.api.libs.ws.{Response, WS}
@@ -13,7 +13,7 @@ import scala.concurrent.Future
 final class VehicleLookupWebServiceImpl @Inject()(config: Config) extends VehicleLookupWebService {
   private val endPoint: String = s"${config.vehicleLookupMicroServiceBaseUrl}/vehicles/lookup/v1/dispose"
 
-  override def callVehicleLookupService(request: VehicleDetailsRequest, trackingId: String): Future[Response] = {
+  override def callVehicleLookupService(request: VehicleDetailsRequestDto, trackingId: String): Future[Response] = {
     val vrm = LogFormats.anonymize(request.registrationNumber)
     val refNo = LogFormats.anonymize(request.referenceNumber)
 
