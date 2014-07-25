@@ -4,7 +4,7 @@ import helpers.common.ProgressBar
 import helpers.disposal_of_vehicle.CookieFactoryForUISpecs
 import helpers.tags.UiTag
 import helpers.UiSpec
-import mappings.disposal_of_vehicle.EnterAddressManually.EnterAddressManuallyCacheKey
+import models.domain.disposal_of_vehicle.EnterAddressManuallyModel.EnterAddressManuallyCacheKey
 import helpers.webbrowser.TestHarness
 import ProgressBar.progressStep
 import org.openqa.selenium.{By, WebElement, WebDriver}

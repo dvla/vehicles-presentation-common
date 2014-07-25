@@ -5,7 +5,7 @@ import common.{ClientSideSession, ClientSideSessionFactory}
 import javax.inject.Inject
 import mappings.common.DropDown.addressDropDown
 import mappings.disposal_of_vehicle.BusinessChooseYourAddress.AddressSelectId
-import mappings.disposal_of_vehicle.EnterAddressManually.EnterAddressManuallyCacheKey
+import models.domain.disposal_of_vehicle.EnterAddressManuallyModel.EnterAddressManuallyCacheKey
 import models.domain.disposal_of_vehicle.{BusinessChooseYourAddressModel, SetupTradeDetailsModel, TraderDetailsModel}
 import play.api.data.Forms.mapping
 import play.api.data.{Form, FormError}
