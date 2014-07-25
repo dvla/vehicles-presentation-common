@@ -7,7 +7,6 @@ import play.api.libs.json.Json
 final case class EnterAddressManuallyViewModel(addressAndPostcodeModel: AddressAndPostcodeModel)
 
 object EnterAddressManuallyViewModel {
-
   implicit val JsonFormat = Json.format[EnterAddressManuallyViewModel]
 
   final val EnterAddressManuallyCacheKey = "enterAddressManually"

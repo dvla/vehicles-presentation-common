@@ -1,5 +1,6 @@
 package models.domain.disposal_of_vehicle
 
+import viewmodels.AddressViewModel
 import AddressViewModel.JsonFormat
 import helpers.UnitSpec
 import models.domain.common.{AddressLinesModel, AddressAndPostcodeModel}
@@ -10,6 +11,7 @@ import services.fakes.FakeAddressLookupService.Line3Valid
 import services.fakes.FakeAddressLookupService.PostcodeValid
 import services.fakes.FakeAddressLookupService.PostTownValid
 import services.fakes.FakeVehicleLookupWebService.KeeperUprnValid
+import viewmodels.AddressViewModel
 
 
 final class AddressViewModelSpec extends UnitSpec {

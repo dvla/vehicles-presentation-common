@@ -1,6 +1,5 @@
 package services.fakes
 
-import models.domain.disposal_of_vehicle.AddressViewModel
 import models.domain.disposal_of_vehicle.PostcodeToAddressResponse
 import models.domain.disposal_of_vehicle.UprnAddressPair
 import models.domain.disposal_of_vehicle.UprnToAddressResponse
@@ -8,6 +7,7 @@ import play.api.http.Status.OK
 import play.api.i18n.Lang
 import play.api.libs.json.Json
 import play.api.libs.ws.Response
+import viewmodels.AddressViewModel
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 import services.address_lookup.AddressLookupWebService

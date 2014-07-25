@@ -4,9 +4,8 @@ import mappings.common.AlternateLanguages.{EnId, CyId}
 import mappings.disposal_of_vehicle.MicroserviceError.MicroServiceErrorRefererCacheKey
 import models.DayMonthYear
 import models.domain.common.{AddressLinesModel, AddressAndPostcodeModel}
-import models.domain.disposal_of_vehicle.AddressViewModel
-import models.domain.disposal_of_vehicle.BruteForcePreventionViewModel
-import models.domain.disposal_of_vehicle.BruteForcePreventionViewModel.BruteForcePreventionViewModelCacheKey
+import viewmodels._
+import BruteForcePreventionViewModel.BruteForcePreventionViewModelCacheKey
 import models.domain.disposal_of_vehicle.BusinessChooseYourAddressModel
 import models.domain.disposal_of_vehicle.BusinessChooseYourAddressModel.BusinessChooseYourAddressCacheKey
 import models.domain.disposal_of_vehicle.DisposeFormModel
@@ -18,7 +17,6 @@ import models.domain.disposal_of_vehicle.DisposeFormModel.DisposeOccurredCacheKe
 import models.domain.disposal_of_vehicle.DisposeFormModel.PreventGoingToDisposePageCacheKey
 import models.domain.disposal_of_vehicle.DisposeModel
 import models.domain.disposal_of_vehicle.DisposeModel.DisposeModelCacheKey
-import viewmodels.EnterAddressManuallyViewModel
 import EnterAddressManuallyViewModel.EnterAddressManuallyCacheKey
 import models.domain.disposal_of_vehicle.SetupTradeDetailsModel
 import models.domain.disposal_of_vehicle.SetupTradeDetailsModel.SetupTradeDetailsCacheKey
@@ -50,7 +48,6 @@ import services.fakes.FakeVehicleLookupWebService.ReferenceNumberValid
 import services.fakes.FakeVehicleLookupWebService.RegistrationNumberValid
 import services.fakes.FakeVehicleLookupWebService.VehicleModelValid
 import services.fakes.{FakeDisposeWebServiceImpl, FakeVehicleLookupWebService}
-import viewmodels.EnterAddressManuallyViewModel
 
 object CookieFactoryForUISpecs {
   private def addCookie[A](key: String, value: A)(implicit tjs: Writes[A], webDriver: WebDriver): Unit = {

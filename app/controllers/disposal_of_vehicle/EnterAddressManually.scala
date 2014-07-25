@@ -3,13 +3,13 @@ package controllers.disposal_of_vehicle
 import com.google.inject.Inject
 import common.ClientSideSessionFactory
 import common.CookieImplicits.{RichCookies, RichForm, RichSimpleResult}
-import models.domain.disposal_of_vehicle.{AddressViewModel, SetupTradeDetailsModel, TraderDetailsModel}
+import models.domain.disposal_of_vehicle.{SetupTradeDetailsModel, TraderDetailsModel}
 import play.api.Logger
 import play.api.data.{Form, FormError}
 import play.api.mvc.{Action, Controller, Request}
 import utils.helpers.Config
 import utils.helpers.FormExtensions.formBinding
-import viewmodels.EnterAddressManuallyViewModel
+import viewmodels.{AddressViewModel, EnterAddressManuallyViewModel}
 import views.html.disposal_of_vehicle.enter_address_manually
 
 final class EnterAddressManually @Inject()()

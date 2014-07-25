@@ -19,7 +19,6 @@ import models.domain.disposal_of_vehicle.DisposeFormModel.DisposeFormTransaction
 import models.domain.disposal_of_vehicle.DisposeFormModel.PreventGoingToDisposePageCacheKey
 import models.domain.disposal_of_vehicle.TraderDetailsModel
 import models.domain.disposal_of_vehicle.VehicleDetailsModel
-import models.domain.disposal_of_vehicle.DisposeViewModel
 import models.domain.disposal_of_vehicle.DisposeRequest
 import models.domain.disposal_of_vehicle.DisposeResponse
 import models.domain.disposal_of_vehicle.DisposeModel
@@ -34,6 +33,7 @@ import services.DateService
 import services.dispose_service.DisposeService
 import utils.helpers.Config
 import utils.helpers.FormExtensions.formBinding
+import viewmodels.DisposeViewModel
 import views.html.disposal_of_vehicle.dispose
 
 import scala.concurrent.ExecutionContext.Implicits.global

@@ -1,9 +1,9 @@
-@(enterAddressManuallyForm: Form[models.domain.disposal_of_vehicle.EnterAddressManuallyModel],
+@(enterAddressManuallyForm: Form[viewmodels.EnterAddressManuallyViewModel],
         traderPostcode: String)(implicit lang: Lang,
         token: filters.csrf_prevention.CsrfPreventionAction.CsrfPreventionToken,
         config: utils.helpers.Config)
 
-@import models.domain.disposal_of_vehicle.EnterAddressManuallyModel.AddressAndPostcodeId
+@import viewmodels.EnterAddressManuallyViewModel.AddressAndPostcodeId
 @import mappings.disposal_of_vehicle.EnterAddressManually.{BackId, NextId}
 @import utils.helpers.CsrfHelper
 @import views.html.disposal_of_vehicle.main

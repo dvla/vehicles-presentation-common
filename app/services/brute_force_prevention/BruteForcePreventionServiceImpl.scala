@@ -2,13 +2,13 @@ package services.brute_force_prevention
 
 import javax.inject.Inject
 import play.api.Logger
+import viewmodels.BruteForcePreventionViewModel
 import scala.concurrent.{ExecutionContext, Future}
 import ExecutionContext.Implicits.global
 import utils.helpers.Config
 import models.domain.common.BruteForcePreventionResponse
 import models.domain.common.BruteForcePreventionResponse.JsonFormat
 import play.api.libs.json.Json
-import models.domain.disposal_of_vehicle.BruteForcePreventionViewModel
 import services.DateService
 
 final class BruteForcePreventionServiceImpl @Inject()(config: Config,

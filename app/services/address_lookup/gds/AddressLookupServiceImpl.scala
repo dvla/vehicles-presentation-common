@@ -1,14 +1,13 @@
 package services.address_lookup.gds
 
 import javax.inject.Inject
-
-import models.domain.disposal_of_vehicle.AddressViewModel
 import play.api.Logger
 import play.api.i18n.Lang
 import play.api.libs.ws.Response
 import services.address_lookup.gds.domain.Address
 import services.address_lookup.gds.domain.JsonFormats.addressFormat
 import services.address_lookup.{AddressLookupService, AddressLookupWebService}
+import viewmodels.AddressViewModel
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future

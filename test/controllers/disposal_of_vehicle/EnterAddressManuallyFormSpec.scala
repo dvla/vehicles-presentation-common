@@ -1,6 +1,5 @@
 package controllers.disposal_of_vehicle
 
-import controllers.disposal_of_vehicle.EnterAddressManually
 import helpers.UnitSpec
 import viewmodels.EnterAddressManuallyViewModel
 import EnterAddressManuallyViewModel.AddressAndPostcodeId

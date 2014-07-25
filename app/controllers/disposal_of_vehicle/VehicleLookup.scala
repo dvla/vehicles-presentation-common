@@ -9,7 +9,6 @@ import mappings.disposal_of_vehicle.RelatedCacheKeys
 import mappings.disposal_of_vehicle.Dispose.SurveyRequestTriggerDateCacheKey
 import mappings.disposal_of_vehicle.VehicleLookup.DocumentReferenceNumberId
 import mappings.disposal_of_vehicle.VehicleLookup.VehicleRegistrationNumberId
-import models.domain.disposal_of_vehicle.BruteForcePreventionViewModel
 import models.domain.disposal_of_vehicle.DisposeFormModel.{DisposeOccurredCacheKey, PreventGoingToDisposePageCacheKey}
 import models.domain.disposal_of_vehicle.TraderDetailsModel
 import models.domain.disposal_of_vehicle.VehicleDetailsDto
@@ -22,6 +21,7 @@ import play.api.data.Forms.mapping
 import play.api.data.{Form, FormError}
 import play.api.Logger
 import play.api.mvc.{Action, AnyContent, Controller, Request, SimpleResult}
+import viewmodels.BruteForcePreventionViewModel
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 import services.brute_force_prevention.BruteForcePreventionService

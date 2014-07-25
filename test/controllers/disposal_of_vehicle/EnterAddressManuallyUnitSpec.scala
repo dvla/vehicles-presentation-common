@@ -2,7 +2,6 @@ package controllers.disposal_of_vehicle
 
 import common.ClientSideSessionFactory
 import Common.PrototypeHtml
-import controllers.disposal_of_vehicle.EnterAddressManually
 import helpers.common.CookieHelper
 import CookieHelper.fetchCookiesFromHeaders
 import helpers.disposal_of_vehicle.CookieFactoryForUnitSpecs
