@@ -1,9 +1,6 @@
 package helpers.disposal_of_vehicle
 
 import mappings.common.AlternateLanguages.{EnId, CyId}
-import mappings.disposal_of_vehicle.Dispose.DisposeFormRegistrationNumberCacheKey
-import mappings.disposal_of_vehicle.Dispose.DisposeFormTimestampIdCacheKey
-import mappings.disposal_of_vehicle.Dispose.DisposeFormTransactionIdCacheKey
 import mappings.disposal_of_vehicle.MicroserviceError.MicroServiceErrorRefererCacheKey
 import models.DayMonthYear
 import models.domain.common.{AddressLinesModel, AddressAndPostcodeModel}
@@ -14,7 +11,11 @@ import models.domain.disposal_of_vehicle.BusinessChooseYourAddressModel
 import models.domain.disposal_of_vehicle.BusinessChooseYourAddressModel.BusinessChooseYourAddressCacheKey
 import models.domain.disposal_of_vehicle.DisposeFormModel
 import models.domain.disposal_of_vehicle.DisposeFormModel.DisposeFormModelCacheKey
-import models.domain.disposal_of_vehicle.DisposeFormModel.{DisposeOccurredCacheKey, PreventGoingToDisposePageCacheKey}
+import models.domain.disposal_of_vehicle.DisposeFormModel.DisposeFormRegistrationNumberCacheKey
+import models.domain.disposal_of_vehicle.DisposeFormModel.DisposeFormTimestampIdCacheKey
+import models.domain.disposal_of_vehicle.DisposeFormModel.DisposeFormTransactionIdCacheKey
+import models.domain.disposal_of_vehicle.DisposeFormModel.DisposeOccurredCacheKey
+import models.domain.disposal_of_vehicle.DisposeFormModel.PreventGoingToDisposePageCacheKey
 import models.domain.disposal_of_vehicle.DisposeModel
 import models.domain.disposal_of_vehicle.DisposeModel.DisposeModelCacheKey
 import models.domain.disposal_of_vehicle.EnterAddressManuallyModel
