@@ -5,7 +5,7 @@ import controllers.disposal_of_vehicle.Common.PrototypeHtml
 import helpers.{UnitSpec, WithApplication}
 import helpers.common.CookieHelper.{fetchCookiesFromHeaders, verifyCookieHasBeenDiscarded}
 import helpers.disposal_of_vehicle.CookieFactoryForUnitSpecs
-import mappings.disposal_of_vehicle.MicroserviceError.MicroServiceErrorRefererCacheKey
+import controllers.disposal_of_vehicle.MicroServiceError.MicroServiceErrorRefererCacheKey
 import models.domain.disposal_of_vehicle.DisposeFormModel.PreventGoingToDisposePageCacheKey
 import org.mockito.Mockito.when
 import pages.disposal_of_vehicle.{DisposePage, VehicleLookupPage}

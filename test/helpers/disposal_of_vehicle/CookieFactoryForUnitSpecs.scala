@@ -2,9 +2,9 @@ package helpers.disposal_of_vehicle
 
 import common.{ClientSideSessionFactory, CookieFlags, ClearTextClientSideSession}
 import composition.TestComposition
+import controllers.disposal_of_vehicle.MicroServiceError.MicroServiceErrorRefererCacheKey
 import mappings.common.Help.HelpCacheKey
 import mappings.disposal_of_vehicle.Dispose.SurveyRequestTriggerDateCacheKey
-import mappings.disposal_of_vehicle.MicroserviceError.MicroServiceErrorRefererCacheKey
 import mappings.disposal_of_vehicle.RelatedCacheKeys.SeenCookieMessageKey
 import models.DayMonthYear
 import models.domain.common.{AddressLinesModel, AddressAndPostcodeModel}
