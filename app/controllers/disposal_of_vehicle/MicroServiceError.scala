@@ -4,7 +4,6 @@ import com.google.inject.Inject
 import common.ClientSideSessionFactory
 import common.CookieImplicits.{RichCookies, RichSimpleResult}
 import controllers.disposal_of_vehicle.routes.VehicleLookup
-import mappings.disposal_of_vehicle.MicroserviceError.MicroServiceErrorRefererCacheKey
 import viewmodels.DisposeFormViewModel.PreventGoingToDisposePageCacheKey
 import play.api.mvc.{Action, Controller}
 import utils.helpers.Config
@@ -17,13 +16,17 @@ final class MicroServiceError @Inject()(implicit clientSideSessionFactory: Clien
     val referer = request.headers.get(REFERER).getOrElse(DefaultRedirectUrl)
     Ok(views.html.disposal_of_vehicle.micro_service_error()).
       // Save the previous page URL (from the referer header) into a cookie.
-      withCookie(MicroServiceErrorRefererCacheKey, referer).
+      withCookie(MicroServiceError.MicroServiceErrorRefererCacheKey, referer).
       // Remove the interstitial cookie so we do not get bounced back to vehicle lookup unless we were on that page
       discardingCookie(PreventGoingToDisposePageCacheKey)
   }
 
   def back = Action { implicit request =>
-    val referer: String = request.cookies.getString(MicroServiceErrorRefererCacheKey).getOrElse(DefaultRedirectUrl)
-    Redirect(referer).discardingCookie(MicroServiceErrorRefererCacheKey)
+    val referer: String = request.cookies.getString(MicroServiceError.MicroServiceErrorRefererCacheKey).getOrElse(DefaultRedirectUrl)
+    Redirect(referer).discardingCookie(MicroServiceError.MicroServiceErrorRefererCacheKey)
   }
+}
+
+object MicroServiceError {
+  final val MicroServiceErrorRefererCacheKey = "msError"
 }

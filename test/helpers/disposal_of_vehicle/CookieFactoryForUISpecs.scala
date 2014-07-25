@@ -1,7 +1,7 @@
 package helpers.disposal_of_vehicle
 
 import mappings.common.AlternateLanguages.{EnId, CyId}
-import mappings.disposal_of_vehicle.MicroserviceError.MicroServiceErrorRefererCacheKey
+import controllers.disposal_of_vehicle.MicroServiceError.MicroServiceErrorRefererCacheKey
 import models.DayMonthYear
 import models.domain.common.{AddressLinesModel, AddressAndPostcodeModel}
 import viewmodels._
