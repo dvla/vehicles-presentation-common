@@ -21,6 +21,7 @@ import models.domain.disposal_of_vehicle.BruteForcePreventionViewModel.BruteForc
 import models.domain.disposal_of_vehicle.BusinessChooseYourAddressModel
 import models.domain.disposal_of_vehicle.DisposeFormModel
 import models.domain.disposal_of_vehicle.DisposeModel
+import models.domain.disposal_of_vehicle.DisposeModel.DisposeModelCacheKey
 import models.domain.disposal_of_vehicle.EnterAddressManuallyModel
 import models.domain.disposal_of_vehicle.EnterAddressManuallyModel.EnterAddressManuallyCacheKey
 import models.domain.disposal_of_vehicle.SetupTradeDetailsModel
@@ -243,7 +244,7 @@ object CookieFactoryForUnitSpecs extends TestComposition { // TODO can we make t
                    registrationNumber: String = RegistrationNumberValid,
                    dateOfDisposal: DayMonthYear = DayMonthYear.today,
                    mileage: Option[Int] = None): Cookie = {
-    val key = mappings.disposal_of_vehicle.Dispose.DisposeModelCacheKey
+    val key = DisposeModelCacheKey
     val value = DisposeModel(
       referenceNumber = referenceNumber,
       registrationNumber = registrationNumber,

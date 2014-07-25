@@ -1,6 +1,5 @@
 package models.domain.disposal_of_vehicle
 
-import mappings.disposal_of_vehicle.Dispose.DisposeModelCacheKey
 import models.DayMonthYear
 import models.domain.common.CacheKey
 import play.api.libs.json.{Format, Json}
@@ -14,5 +13,6 @@ final case class DisposeModel(referenceNumber: String,
 
 object DisposeModel {
   implicit val JsonFormat: Format[DisposeModel] = Json.format[DisposeModel]
+  final val DisposeModelCacheKey = "formModel"
   implicit val Key = CacheKey[DisposeModel](value = DisposeModelCacheKey)
 }
