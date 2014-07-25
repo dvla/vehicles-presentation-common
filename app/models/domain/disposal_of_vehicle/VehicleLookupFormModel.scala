@@ -10,4 +10,5 @@ object VehicleLookupFormModel {
   implicit val JsonFormat = Json.format[VehicleLookupFormModel]
   final val VehicleLookupFormModelCacheKey = "vehicleLookupFormModel"
   implicit val Key = CacheKey[VehicleLookupFormModel](VehicleLookupFormModelCacheKey)
+  final val VehicleLookupResponseCodeCacheKey = "vehicleLookupResponseCode"
 }

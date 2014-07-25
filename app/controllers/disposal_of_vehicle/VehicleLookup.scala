@@ -9,7 +9,6 @@ import mappings.common.VehicleRegistrationNumber.registrationNumber
 import mappings.disposal_of_vehicle.RelatedCacheKeys
 import mappings.disposal_of_vehicle.Dispose.SurveyRequestTriggerDateCacheKey
 import mappings.disposal_of_vehicle.VehicleLookup.DocumentReferenceNumberId
-import mappings.disposal_of_vehicle.VehicleLookup.VehicleLookupResponseCodeCacheKey
 import mappings.disposal_of_vehicle.VehicleLookup.VehicleRegistrationNumberId
 import models.domain.disposal_of_vehicle.BruteForcePreventionViewModel
 import models.domain.disposal_of_vehicle.TraderDetailsModel
@@ -18,6 +17,7 @@ import models.domain.disposal_of_vehicle.VehicleDetailsModel
 import models.domain.disposal_of_vehicle.VehicleDetailsRequest
 import models.domain.disposal_of_vehicle.VehicleDetailsResponse
 import models.domain.disposal_of_vehicle.VehicleLookupFormModel
+import models.domain.disposal_of_vehicle.VehicleLookupFormModel.VehicleLookupResponseCodeCacheKey
 import play.api.data.Forms.mapping
 import play.api.data.{Form, FormError}
 import play.api.Logger

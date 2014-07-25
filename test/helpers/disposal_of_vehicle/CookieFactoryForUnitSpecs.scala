@@ -10,7 +10,6 @@ import mappings.disposal_of_vehicle.Dispose.DisposeFormTransactionIdCacheKey
 import mappings.disposal_of_vehicle.Dispose.SurveyRequestTriggerDateCacheKey
 import mappings.disposal_of_vehicle.MicroserviceError.MicroServiceErrorRefererCacheKey
 import mappings.disposal_of_vehicle.RelatedCacheKeys.SeenCookieMessageKey
-import mappings.disposal_of_vehicle.VehicleLookup.VehicleLookupResponseCodeCacheKey
 import models.DayMonthYear
 import models.domain.common.{AddressLinesModel, AddressAndPostcodeModel}
 import models.domain.disposal_of_vehicle.AddressViewModel
@@ -32,6 +31,7 @@ import models.domain.disposal_of_vehicle.VehicleDetailsModel
 import models.domain.disposal_of_vehicle.VehicleDetailsModel.VehicleLookupDetailsCacheKey
 import models.domain.disposal_of_vehicle.VehicleLookupFormModel
 import models.domain.disposal_of_vehicle.VehicleLookupFormModel.VehicleLookupFormModelCacheKey
+import models.domain.disposal_of_vehicle.VehicleLookupFormModel.VehicleLookupResponseCodeCacheKey
 import org.joda.time.DateTime
 import pages.disposal_of_vehicle.{VehicleLookupPage, HelpPage}
 import play.api.libs.json.{Writes, Json}
