@@ -16,6 +16,10 @@ require(["jquery", "jquery-migrate", "header-footer-only"],function($) {
 
     $(function() {
 
+        //html5 autofocus fallback for browsers that do not support it natively
+        //if form element autofocus is not active, autofocus
+        $('[autofocus]:not(:focus)').eq(0).focus();
+
         // Disabled clicking on disabled buttons
         $('.button-not-implemented').click(function() {
             return false;
