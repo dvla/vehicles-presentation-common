@@ -95,6 +95,30 @@ final class DisposeSuccessUnitSpec extends UnitSpec {
       }
     }
 
+    "display the page with correctly formatted mileage on present" in new WithApplication {
+      val request = FakeRequest().
+        withCookies(CookieFactoryForUnitSpecs.traderDetailsModel()).
+        withCookies(CookieFactoryForUnitSpecs.disposeFormModel(mileage = Some(123456))).
+        withCookies(CookieFactoryForUnitSpecs.vehicleDetailsModel()).
+        withCookies(CookieFactoryForUnitSpecs.disposeTransactionId()).
+        withCookies(CookieFactoryForUnitSpecs.vehicleRegistrationNumber()).
+        withCookies(CookieFactoryForUnitSpecs.disposeFormTimestamp())
+      val result = disposeSuccess.present(request)
+      contentAsString(result) should include("123,456")
+    }
+
+    "display the page with mileage not entered message on present" in new WithApplication {
+      val request = FakeRequest().
+        withCookies(CookieFactoryForUnitSpecs.traderDetailsModel()).
+        withCookies(CookieFactoryForUnitSpecs.disposeFormModel()).
+        withCookies(CookieFactoryForUnitSpecs.vehicleDetailsModel()).
+        withCookies(CookieFactoryForUnitSpecs.disposeTransactionId()).
+        withCookies(CookieFactoryForUnitSpecs.vehicleRegistrationNumber()).
+        withCookies(CookieFactoryForUnitSpecs.disposeFormTimestamp())
+      val result = disposeSuccess.present(request)
+      contentAsString(result) should include("NOT ENTERED")
+    }
+
     "display prototype message when config set to true" in new WithApplication {
       contentAsString(present) should include(PrototypeHtml)
     }
@@ -277,7 +301,8 @@ final class DisposeSuccessUnitSpec extends UnitSpec {
     withCookies(CookieFactoryForUnitSpecs.disposeFormModel()).
     withCookies(CookieFactoryForUnitSpecs.disposeTransactionId()).
     withCookies(CookieFactoryForUnitSpecs.vehicleRegistrationNumber()).
-    withCookies(CookieFactoryForUnitSpecs.disposeModel())
+    withCookies(CookieFactoryForUnitSpecs.disposeModel()).
+    withCookies(CookieFactoryForUnitSpecs.disposeFormTimestamp())
   private lazy val present = disposeSuccess.present(requestFullyPopulated)
 
   def disposeWithMockConfig(config: Config): DisposeSuccess =

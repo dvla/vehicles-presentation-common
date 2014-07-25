@@ -18,10 +18,12 @@ import models.domain.disposal_of_vehicle.SetupTradeDetailsModel
 import models.domain.disposal_of_vehicle.TraderDetailsModel
 import models.domain.disposal_of_vehicle.VehicleDetailsModel
 import models.domain.disposal_of_vehicle.VehicleLookupFormModel
+import org.joda.time.DateTime
 import org.openqa.selenium.{WebDriver, Cookie}
 import play.api.libs.json.{Writes, Json}
 import play.api.Play
 import play.api.Play.current
+import services.fakes.FakeDateServiceImpl.{DateOfDisposalYearValid, DateOfDisposalMonthValid, DateOfDisposalDayValid}
 import services.fakes.brute_force_protection.FakeBruteForcePreventionWebServiceImpl.MaxAttempts
 import services.fakes.FakeAddressLookupService.addressWithoutUprn
 import services.fakes.FakeAddressLookupService.BuildingNameOrNumberValid
@@ -168,6 +170,18 @@ object CookieFactoryForUISpecs {
   def disposeTransactionId(transactionId: String = TransactionIdValid)(implicit webDriver: WebDriver) = {
     val key = mappings.disposal_of_vehicle.Dispose.DisposeFormTransactionIdCacheKey
     val value = transactionId
+    addCookie(key, value)
+    this
+  }
+
+  def disposeFormTimestamp()(implicit webDriver: WebDriver) = {
+    val key = mappings.disposal_of_vehicle.Dispose.DisposeFormTimestampIdCacheKey
+    val value = new DateTime(DateOfDisposalYearValid.toInt,
+      DateOfDisposalMonthValid.toInt,
+      DateOfDisposalDayValid.toInt,
+      0,
+      0
+    ).toString()
     addCookie(key, value)
     this
   }

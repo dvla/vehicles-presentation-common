@@ -220,5 +220,6 @@ final class DisposeSuccessIntegrationSpec extends UiSpec with TestHarness {
       vehicleDetailsModel().
       disposeFormModel().
       disposeTransactionId().
-      vehicleRegistrationNumber()
+      vehicleRegistrationNumber().
+      disposeFormTimestamp()
 }

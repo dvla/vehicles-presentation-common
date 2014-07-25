@@ -31,6 +31,7 @@ import models.domain.disposal_of_vehicle.SetupTradeDetailsModel
 import models.domain.disposal_of_vehicle.TraderDetailsModel
 import models.domain.disposal_of_vehicle.VehicleDetailsModel
 import models.domain.disposal_of_vehicle.VehicleLookupFormModel
+import org.joda.time.DateTime
 import pages.disposal_of_vehicle.{VehicleLookupPage, HelpPage}
 import play.api.libs.json.{Writes, Json}
 import play.api.mvc.Cookie
@@ -201,10 +202,10 @@ object CookieFactoryForUnitSpecs extends TestComposition { // TODO can we make t
   def vehicleLookupResponseCode(responseCode: String = "disposal_vehiclelookupfailure"): Cookie =
     createCookie(VehicleLookupResponseCodeCacheKey, responseCode)
 
-  def disposeFormModel(): Cookie = {
+  def disposeFormModel(mileage: Option[Int] = None): Cookie = {
     val key = DisposeFormModelCacheKey
     val value = DisposeFormModel(
-      mileage = None,
+      mileage = mileage,
       dateOfDisposal = DayMonthYear(
         FakeDateServiceImpl.DateOfDisposalDayValid.toInt,
         FakeDateServiceImpl.DateOfDisposalMonthValid.toInt, FakeDateServiceImpl.DateOfDisposalYearValid.toInt
@@ -222,7 +223,13 @@ object CookieFactoryForUnitSpecs extends TestComposition { // TODO can we make t
   def disposeFormRegistrationNumber(registrationNumber: String = RegistrationNumberValid): Cookie =
     createCookie(DisposeFormRegistrationNumberCacheKey, registrationNumber)
 
-  private val defaultDisposeTimestamp = s"$DateOfDisposalYearValid-$DateOfDisposalMonthValid-$DateOfDisposalDayValid"
+  private val defaultDisposeTimestamp =
+    new DateTime(DateOfDisposalYearValid.toInt,
+      DateOfDisposalMonthValid.toInt,
+      DateOfDisposalDayValid.toInt,
+      0,
+      0
+    ).toString()
   def disposeFormTimestamp(timestamp: String = defaultDisposeTimestamp): Cookie =
     createCookie(DisposeFormTimestampIdCacheKey, timestamp)
 
