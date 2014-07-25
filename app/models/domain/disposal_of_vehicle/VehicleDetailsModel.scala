@@ -1,6 +1,5 @@
 package models.domain.disposal_of_vehicle
 
-import mappings.disposal_of_vehicle.VehicleLookup.VehicleLookupDetailsCacheKey
 import models.domain.common.CacheKey
 import play.api.libs.json.Json
 
@@ -18,5 +17,6 @@ object VehicleDetailsModel {
     )
 
   implicit val JsonFormat = Json.format[VehicleDetailsModel]
+  final val VehicleLookupDetailsCacheKey = "vehicleLookupDetails"
   implicit val Key = CacheKey[VehicleDetailsModel](VehicleLookupDetailsCacheKey)
 }

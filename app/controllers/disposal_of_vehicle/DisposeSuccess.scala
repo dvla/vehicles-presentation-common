@@ -5,10 +5,12 @@ import common.ClientSideSessionFactory
 import common.CookieImplicits.{RichCookies, RichSimpleResult}
 import mappings.common.PreventGoingToDisposePage.{DisposeOccurredCacheKey, PreventGoingToDisposePageCacheKey}
 import mappings.disposal_of_vehicle.Dispose.DisposeFormRegistrationNumberCacheKey
+import mappings.disposal_of_vehicle.Dispose.DisposeFormTimestampIdCacheKey
 import mappings.disposal_of_vehicle.Dispose.DisposeFormTransactionIdCacheKey
 import mappings.disposal_of_vehicle.Dispose.SurveyRequestTriggerDateCacheKey
 import mappings.disposal_of_vehicle.RelatedCacheKeys
 import models.domain.disposal_of_vehicle.{DisposeFormModel, DisposeViewModel, TraderDetailsModel, VehicleDetailsModel}
+import org.joda.time.format.DateTimeFormat
 import play.api.mvc.{Action, Controller, Request}
 import services.DateService
 import utils.helpers.Config
@@ -23,12 +25,14 @@ final class DisposeSuccess @Inject()(implicit clientSideSessionFactory: ClientSi
      request.cookies.getModel[DisposeFormModel],
      request.cookies.getModel[VehicleDetailsModel],
      request.cookies.getString(DisposeFormTransactionIdCacheKey),
-     request.cookies.getString(DisposeFormRegistrationNumberCacheKey)) match {
+     request.cookies.getString(DisposeFormRegistrationNumberCacheKey),
+     request.cookies.getString(DisposeFormTimestampIdCacheKey)) match {
        case (Some(traderDetails),
              Some(disposeFormModel),
              Some(vehicleDetails),
              Some(transactionId),
-             Some(registrationNumber)) =>
+             Some(registrationNumber),
+             Some(disposeDateString)) =>
          val disposeViewModel = createViewModel(
            traderDetails,
            disposeFormModel,
@@ -36,7 +40,9 @@ final class DisposeSuccess @Inject()(implicit clientSideSessionFactory: ClientSi
            Some(transactionId),
            registrationNumber
          )
-         Ok(views.html.disposal_of_vehicle.dispose_success(disposeViewModel, disposeFormModel, surveyUrl(request))).
+         val formatter = DateTimeFormat.forPattern("yyyy-MM-dd'T'HH:mm:ss.SSSZ")
+         val disposeDateTime = formatter.parseDateTime(disposeDateString)
+         Ok(views.html.disposal_of_vehicle.dispose_success(disposeViewModel, disposeFormModel, disposeDateTime, surveyUrl(request))).
            discardingCookies(RelatedCacheKeys.DisposeOnlySet) // TODO US320 test for this
        case _ => Redirect(routes.VehicleLookup.present()) // US320 the user has pressed back button after being on dispose-success and pressing new dispose.
      }

@@ -6,7 +6,7 @@ object Dispose {
   final val DisposeFormModelCacheKey = "disposeForm"
   final val DisposeFormTransactionIdCacheKey = "disposeFormTransactionId"
   final val DisposeFormTimestampIdCacheKey = "disposeFormTimestampId"
-  final val DisposeFormRegistrationNumberCacheKey = "disposeFormRegistrationNumbessr"
+  final val DisposeFormRegistrationNumberCacheKey = "disposeFormRegistrationNumber"
   final val DisposeModelCacheKey = "formModel"
   final val ConsentId = "consent"
   final val LossOfRegistrationConsentId = "lossOfRegistrationConsent"

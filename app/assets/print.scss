@@ -1,3 +1,5 @@
+@media print{@page {size: portrait}}
+
 @font-face {
     font-family: GDS-Logo;
     src: local("HelveticaNeue"),local("Helvetica Neue"),local("Arial"),local("Helvetica");
@@ -225,7 +227,7 @@ dl.summary-detail-list {
     dt {
         float:left;
         clear:both;
-        min-width:120px;
+        min-width:135px;
     }
     dd {
         float:left;

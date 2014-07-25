@@ -10,13 +10,8 @@ import mappings.disposal_of_vehicle.Dispose.DisposeFormRegistrationNumberCacheKe
 import mappings.disposal_of_vehicle.Dispose.DisposeFormTimestampIdCacheKey
 import mappings.disposal_of_vehicle.Dispose.DisposeFormTransactionIdCacheKey
 import mappings.disposal_of_vehicle.Dispose.SurveyRequestTriggerDateCacheKey
-import mappings.disposal_of_vehicle.EnterAddressManually.EnterAddressManuallyCacheKey
 import mappings.disposal_of_vehicle.MicroserviceError.MicroServiceErrorRefererCacheKey
 import mappings.disposal_of_vehicle.RelatedCacheKeys.SeenCookieMessageKey
-import mappings.disposal_of_vehicle.SetupTradeDetails.SetupTradeDetailsCacheKey
-import mappings.disposal_of_vehicle.TraderDetails.TraderDetailsCacheKey
-import mappings.disposal_of_vehicle.VehicleLookup.VehicleLookupDetailsCacheKey
-import mappings.disposal_of_vehicle.VehicleLookup.VehicleLookupFormModelCacheKey
 import mappings.disposal_of_vehicle.VehicleLookup.VehicleLookupResponseCodeCacheKey
 import models.DayMonthYear
 import models.domain.common.{AddressLinesModel, AddressAndPostcodeModel}
@@ -27,10 +22,16 @@ import models.domain.disposal_of_vehicle.BusinessChooseYourAddressModel
 import models.domain.disposal_of_vehicle.DisposeFormModel
 import models.domain.disposal_of_vehicle.DisposeModel
 import models.domain.disposal_of_vehicle.EnterAddressManuallyModel
+import models.domain.disposal_of_vehicle.EnterAddressManuallyModel.EnterAddressManuallyCacheKey
 import models.domain.disposal_of_vehicle.SetupTradeDetailsModel
+import models.domain.disposal_of_vehicle.SetupTradeDetailsModel.SetupTradeDetailsCacheKey
 import models.domain.disposal_of_vehicle.TraderDetailsModel
+import models.domain.disposal_of_vehicle.TraderDetailsModel.TraderDetailsCacheKey
 import models.domain.disposal_of_vehicle.VehicleDetailsModel
+import models.domain.disposal_of_vehicle.VehicleDetailsModel.VehicleLookupDetailsCacheKey
 import models.domain.disposal_of_vehicle.VehicleLookupFormModel
+import models.domain.disposal_of_vehicle.VehicleLookupFormModel.VehicleLookupFormModelCacheKey
+import org.joda.time.DateTime
 import pages.disposal_of_vehicle.{VehicleLookupPage, HelpPage}
 import play.api.libs.json.{Writes, Json}
 import play.api.mvc.Cookie
@@ -201,10 +202,10 @@ object CookieFactoryForUnitSpecs extends TestComposition { // TODO can we make t
   def vehicleLookupResponseCode(responseCode: String = "disposal_vehiclelookupfailure"): Cookie =
     createCookie(VehicleLookupResponseCodeCacheKey, responseCode)
 
-  def disposeFormModel(): Cookie = {
+  def disposeFormModel(mileage: Option[Int] = None): Cookie = {
     val key = DisposeFormModelCacheKey
     val value = DisposeFormModel(
-      mileage = None,
+      mileage = mileage,
       dateOfDisposal = DayMonthYear(
         FakeDateServiceImpl.DateOfDisposalDayValid.toInt,
         FakeDateServiceImpl.DateOfDisposalMonthValid.toInt, FakeDateServiceImpl.DateOfDisposalYearValid.toInt
@@ -222,7 +223,13 @@ object CookieFactoryForUnitSpecs extends TestComposition { // TODO can we make t
   def disposeFormRegistrationNumber(registrationNumber: String = RegistrationNumberValid): Cookie =
     createCookie(DisposeFormRegistrationNumberCacheKey, registrationNumber)
 
-  private val defaultDisposeTimestamp = s"$DateOfDisposalYearValid-$DateOfDisposalMonthValid-$DateOfDisposalDayValid"
+  private val defaultDisposeTimestamp =
+    new DateTime(DateOfDisposalYearValid.toInt,
+      DateOfDisposalMonthValid.toInt,
+      DateOfDisposalDayValid.toInt,
+      0,
+      0
+    ).toString()
   def disposeFormTimestamp(timestamp: String = defaultDisposeTimestamp): Cookie =
     createCookie(DisposeFormTimestampIdCacheKey, timestamp)
 

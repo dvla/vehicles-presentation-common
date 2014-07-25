@@ -1,5 +1,6 @@
 @(data: models.domain.disposal_of_vehicle.DisposeViewModel,
 formModel: models.domain.disposal_of_vehicle.DisposeFormModel,
+disposeDateTime: org.joda.time.DateTime,
 surveyUrl: Option[String]
 )(implicit lang: Lang,
 token: filters.csrf_prevention.CsrfPreventionAction.CsrfPreventionToken,
@@ -20,14 +21,18 @@ title = Messages("disposal_disposeconfirmation.title")
     <p>@Messages("ms.vehiclesService.response.applicationBeingProcessed.p1")</p>
     <p>@Messages("ms.vehiclesService.response.applicationBeingProcessed.p2")</p>
     <p class="transaction-id">@Messages("disposal_disposeconfirmation.yourTransactionId") <br />
-        <span class="emphasized">@Messages("disposal_disposeconfirmation.transactionid", data.transactionId.getOrElse(""))</span></p>
+        <span class="emphasized">@Messages("disposal_disposeconfirmation.transactionid", data.transactionId.getOrElse(""))</span>
+    </p>
+    <p>@Messages("disposal_disposeconfirmation.transactionDate", disposeDateTime.toString("dd/MM/yyy"))</p>
 </div>
 
 <div class="two-col disposal-sucesss">
 
     <div class="first-col">
         <p>@Messages("disposal_disposeconfirmation.exkeeper")</p>
-        <p class="print-message"><strong>@Messages("disposal_disposeconfirmation.exkeeper-p2")</strong></p>
+        <div class="alert-warning print-message">
+          <p><strong>@Messages("disposal_disposeconfirmation.exkeeper-p2")</strong></p>
+        </div>
 
         <div class="form-steps">
 

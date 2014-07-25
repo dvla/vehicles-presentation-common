@@ -1,6 +1,5 @@
 package models.domain.disposal_of_vehicle
 
-import mappings.disposal_of_vehicle.SetupTradeDetails.SetupTradeDetailsCacheKey
 import models.domain.common.CacheKey
 import play.api.libs.json.Json
 
@@ -9,5 +8,6 @@ final case class SetupTradeDetailsModel(traderBusinessName: String, traderPostco
 
 object SetupTradeDetailsModel {
   implicit val JsonFormat = Json.format[SetupTradeDetailsModel]
+  final val SetupTradeDetailsCacheKey = "setupTraderDetails"
   implicit val Key = CacheKey[SetupTradeDetailsModel](SetupTradeDetailsCacheKey)
 }

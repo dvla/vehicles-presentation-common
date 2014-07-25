@@ -1,10 +1,14 @@
 package helpers.disposal_of_vehicle
 
 import mappings.common.AlternateLanguages.{EnId, CyId}
+import mappings.common.PreventGoingToDisposePage.DisposeOccurredCacheKey
+import mappings.common.PreventGoingToDisposePage.PreventGoingToDisposePageCacheKey
 import mappings.disposal_of_vehicle.BusinessChooseYourAddress.BusinessChooseYourAddressCacheKey
-import mappings.disposal_of_vehicle.EnterAddressManually.EnterAddressManuallyCacheKey
-import mappings.disposal_of_vehicle.SetupTradeDetails.SetupTradeDetailsCacheKey
-import mappings.disposal_of_vehicle.TraderDetails.TraderDetailsCacheKey
+import mappings.disposal_of_vehicle.Dispose.DisposeFormRegistrationNumberCacheKey
+import mappings.disposal_of_vehicle.Dispose.DisposeFormTimestampIdCacheKey
+import mappings.disposal_of_vehicle.Dispose.DisposeFormTransactionIdCacheKey
+import mappings.disposal_of_vehicle.MicroserviceError.MicroServiceErrorRefererCacheKey
+import mappings.disposal_of_vehicle.VehicleLookup.VehicleLookupResponseCodeCacheKey
 import models.DayMonthYear
 import models.domain.common.{AddressLinesModel, AddressAndPostcodeModel}
 import models.domain.disposal_of_vehicle.AddressViewModel
@@ -14,14 +18,21 @@ import models.domain.disposal_of_vehicle.BusinessChooseYourAddressModel
 import models.domain.disposal_of_vehicle.DisposeFormModel
 import models.domain.disposal_of_vehicle.DisposeModel
 import models.domain.disposal_of_vehicle.EnterAddressManuallyModel
+import models.domain.disposal_of_vehicle.EnterAddressManuallyModel.EnterAddressManuallyCacheKey
 import models.domain.disposal_of_vehicle.SetupTradeDetailsModel
+import models.domain.disposal_of_vehicle.SetupTradeDetailsModel.SetupTradeDetailsCacheKey
 import models.domain.disposal_of_vehicle.TraderDetailsModel
+import models.domain.disposal_of_vehicle.TraderDetailsModel.TraderDetailsCacheKey
 import models.domain.disposal_of_vehicle.VehicleDetailsModel
+import models.domain.disposal_of_vehicle.VehicleDetailsModel.VehicleLookupDetailsCacheKey
 import models.domain.disposal_of_vehicle.VehicleLookupFormModel
+import models.domain.disposal_of_vehicle.VehicleLookupFormModel.VehicleLookupFormModelCacheKey
+import org.joda.time.DateTime
 import org.openqa.selenium.{WebDriver, Cookie}
 import play.api.libs.json.{Writes, Json}
 import play.api.Play
 import play.api.Play.current
+import services.fakes.FakeDateServiceImpl.{DateOfDisposalYearValid, DateOfDisposalMonthValid, DateOfDisposalDayValid}
 import services.fakes.brute_force_protection.FakeBruteForcePreventionWebServiceImpl.MaxAttempts
 import services.fakes.FakeAddressLookupService.addressWithoutUprn
 import services.fakes.FakeAddressLookupService.BuildingNameOrNumberValid
@@ -112,7 +123,7 @@ object CookieFactoryForUISpecs {
   def vehicleLookupFormModel(referenceNumber: String = ReferenceNumberValid,
                              registrationNumber: String = RegistrationNumberValid)
                             (implicit webDriver: WebDriver) = {
-    val key = mappings.disposal_of_vehicle.VehicleLookup.VehicleLookupFormModelCacheKey
+    val key = VehicleLookupFormModelCacheKey
     val value = VehicleLookupFormModel(referenceNumber = referenceNumber,
       registrationNumber = registrationNumber)
     addCookie(key, value)
@@ -124,7 +135,7 @@ object CookieFactoryForUISpecs {
                           vehicleModel: String = VehicleModelValid,
                           keeperName: String = KeeperNameValid)
                          (implicit webDriver: WebDriver) = {
-    val key = mappings.disposal_of_vehicle.VehicleLookup.VehicleLookupDetailsCacheKey
+    val key = VehicleLookupDetailsCacheKey
     val value = VehicleDetailsModel(registrationNumber = registrationNumber,
       vehicleMake = vehicleMake,
       vehicleModel = vehicleModel)
@@ -134,7 +145,7 @@ object CookieFactoryForUISpecs {
 
   def vehicleLookupResponseCode(responseCode: String = "disposal_vehiclelookupfailure")
                                (implicit webDriver: WebDriver) = {
-    val key = mappings.disposal_of_vehicle.VehicleLookup.VehicleLookupResponseCodeCacheKey
+    val key = VehicleLookupResponseCodeCacheKey
     val value = responseCode
     addCookie(key, value)
     this
@@ -166,34 +177,46 @@ object CookieFactoryForUISpecs {
   }
 
   def disposeTransactionId(transactionId: String = TransactionIdValid)(implicit webDriver: WebDriver) = {
-    val key = mappings.disposal_of_vehicle.Dispose.DisposeFormTransactionIdCacheKey
+    val key = DisposeFormTransactionIdCacheKey
     val value = transactionId
     addCookie(key, value)
     this
   }
 
+  def disposeFormTimestamp()(implicit webDriver: WebDriver) = {
+    val key = DisposeFormTimestampIdCacheKey
+    val value = new DateTime(DateOfDisposalYearValid.toInt,
+      DateOfDisposalMonthValid.toInt,
+      DateOfDisposalDayValid.toInt,
+      0,
+      0
+    ).toString()
+    addCookie(key, value)
+    this
+  }
+
   def vehicleRegistrationNumber()(implicit webDriver: WebDriver) = {
-    val key = mappings.disposal_of_vehicle.Dispose.DisposeFormRegistrationNumberCacheKey
+    val key = DisposeFormRegistrationNumberCacheKey
     val value = RegistrationNumberValid
     addCookie(key, value)
     this
   }
 
   def preventGoingToDisposePage(url: String)(implicit webDriver: WebDriver) = {
-    val key = mappings.common.PreventGoingToDisposePage.PreventGoingToDisposePageCacheKey
+    val key = PreventGoingToDisposePageCacheKey
     val value = url
     addCookie(key, value)
     this
   }
 
   def disposeOccurred(implicit webDriver: WebDriver) = {
-    val key = mappings.common.PreventGoingToDisposePage.DisposeOccurredCacheKey
+    val key = DisposeOccurredCacheKey
     addCookie(key, "")
     this
   }
 
   def microServiceError(origin: String)(implicit webDriver: WebDriver) = {
-    val key = mappings.disposal_of_vehicle.MicroserviceError.MicroServiceErrorRefererCacheKey
+    val key = MicroServiceErrorRefererCacheKey
     val value = origin
     addCookie(key, value)
     this
