@@ -3,17 +3,13 @@ package controllers.disposal_of_vehicle
 import com.google.inject.Inject
 import common.ClientSideSessionFactory
 import common.CookieImplicits.{RichCookies, RichForm, RichSimpleResult}
-import mappings.common.AddressAndPostcode.addressAndPostcode
-import models.domain.disposal_of_vehicle.AddressViewModel
-import models.domain.disposal_of_vehicle.EnterAddressManuallyModel
-import models.domain.disposal_of_vehicle.SetupTradeDetailsModel
-import models.domain.disposal_of_vehicle.TraderDetailsModel
+import models.domain.disposal_of_vehicle.{AddressViewModel, SetupTradeDetailsModel, TraderDetailsModel}
 import play.api.Logger
-import play.api.data.Forms.mapping
 import play.api.data.{Form, FormError}
 import play.api.mvc.{Action, Controller, Request}
 import utils.helpers.Config
 import utils.helpers.FormExtensions.formBinding
+import viewmodels.EnterAddressManuallyViewModel
 import views.html.disposal_of_vehicle.enter_address_manually
 
 final class EnterAddressManually @Inject()()
@@ -21,9 +17,7 @@ final class EnterAddressManually @Inject()()
                                   config: Config) extends Controller {
 
   private[disposal_of_vehicle] val form = Form(
-    mapping(
-      EnterAddressManually.AddressAndPostcodeId -> addressAndPostcode
-    )(EnterAddressManuallyModel.apply)(EnterAddressManuallyModel.unapply)
+    EnterAddressManuallyViewModel.FormMapping
   )
 
   def present = Action { implicit request =>
@@ -66,7 +60,7 @@ final class EnterAddressManually @Inject()()
     )
   }
 
-  private def formWithReplacedErrors(form: Form[EnterAddressManuallyModel])(implicit request: Request[_]) =
+  private def formWithReplacedErrors(form: Form[EnterAddressManuallyViewModel])(implicit request: Request[_]) =
     form.replaceError(
       "addressAndPostcode.addressLines.buildingNameOrNumber",
       FormError("addressAndPostcode.addressLines", "error.address.buildingNameOrNumber.invalid")
@@ -78,8 +72,4 @@ final class EnterAddressManually @Inject()()
       "addressAndPostcode.postcode",
       FormError("addressAndPostcode.postcode", "error.address.postcode.invalid")
     ).distinctErrors
-}
-
-object EnterAddressManually {
-  final val AddressAndPostcodeId = "addressAndPostcode"
 }

@@ -17,8 +17,8 @@ import models.domain.disposal_of_vehicle.DisposeFormModel.DisposeFormModelCacheK
 import models.domain.disposal_of_vehicle.DisposeFormModel.{DisposeOccurredCacheKey, PreventGoingToDisposePageCacheKey}
 import models.domain.disposal_of_vehicle.DisposeModel
 import models.domain.disposal_of_vehicle.DisposeModel.DisposeModelCacheKey
-import models.domain.disposal_of_vehicle.EnterAddressManuallyModel
-import models.domain.disposal_of_vehicle.EnterAddressManuallyModel.EnterAddressManuallyCacheKey
+import viewmodels.EnterAddressManuallyViewModel
+import EnterAddressManuallyViewModel.EnterAddressManuallyCacheKey
 import models.domain.disposal_of_vehicle.SetupTradeDetailsModel
 import models.domain.disposal_of_vehicle.SetupTradeDetailsModel.SetupTradeDetailsCacheKey
 import models.domain.disposal_of_vehicle.TraderDetailsModel
@@ -49,6 +49,7 @@ import services.fakes.FakeVehicleLookupWebService.ReferenceNumberValid
 import services.fakes.FakeVehicleLookupWebService.RegistrationNumberValid
 import services.fakes.FakeVehicleLookupWebService.VehicleModelValid
 import services.fakes.{FakeDisposeWebServiceImpl, FakeVehicleLookupWebService}
+import viewmodels.EnterAddressManuallyViewModel
 
 object CookieFactoryForUISpecs {
   private def addCookie[A](key: String, value: A)(implicit tjs: Writes[A], webDriver: WebDriver): Unit = {
@@ -89,7 +90,7 @@ object CookieFactoryForUISpecs {
 
   def enterAddressManually()(implicit webDriver: WebDriver) = {
     val key = EnterAddressManuallyCacheKey
-    val value = EnterAddressManuallyModel(addressAndPostcodeModel = AddressAndPostcodeModel(
+    val value = EnterAddressManuallyViewModel(addressAndPostcodeModel = AddressAndPostcodeModel(
       addressLinesModel = AddressLinesModel(buildingNameOrNumber = BuildingNameOrNumberValid,
       line2 = Some(Line2Valid),
       line3 = Some(Line3Valid),

@@ -1,7 +1,9 @@
 package controllers.disposal_of_vehicle
 
+import controllers.disposal_of_vehicle.EnterAddressManually
 import helpers.UnitSpec
-import controllers.disposal_of_vehicle.EnterAddressManually.AddressAndPostcodeId
+import viewmodels.EnterAddressManuallyViewModel
+import EnterAddressManuallyViewModel.AddressAndPostcodeId
 import mappings.common.AddressLines.{AddressLinesId, BuildingNameOrNumberId, Line2Id, Line3Id, LineMaxLength, PostTownId}
 import services.fakes.FakeAddressLookupService.{BuildingNameOrNumberValid, Line2Valid, Line3Valid, PostTownValid}
 

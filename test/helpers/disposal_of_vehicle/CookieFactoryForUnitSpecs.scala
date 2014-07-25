@@ -21,8 +21,8 @@ import models.domain.disposal_of_vehicle.DisposeFormModel.DisposeFormModelCacheK
 import models.domain.disposal_of_vehicle.DisposeFormModel.{DisposeOccurredCacheKey, PreventGoingToDisposePageCacheKey}
 import models.domain.disposal_of_vehicle.DisposeModel
 import models.domain.disposal_of_vehicle.DisposeModel.DisposeModelCacheKey
-import models.domain.disposal_of_vehicle.EnterAddressManuallyModel
-import models.domain.disposal_of_vehicle.EnterAddressManuallyModel.EnterAddressManuallyCacheKey
+import viewmodels.EnterAddressManuallyViewModel
+import EnterAddressManuallyViewModel.EnterAddressManuallyCacheKey
 import models.domain.disposal_of_vehicle.SetupTradeDetailsModel
 import models.domain.disposal_of_vehicle.SetupTradeDetailsModel.SetupTradeDetailsCacheKey
 import models.domain.disposal_of_vehicle.TraderDetailsModel
@@ -51,6 +51,7 @@ import services.fakes.FakeVehicleLookupWebService.ReferenceNumberValid
 import services.fakes.FakeVehicleLookupWebService.RegistrationNumberValid
 import services.fakes.FakeVehicleLookupWebService.VehicleModelValid
 import services.fakes.{FakeDateServiceImpl, FakeDisposeWebServiceImpl, FakeVehicleLookupWebService}
+import viewmodels.EnterAddressManuallyViewModel
 
 object CookieFactoryForUnitSpecs extends TestComposition { // TODO can we make this more fluent by returning "this" at the end of the defs
 
@@ -90,7 +91,7 @@ object CookieFactoryForUnitSpecs extends TestComposition { // TODO can we make t
 
   def enterAddressManually(): Cookie = {
     val key = EnterAddressManuallyCacheKey
-    val value = EnterAddressManuallyModel(
+    val value = EnterAddressManuallyViewModel(
       addressAndPostcodeModel = AddressAndPostcodeModel(
         addressLinesModel = AddressLinesModel(
           buildingNameOrNumber = BuildingNameOrNumberValid,

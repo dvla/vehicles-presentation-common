@@ -2,16 +2,18 @@ package controllers.disposal_of_vehicle
 
 import common.ClientSideSessionFactory
 import Common.PrototypeHtml
+import controllers.disposal_of_vehicle.EnterAddressManually
 import helpers.common.CookieHelper
 import CookieHelper.fetchCookiesFromHeaders
 import helpers.disposal_of_vehicle.CookieFactoryForUnitSpecs
 import helpers.JsonUtils.deserializeJsonToModel
 import helpers.UnitSpec
 import helpers.WithApplication
-import controllers.disposal_of_vehicle.EnterAddressManually.AddressAndPostcodeId
+import viewmodels.EnterAddressManuallyViewModel
+import EnterAddressManuallyViewModel.AddressAndPostcodeId
 import mappings.common.AddressLines.{AddressLinesId, BuildingNameOrNumberId, PostTownId, Line2Id, Line3Id}
 import mappings.common.Postcode.PostcodeId
-import models.domain.disposal_of_vehicle.{EnterAddressManuallyModel, TraderDetailsModel}
+import models.domain.disposal_of_vehicle.TraderDetailsModel
 import models.domain.disposal_of_vehicle.TraderDetailsModel.TraderDetailsCacheKey
 import org.mockito.Mockito.when
 import pages.disposal_of_vehicle.{SetupTradeDetailsPage, VehicleLookupPage}
@@ -109,7 +111,7 @@ final class EnterAddressManuallyUnitSpec extends UnitSpec {
         cookies.find(_.name == enterAddressManuallyCookieName) match {
           case Some(cookie) =>
             val json = cookie.value
-            val model = deserializeJsonToModel[EnterAddressManuallyModel](json)
+            val model = deserializeJsonToModel[EnterAddressManuallyViewModel](json)
 
             model.addressAndPostcodeModel.addressLinesModel.buildingNameOrNumber should equal(
               BuildingNameOrNumberValid.toUpperCase)
