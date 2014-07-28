@@ -21,6 +21,8 @@
     @form(action = controllers.disposal_of_vehicle.routes.Dispose.submit()) {
         @CsrfHelper.hiddenFormField
 
+        <script src="@routes.Assets.at("javascripts/number-input-only.js")" type="text/javascript"></script>
+
         <div class="two-col clearfix">
 
             <div class="disposal-form first-col uppercase-input">
