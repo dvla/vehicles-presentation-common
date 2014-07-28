@@ -1,9 +1,9 @@
 @(exceptionDigest: String)(implicit lang: Lang,
-        token: filters.csrf_prevention.CsrfPreventionAction.CsrfPreventionToken,
+        token: csrfprevention.filters.CsrfPreventionAction.CsrfPreventionToken,
         config: utils.helpers.Config)
 
+@import csrfprevention.CsrfHelper
 @import mappings.disposal_of_vehicle.Error.SubmitId
-@import utils.helpers.CsrfHelper
 @import views.html.disposal_of_vehicle.main
 @import views.html.helper.form
 

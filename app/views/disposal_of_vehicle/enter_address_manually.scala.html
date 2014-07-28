@@ -1,11 +1,11 @@
 @(enterAddressManuallyForm: Form[viewmodels.EnterAddressManuallyViewModel],
         traderPostcode: String)(implicit lang: Lang,
-        token: filters.csrf_prevention.CsrfPreventionAction.CsrfPreventionToken,
+        token: csrfprevention.filters.CsrfPreventionAction.CsrfPreventionToken,
         config: utils.helpers.Config)
 
-@import viewmodels.EnterAddressManuallyViewModel.AddressAndPostcodeId
+@import csrfprevention.CsrfHelper
 @import mappings.disposal_of_vehicle.EnterAddressManually.{BackId, NextId}
-@import utils.helpers.CsrfHelper
+@import viewmodels.EnterAddressManuallyViewModel.AddressAndPostcodeId
 @import views.html.disposal_of_vehicle.main
 @import views.html.helper.{addressAndPostcode, form}
 

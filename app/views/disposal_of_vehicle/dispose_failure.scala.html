@@ -1,6 +1,6 @@
 @(data: models.domain.disposal_of_vehicle.DisposeModel,
         formModel: viewmodels.DisposeFormViewModel)(implicit lang: Lang,
-        token: filters.csrf_prevention.CsrfPreventionAction.CsrfPreventionToken,
+        token: csrfprevention.filters.CsrfPreventionAction.CsrfPreventionToken,
         config: utils.helpers.Config)
 
 @import mappings.disposal_of_vehicle.DisposeFailure.{SetupTradeDetailsId, VehicleLookupId}

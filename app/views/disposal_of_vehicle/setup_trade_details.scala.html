@@ -1,12 +1,12 @@
 @(traderLookupForm: Form[viewmodels.SetupTradeDetailsViewModel])(implicit lang: Lang,
-        token: filters.csrf_prevention.CsrfPreventionAction.CsrfPreventionToken,
+        token: csrfprevention.filters.CsrfPreventionAction.CsrfPreventionToken,
         config: utils.helpers.Config)
 
 @import controllers.disposal_of_vehicle.routes.SetUpTradeDetails
+@import csrfprevention.CsrfHelper
 @import mappings.common.Postcode
 @import mappings.disposal_of_vehicle.SetupTradeDetails.{SubmitId, TraderNameId, TraderNameMaxLength, TraderPostcodeId}
 @import utils.helpers.BaseTemplate.fieldConstructor
-@import utils.helpers.CsrfHelper
 @import views.html.disposal_of_vehicle.main
 @import views.html.helper.base.valtechInputText
 @import views.html.helper.form

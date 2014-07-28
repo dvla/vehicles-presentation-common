@@ -1,15 +1,16 @@
-package filters.csrf_prevention
+package csrfprevention.filters
 
 import app.ConfigProperties.getProperty
 import common.ClientSideSessionFactory
+import common.CookieImplicits.RichCookies
+import play.api.http.HeaderNames.REFERER
 import play.api.libs.Crypto
 import play.api.libs.concurrent.Execution.Implicits.defaultContext
-import play.api.libs.iteratee.{Iteratee, Enumerator, Traversable}
+import play.api.libs.iteratee.{Enumerator, Iteratee, Traversable}
 import play.api.mvc.BodyParsers.parse.tolerantFormUrlEncoded
 import play.api.mvc.{EssentialAction, Headers, RequestHeader}
 import utils.helpers.AesEncryption
-import common.CookieImplicits.RichCookies
-import play.api.http.HeaderNames.REFERER
+
 import scala.util.Try
 
 final case class CsrfPreventionException(nestedException: Throwable) extends Exception(nestedException: Throwable)
@@ -24,7 +25,7 @@ final case class CsrfPreventionException(nestedException: Throwable) extends Exc
  */
 class CsrfPreventionAction(next: EssentialAction)
                           (implicit clientSideSessionFactory: ClientSideSessionFactory) extends EssentialAction {
-  import CsrfPreventionAction._
+  import csrfprevention.filters.CsrfPreventionAction._
 
   def apply(requestHeader: RequestHeader) = {
 

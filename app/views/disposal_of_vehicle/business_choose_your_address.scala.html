@@ -2,13 +2,13 @@
         traderBusinessName: String,
         traderPostcode: String,
         dropDownOptions: Seq[(String, String)])(implicit lang: Lang,
-        token: filters.csrf_prevention.CsrfPreventionAction.CsrfPreventionToken,
+        token: csrfprevention.filters.CsrfPreventionAction.CsrfPreventionToken,
         config: utils.helpers.Config)
 
 @import controllers.disposal_of_vehicle.routes.BusinessChooseYourAddress
+@import csrfprevention.CsrfHelper
 @import mappings.disposal_of_vehicle.BusinessChooseYourAddress.{AddressSelectId, BackId, EnterAddressManuallyButtonId, SelectId}
 @import utils.helpers.BaseTemplate.fieldConstructor
-@import utils.helpers.CsrfHelper
 @import views.html.disposal_of_vehicle.main
 @import views.html.helper.base.valtechSelect
 @import views.html.helper.form

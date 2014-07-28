@@ -3,14 +3,14 @@
   displayExitButton: Boolean,
   surveyUrl: Option[String]
 )(implicit lang: Lang,
-  token: filters.csrf_prevention.CsrfPreventionAction.CsrfPreventionToken,
+  token: csrfprevention.filters.CsrfPreventionAction.CsrfPreventionToken,
   config: utils.helpers.Config
 )
 
+@import csrfprevention.CsrfHelper
 @import mappings.common.{DocumentReferenceNumber, VehicleRegistrationNumber}
 @import mappings.disposal_of_vehicle.VehicleLookup.{BackId, DocumentReferenceNumberId, ExitId, SubmitId, VehicleRegistrationNumberId}
 @import utils.helpers.BaseTemplate.fieldConstructor
-@import utils.helpers.CsrfHelper
 @import views.html.disposal_of_vehicle.main
 @import views.html.helper.base.valtechInputText
 @import views.html.helper.form

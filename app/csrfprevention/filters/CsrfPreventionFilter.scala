@@ -1,4 +1,4 @@
-package filters.csrf_prevention
+package csrfprevention.filters
 
 import com.google.inject.Inject
 import common.ClientSideSessionFactory

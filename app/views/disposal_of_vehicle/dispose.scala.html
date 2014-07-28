@@ -1,13 +1,13 @@
 @(data: models.domain.disposal_of_vehicle.DisposeModel,
         disposeForm: Form[viewmodels.DisposeFormViewModel],
         dateService: services.DateService)(implicit lang: Lang,
-        token: filters.csrf_prevention.CsrfPreventionAction.CsrfPreventionToken,
+        token: csrfprevention.filters.CsrfPreventionAction.CsrfPreventionToken,
         config: utils.helpers.Config)
 
+@import csrfprevention.CsrfHelper
 @import mappings.common.Mileage
 @import mappings.disposal_of_vehicle.Dispose.{BackId, ConsentId, DateOfDisposalId, DateOfDisposalYearsIntoThePast, LossOfRegistrationConsentId, MileageId, SubmitId, TodaysDateOfDisposal}
 @import utils.helpers.BaseTemplate.fieldConstructor
-@import utils.helpers.CsrfHelper
 @import views.html.disposal_of_vehicle.main
 @import views.html.helper.base.{valtechDeclareCheck, valtechInputText}
 @import views.html.helper.dates.inputDayMonthYear

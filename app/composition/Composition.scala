@@ -1,9 +1,9 @@
 package composition
 
 import com.google.inject.Guice
+import csrfprevention.filters.CsrfPreventionFilter
 import filters.{AccessLoggingFilter, EnsureSessionCreatedFilter}
 import play.filters.gzip.GzipFilter
-import filters.csrf_prevention.CsrfPreventionFilter
 import utils.helpers.ErrorStrategy
 
 trait Composition {
