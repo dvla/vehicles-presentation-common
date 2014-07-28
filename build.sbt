@@ -26,6 +26,10 @@ scalaVersion := "2.10.3"
 scalacOptions := Seq("-deprecation", "-unchecked", "-feature", "-Xlint", "-language:reflectiveCalls", "-Xmax-classfile-name", "128")
 
 lazy val root = (project in file("."))
+  .aggregate(vehiclesPresentationCommon)
+  .dependsOn(vehiclesPresentationCommon)
+
+lazy val vehiclesPresentationCommon = project.in(file("vehicles-presentation-common"))
 
 playScalaSettings
 
@@ -46,7 +50,6 @@ libraryDependencies ++= Seq(
   "com.tzavellas" % "sse-guice" % "0.7.1" withSources() withJavadoc(), // Scala DSL for Guice
   "commons-codec" % "commons-codec" % "1.9" withSources() withJavadoc(),
   "org.apache.httpcomponents" % "httpclient" % "4.3.4" withSources() withJavadoc())
-
 
 val jsModulesToOptimise = Seq("custom.js")
 
