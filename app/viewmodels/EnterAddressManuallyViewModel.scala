@@ -1,7 +1,7 @@
 package viewmodels
 
 import models.domain.common.{AddressAndPostcodeModel, CacheKey}
-import play.api.data.Forms._
+import play.api.data.Forms.mapping
 import play.api.libs.json.Json
 
 final case class EnterAddressManuallyViewModel(addressAndPostcodeModel: AddressAndPostcodeModel)

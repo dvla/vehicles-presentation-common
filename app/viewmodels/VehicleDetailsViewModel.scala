@@ -10,7 +10,7 @@ final case class VehicleDetailsViewModel(registrationNumber: String,
 
 object VehicleDetailsViewModel {
   // Create a VehicleDetailsModel from the given VehicleDetailsDto. We do this in order get the data out of the response from micro-service call
-  def fromDto(model: VehicleDetailsDto) =
+  def fromDto(model: VehicleDetailsDto): VehicleDetailsViewModel =
     VehicleDetailsViewModel(
       registrationNumber = model.registrationNumber,
       vehicleMake = model.vehicleMake,
