@@ -9,7 +9,7 @@ import pages.disposal_of_vehicle.BeforeYouStartPage
 import play.api.test.Helpers.LOCATION
 import play.api.test.{FakeApplication, FakeRequest}
 
-final class CryptoHelperSpec extends UnitSpec {
+final class CookieHelperSpec extends UnitSpec {
   "handleApplicationSecretChange" should {
     "discard all cookies except SeenCookieMessageKey" in new WithApplication(app = appWithCryptpConfig) {
       val request = FakeRequest().
@@ -22,7 +22,7 @@ final class CryptoHelperSpec extends UnitSpec {
         withCookies(CookieFactoryForUnitSpecs.vehicleRegistrationNumber()).
         withCookies(CookieFactoryForUnitSpecs.disposeModel())
 
-      val result = CryptoHelper.handleApplicationSecretChange(request)
+      val result = CookieHelper.discardAllCookies(request)
 
       whenReady(result) { r =>
         val cookies = fetchCookiesFromHeaders(r)
@@ -47,7 +47,7 @@ final class CryptoHelperSpec extends UnitSpec {
         withCookies(CookieFactoryForUnitSpecs.vehicleRegistrationNumber()).
         withCookies(CookieFactoryForUnitSpecs.disposeModel())
 
-      val result = CryptoHelper.handleApplicationSecretChange(request)
+      val result = CookieHelper. discardAllCookies(request)
       
       whenReady(result) { r =>
         r.header.headers.get(LOCATION) should equal(Some(BeforeYouStartPage.address))

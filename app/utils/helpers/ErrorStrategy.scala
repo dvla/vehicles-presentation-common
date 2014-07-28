@@ -22,8 +22,8 @@ class ErrorStrategy @Inject()(clfEntryBuilder: ClfEntryBuilder,
   def apply(request: RequestHeader, ex: Throwable)
            (implicit executionContext: ExecutionContext): Future[SimpleResult] = {
     val result = ex.getCause match {
-      case _: BadPaddingException => CryptoHelper.handleApplicationSecretChange(request)
-      case _: InvalidSessionException => CryptoHelper.handleApplicationSecretChange(request)
+      case _: BadPaddingException => CookieHelper.discardAllCookies(request)
+      case _: InvalidSessionException => CookieHelper.discardAllCookies(request)
       case cause =>
         val exceptionDigest = Codecs.sha1(Option(cause).fold("")(c => Option(c.getMessage).getOrElse("")))
         Logger.error(s"Exception thrown with digest '$exceptionDigest'", cause)
