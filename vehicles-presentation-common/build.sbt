@@ -11,3 +11,5 @@ libraryDependencies ++= Seq(
 )     
 
 play.Project.playScalaSettings
+
+credentials += Credentials(Path.userHome / ".sbt/.credentials")
