@@ -1,10 +1,13 @@
 import java.io.StringReader
 import java.net.URLClassLoader
 import com.typesafe.config.ConfigFactory
+import io.gatling.sbt.GatlingPlugin
 import org.apache.commons.io.FileUtils
 import sbt.Keys._
 import sbt._
 import scala.sys.process.Process
+import spray.revolver.RevolverPlugin._
+import GatlingPlugin._
 
 object CommonResolvers {
   val nexus = "http://rep002-01.skyscape.preview-dvla.co.uk:8081/nexus/content/repositories"
@@ -17,6 +20,15 @@ object CommonResolvers {
 }
 
 object Sandbox extends Plugin {
+  final val VersionOsAddressLookup = "0.1-SNAPSHOT"
+  final val VersionVehiclesLookup = "0.1-SNAPSHOT"
+  final val VersionVehiclesDisposeFulfil = "0.1-SNAPSHOT"
+  final val VersionLegacyStubs = "1.0-SNAPSHOT"
+  final val VersionJetty = "9.2.1.v20140609"
+  final val VersionSpringWeb = "3.0.7.RELEASE"
+  final val VersionVehiclesGatling = "1.0-SNAPSHOT"
+  final val VersionGatling = "1.0-SNAPSHOT"
+  final val VersionGatlingHighcharts = "2.0.0-SNAPSHOT"
 
   val legacyServicesStubsPort = 18086
   val secretProperty = "DECRYPT_PASSWORD"
@@ -25,26 +37,41 @@ object Sandbox extends Plugin {
 
   val decryptPassword = sys.props.get(secretProperty) orElse sys.env.get(secretProperty)
 
-  def sandPrj(name: String, deps: ModuleID*): (Project, ScopeFilter) = (
+  def sandProject(name: String, deps: ModuleID*): (Project, ScopeFilter) =
+    sandProject(name, Seq[AutoPlugin](), Seq[Resolver](), deps: _*)
+
+  def sandProject(name: String,
+                  plugins: Seq[AutoPlugin],
+                  res: Seq[Resolver],
+                  deps: ModuleID*): (Project, ScopeFilter) = (
     Project(name, file(s"target/sandbox/$name"))
+      .enablePlugins(plugins: _*)
       .settings(libraryDependencies ++= deps)
-      .settings(resolvers ++= CommonResolvers.projectResolvers)
+      .settings(resolvers ++= (CommonResolvers.projectResolvers ++ res))
       .settings(net.virtualvoid.sbt.graph.Plugin.graphSettings: _*),
     ScopeFilter(inProjects(LocalProject(name)), inConfigurations(Runtime))
   )
 
   lazy val (osAddressLookup, scopeOsAddressLookup) =
-    sandPrj("os-address-lookup","dvla" %% "os-address-lookup" % "0.1-SNAPSHOT")
+    sandProject("os-address-lookup","dvla" %% "os-address-lookup" % VersionOsAddressLookup)
   lazy val (vehiclesLookup, scopeVehiclesLookup) =
-    sandPrj("vehicles-lookup", "dvla" %% "vehicles-lookup" % "0.1-SNAPSHOT")
+    sandProject("vehicles-lookup", "dvla" %% "vehicles-lookup" % VersionVehiclesLookup)
   lazy val (vehiclesDisposeFulfil, scopeVehiclesDisposeFulfil) =
-    sandPrj("vehicles-dispose-fulfil", "dvla" %% "vehicles-dispose-fulfil" % "0.1-SNAPSHOT")
-  lazy val (legacyStubs, scopeLegacyStubs) = sandPrj(
+    sandProject("vehicles-dispose-fulfil", "dvla" %% "vehicles-dispose-fulfil" % VersionVehiclesDisposeFulfil)
+  lazy val (legacyStubs, scopeLegacyStubs) = sandProject(
     name = "legacy-stubs",
-    "dvla-legacy-stub-services" % "legacy-stub-services-service" % "1.0-SNAPSHOT",
-    "org.eclipse.jetty" % "jetty-server" % "9.2.1.v20140609",
-    "org.eclipse.jetty" % "jetty-servlet" % "9.2.1.v20140609",
-    "org.springframework" % "spring-web" % "3.0.7.RELEASE"
+    "dvla-legacy-stub-services" % "legacy-stub-services-service" % VersionLegacyStubs,
+    "org.eclipse.jetty" % "jetty-server" % VersionJetty,
+    "org.eclipse.jetty" % "jetty-servlet" % VersionJetty,
+    "org.springframework" % "spring-web" % VersionSpringWeb
+  )
+  lazy val (gatlingTests, scopeGatlingTests) = sandProject (
+    name = "gatling",
+    Seq(GatlingPlugin),
+    Seq("Sonatype OSS Snapshots" at "https://oss.sonatype.org/content/repositories/snapshots"),
+    "io.gatling.highcharts" % "gatling-charts-highcharts" % VersionGatlingHighcharts % "test",
+    "io.gatling" % "test-framework" % VersionGatling % "test",
+    "uk.gov.dvla" % "vehicles-gatling" % VersionVehiclesGatling % "test"
   )
 
   lazy val sandboxedProjects = Seq(osAddressLookup, vehiclesLookup, vehiclesDisposeFulfil, legacyStubs)
@@ -60,38 +87,36 @@ object Sandbox extends Plugin {
     updateSecretVehiclesOnline(secretRepoFolder)
 
     runProject(
-      secretRepoFolder,
       fullClasspath.all(scopeOsAddressLookup).value.flatten,
-      classDirectory.all(scopeOsAddressLookup).value.head,
-      Some(ConfigPair(
+      Some(ConfigDetails(
+        secretRepoFolder,
+        classDirectory.all(scopeOsAddressLookup).value.head,
         "ms/dev/os-address-lookup.conf.enc",
         osAddressLookup.id
       ))
     )
     runProject(
-      secretRepoFolder,
       fullClasspath.all(scopeVehiclesLookup).value.flatten,
-      classDirectory.all(scopeVehiclesLookup).value.head,
-      Some(ConfigPair(
+      Some(ConfigDetails(
+        secretRepoFolder,
+        classDirectory.all(scopeVehiclesLookup).value.head,
         "ms/dev/vehicles-lookup.conf.enc",
         vehiclesLookup.id,
         updatePropertyPort("getVehicleDetails.baseurl", legacyServicesStubsPort)
       ))
     )
     runProject(
-      secretRepoFolder,
       fullClasspath.all(scopeVehiclesDisposeFulfil).value.flatten,
-      classDirectory.all(scopeVehiclesDisposeFulfil).value.head,
-        Some(ConfigPair(
+        Some(ConfigDetails(
+          secretRepoFolder,
+          classDirectory.all(scopeVehiclesDisposeFulfil).value.head,
           "ms/dev/vehicles-dispose-fulfil.conf.enc",
           vehiclesDisposeFulfil.id,
           updatePropertyPort("vss.baseurl", legacyServicesStubsPort)
         ))
     )
     runProject(
-      secretRepoFolder,
       fullClasspath.all(scopeLegacyStubs).value.flatten,
-      classDirectory.all(scopeLegacyStubs).value.head,
       None,
       runJavaMain("service.LegacyServicesRunner", Array(legacyServicesStubsPort.toString))
     )
@@ -101,6 +126,27 @@ object Sandbox extends Plugin {
   lazy val sandboxTask = sandbox <<= (runMicroServices, (run in Runtime).toTask("")) { (body, stop) =>
     body.flatMap(t => stop)
   }
+
+  lazy val testGatling = taskKey[Unit]("Runs the gatling test")
+  lazy val testGatlingTask = testGatling := {
+    (test in gatlingTests in Gatling).value
+  }
+
+  lazy val runAsync = taskKey[Unit]("Runs the play application")
+  lazy val runAsyncTask = runAsync := {
+    runProject(
+      fullClasspath.in(Test).value,
+      None,
+      runScalaMain("utils.helpers.RunPlayApp", Array((baseDirectory in ThisProject).value.getAbsolutePath))
+    )
+  }
+
+  lazy val sandboxSettings = Seq(
+    runMicroServicesTask,
+    sandboxTask,
+    runAsyncTask,
+    testGatlingTask
+  ) ++ Revolver.settings
 
   def validatePrerequisites() {
     print(s"${scala.Console.YELLOW}Verifying git is installed...${scala.Console.RESET}")
@@ -152,18 +198,18 @@ object Sandbox extends Plugin {
     mainMethod.invoke(null, args)
   }
 
-  case class ConfigPair(encryptedConfig: String,
-                        decryptedConfig: String,
-                        decryptedTransform: String => String = a => a)
+  case class ConfigDetails(secretRepo: File,
+                          classDirectory: File,
+                          encryptedConfig: String,
+                          decryptedConfig: String,
+                          decryptedTransform: String => String = a => a)
 
-  def runProject(secretRepo: File,
-                 prjClassPath: Seq[Attributed[File]],
-                 classDirectory: File,
-                 configPair: Option[ConfigPair],
+  def runProject(prjClassPath: Seq[Attributed[File]],
+                 configPair: Option[ConfigDetails],
                  runMainMethod: (ClassLoader) => Unit = runScalaMain("dvla.microservice.Boot")): Unit = {
-    configPair.map { case ConfigPair(encryptedConfig, decryptedConfig, decryptedTransform) =>
+    configPair.map { case ConfigDetails(secretRepo, classDir, encryptedConfig, decryptedConfig, decryptedTransform) =>
       val encryptedConfigFile = new File(secretRepo, encryptedConfig)
-      val decryptedConfigFile = new java.io.File(classDirectory, s"$decryptedConfig.conf")
+      val decryptedConfigFile = new java.io.File(classDir, s"$decryptedConfig.conf")
       decryptFile(secretRepo.getAbsolutePath, encryptedConfigFile, decryptedConfigFile, decryptedTransform)
     }
 

@@ -107,9 +107,14 @@ runMicroServicesTask
 
 sandboxTask
 
+runAsyncTask
+
+testGatlingTask
+
 resolvers ++= projectResolvers
 
 lazy val p1 = osAddressLookup
 lazy val p2 = vehiclesLookup
 lazy val p3 = vehiclesDisposeFulfil
 lazy val p4 = legacyStubs
+lazy val p5 = gatlingTests

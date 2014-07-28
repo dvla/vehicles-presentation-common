@@ -23,3 +23,9 @@ resolvers += "Templemore Repository" at "http://templemore.co.uk/repo/"
 addSbtPlugin("templemore" % "sbt-cucumber-plugin" % "0.8.0")
 
 addSbtPlugin("net.virtual-void" % "sbt-dependency-graph" % "0.7.4")
+
+resolvers += "Sonatype OSS Snapshots" at "https://oss.sonatype.org/content/repositories/snapshots"
+
+addSbtPlugin("io.gatling" % "sbt-plugin" % "1.0-SNAPSHOT")
+
+addSbtPlugin("io.spray" % "sbt-revolver" % "0.7.2")
