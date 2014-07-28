@@ -20,11 +20,11 @@ import play.api.mvc.SimpleResult
 import play.api.test.FakeRequest
 import play.api.test.Helpers.{OK, LOCATION, BAD_REQUEST, contentAsString, defaultAwaitTimeout}
 import scala.concurrent.Future
-import serviceclients.fakes.FakeAddressLookupService.BuildingNameOrNumberValid
-import serviceclients.fakes.FakeAddressLookupService.Line2Valid
-import serviceclients.fakes.FakeAddressLookupService.Line3Valid
-import serviceclients.fakes.FakeAddressLookupService.PostcodeValid
-import serviceclients.fakes.FakeAddressLookupService.PostTownValid
+import webserviceclients.fakes.FakeAddressLookupService.BuildingNameOrNumberValid
+import webserviceclients.fakes.FakeAddressLookupService.Line2Valid
+import webserviceclients.fakes.FakeAddressLookupService.Line3Valid
+import webserviceclients.fakes.FakeAddressLookupService.PostcodeValid
+import webserviceclients.fakes.FakeAddressLookupService.PostTownValid
 import utils.helpers.Config
 
 final class EnterAddressManuallyUnitSpec extends UnitSpec {

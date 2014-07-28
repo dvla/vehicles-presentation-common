@@ -15,7 +15,7 @@ import play.api.Logger
 import play.api.mvc.{Action, Controller, Request}
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
-import serviceclients.address_lookup.AddressLookupService
+import webserviceclients.address_lookup.AddressLookupService
 import utils.helpers.Config
 import utils.helpers.FormExtensions.formBinding
 import views.html.disposal_of_vehicle.business_choose_your_address

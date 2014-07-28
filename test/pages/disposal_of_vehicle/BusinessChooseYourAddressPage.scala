@@ -6,7 +6,7 @@ import mappings.disposal_of_vehicle.BusinessChooseYourAddress.BackId
 import mappings.disposal_of_vehicle.BusinessChooseYourAddress.EnterAddressManuallyButtonId
 import mappings.disposal_of_vehicle.BusinessChooseYourAddress.SelectId
 import org.openqa.selenium.WebDriver
-import serviceclients.fakes.FakeAddressLookupWebServiceImpl.traderUprnValid
+import webserviceclients.fakes.FakeAddressLookupWebServiceImpl.traderUprnValid
 
 object BusinessChooseYourAddressPage extends Page with WebBrowserDSL {
   final val address: String = "/sell-to-the-trade/business-choose-your-address"

@@ -11,7 +11,7 @@ import play.api.LoggerLike
 import play.api.http.HeaderNames.CONTENT_LENGTH
 import play.api.libs.concurrent.Execution.Implicits.defaultContext
 import play.api.mvc.{Filter, RequestHeader, SimpleResult}
-import serviceclients.HttpHeaders.{XForwardedFor, XRealIp}
+import webserviceclients.HttpHeaders.{XForwardedFor, XRealIp}
 import scala.concurrent.Future
 
 class AccessLoggingFilter @Inject()(clfEntryBuilder: ClfEntryBuilder,

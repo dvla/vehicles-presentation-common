@@ -10,8 +10,8 @@ import mappings.disposal_of_vehicle.Dispose.MileageId
 import mappings.disposal_of_vehicle.Dispose.SubmitId
 import mappings.disposal_of_vehicle.Dispose.TodaysDateOfDisposal
 import org.openqa.selenium.WebDriver
-import serviceclients.fakes.FakeDateServiceImpl.{DateOfDisposalDayValid, DateOfDisposalMonthValid, DateOfDisposalYearValid}
-import serviceclients.fakes.FakeDisposeWebServiceImpl.MileageValid
+import webserviceclients.fakes.FakeDateServiceImpl.{DateOfDisposalDayValid, DateOfDisposalMonthValid, DateOfDisposalYearValid}
+import webserviceclients.fakes.FakeDisposeWebServiceImpl.MileageValid
 
 object DisposePage extends Page with WebBrowserDSL {
   final val address = "/sell-to-the-trade/complete-and-confirm"

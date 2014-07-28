@@ -6,8 +6,8 @@ import AddressLines.LineMaxLength
 import common.ClientSideSessionFactory
 import Common.PrototypeHtml
 import controllers.disposal_of_vehicle
-import serviceclients.fakes.FakeDisposeWebServiceImpl
-import serviceclients.fakes.FakeAddressLookupService
+import webserviceclients.fakes.FakeDisposeWebServiceImpl
+import webserviceclients.fakes.FakeAddressLookupService
 import FakeAddressLookupService.BuildingNameOrNumberValid
 import FakeAddressLookupService.Line2Valid
 import FakeAddressLookupService.Line3Valid
@@ -58,10 +58,10 @@ import play.api.test.Helpers.OK
 import play.api.test.Helpers.SERVICE_UNAVAILABLE
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
-import serviceclients.dispose_service._
-import serviceclients.fakes.FakeDateServiceImpl.{DateOfDisposalDayValid, DateOfDisposalMonthValid, DateOfDisposalYearValid}
-import serviceclients.fakes.FakeVehicleLookupWebService.{ReferenceNumberValid, RegistrationNumberValid}
-import serviceclients.fakes.{FakeDisposeWebServiceImpl, FakeResponse}
+import webserviceclients.dispose_service._
+import webserviceclients.fakes.FakeDateServiceImpl.{DateOfDisposalDayValid, DateOfDisposalMonthValid, DateOfDisposalYearValid}
+import webserviceclients.fakes.FakeVehicleLookupWebService.{ReferenceNumberValid, RegistrationNumberValid}
+import webserviceclients.fakes.{FakeDisposeWebServiceImpl, FakeResponse}
 import utils.helpers.Config
 
 final class DisposeUnitSpec extends UnitSpec {

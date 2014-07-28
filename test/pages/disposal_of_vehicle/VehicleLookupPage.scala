@@ -7,8 +7,8 @@ import mappings.disposal_of_vehicle.VehicleLookup.ExitId
 import mappings.disposal_of_vehicle.VehicleLookup.SubmitId
 import mappings.disposal_of_vehicle.VehicleLookup.VehicleRegistrationNumberId
 import org.openqa.selenium.WebDriver
-import serviceclients.fakes.FakeVehicleLookupWebService.{ReferenceNumberValid, RegistrationNumberValid}
-import serviceclients.fakes.brute_force_protection.FakeBruteForcePreventionWebServiceImpl.VrmLocked
+import webserviceclients.fakes.FakeVehicleLookupWebService.{ReferenceNumberValid, RegistrationNumberValid}
+import webserviceclients.fakes.brute_force_protection.FakeBruteForcePreventionWebServiceImpl.VrmLocked
 
 object VehicleLookupPage extends Page with WebBrowserDSL {
   final val address = "/sell-to-the-trade/vehicle-lookup"

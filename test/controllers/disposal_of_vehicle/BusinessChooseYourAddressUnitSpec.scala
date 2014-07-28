@@ -2,11 +2,11 @@ package controllers.disposal_of_vehicle
 
 import common.ClientSideSessionFactory
 import Common.PrototypeHtml
-import serviceclients.fakes.FakeAddressLookupWebServiceImpl.responseValidForPostcodeToAddress
-import serviceclients.fakes.FakeAddressLookupWebServiceImpl.responseValidForPostcodeToAddressNotFound
-import serviceclients.fakes.FakeAddressLookupWebServiceImpl.responseValidForUprnToAddress
-import serviceclients.fakes.FakeAddressLookupWebServiceImpl.responseValidForUprnToAddressNotFound
-import serviceclients.fakes.FakeAddressLookupWebServiceImpl.traderUprnValid
+import webserviceclients.fakes.FakeAddressLookupWebServiceImpl.responseValidForPostcodeToAddress
+import webserviceclients.fakes.FakeAddressLookupWebServiceImpl.responseValidForPostcodeToAddressNotFound
+import webserviceclients.fakes.FakeAddressLookupWebServiceImpl.responseValidForUprnToAddress
+import webserviceclients.fakes.FakeAddressLookupWebServiceImpl.responseValidForUprnToAddressNotFound
+import webserviceclients.fakes.FakeAddressLookupWebServiceImpl.traderUprnValid
 import helpers.common.CookieHelper.fetchCookiesFromHeaders
 import helpers.disposal_of_vehicle.CookieFactoryForUnitSpecs
 import helpers.{UnitSpec, WithApplication}
@@ -18,8 +18,8 @@ import pages.disposal_of_vehicle.{SetupTradeDetailsPage, VehicleLookupPage, Uprn
 import play.api.mvc.Cookies
 import play.api.test.FakeRequest
 import play.api.test.Helpers.{OK, LOCATION, BAD_REQUEST, SET_COOKIE, contentAsString, defaultAwaitTimeout}
-import serviceclients.fakes.FakeAddressLookupService.TraderBusinessNameValid
-import serviceclients.fakes.FakeAddressLookupWebServiceImpl
+import webserviceclients.fakes.FakeAddressLookupService.TraderBusinessNameValid
+import webserviceclients.fakes.FakeAddressLookupWebServiceImpl
 import utils.helpers.Config
 
 final class BusinessChooseYourAddressUnitSpec extends UnitSpec {
@@ -136,7 +136,7 @@ final class BusinessChooseYourAddressUnitSpec extends UnitSpec {
     val responsePostcode = if (uprnFound) responseValidForPostcodeToAddress else responseValidForPostcodeToAddressNotFound
     val responseUprn = if (uprnFound) responseValidForUprnToAddress else responseValidForUprnToAddressNotFound
     val fakeWebService = new FakeAddressLookupWebServiceImpl(responsePostcode, responseUprn)
-    val addressLookupService = new serviceclients.address_lookup.ordnance_survey.AddressLookupServiceImpl(fakeWebService)
+    val addressLookupService = new webserviceclients.address_lookup.ordnance_survey.AddressLookupServiceImpl(fakeWebService)
     implicit val clientSideSessionFactory = injector.getInstance(classOf[ClientSideSessionFactory])
     implicit val config: Config = mock[Config]
     when(config.isPrototypeBannerVisible).thenReturn(isPrototypeBannerVisible) // Stub this config value.

@@ -1,14 +1,14 @@
 package controllers.disposal_of_vehicle
 
 import common.ClientSideSessionFactory
-import serviceclients.fakes.FakeAddressLookupWebServiceImpl.responseValidForPostcodeToAddress
-import serviceclients.fakes.FakeAddressLookupWebServiceImpl.responseValidForPostcodeToAddressNotFound
-import serviceclients.fakes.FakeAddressLookupWebServiceImpl.responseValidForUprnToAddress
-import serviceclients.fakes.FakeAddressLookupWebServiceImpl.traderUprnValid
-import serviceclients.fakes.FakeAddressLookupWebServiceImpl.responseValidForUprnToAddressNotFound
+import webserviceclients.fakes.FakeAddressLookupWebServiceImpl.responseValidForPostcodeToAddress
+import webserviceclients.fakes.FakeAddressLookupWebServiceImpl.responseValidForPostcodeToAddressNotFound
+import webserviceclients.fakes.FakeAddressLookupWebServiceImpl.responseValidForUprnToAddress
+import webserviceclients.fakes.FakeAddressLookupWebServiceImpl.traderUprnValid
+import webserviceclients.fakes.FakeAddressLookupWebServiceImpl.responseValidForUprnToAddressNotFound
 import helpers.UnitSpec
 import mappings.disposal_of_vehicle.BusinessChooseYourAddress.AddressSelectId
-import serviceclients.fakes.FakeAddressLookupWebServiceImpl
+import webserviceclients.fakes.FakeAddressLookupWebServiceImpl
 import utils.helpers.Config
 
 class BusinessChooseYourAddressFormSpec extends UnitSpec {
@@ -32,7 +32,7 @@ class BusinessChooseYourAddressFormSpec extends UnitSpec {
                            else responseValidForPostcodeToAddressNotFound
     val responseUprn = if (uprnFound) responseValidForUprnToAddress else responseValidForUprnToAddressNotFound
     val fakeWebService = new FakeAddressLookupWebServiceImpl(responsePostcode, responseUprn)
-    val addressLookupService = new serviceclients.address_lookup.ordnance_survey.AddressLookupServiceImpl(fakeWebService)
+    val addressLookupService = new webserviceclients.address_lookup.ordnance_survey.AddressLookupServiceImpl(fakeWebService)
     implicit val clientSideSessionFactory = injector.getInstance(classOf[ClientSideSessionFactory])
     implicit val config: Config = mock[Config]
     new BusinessChooseYourAddress(addressLookupService)

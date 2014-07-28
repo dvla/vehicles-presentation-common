@@ -4,7 +4,7 @@ import helpers.UnitSpec
 import viewmodels.EnterAddressManuallyViewModel
 import EnterAddressManuallyViewModel.AddressAndPostcodeId
 import mappings.common.AddressLines.{AddressLinesId, BuildingNameOrNumberId, Line2Id, Line3Id, LineMaxLength, PostTownId}
-import serviceclients.fakes.FakeAddressLookupService.{BuildingNameOrNumberValid, Line2Valid, Line3Valid, PostTownValid}
+import webserviceclients.fakes.FakeAddressLookupService.{BuildingNameOrNumberValid, Line2Valid, Line3Valid, PostTownValid}
 
 final class EnterAddressManuallyFormSpec extends UnitSpec {
   "form" should {

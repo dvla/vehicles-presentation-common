@@ -24,7 +24,7 @@ import play.api.Logger
 import play.api.data.Forms.mapping
 import play.api.data.{Form, FormError}
 import play.api.mvc.{Action, AnyContent, Controller, Call, Request, SimpleResult}
-import serviceclients.dispose_service.{DisposeResponseDto, DisposeRequestDto, DisposalAddressDto, DisposeService}
+import webserviceclients.dispose_service.{DisposeResponseDto, DisposeRequestDto, DisposalAddressDto, DisposeService}
 import utils.helpers.Config
 import utils.helpers.FormExtensions.formBinding
 import views.html.disposal_of_vehicle.dispose

@@ -14,7 +14,7 @@ import play.api.LoggerLike
 import play.api.http.HeaderNames.CONTENT_LENGTH
 import play.api.mvc.{Cookie, SimpleResult, RequestHeader, Results, AnyContentAsEmpty}
 import play.api.test.{FakeHeaders, FakeRequest}
-import serviceclients.HttpHeaders
+import webserviceclients.HttpHeaders
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 import scala.language.existentials

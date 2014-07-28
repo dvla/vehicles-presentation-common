@@ -7,11 +7,11 @@ import pages.disposal_of_vehicle.BusinessChooseYourAddressPage
 import pages.disposal_of_vehicle.DisposePage
 import pages.disposal_of_vehicle.SetupTradeDetailsPage
 import pages.disposal_of_vehicle.VehicleLookupPage
-import serviceclients.fakes.FakeAddressLookupService.{TraderBusinessNameValid, PostcodeValidWithSpace}
-import serviceclients.fakes.FakeAddressLookupWebServiceImpl.traderUprnValid
-import serviceclients.fakes.FakeDateServiceImpl.{DateOfDisposalDayValid, DateOfDisposalMonthValid, DateOfDisposalYearValid}
-import serviceclients.fakes.FakeDisposeWebServiceImpl.MileageValid
-import serviceclients.fakes.FakeVehicleLookupWebService.{ReferenceNumberValid, RegistrationNumberValid}
+import webserviceclients.fakes.FakeAddressLookupService.{TraderBusinessNameValid, PostcodeValidWithSpace}
+import webserviceclients.fakes.FakeAddressLookupWebServiceImpl.traderUprnValid
+import webserviceclients.fakes.FakeDateServiceImpl.{DateOfDisposalDayValid, DateOfDisposalMonthValid, DateOfDisposalYearValid}
+import webserviceclients.fakes.FakeDisposeWebServiceImpl.MileageValid
+import webserviceclients.fakes.FakeVehicleLookupWebService.{ReferenceNumberValid, RegistrationNumberValid}
 
 final class DemoSpec extends FeatureSpec with GivenWhenThen with Matchers with BeforeAndAfterAll with TestHarness {
 

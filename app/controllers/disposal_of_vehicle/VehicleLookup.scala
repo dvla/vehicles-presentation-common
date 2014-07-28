@@ -22,8 +22,8 @@ import play.api.mvc.{Action, AnyContent, Controller, Request, SimpleResult}
 import viewmodels.BruteForcePreventionViewModel
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
-import serviceclients.brute_force_prevention.BruteForcePreventionService
-import serviceclients.vehicle_lookup.{VehicleDetailsResponseDto, VehicleDetailsRequestDto, VehicleDetailsDto, VehicleLookupService}
+import webserviceclients.brute_force_prevention.BruteForcePreventionService
+import webserviceclients.vehicle_lookup.{VehicleDetailsResponseDto, VehicleDetailsRequestDto, VehicleDetailsDto, VehicleLookupService}
 import utils.helpers.Config
 import utils.helpers.FormExtensions.formBinding
 
