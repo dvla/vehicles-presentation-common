@@ -18,7 +18,7 @@ import pages.disposal_of_vehicle.VehicleLookupPage
 import pages.disposal_of_vehicle.VehicleLookupPage.{happyPath, tryLockedVrm, back, exit}
 import pages.disposal_of_vehicle.VrmLockedPage
 import play.api.test.FakeApplication
-import services.fakes.FakeAddressLookupService.addressWithUprn
+import serviceclients.fakes.FakeAddressLookupService.addressWithUprn
 
 final class VehicleLookupIntegrationSpec extends UiSpec with TestHarness {
 

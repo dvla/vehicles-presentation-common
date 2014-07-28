@@ -16,8 +16,8 @@ import pages.disposal_of_vehicle.BusinessChooseYourAddressPage.{back, happyPath,
 import pages.disposal_of_vehicle.EnterAddressManuallyPage
 import pages.disposal_of_vehicle.SetupTradeDetailsPage
 import pages.disposal_of_vehicle.VehicleLookupPage
-import services.fakes.FakeAddressLookupService
-import services.fakes.FakeAddressLookupService.PostcodeValid
+import serviceclients.fakes.FakeAddressLookupService
+import serviceclients.fakes.FakeAddressLookupService.PostcodeValid
 
 final class BusinessChooseYourAddressIntegrationSpec extends UiSpec with TestHarness {
   "business choose your address page" should {

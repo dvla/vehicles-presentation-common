@@ -14,7 +14,7 @@ import org.mockito.Mockito.when
 import pages.disposal_of_vehicle.BusinessChooseYourAddressPage
 import play.api.test.FakeRequest
 import play.api.test.Helpers.{OK, LOCATION, BAD_REQUEST, contentAsString, defaultAwaitTimeout}
-import services.fakes.FakeAddressLookupService.{TraderBusinessNameValid, PostcodeValid}
+import serviceclients.fakes.FakeAddressLookupService.{TraderBusinessNameValid, PostcodeValid}
 import SetupTradeDetails.{TraderNameMaxLength, TraderNameId, TraderPostcodeId}
 import utils.helpers.Config
 

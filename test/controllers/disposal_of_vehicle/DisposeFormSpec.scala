@@ -10,11 +10,11 @@ import models.DayMonthYear
 import org.mockito.Matchers.any
 import org.mockito.Mockito.when
 import play.api.libs.json.Json
+import serviceclients.dispose_service.{DisposeRequestDto, DisposeServiceImpl, DisposeWebService}
+import serviceclients.fakes.FakeDateServiceImpl.{DateOfDisposalDayValid, DateOfDisposalMonthValid, DateOfDisposalYearValid}
+import serviceclients.fakes.FakeDisposeWebServiceImpl.{ConsentValid, MileageValid, disposeResponseSuccess}
+import serviceclients.fakes.FakeResponse
 import services.DateService
-import services.dispose_service.{DisposeRequestDto, DisposeServiceImpl, DisposeWebService}
-import services.fakes.FakeDateServiceImpl.{DateOfDisposalDayValid, DateOfDisposalMonthValid, DateOfDisposalYearValid}
-import services.fakes.FakeDisposeWebServiceImpl.{ConsentValid, MileageValid, disposeResponseSuccess}
-import services.fakes.FakeResponse
 import utils.helpers.Config
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future

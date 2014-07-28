@@ -1,14 +1,14 @@
 package controllers.disposal_of_vehicle
 
 import common.ClientSideSessionFactory
-import services.fakes.FakeAddressLookupWebServiceImpl.responseValidForPostcodeToAddress
-import services.fakes.FakeAddressLookupWebServiceImpl.responseValidForPostcodeToAddressNotFound
-import services.fakes.FakeAddressLookupWebServiceImpl.responseValidForUprnToAddress
-import services.fakes.FakeAddressLookupWebServiceImpl.traderUprnValid
-import services.fakes.FakeAddressLookupWebServiceImpl.responseValidForUprnToAddressNotFound
+import serviceclients.fakes.FakeAddressLookupWebServiceImpl.responseValidForPostcodeToAddress
+import serviceclients.fakes.FakeAddressLookupWebServiceImpl.responseValidForPostcodeToAddressNotFound
+import serviceclients.fakes.FakeAddressLookupWebServiceImpl.responseValidForUprnToAddress
+import serviceclients.fakes.FakeAddressLookupWebServiceImpl.traderUprnValid
+import serviceclients.fakes.FakeAddressLookupWebServiceImpl.responseValidForUprnToAddressNotFound
 import helpers.UnitSpec
 import mappings.disposal_of_vehicle.BusinessChooseYourAddress.AddressSelectId
-import services.fakes.FakeAddressLookupWebServiceImpl
+import serviceclients.fakes.FakeAddressLookupWebServiceImpl
 import utils.helpers.Config
 
 class BusinessChooseYourAddressFormSpec extends UnitSpec {
@@ -32,7 +32,7 @@ class BusinessChooseYourAddressFormSpec extends UnitSpec {
                            else responseValidForPostcodeToAddressNotFound
     val responseUprn = if (uprnFound) responseValidForUprnToAddress else responseValidForUprnToAddressNotFound
     val fakeWebService = new FakeAddressLookupWebServiceImpl(responsePostcode, responseUprn)
-    val addressLookupService = new services.address_lookup.ordnance_survey.AddressLookupServiceImpl(fakeWebService)
+    val addressLookupService = new serviceclients.address_lookup.ordnance_survey.AddressLookupServiceImpl(fakeWebService)
     implicit val clientSideSessionFactory = injector.getInstance(classOf[ClientSideSessionFactory])
     implicit val config: Config = mock[Config]
     new BusinessChooseYourAddress(addressLookupService)

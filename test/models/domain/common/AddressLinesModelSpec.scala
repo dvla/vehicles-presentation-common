@@ -1,10 +1,10 @@
 package models.domain.common
 
 import helpers.UnitSpec
-import services.fakes.FakeAddressLookupService.BuildingNameOrNumberValid
-import services.fakes.FakeAddressLookupService.Line2Valid
-import services.fakes.FakeAddressLookupService.Line3Valid
-import services.fakes.FakeAddressLookupService.PostTownValid
+import serviceclients.fakes.FakeAddressLookupService.BuildingNameOrNumberValid
+import serviceclients.fakes.FakeAddressLookupService.Line2Valid
+import serviceclients.fakes.FakeAddressLookupService.Line3Valid
+import serviceclients.fakes.FakeAddressLookupService.PostTownValid
 
 final class AddressLinesModelSpec extends UnitSpec {
   "toViewFormat" should {

@@ -7,17 +7,17 @@ import common.{CookieFlags, NoCookieFlags, ClientSideSessionFactory, ClearTextCl
 import filters.AccessLoggingFilter.AccessLoggerName
 import org.scalatest.mock.MockitoSugar
 import play.api.{LoggerLike, Logger}
-import services.fakes.FakeVehicleLookupWebService
-import services.fakes.FakeDisposeWebServiceImpl
-import services.fakes.FakeDateServiceImpl
-import services.fakes.FakeAddressLookupWebServiceImpl
-import services.address_lookup.{AddressLookupWebService, AddressLookupService}
-import services.vehicle_lookup.{VehicleLookupServiceImpl, VehicleLookupService, VehicleLookupWebService}
-import services.dispose_service.{DisposeServiceImpl, DisposeWebService, DisposeService}
-import services.brute_force_prevention.BruteForcePreventionWebService
-import services.brute_force_prevention.BruteForcePreventionService
-import services.brute_force_prevention.BruteForcePreventionServiceImpl
-import services.fakes.brute_force_protection.FakeBruteForcePreventionWebServiceImpl
+import serviceclients.fakes.FakeVehicleLookupWebService
+import serviceclients.fakes.FakeDisposeWebServiceImpl
+import serviceclients.fakes.FakeDateServiceImpl
+import serviceclients.fakes.FakeAddressLookupWebServiceImpl
+import serviceclients.address_lookup.{AddressLookupWebService, AddressLookupService}
+import serviceclients.vehicle_lookup.{VehicleLookupServiceImpl, VehicleLookupService, VehicleLookupWebService}
+import serviceclients.dispose_service.{DisposeServiceImpl, DisposeWebService, DisposeService}
+import serviceclients.brute_force_prevention.BruteForcePreventionWebService
+import serviceclients.brute_force_prevention.BruteForcePreventionService
+import serviceclients.brute_force_prevention.BruteForcePreventionServiceImpl
+import serviceclients.fakes.brute_force_protection.FakeBruteForcePreventionWebServiceImpl
 import services.DateService
 
 class TestModule() extends ScalaModule with MockitoSugar {
@@ -45,7 +45,7 @@ class TestModule() extends ScalaModule with MockitoSugar {
   }
 
   private def ordnanceSurveyAddressLookup() = {
-    bind[AddressLookupService].to[services.address_lookup.ordnance_survey.AddressLookupServiceImpl]
+    bind[AddressLookupService].to[serviceclients.address_lookup.ordnance_survey.AddressLookupServiceImpl]
 
     val fakeWebServiceImpl = new FakeAddressLookupWebServiceImpl(
       responseOfPostcodeWebService = FakeAddressLookupWebServiceImpl.responseValidForPostcodeToAddress,
@@ -55,7 +55,7 @@ class TestModule() extends ScalaModule with MockitoSugar {
   }
 
   private def gdsAddressLookup() = {
-    bind[AddressLookupService].to[services.address_lookup.gds.AddressLookupServiceImpl]
+    bind[AddressLookupService].to[serviceclients.address_lookup.gds.AddressLookupServiceImpl]
     val fakeWebServiceImpl = new FakeAddressLookupWebServiceImpl(
       responseOfPostcodeWebService = FakeAddressLookupWebServiceImpl.responseValidForGdsAddressLookup,
       responseOfUprnWebService = FakeAddressLookupWebServiceImpl.responseValidForGdsAddressLookup

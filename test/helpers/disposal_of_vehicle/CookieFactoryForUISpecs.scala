@@ -31,22 +31,22 @@ import org.openqa.selenium.{WebDriver, Cookie}
 import play.api.libs.json.{Writes, Json}
 import play.api.Play
 import play.api.Play.current
-import services.fakes.FakeDateServiceImpl.{DateOfDisposalYearValid, DateOfDisposalMonthValid, DateOfDisposalDayValid}
-import services.fakes.brute_force_protection.FakeBruteForcePreventionWebServiceImpl.MaxAttempts
-import services.fakes.FakeAddressLookupService.addressWithoutUprn
-import services.fakes.FakeAddressLookupService.BuildingNameOrNumberValid
-import services.fakes.FakeAddressLookupService.Line2Valid
-import services.fakes.FakeAddressLookupService.Line3Valid
-import services.fakes.FakeAddressLookupService.PostcodeValid
-import services.fakes.FakeAddressLookupService.PostTownValid
-import services.fakes.FakeAddressLookupService.TraderBusinessNameValid
-import services.fakes.FakeAddressLookupWebServiceImpl.traderUprnValid
-import services.fakes.FakeDisposeWebServiceImpl.TransactionIdValid
-import services.fakes.FakeVehicleLookupWebService.KeeperNameValid
-import services.fakes.FakeVehicleLookupWebService.ReferenceNumberValid
-import services.fakes.FakeVehicleLookupWebService.RegistrationNumberValid
-import services.fakes.FakeVehicleLookupWebService.VehicleModelValid
-import services.fakes.{FakeDisposeWebServiceImpl, FakeVehicleLookupWebService}
+import serviceclients.fakes.FakeDateServiceImpl.{DateOfDisposalYearValid, DateOfDisposalMonthValid, DateOfDisposalDayValid}
+import serviceclients.fakes.brute_force_protection.FakeBruteForcePreventionWebServiceImpl.MaxAttempts
+import serviceclients.fakes.FakeAddressLookupService.addressWithoutUprn
+import serviceclients.fakes.FakeAddressLookupService.BuildingNameOrNumberValid
+import serviceclients.fakes.FakeAddressLookupService.Line2Valid
+import serviceclients.fakes.FakeAddressLookupService.Line3Valid
+import serviceclients.fakes.FakeAddressLookupService.PostcodeValid
+import serviceclients.fakes.FakeAddressLookupService.PostTownValid
+import serviceclients.fakes.FakeAddressLookupService.TraderBusinessNameValid
+import serviceclients.fakes.FakeAddressLookupWebServiceImpl.traderUprnValid
+import serviceclients.fakes.FakeDisposeWebServiceImpl.TransactionIdValid
+import serviceclients.fakes.FakeVehicleLookupWebService.KeeperNameValid
+import serviceclients.fakes.FakeVehicleLookupWebService.ReferenceNumberValid
+import serviceclients.fakes.FakeVehicleLookupWebService.RegistrationNumberValid
+import serviceclients.fakes.FakeVehicleLookupWebService.VehicleModelValid
+import serviceclients.fakes.{FakeDisposeWebServiceImpl, FakeVehicleLookupWebService}
 
 object CookieFactoryForUISpecs {
   private def addCookie[A](key: String, value: A)(implicit tjs: Writes[A], webDriver: WebDriver): Unit = {

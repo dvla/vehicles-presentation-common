@@ -34,21 +34,21 @@ import org.joda.time.DateTime
 import pages.disposal_of_vehicle.{VehicleLookupPage, HelpPage}
 import play.api.libs.json.{Writes, Json}
 import play.api.mvc.Cookie
-import services.fakes.brute_force_protection.FakeBruteForcePreventionWebServiceImpl.MaxAttempts
-import services.fakes.FakeAddressLookupService.BuildingNameOrNumberValid
-import services.fakes.FakeAddressLookupService.Line2Valid
-import services.fakes.FakeAddressLookupService.Line3Valid
-import services.fakes.FakeAddressLookupService.PostcodeValid
-import services.fakes.FakeAddressLookupService.PostTownValid
-import services.fakes.FakeAddressLookupService.TraderBusinessNameValid
-import services.fakes.FakeAddressLookupWebServiceImpl.traderUprnValid
-import services.fakes.FakeDateServiceImpl.{DateOfDisposalDayValid, DateOfDisposalMonthValid, DateOfDisposalYearValid}
-import services.fakes.FakeDisposeWebServiceImpl.TransactionIdValid
-import services.fakes.FakeVehicleLookupWebService.KeeperNameValid
-import services.fakes.FakeVehicleLookupWebService.ReferenceNumberValid
-import services.fakes.FakeVehicleLookupWebService.RegistrationNumberValid
-import services.fakes.FakeVehicleLookupWebService.VehicleModelValid
-import services.fakes.{FakeDateServiceImpl, FakeDisposeWebServiceImpl, FakeVehicleLookupWebService}
+import serviceclients.fakes.brute_force_protection.FakeBruteForcePreventionWebServiceImpl.MaxAttempts
+import serviceclients.fakes.FakeAddressLookupService.BuildingNameOrNumberValid
+import serviceclients.fakes.FakeAddressLookupService.Line2Valid
+import serviceclients.fakes.FakeAddressLookupService.Line3Valid
+import serviceclients.fakes.FakeAddressLookupService.PostcodeValid
+import serviceclients.fakes.FakeAddressLookupService.PostTownValid
+import serviceclients.fakes.FakeAddressLookupService.TraderBusinessNameValid
+import serviceclients.fakes.FakeAddressLookupWebServiceImpl.traderUprnValid
+import serviceclients.fakes.FakeDateServiceImpl.{DateOfDisposalDayValid, DateOfDisposalMonthValid, DateOfDisposalYearValid}
+import serviceclients.fakes.FakeDisposeWebServiceImpl.TransactionIdValid
+import serviceclients.fakes.FakeVehicleLookupWebService.KeeperNameValid
+import serviceclients.fakes.FakeVehicleLookupWebService.ReferenceNumberValid
+import serviceclients.fakes.FakeVehicleLookupWebService.RegistrationNumberValid
+import serviceclients.fakes.FakeVehicleLookupWebService.VehicleModelValid
+import serviceclients.fakes.{FakeDateServiceImpl, FakeDisposeWebServiceImpl, FakeVehicleLookupWebService}
 
 object CookieFactoryForUnitSpecs extends TestComposition { // TODO can we make this more fluent by returning "this" at the end of the defs
 

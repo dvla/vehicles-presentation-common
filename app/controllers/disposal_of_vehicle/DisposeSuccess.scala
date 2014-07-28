@@ -5,6 +5,7 @@ import common.ClientSideSessionFactory
 import common.CookieImplicits.{RichCookies, RichSimpleResult}
 import mappings.disposal_of_vehicle.Dispose.SurveyRequestTriggerDateCacheKey
 import mappings.disposal_of_vehicle.RelatedCacheKeys
+import services.DateService
 import viewmodels.{DisposeFormViewModel, TraderDetailsViewModel, VehicleDetailsViewModel}
 import models.domain.disposal_of_vehicle.DisposeModel
 import viewmodels.DisposeFormViewModel.DisposeFormRegistrationNumberCacheKey
@@ -14,7 +15,6 @@ import viewmodels.DisposeFormViewModel.DisposeOccurredCacheKey
 import viewmodels.DisposeFormViewModel.PreventGoingToDisposePageCacheKey
 import org.joda.time.format.DateTimeFormat
 import play.api.mvc.{Action, Controller, Request}
-import services.DateService
 import utils.helpers.Config
 
 final class DisposeSuccess @Inject()(implicit clientSideSessionFactory: ClientSideSessionFactory,

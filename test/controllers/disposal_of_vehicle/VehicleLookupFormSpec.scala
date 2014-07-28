@@ -11,18 +11,18 @@ import org.mockito.Matchers.{any, anyString}
 import org.mockito.Mockito.when
 import play.api.http.Status.OK
 import play.api.libs.json.{JsValue, Json}
+import services.DateServiceImpl
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
-import services.brute_force_prevention.BruteForcePreventionService
-import services.brute_force_prevention.BruteForcePreventionServiceImpl
-import services.brute_force_prevention.BruteForcePreventionWebService
-import services.DateServiceImpl
-import services.fakes.FakeVehicleLookupWebService.ConsentValid
-import services.fakes.FakeVehicleLookupWebService.ReferenceNumberValid
-import services.fakes.FakeVehicleLookupWebService.RegistrationNumberValid
-import services.fakes.FakeVehicleLookupWebService.vehicleDetailsResponseSuccess
-import services.fakes.{FakeDateServiceImpl, FakeResponse}
-import services.vehicle_lookup.{VehicleDetailsResponseDto, VehicleDetailsRequestDto, VehicleLookupServiceImpl, VehicleLookupWebService}
+import serviceclients.brute_force_prevention.BruteForcePreventionService
+import serviceclients.brute_force_prevention.BruteForcePreventionServiceImpl
+import serviceclients.brute_force_prevention.BruteForcePreventionWebService
+import serviceclients.fakes.FakeVehicleLookupWebService.ConsentValid
+import serviceclients.fakes.FakeVehicleLookupWebService.ReferenceNumberValid
+import serviceclients.fakes.FakeVehicleLookupWebService.RegistrationNumberValid
+import serviceclients.fakes.FakeVehicleLookupWebService.vehicleDetailsResponseSuccess
+import serviceclients.fakes.{FakeDateServiceImpl, FakeResponse}
+import serviceclients.vehicle_lookup.{VehicleDetailsResponseDto, VehicleDetailsRequestDto, VehicleLookupServiceImpl, VehicleLookupWebService}
 import utils.helpers.Config
 
 final class VehicleLookupFormSpec extends UnitSpec {

@@ -8,7 +8,7 @@ import org.mockito.Mockito.when
 import pages.disposal_of_vehicle.{BeforeYouStartPage, SetupTradeDetailsPage, VehicleLookupPage}
 import play.api.test.FakeRequest
 import play.api.test.Helpers.{LOCATION, contentAsString, defaultAwaitTimeout}
-import services.fakes.FakeDateServiceImpl
+import serviceclients.fakes.FakeDateServiceImpl
 import utils.helpers.Config
 
 final class VrmLockedUnitSpec extends UnitSpec {
