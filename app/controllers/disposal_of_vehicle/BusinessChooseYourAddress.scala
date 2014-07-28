@@ -1,38 +1,29 @@
 package controllers.disposal_of_vehicle
 
+import javax.inject.Inject
+
 import common.CookieImplicits.{RichCookies, RichForm, RichSimpleResult}
 import common.{ClientSideSession, ClientSideSessionFactory}
-import javax.inject.Inject
-import mappings.common.DropDown.addressDropDown
 import mappings.disposal_of_vehicle.BusinessChooseYourAddress.AddressSelectId
-import viewmodels.EnterAddressManuallyViewModel
-import EnterAddressManuallyViewModel.EnterAddressManuallyCacheKey
-import viewmodels.{BusinessChooseYourAddressViewModel, SetupTradeDetailsViewModel, TraderDetailsViewModel}
-import play.api.data.Forms.mapping
+import play.api.Logger
 import play.api.data.{Form, FormError}
 import play.api.i18n.Lang
-import play.api.Logger
 import play.api.mvc.{Action, Controller, Request}
-import scala.concurrent.ExecutionContext.Implicits.global
-import scala.concurrent.Future
-import webserviceclients.address_lookup.AddressLookupService
 import utils.helpers.Config
 import utils.helpers.FormExtensions.formBinding
+import viewmodels.EnterAddressManuallyViewModel.EnterAddressManuallyCacheKey
+import viewmodels.{BusinessChooseYourAddressViewModel, SetupTradeDetailsViewModel, TraderDetailsViewModel}
 import views.html.disposal_of_vehicle.business_choose_your_address
+import webserviceclients.address_lookup.AddressLookupService
+
+import scala.concurrent.ExecutionContext.Implicits.global
+import scala.concurrent.Future
 
 final class BusinessChooseYourAddress @Inject()(addressLookupService: AddressLookupService)
                                                (implicit clientSideSessionFactory: ClientSideSessionFactory,
                                                 config: Config) extends Controller {
 
-  private[disposal_of_vehicle] val form = Form(
-    mapping(
-      /* We cannot apply constraints to this drop down as it is populated by web call to an address lookup service.
-      We would need the request here to get the cookie.
-      Validation is done when we make a second web call with the UPRN,
-      so if a bad guy is injecting a non-existent UPRN then it will fail at that step instead */
-      AddressSelectId -> addressDropDown
-    )(BusinessChooseYourAddressViewModel.apply)(BusinessChooseYourAddressViewModel.unapply)
-  )
+  private[disposal_of_vehicle] val form = Form(BusinessChooseYourAddressViewModel.Form.Mapping)
 
   def present = Action.async { implicit request =>
     request.cookies.getModel[SetupTradeDetailsViewModel] match {
