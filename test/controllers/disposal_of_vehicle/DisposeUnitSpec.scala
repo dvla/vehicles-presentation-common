@@ -6,8 +6,8 @@ import AddressLines.LineMaxLength
 import common.ClientSideSessionFactory
 import Common.PrototypeHtml
 import controllers.disposal_of_vehicle
-import services.fakes.FakeDisposeWebServiceImpl
-import services.fakes.FakeAddressLookupService
+import webserviceclients.fakes.FakeDisposeWebServiceImpl
+import webserviceclients.fakes.FakeAddressLookupService
 import FakeAddressLookupService.BuildingNameOrNumberValid
 import FakeAddressLookupService.Line2Valid
 import FakeAddressLookupService.Line3Valid
@@ -31,6 +31,7 @@ import mappings.disposal_of_vehicle.Dispose.DateOfDisposalId
 import mappings.disposal_of_vehicle.Dispose.LossOfRegistrationConsentId
 import mappings.disposal_of_vehicle.Dispose.MileageId
 import models.DayMonthYear
+import services.DateService
 import viewmodels.DisposeFormViewModel.DisposeFormModelCacheKey
 import viewmodels.DisposeFormViewModel.DisposeFormRegistrationNumberCacheKey
 import viewmodels.DisposeFormViewModel.DisposeFormTimestampIdCacheKey
@@ -57,11 +58,10 @@ import play.api.test.Helpers.OK
 import play.api.test.Helpers.SERVICE_UNAVAILABLE
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
-import services.DateService
-import services.dispose_service._
-import services.fakes.FakeDateServiceImpl.{DateOfDisposalDayValid, DateOfDisposalMonthValid, DateOfDisposalYearValid}
-import services.fakes.FakeVehicleLookupWebService.{ReferenceNumberValid, RegistrationNumberValid}
-import services.fakes.{FakeDisposeWebServiceImpl, FakeResponse}
+import webserviceclients.dispose_service._
+import webserviceclients.fakes.FakeDateServiceImpl.{DateOfDisposalDayValid, DateOfDisposalMonthValid, DateOfDisposalYearValid}
+import webserviceclients.fakes.FakeVehicleLookupWebService.{ReferenceNumberValid, RegistrationNumberValid}
+import webserviceclients.fakes.{FakeDisposeWebServiceImpl, FakeResponse}
 import utils.helpers.Config
 
 final class DisposeUnitSpec extends UnitSpec {

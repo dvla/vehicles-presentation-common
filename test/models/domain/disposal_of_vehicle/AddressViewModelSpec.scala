@@ -5,12 +5,12 @@ import AddressViewModel.JsonFormat
 import helpers.UnitSpec
 import models.domain.common.{AddressLinesModel, AddressAndPostcodeModel}
 import play.api.libs.json.Json
-import services.fakes.FakeAddressLookupService.BuildingNameOrNumberValid
-import services.fakes.FakeAddressLookupService.Line2Valid
-import services.fakes.FakeAddressLookupService.Line3Valid
-import services.fakes.FakeAddressLookupService.PostcodeValid
-import services.fakes.FakeAddressLookupService.PostTownValid
-import services.fakes.FakeVehicleLookupWebService.KeeperUprnValid
+import webserviceclients.fakes.FakeAddressLookupService.BuildingNameOrNumberValid
+import webserviceclients.fakes.FakeAddressLookupService.Line2Valid
+import webserviceclients.fakes.FakeAddressLookupService.Line3Valid
+import webserviceclients.fakes.FakeAddressLookupService.PostcodeValid
+import webserviceclients.fakes.FakeAddressLookupService.PostTownValid
+import webserviceclients.fakes.FakeVehicleLookupWebService.KeeperUprnValid
 import viewmodels.AddressViewModel
 
 

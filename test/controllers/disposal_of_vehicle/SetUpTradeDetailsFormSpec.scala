@@ -2,7 +2,7 @@ package controllers.disposal_of_vehicle
 
 import helpers.UnitSpec
 import mappings.disposal_of_vehicle.SetupTradeDetails.{TraderNameId, TraderPostcodeId}
-import services.fakes.FakeAddressLookupService.{PostcodeValid, TraderBusinessNameValid}
+import webserviceclients.fakes.FakeAddressLookupService.{PostcodeValid, TraderBusinessNameValid}
 
 final class SetUpTradeDetailsFormSpec extends UnitSpec {
   "form" should {

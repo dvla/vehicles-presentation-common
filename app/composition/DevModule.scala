@@ -10,16 +10,17 @@ import common.CookieFlagsFromConfig
 import common.EncryptedClientSideSessionFactory
 import filters.AccessLoggingFilter.AccessLoggerName
 import play.api.{LoggerLike, Logger}
-import services.address_lookup.{AddressLookupWebService, AddressLookupService, ordnance_survey, gds}
-import services.brute_force_prevention.BruteForcePreventionService
-import services.brute_force_prevention.BruteForcePreventionServiceImpl
-import services.brute_force_prevention.BruteForcePreventionWebService
-import services.dispose_service.{DisposeService, DisposeServiceImpl, DisposeWebService, DisposeWebServiceImpl}
-import services.vehicle_lookup.VehicleLookupService
-import services.vehicle_lookup.VehicleLookupServiceImpl
-import services.vehicle_lookup.VehicleLookupWebService
-import services.vehicle_lookup.VehicleLookupWebServiceImpl
-import services.{DateService, DateServiceImpl, brute_force_prevention}
+import webserviceclients.address_lookup.{AddressLookupWebService, AddressLookupService, ordnance_survey, gds}
+import webserviceclients.brute_force_prevention.BruteForcePreventionService
+import webserviceclients.brute_force_prevention.BruteForcePreventionServiceImpl
+import webserviceclients.brute_force_prevention.BruteForcePreventionWebService
+import webserviceclients.dispose_service.{DisposeService, DisposeServiceImpl, DisposeWebService, DisposeWebServiceImpl}
+import webserviceclients.vehicle_lookup.VehicleLookupService
+import webserviceclients.vehicle_lookup.VehicleLookupServiceImpl
+import webserviceclients.vehicle_lookup.VehicleLookupWebService
+import webserviceclients.vehicle_lookup.VehicleLookupWebServiceImpl
+import webserviceclients.brute_force_prevention
+import services.{DateServiceImpl, DateService}
 import utils.helpers.{CookieEncryption, AesEncryption, CookieNameHashGenerator, Sha1HashGenerator}
 
 /**

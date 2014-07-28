@@ -12,6 +12,7 @@ import mappings.disposal_of_vehicle.Dispose.DateOfDisposalId
 import mappings.disposal_of_vehicle.Dispose.DateOfDisposalYearsIntoThePast
 import mappings.disposal_of_vehicle.Dispose.ConsentId
 import mappings.disposal_of_vehicle.Dispose.LossOfRegistrationConsentId
+import services.DateService
 import viewmodels._
 import viewmodels.DisposeFormViewModel.DisposeFormRegistrationNumberCacheKey
 import viewmodels.DisposeFormViewModel.DisposeFormTimestampIdCacheKey
@@ -23,8 +24,7 @@ import play.api.Logger
 import play.api.data.Forms.mapping
 import play.api.data.{Form, FormError}
 import play.api.mvc.{Action, AnyContent, Controller, Call, Request, SimpleResult}
-import services.DateService
-import services.dispose_service.{DisposeResponseDto, DisposeRequestDto, DisposalAddressDto, DisposeService}
+import webserviceclients.dispose_service.{DisposeResponseDto, DisposeRequestDto, DisposalAddressDto, DisposeService}
 import utils.helpers.Config
 import utils.helpers.FormExtensions.formBinding
 import views.html.disposal_of_vehicle.dispose
