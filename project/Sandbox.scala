@@ -17,7 +17,7 @@ object CommonResolvers {
   )
 }
 
-object Sandbox extends Plugin {
+object Sandbox extends AutoPlugin {
   final val VersionOsAddressLookup = "0.1-SNAPSHOT"
   final val VersionVehiclesLookup = "0.1-SNAPSHOT"
   final val VersionVehiclesDisposeFulfil = "0.1-SNAPSHOT"
@@ -175,12 +175,15 @@ object Sandbox extends Plugin {
     body.flatMap(t => stop)
   }
 
-  lazy val sandboxSettings = Seq(
+  override def projectSettings = Seq(
     runMicroServicesTask,
     sandboxTask,
     runAsyncTask,
-    testGatlingTask
+    testGatlingTask,
+    sandboxAsyncTask,
+    gatlingTask
   ) ++ Revolver.settings
+
 
   def validatePrerequisites() {
     print(s"${scala.Console.YELLOW}Verifying git is installed...${scala.Console.RESET}")
