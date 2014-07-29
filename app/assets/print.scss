@@ -44,7 +44,7 @@ body {
     display:inline-block;
     vertical-align:top;
     padding:20px;
-    margin-bottom:50px;
+    margin-bottom:0;
 }
 
 .global-header h1, h2, h3, h4, h5, h6 {
@@ -227,7 +227,7 @@ dl.summary-detail-list {
     dt {
         float:left;
         clear:both;
-        min-width:135px;
+        min-width:165px;
     }
     dd {
         float:left;
@@ -315,7 +315,7 @@ select {
         padding-left:0;
     }
     .copyright {
-        margin-bottom:25px;
+        margin-bottom:5px;
     }
 }
 
