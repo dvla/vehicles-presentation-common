@@ -5,24 +5,24 @@ import scala.concurrent.duration.DurationInt
 
 class Config {
   // Micro-service config
-  val vehicleLookupMicroServiceBaseUrl: String = getProperty("vehicleLookupMicroServiceUrlBase", "NOT FOUND")
-  val disposeVehicleMicroServiceBaseUrl: String = getProperty("disposeVehicleMicroServiceUrlBase", "NOT FOUND")
+  val vehicleLookupMicroServiceBaseUrl: String = getProperty("vehicleLookup.baseUrl", "NOT FOUND")
 
   // Ordnance survey config
-  val ordnanceSurveyMicroServiceUrl: String = getProperty("ordnancesurvey.ms.url", "NOT FOUND")
-  val ordnanceSurveyRequestTimeout: Int = getProperty("ordnancesurvey.requesttimeout", 5.seconds.toMillis.toInt)
+  val ordnanceSurveyMicroServiceUrl: String = getProperty("ordnancesurvey.baseUrl", "NOT FOUND")
+  val ordnanceSurveyRequestTimeout: Int = getProperty("ordnancesurvey.requestTimeout", 5.seconds.toMillis.toInt)
 
   // GDS address lookup config
-  val gdsAddressLookupBaseUrl: String = getProperty("gdsaddresslookup.baseurl", "")
+  val gdsAddressLookupBaseUrl: String = getProperty("gdsaddresslookup.baseUrl", "")
   val gdsAddressLookupAuthorisation: String = getProperty("gdsaddresslookup.authorisation", "")
-  val gdsAddressLookupRequestTimeout: Int = getProperty("gdsaddresslookup.requesttimeout", 5.seconds.toMillis.toInt)
+  val gdsAddressLookupRequestTimeout: Int = getProperty("gdsaddresslookup.requestTimeout", 5.seconds.toMillis.toInt)
 
   // Dispose
-  val disposeMsRequestTimeout: Int = getProperty("dispose.ms.requesttimeout", 5.seconds.toMillis.toInt)
+  val disposeVehicleMicroServiceBaseUrl: String = getProperty("disposeVehicle.baseUrl", "NOT FOUND")
+  val disposeMsRequestTimeout: Int = getProperty("disposeVehicle.requestTimeout", 5.seconds.toMillis.toInt)
 
   // Brute force prevention config
-  val bruteForcePreventionMicroServiceBaseUrl: String = getProperty("bruteForcePrevention.microServiceBase", "NOT FOUND")
-  val bruteForcePreventionTimeout: Int = getProperty("bruteForcePrevention.requesttimeout", 5.seconds.toMillis.toInt)
+  val bruteForcePreventionMicroServiceBaseUrl: String = getProperty("bruteForcePrevention.baseUrl", "NOT FOUND")
+  val bruteForcePreventionTimeout: Int = getProperty("bruteForcePrevention.requestTimeout", 5.seconds.toMillis.toInt)
   val isBruteForcePreventionEnabled: Boolean = getProperty("bruteForcePrevention.enabled", default = true)
   val bruteForcePreventionServiceNameHeader: String = getProperty("bruteForcePrevention.headers.serviceName", "")
   val bruteForcePreventionMaxAttemptsHeader: Int = getProperty("bruteForcePrevention.headers.maxAttempts", 3)

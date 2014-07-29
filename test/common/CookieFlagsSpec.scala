@@ -25,5 +25,5 @@ final class CookieFlagsSpec extends UnitSpec {
 
   private val fakeAppWithCookieConfig = FakeApplication(
     withGlobal = Some(TestGlobal),
-    additionalConfiguration = Map("secureCookies" -> true, "cookieMaxAge" -> TenMinutesInSeconds))
+    additionalConfiguration = Map("secureCookies" -> true, "application.cookieMaxAge" -> TenMinutesInSeconds))
 }
