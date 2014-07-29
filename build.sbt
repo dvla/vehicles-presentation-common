@@ -114,6 +114,10 @@ runAsyncTask
 
 testGatlingTask
 
+sandboxAsyncTask
+
+gatlingTask
+
 resolvers ++= projectResolvers
 
 lazy val p1 = osAddressLookup

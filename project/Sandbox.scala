@@ -165,6 +165,16 @@ object Sandbox extends Plugin {
     )
   }
 
+  lazy val sandboxAsync = taskKey[Unit]("Runs the whole sandbox asynchronously for manual testing including microservices, webapp and legacy stubs")
+  lazy val sandboxAsyncTask = sandboxAsync <<= (runMicroServices, (runAsync in Runtime).toTask) { (body, stop) =>
+    body.flatMap(t => stop)
+  }
+
+  lazy val gatling = taskKey[Unit]("Runs the gatling tests against the sandbox")
+  lazy val gatlingTask = gatling <<= (sandboxAsync, (testGatling in Runtime).toTask) { (body, stop) =>
+    body.flatMap(t => stop)
+  }
+
   lazy val sandboxSettings = Seq(
     runMicroServicesTask,
     sandboxTask,
