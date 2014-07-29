@@ -8,7 +8,7 @@ import ProgressBar.progressStep
 import helpers.tags.UiTag
 import helpers.UiSpec
 import helpers.webbrowser.{TestGlobal, TestHarness}
-import mappings.disposal_of_vehicle.Dispose.TodaysDateOfDisposal
+import viewmodels.DisposeFormViewModel.Form.TodaysDateOfDisposal
 import org.openqa.selenium.{By, WebDriver}
 import org.scalatest.concurrent.Eventually.{eventually, PatienceConfig, scaled}
 import org.scalatest.time.{Seconds, Span}

@@ -3,7 +3,7 @@ package controllers.disposal_of_vehicle
 import com.google.inject.Inject
 import common.ClientSideSessionFactory
 import common.CookieImplicits.{RichCookies, RichForm, RichSimpleResult}
-import mappings.disposal_of_vehicle.Dispose.{ConsentId, LossOfRegistrationConsentId}
+import viewmodels.DisposeFormViewModel.Form.{ConsentId, LossOfRegistrationConsentId}
 import models.domain.disposal_of_vehicle.DisposeModel
 import org.joda.time.format.ISODateTimeFormat
 import play.api.Logger
