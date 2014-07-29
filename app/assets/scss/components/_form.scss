@@ -99,6 +99,11 @@
         }
     }
 
+    //hide number input spinner
+    input[type=number] {
+        -moz-appearance:textfield;
+    }
+
     .read-only-input {
         line-height: 1.31579;
         padding: 0.25em 0 0.1em 0.4em;
@@ -318,5 +323,4 @@
     .uppercase-input input {
         @include to-uppercase;
     }
-
 }

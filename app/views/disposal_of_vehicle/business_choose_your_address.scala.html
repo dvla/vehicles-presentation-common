@@ -37,7 +37,10 @@
         } else {
             @valtechSelect(businessChooseYourAddressForm(AddressSelectId),
                 options = dropDownOptions.toSeq,
-                args = Map('_label -> Messages("disposal_businessChooseYourAddress_addressSelect_label"))
+                args = Map(
+                    '_label -> Messages("disposal_businessChooseYourAddress_addressSelect_label"),
+                    'autofocus -> true
+                )
             )
         }
 

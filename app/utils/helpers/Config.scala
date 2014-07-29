@@ -21,7 +21,7 @@ class Config {
   val disposeMsRequestTimeout: Int = getProperty("dispose.ms.requesttimeout", 5.seconds.toMillis.toInt)
 
   // Brute force prevention config
-  val bruteForcePreventionMicroServiceBaseUrl: String = getProperty("bruteForcePreventionMicroServiceBase", "NOT FOUND")
+  val bruteForcePreventionMicroServiceBaseUrl: String = getProperty("bruteForcePrevention.microServiceBase", "NOT FOUND")
   val bruteForcePreventionTimeout: Int = getProperty("bruteForcePrevention.requesttimeout", 5.seconds.toMillis.toInt)
   val isBruteForcePreventionEnabled: Boolean = getProperty("bruteForcePrevention.enabled", default = true)
   val bruteForcePreventionServiceNameHeader: String = getProperty("bruteForcePrevention.headers.serviceName", "")
