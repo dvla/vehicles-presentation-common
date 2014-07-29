@@ -1,6 +1,6 @@
 package pages.disposal_of_vehicle
 
-import helpers.webbrowser.{Element, Page, TextField, WebBrowserDSL, WebDriverFactory}
+import helpers.webbrowser._
 import mappings.disposal_of_vehicle.VehicleLookup.BackId
 import mappings.disposal_of_vehicle.VehicleLookup.DocumentReferenceNumberId
 import mappings.disposal_of_vehicle.VehicleLookup.ExitId
@@ -17,7 +17,7 @@ object VehicleLookupPage extends Page with WebBrowserDSL {
 
   def vehicleRegistrationNumber(implicit driver: WebDriver): TextField = textField(id(VehicleRegistrationNumberId))
 
-  def documentReferenceNumber(implicit driver: WebDriver): TextField = textField(id(DocumentReferenceNumberId))
+  def documentReferenceNumber(implicit driver: WebDriver): TelField = telField(id(DocumentReferenceNumberId))
 
   def back(implicit driver: WebDriver): Element = find(id(BackId)).get
 
