@@ -4,7 +4,7 @@ import javax.inject.Inject
 
 import common.CookieImplicits.{RichCookies, RichForm, RichSimpleResult}
 import common.{ClientSideSession, ClientSideSessionFactory}
-import mappings.disposal_of_vehicle.BusinessChooseYourAddress.AddressSelectId
+import viewmodels.BusinessChooseYourAddressViewModel.Form.AddressSelectId
 import play.api.Logger
 import play.api.data.{Form, FormError}
 import play.api.i18n.Lang

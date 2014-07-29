@@ -7,7 +7,7 @@ import webserviceclients.fakes.FakeAddressLookupWebServiceImpl.responseValidForU
 import webserviceclients.fakes.FakeAddressLookupWebServiceImpl.traderUprnValid
 import webserviceclients.fakes.FakeAddressLookupWebServiceImpl.responseValidForUprnToAddressNotFound
 import helpers.UnitSpec
-import mappings.disposal_of_vehicle.BusinessChooseYourAddress.AddressSelectId
+import viewmodels.BusinessChooseYourAddressViewModel.Form.AddressSelectId
 import webserviceclients.fakes.FakeAddressLookupWebServiceImpl
 import utils.helpers.Config
 
