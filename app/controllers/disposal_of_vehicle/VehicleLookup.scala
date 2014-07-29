@@ -5,21 +5,17 @@ import common.CookieImplicits.{RichCookies, RichForm, RichSimpleResult}
 import common.{ClientSideSessionFactory, LogFormats}
 import mappings.common.DocumentReferenceNumber.referenceNumber
 import mappings.common.VehicleRegistrationNumber.registrationNumber
-import mappings.disposal_of_vehicle.RelatedCacheKeys
 import mappings.disposal_of_vehicle.Dispose.SurveyRequestTriggerDateCacheKey
 import mappings.disposal_of_vehicle.VehicleLookup.DocumentReferenceNumberId
 import mappings.disposal_of_vehicle.VehicleLookup.VehicleRegistrationNumberId
 import services.DateService
 import viewmodels.DisposeFormViewModel.{DisposeOccurredCacheKey, PreventGoingToDisposePageCacheKey}
-import viewmodels.TraderDetailsViewModel
-import viewmodels.VehicleDetailsViewModel
-import viewmodels.VehicleLookupFormViewModel
+import viewmodels.{TraderDetailsViewModel, VehicleDetailsViewModel, VehicleLookupFormViewModel, BruteForcePreventionViewModel, AllCacheKeys}
 import viewmodels.VehicleLookupFormViewModel.VehicleLookupResponseCodeCacheKey
 import play.api.data.Forms.mapping
 import play.api.data.{Form, FormError}
 import play.api.Logger
 import play.api.mvc.{Action, AnyContent, Controller, Request, SimpleResult}
-import viewmodels.BruteForcePreventionViewModel
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 import webserviceclients.brute_force_prevention.BruteForcePreventionService
@@ -100,7 +96,7 @@ final class VehicleLookup @Inject()(bruteForceService: BruteForcePreventionServi
 
   def exit = Action { implicit request =>
     Redirect(routes.BeforeYouStart.present())
-      .discardingCookies(RelatedCacheKeys.FullSet)
+      .discardingCookies(AllCacheKeys)
       .withCookie(SurveyRequestTriggerDateCacheKey, dateService.now.getMillis.toString)
   }
 

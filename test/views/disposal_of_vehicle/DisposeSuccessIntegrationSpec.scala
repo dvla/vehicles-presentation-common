@@ -8,11 +8,11 @@ import helpers.disposal_of_vehicle.CookieFactoryForUISpecs
 import ProgressBar.progressStep
 import helpers.tags.UiTag
 import helpers.webbrowser.TestHarness
-import mappings.disposal_of_vehicle.RelatedCacheKeys
 import viewmodels.DisposeFormViewModel.{DisposeOccurredCacheKey, PreventGoingToDisposePageCacheKey}
 import org.openqa.selenium.{By, WebDriver, WebElement}
 import pages.disposal_of_vehicle.DisposeSuccessPage.{exitDisposal, newDisposal}
 import pages.disposal_of_vehicle.{BeforeYouStartPage, DisposeSuccessPage, SetupTradeDetailsPage, VehicleLookupPage}
+import viewmodels.{AllCacheKeys, DisposeCacheKeys, TradeDetailsCacheKeys}
 
 final class DisposeSuccessIntegrationSpec extends UiSpec with TestHarness {
   "go to page" should {
@@ -138,12 +138,12 @@ final class DisposeSuccessIntegrationSpec extends UiSpec with TestHarness {
       click on newDisposal
 
       // Verify the cookies identified by the dispose set of cache keys have been removed
-      RelatedCacheKeys.DisposeSet.foreach(cacheKey => {
+      DisposeCacheKeys.foreach(cacheKey => {
         webDriver.manage().getCookieNamed(cacheKey) should equal(null)
       })
 
       // Verify the cookies identified by the trade details set of cache keys are present.
-      RelatedCacheKeys.TradeDetailsSet.foreach(cacheKey => {
+      TradeDetailsCacheKeys.foreach(cacheKey => {
         webDriver.manage().getCookieNamed(cacheKey) should not equal null
       })
 
@@ -174,7 +174,7 @@ final class DisposeSuccessIntegrationSpec extends UiSpec with TestHarness {
       click on exitDisposal
 
       // Verify the cookies identified by the full set of cache keys have been removed
-      RelatedCacheKeys.FullSet.foreach(cacheKey => {
+      AllCacheKeys.foreach(cacheKey => {
         webDriver.manage().getCookieNamed(cacheKey) should equal(null)
       })
     }

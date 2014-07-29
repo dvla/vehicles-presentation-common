@@ -7,10 +7,10 @@ import helpers.common.ProgressBar
 import helpers.disposal_of_vehicle.CookieFactoryForUISpecs
 import helpers.tags.UiTag
 import helpers.webbrowser.TestHarness
-import mappings.disposal_of_vehicle.RelatedCacheKeys
 import org.openqa.selenium.{By, WebDriver, WebElement}
 import pages.disposal_of_vehicle.VrmLockedPage.{exit, newDisposal}
 import pages.disposal_of_vehicle.{BeforeYouStartPage, SetupTradeDetailsPage, VehicleLookupPage, VrmLockedPage}
+import viewmodels.{DisposeCacheKeys, AllCacheKeys}
 
 final class VrmLockedUiSpec extends UiSpec with TestHarness {
   "go to page" should {
@@ -68,7 +68,7 @@ final class VrmLockedUiSpec extends UiSpec with TestHarness {
       click on newDisposal
 
       // Verify the cookies identified by the dispose set of cache keys have been removed
-      RelatedCacheKeys.DisposeSet.foreach(cacheKey => {
+      DisposeCacheKeys.foreach(cacheKey => {
         webDriver.manage().getCookieNamed(cacheKey) should equal(null)
       })
     }
@@ -93,7 +93,7 @@ final class VrmLockedUiSpec extends UiSpec with TestHarness {
       click on exit
 
       // Verify the cookies identified by the full set of cache keys have been removed
-      RelatedCacheKeys.FullSet.foreach(cacheKey => {
+      AllCacheKeys.foreach(cacheKey => {
         webDriver.manage().getCookieNamed(cacheKey) should equal(null)
       })
     }

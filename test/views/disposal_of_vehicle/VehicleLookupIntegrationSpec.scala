@@ -8,7 +8,6 @@ import ProgressBar.progressStep
 import helpers.tags.UiTag
 import helpers.UiSpec
 import helpers.webbrowser.{TestGlobal, TestHarness}
-import mappings.disposal_of_vehicle.RelatedCacheKeys
 import org.openqa.selenium.{By, WebElement, WebDriver}
 import pages.common.ErrorPanel
 import pages.disposal_of_vehicle.BeforeYouStartPage
@@ -20,6 +19,7 @@ import pages.disposal_of_vehicle.VehicleLookupPage
 import pages.disposal_of_vehicle.VehicleLookupPage.{happyPath, tryLockedVrm, back, exit}
 import pages.disposal_of_vehicle.VrmLockedPage
 import play.api.test.FakeApplication
+import viewmodels.AllCacheKeys
 import webserviceclients.fakes.FakeAddressLookupService.addressWithUprn
 
 final class VehicleLookupIntegrationSpec extends UiSpec with TestHarness {
@@ -227,7 +227,7 @@ final class VehicleLookupIntegrationSpec extends UiSpec with TestHarness {
       click on exit
 
       // Verify the cookies identified by the full set of cache keys have been removed
-      RelatedCacheKeys.FullSet.foreach(cacheKey => {
+      AllCacheKeys.foreach(cacheKey => {
         webDriver.manage().getCookieNamed(cacheKey) should equal(null)
       })
     }

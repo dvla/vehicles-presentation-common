@@ -3,12 +3,10 @@ package controllers.disposal_of_vehicle
 import com.google.inject.Inject
 import common.ClientSideSessionFactory
 import common.CookieImplicits.{RichCookies, RichSimpleResult}
-import mappings.disposal_of_vehicle.RelatedCacheKeys
-import viewmodels.TraderDetailsViewModel
+import viewmodels.{TraderDetailsViewModel, BruteForcePreventionViewModel, DisposeCacheKeys, AllCacheKeys}
 import play.api.Logger
 import play.api.mvc.{Action, Controller}
 import utils.helpers.Config
-import viewmodels.BruteForcePreventionViewModel
 
 final class VrmLocked @Inject()()(implicit clientSideSessionFactory: ClientSideSessionFactory,
                                   config: Config) extends Controller {
@@ -27,12 +25,12 @@ final class VrmLocked @Inject()()(implicit clientSideSessionFactory: ClientSideS
   def newDisposal = Action { implicit request =>
     request.cookies.getModel[TraderDetailsViewModel] match {
       case (Some(traderDetails)) =>
-        Redirect(routes.VehicleLookup.present()).discardingCookies(RelatedCacheKeys.DisposeSet)
+        Redirect(routes.VehicleLookup.present()).discardingCookies(DisposeCacheKeys)
       case _ => Redirect(routes.SetUpTradeDetails.present())
     }
   }
 
   def exit = Action { implicit request =>
-    Redirect(routes.BeforeYouStart.present()).discardingCookies(RelatedCacheKeys.FullSet)
+    Redirect(routes.BeforeYouStart.present()).discardingCookies(AllCacheKeys)
   }
 }

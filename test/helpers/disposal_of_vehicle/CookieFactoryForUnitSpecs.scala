@@ -1,53 +1,32 @@
 package helpers.disposal_of_vehicle
 
-import common.{ClientSideSessionFactory, CookieFlags, ClearTextClientSideSession}
+import common.{ClearTextClientSideSession, ClientSideSessionFactory, CookieFlags}
 import composition.TestComposition
 import controllers.disposal_of_vehicle.MicroServiceError.MicroServiceErrorRefererCacheKey
 import mappings.common.Help.HelpCacheKey
 import mappings.disposal_of_vehicle.Dispose.SurveyRequestTriggerDateCacheKey
-import mappings.disposal_of_vehicle.RelatedCacheKeys.SeenCookieMessageKey
 import models.DayMonthYear
-import models.domain.common.{AddressLinesModel, AddressAndPostcodeModel}
-import viewmodels._
-import BruteForcePreventionViewModel.BruteForcePreventionViewModelCacheKey
-import viewmodels.BusinessChooseYourAddressViewModel
-import viewmodels.BusinessChooseYourAddressViewModel.BusinessChooseYourAddressCacheKey
-import viewmodels.DisposeFormViewModel
-import viewmodels.DisposeFormViewModel.DisposeFormModelCacheKey
-import viewmodels.DisposeFormViewModel.DisposeFormRegistrationNumberCacheKey
-import viewmodels.DisposeFormViewModel.DisposeFormTimestampIdCacheKey
-import viewmodels.DisposeFormViewModel.DisposeFormTransactionIdCacheKey
-import viewmodels.DisposeFormViewModel.DisposeOccurredCacheKey
-import viewmodels.DisposeFormViewModel.PreventGoingToDisposePageCacheKey
-import DisposeViewModel.DisposeModelCacheKey
-import EnterAddressManuallyViewModel.EnterAddressManuallyCacheKey
-import viewmodels.SetupTradeDetailsViewModel
-import viewmodels.SetupTradeDetailsViewModel.SetupTradeDetailsCacheKey
-import viewmodels.TraderDetailsViewModel
-import viewmodels.TraderDetailsViewModel.TraderDetailsCacheKey
-import viewmodels.VehicleDetailsViewModel
-import viewmodels.VehicleDetailsViewModel.VehicleLookupDetailsCacheKey
-import viewmodels.VehicleLookupFormViewModel
-import viewmodels.VehicleLookupFormViewModel.VehicleLookupFormModelCacheKey
-import viewmodels.VehicleLookupFormViewModel.VehicleLookupResponseCodeCacheKey
+import models.domain.common.{AddressAndPostcodeModel, AddressLinesModel}
 import org.joda.time.DateTime
-import pages.disposal_of_vehicle.{VehicleLookupPage, HelpPage}
-import play.api.libs.json.{Writes, Json}
+import pages.disposal_of_vehicle.{HelpPage, VehicleLookupPage}
+import play.api.libs.json.{Json, Writes}
 import play.api.mvc.Cookie
-import webserviceclients.fakes.brute_force_protection.FakeBruteForcePreventionWebServiceImpl.MaxAttempts
-import webserviceclients.fakes.FakeAddressLookupService.BuildingNameOrNumberValid
-import webserviceclients.fakes.FakeAddressLookupService.Line2Valid
-import webserviceclients.fakes.FakeAddressLookupService.Line3Valid
-import webserviceclients.fakes.FakeAddressLookupService.PostcodeValid
-import webserviceclients.fakes.FakeAddressLookupService.PostTownValid
-import webserviceclients.fakes.FakeAddressLookupService.TraderBusinessNameValid
+import viewmodels.BruteForcePreventionViewModel.BruteForcePreventionViewModelCacheKey
+import viewmodels.BusinessChooseYourAddressViewModel.BusinessChooseYourAddressCacheKey
+import viewmodels.DisposeFormViewModel.{DisposeFormModelCacheKey, DisposeFormRegistrationNumberCacheKey, DisposeFormTimestampIdCacheKey, DisposeFormTransactionIdCacheKey, DisposeOccurredCacheKey, PreventGoingToDisposePageCacheKey}
+import viewmodels.DisposeViewModel.DisposeModelCacheKey
+import viewmodels.EnterAddressManuallyViewModel.EnterAddressManuallyCacheKey
+import viewmodels.SetupTradeDetailsViewModel.SetupTradeDetailsCacheKey
+import viewmodels.TraderDetailsViewModel.TraderDetailsCacheKey
+import viewmodels.VehicleDetailsViewModel.VehicleLookupDetailsCacheKey
+import viewmodels.VehicleLookupFormViewModel.{VehicleLookupFormModelCacheKey, VehicleLookupResponseCodeCacheKey}
+import viewmodels.{DisposeViewModel, DisposeFormViewModel, VehicleDetailsViewModel, VehicleLookupFormViewModel, BruteForcePreventionViewModel, AddressViewModel, TraderDetailsViewModel, EnterAddressManuallyViewModel, BusinessChooseYourAddressViewModel, SetupTradeDetailsViewModel, SeenCookieMessageCacheKey}
+import webserviceclients.fakes.FakeAddressLookupService.{BuildingNameOrNumberValid, Line2Valid, Line3Valid, PostTownValid, PostcodeValid, TraderBusinessNameValid}
 import webserviceclients.fakes.FakeAddressLookupWebServiceImpl.traderUprnValid
 import webserviceclients.fakes.FakeDateServiceImpl.{DateOfDisposalDayValid, DateOfDisposalMonthValid, DateOfDisposalYearValid}
 import webserviceclients.fakes.FakeDisposeWebServiceImpl.TransactionIdValid
-import webserviceclients.fakes.FakeVehicleLookupWebService.KeeperNameValid
-import webserviceclients.fakes.FakeVehicleLookupWebService.ReferenceNumberValid
-import webserviceclients.fakes.FakeVehicleLookupWebService.RegistrationNumberValid
-import webserviceclients.fakes.FakeVehicleLookupWebService.VehicleModelValid
+import webserviceclients.fakes.FakeVehicleLookupWebService.{KeeperNameValid, ReferenceNumberValid, RegistrationNumberValid, VehicleModelValid}
+import webserviceclients.fakes.brute_force_protection.FakeBruteForcePreventionWebServiceImpl.MaxAttempts
 import webserviceclients.fakes.{FakeDateServiceImpl, FakeDisposeWebServiceImpl, FakeVehicleLookupWebService}
 
 object CookieFactoryForUnitSpecs extends TestComposition { // TODO can we make this more fluent by returning "this" at the end of the defs
@@ -68,7 +47,7 @@ object CookieFactoryForUnitSpecs extends TestComposition { // TODO can we make t
   }
 
   def seenCookieMessage(): Cookie = {
-    val key = SeenCookieMessageKey
+    val key = SeenCookieMessageCacheKey
     val value = "yes" // TODO make a constant
     createCookie(key, value)
   }

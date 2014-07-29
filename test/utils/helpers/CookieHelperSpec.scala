@@ -4,10 +4,10 @@ import helpers.common.CookieHelper.fetchCookiesFromHeaders
 import helpers.disposal_of_vehicle.CookieFactoryForUnitSpecs
 import helpers.webbrowser.TestGlobal
 import helpers.{UnitSpec, WithApplication}
-import mappings.disposal_of_vehicle.RelatedCacheKeys
 import pages.disposal_of_vehicle.BeforeYouStartPage
 import play.api.test.Helpers.LOCATION
 import play.api.test.{FakeApplication, FakeRequest}
+import viewmodels.AllCacheKeys
 
 final class CookieHelperSpec extends UnitSpec {
   "handleApplicationSecretChange" should {
@@ -26,7 +26,7 @@ final class CookieHelperSpec extends UnitSpec {
 
       whenReady(result) { r =>
         val cookies = fetchCookiesFromHeaders(r)
-        cookies.filter(cookie => RelatedCacheKeys.FullSet.contains(cookie.name)).foreach { cookie =>
+        cookies.filter(cookie => AllCacheKeys.contains(cookie.name)).foreach { cookie =>
           cookie.maxAge match {
             case Some(maxAge) if maxAge < 0 => // Success
             case Some(maxAge) => fail(s"maxAge should be negative but was $maxAge")
