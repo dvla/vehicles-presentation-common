@@ -17,7 +17,7 @@ object CommonResolvers {
   )
 }
 
-object Sandbox extends AutoPlugin {
+object Sandbox extends Plugin {
   final val VersionOsAddressLookup = "0.1-SNAPSHOT"
   final val VersionVehiclesLookup = "0.1-SNAPSHOT"
   final val VersionVehiclesDisposeFulfil = "0.1-SNAPSHOT"
