@@ -3,7 +3,7 @@
         config: utils.helpers.Config)
 
 @import csrfprevention.CsrfHelper
-@import mappings.disposal_of_vehicle.VrmLocked.{ExitAction, ExitDisposalId, NewDisposalAction, NewDisposalId}
+@import mappings.disposal_of_vehicle.VrmLocked.{ExitDisposalId, NewDisposalId}
 @import views.html.disposal_of_vehicle.main
 @import views.html.helper.form
 
@@ -17,13 +17,13 @@
         <div class="step">
             @form(action = controllers.disposal_of_vehicle.routes.VrmLocked.newDisposal()) {
             @CsrfHelper.hiddenFormField
-                <button id="@NewDisposalId" type="submit" name="action" value="@NewDisposalAction" class="button">@Messages("vrm_locked.newdisposalbutton")</button>
+                <button id="@NewDisposalId" type="submit" name="action" value="newDisposal" class="button">@Messages("vrm_locked.newdisposalbutton")</button>
             }
         </div>
         <div class="step">
             @form(action = controllers.disposal_of_vehicle.routes.VrmLocked.exit()) {
             @CsrfHelper.hiddenFormField
-                <button id="@ExitDisposalId" type="submit" name="action" value="@ExitAction" class="button-secondary">@Messages("vrm_locked.exit.button")</button>
+                <button id="@ExitDisposalId" type="submit" name="action" value="exit" class="button-secondary">@Messages("vrm_locked.exit.button")</button>
             }
         </div>
     </div>

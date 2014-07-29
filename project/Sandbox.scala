@@ -1,13 +1,11 @@
 import java.io.StringReader
 import java.net.URLClassLoader
 import com.typesafe.config.ConfigFactory
-import io.gatling.sbt.GatlingPlugin
 import org.apache.commons.io.FileUtils
 import sbt.Keys._
 import sbt._
 import scala.sys.process.Process
 import spray.revolver.RevolverPlugin._
-import GatlingPlugin._
 
 object CommonResolvers {
   val nexus = "http://rep002-01.skyscape.preview-dvla.co.uk:8081/nexus/content/repositories"
@@ -28,7 +26,7 @@ object Sandbox extends Plugin {
   final val VersionSpringWeb = "3.0.7.RELEASE"
   final val VersionVehiclesGatling = "1.0-SNAPSHOT"
   final val VersionGatling = "1.0-SNAPSHOT"
-  final val VersionGatlingHighcharts = "2.0.0-SNAPSHOT"
+  final val VersionGatlingApp = "2.0.0-M4-NAP"
 
   val legacyServicesStubsPort = 18086
   val secretProperty = "DECRYPT_PASSWORD"
@@ -38,14 +36,12 @@ object Sandbox extends Plugin {
   val decryptPassword = sys.props.get(secretProperty) orElse sys.env.get(secretProperty)
 
   def sandProject(name: String, deps: ModuleID*): (Project, ScopeFilter) =
-    sandProject(name, Seq[AutoPlugin](), Seq[Resolver](), deps: _*)
+    sandProject(name,  Seq[Resolver](), deps: _*)
 
   def sandProject(name: String,
-                  plugins: Seq[AutoPlugin],
                   res: Seq[Resolver],
                   deps: ModuleID*): (Project, ScopeFilter) = (
     Project(name, file(s"target/sandbox/$name"))
-      .enablePlugins(plugins: _*)
       .settings(libraryDependencies ++= deps)
       .settings(resolvers ++= (CommonResolvers.projectResolvers ++ res))
       .settings(net.virtualvoid.sbt.graph.Plugin.graphSettings: _*),
@@ -67,11 +63,9 @@ object Sandbox extends Plugin {
   )
   lazy val (gatlingTests, scopeGatlingTests) = sandProject (
     name = "gatling",
-    Seq(GatlingPlugin),
-    Seq("Sonatype OSS Snapshots" at "https://oss.sonatype.org/content/repositories/snapshots"),
-    "io.gatling.highcharts" % "gatling-charts-highcharts" % VersionGatlingHighcharts % "test",
-    "io.gatling" % "test-framework" % VersionGatling % "test",
-    "uk.gov.dvla" % "vehicles-gatling" % VersionVehiclesGatling % "test"
+    Seq("Central Maven" at "http://central.maven.org/maven2"),
+    "com.netaporter.gatling" % "gatling-app" % VersionGatlingApp,
+    "uk.gov.dvla" % "vehicles-gatling" % VersionVehiclesGatling
   )
 
   lazy val sandboxedProjects = Seq(osAddressLookup, vehiclesLookup, vehiclesDisposeFulfil, legacyStubs)
@@ -129,7 +123,37 @@ object Sandbox extends Plugin {
 
   lazy val testGatling = taskKey[Unit]("Runs the gatling test")
   lazy val testGatlingTask = testGatling := {
-    (test in gatlingTests in Gatling).value
+    val classPath = fullClasspath.all(scopeGatlingTests).value.flatten
+
+    def extractVehiclesGatlingJar(toFolder: File) =
+      classPath.find(_.data.toURI.toURL.toString.endsWith(s"vehicles-gatling-$VersionVehiclesGatling.jar"))
+        .map { jar => IO.unzip(new File(jar.data.toURI.toURL.getFile), toFolder)}
+
+    val targetFolder = target.in(gatlingTests).value.getAbsolutePath
+    val vehiclesGatlingExtractDir = new File(s"$targetFolder/gatlingJarExtract")
+    IO.delete(vehiclesGatlingExtractDir)
+    vehiclesGatlingExtractDir.mkdirs()
+    extractVehiclesGatlingJar(vehiclesGatlingExtractDir)
+    System.setProperty("gatling.core.disableCompiler", "true")
+    runProject(
+      classPath,
+      None,
+      runJavaMain(
+        mainClassName = "io.gatling.app.Gatling",
+        args = Array(
+          "--simulation", "uk.gov.dvla.SmokeTestSimulation",
+          "--data-folder", s"${vehiclesGatlingExtractDir.getAbsolutePath}/data",
+          "--results-folder", s"$targetFolder/gatling",
+          "--request-bodies-folder", s"$targetFolder/request-bodies"
+        ),
+        method = "runGatling"
+      )
+    ) match {
+      case 0 => println("Gatling execution SUCCESS")
+      case exitCode =>
+        println("Gatling execution FAILURE")
+        throw new Exception(s"Gatling run exited with error $exitCode")
+    }
   }
 
   lazy val runAsync = taskKey[Unit]("Runs the play application")
@@ -139,6 +163,16 @@ object Sandbox extends Plugin {
       None,
       runScalaMain("utils.helpers.RunPlayApp", Array((baseDirectory in ThisProject).value.getAbsolutePath))
     )
+  }
+
+  lazy val sandboxAsync = taskKey[Unit]("Runs the whole sandbox asynchronously for manual testing including microservices, webapp and legacy stubs")
+  lazy val sandboxAsyncTask = sandboxAsync <<= (runMicroServices, (runAsync in Runtime).toTask) { (body, stop) =>
+    body.flatMap(t => stop)
+  }
+
+  lazy val gatling = taskKey[Unit]("Runs the gatling tests against the sandbox")
+  lazy val gatlingTask = gatling <<= (sandboxAsync, (testGatling in Runtime).toTask) { (body, stop) =>
+    body.flatMap(t => stop)
   }
 
   lazy val sandboxSettings = Seq(
@@ -159,8 +193,8 @@ object Sandbox extends Plugin {
     print(s"${scala.Console.YELLOW}Verifying there is ssh access to $gitHost ...${scala.Console.RESET}")
     if (Process(s"ssh -T git@$gitHost").! != 0) {
       println(s"${scala.Console.RED}FAILED.")
-      println(s"You don't have access to $gitHost via ssh. Please import your public key to $gitHost${scala.Console.RESET}")
-      throw new Exception(s"You don't have access to $gitHost via ssh. Please import your public key to $gitHost")
+      println(s"Cannot connect to git@$gitHost. Please check your ssh connection to $gitHost. You might need to import your public key to $gitHost${scala.Console.RESET}")
+      throw new Exception(s"Cannot connect to git@$gitHost. Please check your ssh connection to $gitHost.")
     }
 
     print(s"${scala.Console.YELLOW}Verifying $secretProperty is passed ...${scala.Console.RESET}")
@@ -173,29 +207,30 @@ object Sandbox extends Plugin {
     }
   }
 
-  def withClassLoader(classLoader: ClassLoader)(code: => Unit) {
+  def withClassLoader[T](classLoader: ClassLoader)(code: => T) {
     val currentContextClassLoader = Thread.currentThread().getContextClassLoader
     Thread.currentThread().setContextClassLoader(classLoader)
     try code
     finally Thread.currentThread().setContextClassLoader(currentContextClassLoader)
   }
 
-  def runScalaMain(mainClass: String, args: Array[String] = Array[String]())
-                  (prjClassLoader: ClassLoader): Unit = withClassLoader(prjClassLoader) {
+  def runScalaMain(mainClassName: String, args: Array[String] = Array[String](), method: String = "main")
+                  (prjClassLoader: ClassLoader): Any = withClassLoader[Any](prjClassLoader) {
     import scala.reflect.runtime.universe.{newTermName, runtimeMirror}
     lazy val mirror = runtimeMirror(prjClassLoader)
-    val bootSymbol = mirror.staticModule(mainClass).asModule
+    val bootSymbol = mirror.staticModule(mainClassName).asModule
     val boot = mirror.reflectModule(bootSymbol).instance
-    val mainMethodSymbol = bootSymbol.typeSignature.member(newTermName("main")).asMethod
+    val mainMethodSymbol = bootSymbol.typeSignature.member(newTermName(method)).asMethod
     val bootMirror = mirror.reflect(boot)
     bootMirror.reflectMethod(mainMethodSymbol).apply(args)
   }
 
-  def runJavaMain(mainClassName: String, args: Array[String] = Array[String]())
-                 (prjClassLoader: ClassLoader): Unit = withClassLoader(prjClassLoader) {
+  def runJavaMain(mainClassName: String, args: Array[String] = Array[String](), method: String = "main")
+                 (prjClassLoader: ClassLoader): Any = withClassLoader(prjClassLoader) {
     val mainClass = prjClassLoader.loadClass(mainClassName)
-    val mainMethod = mainClass.getMethod("main", classOf[Array[String]])
-    mainMethod.invoke(null, args)
+    val mainMethod = mainClass.getMethod(method, classOf[Array[String]])
+    val mainResult = mainMethod.invoke(null, args)
+    return mainResult
   }
 
   case class ConfigDetails(secretRepo: File,
@@ -206,7 +241,7 @@ object Sandbox extends Plugin {
 
   def runProject(prjClassPath: Seq[Attributed[File]],
                  configPair: Option[ConfigDetails],
-                 runMainMethod: (ClassLoader) => Unit = runScalaMain("dvla.microservice.Boot")): Unit = {
+                 runMainMethod: (ClassLoader) => Any = runScalaMain("dvla.microservice.Boot")): Any = {
     configPair.map { case ConfigDetails(secretRepo, classDir, encryptedConfig, decryptedConfig, decryptedTransform) =>
       val encryptedConfigFile = new File(secretRepo, encryptedConfig)
       val decryptedConfigFile = new java.io.File(classDir, s"$decryptedConfig.conf")

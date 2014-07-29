@@ -7,10 +7,10 @@ import helpers.common.ProgressBar
 import helpers.tags.UiTag
 import helpers.webbrowser.TestHarness
 import pages.disposal_of_vehicle.{BeforeYouStartPage, ErrorPage}
-import mappings.disposal_of_vehicle.RelatedCacheKeys
 import org.openqa.selenium.{By, WebElement, WebDriver}
 import helpers.disposal_of_vehicle.CookieFactoryForUISpecs
 import pages.disposal_of_vehicle.ErrorPage.startAgain
+import viewmodels.AllCacheKeys
 
 final class ErrorIntegrationSpec extends UiSpec with TestHarness {
   "go to page" should {
@@ -53,7 +53,7 @@ final class ErrorIntegrationSpec extends UiSpec with TestHarness {
       click on startAgain
 
       // Verify the cookies identified by the full set of cache keys have been removed
-      RelatedCacheKeys.FullSet.foreach(cacheKey => {
+      AllCacheKeys.foreach(cacheKey => {
         webDriver.manage().getCookieNamed(cacheKey) should equal(null)
       })
     }

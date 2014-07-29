@@ -3,31 +3,19 @@ package controllers.disposal_of_vehicle
 import com.google.inject.Inject
 import common.ClientSideSessionFactory
 import common.CookieImplicits.{RichCookies, RichForm, RichSimpleResult}
-import constraints.common.DayMonthYear.{validDate, after, notInFuture}
-import mappings.common.Consent.consent
-import mappings.common.DayMonthYear.dayMonthYear
-import mappings.common.Mileage.mileage
-import mappings.disposal_of_vehicle.Dispose.MileageId
-import mappings.disposal_of_vehicle.Dispose.DateOfDisposalId
-import mappings.disposal_of_vehicle.Dispose.DateOfDisposalYearsIntoThePast
-import mappings.disposal_of_vehicle.Dispose.ConsentId
-import mappings.disposal_of_vehicle.Dispose.LossOfRegistrationConsentId
-import services.DateService
-import viewmodels._
-import viewmodels.DisposeFormViewModel.DisposeFormRegistrationNumberCacheKey
-import viewmodels.DisposeFormViewModel.DisposeFormTimestampIdCacheKey
-import viewmodels.DisposeFormViewModel.DisposeFormTransactionIdCacheKey
-import viewmodels.DisposeFormViewModel.PreventGoingToDisposePageCacheKey
+import viewmodels.DisposeFormViewModel.Form.{ConsentId, LossOfRegistrationConsentId}
 import models.domain.disposal_of_vehicle.DisposeModel
 import org.joda.time.format.ISODateTimeFormat
 import play.api.Logger
-import play.api.data.Forms.mapping
 import play.api.data.{Form, FormError}
-import play.api.mvc.{Action, AnyContent, Controller, Call, Request, SimpleResult}
-import webserviceclients.dispose_service.{DisposeResponseDto, DisposeRequestDto, DisposalAddressDto, DisposeService}
+import play.api.mvc.{Action, AnyContent, Call, Controller, Request, SimpleResult}
+import services.DateService
 import utils.helpers.Config
 import utils.helpers.FormExtensions.formBinding
+import viewmodels.{VehicleLookupFormViewModel, DisposeViewModel, VehicleDetailsViewModel, TraderDetailsViewModel, DisposeFormViewModel}
+import viewmodels.DisposeFormViewModel.{DisposeFormRegistrationNumberCacheKey, DisposeFormTimestampIdCacheKey, DisposeFormTransactionIdCacheKey, PreventGoingToDisposePageCacheKey}
 import views.html.disposal_of_vehicle.dispose
+import webserviceclients.dispose_service.{DisposalAddressDto, DisposeRequestDto, DisposeResponseDto, DisposeService}
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
@@ -37,14 +25,7 @@ final class Dispose @Inject()(webService: DisposeService, dateService: DateServi
                               config: Config) extends Controller {
 
   private[disposal_of_vehicle] val form = Form(
-    mapping(
-      MileageId -> mileage(),
-      DateOfDisposalId -> dayMonthYear.verifying(validDate(),
-        after(earliest = (dateService.today - DateOfDisposalYearsIntoThePast).years),
-        notInFuture(dateService)),
-      ConsentId -> consent,
-      LossOfRegistrationConsentId -> consent
-    )(DisposeFormViewModel.apply)(DisposeFormViewModel.unapply)
+    DisposeFormViewModel.Form.mapping(dateService)
   )
 
   def present = Action { implicit request =>

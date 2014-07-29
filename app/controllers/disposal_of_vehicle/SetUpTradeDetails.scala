@@ -3,23 +3,18 @@ package controllers.disposal_of_vehicle
 import com.google.inject.Inject
 import common.ClientSideSessionFactory
 import common.CookieImplicits.{RichForm, RichSimpleResult}
-import mappings.common.Postcode.postcode
-import mappings.disposal_of_vehicle.SetupTradeDetails.{TraderNameId, TraderPostcodeId, traderBusinessName}
-import viewmodels.SetupTradeDetailsViewModel
-import play.api.data.Forms.mapping
+import viewmodels.SetupTradeDetailsViewModel.Form.{TraderNameId, TraderPostcodeId}
 import play.api.data.{Form, FormError}
 import play.api.mvc.{Action, Controller}
 import utils.helpers.Config
 import utils.helpers.FormExtensions.formBinding
+import viewmodels.SetupTradeDetailsViewModel
 
 final class SetUpTradeDetails @Inject()()(implicit clientSideSessionFactory: ClientSideSessionFactory,
                                           config: Config) extends Controller {
 
   private[disposal_of_vehicle] val form = Form(
-    mapping(
-      TraderNameId -> traderBusinessName(),
-      TraderPostcodeId -> postcode
-    )(SetupTradeDetailsViewModel.apply)(SetupTradeDetailsViewModel.unapply)
+    SetupTradeDetailsViewModel.Form.Mapping
   )
 
   def present = Action { implicit request =>

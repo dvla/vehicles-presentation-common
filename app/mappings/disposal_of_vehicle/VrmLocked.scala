@@ -1,8 +1,9 @@
 package mappings.disposal_of_vehicle
 
+/**
+ * The following are used to deduplicate code across views and tests; they are not used in view-model mappings.
+ */
 object VrmLocked {
   final val NewDisposalId = "newDisposal"
   final val ExitDisposalId = "exitDisposal"
-  final val NewDisposalAction = "newDisposal"
-  final val ExitAction = "exit"
 }

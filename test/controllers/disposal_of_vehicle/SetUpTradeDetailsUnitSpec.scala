@@ -1,22 +1,20 @@
 package controllers.disposal_of_vehicle
 
 import common.ClientSideSessionFactory
-import Common.PrototypeHtml
+import controllers.disposal_of_vehicle.Common.PrototypeHtml
+import helpers.JsonUtils.deserializeJsonToModel
+import helpers.{UnitSpec, WithApplication}
 import helpers.common.CookieHelper.fetchCookiesFromHeaders
 import helpers.disposal_of_vehicle.CookieFactoryForUnitSpecs
-import helpers.JsonUtils.deserializeJsonToModel
-import helpers.UnitSpec
-import helpers.WithApplication
-import mappings.disposal_of_vehicle.SetupTradeDetails
-import viewmodels.SetupTradeDetailsViewModel
-import viewmodels.SetupTradeDetailsViewModel.SetupTradeDetailsCacheKey
 import org.mockito.Mockito.when
 import pages.disposal_of_vehicle.BusinessChooseYourAddressPage
 import play.api.test.FakeRequest
-import play.api.test.Helpers.{OK, LOCATION, BAD_REQUEST, contentAsString, defaultAwaitTimeout}
-import webserviceclients.fakes.FakeAddressLookupService.{TraderBusinessNameValid, PostcodeValid}
-import SetupTradeDetails.{TraderNameMaxLength, TraderNameId, TraderPostcodeId}
+import play.api.test.Helpers.{BAD_REQUEST, LOCATION, OK, contentAsString, defaultAwaitTimeout}
 import utils.helpers.Config
+import viewmodels.SetupTradeDetailsViewModel
+import viewmodels.SetupTradeDetailsViewModel.Form.{TraderNameId, TraderNameMaxLength, TraderPostcodeId}
+import viewmodels.SetupTradeDetailsViewModel.SetupTradeDetailsCacheKey
+import webserviceclients.fakes.FakeAddressLookupService.{PostcodeValid, TraderBusinessNameValid}
 
 final class SetUpTradeDetailsUnitSpec extends UnitSpec {
 

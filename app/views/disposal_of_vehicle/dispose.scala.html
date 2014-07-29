@@ -6,7 +6,7 @@
 
 @import csrfprevention.CsrfHelper
 @import mappings.common.Mileage
-@import mappings.disposal_of_vehicle.Dispose.{BackId, ConsentId, DateOfDisposalId, DateOfDisposalYearsIntoThePast, LossOfRegistrationConsentId, MileageId, SubmitId, TodaysDateOfDisposal}
+@import viewmodels.DisposeFormViewModel.Form.{BackId, ConsentId, DateOfDisposalId, DateOfDisposalYearsIntoThePast, LossOfRegistrationConsentId, MileageId, SubmitId, TodaysDateOfDisposal}
 @import utils.helpers.BaseTemplate.fieldConstructor
 @import views.html.disposal_of_vehicle.main
 @import views.html.helper.base.{valtechDeclareCheck, valtechInputText}
@@ -59,7 +59,7 @@
                         ) ++
                         (if(config.isHtml5ValidationEnabled) Map('pattern -> Mileage.Pattern) else Nil)
                 )
-                <div id=@mappings.disposal_of_vehicle.Dispose.DateOfDisposalId class="disposal-date">
+                <div id=@DateOfDisposalId class="disposal-date">
                 @inputDayMonthYear(
                     field = disposeForm(DateOfDisposalId),
                     years = dateService.today.yearRangeToDropdown(yearsIntoThePast = DateOfDisposalYearsIntoThePast),

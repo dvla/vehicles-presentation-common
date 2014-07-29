@@ -5,7 +5,7 @@ import controllers.disposal_of_vehicle
 import helpers.UnitSpec
 import mappings.common.DayMonthYear.{DayId, MonthId, YearId}
 import mappings.common.Mileage
-import mappings.disposal_of_vehicle.Dispose.{ConsentId, DateOfDisposalId, LossOfRegistrationConsentId, MileageId}
+import viewmodels.DisposeFormViewModel.Form.{ConsentId, DateOfDisposalId, LossOfRegistrationConsentId, MileageId}
 import models.DayMonthYear
 import org.mockito.Matchers.any
 import org.mockito.Mockito.when

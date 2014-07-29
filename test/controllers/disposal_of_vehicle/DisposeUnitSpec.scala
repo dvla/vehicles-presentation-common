@@ -26,10 +26,7 @@ import helpers.disposal_of_vehicle.CookieFactoryForUnitSpecs
 import helpers.disposal_of_vehicle.CookieFactoryForUnitSpecs.TrackingIdValue
 import helpers.UnitSpec
 import helpers.WithApplication
-import mappings.disposal_of_vehicle.Dispose.ConsentId
-import mappings.disposal_of_vehicle.Dispose.DateOfDisposalId
-import mappings.disposal_of_vehicle.Dispose.LossOfRegistrationConsentId
-import mappings.disposal_of_vehicle.Dispose.MileageId
+import viewmodels.DisposeFormViewModel.Form.{ConsentId, DateOfDisposalId, LossOfRegistrationConsentId, MileageId}
 import models.DayMonthYear
 import services.DateService
 import viewmodels.DisposeFormViewModel.DisposeFormModelCacheKey

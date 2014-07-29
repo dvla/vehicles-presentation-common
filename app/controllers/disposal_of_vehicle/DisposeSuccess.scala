@@ -4,9 +4,8 @@ import com.google.inject.Inject
 import common.ClientSideSessionFactory
 import common.CookieImplicits.{RichCookies, RichSimpleResult}
 import mappings.disposal_of_vehicle.Dispose.SurveyRequestTriggerDateCacheKey
-import mappings.disposal_of_vehicle.RelatedCacheKeys
 import services.DateService
-import viewmodels.{DisposeFormViewModel, TraderDetailsViewModel, VehicleDetailsViewModel}
+import viewmodels.{DisposeFormViewModel, TraderDetailsViewModel, VehicleDetailsViewModel, DisposeOnlyCacheKeys, DisposeCacheKeys, AllCacheKeys}
 import models.domain.disposal_of_vehicle.DisposeModel
 import viewmodels.DisposeFormViewModel.DisposeFormRegistrationNumberCacheKey
 import viewmodels.DisposeFormViewModel.DisposeFormTimestampIdCacheKey
@@ -45,7 +44,7 @@ final class DisposeSuccess @Inject()(implicit clientSideSessionFactory: ClientSi
          val formatter = DateTimeFormat.forPattern("yyyy-MM-dd'T'HH:mm:ss.SSSZ")
          val disposeDateTime = formatter.parseDateTime(disposeDateString)
          Ok(views.html.disposal_of_vehicle.dispose_success(disposeViewModel, disposeFormModel, disposeDateTime, surveyUrl(request))).
-           discardingCookies(RelatedCacheKeys.DisposeOnlySet) // TODO US320 test for this
+           discardingCookies(DisposeOnlyCacheKeys) // TODO US320 test for this
        case _ => Redirect(routes.VehicleLookup.present()) // US320 the user has pressed back button after being on dispose-success and pressing new dispose.
      }
   }
@@ -54,7 +53,7 @@ final class DisposeSuccess @Inject()(implicit clientSideSessionFactory: ClientSi
     (request.cookies.getModel[TraderDetailsViewModel], request.cookies.getModel[VehicleDetailsViewModel]) match {
       case (Some(traderDetails), Some(vehicleDetails)) =>
         Redirect(routes.VehicleLookup.present()).
-          discardingCookies(RelatedCacheKeys.DisposeSet).
+          discardingCookies(DisposeCacheKeys).
           withCookie(PreventGoingToDisposePageCacheKey, "").
           withCookie(DisposeOccurredCacheKey, "")
       case _ => Redirect(routes.SetUpTradeDetails.present())
@@ -63,7 +62,7 @@ final class DisposeSuccess @Inject()(implicit clientSideSessionFactory: ClientSi
 
   def exit = Action { implicit request =>
     Redirect(routes.BeforeYouStart.present()).
-      discardingCookies(RelatedCacheKeys.FullSet).
+      discardingCookies(AllCacheKeys).
       withCookie(PreventGoingToDisposePageCacheKey, "").
       withCookie(SurveyRequestTriggerDateCacheKey, dateService.now.getMillis.toString)
   }

@@ -3,15 +3,14 @@ package views.disposal_of_vehicle
 import csrfprevention.filters
 import csrfprevention.filters.CsrfPreventionAction
 import helpers.UiSpec
-import helpers.common.ProgressBar
-import ProgressBar.progressStep
+import helpers.common.ProgressBar.progressStep
 import helpers.tags.UiTag
 import helpers.webbrowser.TestHarness
-import mappings.disposal_of_vehicle.SetupTradeDetails
 import org.openqa.selenium.{By, WebElement}
 import pages.common.{Accessibility, ErrorPanel}
 import pages.disposal_of_vehicle.SetupTradeDetailsPage.happyPath
 import pages.disposal_of_vehicle.{BusinessChooseYourAddressPage, SetupTradeDetailsPage}
+import viewmodels.SetupTradeDetailsViewModel
 
 final class SetUpTradeDetailsIntegrationSpec extends UiSpec with TestHarness {
   "got to page" should {
@@ -54,22 +53,22 @@ final class SetUpTradeDetailsIntegrationSpec extends UiSpec with TestHarness {
 
     "add aria required attribute to trader name field when required field not input" taggedAs UiTag in new WebBrowser {
       happyPath(traderBusinessName = "")
-      Accessibility.ariaRequiredPresent(SetupTradeDetails.TraderNameId) should equal(true)
+      Accessibility.ariaRequiredPresent(SetupTradeDetailsViewModel.Form.TraderNameId) should equal(true)
     }
 
     "add aria invalid attribute to trader name field when required field not input" taggedAs UiTag in new WebBrowser {
       happyPath(traderBusinessName = "")
-      Accessibility.ariaInvalidPresent(SetupTradeDetails.TraderNameId) should equal(true)
+      Accessibility.ariaInvalidPresent(SetupTradeDetailsViewModel.Form.TraderNameId) should equal(true)
     }
 
     "add aria required attribute to trader postcode field when required field not input" taggedAs UiTag in new WebBrowser {
       happyPath(traderBusinessPostcode = "")
-      Accessibility.ariaRequiredPresent(SetupTradeDetails.TraderPostcodeId) should equal(true)
+      Accessibility.ariaRequiredPresent(SetupTradeDetailsViewModel.Form.TraderPostcodeId) should equal(true)
     }
 
     "add aria invalid attribute to trader postcode field when required field not input" taggedAs UiTag in new WebBrowser {
       happyPath(traderBusinessPostcode = "")
-      Accessibility.ariaInvalidPresent(SetupTradeDetails.TraderPostcodeId) should equal(true)
+      Accessibility.ariaInvalidPresent(SetupTradeDetailsViewModel.Form.TraderPostcodeId) should equal(true)
     }
   }
 }
