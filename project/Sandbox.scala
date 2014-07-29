@@ -193,8 +193,8 @@ object Sandbox extends Plugin {
     print(s"${scala.Console.YELLOW}Verifying there is ssh access to $gitHost ...${scala.Console.RESET}")
     if (Process(s"ssh -T git@$gitHost").! != 0) {
       println(s"${scala.Console.RED}FAILED.")
-      println(s"You don't have access to $gitHost via ssh. Please import your public key to $gitHost${scala.Console.RESET}")
-      throw new Exception(s"You don't have access to $gitHost via ssh. Please import your public key to $gitHost")
+      println(s"Cannot connect to git@$gitHost. Please check your ssh connection to $gitHost. You might need to import your public key to $gitHost${scala.Console.RESET}")
+      throw new Exception(s"Cannot connect to git@$gitHost. Please check your ssh connection to $gitHost.")
     }
 
     print(s"${scala.Console.YELLOW}Verifying $secretProperty is passed ...${scala.Console.RESET}")
