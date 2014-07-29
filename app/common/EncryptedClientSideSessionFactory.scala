@@ -91,6 +91,6 @@ class EncryptedClientSideSessionFactory @Inject()()
 }
 
 object EncryptedClientSideSessionFactory {
-  private final val SessionSecretKeySuffixKey = "sessionSecretKeySuffixKey"
+  private final val SessionSecretKeySuffixKey = "application.sessionSecretKeySuffixKey"
   private final val SessionSecretKeySuffixDefaultValue = "FE291934-66BD-4500-B27F-517C7D77F26B"
 }
