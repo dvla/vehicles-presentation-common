@@ -175,12 +175,15 @@ object Sandbox extends Plugin {
     body.flatMap(t => stop)
   }
 
-  lazy val sandboxSettings = Seq(
+  override def projectSettings = Seq(
     runMicroServicesTask,
     sandboxTask,
     runAsyncTask,
-    testGatlingTask
+    testGatlingTask,
+    sandboxAsyncTask,
+    gatlingTask
   ) ++ Revolver.settings
+
 
   def validatePrerequisites() {
     print(s"${scala.Console.YELLOW}Verifying git is installed...${scala.Console.RESET}")
