@@ -21,7 +21,7 @@
     @form(action = controllers.disposal_of_vehicle.routes.Dispose.submit()) {
         @CsrfHelper.hiddenFormField
 
-        <script src="@routes.Assets.at("javascripts/number-input-only.js")" type="text/javascript"></script>
+        <script src="@routes.Assets.at("javascripts/numeric-input-only.js")" type="text/javascript"></script>
 
         <div class="two-col clearfix">
 
@@ -53,7 +53,7 @@
                 @valtechInputText(disposeForm(MileageId), args =
                     Map('_label -> Messages("disposal_dispose.mileage.label"),
                         '_showConstraints -> false,
-                        'typeNumber -> true,
+                        'typeTel -> true,
                         'maxLength -> Mileage.maxLength // Must be set independently of the pattern as the pattern is only checked when the user submits.
                         //'title -> Messages("disposal_dispose.mileage.validation")
                         ) ++

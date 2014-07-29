@@ -20,6 +20,9 @@
     title = Messages("disposal_vehiclelookup.title"),
     currentForm = Some(vehicleLookupForm)
 ) {
+
+    <script src="@routes.Assets.at("javascripts/numeric-input-only.js")" type="text/javascript"></script>
+
     <div class="two-col clearfix vehicle-lookup">
         <div class="first-col uppercase-input">
             <div class="form-steps">
@@ -38,6 +41,7 @@
                         @valtechInputText(vehicleLookupForm(DocumentReferenceNumberId), args =
                             Map('_label -> Messages("disposal_vehiclelookup.refnumlabel"),
                                 '_showConstraints -> false,
+                                'typeTel -> true,
                                 'maxLength -> DocumentReferenceNumber.MaxLength, // Must be set independently of the pattern as the pattern is only checked when the user submits.
                                 //'title -> Messages("error.validDocumentReferenceNumber")
                                 'title -> Messages("")) ++ // [SKW] for accessibility Tony removed have 'title text as the screen reader reads it twice, the knock-on effect is that our custom validation messages aren't displayed so the user has no idea what is wrong.
