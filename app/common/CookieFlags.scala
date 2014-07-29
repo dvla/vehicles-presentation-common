@@ -15,7 +15,7 @@ final class NoCookieFlags extends CookieFlags {
 
 final class CookieFlagsFromConfig @Inject()() extends CookieFlags {
 
-  private val cookieMaxAgeSeconds = getProperty("cookieMaxAge", 30.minutes.toSeconds.toInt)
+  private val cookieMaxAgeSeconds = getProperty("application.cookieMaxAge", 30.minutes.toSeconds.toInt)
   private val secureCookies = getProperty("secureCookies", default = true)
 
   override def applyToCookie(cookie: Cookie): Cookie =
