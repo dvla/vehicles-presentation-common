@@ -2,6 +2,7 @@ package utils.helpers
 
 import play.api.Play
 import play.api.Play.current
+
 import scala.language.implicitConversions
 
 // See the Scala docs for value scala.language.implicitConversions for a discussion why the feature should be explicitly enabled.
