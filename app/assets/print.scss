@@ -76,7 +76,8 @@ h2, h3, h4, .info-notice {
       font-weight: 400;
       text-transform: none;
       border-bottom: 1pt solid #7f7f7f;
-      padding-bottom: 7pt;
+      padding-bottom: 0;
+      margin-bottom: 0;
       @media (max-width: 640px) {
           font-size: 1.6rem;
           line-height: 1.25;
@@ -304,13 +305,18 @@ label {
     width:100%;
 }
 
-/*prevent chrome OSX from displaying grey lines in print preview*/
+//prevent chrome OSX from displaying grey lines in print preview
 select {
     background: #fff !important;
 }
 
 .footer {
-    padding:20px;
+    padding: {
+      top:0;
+      right:20px;
+      bottom:20px;
+      left:20px;
+    }
     ul {
         padding-left:0;
     }
