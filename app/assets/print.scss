@@ -44,7 +44,7 @@ body {
     display:inline-block;
     vertical-align:top;
     padding:20px;
-    margin-bottom:50px;
+    margin-bottom:0;
 }
 
 .global-header h1, h2, h3, h4, h5, h6 {
@@ -76,7 +76,8 @@ h2, h3, h4, .info-notice {
       font-weight: 400;
       text-transform: none;
       border-bottom: 1pt solid #7f7f7f;
-      padding-bottom: 7pt;
+      padding-bottom: 0;
+      margin-bottom: 0;
       @media (max-width: 640px) {
           font-size: 1.6rem;
           line-height: 1.25;
@@ -191,6 +192,7 @@ a {
         text-decoration: underline;
         word-wrap: break-word;
     }
+    /*
     &[href^="/"]:after {
         content: " (https://www.gov.uk" attr(href) ")";
         font-size: 90%;
@@ -202,6 +204,7 @@ a {
     &[href^="javascript:"]:after, &[href^="#"]:after {
         content: "";
     }
+    */
 }
 
 img {
@@ -227,7 +230,7 @@ dl.summary-detail-list {
     dt {
         float:left;
         clear:both;
-        min-width:135px;
+        min-width:165px;
     }
     dd {
         float:left;
@@ -250,7 +253,12 @@ p.transaction-id {
 
 .global-header {
     background:transparent;
-    padding:20px;
+    padding: {
+      top:20px;
+      right:20px;
+      bottom:0;
+      left:20px;
+    }
     margin:0;
 
     .header-logo {
@@ -304,18 +312,23 @@ label {
     width:100%;
 }
 
-/*prevent chrome OSX from displaying grey lines in print preview*/
+//prevent chrome OSX from displaying grey lines in print preview
 select {
     background: #fff !important;
 }
 
 .footer {
-    padding:20px;
+    padding: {
+      top:0;
+      right:20px;
+      bottom:20px;
+      left:20px;
+    }
     ul {
         padding-left:0;
     }
     .copyright {
-        margin-bottom:25px;
+        margin-bottom:5px;
     }
 }
 
@@ -329,6 +342,7 @@ select {
 .print-message,
 .vehicles-online .prototype,
 .footer .footer-meta-inner,
+.footer .copyright a,
 body .actions,
 .visuallyhidden,
 #local-locator-form,

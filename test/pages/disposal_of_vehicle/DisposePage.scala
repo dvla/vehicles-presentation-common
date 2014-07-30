@@ -1,6 +1,6 @@
 package pages.disposal_of_vehicle
 
-import helpers.webbrowser.{Checkbox, Element, NumberField, Page, SingleSel, WebBrowserDSL, WebDriverFactory}
+import helpers.webbrowser.{Checkbox, Element, Page, SingleSel, TelField, WebBrowserDSL, WebDriverFactory}
 import mappings.common.DayMonthYear.{DayId, MonthId, YearId}
 import org.openqa.selenium.WebDriver
 import viewmodels.DisposeFormViewModel.Form.{BackId, ConsentId, DateOfDisposalId, LossOfRegistrationConsentId, MileageId, SubmitId, TodaysDateOfDisposal}
@@ -12,7 +12,7 @@ object DisposePage extends Page with WebBrowserDSL {
   override val url: String = WebDriverFactory.testUrl + address.substring(1)
   final override val title: String = "Complete & confirm"
 
-  def mileage(implicit driver: WebDriver): NumberField = numberField(id(MileageId))
+  def mileage(implicit driver: WebDriver): TelField = telField(id(MileageId))
 
   def dateOfDisposalDay(implicit driver: WebDriver): SingleSel = singleSel(id(s"${DateOfDisposalId}_$DayId"))
 

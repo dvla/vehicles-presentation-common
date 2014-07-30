@@ -1,26 +1,29 @@
-@(field: play.api.data.Field, hintText: Option[String] = None, args: Map[Symbol, Any] = Map.empty)(implicit handler: helper.FieldConstructor, lang: Lang)
+@(field: play.api.data.Field,
+        buttonType: String = "submit",
+        buttonName: String = "send-email",
+        buttonClass: String = "button button-not-implemented button-inline",
+        buttonAriaDisabled: String = "true",
+        args: Map[Symbol, Any])(implicit handler: helper.FieldConstructor, lang: Lang)
 
 @import constraints.common.Required.RequiredField
 @import play.api.templates.PlayMagic.toHtmlArgs
 @import utils.helpers.HtmlArgsExtensions.richHtmlArgs
-@import views.html.helper.base.valtechLabel
+@import views.html.widgets.base.{labelOrId, valtechLabel}
 @import views.html.helper.input
 
 @input(field, args.toSeq:_*) { (id, name, value, htmlArgs) =>
     @valtechLabel(field, args)
 
-    @if(hintText.isDefined) {
-        <span class="form-hint">@hintText.get</span>
-    }
-
-
-    <input 
+    <input type="text"
         id="@id"
         name="@name"
         value="@value"
-        @Html(if(htmlArgs.contains('typeNumber)) """type=number onkeydown="return isNumber(event)" """ else """type=text""")
         @{if(field.constraints.find(_._1 == RequiredField)) "aria-required=true" else ""} @* TODO move this into an extension method and write unit tests *@
         @{if(field.hasErrors) "aria-invalid=true" else ""} @* TODO move this into an extension method and write unit tests *@
         @toHtmlArgs(htmlArgs.maxLengthRules.autoCompleteRules)
     >
+
+    <button type=@buttonType name="@buttonName" class="@buttonClass" aria-disabled="@buttonAriaDisabled" disabled>
+        @labelOrId(field.id,args)
+    </button>
 }

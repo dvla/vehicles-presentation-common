@@ -26,7 +26,6 @@ scalaVersion := "2.10.3"
 scalacOptions := Seq("-deprecation", "-unchecked", "-feature", "-Xlint", "-language:reflectiveCalls", "-Xmax-classfile-name", "128")
 
 lazy val root = (project in file("."))
-  .aggregate(vehiclesPresentationCommon)
   .dependsOn(vehiclesPresentationCommon)
 
 lazy val vehiclesPresentationCommon = project.in(file("vehicles-presentation-common"))
