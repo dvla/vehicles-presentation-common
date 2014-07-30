@@ -192,6 +192,7 @@ a {
         text-decoration: underline;
         word-wrap: break-word;
     }
+    /*
     &[href^="/"]:after {
         content: " (https://www.gov.uk" attr(href) ")";
         font-size: 90%;
@@ -203,6 +204,7 @@ a {
     &[href^="javascript:"]:after, &[href^="#"]:after {
         content: "";
     }
+    */
 }
 
 img {
@@ -251,7 +253,12 @@ p.transaction-id {
 
 .global-header {
     background:transparent;
-    padding:20px;
+    padding: {
+      top:20px;
+      right:20px;
+      bottom:0;
+      left:20px;
+    }
     margin:0;
 
     .header-logo {
@@ -335,6 +342,7 @@ select {
 .print-message,
 .vehicles-online .prototype,
 .footer .footer-meta-inner,
+.footer .copyright a,
 body .actions,
 .visuallyhidden,
 #local-locator-form,
