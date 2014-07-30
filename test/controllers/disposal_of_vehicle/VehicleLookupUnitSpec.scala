@@ -25,8 +25,7 @@ import helpers.UnitSpec
 import helpers.WithApplication
 import mappings.common.DocumentReferenceNumber
 import mappings.disposal_of_vehicle.Dispose.SurveyRequestTriggerDateCacheKey
-import mappings.disposal_of_vehicle.VehicleLookup.DocumentReferenceNumberId
-import mappings.disposal_of_vehicle.VehicleLookup.VehicleRegistrationNumberId
+import viewmodels.VehicleLookupFormViewModel.Form.{DocumentReferenceNumberId, VehicleRegistrationNumberId}
 import services.DateServiceImpl
 import viewmodels.BruteForcePreventionViewModel
 import BruteForcePreventionViewModel.BruteForcePreventionViewModelCacheKey

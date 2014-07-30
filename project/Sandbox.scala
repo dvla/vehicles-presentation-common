@@ -30,10 +30,14 @@ object Sandbox extends Plugin {
 
   val legacyServicesStubsPort = 18086
   val secretProperty = "DECRYPT_PASSWORD"
+  val secretProperty2 = "GIT_SECRET_PASSPHRASE"
   val gitHost = "gitlab.preview-dvla.co.uk"
   val secretRepoUrl = s"git@$gitHost:dvla/secret-vehicles-online.git"
 
-  val decryptPassword = sys.props.get(secretProperty) orElse sys.env.get(secretProperty)
+  val decryptPassword = sys.props.get(secretProperty)
+    .orElse(sys.env.get(secretProperty))
+    .orElse(sys.props.get(secretProperty2))
+    .orElse(sys.env.get(secretProperty2))
 
   def sandProject(name: String, deps: ModuleID*): (Project, ScopeFilter) =
     sandProject(name,  Seq[Resolver](), deps: _*)
