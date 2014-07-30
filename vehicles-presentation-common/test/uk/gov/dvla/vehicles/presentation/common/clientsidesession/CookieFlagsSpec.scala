@@ -1,9 +1,7 @@
-package common
+package uk.gov.dvla.vehicles.presentation.common.clientsidesession
 
-import helpers.UnitSpec
-import helpers.webbrowser.TestGlobal
-import play.api.test.{FakeApplication, WithApplication}
 import play.api.mvc.Cookie
+import play.api.test.{FakeApplication, WithApplication}
 import scala.concurrent.duration.DurationInt
 
 final class CookieFlagsSpec extends UnitSpec {

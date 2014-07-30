@@ -1,10 +1,10 @@
 package controllers.disposal_of_vehicle
 
-import common.ClientSideSessionFactory
 import controllers.disposal_of_vehicle.Common.PrototypeHtml
-import helpers.{UnitSpec, WithApplication}
+import helpers.WithApplication
 import helpers.common.CookieHelper.{fetchCookiesFromHeaders, verifyCookieHasBeenDiscarded}
 import helpers.disposal_of_vehicle.CookieFactoryForUnitSpecs
+import uk.gov.dvla.vehicles.presentation.common.clientsidesession.{UnitSpec, ClientSideSessionFactory}
 import viewmodels.DisposeFormViewModel.PreventGoingToDisposePageCacheKey
 import controllers.disposal_of_vehicle.MicroServiceError.MicroServiceErrorRefererCacheKey
 import org.mockito.Mockito.when

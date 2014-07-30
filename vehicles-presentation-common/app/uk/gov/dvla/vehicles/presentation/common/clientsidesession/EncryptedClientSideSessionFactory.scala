@@ -1,18 +1,16 @@
-package common
+package uk.gov.dvla.vehicles.presentation.common.clientsidesession
 
-import app.ConfigProperties.getProperty
-import com.google.inject.Inject
 import java.security.SecureRandom
+import com.google.inject.Inject
 import org.apache.commons.codec.binary.Hex
 import play.api.mvc.Cookie
-import utils.helpers.{CookieEncryption, CookieNameHashGenerator}
+import uk.gov.dvla.vehicles.presentation.common.ConfigProperties.getProperty
 
 class EncryptedClientSideSessionFactory @Inject()()
-                                        (implicit cookieFlags: CookieFlags,
-                                         encryption: CookieEncryption,
-                                         cookieNameHashing: CookieNameHashGenerator) extends ClientSideSessionFactory {
-  import common.EncryptedClientSideSessionFactory._
-
+                                                 (implicit cookieFlags: CookieFlags,
+                                                  encryption: CookieEncryption,
+                                                  cookieNameHashing: CookieNameHashGenerator) extends ClientSideSessionFactory {
+  import EncryptedClientSideSessionFactory._
   /**
    * Session secret key must not expire before any other cookie that relies on it.
    */

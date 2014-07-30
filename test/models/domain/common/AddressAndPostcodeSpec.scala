@@ -1,6 +1,6 @@
 package models.domain.common
 
-import helpers.UnitSpec
+import uk.gov.dvla.vehicles.presentation.common.clientsidesession.UnitSpec
 
 final class AddressAndPostcodeSpec extends UnitSpec {
   "Address - model" should {

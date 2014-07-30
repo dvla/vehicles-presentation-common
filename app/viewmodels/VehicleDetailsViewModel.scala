@@ -1,7 +1,7 @@
 package viewmodels
 
-import models.domain.common.CacheKey
 import play.api.libs.json.Json
+import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CacheKey
 import webserviceclients.vehicle_lookup.VehicleDetailsDto
 
 final case class VehicleDetailsViewModel(registrationNumber: String,

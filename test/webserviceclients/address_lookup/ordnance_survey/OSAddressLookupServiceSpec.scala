@@ -1,11 +1,10 @@
 package webserviceclients.address_lookup.ordnance_survey
 
-import common.ClearTextClientSideSessionFactory
-import helpers.UnitSpec
 import play.api.http.Status.{OK, NOT_FOUND}
 import play.api.libs.json.Json
 import play.api.libs.json.JsValue
 import play.api.libs.ws.Response
+import uk.gov.dvla.vehicles.presentation.common.clientsidesession.{UnitSpec, ClearTextClientSideSessionFactory}
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 import webserviceclients.address_lookup.AddressLookupService

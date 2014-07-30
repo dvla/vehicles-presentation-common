@@ -1,14 +1,6 @@
-package common
+package uk.gov.dvla.vehicles.presentation.common.clientsidesession
 
-import helpers.webbrowser.TestGlobal
-import helpers.{UnitSpec, WithApplication}
 import play.api.test.FakeApplication
-import utils.helpers.AesEncryption
-import utils.helpers.CookieEncryption
-import utils.helpers.NoEncryption
-import utils.helpers.NoHashGenerator
-import utils.helpers.CookieNameHashGenerator
-import utils.helpers.Sha1HashGenerator
 
 final class EncryptedClientSideSessionSpec extends UnitSpec {
   "nameCookie" should {

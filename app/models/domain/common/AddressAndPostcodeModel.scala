@@ -7,6 +7,7 @@ import play.api.data.Forms._
 import play.api.data.Mapping
 import play.api.libs.json.Json
 import mappings.common.AddressAndPostcode.AddressAndPostcodeCacheKey
+import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CacheKey
 
 case class AddressAndPostcodeModel(uprn: Option[Int] = None, addressLinesModel: AddressLinesModel) {
   def toViewFormat(postcode: String): Seq[String] = addressLinesModel.toViewFormat :+ postcode

@@ -1,8 +1,9 @@
 package controllers.disposal_of_vehicle
 
 import com.google.inject.Inject
-import common.ClientSideSessionFactory
-import common.CookieImplicits.{RichForm, RichSimpleResult}
+import uk.gov.dvla.vehicles.presentation.common.clientsidesession.{CookieImplicits, ClientSideSessionFactory}
+import CookieImplicits.{RichForm, RichSimpleResult}
+import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClientSideSessionFactory
 import viewmodels.SetupTradeDetailsViewModel.Form.{TraderNameId, TraderPostcodeId}
 import play.api.data.{Form, FormError}
 import play.api.mvc.{Action, Controller}

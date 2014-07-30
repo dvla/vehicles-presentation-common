@@ -1,8 +1,8 @@
 package utils.helpers
 
-import helpers.UnitSpec
 import play.api.data.Forms.{mapping, nonEmptyText, text}
 import play.api.data.{Form, FormError, Mapping}
+import uk.gov.dvla.vehicles.presentation.common.clientsidesession.UnitSpec
 import utils.helpers.FormExtensions.{formBinding, textWithTransform}
 
 final class FormExtensionsSpec extends UnitSpec {

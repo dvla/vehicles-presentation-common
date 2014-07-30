@@ -1,7 +1,7 @@
 package webserviceclients.address_lookup.gds
 
-import common.ClearTextClientSideSessionFactory.DefaultTrackingId
-import helpers.UnitSpec
+import uk.gov.dvla.vehicles.presentation.common.clientsidesession.{UnitSpec, ClearTextClientSideSessionFactory}
+import ClearTextClientSideSessionFactory.DefaultTrackingId
 import org.mockito.Mockito.when
 import org.scalatest.concurrent.PatienceConfiguration.Timeout
 import org.scalatest.time.{Second, Span}

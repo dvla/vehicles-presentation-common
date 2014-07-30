@@ -1,6 +1,6 @@
 package controllers.disposal_of_vehicle
 
-import helpers.UnitSpec
+import uk.gov.dvla.vehicles.presentation.common.clientsidesession.UnitSpec
 import viewmodels.SetupTradeDetailsViewModel.Form.{TraderNameId, TraderPostcodeId}
 import webserviceclients.fakes.FakeAddressLookupService.{PostcodeValid, TraderBusinessNameValid}
 

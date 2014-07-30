@@ -2,8 +2,10 @@ package controllers.disposal_of_vehicle
 
 import com.tzavellas.sse.guice.ScalaModule
 import controllers.disposal_of_vehicle.Common.PrototypeHtml
-import common.{ClearTextClientSideSessionFactory, ClientSideSessionFactory}
 import controllers.disposal_of_vehicle
+
+import uk.gov.dvla.vehicles.presentation.common
+import uk.gov.dvla.vehicles.presentation.common.clientsidesession.{UnitSpec, ClientSideSessionFactory, ClearTextClientSideSessionFactory}
 import webserviceclients.fakes.FakeAddressLookupService.TraderBusinessNameValid
 import webserviceclients.fakes.FakeAddressLookupService.BuildingNameOrNumberValid
 import webserviceclients.fakes.FakeAddressLookupService.Line2Valid
@@ -21,7 +23,6 @@ import webserviceclients.fakes.FakeVehicleLookupWebService.vehicleDetailsServerD
 import helpers.common.CookieHelper.fetchCookiesFromHeaders
 import helpers.disposal_of_vehicle.CookieFactoryForUnitSpecs
 import helpers.JsonUtils.deserializeJsonToModel
-import helpers.UnitSpec
 import helpers.WithApplication
 import mappings.common.DocumentReferenceNumber
 import mappings.disposal_of_vehicle.Dispose.SurveyRequestTriggerDateCacheKey
@@ -31,7 +32,7 @@ import viewmodels.BruteForcePreventionViewModel
 import BruteForcePreventionViewModel.BruteForcePreventionViewModelCacheKey
 import viewmodels.VehicleLookupFormViewModel.VehicleLookupFormModelCacheKey
 import viewmodels.VehicleLookupFormViewModel.VehicleLookupResponseCodeCacheKey
-import viewmodels.{VehicleLookupFormViewModel}
+import viewmodels.VehicleLookupFormViewModel
 import org.joda.time.Instant
 import org.mockito.ArgumentCaptor
 import org.mockito.Matchers.any
@@ -546,7 +547,7 @@ final class VehicleLookupUnitSpec extends UnitSpec {
     }
   }
 
-  private final val ExitAnchorHtml = """a id="exit""""
+  private val ExitAnchorHtml = """a id="exit""""
 
   private def responseThrows: Future[Response] = Future {
     throw new RuntimeException("This error is generated deliberately by a test")

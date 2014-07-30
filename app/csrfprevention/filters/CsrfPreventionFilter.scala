@@ -1,8 +1,8 @@
 package csrfprevention.filters
 
 import com.google.inject.Inject
-import common.ClientSideSessionFactory
 import play.api.mvc.{EssentialAction, EssentialFilter}
+import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClientSideSessionFactory
 
 class CsrfPreventionFilter @Inject()
                            (implicit clientSideSessionFactory: ClientSideSessionFactory) extends EssentialFilter {

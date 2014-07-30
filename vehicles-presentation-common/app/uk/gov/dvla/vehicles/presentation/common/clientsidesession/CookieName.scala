@@ -1,4 +1,4 @@
-package common
+package uk.gov.dvla.vehicles.presentation.common.clientsidesession
 
 /**
  * @param value Maps onto [play.api.mvc.Cookie.name]

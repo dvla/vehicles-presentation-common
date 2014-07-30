@@ -1,13 +1,12 @@
 package controllers.disposal_of_vehicle
 
-import common.ClientSideSessionFactory
 import Common.PrototypeHtml
 import helpers.common.CookieHelper
 import CookieHelper.fetchCookiesFromHeaders
 import helpers.disposal_of_vehicle.CookieFactoryForUnitSpecs
 import helpers.JsonUtils.deserializeJsonToModel
-import helpers.UnitSpec
 import helpers.WithApplication
+import uk.gov.dvla.vehicles.presentation.common.clientsidesession.{UnitSpec, ClientSideSessionFactory}
 import viewmodels.EnterAddressManuallyViewModel
 import EnterAddressManuallyViewModel.AddressAndPostcodeId
 import mappings.common.AddressLines.{AddressLinesId, BuildingNameOrNumberId, PostTownId, Line2Id, Line3Id}

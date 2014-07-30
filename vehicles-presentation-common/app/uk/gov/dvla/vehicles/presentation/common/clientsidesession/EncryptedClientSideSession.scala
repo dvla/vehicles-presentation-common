@@ -1,7 +1,6 @@
-package common
+package uk.gov.dvla.vehicles.presentation.common.clientsidesession
 
 import play.api.mvc.Cookie
-import utils.helpers.{CookieEncryption, CookieNameHashGenerator}
 
 class EncryptedClientSideSession(override val trackingId: String,
                                  val sessionSecretKey: String)

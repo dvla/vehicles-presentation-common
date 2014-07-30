@@ -1,7 +1,7 @@
 package controllers.disposal_of_vehicle
 
-import common.ClientSideSessionFactory
 import Common.PrototypeHtml
+import uk.gov.dvla.vehicles.presentation.common.clientsidesession.{UnitSpec, ClientSideSessionFactory}
 import webserviceclients.fakes.FakeAddressLookupWebServiceImpl.responseValidForPostcodeToAddress
 import webserviceclients.fakes.FakeAddressLookupWebServiceImpl.responseValidForPostcodeToAddressNotFound
 import webserviceclients.fakes.FakeAddressLookupWebServiceImpl.responseValidForUprnToAddress
@@ -9,7 +9,7 @@ import webserviceclients.fakes.FakeAddressLookupWebServiceImpl.responseValidForU
 import webserviceclients.fakes.FakeAddressLookupWebServiceImpl.traderUprnValid
 import helpers.common.CookieHelper.fetchCookiesFromHeaders
 import helpers.disposal_of_vehicle.CookieFactoryForUnitSpecs
-import helpers.{UnitSpec, WithApplication}
+import helpers.WithApplication
 import viewmodels.BusinessChooseYourAddressViewModel.Form.AddressSelectId
 import viewmodels.BusinessChooseYourAddressViewModel.BusinessChooseYourAddressCacheKey
 import viewmodels.TraderDetailsViewModel.TraderDetailsCacheKey

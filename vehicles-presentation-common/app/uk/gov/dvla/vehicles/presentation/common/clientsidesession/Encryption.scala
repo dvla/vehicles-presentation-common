@@ -1,15 +1,16 @@
-package utils.helpers
+package uk.gov.dvla.vehicles.presentation.common.clientsidesession
 
-import javax.crypto.spec.{SecretKeySpec, IvParameterSpec}
-import javax.crypto.Cipher
 import java.nio.charset.StandardCharsets
-import org.apache.commons.codec.binary.Base64
 import java.security.SecureRandom
+import javax.crypto.Cipher
+import javax.crypto.spec.{IvParameterSpec, SecretKeySpec}
+import org.apache.commons.codec.binary.Base64
 import play.api.Play
 import play.api.libs.Codecs
 
 trait Encryption {
   def decrypt(cipherText: String): String
+
   def encrypt(clearText: String): String
 }
 
@@ -17,6 +18,7 @@ trait CookieEncryption extends Encryption
 
 trait HashGenerator {
   val digestStringLength: Int
+
   def hash(clearText: String): String
 }
 
@@ -34,6 +36,7 @@ class Sha1HashGenerator extends HashGenerator {
 
 class NoHashGenerator extends HashGenerator {
   override def hash(clearText: String): String = clearText
+
   override val digestStringLength: Int = 0
 }
 
@@ -55,8 +58,8 @@ class AesEncryption extends Encryption {
         if (applicationSecret.length != decodedKeySizeInBytes)
           throw new Exception(
             s"Application secret key must be $keySizeInBits" +
-            s" bits ($decodedKeySizeInBytes decoded bytes). " +
-            s"Actual size in bytes was ${applicationSecret.length}."
+              s" bits ($decodedKeySizeInBytes decoded bytes). " +
+              s"Actual size in bytes was ${applicationSecret.length}."
           )
 
         applicationSecret
@@ -103,5 +106,6 @@ class AesEncryption extends Encryption {
 
 class NoEncryption extends Encryption {
   override def decrypt(clearText: String): String = clearText
+
   override def encrypt(clearText: String): String = clearText
 }

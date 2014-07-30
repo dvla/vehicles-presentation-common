@@ -1,6 +1,6 @@
 package common
 
-import helpers.UnitSpec
+import uk.gov.dvla.vehicles.presentation.common.clientsidesession.UnitSpec
 
 class LogFormatsUnitSpec extends UnitSpec {
 

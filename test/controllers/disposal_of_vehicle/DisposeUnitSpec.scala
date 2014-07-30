@@ -3,9 +3,9 @@ package controllers.disposal_of_vehicle
 import mappings.common.AddressLines
 import AddressLines.BuildingNameOrNumberHolder
 import AddressLines.LineMaxLength
-import common.ClientSideSessionFactory
 import Common.PrototypeHtml
 import controllers.disposal_of_vehicle
+import uk.gov.dvla.vehicles.presentation.common.clientsidesession.{UnitSpec, ClientSideSessionFactory}
 import webserviceclients.fakes.FakeDisposeWebServiceImpl
 import webserviceclients.fakes.FakeAddressLookupService
 import FakeAddressLookupService.BuildingNameOrNumberValid
@@ -24,7 +24,6 @@ import FakeDisposeWebServiceImpl.MileageValid
 import helpers.common.CookieHelper.fetchCookiesFromHeaders
 import helpers.disposal_of_vehicle.CookieFactoryForUnitSpecs
 import helpers.disposal_of_vehicle.CookieFactoryForUnitSpecs.TrackingIdValue
-import helpers.UnitSpec
 import helpers.WithApplication
 import viewmodels.DisposeFormViewModel.Form.{ConsentId, DateOfDisposalId, LossOfRegistrationConsentId, MileageId}
 import models.DayMonthYear

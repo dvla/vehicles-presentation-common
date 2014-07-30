@@ -6,14 +6,13 @@ import AccessLoggingFilterSpec.testDate
 import com.google.inject.Guice
 import com.google.inject.name.Names
 import com.tzavellas.sse.guice.ScalaModule
-import common.ClientSideSessionFactory
 import filters.AccessLoggingFilter.AccessLoggerName
-import helpers.UnitSpec
 import org.mockito.Mockito
 import play.api.LoggerLike
 import play.api.http.HeaderNames.CONTENT_LENGTH
 import play.api.mvc.{Cookie, SimpleResult, RequestHeader, Results, AnyContentAsEmpty}
 import play.api.test.{FakeHeaders, FakeRequest}
+import uk.gov.dvla.vehicles.presentation.common.clientsidesession.{UnitSpec, ClientSideSessionFactory}
 import webserviceclients.HttpHeaders
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future

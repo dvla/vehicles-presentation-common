@@ -1,6 +1,5 @@
-package common
+package uk.gov.dvla.vehicles.presentation.common.clientsidesession
 
-import models.domain.common.CacheKey
 import play.api.data.Form
 import play.api.libs.json.{Json, Reads, Writes}
 import play.api.mvc.{Cookie, DiscardingCookie, Request, SimpleResult}
@@ -83,4 +82,5 @@ object CookieImplicits {
         case _ => f // No cookie found so return a blank form.
       }
   }
+
 }

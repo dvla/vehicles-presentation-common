@@ -1,9 +1,9 @@
 package webserviceclients.dispose_service
 
 import com.github.tomakehurst.wiremock.client.WireMock.{equalTo, postRequestedFor, urlEqualTo}
-import common.ClientSideSessionFactory
-import helpers.{UnitSpec, WireMockFixture}
+import helpers.WireMockFixture
 import play.api.libs.json.Json
+import uk.gov.dvla.vehicles.presentation.common.clientsidesession.{UnitSpec, ClientSideSessionFactory}
 import webserviceclients.HttpHeaders
 import utils.helpers.Config
 

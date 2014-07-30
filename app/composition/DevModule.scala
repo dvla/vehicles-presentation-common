@@ -1,15 +1,10 @@
 package composition
 
-import app.ConfigProperties.getProperty
 import com.google.inject.name.Names
 import com.tzavellas.sse.guice.ScalaModule
-import common.ClearTextClientSideSessionFactory
-import common.ClientSideSessionFactory
-import common.CookieFlags
-import common.CookieFlagsFromConfig
-import common.EncryptedClientSideSessionFactory
 import filters.AccessLoggingFilter.AccessLoggerName
 import play.api.{LoggerLike, Logger}
+import uk.gov.dvla.vehicles.presentation.common.clientsidesession.{AesEncryption, Sha1HashGenerator, CookieNameHashGenerator, CookieEncryption, EncryptedClientSideSessionFactory, CookieFlagsFromConfig, CookieFlags, ClientSideSessionFactory, ClearTextClientSideSessionFactory}
 import webserviceclients.address_lookup.{AddressLookupWebService, AddressLookupService, ordnance_survey, gds}
 import webserviceclients.brute_force_prevention.BruteForcePreventionService
 import webserviceclients.brute_force_prevention.BruteForcePreventionServiceImpl
@@ -21,7 +16,7 @@ import webserviceclients.vehicle_lookup.VehicleLookupWebService
 import webserviceclients.vehicle_lookup.VehicleLookupWebServiceImpl
 import webserviceclients.brute_force_prevention
 import services.{DateServiceImpl, DateService}
-import utils.helpers.{CookieEncryption, AesEncryption, CookieNameHashGenerator, Sha1HashGenerator}
+import uk.gov.dvla.vehicles.presentation.common.ConfigProperties.getProperty
 
 /**
  * Provides real implementations of traits

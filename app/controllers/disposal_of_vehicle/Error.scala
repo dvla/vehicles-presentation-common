@@ -1,9 +1,9 @@
 package controllers.disposal_of_vehicle
 
 import com.google.inject.Inject
-import common.ClientSideSessionFactory
 import play.api.Logger
 import play.api.mvc.{Action, Controller}
+import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClientSideSessionFactory
 import utils.helpers.{Config, CookieHelper}
 
 final class Error @Inject()()(implicit clientSideSessionFactory: ClientSideSessionFactory,

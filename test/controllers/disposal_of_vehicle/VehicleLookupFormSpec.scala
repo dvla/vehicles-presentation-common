@@ -1,11 +1,10 @@
 package controllers.disposal_of_vehicle
 
-import common.ClientSideSessionFactory
 import controllers.disposal_of_vehicle
 import helpers.common.RandomVrmGenerator
 import helpers.disposal_of_vehicle.InvalidVRMFormat.allInvalidVrmFormats
 import helpers.disposal_of_vehicle.ValidVRMFormat.allValidVrmFormats
-import helpers.UnitSpec
+import uk.gov.dvla.vehicles.presentation.common.clientsidesession.{UnitSpec, ClientSideSessionFactory}
 import viewmodels.VehicleLookupFormViewModel.Form.{DocumentReferenceNumberId, VehicleRegistrationNumberId}
 import org.mockito.Matchers.{any, anyString}
 import org.mockito.Mockito.when
