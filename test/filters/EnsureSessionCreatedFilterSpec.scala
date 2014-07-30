@@ -2,8 +2,9 @@ package filters
 
 import com.google.inject.Guice
 import com.tzavellas.sse.guice.ScalaModule
+import helpers.UnitSpec
 import play.api.mvc.{RequestHeader, Results, Cookies}
-import uk.gov.dvla.vehicles.presentation.common.clientsidesession.{UnitSpec, InvalidSessionException, ClientSideSessionFactory}
+import uk.gov.dvla.vehicles.presentation.common.clientsidesession.{InvalidSessionException, ClientSideSessionFactory}
 import scala.concurrent.{ExecutionContext, Future}
 import play.api.mvc.Cookie
 import play.api.mvc.SimpleResult

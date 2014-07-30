@@ -1,7 +1,7 @@
 package utils.helpers
 
-import helpers.WithApplication
-import uk.gov.dvla.vehicles.presentation.common.clientsidesession.{UnitSpec, NoHashGenerator}
+import helpers.{UnitSpec, WithApplication}
+import uk.gov.dvla.vehicles.presentation.common.clientsidesession.NoHashGenerator
 
 final class NoHashSpec extends UnitSpec {
 
@@ -16,5 +16,5 @@ final class NoHashSpec extends UnitSpec {
   }
 
   private val noHash = new NoHashGenerator // Sharing immutable fixture objects via instance variables
-  private final val ClearText = "qwerty"
+  private val ClearText = "qwerty"
 }

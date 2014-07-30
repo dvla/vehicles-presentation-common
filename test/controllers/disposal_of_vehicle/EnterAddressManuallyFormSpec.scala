@@ -1,6 +1,7 @@
 package controllers.disposal_of_vehicle
 
-import uk.gov.dvla.vehicles.presentation.common.clientsidesession.UnitSpec
+import helpers.UnitSpec
+import helpers.UnitSpec
 import viewmodels.EnterAddressManuallyViewModel
 import EnterAddressManuallyViewModel.AddressAndPostcodeId
 import mappings.common.AddressLines.{AddressLinesId, BuildingNameOrNumberId, Line2Id, Line3Id, LineMaxLength, PostTownId}

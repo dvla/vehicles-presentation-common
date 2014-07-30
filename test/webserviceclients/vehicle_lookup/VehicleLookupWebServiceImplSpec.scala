@@ -1,9 +1,9 @@
 package webserviceclients.vehicle_lookup
 
 import com.github.tomakehurst.wiremock.client.WireMock.{equalTo, postRequestedFor, urlEqualTo}
-import helpers.WireMockFixture
+import helpers.{UnitSpec, WireMockFixture}
 import play.api.libs.json.Json
-import uk.gov.dvla.vehicles.presentation.common.clientsidesession.{UnitSpec, ClientSideSessionFactory}
+import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClientSideSessionFactory
 import webserviceclients.HttpHeaders
 import utils.helpers.Config
 

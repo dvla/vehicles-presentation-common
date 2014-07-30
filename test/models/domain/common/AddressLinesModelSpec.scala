@@ -1,6 +1,6 @@
 package models.domain.common
 
-import uk.gov.dvla.vehicles.presentation.common.clientsidesession.UnitSpec
+import helpers.UnitSpec
 import webserviceclients.fakes.FakeAddressLookupService.BuildingNameOrNumberValid
 import webserviceclients.fakes.FakeAddressLookupService.Line2Valid
 import webserviceclients.fakes.FakeAddressLookupService.Line3Valid

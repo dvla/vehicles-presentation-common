@@ -7,7 +7,7 @@ import helpers.WithApplication
 import pages.disposal_of_vehicle.BeforeYouStartPage
 import play.api.test.Helpers.LOCATION
 import play.api.test.{FakeApplication, FakeRequest}
-import uk.gov.dvla.vehicles.presentation.common.clientsidesession.UnitSpec
+import helpers.UnitSpec
 import viewmodels.AllCacheKeys
 
 final class CookieHelperSpec extends UnitSpec {

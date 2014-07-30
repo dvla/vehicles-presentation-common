@@ -2,7 +2,7 @@ package controllers.common
 
 import play.api.test.FakeRequest
 import play.mvc.Http.Status.OK
-import uk.gov.dvla.vehicles.presentation.common.clientsidesession.UnitSpec
+import helpers.UnitSpec
 
 class HealthCheckSpec extends UnitSpec {
 

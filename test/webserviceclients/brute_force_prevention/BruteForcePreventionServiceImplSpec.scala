@@ -2,7 +2,7 @@ package webserviceclients.brute_force_prevention
 
 import org.mockito.Mockito.when
 import play.api.libs.ws.Response
-import uk.gov.dvla.vehicles.presentation.common.clientsidesession.UnitSpec
+import helpers.UnitSpec
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 import scala.util.Try

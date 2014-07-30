@@ -1,6 +1,6 @@
 package webserviceclients.address_lookup.gds
 
-import uk.gov.dvla.vehicles.presentation.common.clientsidesession.UnitSpec
+import helpers.UnitSpec
 import webserviceclients.fakes.FakeAddressLookupService.{PostcodeValid, PostcodeValidWithSpace}
 import utils.helpers.Config
 

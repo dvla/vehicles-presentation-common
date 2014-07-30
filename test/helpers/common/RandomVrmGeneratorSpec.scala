@@ -1,6 +1,6 @@
 package helpers.common
 
-import uk.gov.dvla.vehicles.presentation.common.clientsidesession.UnitSpec
+import helpers.UnitSpec
 
 final class RandomVrmGeneratorSpec extends UnitSpec {
 

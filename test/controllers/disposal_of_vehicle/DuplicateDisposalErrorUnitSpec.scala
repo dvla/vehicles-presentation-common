@@ -1,11 +1,11 @@
 package controllers.disposal_of_vehicle
 
 import Common.PrototypeHtml
-import helpers.WithApplication
+import helpers.{UnitSpec, WithApplication}
 import org.mockito.Mockito.when
 import play.api.test.FakeRequest
 import play.api.test.Helpers.{OK, status, contentAsString, defaultAwaitTimeout}
-import uk.gov.dvla.vehicles.presentation.common.clientsidesession.{UnitSpec, ClientSideSessionFactory}
+import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClientSideSessionFactory
 import utils.helpers.Config
 
 final class DuplicateDisposalErrorUnitSpec extends UnitSpec {

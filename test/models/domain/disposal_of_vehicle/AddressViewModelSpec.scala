@@ -1,6 +1,6 @@
 package models.domain.disposal_of_vehicle
 
-import uk.gov.dvla.vehicles.presentation.common.clientsidesession.UnitSpec
+import helpers.UnitSpec
 import viewmodels.AddressViewModel
 import AddressViewModel.JsonFormat
 import models.domain.common.{AddressLinesModel, AddressAndPostcodeModel}

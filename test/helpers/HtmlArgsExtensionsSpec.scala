@@ -1,6 +1,5 @@
 package helpers
 
-import uk.gov.dvla.vehicles.presentation.common.clientsidesession.UnitSpec
 import utils.helpers.HtmlArgsExtensions.RichHtmlArgs
 
 final class HtmlArgsExtensionsSpec extends UnitSpec {

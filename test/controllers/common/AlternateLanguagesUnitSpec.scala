@@ -8,7 +8,7 @@ import pages.disposal_of_vehicle.BeforeYouStartPage
 import play.api.Play
 import play.api.test.FakeRequest
 import play.api.test.Helpers.{LOCATION, REFERER, SEE_OTHER}
-import uk.gov.dvla.vehicles.presentation.common.clientsidesession.UnitSpec
+import helpers.UnitSpec
 
 final class AlternateLanguagesUnitSpec extends UnitSpec {
   "withLanguageCy" should {

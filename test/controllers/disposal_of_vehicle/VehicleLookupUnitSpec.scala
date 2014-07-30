@@ -5,7 +5,7 @@ import controllers.disposal_of_vehicle.Common.PrototypeHtml
 import controllers.disposal_of_vehicle
 
 import uk.gov.dvla.vehicles.presentation.common
-import uk.gov.dvla.vehicles.presentation.common.clientsidesession.{UnitSpec, ClientSideSessionFactory, ClearTextClientSideSessionFactory}
+import common.clientsidesession.{ClientSideSessionFactory, ClearTextClientSideSessionFactory}
 import webserviceclients.fakes.FakeAddressLookupService.TraderBusinessNameValid
 import webserviceclients.fakes.FakeAddressLookupService.BuildingNameOrNumberValid
 import webserviceclients.fakes.FakeAddressLookupService.Line2Valid
@@ -23,7 +23,7 @@ import webserviceclients.fakes.FakeVehicleLookupWebService.vehicleDetailsServerD
 import helpers.common.CookieHelper.fetchCookiesFromHeaders
 import helpers.disposal_of_vehicle.CookieFactoryForUnitSpecs
 import helpers.JsonUtils.deserializeJsonToModel
-import helpers.WithApplication
+import helpers.{UnitSpec, WithApplication}
 import mappings.common.DocumentReferenceNumber
 import mappings.disposal_of_vehicle.Dispose.SurveyRequestTriggerDateCacheKey
 import viewmodels.VehicleLookupFormViewModel.Form.{DocumentReferenceNumberId, VehicleRegistrationNumberId}
@@ -58,7 +58,10 @@ import webserviceclients.brute_force_prevention.BruteForcePreventionWebService
 import webserviceclients.fakes.brute_force_protection.FakeBruteForcePreventionWebServiceImpl
 import webserviceclients.fakes.FakeAddressLookupWebServiceImpl.traderUprnValid
 import webserviceclients.fakes.{FakeDateServiceImpl, FakeResponse}
-import webserviceclients.vehicle_lookup.{VehicleDetailsResponseDto, VehicleDetailsRequestDto, VehicleLookupServiceImpl, VehicleLookupWebService}
+import webserviceclients.vehicle_lookup.VehicleDetailsResponseDto
+import webserviceclients.vehicle_lookup.VehicleDetailsRequestDto
+import webserviceclients.vehicle_lookup.VehicleLookupServiceImpl
+import webserviceclients.vehicle_lookup.VehicleLookupWebService
 import utils.helpers.Config
 import webserviceclients.fakes.brute_force_protection.FakeBruteForcePreventionWebServiceImpl.VrmLocked
 import webserviceclients.fakes.brute_force_protection.FakeBruteForcePreventionWebServiceImpl.VrmAttempt2
