@@ -6,12 +6,19 @@
 
 @import csrfprevention.CsrfHelper
 @import mappings.common.Mileage
-@import viewmodels.DisposeFormViewModel.Form.{BackId, ConsentId, DateOfDisposalId, DateOfDisposalYearsIntoThePast, LossOfRegistrationConsentId, MileageId, SubmitId, TodaysDateOfDisposal}
+@import viewmodels.DisposeFormViewModel.Form.BackId
+@import viewmodels.DisposeFormViewModel.Form.ConsentId
+@import viewmodels.DisposeFormViewModel.Form.DateOfDisposalId
+@import viewmodels.DisposeFormViewModel.Form.DateOfDisposalYearsIntoThePast
+@import viewmodels.DisposeFormViewModel.Form.LossOfRegistrationConsentId
+@import viewmodels.DisposeFormViewModel.Form.MileageId
+@import viewmodels.DisposeFormViewModel.Form.SubmitId
+@import viewmodels.DisposeFormViewModel.Form.TodaysDateOfDisposal
 @import utils.helpers.BaseTemplate.fieldConstructor
 @import views.html.disposal_of_vehicle.main
 @import views.html.widgets.base.valtechDeclareCheck
 @import views.html.widgets.base.valtechInputText
-@import views.html.helper.dates.inputDayMonthYear
+@import views.html.widgets.dates.inputDayMonthYear
 @import views.html.helper.form
 
 @main(
@@ -68,11 +75,10 @@
                         '_label -> Messages("disposal_dispose.dateofdisposal.label")
                     ),
                     dateService = dateService,
-                    showTodaysDateButton = true
+                    showTodaysDateButton = true,
+                    showTodaysDateButtonId = Some(TodaysDateOfDisposal)
                 )
                 </div>
-
-
 
                 @{
                     /* Note primary button moved to first button as per https://www.gov.uk/service-manual/user-centered-design/resources/forms.html#buttons */

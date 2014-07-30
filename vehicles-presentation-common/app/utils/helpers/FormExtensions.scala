@@ -2,9 +2,9 @@ package utils.helpers
 
 import constraints.common.Required.RequiredField
 import play.api.data.Forms.of
-import play.api.data.{Form, FormError, Mapping}
 import play.api.data.format.Formatter
 import play.api.data.validation.Constraints
+import play.api.data.{Form, FormError, Mapping}
 
 import scala.language.implicitConversions
 
