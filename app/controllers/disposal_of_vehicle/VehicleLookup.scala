@@ -3,25 +3,21 @@ package controllers.disposal_of_vehicle
 import com.google.inject.Inject
 import common.CookieImplicits.{RichCookies, RichForm, RichSimpleResult}
 import common.{ClientSideSessionFactory, LogFormats}
-import mappings.common.DocumentReferenceNumber.referenceNumber
-import mappings.common.VehicleRegistrationNumber.registrationNumber
 import mappings.disposal_of_vehicle.Dispose.SurveyRequestTriggerDateCacheKey
-import mappings.disposal_of_vehicle.VehicleLookup.DocumentReferenceNumberId
-import mappings.disposal_of_vehicle.VehicleLookup.VehicleRegistrationNumberId
-import services.DateService
-import viewmodels.DisposeFormViewModel.{DisposeOccurredCacheKey, PreventGoingToDisposePageCacheKey}
-import viewmodels.{TraderDetailsViewModel, VehicleDetailsViewModel, VehicleLookupFormViewModel, BruteForcePreventionViewModel, AllCacheKeys}
-import viewmodels.VehicleLookupFormViewModel.VehicleLookupResponseCodeCacheKey
-import play.api.data.Forms.mapping
-import play.api.data.{Form, FormError}
 import play.api.Logger
+import play.api.data.{Form, FormError}
 import play.api.mvc.{Action, AnyContent, Controller, Request, SimpleResult}
-import scala.concurrent.ExecutionContext.Implicits.global
-import scala.concurrent.Future
-import webserviceclients.brute_force_prevention.BruteForcePreventionService
-import webserviceclients.vehicle_lookup.{VehicleDetailsResponseDto, VehicleDetailsRequestDto, VehicleDetailsDto, VehicleLookupService}
+import services.DateService
 import utils.helpers.Config
 import utils.helpers.FormExtensions.formBinding
+import viewmodels.DisposeFormViewModel.{DisposeOccurredCacheKey, PreventGoingToDisposePageCacheKey}
+import viewmodels.VehicleLookupFormViewModel.VehicleLookupResponseCodeCacheKey
+import viewmodels.{AllCacheKeys, BruteForcePreventionViewModel, TraderDetailsViewModel, VehicleDetailsViewModel, VehicleLookupFormViewModel}
+import webserviceclients.brute_force_prevention.BruteForcePreventionService
+import webserviceclients.vehicle_lookup.{VehicleDetailsDto, VehicleDetailsRequestDto, VehicleDetailsResponseDto, VehicleLookupService}
+
+import scala.concurrent.ExecutionContext.Implicits.global
+import scala.concurrent.Future
 
 final class VehicleLookup @Inject()(bruteForceService: BruteForcePreventionService,
                                     vehicleLookupService: VehicleLookupService,
@@ -31,10 +27,7 @@ final class VehicleLookup @Inject()(bruteForceService: BruteForcePreventionServi
                                     config: Config) extends Controller {
 
   private[disposal_of_vehicle] val form = Form(
-    mapping(
-      DocumentReferenceNumberId -> referenceNumber,
-      VehicleRegistrationNumberId -> registrationNumber
-    )(VehicleLookupFormViewModel.apply)(VehicleLookupFormViewModel.unapply)
+    VehicleLookupFormViewModel.Form.Mapping
   )
 
   def present = Action { implicit request =>
@@ -57,16 +50,16 @@ final class VehicleLookup @Inject()(bruteForceService: BruteForcePreventionServi
           request.cookies.getModel[TraderDetailsViewModel] match {
             case Some(traderDetails) =>
               val formWithReplacedErrors = invalidForm.replaceError(
-                VehicleRegistrationNumberId,
+                VehicleLookupFormViewModel.Form.VehicleRegistrationNumberId,
                 FormError(
-                  key = VehicleRegistrationNumberId,
+                  key = VehicleLookupFormViewModel.Form.VehicleRegistrationNumberId,
                   message = "error.restricted.validVrnOnly",
                   args = Seq.empty
                 )
               ).replaceError(
-                  DocumentReferenceNumberId,
+                  VehicleLookupFormViewModel.Form.DocumentReferenceNumberId,
                   FormError(
-                    key = DocumentReferenceNumberId,
+                    key = VehicleLookupFormViewModel.Form.DocumentReferenceNumberId,
                     message = "error.validDocumentReferenceNumber",
                     args = Seq.empty)
                 ).distinctErrors

@@ -2,10 +2,9 @@ package pages.disposal_of_vehicle
 
 import helpers.webbrowser.{Element, Page, TextField, WebBrowserDSL, WebDriverFactory}
 import mappings.disposal_of_vehicle.VehicleLookup.BackId
-import mappings.disposal_of_vehicle.VehicleLookup.DocumentReferenceNumberId
+import viewmodels.VehicleLookupFormViewModel.Form.{DocumentReferenceNumberId, VehicleRegistrationNumberId}
 import mappings.disposal_of_vehicle.VehicleLookup.ExitId
 import mappings.disposal_of_vehicle.VehicleLookup.SubmitId
-import mappings.disposal_of_vehicle.VehicleLookup.VehicleRegistrationNumberId
 import org.openqa.selenium.WebDriver
 import webserviceclients.fakes.FakeVehicleLookupWebService.{ReferenceNumberValid, RegistrationNumberValid}
 import webserviceclients.fakes.brute_force_protection.FakeBruteForcePreventionWebServiceImpl.VrmLocked
