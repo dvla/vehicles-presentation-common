@@ -40,6 +40,11 @@
             }
         }
     }
+    .img-wrap img {
+        .ie8 & {
+            max-height:200px; //failsafe to ensure that the correct height is rendered in ie8
+        }
+    }
 }
 
 //disposal
