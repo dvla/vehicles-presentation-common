@@ -63,9 +63,9 @@ POST        /sell-to-the-trade/vrm-locked/exit                          @control
 GET         /sell-to-the-trade/error/:exceptionDigest                   @controllers.disposal_of_vehicle.Error.present(exceptionDigest)
 POST        /sell-to-the-trade/error/:exceptionDigest                   @controllers.disposal_of_vehicle.Error.submit(exceptionDigest)
 
-GET         /sell-to-the-trade/help                                     @controllers.common.Help.present
-GET         /sell-to-the-trade/help/back                                @controllers.common.Help.back
+GET         /sell-to-the-trade/help                                     @controllers.disposal_of_vehicle.Help.present
+GET         /sell-to-the-trade/help/back                                @controllers.disposal_of_vehicle.Help.back
 
-GET         /with-language/:chosenLanguage                              controllers.common.AlternateLanguages.withLanguage(chosenLanguage: String)
+GET         /with-language/:chosenLanguage                              uk.gov.dvla.vehicles.presentation.common.controllers.AlternateLanguages.withLanguage(chosenLanguage: String)
 
-GET         /healthcheck                                                @controllers.common.HealthCheck.respond
+GET         /healthcheck                                                @uk.gov.dvla.vehicles.presentation.common.controllers.HealthCheck.respond

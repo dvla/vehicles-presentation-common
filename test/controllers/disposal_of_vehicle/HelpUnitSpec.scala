@@ -1,7 +1,9 @@
-package controllers.common
+package controllers.disposal_of_vehicle
 
 import controllers.disposal_of_vehicle.Common.PrototypeHtml
-import helpers.common.CookieHelper.{fetchCookiesFromHeaders, verifyCookieHasBeenDiscarded}
+import helpers.common.CookieHelper
+import CookieHelper.{fetchCookiesFromHeaders, verifyCookieHasBeenDiscarded}
+import helpers.common.CookieHelper
 import helpers.disposal_of_vehicle.CookieFactoryForUnitSpecs
 import helpers.{UnitSpec, WithApplication}
 import mappings.common.Help.HelpCacheKey

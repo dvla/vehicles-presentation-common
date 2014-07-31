@@ -1,22 +1,23 @@
-package controllers.common
+package uk.gov.dvla.vehicles.presentation.common.controllers
 
-import controllers.common.AlternateLanguages.withLanguage
-import helpers.common.CookieHelper.fetchCookiesFromHeaders
-import helpers.WithApplication
-import mappings.common.AlternateLanguages.{CyId, EnId}
-import pages.disposal_of_vehicle.BeforeYouStartPage
+
 import play.api.Play
 import play.api.test.FakeRequest
 import play.api.test.Helpers.{LOCATION, REFERER, SEE_OTHER}
-import helpers.UnitSpec
+import uk.gov.dvla.vehicles.presentation.common
+import common.{WithApplication, UnitSpec}
+import common.controllers.AlternateLanguages.{withLanguage, CyId, EnId}
+import common.testhelpers.CookieHelper.fetchCookiesFromHeaders
 
 final class AlternateLanguagesUnitSpec extends UnitSpec {
+  val initialPagePath = "/the/initial/page"
+
   "withLanguageCy" should {
     "redirect back to the same page" in new WithApplication {
       val result = withLanguage(CyId)(request)
       whenReady(result) { r =>
         r.header.status should equal(SEE_OTHER) // Redirect...
-        r.header.headers.get(LOCATION) should equal(Some(BeforeYouStartPage.address)) // ... back to the same page.
+        r.header.headers.get(LOCATION) should equal(Some(initialPagePath)) // ... back to the same page.
       }
     }
 
@@ -37,7 +38,7 @@ final class AlternateLanguagesUnitSpec extends UnitSpec {
       val result = withLanguage(EnId)(request)
       whenReady(result) { r =>
         r.header.status should equal(SEE_OTHER) // Redirect...
-        r.header.headers.get(LOCATION) should equal(Some(BeforeYouStartPage.address)) // ... back to the same page.
+        r.header.headers.get(LOCATION) should equal(Some(initialPagePath)) // ... back to the same page.
       }
     }
 
@@ -53,5 +54,5 @@ final class AlternateLanguagesUnitSpec extends UnitSpec {
     }
   }
 
-  private val request = FakeRequest().withHeaders(REFERER -> BeforeYouStartPage.address)
+  private val request = FakeRequest().withHeaders(REFERER -> initialPagePath)
 }

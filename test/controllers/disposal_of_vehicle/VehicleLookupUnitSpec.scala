@@ -3,6 +3,7 @@ package controllers.disposal_of_vehicle
 import com.tzavellas.sse.guice.ScalaModule
 import controllers.disposal_of_vehicle.Common.PrototypeHtml
 import controllers.disposal_of_vehicle
+import helpers.common.CookieHelper
 
 import uk.gov.dvla.vehicles.presentation.common
 import common.clientsidesession.{ClientSideSessionFactory, ClearTextClientSideSessionFactory}
@@ -20,7 +21,7 @@ import webserviceclients.fakes.FakeVehicleLookupWebService.vehicleDetailsRespons
 import webserviceclients.fakes.FakeVehicleLookupWebService.vehicleDetailsResponseSuccess
 import webserviceclients.fakes.FakeVehicleLookupWebService.vehicleDetailsResponseVRMNotFound
 import webserviceclients.fakes.FakeVehicleLookupWebService.vehicleDetailsServerDown
-import helpers.common.CookieHelper.fetchCookiesFromHeaders
+import CookieHelper.fetchCookiesFromHeaders
 import helpers.disposal_of_vehicle.CookieFactoryForUnitSpecs
 import helpers.JsonUtils.deserializeJsonToModel
 import helpers.{UnitSpec, WithApplication}

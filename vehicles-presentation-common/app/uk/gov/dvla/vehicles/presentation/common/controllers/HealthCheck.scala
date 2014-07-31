@@ -1,4 +1,4 @@
-package controllers.common
+package uk.gov.dvla.vehicles.presentation.common.controllers
 
 import play.api.mvc.{Action, Controller}
 

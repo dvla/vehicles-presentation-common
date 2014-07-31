@@ -2,8 +2,9 @@ package controllers.disposal_of_vehicle
 
 import controllers.disposal_of_vehicle.Common.PrototypeHtml
 import helpers.JsonUtils.deserializeJsonToModel
+import helpers.common.CookieHelper
 import helpers.{WithApplication, UnitSpec}
-import helpers.common.CookieHelper.fetchCookiesFromHeaders
+import CookieHelper.fetchCookiesFromHeaders
 import helpers.disposal_of_vehicle.CookieFactoryForUnitSpecs
 import org.mockito.Mockito.when
 import pages.disposal_of_vehicle.BusinessChooseYourAddressPage

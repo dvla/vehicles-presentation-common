@@ -1,12 +1,10 @@
-package controllers.common
+package controllers.disposal_of_vehicle
 
 import com.google.inject.Inject
-import uk.gov.dvla.vehicles.presentation.common.clientsidesession.{CookieImplicits, ClientSideSessionFactory}
-import CookieImplicits.{RichCookies, RichSimpleResult}
-import controllers.disposal_of_vehicle.routes.BeforeYouStart
 import mappings.common.Help.HelpCacheKey
 import play.api.mvc.{Action, Controller}
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClientSideSessionFactory
+import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicits.{RichCookies, RichSimpleResult}
 import utils.helpers.Config
 
 final class Help @Inject()()(implicit clientSideSessionFactory: ClientSideSessionFactory,
@@ -19,7 +17,7 @@ final class Help @Inject()()(implicit clientSideSessionFactory: ClientSideSessio
   }
 
   def back = Action { implicit request =>
-    val origin: String = request.cookies.getString(HelpCacheKey).getOrElse(BeforeYouStart.present().url)
+    val origin: String = request.cookies.getString(HelpCacheKey).getOrElse(routes.BeforeYouStart.present().url)
     Redirect(origin).
       discardingCookie(HelpCacheKey)
   }

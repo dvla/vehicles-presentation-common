@@ -1,8 +1,8 @@
 package helpers.common
 
-import play.api.http.HeaderNames.SET_COOKIE
-import play.api.mvc.{SimpleResult, Cookies, Cookie}
 import org.scalatest.Assertions.fail
+import play.api.http.HeaderNames.SET_COOKIE
+import play.api.mvc.{Cookie, Cookies, SimpleResult}
 
 object CookieHelper {
   def fetchCookiesFromHeaders(result: SimpleResult): Seq[Cookie] =

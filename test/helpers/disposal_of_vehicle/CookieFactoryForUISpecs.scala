@@ -1,6 +1,5 @@
 package helpers.disposal_of_vehicle
 
-import mappings.common.AlternateLanguages.{EnId, CyId}
 import controllers.disposal_of_vehicle.MicroServiceError.MicroServiceErrorRefererCacheKey
 import models.DayMonthYear
 import models.domain.common.{AddressLinesModel, AddressAndPostcodeModel}
@@ -31,6 +30,7 @@ import org.openqa.selenium.{WebDriver, Cookie}
 import play.api.libs.json.{Writes, Json}
 import play.api.Play
 import play.api.Play.current
+import uk.gov.dvla.vehicles.presentation.common.controllers.AlternateLanguages.{EnId, CyId}
 import webserviceclients.fakes.FakeDateServiceImpl.{DateOfDisposalYearValid, DateOfDisposalMonthValid, DateOfDisposalDayValid}
 import webserviceclients.fakes.brute_force_protection.FakeBruteForcePreventionWebServiceImpl.MaxAttempts
 import webserviceclients.fakes.FakeAddressLookupService.addressWithoutUprn

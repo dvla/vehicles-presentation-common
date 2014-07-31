@@ -2,7 +2,9 @@ package controllers.disposal_of_vehicle
 
 import com.tzavellas.sse.guice.ScalaModule
 import controllers.disposal_of_vehicle.Common.PrototypeHtml
-import helpers.common.CookieHelper.fetchCookiesFromHeaders
+import helpers.common.CookieHelper
+import CookieHelper.fetchCookiesFromHeaders
+import helpers.common.CookieHelper
 import helpers.disposal_of_vehicle.CookieFactoryForUnitSpecs
 import helpers.{UnitSpec, WithApplication}
 import mappings.disposal_of_vehicle.Dispose.SurveyRequestTriggerDateCacheKey

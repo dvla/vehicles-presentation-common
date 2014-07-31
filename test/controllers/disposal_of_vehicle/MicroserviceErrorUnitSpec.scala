@@ -1,8 +1,9 @@
 package controllers.disposal_of_vehicle
 
 import controllers.disposal_of_vehicle.Common.PrototypeHtml
+import helpers.common.CookieHelper
 import helpers.{UnitSpec, WithApplication}
-import helpers.common.CookieHelper.{fetchCookiesFromHeaders, verifyCookieHasBeenDiscarded}
+import CookieHelper.{fetchCookiesFromHeaders, verifyCookieHasBeenDiscarded}
 import helpers.disposal_of_vehicle.CookieFactoryForUnitSpecs
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClientSideSessionFactory
 import viewmodels.DisposeFormViewModel.PreventGoingToDisposePageCacheKey

@@ -1,5 +1,7 @@
 package controllers.disposal_of_vehicle
 
+import helpers.common.CookieHelper
+import mappings.common.AddressLines
 import Common.PrototypeHtml
 import controllers.disposal_of_vehicle
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClientSideSessionFactory
@@ -18,7 +20,7 @@ import FakeDisposeWebServiceImpl.disposeResponseSuccess
 import FakeDisposeWebServiceImpl.disposeResponseUnableToProcessApplication
 import FakeDisposeWebServiceImpl.disposeResponseUndefinedError
 import FakeDisposeWebServiceImpl.MileageValid
-import helpers.common.CookieHelper.fetchCookiesFromHeaders
+import CookieHelper.fetchCookiesFromHeaders
 import helpers.disposal_of_vehicle.CookieFactoryForUnitSpecs
 import helpers.disposal_of_vehicle.CookieFactoryForUnitSpecs.TrackingIdValue
 import helpers.{UnitSpec, WithApplication}
