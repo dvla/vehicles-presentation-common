@@ -1,23 +1,18 @@
 package models.domain.disposal_of_vehicle
 
-import viewmodels.AddressViewModel
-import AddressViewModel.JsonFormat
 import helpers.UnitSpec
-import models.domain.common.{AddressLinesModel, AddressAndPostcodeModel}
 import play.api.libs.json.Json
-import webserviceclients.fakes.FakeAddressLookupService.BuildingNameOrNumberValid
-import webserviceclients.fakes.FakeAddressLookupService.Line2Valid
-import webserviceclients.fakes.FakeAddressLookupService.Line3Valid
-import webserviceclients.fakes.FakeAddressLookupService.PostcodeValid
-import webserviceclients.fakes.FakeAddressLookupService.PostTownValid
-import webserviceclients.fakes.FakeVehicleLookupWebService.KeeperUprnValid
 import viewmodels.AddressViewModel
+import viewmodels.AddressViewModel.JsonFormat
+import viewmodels.common.{AddressAndPostcodeViewModel, AddressLinesViewModel}
+import webserviceclients.fakes.FakeAddressLookupService.{BuildingNameOrNumberValid, Line2Valid, Line3Valid, PostTownValid, PostcodeValid}
+import webserviceclients.fakes.FakeVehicleLookupWebService.KeeperUprnValid
 
 
 final class AddressViewModelSpec extends UnitSpec {
   "from" should {
     "translate correctly" in {
-      val addressAndPostcodeModel = AddressAndPostcodeModel(addressLinesModel = AddressLinesModel(
+      val addressAndPostcodeModel = AddressAndPostcodeViewModel(addressLinesModel = AddressLinesViewModel(
         buildingNameOrNumber = BuildingNameOrNumberValid,
         line2 = Some(Line2Valid),
         line3 = Some(Line3Valid),

@@ -1,15 +1,20 @@
 package webserviceclients.dispose_service
 
-import mappings.common.AddressLines.{BuildingNameOrNumberHolder, BuildingNameOrNumberIndex, Line2Index, Line3Index, LineMaxLength, emptyLine}
 import viewmodels.AddressViewModel
 
 import scala.annotation.tailrec
+import constraints.common.AddressLines.LineMaxLength
 
 case class DisposalAddressDto(line: Seq[String], postTown: Option[String], postCode: String, uprn: Option[Long])
 
 object DisposalAddressDto {
   import play.api.libs.json.Json
   implicit val addressDto = Json.writes[DisposalAddressDto]
+  final val BuildingNameOrNumberIndex = 0
+  final val BuildingNameOrNumberHolder = "No building name/num supplied"
+  final val Line2Index = 1
+  final val Line3Index = 2
+  final val emptyLine = ""
 
   def from(addressViewModel: AddressViewModel): DisposalAddressDto = {
     val trimRequired = linesOverMaxLength(addressViewModel.address)

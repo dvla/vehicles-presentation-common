@@ -1,14 +1,15 @@
 package constraints.common
 
 import constraints.common.Required.RequiredField
-import mappings.common.AddressLines.MaxLengthOfLinesConcatenated
-import models.domain.common.AddressLinesModel
 import play.api.data.validation.{Constraint, Invalid, Valid, ValidationError}
+import viewmodels.common.AddressLinesViewModel
 
 object AddressLines {
+  final val MaxLengthOfLinesConcatenated = 120
+  final val LineMaxLength = 30
 
-  def validAddressLines: Constraint[AddressLinesModel] = Constraint[AddressLinesModel](RequiredField) {
-    case input: AddressLinesModel =>
+  def validAddressLines: Constraint[AddressLinesViewModel] = Constraint[AddressLinesViewModel](RequiredField) {
+    case input: AddressLinesViewModel =>
       // Regex states string must contain at least one number or letter, can also include punctuation.
       val addressLinesFormat = """^[a-zA-Z0-9][A-Za-z0-9\s\-\,\.\/\\]*$""".r
 

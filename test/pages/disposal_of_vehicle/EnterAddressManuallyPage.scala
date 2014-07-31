@@ -1,11 +1,10 @@
 package pages.disposal_of_vehicle
 
 import helpers.webbrowser.{Element, Page, TextField, WebBrowserDSL, WebDriverFactory}
-import viewmodels.EnterAddressManuallyViewModel
-import EnterAddressManuallyViewModel.AddressAndPostcodeId
-import mappings.common.AddressLines.{AddressLinesId, BuildingNameOrNumberId, Line2Id, Line3Id, PostTownId}
 import mappings.disposal_of_vehicle.EnterAddressManually.{BackId, NextId}
 import org.openqa.selenium.WebDriver
+import viewmodels.EnterAddressManuallyViewModel.AddressAndPostcodeId
+import viewmodels.common.AddressLinesViewModel.Form.{AddressLinesId, BuildingNameOrNumberId, Line2Id, Line3Id, PostTownId}
 import webserviceclients.fakes.FakeAddressLookupService.{BuildingNameOrNumberValid, Line2Valid, Line3Valid, PostTownValid}
 
 object EnterAddressManuallyPage extends Page with WebBrowserDSL {

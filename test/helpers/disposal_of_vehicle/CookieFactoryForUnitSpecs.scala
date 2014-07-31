@@ -6,7 +6,6 @@ import controllers.disposal_of_vehicle.MicroServiceError.MicroServiceErrorRefere
 import mappings.common.Help.HelpCacheKey
 import mappings.disposal_of_vehicle.Dispose.SurveyRequestTriggerDateCacheKey
 import models.DayMonthYear
-import models.domain.common.{AddressAndPostcodeModel, AddressLinesModel}
 import org.joda.time.DateTime
 import pages.disposal_of_vehicle.{HelpPage, VehicleLookupPage}
 import play.api.libs.json.{Json, Writes}
@@ -20,7 +19,8 @@ import viewmodels.SetupTradeDetailsViewModel.SetupTradeDetailsCacheKey
 import viewmodels.TraderDetailsViewModel.TraderDetailsCacheKey
 import viewmodels.VehicleDetailsViewModel.VehicleLookupDetailsCacheKey
 import viewmodels.VehicleLookupFormViewModel.{VehicleLookupFormModelCacheKey, VehicleLookupResponseCodeCacheKey}
-import viewmodels.{DisposeViewModel, DisposeFormViewModel, VehicleDetailsViewModel, VehicleLookupFormViewModel, BruteForcePreventionViewModel, AddressViewModel, TraderDetailsViewModel, EnterAddressManuallyViewModel, BusinessChooseYourAddressViewModel, SetupTradeDetailsViewModel, SeenCookieMessageCacheKey}
+import viewmodels.common.{AddressAndPostcodeViewModel, AddressLinesViewModel}
+import viewmodels.{AddressViewModel, BruteForcePreventionViewModel, BusinessChooseYourAddressViewModel, DisposeFormViewModel, DisposeViewModel, EnterAddressManuallyViewModel, SeenCookieMessageCacheKey, SetupTradeDetailsViewModel, TraderDetailsViewModel, VehicleDetailsViewModel, VehicleLookupFormViewModel}
 import webserviceclients.fakes.FakeAddressLookupService.{BuildingNameOrNumberValid, Line2Valid, Line3Valid, PostTownValid, PostcodeValid, TraderBusinessNameValid}
 import webserviceclients.fakes.FakeAddressLookupWebServiceImpl.traderUprnValid
 import webserviceclients.fakes.FakeDateServiceImpl.{DateOfDisposalDayValid, DateOfDisposalMonthValid, DateOfDisposalYearValid}
@@ -68,8 +68,8 @@ object CookieFactoryForUnitSpecs extends TestComposition { // TODO can we make t
   def enterAddressManually(): Cookie = {
     val key = EnterAddressManuallyCacheKey
     val value = EnterAddressManuallyViewModel(
-      addressAndPostcodeModel = AddressAndPostcodeModel(
-        addressLinesModel = AddressLinesModel(
+      addressAndPostcodeModel = AddressAndPostcodeViewModel(
+        addressLinesModel = AddressLinesViewModel(
           buildingNameOrNumber = BuildingNameOrNumberValid,
             line2 = Some(Line2Valid),
             line3 = Some(Line3Valid),

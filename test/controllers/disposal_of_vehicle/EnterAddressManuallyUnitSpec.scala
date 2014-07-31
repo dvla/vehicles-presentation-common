@@ -1,31 +1,25 @@
 package controllers.disposal_of_vehicle
 
 import common.ClientSideSessionFactory
-import Common.PrototypeHtml
-import helpers.common.CookieHelper
-import CookieHelper.fetchCookiesFromHeaders
-import helpers.disposal_of_vehicle.CookieFactoryForUnitSpecs
+import controllers.disposal_of_vehicle.Common.PrototypeHtml
 import helpers.JsonUtils.deserializeJsonToModel
-import helpers.UnitSpec
-import helpers.WithApplication
-import viewmodels.EnterAddressManuallyViewModel
-import EnterAddressManuallyViewModel.AddressAndPostcodeId
-import mappings.common.AddressLines.{AddressLinesId, BuildingNameOrNumberId, PostTownId, Line2Id, Line3Id}
+import helpers.common.CookieHelper.fetchCookiesFromHeaders
+import helpers.disposal_of_vehicle.CookieFactoryForUnitSpecs
+import helpers.{UnitSpec, WithApplication}
 import mappings.common.Postcode.PostcodeId
-import viewmodels.TraderDetailsViewModel
-import viewmodels.TraderDetailsViewModel.TraderDetailsCacheKey
 import org.mockito.Mockito.when
 import pages.disposal_of_vehicle.{SetupTradeDetailsPage, VehicleLookupPage}
 import play.api.mvc.SimpleResult
 import play.api.test.FakeRequest
-import play.api.test.Helpers.{OK, LOCATION, BAD_REQUEST, contentAsString, defaultAwaitTimeout}
-import scala.concurrent.Future
-import webserviceclients.fakes.FakeAddressLookupService.BuildingNameOrNumberValid
-import webserviceclients.fakes.FakeAddressLookupService.Line2Valid
-import webserviceclients.fakes.FakeAddressLookupService.Line3Valid
-import webserviceclients.fakes.FakeAddressLookupService.PostcodeValid
-import webserviceclients.fakes.FakeAddressLookupService.PostTownValid
+import play.api.test.Helpers.{BAD_REQUEST, LOCATION, OK, contentAsString, defaultAwaitTimeout}
 import utils.helpers.Config
+import viewmodels.EnterAddressManuallyViewModel.AddressAndPostcodeId
+import viewmodels.TraderDetailsViewModel.TraderDetailsCacheKey
+import viewmodels.common.AddressLinesViewModel.Form.{AddressLinesId, BuildingNameOrNumberId, Line2Id, Line3Id, PostTownId}
+import viewmodels.{EnterAddressManuallyViewModel, TraderDetailsViewModel}
+import webserviceclients.fakes.FakeAddressLookupService.{BuildingNameOrNumberValid, Line2Valid, Line3Valid, PostTownValid, PostcodeValid}
+
+import scala.concurrent.Future
 
 final class EnterAddressManuallyUnitSpec extends UnitSpec {
   "present" should {

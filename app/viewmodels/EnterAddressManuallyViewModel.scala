@@ -1,10 +1,11 @@
 package viewmodels
 
-import models.domain.common.{AddressAndPostcodeModel, CacheKey}
+import models.domain.common.CacheKey
 import play.api.data.Forms.mapping
 import play.api.libs.json.Json
+import viewmodels.common.AddressAndPostcodeViewModel
 
-final case class EnterAddressManuallyViewModel(addressAndPostcodeModel: AddressAndPostcodeModel)
+final case class EnterAddressManuallyViewModel(addressAndPostcodeModel: AddressAndPostcodeViewModel)
 
 object EnterAddressManuallyViewModel {
   implicit val JsonFormat = Json.format[EnterAddressManuallyViewModel]
@@ -14,6 +15,6 @@ object EnterAddressManuallyViewModel {
 
   final val AddressAndPostcodeId = "addressAndPostcode"
   final val FormMapping = mapping(
-    AddressAndPostcodeId -> AddressAndPostcodeModel.FormMapping
+    AddressAndPostcodeId -> AddressAndPostcodeViewModel.Form.Mapping
   )(EnterAddressManuallyViewModel.apply)(EnterAddressManuallyViewModel.unapply)
 }

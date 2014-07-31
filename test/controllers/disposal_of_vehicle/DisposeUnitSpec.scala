@@ -1,65 +1,36 @@
 package controllers.disposal_of_vehicle
 
-import mappings.common.AddressLines
-import AddressLines.BuildingNameOrNumberHolder
-import AddressLines.LineMaxLength
 import common.ClientSideSessionFactory
-import Common.PrototypeHtml
+import constraints.common.AddressLines.LineMaxLength
 import controllers.disposal_of_vehicle
-import webserviceclients.fakes.FakeDisposeWebServiceImpl
-import webserviceclients.fakes.FakeAddressLookupService
-import FakeAddressLookupService.BuildingNameOrNumberValid
-import FakeAddressLookupService.Line2Valid
-import FakeAddressLookupService.Line3Valid
-import FakeAddressLookupService.PostcodeValid
-import FakeAddressLookupService.PostcodeValidWithSpace
-import FakeAddressLookupService.PostTownValid
-import FakeAddressLookupService.TraderBusinessNameValid
-import FakeDisposeWebServiceImpl.disposeResponseApplicationBeingProcessed
-import FakeDisposeWebServiceImpl.disposeResponseFailureWithDuplicateDisposal
-import FakeDisposeWebServiceImpl.disposeResponseSuccess
-import FakeDisposeWebServiceImpl.disposeResponseUnableToProcessApplication
-import FakeDisposeWebServiceImpl.disposeResponseUndefinedError
-import FakeDisposeWebServiceImpl.MileageValid
+import controllers.disposal_of_vehicle.Common.PrototypeHtml
 import helpers.common.CookieHelper.fetchCookiesFromHeaders
 import helpers.disposal_of_vehicle.CookieFactoryForUnitSpecs
 import helpers.disposal_of_vehicle.CookieFactoryForUnitSpecs.TrackingIdValue
-import helpers.UnitSpec
-import helpers.WithApplication
-import viewmodels.DisposeFormViewModel.Form.{ConsentId, DateOfDisposalId, LossOfRegistrationConsentId, MileageId}
+import helpers.{UnitSpec, WithApplication}
 import models.DayMonthYear
-import services.DateService
-import viewmodels.DisposeFormViewModel.DisposeFormModelCacheKey
-import viewmodels.DisposeFormViewModel.DisposeFormRegistrationNumberCacheKey
-import viewmodels.DisposeFormViewModel.DisposeFormTimestampIdCacheKey
-import viewmodels.DisposeFormViewModel.DisposeFormTransactionIdCacheKey
-import viewmodels.DisposeViewModel
-import DisposeViewModel.DisposeModelCacheKey
 import org.mockito.ArgumentCaptor
 import org.mockito.Matchers.any
-import org.mockito.Mockito.{when, verify, times}
-import pages.disposal_of_vehicle.DisposeFailurePage
-import pages.disposal_of_vehicle.DisposeSuccessPage
-import pages.disposal_of_vehicle.DuplicateDisposalErrorPage
-import pages.disposal_of_vehicle.MicroServiceErrorPage
-import pages.disposal_of_vehicle.SetupTradeDetailsPage
-import pages.disposal_of_vehicle.VehicleLookupPage
+import org.mockito.Mockito.{times, verify, when}
+import pages.disposal_of_vehicle.{DisposeFailurePage, DisposeSuccessPage, DuplicateDisposalErrorPage, MicroServiceErrorPage, SetupTradeDetailsPage, VehicleLookupPage}
 import play.api.libs.json.Json
 import play.api.test.FakeRequest
-import play.api.test.Helpers.BAD_REQUEST
-import play.api.test.Helpers.contentAsString
-import play.api.test.Helpers.defaultAwaitTimeout
-import play.api.test.Helpers.INTERNAL_SERVER_ERROR
-import play.api.test.Helpers.LOCATION
-import play.api.test.Helpers.OK
-import play.api.test.Helpers.SERVICE_UNAVAILABLE
-import scala.concurrent.ExecutionContext.Implicits.global
-import scala.concurrent.Future
+import play.api.test.Helpers.{BAD_REQUEST, INTERNAL_SERVER_ERROR, LOCATION, OK, SERVICE_UNAVAILABLE, contentAsString, defaultAwaitTimeout}
+import services.DateService
+import utils.helpers.Config
+import viewmodels.DisposeFormViewModel.Form.{ConsentId, DateOfDisposalId, LossOfRegistrationConsentId, MileageId}
+import viewmodels.DisposeFormViewModel.{DisposeFormModelCacheKey, DisposeFormRegistrationNumberCacheKey, DisposeFormTimestampIdCacheKey, DisposeFormTransactionIdCacheKey}
+import viewmodels.DisposeViewModel.DisposeModelCacheKey
+import webserviceclients.dispose_service.DisposalAddressDto.BuildingNameOrNumberHolder
 import webserviceclients.dispose_service._
+import webserviceclients.fakes.FakeAddressLookupService.{BuildingNameOrNumberValid, Line2Valid, Line3Valid, PostTownValid, PostcodeValid, PostcodeValidWithSpace, TraderBusinessNameValid}
 import webserviceclients.fakes.FakeDateServiceImpl.{DateOfDisposalDayValid, DateOfDisposalMonthValid, DateOfDisposalYearValid}
+import webserviceclients.fakes.FakeDisposeWebServiceImpl.{MileageValid, disposeResponseApplicationBeingProcessed, disposeResponseFailureWithDuplicateDisposal, disposeResponseSuccess, disposeResponseUnableToProcessApplication, disposeResponseUndefinedError}
 import webserviceclients.fakes.FakeVehicleLookupWebService.{ReferenceNumberValid, RegistrationNumberValid}
 import webserviceclients.fakes.{FakeDisposeWebServiceImpl, FakeResponse}
-import utils.helpers.Config
+
+import scala.concurrent.ExecutionContext.Implicits.global
+import scala.concurrent.Future
 
 final class DisposeUnitSpec extends UnitSpec {
   "present" should {
