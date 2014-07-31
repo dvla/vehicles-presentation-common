@@ -1,8 +1,8 @@
 package services
 
-import models.DayMonthYear
 import org.joda.time.{DateTime, Instant}
 import uk.gov.dvla.vehicles.presentation.common.services.DateService
+import views.models.DayMonthYear
 
 final class DateServiceImpl extends DateService {
   override def today = DayMonthYear.today

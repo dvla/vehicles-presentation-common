@@ -3,6 +3,7 @@ package mappings.common
 import constraints.common.DayMonthYear.required
 import play.api.data.Forms.{mapping, number, optional}
 import play.api.data.Mapping
+import views.models
 
 object DayMonthYear {
   final val DayId = "day"
@@ -21,5 +22,5 @@ object DayMonthYear {
     YearId -> number.verifying(required),
     HourId -> optional(number(min = 0, max = MaxHoursInDay)),
     MinutesId -> optional(number(min = 0, max = MaxMinutesInHour))
-  )(models.DayMonthYear.apply)(models.DayMonthYear.unapply)
+  )(views.models.DayMonthYear.apply)(views.models.DayMonthYear.unapply)
 }

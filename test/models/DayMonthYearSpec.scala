@@ -3,6 +3,7 @@ package models
 import org.joda.time.DateTime
 import org.joda.time.format.DateTimeFormat
 import helpers.UnitSpec
+import views.models.DayMonthYear
 import scala.language.postfixOps
 import scala.util.Try
 

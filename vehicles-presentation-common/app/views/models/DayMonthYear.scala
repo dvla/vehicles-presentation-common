@@ -1,9 +1,8 @@
-package models
+package views.models
 
 import org.joda.time.DateTime
 import org.joda.time.format.DateTimeFormat
 import play.api.libs.json.Json
-
 import scala.annotation.tailrec
 import scala.util.{Failure, Success, Try}
 
@@ -98,6 +97,19 @@ final case class DayMonthYear(day: Int,
   }
 }
 
+
+
+sealed trait Period {
+  def day: DayMonthYear = days
+  def days: DayMonthYear
+  def week: DayMonthYear = weeks
+  def weeks: DayMonthYear
+  def month: DayMonthYear = months
+  def months: DayMonthYear
+  def year: DayMonthYear = years
+  def years: DayMonthYear
+}
+
 object DayMonthYear {
   implicit val JsonFormat = Json.format[DayMonthYear]
 
@@ -120,15 +132,4 @@ object DayMonthYear {
       Some(now.minuteOfHour().get)
     )
   }
-}
-
-sealed trait Period {
-  def day: DayMonthYear = days
-  def days: DayMonthYear
-  def week: DayMonthYear = weeks
-  def weeks: DayMonthYear
-  def month: DayMonthYear = months
-  def months: DayMonthYear
-  def year: DayMonthYear = years
-  def years: DayMonthYear
 }

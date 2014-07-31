@@ -4,11 +4,11 @@ import constraints.common.DayMonthYear.{after, notInFuture, validDate}
 import mappings.common.Consent.consent
 import mappings.common.DayMonthYear.dayMonthYear
 import mappings.common.Mileage.mileage
-import models.DayMonthYear
 import play.api.data.Mapping
 import play.api.libs.json.Json
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CacheKey
 import uk.gov.dvla.vehicles.presentation.common.services.DateService
+import views.models.DayMonthYear
 
 final case class DisposeFormViewModel(mileage: Option[Int],
                                   dateOfDisposal: DayMonthYear,

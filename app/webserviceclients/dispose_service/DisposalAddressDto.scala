@@ -1,7 +1,8 @@
 package webserviceclients.dispose_service
 
+import views.models.AddressLinesViewModel
 import viewmodels.AddressViewModel
-import viewmodels.AddressLinesViewModel.Form.LineMaxLength
+import AddressLinesViewModel.Form.LineMaxLength
 import scala.annotation.tailrec
 
 case class DisposalAddressDto(line: Seq[String], postTown: Option[String], postCode: String, uprn: Option[Long])

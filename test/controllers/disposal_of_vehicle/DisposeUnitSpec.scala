@@ -1,14 +1,14 @@
 package controllers.disposal_of_vehicle
 
+import views.models.AddressLinesViewModel
 import uk.gov.dvla.vehicles.presentation.common.services.DateService
-import viewmodels.AddressLinesViewModel.Form.LineMaxLength
+import AddressLinesViewModel.Form.LineMaxLength
 import controllers.disposal_of_vehicle
 import controllers.disposal_of_vehicle.Common.PrototypeHtml
 import helpers.common.CookieHelper.fetchCookiesFromHeaders
 import helpers.disposal_of_vehicle.CookieFactoryForUnitSpecs
 import helpers.disposal_of_vehicle.CookieFactoryForUnitSpecs.TrackingIdValue
 import helpers.{UnitSpec, WithApplication}
-import models.DayMonthYear
 import org.mockito.ArgumentCaptor
 import org.mockito.Matchers.any
 import org.mockito.Mockito.{times, verify, when}
@@ -21,6 +21,7 @@ import utils.helpers.Config
 import viewmodels.DisposeFormViewModel.Form.{ConsentId, DateOfDisposalId, LossOfRegistrationConsentId, MileageId}
 import viewmodels.DisposeFormViewModel.{DisposeFormModelCacheKey, DisposeFormRegistrationNumberCacheKey, DisposeFormTimestampIdCacheKey, DisposeFormTransactionIdCacheKey}
 import viewmodels.DisposeViewModel.DisposeModelCacheKey
+import views.models.DayMonthYear
 import webserviceclients.dispose_service.DisposalAddressDto.BuildingNameOrNumberHolder
 import webserviceclients.dispose_service._
 import webserviceclients.fakes.FakeAddressLookupService.{BuildingNameOrNumberValid, Line2Valid, Line3Valid, PostTownValid, PostcodeValid, PostcodeValidWithSpace, TraderBusinessNameValid}
@@ -567,7 +568,7 @@ final class DisposeUnitSpec extends UnitSpec {
                                  month: Int = DateOfDisposalMonthValid.toInt,
                                  year: Int = DateOfDisposalYearValid.toInt) = {
     val dateService = mock[DateService]
-    when(dateService.today).thenReturn(new models.DayMonthYear(day = day,
+    when(dateService.today).thenReturn(new DayMonthYear(day = day,
       month = month,
       year = year))
     dateService

@@ -1,8 +1,9 @@
 package controllers.disposal_of_vehicle
 
-import viewmodels.AddressLinesViewModel.Form.LineMaxLength
+import views.models.AddressLinesViewModel
+import AddressLinesViewModel.Form.LineMaxLength
 import helpers.UnitSpec
-import viewmodels.{AddressLinesViewModel, EnterAddressManuallyViewModel}
+import viewmodels.EnterAddressManuallyViewModel
 import EnterAddressManuallyViewModel.AddressAndPostcodeId
 import AddressLinesViewModel.Form.{AddressLinesId, BuildingNameOrNumberId, Line2Id, Line3Id, PostTownId}
 import webserviceclients.fakes.FakeAddressLookupService.{BuildingNameOrNumberValid, Line2Valid, Line3Valid, PostTownValid}

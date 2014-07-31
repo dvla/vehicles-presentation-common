@@ -1,7 +1,7 @@
 package models.domain.common
 
 import helpers.UnitSpec
-import viewmodels.AddressLinesViewModel
+import views.models.AddressLinesViewModel
 import webserviceclients.fakes.FakeAddressLookupService.BuildingNameOrNumberValid
 import webserviceclients.fakes.FakeAddressLookupService.Line2Valid
 import webserviceclients.fakes.FakeAddressLookupService.Line3Valid

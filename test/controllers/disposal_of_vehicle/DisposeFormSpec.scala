@@ -7,10 +7,10 @@ import mappings.common.Mileage
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClientSideSessionFactory
 import uk.gov.dvla.vehicles.presentation.common.services.DateService
 import viewmodels.DisposeFormViewModel.Form.{ConsentId, DateOfDisposalId, LossOfRegistrationConsentId, MileageId}
-import models.DayMonthYear
 import org.mockito.Matchers.any
 import org.mockito.Mockito.when
 import play.api.libs.json.Json
+import views.models.DayMonthYear
 import webserviceclients.dispose_service.{DisposeRequestDto, DisposeServiceImpl, DisposeWebService}
 import webserviceclients.fakes.FakeDateServiceImpl.{DateOfDisposalDayValid, DateOfDisposalMonthValid, DateOfDisposalYearValid}
 import webserviceclients.fakes.FakeDisposeWebServiceImpl.{ConsentValid, MileageValid, disposeResponseSuccess}
@@ -142,7 +142,7 @@ final class DisposeFormSpec extends UnitSpec {
   private def dateServiceStub(dayToday: Int = DateOfDisposalDayValid.toInt,
                               monthToday: Int = DateOfDisposalMonthValid.toInt,
                               yearToday: Int = DateOfDisposalYearValid.toInt) = {
-    val dayMonthYearStub = new models.DayMonthYear(day = dayToday,
+    val dayMonthYearStub = new DayMonthYear(day = dayToday,
       month = monthToday,
       year = yearToday)
     val dateService = mock[DateService]
