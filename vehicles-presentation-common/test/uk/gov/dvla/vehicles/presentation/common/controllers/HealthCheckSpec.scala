@@ -1,8 +1,8 @@
-package controllers.common
+package uk.gov.dvla.vehicles.presentation.common.controllers
 
 import play.api.test.FakeRequest
 import play.mvc.Http.Status.OK
-import helpers.UnitSpec
+import uk.gov.dvla.vehicles.presentation.common.UnitSpec
 
 class HealthCheckSpec extends UnitSpec {
 

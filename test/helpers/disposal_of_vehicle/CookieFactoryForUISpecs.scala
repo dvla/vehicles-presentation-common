@@ -1,13 +1,13 @@
 package helpers.disposal_of_vehicle
 
 import controllers.disposal_of_vehicle.MicroServiceError.MicroServiceErrorRefererCacheKey
-import mappings.common.AlternateLanguages.{CyId, EnId}
 import models.DayMonthYear
 import org.joda.time.DateTime
 import org.openqa.selenium.{Cookie, WebDriver}
 import play.api.Play
 import play.api.Play.current
 import play.api.libs.json.{Json, Writes}
+import uk.gov.dvla.vehicles.presentation.common.controllers.AlternateLanguages.{CyId, EnId}
 import viewmodels.BruteForcePreventionViewModel.BruteForcePreventionViewModelCacheKey
 import viewmodels.BusinessChooseYourAddressViewModel.BusinessChooseYourAddressCacheKey
 import viewmodels.DisposeFormViewModel.{DisposeFormModelCacheKey, DisposeFormRegistrationNumberCacheKey, DisposeFormTimestampIdCacheKey, DisposeFormTransactionIdCacheKey, DisposeOccurredCacheKey, PreventGoingToDisposePageCacheKey}
