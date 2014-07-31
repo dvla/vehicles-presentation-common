@@ -1,11 +1,10 @@
 package webserviceclients.address_lookup.ordnance_survey
 
 import javax.inject.Inject
-
-import common.LogFormats
 import play.api.Logger
 import play.api.i18n.Lang
 import play.api.libs.ws.Response
+import uk.gov.dvla.vehicles.presentation.common.LogFormats
 import webserviceclients.address_lookup.{AddressLookupService, AddressLookupWebService}
 import viewmodels.AddressViewModel
 

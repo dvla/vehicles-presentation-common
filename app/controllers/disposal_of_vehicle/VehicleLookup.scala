@@ -1,9 +1,9 @@
 package controllers.disposal_of_vehicle
 
 import com.google.inject.Inject
+import uk.gov.dvla.vehicles.presentation.common.LogFormats
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.{ClientSideSessionFactory, CookieImplicits}
 import CookieImplicits.{RichCookies, RichForm, RichSimpleResult}
-import common.LogFormats
 import mappings.disposal_of_vehicle.Dispose.SurveyRequestTriggerDateCacheKey
 import play.api.Logger
 import play.api.data.{Form, FormError}
