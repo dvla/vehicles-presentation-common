@@ -1,23 +1,28 @@
-package controllers.disposal_of_vehicle
+package controllers
 
 import com.google.inject.Inject
-import uk.gov.dvla.vehicles.presentation.common.LogFormats
-import uk.gov.dvla.vehicles.presentation.common.clientsidesession.{ClientSideSessionFactory, CookieImplicits}
-import CookieImplicits.{RichCookies, RichForm, RichSimpleResult}
 import mappings.disposal_of_vehicle.Dispose.SurveyRequestTriggerDateCacheKey
 import play.api.Logger
 import play.api.data.{Form, FormError}
 import play.api.mvc.{Action, AnyContent, Controller, Request, SimpleResult}
+import uk.gov.dvla.vehicles.presentation.common.LogFormats
+import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClientSideSessionFactory
+import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicits.{RichCookies, RichForm, RichSimpleResult}
 import uk.gov.dvla.vehicles.presentation.common.services.DateService
 import utils.helpers.Config
-import views.helpers.FormExtensions
-import FormExtensions.formBinding
 import viewmodels.DisposeFormViewModel.{DisposeOccurredCacheKey, PreventGoingToDisposePageCacheKey}
 import viewmodels.VehicleLookupFormViewModel.VehicleLookupResponseCodeCacheKey
-import viewmodels.{AllCacheKeys, BruteForcePreventionViewModel, TraderDetailsViewModel, VehicleDetailsViewModel, VehicleLookupFormViewModel}
+import viewmodels.AllCacheKeys
+import viewmodels.BruteForcePreventionViewModel
+import viewmodels.TraderDetailsViewModel
+import viewmodels.VehicleDetailsViewModel
+import viewmodels.VehicleLookupFormViewModel
+import views.helpers.FormExtensions.formBinding
 import webserviceclients.brute_force_prevention.BruteForcePreventionService
-import webserviceclients.vehicle_lookup.{VehicleDetailsDto, VehicleDetailsRequestDto, VehicleDetailsResponseDto, VehicleLookupService}
-
+import webserviceclients.vehicle_lookup.VehicleDetailsDto
+import webserviceclients.vehicle_lookup.VehicleDetailsRequestDto
+import webserviceclients.vehicle_lookup.VehicleDetailsResponseDto
+import webserviceclients.vehicle_lookup.VehicleLookupService
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
@@ -28,7 +33,7 @@ final class VehicleLookup @Inject()(bruteForceService: BruteForcePreventionServi
                                    (implicit clientSideSessionFactory: ClientSideSessionFactory,
                                     config: Config) extends Controller {
 
-  private[disposal_of_vehicle] val form = Form(
+  private[controllers] val form = Form(
     VehicleLookupFormViewModel.Form.Mapping
   )
 

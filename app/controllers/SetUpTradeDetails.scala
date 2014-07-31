@@ -1,21 +1,19 @@
-package controllers.disposal_of_vehicle
+package controllers
 
 import com.google.inject.Inject
-import uk.gov.dvla.vehicles.presentation.common.clientsidesession.{CookieImplicits, ClientSideSessionFactory}
-import CookieImplicits.{RichForm, RichSimpleResult}
-import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClientSideSessionFactory
-import viewmodels.SetupTradeDetailsViewModel.Form.{TraderNameId, TraderPostcodeId}
 import play.api.data.{Form, FormError}
 import play.api.mvc.{Action, Controller}
+import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClientSideSessionFactory
+import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicits.{RichForm, RichSimpleResult}
 import utils.helpers.Config
-import views.helpers.FormExtensions
-import FormExtensions.formBinding
 import viewmodels.SetupTradeDetailsViewModel
+import viewmodels.SetupTradeDetailsViewModel.Form.{TraderNameId, TraderPostcodeId}
+import views.helpers.FormExtensions.formBinding
 
 final class SetUpTradeDetails @Inject()()(implicit clientSideSessionFactory: ClientSideSessionFactory,
                                           config: Config) extends Controller {
 
-  private[disposal_of_vehicle] val form = Form(
+  private[controllers] val form = Form(
     SetupTradeDetailsViewModel.Form.Mapping
   )
 

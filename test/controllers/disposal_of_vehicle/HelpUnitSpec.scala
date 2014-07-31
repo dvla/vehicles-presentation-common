@@ -1,5 +1,6 @@
 package controllers.disposal_of_vehicle
 
+import controllers.Help
 import controllers.disposal_of_vehicle.Common.PrototypeHtml
 import helpers.common.CookieHelper
 import CookieHelper.{fetchCookiesFromHeaders, verifyCookieHasBeenDiscarded}

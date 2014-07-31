@@ -1,15 +1,13 @@
-package controllers.disposal_of_vehicle
+package controllers
 
 import com.google.inject.Inject
-import uk.gov.dvla.vehicles.presentation.common.clientsidesession.{CookieImplicits, ClientSideSessionFactory}
-import CookieImplicits.RichCookies
-import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClientSideSessionFactory
-import viewmodels.{TraderDetailsViewModel, VehicleLookupFormViewModel}
-import viewmodels.VehicleLookupFormViewModel.VehicleLookupResponseCodeCacheKey
 import play.api.Logger
 import play.api.mvc.{Action, AnyContent, Controller, DiscardingCookie, Request}
+import uk.gov.dvla.vehicles.presentation.common.clientsidesession.{ClientSideSessionFactory, CookieImplicits}
+import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicits.RichCookies
 import utils.helpers.Config
-import viewmodels.BruteForcePreventionViewModel
+import viewmodels.VehicleLookupFormViewModel.VehicleLookupResponseCodeCacheKey
+import viewmodels.{BruteForcePreventionViewModel, TraderDetailsViewModel, VehicleLookupFormViewModel}
 
 final class VehicleLookupFailure @Inject()()
                                  (implicit clientSideSessionFactory: ClientSideSessionFactory,

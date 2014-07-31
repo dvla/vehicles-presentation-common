@@ -1,24 +1,21 @@
-package controllers.disposal_of_vehicle
+package controllers
 
 import com.google.inject.Inject
-import uk.gov.dvla.vehicles.presentation.common.clientsidesession.{CookieImplicits, ClientSideSessionFactory}
-import CookieImplicits.{RichCookies, RichForm, RichSimpleResult}
-import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClientSideSessionFactory
-import viewmodels.{SetupTradeDetailsViewModel, TraderDetailsViewModel}
 import play.api.Logger
 import play.api.data.{Form, FormError}
 import play.api.mvc.{Action, Controller, Request}
+import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClientSideSessionFactory
+import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicits.{RichCookies, RichForm, RichSimpleResult}
 import utils.helpers.Config
-import views.helpers.FormExtensions
-import FormExtensions.formBinding
-import viewmodels.{AddressViewModel, EnterAddressManuallyViewModel}
+import viewmodels.{AddressViewModel, EnterAddressManuallyViewModel, SetupTradeDetailsViewModel, TraderDetailsViewModel}
+import views.helpers.FormExtensions.formBinding
 import views.html.disposal_of_vehicle.enter_address_manually
 
 final class EnterAddressManually @Inject()()
                                  (implicit clientSideSessionFactory: ClientSideSessionFactory,
                                   config: Config) extends Controller {
 
-  private[disposal_of_vehicle] val form = Form(
+  private[controllers] val form = Form(
     EnterAddressManuallyViewModel.FormMapping
   )
 

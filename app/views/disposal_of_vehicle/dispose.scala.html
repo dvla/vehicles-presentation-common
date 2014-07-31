@@ -26,7 +26,7 @@
     title = Messages("disposal_dispose.title"),
     currentForm = Some(disposeForm)
 ) {
-    @form(action = controllers.disposal_of_vehicle.routes.Dispose.submit()) {
+    @form(action = controllers.routes.Dispose.submit()) {
         @CsrfHelper.hiddenFormField
 
         <script src="@routes.Assets.at("javascripts/numeric-input-only.js")" type="text/javascript"></script>
@@ -85,7 +85,7 @@
                 }
                 <div class="form-steps">
                     <button id="@SubmitId" type="submit" name="action" class="button">@Messages("disposal_dispose.submitbutton")</button>
-                    <a id="@BackId" href="@controllers.disposal_of_vehicle.routes.VehicleLookup.present()" class="button-secondary">@Messages("disposal_dispose.backbutton")</a>
+                    <a id="@BackId" href="@controllers.routes.VehicleLookup.present()" class="button-secondary">@Messages("disposal_dispose.backbutton")</a>
 
                     <div class="two-col-spacer">
                     </div>

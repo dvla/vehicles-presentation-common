@@ -1,4 +1,4 @@
-package controllers.disposal_of_vehicle
+package controllers
 
 import com.google.inject.Inject
 import play.api.Logger

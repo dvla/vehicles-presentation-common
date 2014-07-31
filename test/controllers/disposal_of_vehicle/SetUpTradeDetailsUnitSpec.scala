@@ -1,5 +1,6 @@
 package controllers.disposal_of_vehicle
 
+import controllers.SetUpTradeDetails
 import controllers.disposal_of_vehicle.Common.PrototypeHtml
 import helpers.JsonUtils.deserializeJsonToModel
 import helpers.common.CookieHelper

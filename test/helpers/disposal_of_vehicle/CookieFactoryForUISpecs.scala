@@ -1,6 +1,7 @@
 package helpers.disposal_of_vehicle
 
-import controllers.disposal_of_vehicle.MicroServiceError.MicroServiceErrorRefererCacheKey
+import controllers.MicroServiceError
+import MicroServiceError.MicroServiceErrorRefererCacheKey
 import views.models.{AddressAndPostcodeViewModel, AddressLinesViewModel}
 import org.joda.time.DateTime
 import org.openqa.selenium.{Cookie, WebDriver}

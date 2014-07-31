@@ -1,5 +1,6 @@
 package controllers.disposal_of_vehicle
 
+import controllers.EnterAddressManually
 import views.models.AddressLinesViewModel
 import AddressLinesViewModel.Form.LineMaxLength
 import helpers.UnitSpec

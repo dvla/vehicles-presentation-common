@@ -2,7 +2,7 @@ package controllers.disposal_of_vehicle
 
 import com.tzavellas.sse.guice.ScalaModule
 import controllers.disposal_of_vehicle.Common.PrototypeHtml
-import controllers.disposal_of_vehicle
+import controllers.{SurveyUrl, VehicleLookup, disposal_of_vehicle}
 import helpers.common.CookieHelper
 
 import uk.gov.dvla.vehicles.presentation.common
@@ -474,7 +474,7 @@ final class VehicleLookupUnitSpec extends UnitSpec {
       implicit val config: Config = mock[Config]
       implicit val surveyUrl = new SurveyUrl()(clientSideSessionFactory, config, new FakeDateServiceImpl)
 
-      val vehiclesLookup = new disposal_of_vehicle.VehicleLookup(
+      val vehiclesLookup = new VehicleLookup(
         bruteForceServiceImpl(permitted = true),
         vehicleLookupServiceImpl,
         surveyUrl = surveyUrl,
@@ -500,7 +500,7 @@ final class VehicleLookupUnitSpec extends UnitSpec {
       implicit val clientSideSessionFactory = injector.getInstance(classOf[ClientSideSessionFactory])
       implicit val config: Config = mock[Config]
       implicit val surveyUrl = new SurveyUrl()(clientSideSessionFactory, config, new FakeDateServiceImpl)
-      val vehiclesLookup = new disposal_of_vehicle.VehicleLookup(
+      val vehiclesLookup = new VehicleLookup(
         bruteForceServiceImpl(permitted = true),
         vehicleLookupServiceImpl,
         surveyUrl = surveyUrl,
@@ -524,7 +524,7 @@ final class VehicleLookupUnitSpec extends UnitSpec {
         implicit val clientSideSessionFactory = injector.getInstance(classOf[ClientSideSessionFactory])
         implicit val config: Config = mock[Config]
         implicit val surveyUrl = new SurveyUrl()(clientSideSessionFactory, config, new FakeDateServiceImpl)
-        val vehiclesLookup = new disposal_of_vehicle.VehicleLookup(
+        val vehiclesLookup = new VehicleLookup(
           bruteForceServiceImpl(permitted = true),
           vehicleLookupServiceImpl,
           surveyUrl = surveyUrl,
@@ -603,7 +603,7 @@ final class VehicleLookupUnitSpec extends UnitSpec {
     implicit val surveyUrl = new SurveyUrl()(clientSideSessionFactory, config, new FakeDateServiceImpl)
     when(config.isPrototypeBannerVisible).thenReturn(isPrototypeBannerVisible) // Stub this config value.
     when(config.prototypeSurveyUrl).thenReturn("http://fake/survey/url")
-    new disposal_of_vehicle.VehicleLookup(
+    new VehicleLookup(
       bruteForceService = bruteForceService,
       vehicleLookupService = vehicleLookupServiceImpl,
       surveyUrl = surveyUrl,
@@ -621,7 +621,7 @@ final class VehicleLookupUnitSpec extends UnitSpec {
     implicit val clientSideSessionFactory = injector.getInstance(classOf[ClientSideSessionFactory])
     implicit val config: Config = mock[Config]
     implicit val surveyUrl = new SurveyUrl()(clientSideSessionFactory, config, new FakeDateServiceImpl)
-    new disposal_of_vehicle.VehicleLookup(
+    new VehicleLookup(
       bruteForceService = bruteForceServiceImpl(permitted = permitted),
       vehicleLookupService = vehicleLookupServiceImpl,
       surveyUrl = surveyUrl,

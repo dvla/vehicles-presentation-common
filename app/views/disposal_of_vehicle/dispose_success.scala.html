@@ -42,14 +42,14 @@ title = Messages("disposal_disposeconfirmation.title")
 
             @{/* Note primary button moved to first button as per https://www.gov.uk/service-manual/user-centered-design/resources/forms.html#buttons */}
             <div class="step">
-                @form(action = controllers.disposal_of_vehicle.routes.DisposeSuccess.newDisposal()) {
+                @form(action = controllers.routes.DisposeSuccess.newDisposal()) {
                 @CsrfHelper.hiddenFormField
                 <button id="@NewDisposalId" type="submit" name="action" class="button button-new-disposal button-secondary">@Messages("disposal_disposeconfirmation.newdisposalbutton")</button>
                 }
             </div>
 
             <div class="step">
-                @form(action = controllers.disposal_of_vehicle.routes.DisposeSuccess.exit()) {
+                @form(action = controllers.routes.DisposeSuccess.exit()) {
                     @CsrfHelper.hiddenFormField
                     @surveyUrl match {
                       case Some(url) => {

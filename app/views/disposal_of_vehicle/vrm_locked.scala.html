@@ -15,13 +15,13 @@
     <p>@Messages("vrm_locked.text3.1")&nbsp;<strong>@Messages("vrm_locked.text3.2")</strong></p>
     <div class="form-steps">
         <div class="step">
-            @form(action = controllers.disposal_of_vehicle.routes.VrmLocked.newDisposal()) {
+            @form(action = controllers.routes.VrmLocked.newDisposal()) {
             @CsrfHelper.hiddenFormField
                 <button id="@NewDisposalId" type="submit" name="action" value="newDisposal" class="button">@Messages("vrm_locked.newdisposalbutton")</button>
             }
         </div>
         <div class="step">
-            @form(action = controllers.disposal_of_vehicle.routes.VrmLocked.exit()) {
+            @form(action = controllers.routes.VrmLocked.exit()) {
             @CsrfHelper.hiddenFormField
                 <button id="@ExitDisposalId" type="submit" name="action" value="exit" class="button-secondary">@Messages("vrm_locked.exit.button")</button>
             }

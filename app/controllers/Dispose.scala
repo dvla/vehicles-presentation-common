@@ -1,24 +1,28 @@
-package controllers.disposal_of_vehicle
+package controllers
 
 import com.google.inject.Inject
-import uk.gov.dvla.vehicles.presentation.common.clientsidesession.{CookieImplicits, ClientSideSessionFactory}
-import CookieImplicits.{RichCookies, RichForm, RichSimpleResult}
-import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClientSideSessionFactory
-import uk.gov.dvla.vehicles.presentation.common.services.DateService
-import viewmodels.DisposeFormViewModel.Form.{ConsentId, LossOfRegistrationConsentId}
 import models.domain.disposal_of_vehicle.DisposeModel
 import org.joda.time.format.ISODateTimeFormat
 import play.api.Logger
 import play.api.data.{Form, FormError}
 import play.api.mvc.{Action, AnyContent, Call, Controller, Request, SimpleResult}
+import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClientSideSessionFactory
+import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicits.{RichCookies, RichForm, RichSimpleResult}
+import uk.gov.dvla.vehicles.presentation.common.services.DateService
 import utils.helpers.Config
-import views.helpers.FormExtensions
-import FormExtensions.formBinding
-import viewmodels.{VehicleLookupFormViewModel, DisposeViewModel, VehicleDetailsViewModel, TraderDetailsViewModel, DisposeFormViewModel}
-import viewmodels.DisposeFormViewModel.{DisposeFormRegistrationNumberCacheKey, DisposeFormTimestampIdCacheKey, DisposeFormTransactionIdCacheKey, PreventGoingToDisposePageCacheKey}
+import viewmodels.DisposeFormViewModel.Form.{ConsentId, LossOfRegistrationConsentId}
+import viewmodels.DisposeFormViewModel.DisposeFormRegistrationNumberCacheKey
+import viewmodels.DisposeFormViewModel.DisposeFormTimestampIdCacheKey
+import viewmodels.DisposeFormViewModel.DisposeFormTransactionIdCacheKey
+import viewmodels.DisposeFormViewModel.PreventGoingToDisposePageCacheKey
+import viewmodels.DisposeFormViewModel
+import viewmodels.DisposeViewModel
+import viewmodels.TraderDetailsViewModel
+import viewmodels.VehicleDetailsViewModel
+import viewmodels.VehicleLookupFormViewModel
+import views.helpers.FormExtensions.formBinding
 import views.html.disposal_of_vehicle.dispose
 import webserviceclients.dispose_service.{DisposalAddressDto, DisposeRequestDto, DisposeResponseDto, DisposeService}
-
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
@@ -26,7 +30,7 @@ final class Dispose @Inject()(webService: DisposeService, dateService: DateServi
                              (implicit clientSideSessionFactory: ClientSideSessionFactory,
                               config: Config) extends Controller {
 
-  private[disposal_of_vehicle] val form = Form(
+  private[controllers] val form = Form(
     DisposeFormViewModel.Form.mapping(dateService)
   )
 

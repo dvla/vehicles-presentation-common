@@ -28,7 +28,7 @@
         <div class="first-col uppercase-input">
             <div class="form-steps">
                 <div class="step uppercase-input">
-                    @form(action = controllers.disposal_of_vehicle.routes.VehicleLookup.submit()) {
+                    @form(action = controllers.routes.VehicleLookup.submit()) {
                         @CsrfHelper.hiddenFormField
 
                         <h2>@Messages("disposal_vehiclelookup.p1")</h2>
@@ -56,20 +56,20 @@
 
                         <div class="form-step">
                             <button id="@SubmitId" type="submit" name="action" class="button">@Messages("disposal_vehiclelookup.button")</button>
-                            <a id="@BackId" href="@controllers.disposal_of_vehicle.routes.VehicleLookup.back()" class="button-secondary">@Messages("disposal_vehiclelookup.backbutton")</a>
+                            <a id="@BackId" href="@controllers.routes.VehicleLookup.back()" class="button-secondary">@Messages("disposal_vehiclelookup.backbutton")</a>
 
                             @if(displayExitButton) {
                                 @surveyUrl match {
                                     case Some(url) => {
                                         <a id="@ExitId"
-                                           href="@controllers.disposal_of_vehicle.routes.VehicleLookup.exit()"
+                                           href="@controllers.routes.VehicleLookup.exit()"
                                            onclick="window.open('@url', '_blank');"
                                            class="button-secondary">@Messages("disposal_vehiclelookup.exitbutton")
                                         </a>
                                     }
                                     case None => {
                                         <a id="@ExitId"
-                                           href="@controllers.disposal_of_vehicle.routes.VehicleLookup.exit()"
+                                           href="@controllers.routes.VehicleLookup.exit()"
                                            class="button-secondary">@Messages("disposal_vehiclelookup.exitbutton")
                                         </a>
                                     }

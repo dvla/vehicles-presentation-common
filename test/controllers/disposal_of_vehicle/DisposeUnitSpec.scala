@@ -3,7 +3,7 @@ package controllers.disposal_of_vehicle
 import views.models.AddressLinesViewModel
 import uk.gov.dvla.vehicles.presentation.common.services.DateService
 import AddressLinesViewModel.Form.LineMaxLength
-import controllers.disposal_of_vehicle
+import controllers.{Dispose, disposal_of_vehicle}
 import controllers.disposal_of_vehicle.Common.PrototypeHtml
 import helpers.common.CookieHelper.fetchCookiesFromHeaders
 import helpers.disposal_of_vehicle.CookieFactoryForUnitSpecs
@@ -189,7 +189,7 @@ final class DisposeUnitSpec extends UnitSpec {
       when(mockWebServiceThrows.invoke(any[DisposeRequestDto], any[String])).thenReturn(Future.failed(new RuntimeException))
       implicit val clientSideSessionFactory = injector.getInstance(classOf[ClientSideSessionFactory])
       implicit val config: Config = mock[Config]
-      val dispose = new disposal_of_vehicle.Dispose(mockWebServiceThrows, dateServiceStubbed())
+      val dispose = new Dispose(mockWebServiceThrows, dateServiceStubbed())
       val result = dispose.submit(request)
       whenReady(result) { r =>
         r.header.headers.get(LOCATION) should equal(Some(MicroServiceErrorPage.address))
@@ -319,7 +319,7 @@ final class DisposeUnitSpec extends UnitSpec {
       })
       implicit val clientSideSessionFactory = injector.getInstance(classOf[ClientSideSessionFactory])
       implicit val config: Config = mock[Config]
-      val dispose = new disposal_of_vehicle.Dispose(mockDisposeService, dateServiceStubbed())
+      val dispose = new Dispose(mockDisposeService, dateServiceStubbed())
       val result = dispose.submit(request)
       whenReady(result) { r =>
         val trackingIdCaptor = ArgumentCaptor.forClass(classOf[String])
@@ -619,7 +619,7 @@ final class DisposeUnitSpec extends UnitSpec {
   private def disposeController(disposeWebService: DisposeWebService, disposeService: DisposeService)(implicit config: Config = config): Dispose = {
     implicit val clientSideSessionFactory = injector.getInstance(classOf[ClientSideSessionFactory])
 
-    new disposal_of_vehicle.Dispose(disposeService, dateServiceStubbed())
+    new Dispose(disposeService, dateServiceStubbed())
   }
 
 

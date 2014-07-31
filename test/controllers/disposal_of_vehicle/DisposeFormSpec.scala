@@ -1,6 +1,6 @@
 package controllers.disposal_of_vehicle
 
-import controllers.disposal_of_vehicle
+import controllers.{Dispose, disposal_of_vehicle}
 import helpers.UnitSpec
 import mappings.common.DayMonthYear.{DayId, MonthId, YearId}
 import mappings.common.Mileage
@@ -160,7 +160,7 @@ final class DisposeFormSpec extends UnitSpec {
     val disposeServiceImpl = new DisposeServiceImpl(new Config(), ws)
     implicit val clientSideSessionFactory = injector.getInstance(classOf[ClientSideSessionFactory])
     implicit val config: Config = mock[Config]
-    new disposal_of_vehicle.Dispose(disposeServiceImpl, dateService)
+    new Dispose(disposeServiceImpl, dateService)
   }
 
   private def formWithValidDefaults(mileage: String = MileageValid,

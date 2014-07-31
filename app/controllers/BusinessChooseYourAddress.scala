@@ -1,22 +1,19 @@
-package controllers.disposal_of_vehicle
+package controllers
 
 import javax.inject.Inject
-
-import uk.gov.dvla.vehicles.presentation.common.clientsidesession.{ClientSideSessionFactory, ClientSideSession, CookieImplicits}
-import CookieImplicits.{RichCookies, RichForm, RichSimpleResult}
-import viewmodels.BusinessChooseYourAddressViewModel.Form.AddressSelectId
 import play.api.Logger
 import play.api.data.{Form, FormError}
 import play.api.i18n.Lang
 import play.api.mvc.{Action, Controller, Request}
+import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicits.{RichCookies, RichForm, RichSimpleResult}
+import uk.gov.dvla.vehicles.presentation.common.clientsidesession.{ClientSideSession, ClientSideSessionFactory}
 import utils.helpers.Config
-import views.helpers.FormExtensions
-import FormExtensions.formBinding
+import viewmodels.BusinessChooseYourAddressViewModel.Form.AddressSelectId
 import viewmodels.EnterAddressManuallyViewModel.EnterAddressManuallyCacheKey
 import viewmodels.{BusinessChooseYourAddressViewModel, SetupTradeDetailsViewModel, TraderDetailsViewModel}
+import views.helpers.FormExtensions.formBinding
 import views.html.disposal_of_vehicle.business_choose_your_address
 import webserviceclients.address_lookup.AddressLookupService
-
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
@@ -24,7 +21,7 @@ final class BusinessChooseYourAddress @Inject()(addressLookupService: AddressLoo
                                                (implicit clientSideSessionFactory: ClientSideSessionFactory,
                                                 config: Config) extends Controller {
 
-  private[disposal_of_vehicle] val form = Form(BusinessChooseYourAddressViewModel.Form.Mapping)
+  private[controllers] val form = Form(BusinessChooseYourAddressViewModel.Form.Mapping)
 
   def present = Action.async { implicit request =>
     request.cookies.getModel[SetupTradeDetailsViewModel] match {

@@ -1,5 +1,6 @@
 package controllers.disposal_of_vehicle
 
+import controllers.VrmLocked
 import controllers.disposal_of_vehicle.Common.PrototypeHtml
 import helpers.disposal_of_vehicle.CookieFactoryForUnitSpecs
 import helpers.{UnitSpec, WithApplication}

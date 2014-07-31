@@ -1,5 +1,6 @@
 package controllers.disposal_of_vehicle
 
+import controllers.MicroServiceError
 import controllers.disposal_of_vehicle.Common.PrototypeHtml
 import helpers.common.CookieHelper
 import helpers.{UnitSpec, WithApplication}
@@ -7,7 +8,7 @@ import CookieHelper.{fetchCookiesFromHeaders, verifyCookieHasBeenDiscarded}
 import helpers.disposal_of_vehicle.CookieFactoryForUnitSpecs
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClientSideSessionFactory
 import viewmodels.DisposeFormViewModel.PreventGoingToDisposePageCacheKey
-import controllers.disposal_of_vehicle.MicroServiceError.MicroServiceErrorRefererCacheKey
+import MicroServiceError.MicroServiceErrorRefererCacheKey
 import org.mockito.Mockito.when
 import pages.disposal_of_vehicle.{DisposePage, VehicleLookupPage}
 import play.api.test.FakeRequest
