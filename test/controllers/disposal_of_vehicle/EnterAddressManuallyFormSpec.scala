@@ -1,6 +1,6 @@
 package controllers.disposal_of_vehicle
 
-import constraints.AddressLinesConstraints.LineMaxLength
+import viewmodels.AddressLinesViewModel.Form.LineMaxLength
 import helpers.UnitSpec
 import viewmodels.{AddressLinesViewModel, EnterAddressManuallyViewModel}
 import EnterAddressManuallyViewModel.AddressAndPostcodeId

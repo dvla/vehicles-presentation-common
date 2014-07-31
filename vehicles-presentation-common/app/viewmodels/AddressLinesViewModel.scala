@@ -1,6 +1,5 @@
 package viewmodels
 
-import constraints.AddressLinesConstraints.LineMaxLength
 import play.api.data.Forms.optional
 import play.api.data.Mapping
 import play.api.libs.json.Json
@@ -35,6 +34,7 @@ object AddressLinesViewModel {
     final val PostTownId = "postTown"
     final val BuildingNameOrNumberMinLength = 4
     final val PostTownMinLength = 3
+    final val LineMaxLength = 30
 
     def mapping: Mapping[AddressLinesViewModel] = play.api.data.Forms.mapping(
       BuildingNameOrNumberId ->

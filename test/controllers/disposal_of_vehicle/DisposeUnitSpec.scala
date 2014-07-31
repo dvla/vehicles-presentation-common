@@ -1,6 +1,6 @@
 package controllers.disposal_of_vehicle
 
-import constraints.AddressLinesConstraints.LineMaxLength
+import viewmodels.AddressLinesViewModel.Form.LineMaxLength
 import controllers.disposal_of_vehicle
 import controllers.disposal_of_vehicle.Common.PrototypeHtml
 import helpers.common.CookieHelper.fetchCookiesFromHeaders
