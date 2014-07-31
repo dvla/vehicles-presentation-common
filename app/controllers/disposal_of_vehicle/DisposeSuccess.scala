@@ -4,8 +4,8 @@ import com.google.inject.Inject
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.{CookieImplicits, ClientSideSessionFactory}
 import CookieImplicits.{RichCookies, RichSimpleResult}
 import mappings.disposal_of_vehicle.Dispose.SurveyRequestTriggerDateCacheKey
-import services.DateService
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClientSideSessionFactory
+import uk.gov.dvla.vehicles.presentation.common.services.DateService
 import viewmodels.{DisposeFormViewModel, TraderDetailsViewModel, VehicleDetailsViewModel, DisposeOnlyCacheKeys, DisposeCacheKeys, AllCacheKeys}
 import models.domain.disposal_of_vehicle.DisposeModel
 import viewmodels.DisposeFormViewModel.DisposeFormRegistrationNumberCacheKey

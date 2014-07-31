@@ -1,4 +1,4 @@
-package services
+package uk.gov.dvla.vehicles.presentation.common.services
 
 import org.joda.time.Instant
 

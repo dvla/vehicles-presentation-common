@@ -1,7 +1,7 @@
 @(field: play.api.data.Field,
     years: Seq[(String, String)],
     args: Map[Symbol, Any] = Map.empty,
-    dateService: services.DateService,
+    dateService: uk.gov.dvla.vehicles.presentation.common.services.DateService,
     showTodaysDateButton: Boolean = false,
     showTodaysDateButtonId: Option[String] = None)(implicit handler: views.html.helper.FieldConstructor, lang: Lang)
 

@@ -2,8 +2,8 @@ package viewmodels
 
 import models.domain.common.BruteForcePreventionResponse
 import play.api.libs.json.Json
-import services.DateService
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CacheKey
+import uk.gov.dvla.vehicles.presentation.common.services.DateService
 
 final case class BruteForcePreventionViewModel(permitted: Boolean,
                                                attempts: Int,

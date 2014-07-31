@@ -5,6 +5,7 @@ import helpers.UnitSpec
 import mappings.common.DayMonthYear.{DayId, MonthId, YearId}
 import mappings.common.Mileage
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClientSideSessionFactory
+import uk.gov.dvla.vehicles.presentation.common.services.DateService
 import viewmodels.DisposeFormViewModel.Form.{ConsentId, DateOfDisposalId, LossOfRegistrationConsentId, MileageId}
 import models.DayMonthYear
 import org.mockito.Matchers.any
@@ -14,7 +15,6 @@ import webserviceclients.dispose_service.{DisposeRequestDto, DisposeServiceImpl,
 import webserviceclients.fakes.FakeDateServiceImpl.{DateOfDisposalDayValid, DateOfDisposalMonthValid, DateOfDisposalYearValid}
 import webserviceclients.fakes.FakeDisposeWebServiceImpl.{ConsentValid, MileageValid, disposeResponseSuccess}
 import webserviceclients.fakes.FakeResponse
-import services.DateService
 import utils.helpers.Config
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future

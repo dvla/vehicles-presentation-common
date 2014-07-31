@@ -8,7 +8,7 @@ import mappings.disposal_of_vehicle.Dispose.SurveyRequestTriggerDateCacheKey
 import play.api.Logger
 import play.api.data.{Form, FormError}
 import play.api.mvc.{Action, AnyContent, Controller, Request, SimpleResult}
-import services.DateService
+import uk.gov.dvla.vehicles.presentation.common.services.DateService
 import utils.helpers.Config
 import views.helpers.FormExtensions
 import FormExtensions.formBinding

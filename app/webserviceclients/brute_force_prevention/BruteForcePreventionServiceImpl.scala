@@ -2,7 +2,7 @@ package webserviceclients.brute_force_prevention
 
 import javax.inject.Inject
 import play.api.Logger
-import services.DateService
+import uk.gov.dvla.vehicles.presentation.common.services.DateService
 import viewmodels.BruteForcePreventionViewModel
 import scala.concurrent.{ExecutionContext, Future}
 import ExecutionContext.Implicits.global

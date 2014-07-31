@@ -7,8 +7,8 @@ import mappings.common.Mileage.mileage
 import models.DayMonthYear
 import play.api.data.Mapping
 import play.api.libs.json.Json
-import services.DateService
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CacheKey
+import uk.gov.dvla.vehicles.presentation.common.services.DateService
 
 final case class DisposeFormViewModel(mileage: Option[Int],
                                   dateOfDisposal: DayMonthYear,

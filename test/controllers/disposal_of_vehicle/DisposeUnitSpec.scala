@@ -1,5 +1,6 @@
 package controllers.disposal_of_vehicle
 
+import uk.gov.dvla.vehicles.presentation.common.services.DateService
 import viewmodels.AddressLinesViewModel.Form.LineMaxLength
 import controllers.disposal_of_vehicle
 import controllers.disposal_of_vehicle.Common.PrototypeHtml
@@ -15,7 +16,6 @@ import pages.disposal_of_vehicle.{DisposeFailurePage, DisposeSuccessPage, Duplic
 import play.api.libs.json.Json
 import play.api.test.FakeRequest
 import play.api.test.Helpers.{BAD_REQUEST, INTERNAL_SERVER_ERROR, LOCATION, OK, SERVICE_UNAVAILABLE, contentAsString, defaultAwaitTimeout}
-import services.DateService
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClientSideSessionFactory
 import utils.helpers.Config
 import viewmodels.DisposeFormViewModel.Form.{ConsentId, DateOfDisposalId, LossOfRegistrationConsentId, MileageId}

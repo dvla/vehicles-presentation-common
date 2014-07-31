@@ -2,7 +2,7 @@ package webserviceclients.fakes
 
 import models.DayMonthYear
 import org.joda.time.{DateTime, Instant}
-import services.DateService
+import uk.gov.dvla.vehicles.presentation.common.services.DateService
 
 final class FakeDateServiceImpl extends DateService {
   import FakeDateServiceImpl.{DateOfDisposalDayValid, DateOfDisposalMonthValid, DateOfDisposalYearValid}

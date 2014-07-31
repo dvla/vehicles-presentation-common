@@ -4,13 +4,13 @@ import com.google.inject.Inject
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.{CookieImplicits, ClientSideSessionFactory}
 import CookieImplicits.{RichCookies, RichForm, RichSimpleResult}
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClientSideSessionFactory
+import uk.gov.dvla.vehicles.presentation.common.services.DateService
 import viewmodels.DisposeFormViewModel.Form.{ConsentId, LossOfRegistrationConsentId}
 import models.domain.disposal_of_vehicle.DisposeModel
 import org.joda.time.format.ISODateTimeFormat
 import play.api.Logger
 import play.api.data.{Form, FormError}
 import play.api.mvc.{Action, AnyContent, Call, Controller, Request, SimpleResult}
-import services.DateService
 import utils.helpers.Config
 import views.helpers.FormExtensions
 import FormExtensions.formBinding

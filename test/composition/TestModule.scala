@@ -6,6 +6,7 @@ import filters.AccessLoggingFilter.AccessLoggerName
 import org.scalatest.mock.MockitoSugar
 import play.api.{LoggerLike, Logger}
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.{NoCookieFlags, CookieFlags, ClientSideSessionFactory, ClearTextClientSideSessionFactory}
+import uk.gov.dvla.vehicles.presentation.common.services.DateService
 import webserviceclients.fakes.FakeVehicleLookupWebService
 import webserviceclients.fakes.FakeDisposeWebServiceImpl
 import webserviceclients.fakes.FakeDateServiceImpl
@@ -17,7 +18,6 @@ import webserviceclients.brute_force_prevention.BruteForcePreventionWebService
 import webserviceclients.brute_force_prevention.BruteForcePreventionService
 import webserviceclients.brute_force_prevention.BruteForcePreventionServiceImpl
 import webserviceclients.fakes.brute_force_protection.FakeBruteForcePreventionWebServiceImpl
-import services.DateService
 import uk.gov.dvla.vehicles.presentation.common.ConfigProperties.getProperty
 
 class TestModule() extends ScalaModule with MockitoSugar {
