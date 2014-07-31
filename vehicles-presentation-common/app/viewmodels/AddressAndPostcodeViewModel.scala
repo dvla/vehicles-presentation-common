@@ -6,7 +6,8 @@ import play.api.data.validation.{Valid, ValidationError, Invalid, Constraint}
 import play.api.libs.json.Json
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CacheKey
 import viewmodels.AddressLinesViewModel.Form.{AddressLinesId, mapping => addressLines}
-import widgets.constraints.Required._
+import views.constraints.Required
+import Required._
 
 case class AddressAndPostcodeViewModel(uprn: Option[Int] = None, addressLinesModel: AddressLinesViewModel) {
   def toViewFormat(postcode: String): Seq[String] = addressLinesModel.toViewFormat :+ postcode

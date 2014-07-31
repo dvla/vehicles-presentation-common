@@ -1,4 +1,4 @@
-package widgets.constraints
+package views.constraints
 
 import play.api.data.validation.{Constraint, Invalid, Valid, ValidationError}
 

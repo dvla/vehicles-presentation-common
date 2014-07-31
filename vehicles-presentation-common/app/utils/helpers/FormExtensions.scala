@@ -1,11 +1,12 @@
 package utils.helpers
 
-import widgets.constraints.Required
+import views.constraints.Required
 import Required.RequiredField
 import play.api.data.Forms.of
 import play.api.data.format.Formatter
 import play.api.data.validation.Constraints
 import play.api.data.{Form, FormError, Mapping}
+import views.constraints.Required
 
 import scala.language.implicitConversions
 
