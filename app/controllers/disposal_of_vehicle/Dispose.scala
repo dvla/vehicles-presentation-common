@@ -12,7 +12,8 @@ import play.api.data.{Form, FormError}
 import play.api.mvc.{Action, AnyContent, Call, Controller, Request, SimpleResult}
 import services.DateService
 import utils.helpers.Config
-import utils.helpers.FormExtensions.formBinding
+import views.helpers.FormExtensions
+import FormExtensions.formBinding
 import viewmodels.{VehicleLookupFormViewModel, DisposeViewModel, VehicleDetailsViewModel, TraderDetailsViewModel, DisposeFormViewModel}
 import viewmodels.DisposeFormViewModel.{DisposeFormRegistrationNumberCacheKey, DisposeFormTimestampIdCacheKey, DisposeFormTransactionIdCacheKey, PreventGoingToDisposePageCacheKey}
 import views.html.disposal_of_vehicle.dispose

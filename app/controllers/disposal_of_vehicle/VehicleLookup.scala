@@ -10,7 +10,8 @@ import play.api.data.{Form, FormError}
 import play.api.mvc.{Action, AnyContent, Controller, Request, SimpleResult}
 import services.DateService
 import utils.helpers.Config
-import utils.helpers.FormExtensions.formBinding
+import views.helpers.FormExtensions
+import FormExtensions.formBinding
 import viewmodels.DisposeFormViewModel.{DisposeOccurredCacheKey, PreventGoingToDisposePageCacheKey}
 import viewmodels.VehicleLookupFormViewModel.VehicleLookupResponseCodeCacheKey
 import viewmodels.{AllCacheKeys, BruteForcePreventionViewModel, TraderDetailsViewModel, VehicleDetailsViewModel, VehicleLookupFormViewModel}

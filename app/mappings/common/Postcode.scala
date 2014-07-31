@@ -2,7 +2,8 @@ package mappings.common
 
 import views.constraints.Postcode.validPostcode
 import play.api.data.Mapping
-import utils.helpers.FormExtensions.nonEmptyTextWithTransform
+import views.helpers.FormExtensions
+import FormExtensions.nonEmptyTextWithTransform
 
 object Postcode {
   final val PostcodeId = "postcode"

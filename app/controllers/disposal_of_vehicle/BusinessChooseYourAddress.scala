@@ -10,7 +10,8 @@ import play.api.data.{Form, FormError}
 import play.api.i18n.Lang
 import play.api.mvc.{Action, Controller, Request}
 import utils.helpers.Config
-import utils.helpers.FormExtensions.formBinding
+import views.helpers.FormExtensions
+import FormExtensions.formBinding
 import viewmodels.EnterAddressManuallyViewModel.EnterAddressManuallyCacheKey
 import viewmodels.{BusinessChooseYourAddressViewModel, SetupTradeDetailsViewModel, TraderDetailsViewModel}
 import views.html.disposal_of_vehicle.business_choose_your_address

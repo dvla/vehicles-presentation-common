@@ -9,7 +9,8 @@ import play.api.Logger
 import play.api.data.{Form, FormError}
 import play.api.mvc.{Action, Controller, Request}
 import utils.helpers.Config
-import utils.helpers.FormExtensions.formBinding
+import views.helpers.FormExtensions
+import FormExtensions.formBinding
 import viewmodels.{AddressViewModel, EnterAddressManuallyViewModel}
 import views.html.disposal_of_vehicle.enter_address_manually
 

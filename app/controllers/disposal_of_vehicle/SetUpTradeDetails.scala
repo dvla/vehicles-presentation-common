@@ -8,7 +8,8 @@ import viewmodels.SetupTradeDetailsViewModel.Form.{TraderNameId, TraderPostcodeI
 import play.api.data.{Form, FormError}
 import play.api.mvc.{Action, Controller}
 import utils.helpers.Config
-import utils.helpers.FormExtensions.formBinding
+import views.helpers.FormExtensions
+import FormExtensions.formBinding
 import viewmodels.SetupTradeDetailsViewModel
 
 final class SetUpTradeDetails @Inject()()(implicit clientSideSessionFactory: ClientSideSessionFactory,

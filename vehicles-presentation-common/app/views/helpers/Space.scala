@@ -1,4 +1,4 @@
-package utils.helpers
+package views.helpers
 
 import scala.util.Random
 
