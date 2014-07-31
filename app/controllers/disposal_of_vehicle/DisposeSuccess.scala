@@ -1,10 +1,11 @@
 package controllers.disposal_of_vehicle
 
 import com.google.inject.Inject
-import common.ClientSideSessionFactory
-import common.CookieImplicits.{RichCookies, RichSimpleResult}
+import uk.gov.dvla.vehicles.presentation.common.clientsidesession.{CookieImplicits, ClientSideSessionFactory}
+import CookieImplicits.{RichCookies, RichSimpleResult}
 import mappings.disposal_of_vehicle.Dispose.SurveyRequestTriggerDateCacheKey
 import services.DateService
+import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClientSideSessionFactory
 import viewmodels.{DisposeFormViewModel, TraderDetailsViewModel, VehicleDetailsViewModel, DisposeOnlyCacheKeys, DisposeCacheKeys, AllCacheKeys}
 import models.domain.disposal_of_vehicle.DisposeModel
 import viewmodels.DisposeFormViewModel.DisposeFormRegistrationNumberCacheKey

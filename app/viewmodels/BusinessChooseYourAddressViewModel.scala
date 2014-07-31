@@ -1,9 +1,9 @@
 package viewmodels
 
 import mappings.common.DropDown
-import models.domain.common.CacheKey
 import play.api.data.Forms._
 import play.api.libs.json.Json
+import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CacheKey
 
 final case class BusinessChooseYourAddressViewModel(uprnSelected: String)
 

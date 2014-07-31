@@ -1,8 +1,8 @@
 package controllers.disposal_of_vehicle
 
-import common.ClientSideSessionFactory
 import javax.inject.Inject
 import play.api.mvc.{Action, Controller}
+import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClientSideSessionFactory
 import utils.helpers.Config
 
 final class DuplicateDisposalError @Inject()()

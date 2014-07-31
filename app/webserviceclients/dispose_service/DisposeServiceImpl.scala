@@ -1,9 +1,9 @@
 package webserviceclients.dispose_service
 
 import javax.inject.Inject
-import common.LogFormats
 import play.api.Logger
 import play.api.http.Status.OK
+import uk.gov.dvla.vehicles.presentation.common.LogFormats
 import utils.helpers.Config
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future

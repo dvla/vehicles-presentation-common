@@ -1,4 +1,4 @@
-package common
+package uk.gov.dvla.vehicles.presentation.common
 
 object LogFormats {
   private final val anonymousChar = "*"

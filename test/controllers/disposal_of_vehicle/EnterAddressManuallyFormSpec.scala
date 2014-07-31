@@ -1,6 +1,7 @@
 package controllers.disposal_of_vehicle
 
 import helpers.UnitSpec
+import helpers.UnitSpec
 import viewmodels.EnterAddressManuallyViewModel
 import EnterAddressManuallyViewModel.AddressAndPostcodeId
 import widgets.mappings.AddressLines.{AddressLinesId, BuildingNameOrNumberId, Line2Id, Line3Id, LineMaxLength, PostTownId}

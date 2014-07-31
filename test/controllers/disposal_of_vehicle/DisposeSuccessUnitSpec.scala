@@ -1,13 +1,13 @@
 package controllers.disposal_of_vehicle
 
 import com.tzavellas.sse.guice.ScalaModule
-import common.ClientSideSessionFactory
 import controllers.disposal_of_vehicle.Common.PrototypeHtml
 import helpers.common.CookieHelper.fetchCookiesFromHeaders
 import helpers.disposal_of_vehicle.CookieFactoryForUnitSpecs
 import helpers.{UnitSpec, WithApplication}
 import mappings.disposal_of_vehicle.Dispose.SurveyRequestTriggerDateCacheKey
 import services.DateServiceImpl
+import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClientSideSessionFactory
 import viewmodels.DisposeFormViewModel.PreventGoingToDisposePageCacheKey
 import org.joda.time.Instant
 import org.mockito.Mockito.when

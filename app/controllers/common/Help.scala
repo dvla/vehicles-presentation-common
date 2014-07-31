@@ -1,11 +1,12 @@
 package controllers.common
 
 import com.google.inject.Inject
-import common.ClientSideSessionFactory
-import common.CookieImplicits.{RichCookies, RichSimpleResult}
+import uk.gov.dvla.vehicles.presentation.common.clientsidesession.{CookieImplicits, ClientSideSessionFactory}
+import CookieImplicits.{RichCookies, RichSimpleResult}
 import controllers.disposal_of_vehicle.routes.BeforeYouStart
 import mappings.common.Help.HelpCacheKey
 import play.api.mvc.{Action, Controller}
+import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClientSideSessionFactory
 import utils.helpers.Config
 
 final class Help @Inject()()(implicit clientSideSessionFactory: ClientSideSessionFactory,

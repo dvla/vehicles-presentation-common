@@ -1,6 +1,6 @@
-package common
+package uk.gov.dvla.vehicles.presentation.common.clientsidesession
 
-import app.ConfigProperties.getProperty
+import uk.gov.dvla.vehicles.presentation.common.ConfigProperties.getProperty
 import com.google.inject.Inject
 import play.api.mvc.Cookie
 import scala.concurrent.duration.DurationInt

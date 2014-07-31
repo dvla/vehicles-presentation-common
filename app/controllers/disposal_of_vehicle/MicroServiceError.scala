@@ -1,9 +1,10 @@
 package controllers.disposal_of_vehicle
 
 import com.google.inject.Inject
-import common.ClientSideSessionFactory
-import common.CookieImplicits.{RichCookies, RichSimpleResult}
+import uk.gov.dvla.vehicles.presentation.common.clientsidesession.{CookieImplicits, ClientSideSessionFactory}
+import CookieImplicits.{RichCookies, RichSimpleResult}
 import controllers.disposal_of_vehicle.routes.VehicleLookup
+import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClientSideSessionFactory
 import viewmodels.DisposeFormViewModel.PreventGoingToDisposePageCacheKey
 import play.api.mvc.{Action, Controller}
 import utils.helpers.Config

@@ -1,14 +1,7 @@
-package common
+package uk.gov.dvla.vehicles.presentation.common.clientsidesession
 
-import helpers.webbrowser.TestGlobal
-import helpers.{UnitSpec, WithApplication}
 import play.api.test.FakeApplication
-import utils.helpers.AesEncryption
-import utils.helpers.CookieEncryption
-import utils.helpers.NoEncryption
-import utils.helpers.NoHashGenerator
-import utils.helpers.CookieNameHashGenerator
-import utils.helpers.Sha1HashGenerator
+import uk.gov.dvla.vehicles.presentation.common.{SimpleTestGlobal, WithApplication, UnitSpec}
 
 final class EncryptedClientSideSessionSpec extends UnitSpec {
   "nameCookie" should {
@@ -56,6 +49,9 @@ final class EncryptedClientSideSessionSpec extends UnitSpec {
   implicit val sha1Hashing = new Sha1HashGenerator with CookieNameHashGenerator
 
   private val fakeAppWithConfig = FakeApplication(
-    withGlobal = Some(TestGlobal),
-    additionalConfiguration = Map("application.secret256Bit" -> "MnPSvGpiEF5OJRG3xLAnsfmdMTLr6wpmJmZLv2RB9Vo="))
+    withGlobal = Some(SimpleTestGlobal),
+    additionalConfiguration = Map(
+      "application.secret256Bit" -> "MnPSvGpiEF5OJRG3xLAnsfmdMTLr6wpmJmZLv2RB9Vo=",
+      "application.crypto.aes.transformation" -> "AES/CBC/PKCS5Padding"
+    ))
 }

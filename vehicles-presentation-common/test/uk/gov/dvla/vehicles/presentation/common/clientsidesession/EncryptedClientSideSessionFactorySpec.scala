@@ -1,8 +1,7 @@
-package common
+package uk.gov.dvla.vehicles.presentation.common.clientsidesession
 
-import helpers.UnitSpec
 import play.api.mvc.Cookie
-import utils.helpers.{NoEncryption, CookieEncryption, NoHashGenerator, CookieNameHashGenerator}
+import uk.gov.dvla.vehicles.presentation.common.UnitSpec
 
 final class EncryptedClientSideSessionFactorySpec extends UnitSpec {
   implicit val noCookieFlags = new NoCookieFlags

@@ -5,12 +5,12 @@ import java.text.SimpleDateFormat
 import java.util.Date
 import com.google.inject.Inject
 import com.google.inject.name.Named
-import common.ClientSideSessionFactory
 import filters.AccessLoggingFilter.AccessLoggerName
 import play.api.LoggerLike
 import play.api.http.HeaderNames.CONTENT_LENGTH
 import play.api.libs.concurrent.Execution.Implicits.defaultContext
 import play.api.mvc.{Filter, RequestHeader, SimpleResult}
+import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClientSideSessionFactory
 import webserviceclients.HttpHeaders.{XForwardedFor, XRealIp}
 import scala.concurrent.Future
 

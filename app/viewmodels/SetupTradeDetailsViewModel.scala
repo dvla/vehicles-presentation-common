@@ -2,10 +2,10 @@ package viewmodels
 
 import constraints.disposal_of_vehicle.TraderBusinessName
 import mappings.common.Postcode.postcode
-import models.domain.common.CacheKey
 import play.api.data.Forms._
 import play.api.data.Mapping
 import play.api.libs.json.Json
+import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CacheKey
 import utils.helpers.FormExtensions._
 
 // TODO the names of the params repeat names from the model so refactor

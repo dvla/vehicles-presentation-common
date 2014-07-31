@@ -1,9 +1,10 @@
 package controllers.disposal_of_vehicle
 
 import com.google.inject.Inject
-import common.ClientSideSessionFactory
-import common.CookieImplicits.RichSimpleResult
+import uk.gov.dvla.vehicles.presentation.common.clientsidesession.{CookieImplicits, ClientSideSessionFactory}
+import CookieImplicits.RichSimpleResult
 import play.api.mvc.{Action, Controller}
+import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClientSideSessionFactory
 import utils.helpers.Config
 import viewmodels.AllCacheKeys
 

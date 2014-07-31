@@ -3,8 +3,7 @@ package views.disposal_of_vehicle
 import com.google.inject.name.Names
 import com.google.inject.{Guice, Injector}
 import com.tzavellas.sse.guice.ScalaModule
-import common.GlobalLike
-import composition.TestComposition
+import composition.{GlobalLike, TestComposition}
 import filters.AccessLoggingFilter.AccessLoggerName
 import filters.MockLogger
 import helpers.UiSpec

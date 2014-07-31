@@ -1,8 +1,8 @@
 package controllers.disposal_of_vehicle
 
-import helpers.UnitSpec
 import viewmodels.SetupTradeDetailsViewModel.Form.{TraderNameId, TraderPostcodeId}
 import webserviceclients.fakes.FakeAddressLookupService.{PostcodeValid, TraderBusinessNameValid}
+import helpers.UnitSpec
 
 final class SetUpTradeDetailsFormSpec extends UnitSpec {
   "form" should {

@@ -1,6 +1,5 @@
 package helpers.disposal_of_vehicle
 
-import common.{ClearTextClientSideSession, ClientSideSessionFactory, CookieFlags}
 import composition.TestComposition
 import controllers.disposal_of_vehicle.MicroServiceError.MicroServiceErrorRefererCacheKey
 import mappings.common.Help.HelpCacheKey
@@ -11,6 +10,7 @@ import org.joda.time.DateTime
 import pages.disposal_of_vehicle.{HelpPage, VehicleLookupPage}
 import play.api.libs.json.{Json, Writes}
 import play.api.mvc.Cookie
+import uk.gov.dvla.vehicles.presentation.common.clientsidesession.{CookieFlags, ClientSideSessionFactory, ClearTextClientSideSession}
 import viewmodels.BruteForcePreventionViewModel.BruteForcePreventionViewModelCacheKey
 import viewmodels.BusinessChooseYourAddressViewModel.BusinessChooseYourAddressCacheKey
 import viewmodels.DisposeFormViewModel.{DisposeFormModelCacheKey, DisposeFormRegistrationNumberCacheKey, DisposeFormTimestampIdCacheKey, DisposeFormTransactionIdCacheKey, DisposeOccurredCacheKey, PreventGoingToDisposePageCacheKey}
