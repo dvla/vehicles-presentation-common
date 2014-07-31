@@ -1,6 +1,6 @@
 package mappings.common
 
-import constraints.common.Postcode.validPostcode
+import widgets.constraints.Postcode.validPostcode
 import play.api.data.Mapping
 import utils.helpers.FormExtensions.nonEmptyTextWithTransform
 
