@@ -1,6 +1,7 @@
 package constraints.common
 
-import constraints.common.Required.RequiredField
+import widgets.constraints.Required
+import Required.RequiredField
 import models.{DayMonthYear => ModelsDMY}
 import org.joda.time.DateTime
 import play.api.data.validation.{Constraint, Invalid, Valid, ValidationError}

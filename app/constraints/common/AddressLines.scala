@@ -1,6 +1,7 @@
 package constraints.common
 
-import constraints.common.Required.RequiredField
+import widgets.constraints.Required
+import Required.RequiredField
 import mappings.common.AddressLines.MaxLengthOfLinesConcatenated
 import models.domain.common.AddressLinesModel
 import play.api.data.validation.{Constraint, Invalid, Valid, ValidationError}
