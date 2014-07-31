@@ -2,8 +2,10 @@ package controllers.disposal_of_vehicle
 
 import com.tzavellas.sse.guice.ScalaModule
 import controllers.disposal_of_vehicle.Common.PrototypeHtml
-import common.{ClearTextClientSideSessionFactory, ClientSideSessionFactory}
 import controllers.disposal_of_vehicle
+
+import uk.gov.dvla.vehicles.presentation.common
+import common.clientsidesession.{ClientSideSessionFactory, ClearTextClientSideSessionFactory}
 import webserviceclients.fakes.FakeAddressLookupService.TraderBusinessNameValid
 import webserviceclients.fakes.FakeAddressLookupService.BuildingNameOrNumberValid
 import webserviceclients.fakes.FakeAddressLookupService.Line2Valid
@@ -21,8 +23,7 @@ import webserviceclients.fakes.FakeVehicleLookupWebService.vehicleDetailsServerD
 import helpers.common.CookieHelper.fetchCookiesFromHeaders
 import helpers.disposal_of_vehicle.CookieFactoryForUnitSpecs
 import helpers.JsonUtils.deserializeJsonToModel
-import helpers.UnitSpec
-import helpers.WithApplication
+import helpers.{UnitSpec, WithApplication}
 import mappings.common.DocumentReferenceNumber
 import mappings.disposal_of_vehicle.Dispose.SurveyRequestTriggerDateCacheKey
 import viewmodels.VehicleLookupFormViewModel.Form.{DocumentReferenceNumberId, VehicleRegistrationNumberId}
@@ -31,7 +32,7 @@ import viewmodels.BruteForcePreventionViewModel
 import BruteForcePreventionViewModel.BruteForcePreventionViewModelCacheKey
 import viewmodels.VehicleLookupFormViewModel.VehicleLookupFormModelCacheKey
 import viewmodels.VehicleLookupFormViewModel.VehicleLookupResponseCodeCacheKey
-import viewmodels.{VehicleLookupFormViewModel}
+import viewmodels.VehicleLookupFormViewModel
 import org.joda.time.Instant
 import org.mockito.ArgumentCaptor
 import org.mockito.Matchers.any
@@ -57,7 +58,10 @@ import webserviceclients.brute_force_prevention.BruteForcePreventionWebService
 import webserviceclients.fakes.brute_force_protection.FakeBruteForcePreventionWebServiceImpl
 import webserviceclients.fakes.FakeAddressLookupWebServiceImpl.traderUprnValid
 import webserviceclients.fakes.{FakeDateServiceImpl, FakeResponse}
-import webserviceclients.vehicle_lookup.{VehicleDetailsResponseDto, VehicleDetailsRequestDto, VehicleLookupServiceImpl, VehicleLookupWebService}
+import webserviceclients.vehicle_lookup.VehicleDetailsResponseDto
+import webserviceclients.vehicle_lookup.VehicleDetailsRequestDto
+import webserviceclients.vehicle_lookup.VehicleLookupServiceImpl
+import webserviceclients.vehicle_lookup.VehicleLookupWebService
 import utils.helpers.Config
 import webserviceclients.fakes.brute_force_protection.FakeBruteForcePreventionWebServiceImpl.VrmLocked
 import webserviceclients.fakes.brute_force_protection.FakeBruteForcePreventionWebServiceImpl.VrmAttempt2
@@ -546,7 +550,7 @@ final class VehicleLookupUnitSpec extends UnitSpec {
     }
   }
 
-  private final val ExitAnchorHtml = """a id="exit""""
+  private val ExitAnchorHtml = """a id="exit""""
 
   private def responseThrows: Future[Response] = Future {
     throw new RuntimeException("This error is generated deliberately by a test")

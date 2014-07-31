@@ -1,10 +1,10 @@
 package controllers.disposal_of_vehicle
 
+import constraints.AddressLinesConstraints.LineMaxLength
 import helpers.UnitSpec
-import viewmodels.EnterAddressManuallyViewModel
+import viewmodels.{AddressLinesViewModel, EnterAddressManuallyViewModel}
 import EnterAddressManuallyViewModel.AddressAndPostcodeId
-import viewmodels.common.AddressLinesViewModel.Form.{AddressLinesId, BuildingNameOrNumberId, Line2Id, Line3Id, PostTownId}
-import constraints.common.AddressLines.LineMaxLength
+import AddressLinesViewModel.Form.{AddressLinesId, BuildingNameOrNumberId, Line2Id, Line3Id, PostTownId}
 import webserviceclients.fakes.FakeAddressLookupService.{BuildingNameOrNumberValid, Line2Valid, Line3Valid, PostTownValid}
 
 final class EnterAddressManuallyFormSpec extends UnitSpec {

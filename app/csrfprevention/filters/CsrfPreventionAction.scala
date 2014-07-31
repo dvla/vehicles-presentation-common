@@ -1,15 +1,14 @@
 package csrfprevention.filters
 
-import app.ConfigProperties.getProperty
-import common.ClientSideSessionFactory
-import common.CookieImplicits.RichCookies
+import uk.gov.dvla.vehicles.presentation.common.clientsidesession.{AesEncryption, CookieImplicits, ClientSideSessionFactory}
+import CookieImplicits.RichCookies
 import play.api.http.HeaderNames.REFERER
 import play.api.libs.Crypto
 import play.api.libs.concurrent.Execution.Implicits.defaultContext
 import play.api.libs.iteratee.{Enumerator, Iteratee, Traversable}
 import play.api.mvc.BodyParsers.parse.tolerantFormUrlEncoded
 import play.api.mvc.{EssentialAction, Headers, RequestHeader}
-import utils.helpers.AesEncryption
+import uk.gov.dvla.vehicles.presentation.common.ConfigProperties.getProperty
 
 import scala.util.Try
 

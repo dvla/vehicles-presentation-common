@@ -1,9 +1,8 @@
 package viewmodels
 
-import models.domain.common.CacheKey
 import play.api.data.Forms.mapping
 import play.api.libs.json.Json
-import viewmodels.common.AddressAndPostcodeViewModel
+import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CacheKey
 
 final case class EnterAddressManuallyViewModel(addressAndPostcodeModel: AddressAndPostcodeViewModel)
 

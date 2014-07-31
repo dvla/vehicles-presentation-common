@@ -2,8 +2,8 @@ package controllers.disposal_of_vehicle
 
 import javax.inject.Inject
 
-import common.CookieImplicits.{RichCookies, RichForm, RichSimpleResult}
-import common.{ClientSideSession, ClientSideSessionFactory}
+import uk.gov.dvla.vehicles.presentation.common.clientsidesession.{ClientSideSessionFactory, ClientSideSession, CookieImplicits}
+import CookieImplicits.{RichCookies, RichForm, RichSimpleResult}
 import viewmodels.BusinessChooseYourAddressViewModel.Form.AddressSelectId
 import play.api.Logger
 import play.api.data.{Form, FormError}

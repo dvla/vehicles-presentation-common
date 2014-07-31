@@ -1,6 +1,6 @@
 package utils.helpers
 
-import app.ConfigProperties.{getProperty, getDurationProperty}
+import uk.gov.dvla.vehicles.presentation.common.ConfigProperties.{getProperty, getDurationProperty}
 import scala.concurrent.duration.DurationInt
 
 class Config {

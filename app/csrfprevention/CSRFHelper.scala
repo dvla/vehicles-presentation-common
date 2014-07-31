@@ -1,8 +1,8 @@
 package csrfprevention
 
-import app.ConfigProperties.getProperty
 import play.api.templates.{Html, HtmlFormat}
 import csrfprevention.filters.CsrfPreventionAction
+import uk.gov.dvla.vehicles.presentation.common.ConfigProperties.getProperty
 
 object CsrfHelper {
 

@@ -1,7 +1,7 @@
 package models.domain.common
 
 import helpers.UnitSpec
-import viewmodels.common.{AddressLinesViewModel, AddressAndPostcodeViewModel}
+import viewmodels.{AddressAndPostcodeViewModel, AddressLinesViewModel}
 
 final class AddressAndPostcodeSpec extends UnitSpec {
   "Address - model" should {

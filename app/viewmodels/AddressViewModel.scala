@@ -1,7 +1,6 @@
 package viewmodels
 
 import play.api.libs.json.Json
-import viewmodels.common.AddressAndPostcodeViewModel
 
 final case class AddressViewModel(uprn: Option[Long] = None, address: Seq[String])
 // UPRN is optional because if user is manually entering the address they will not be allowed to enter a UPRN, it is only populated by address lookup services.

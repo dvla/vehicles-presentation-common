@@ -1,12 +1,13 @@
 package webserviceclients.address_lookup.ordnance_survey
 
 import play.api.libs.ws.{Response, WS}
+import uk.gov.dvla.vehicles.presentation.common.LogFormats
+import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClientSideSessionFactory
 import webserviceclients.HttpHeaders
 import utils.helpers.Config
 import scala.concurrent.Future
 import webserviceclients.address_lookup.AddressLookupWebService
 import com.google.inject.Inject
-import common.{LogFormats, ClientSideSessionFactory}
 import play.api.Logger
 import play.api.i18n.Lang
 

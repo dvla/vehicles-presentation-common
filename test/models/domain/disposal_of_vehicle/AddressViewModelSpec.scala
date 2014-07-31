@@ -2,9 +2,8 @@ package models.domain.disposal_of_vehicle
 
 import helpers.UnitSpec
 import play.api.libs.json.Json
-import viewmodels.AddressViewModel
 import viewmodels.AddressViewModel.JsonFormat
-import viewmodels.common.{AddressAndPostcodeViewModel, AddressLinesViewModel}
+import viewmodels.{AddressAndPostcodeViewModel, AddressLinesViewModel, AddressViewModel}
 import webserviceclients.fakes.FakeAddressLookupService.{BuildingNameOrNumberValid, Line2Valid, Line3Valid, PostTownValid, PostcodeValid}
 import webserviceclients.fakes.FakeVehicleLookupWebService.KeeperUprnValid
 

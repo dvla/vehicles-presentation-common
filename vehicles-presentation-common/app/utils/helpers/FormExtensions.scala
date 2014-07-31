@@ -1,6 +1,7 @@
 package utils.helpers
 
-import constraints.common.Required.RequiredField
+import widgets.constraints.Required
+import Required.RequiredField
 import play.api.data.Forms.of
 import play.api.data.format.Formatter
 import play.api.data.validation.Constraints

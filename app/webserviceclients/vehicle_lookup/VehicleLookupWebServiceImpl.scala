@@ -1,10 +1,10 @@
 package webserviceclients.vehicle_lookup
 
 import com.google.inject.Inject
-import common.LogFormats
 import play.api.Logger
 import play.api.libs.json.Json
 import play.api.libs.ws.{Response, WS}
+import uk.gov.dvla.vehicles.presentation.common.LogFormats
 import webserviceclients.HttpHeaders
 import utils.helpers.Config
 

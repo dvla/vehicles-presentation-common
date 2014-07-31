@@ -1,9 +1,10 @@
 package controllers.disposal_of_vehicle
 
 import com.google.inject.Inject
-import common.ClientSideSessionFactory
-import common.CookieImplicits.RichCookies
+import uk.gov.dvla.vehicles.presentation.common.clientsidesession.{CookieImplicits, ClientSideSessionFactory}
+import CookieImplicits.RichCookies
 import models.domain.disposal_of_vehicle.DisposeModel
+import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClientSideSessionFactory
 import viewmodels.{DisposeFormViewModel, TraderDetailsViewModel, VehicleDetailsViewModel}
 import viewmodels.DisposeFormViewModel.DisposeFormTransactionIdCacheKey
 import play.api.Logger
