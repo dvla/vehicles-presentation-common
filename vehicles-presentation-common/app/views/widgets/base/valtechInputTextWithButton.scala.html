@@ -5,7 +5,7 @@
         buttonAriaDisabled: String = "true",
         args: Map[Symbol, Any])(implicit handler: helper.FieldConstructor, lang: Lang)
 
-@import constraints.common.Required.RequiredField
+@import _root_.widgets.constraints.Required.RequiredField
 @import play.api.templates.PlayMagic.toHtmlArgs
 @import utils.helpers.HtmlArgsExtensions.richHtmlArgs
 @import views.html.widgets.base.{labelOrId, valtechLabel}
