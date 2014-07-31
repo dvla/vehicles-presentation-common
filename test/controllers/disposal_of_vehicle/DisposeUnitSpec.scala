@@ -1,8 +1,5 @@
 package controllers.disposal_of_vehicle
 
-import mappings.common.AddressLines
-import AddressLines.BuildingNameOrNumberHolder
-import AddressLines.LineMaxLength
 import common.ClientSideSessionFactory
 import Common.PrototypeHtml
 import controllers.disposal_of_vehicle
@@ -29,6 +26,7 @@ import helpers.WithApplication
 import viewmodels.DisposeFormViewModel.Form.{ConsentId, DateOfDisposalId, LossOfRegistrationConsentId, MileageId}
 import models.DayMonthYear
 import services.DateService
+import widgets.mappings.AddressLines.LineMaxLength
 import viewmodels.DisposeFormViewModel.DisposeFormModelCacheKey
 import viewmodels.DisposeFormViewModel.DisposeFormRegistrationNumberCacheKey
 import viewmodels.DisposeFormViewModel.DisposeFormTimestampIdCacheKey
@@ -36,6 +34,7 @@ import viewmodels.DisposeFormViewModel.DisposeFormTransactionIdCacheKey
 import viewmodels.DisposeViewModel
 import DisposeViewModel.DisposeModelCacheKey
 import org.mockito.ArgumentCaptor
+import mappings.common.AddressLines.BuildingNameOrNumberHolder
 import org.mockito.Matchers.any
 import org.mockito.Mockito.{when, verify, times}
 import pages.disposal_of_vehicle.DisposeFailurePage

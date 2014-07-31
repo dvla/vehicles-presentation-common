@@ -10,7 +10,6 @@ import helpers.UnitSpec
 import helpers.WithApplication
 import viewmodels.EnterAddressManuallyViewModel
 import EnterAddressManuallyViewModel.AddressAndPostcodeId
-import mappings.common.AddressLines.{AddressLinesId, BuildingNameOrNumberId, PostTownId, Line2Id, Line3Id}
 import mappings.common.Postcode.PostcodeId
 import viewmodels.TraderDetailsViewModel
 import viewmodels.TraderDetailsViewModel.TraderDetailsCacheKey
@@ -25,6 +24,7 @@ import webserviceclients.fakes.FakeAddressLookupService.Line2Valid
 import webserviceclients.fakes.FakeAddressLookupService.Line3Valid
 import webserviceclients.fakes.FakeAddressLookupService.PostcodeValid
 import webserviceclients.fakes.FakeAddressLookupService.PostTownValid
+import widgets.mappings.AddressLines.{AddressLinesId, BuildingNameOrNumberId, PostTownId, Line2Id, Line3Id}
 import utils.helpers.Config
 
 final class EnterAddressManuallyUnitSpec extends UnitSpec {

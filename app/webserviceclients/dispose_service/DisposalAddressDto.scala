@@ -1,7 +1,8 @@
 package webserviceclients.dispose_service
 
-import mappings.common.AddressLines.{BuildingNameOrNumberHolder, BuildingNameOrNumberIndex, Line2Index, Line3Index, LineMaxLength, emptyLine}
+import mappings.common.AddressLines.{BuildingNameOrNumberHolder, BuildingNameOrNumberIndex, Line2Index, Line3Index, emptyLine}
 import viewmodels.AddressViewModel
+import widgets.mappings.AddressLines.LineMaxLength
 
 import scala.annotation.tailrec
 

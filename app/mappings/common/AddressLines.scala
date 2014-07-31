@@ -4,16 +4,11 @@ import models.domain.common.AddressLinesModel
 import play.api.data.Forms.{mapping, optional}
 import play.api.data.Mapping
 import utils.helpers.FormExtensions.{nonEmptyTextWithTransform, textWithTransform, trimNonWhiteListedChars}
+import widgets.mappings.AddressLines.{BuildingNameOrNumberId, Line2Id, Line3Id, PostTownId, LineMaxLength}
 
 object AddressLines {
-  final val AddressLinesId = "addressLines"
-  final val BuildingNameOrNumberId = "buildingNameOrNumber"
-  final val Line2Id = "line2"
-  final val Line3Id = "line3"
-  final val PostTownId = "postTown"
   final val BuildingNameOrNumberMinLength = 4
   final val PostTownMinLength = 3
-  final val LineMaxLength = 30
   final val MaxLengthOfLinesConcatenated = 120
 
   final val AddressLinesCacheKey = "addressLines"

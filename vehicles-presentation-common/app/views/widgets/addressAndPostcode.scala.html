@@ -1,13 +1,13 @@
 @(field: play.api.data.Field, args: Map[Symbol, Any] = Map.empty)(implicit lang: Lang)
 
-@import mappings.common.AddressLines.AddressLinesId
 @import utils.helpers.BaseTemplate.fieldConstructor
-@import views.html.helper.{addressLines, input}
+@import views.html.helper.input
+@import views.html.widgets.addressLines
+@import _root_.widgets.mappings.AddressLines.AddressLinesId
 
 <fieldset>
     @input(field,args.toSeq: _*){(id, name, value, htmlArgs) =>
         @addressLines(field(AddressLinesId),
             args = Map('_label -> Messages("address.lines.label")))
-
     }
 </fieldset>
