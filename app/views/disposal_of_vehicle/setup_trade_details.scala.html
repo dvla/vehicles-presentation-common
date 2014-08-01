@@ -2,8 +2,7 @@
         token: uk.gov.dvla.vehicles.presentation.common.filters.CsrfPreventionAction.CsrfPreventionToken,
         config: utils.helpers.Config)
 
-@import controllers.routes.SetUpTradeDetails
-@import uk.gov.dvla.vehicles.presentation.common.views.helpers.CsrfHelper
+@import controllers.routes.SetUpTradeDetails;
 @import mappings.disposal_of_vehicle.SetupTradeDetails.SubmitId
 @import viewmodels.SetupTradeDetailsViewModel.Form.{TraderNameId, TraderPostcodeId, TraderNameMaxLength}
 @import views.html.disposal_of_vehicle.main
@@ -12,6 +11,7 @@
 @import common.mappings.Postcode
 @import common.views.helpers.BaseTemplate.fieldConstructor
 @import common.views.html.widgets.base.valtechInputText
+@import common.views.html.widgets.base.csrfTokenHiddenField
 
 @main(
     progress = Some(Messages("disposal_progress_2")),
@@ -19,7 +19,7 @@
     currentForm = Some(traderLookupForm)
 ) {
     @form(action = SetUpTradeDetails.submit) {
-        @CsrfHelper.hiddenFormField
+        @csrfTokenHiddenField()
 
         <div class="uppercase-input">
             @valtechInputText(traderLookupForm(TraderNameId), args =

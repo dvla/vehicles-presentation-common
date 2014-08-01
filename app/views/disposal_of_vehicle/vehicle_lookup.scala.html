@@ -7,7 +7,6 @@
   config: utils.helpers.Config
 )
 
-@import uk.gov.dvla.vehicles.presentation.common.views.helpers.CsrfHelper
 @import mappings.disposal_of_vehicle.VehicleLookup.{BackId, ExitId, SubmitId}
 @import viewmodels.VehicleLookupFormViewModel.Form.{DocumentReferenceNumberId, VehicleRegistrationNumberId}
 @import views.html.disposal_of_vehicle.main
@@ -16,6 +15,7 @@
 @import common.mappings.{DocumentReferenceNumber, VehicleRegistrationNumber}
 @import common.views.helpers.BaseTemplate.fieldConstructor
 @import common.views.html.widgets.base.valtechInputText
+@import common.views.html.widgets.base.csrfTokenHiddenField
 
 @main(
     progress = Some(Messages("disposal_progress_4")),
@@ -30,7 +30,7 @@
             <div class="form-steps">
                 <div class="step uppercase-input">
                     @form(action = controllers.routes.VehicleLookup.submit()) {
-                        @CsrfHelper.hiddenFormField
+                        @csrfTokenHiddenField()
 
                         <h2>@Messages("disposal_vehiclelookup.p1")</h2>
 

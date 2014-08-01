@@ -3,13 +3,13 @@
         token: uk.gov.dvla.vehicles.presentation.common.filters.CsrfPreventionAction.CsrfPreventionToken,
         config: utils.helpers.Config)
 
-@import uk.gov.dvla.vehicles.presentation.common.views.helpers.CsrfHelper
 @import mappings.disposal_of_vehicle.EnterAddressManually.{BackId, NextId}
 @import viewmodels.EnterAddressManuallyViewModel.Form.AddressAndPostcodeId
 @import views.html.disposal_of_vehicle.main
 @import views.html.helper.form
 @import uk.gov.dvla.vehicles.presentation.common
 @import common.views.html.widgets.addressAndPostcode
+@import common.views.html.widgets.base.csrfTokenHiddenField
 
 @main(
     progress = Some(Messages("disposal_progress_3")),
@@ -18,7 +18,7 @@
 ) {
     <div class="enter-address-manually uppercase-input">
         @form(action = controllers.routes.EnterAddressManually.submit()) {
-            @CsrfHelper.hiddenFormField
+            @csrfTokenHiddenField()
 
             @addressAndPostcode(enterAddressManuallyForm(AddressAndPostcodeId))
 
