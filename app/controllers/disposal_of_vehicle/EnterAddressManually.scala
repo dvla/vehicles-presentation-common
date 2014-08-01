@@ -1,6 +1,7 @@
 package controllers.disposal_of_vehicle
 
 import com.google.inject.Inject
+import models.AddressModel
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.{CookieImplicits, ClientSideSessionFactory}
 import CookieImplicits.{RichCookies, RichForm, RichSimpleResult}
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClientSideSessionFactory
@@ -10,7 +11,7 @@ import play.api.data.{Form, FormError}
 import play.api.mvc.{Action, Controller, Request}
 import utils.helpers.Config
 import utils.helpers.FormExtensions.formBinding
-import viewmodels.{AddressViewModel, EnterAddressManuallyViewModel}
+import viewmodels.EnterAddressManuallyViewModel
 import views.html.disposal_of_vehicle.enter_address_manually
 
 final class EnterAddressManually @Inject()()
@@ -42,7 +43,7 @@ final class EnterAddressManually @Inject()()
       validForm =>
         request.cookies.getModel[SetupTradeDetailsViewModel] match {
           case Some(setupTradeDetails) =>
-            val traderAddress = AddressViewModel.from(
+            val traderAddress = AddressModel.from(
               validForm.addressAndPostcodeModel,
               setupTradeDetails.traderPostcode
             )

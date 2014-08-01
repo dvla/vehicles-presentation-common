@@ -1,10 +1,8 @@
-package models.domain.disposal_of_vehicle
-
-import viewmodels.AddressViewModel
+package models
 
 final case class DisposeModel(vehicleMake: String,
                                   vehicleModel: String,
                                   dealerName: String,
-                                  dealerAddress: AddressViewModel,
+                                  dealerAddress: AddressModel,
                                   transactionId: Option[String] = None,
                                   registrationNumber: String)

@@ -20,7 +20,6 @@ import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClientSideSess
 import utils.helpers.Config
 import viewmodels.DisposeFormViewModel.Form.{ConsentId, DateOfDisposalId, LossOfRegistrationConsentId, MileageId}
 import viewmodels.DisposeFormViewModel.{DisposeFormModelCacheKey, DisposeFormRegistrationNumberCacheKey, DisposeFormTimestampIdCacheKey, DisposeFormTransactionIdCacheKey}
-import viewmodels.DisposeViewModel.DisposeModelCacheKey
 import webserviceclients.dispose_service.DisposalAddressDto.BuildingNameOrNumberHolder
 import webserviceclients.dispose_service._
 import webserviceclients.fakes.FakeAddressLookupService.{BuildingNameOrNumberValid, Line2Valid, Line3Valid, PostTownValid, PostcodeValid, PostcodeValidWithSpace, TraderBusinessNameValid}
@@ -125,7 +124,6 @@ final class DisposeUnitSpec extends UnitSpec {
     "redirect to micro-service error page when an unexpected error occurs" in new WithApplication {
       val request = buildCorrectlyPopulatedRequest.
         withCookies(CookieFactoryForUnitSpecs.vehicleLookupFormModel()).
-        withCookies(CookieFactoryForUnitSpecs.disposeModel()).
         withCookies(CookieFactoryForUnitSpecs.traderDetailsModel())
       val disposeFailure = disposeController(disposeWebService =
         disposeWebService(disposeServiceStatus = INTERNAL_SERVER_ERROR, disposeServiceResponse = None))
@@ -138,7 +136,6 @@ final class DisposeUnitSpec extends UnitSpec {
     "redirect to duplicate-disposal error page when an duplicate disposal error occurs" in new WithApplication {
       val request = buildCorrectlyPopulatedRequest.
         withCookies(CookieFactoryForUnitSpecs.vehicleLookupFormModel()).
-        withCookies(CookieFactoryForUnitSpecs.disposeModel()).
         withCookies(CookieFactoryForUnitSpecs.traderDetailsModel())
       val disposeFailure = disposeController(
         disposeWebService = disposeWebService(
@@ -198,7 +195,6 @@ final class DisposeUnitSpec extends UnitSpec {
     "redirect to micro-service error page when service is unavailable" in new WithApplication {
       val request = buildCorrectlyPopulatedRequest.
         withCookies(CookieFactoryForUnitSpecs.vehicleLookupFormModel()).
-        withCookies(CookieFactoryForUnitSpecs.disposeModel()).
         withCookies(CookieFactoryForUnitSpecs.traderDetailsModel())
       val disposeFailure = disposeController(disposeWebService =
         disposeWebService(disposeServiceStatus = SERVICE_UNAVAILABLE, disposeServiceResponse = None))
@@ -224,7 +220,6 @@ final class DisposeUnitSpec extends UnitSpec {
     "redirect to dispose failure page when unableToProcessApplication" in new WithApplication {
       val request = buildCorrectlyPopulatedRequest.
         withCookies(CookieFactoryForUnitSpecs.vehicleLookupFormModel()).
-        withCookies(CookieFactoryForUnitSpecs.disposeModel()).
         withCookies(CookieFactoryForUnitSpecs.traderDetailsModel())
       val disposeFailure = disposeController(disposeWebService =
         disposeWebService(disposeServiceResponse = Some(disposeResponseUnableToProcessApplication)))
@@ -237,7 +232,6 @@ final class DisposeUnitSpec extends UnitSpec {
     "redirect to error page when undefined error is returned" in new WithApplication {
       val request = buildCorrectlyPopulatedRequest.
         withCookies(CookieFactoryForUnitSpecs.vehicleLookupFormModel()).
-        withCookies(CookieFactoryForUnitSpecs.disposeModel()).
         withCookies(CookieFactoryForUnitSpecs.traderDetailsModel())
       val disposeFailure = disposeController(disposeWebService =
         disposeWebService(disposeServiceResponse = Some(disposeResponseUndefinedError)))
@@ -261,9 +255,8 @@ final class DisposeUnitSpec extends UnitSpec {
           case Some(cookie) => cookie.value should include(CookieFactoryForUnitSpecs.disposeFormTimestamp().value)
           case _ => fail("Should have found cookie")
         }
-        val expectedCacheKeys = Seq(DisposeFormModelCacheKey, DisposeFormTimestampIdCacheKey)
         cookies.map(_.name) should contain allOf(
-          DisposeModelCacheKey, DisposeFormTransactionIdCacheKey, expectedCacheKeys: _*)
+          DisposeFormTransactionIdCacheKey, DisposeFormModelCacheKey, DisposeFormTimestampIdCacheKey)
       }
     }
 
@@ -277,13 +270,11 @@ final class DisposeUnitSpec extends UnitSpec {
       val result = disposeSuccess.submit(request)
       whenReady(result) { r =>
         val cookies = fetchCookiesFromHeaders(r)
-        val expectedCookies = Seq(
+        cookies.map(_.name) should contain allOf(
+          DisposeFormTransactionIdCacheKey,
           DisposeFormRegistrationNumberCacheKey,
           DisposeFormModelCacheKey,
-          DisposeFormTimestampIdCacheKey
-        )
-        cookies.map(_.name) should contain allOf(
-          DisposeModelCacheKey, DisposeFormTransactionIdCacheKey, expectedCookies: _*)
+          DisposeFormTimestampIdCacheKey)
       }
     }
 

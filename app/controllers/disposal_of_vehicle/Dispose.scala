@@ -1,20 +1,19 @@
 package controllers.disposal_of_vehicle
 
 import com.google.inject.Inject
-import uk.gov.dvla.vehicles.presentation.common.clientsidesession.{CookieImplicits, ClientSideSessionFactory}
-import CookieImplicits.{RichCookies, RichForm, RichSimpleResult}
-import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClientSideSessionFactory
-import viewmodels.DisposeFormViewModel.Form.{ConsentId, LossOfRegistrationConsentId}
-import models.domain.disposal_of_vehicle.DisposeModel
+import models.DisposeModel
 import org.joda.time.format.ISODateTimeFormat
 import play.api.Logger
 import play.api.data.{Form, FormError}
 import play.api.mvc.{Action, AnyContent, Call, Controller, Request, SimpleResult}
 import services.DateService
+import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClientSideSessionFactory
+import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicits.{RichCookies, RichForm, RichSimpleResult}
 import utils.helpers.Config
 import utils.helpers.FormExtensions.formBinding
-import viewmodels.{VehicleLookupFormViewModel, DisposeViewModel, VehicleDetailsViewModel, TraderDetailsViewModel, DisposeFormViewModel}
+import viewmodels.DisposeFormViewModel.Form.{ConsentId, LossOfRegistrationConsentId}
 import viewmodels.DisposeFormViewModel.{DisposeFormRegistrationNumberCacheKey, DisposeFormTimestampIdCacheKey, DisposeFormTransactionIdCacheKey, PreventGoingToDisposePageCacheKey}
+import viewmodels.{DisposeFormViewModel, DisposeViewModel, TraderDetailsViewModel, VehicleDetailsViewModel, VehicleLookupFormViewModel}
 import views.html.disposal_of_vehicle.dispose
 import webserviceclients.dispose_service.{DisposalAddressDto, DisposeRequestDto, DisposeResponseDto, DisposeService}
 
@@ -118,7 +117,6 @@ final class Dispose @Inject()(webService: DisposeService, dateService: DateServi
       webService.invoke(disposeRequest, trackingId).map {
         case (httpResponseCode, response) =>
           Some(Redirect(nextPage(httpResponseCode, response))).
-            map(_.withCookie(disposeModel)).
             map(_.withCookie(disposeFormModel)).
             map(storeResponseInCache(response, _)).
             map(transactionTimestamp).

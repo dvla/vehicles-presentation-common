@@ -1,13 +1,13 @@
 package webserviceclients.address_lookup.gds
 
 import javax.inject.Inject
+import models.AddressModel
 import play.api.Logger
 import play.api.i18n.Lang
 import play.api.libs.ws.Response
 import webserviceclients.address_lookup.gds.domain.Address
 import webserviceclients.address_lookup.gds.domain.JsonFormats.addressFormat
 import webserviceclients.address_lookup.{AddressLookupService, AddressLookupWebService}
-import viewmodels.AddressViewModel
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
@@ -51,11 +51,11 @@ final class AddressLookupServiceImpl @Inject()(ws: AddressLookupWebService)
   }
 
   override def fetchAddressForUprn(uprn: String, trackingId: String)
-                                  (implicit lang: Lang): Future[Option[AddressViewModel]] = {
+                                  (implicit lang: Lang): Future[Option[AddressModel]] = {
     def toViewModel(resp: Response) = {
       val addresses = extractFromJson(resp)
       require(addresses.length >= 1, s"Should be at least one address for the UPRN: $uprn")
-      Some(AddressViewModel(uprn = Some(addresses.head.presentation.uprn.toLong), address = addresses.head.toViewModel))
+      Some(AddressModel(uprn = Some(addresses.head.presentation.uprn.toLong), address = addresses.head.toViewModel))
       // Translate to view model.
     }
 

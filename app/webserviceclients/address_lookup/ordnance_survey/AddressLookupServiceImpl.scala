@@ -1,12 +1,12 @@
 package webserviceclients.address_lookup.ordnance_survey
 
 import javax.inject.Inject
+import models.AddressModel
 import play.api.Logger
 import play.api.i18n.Lang
 import play.api.libs.ws.Response
 import uk.gov.dvla.vehicles.presentation.common.LogFormats
 import webserviceclients.address_lookup.{AddressLookupService, AddressLookupWebService}
-import viewmodels.AddressViewModel
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
@@ -42,7 +42,7 @@ final class AddressLookupServiceImpl @Inject()(ws: AddressLookupWebService) exte
   }
 
   override def fetchAddressForUprn(uprn: String, trackingId: String)
-                                  (implicit lang: Lang): Future[Option[AddressViewModel]] = {
+                                  (implicit lang: Lang): Future[Option[AddressModel]] = {
 
     // Extract result from response and return as a view model.
     def extractFromJson(resp: Response): Option[UprnToAddressResponseDto] = {

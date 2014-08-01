@@ -20,8 +20,7 @@ final class CookieHelperSpec extends UnitSpec {
         withCookies(CookieFactoryForUnitSpecs.vehicleDetailsModel()).
         withCookies(CookieFactoryForUnitSpecs.disposeFormModel()).
         withCookies(CookieFactoryForUnitSpecs.disposeTransactionId()).
-        withCookies(CookieFactoryForUnitSpecs.vehicleRegistrationNumber()).
-        withCookies(CookieFactoryForUnitSpecs.disposeModel())
+        withCookies(CookieFactoryForUnitSpecs.vehicleRegistrationNumber())
 
       val result = CookieHelper.discardAllCookies(request)
 
@@ -45,8 +44,7 @@ final class CookieHelperSpec extends UnitSpec {
         withCookies(CookieFactoryForUnitSpecs.vehicleDetailsModel()).
         withCookies(CookieFactoryForUnitSpecs.disposeFormModel()).
         withCookies(CookieFactoryForUnitSpecs.disposeTransactionId()).
-        withCookies(CookieFactoryForUnitSpecs.vehicleRegistrationNumber()).
-        withCookies(CookieFactoryForUnitSpecs.disposeModel())
+        withCookies(CookieFactoryForUnitSpecs.vehicleRegistrationNumber())
 
       val result = CookieHelper. discardAllCookies(request)
       

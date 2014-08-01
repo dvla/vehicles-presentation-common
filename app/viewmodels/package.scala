@@ -1,9 +1,9 @@
 import controllers.disposal_of_vehicle.MicroServiceError.MicroServiceErrorRefererCacheKey
 import mappings.common.Help.HelpCacheKey
-import viewmodels.BruteForcePreventionViewModel.BruteForcePreventionViewModelCacheKey
+import models.BruteForcePreventionModel
+import BruteForcePreventionModel.BruteForcePreventionViewModelCacheKey
 import viewmodels.BusinessChooseYourAddressViewModel.BusinessChooseYourAddressCacheKey
 import viewmodels.DisposeFormViewModel.{DisposeFormModelCacheKey, DisposeFormRegistrationNumberCacheKey, DisposeFormTimestampIdCacheKey, DisposeFormTransactionIdCacheKey, DisposeOccurredCacheKey, PreventGoingToDisposePageCacheKey}
-import viewmodels.DisposeViewModel.DisposeModelCacheKey
 import viewmodels.EnterAddressManuallyViewModel.EnterAddressManuallyCacheKey
 import viewmodels.SetupTradeDetailsViewModel.SetupTradeDetailsCacheKey
 import viewmodels.TraderDetailsViewModel.TraderDetailsCacheKey
@@ -18,8 +18,7 @@ package object viewmodels {
     DisposeFormModelCacheKey,
     DisposeFormTransactionIdCacheKey,
     DisposeFormTimestampIdCacheKey,
-    DisposeFormRegistrationNumberCacheKey,
-    DisposeModelCacheKey
+    DisposeFormRegistrationNumberCacheKey
   )
 
   // Set of cookies related to a single vehicle disposal. Removed once the vehicle is successfully disposed
@@ -31,8 +30,7 @@ package object viewmodels {
     DisposeFormModelCacheKey,
     DisposeFormTransactionIdCacheKey,
     DisposeFormTimestampIdCacheKey,
-    DisposeFormRegistrationNumberCacheKey,
-    DisposeModelCacheKey
+    DisposeFormRegistrationNumberCacheKey
   )
 
   // Set of cookies that store the trade details data. These are retained after a successful disposal

@@ -1,17 +1,16 @@
 package helpers.disposal_of_vehicle
 
 import controllers.disposal_of_vehicle.MicroServiceError.MicroServiceErrorRefererCacheKey
-import models.DayMonthYear
+import models.{AddressModel, BruteForcePreventionModel, DayMonthYear}
 import org.joda.time.DateTime
 import org.openqa.selenium.{Cookie, WebDriver}
 import play.api.Play
 import play.api.Play.current
 import play.api.libs.json.{Json, Writes}
 import uk.gov.dvla.vehicles.presentation.common.controllers.AlternateLanguages.{CyId, EnId}
-import viewmodels.BruteForcePreventionViewModel.BruteForcePreventionViewModelCacheKey
+import BruteForcePreventionModel.BruteForcePreventionViewModelCacheKey
 import viewmodels.BusinessChooseYourAddressViewModel.BusinessChooseYourAddressCacheKey
 import viewmodels.DisposeFormViewModel.{DisposeFormModelCacheKey, DisposeFormRegistrationNumberCacheKey, DisposeFormTimestampIdCacheKey, DisposeFormTransactionIdCacheKey, DisposeOccurredCacheKey, PreventGoingToDisposePageCacheKey}
-import viewmodels.DisposeViewModel.DisposeModelCacheKey
 import viewmodels.EnterAddressManuallyViewModel.EnterAddressManuallyCacheKey
 import viewmodels.SetupTradeDetailsViewModel.SetupTradeDetailsCacheKey
 import viewmodels.TraderDetailsViewModel.TraderDetailsCacheKey
@@ -74,7 +73,7 @@ object CookieFactoryForUISpecs {
     this
   }
 
-  def dealerDetails(address: AddressViewModel = addressWithoutUprn)(implicit webDriver: WebDriver) = {
+  def dealerDetails(address: AddressModel = addressWithoutUprn)(implicit webDriver: WebDriver) = {
     val key = TraderDetailsCacheKey
     val value = TraderDetailsViewModel(traderName = TraderBusinessNameValid, traderAddress = address)
     addCookie(key, value)
@@ -87,7 +86,7 @@ object CookieFactoryForUISpecs {
                                     dateTimeISOChronology: String = org.joda.time.DateTime.now().toString)
                                    (implicit webDriver: WebDriver) = {
     val key = BruteForcePreventionViewModelCacheKey
-    val value = BruteForcePreventionViewModel(
+    val value = BruteForcePreventionModel(
       permitted,
       attempts,
       maxAttempts,
@@ -134,21 +133,6 @@ object CookieFactoryForUISpecs {
       dateOfDisposal = DayMonthYear.today,
       consent = FakeDisposeWebServiceImpl.ConsentValid,
       lossOfRegistrationConsent = FakeDisposeWebServiceImpl.ConsentValid)
-    addCookie(key, value)
-    this
-  }
-
-  def disposeModel(referenceNumber: String = ReferenceNumberValid,
-                   registrationNumber: String = RegistrationNumberValid,
-                   dateOfDisposal: DayMonthYear = DayMonthYear.today,
-                   mileage: Option[Int] = None)(implicit webDriver: WebDriver) = {
-    val key = DisposeModelCacheKey
-    val value = DisposeViewModel(referenceNumber = referenceNumber,
-      registrationNumber = registrationNumber,
-      dateOfDisposal = dateOfDisposal,
-      consent = "true",
-      lossOfRegistrationConsent = "true",
-      mileage = mileage)
     addCookie(key, value)
     this
   }

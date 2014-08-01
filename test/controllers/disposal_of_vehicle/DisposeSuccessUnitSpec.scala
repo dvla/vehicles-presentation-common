@@ -2,21 +2,20 @@ package controllers.disposal_of_vehicle
 
 import com.tzavellas.sse.guice.ScalaModule
 import controllers.disposal_of_vehicle.Common.PrototypeHtml
-import helpers.common.CookieHelper
-import CookieHelper.fetchCookiesFromHeaders
-import helpers.common.CookieHelper
+import helpers.common.CookieHelper.fetchCookiesFromHeaders
 import helpers.disposal_of_vehicle.CookieFactoryForUnitSpecs
 import helpers.{UnitSpec, WithApplication}
 import mappings.disposal_of_vehicle.Dispose.SurveyRequestTriggerDateCacheKey
-import services.DateServiceImpl
-import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClientSideSessionFactory
-import viewmodels.DisposeFormViewModel.PreventGoingToDisposePageCacheKey
 import org.joda.time.Instant
 import org.mockito.Mockito.when
 import pages.disposal_of_vehicle.{BeforeYouStartPage, SetupTradeDetailsPage, VehicleLookupPage}
 import play.api.test.FakeRequest
 import play.api.test.Helpers.{LOCATION, OK, contentAsString, defaultAwaitTimeout}
+import services.DateServiceImpl
+import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClientSideSessionFactory
 import utils.helpers.Config
+import viewmodels.DisposeFormViewModel.PreventGoingToDisposePageCacheKey
+
 import scala.concurrent.duration.DurationInt
 
 final class DisposeSuccessUnitSpec extends UnitSpec {
@@ -60,8 +59,7 @@ final class DisposeSuccessUnitSpec extends UnitSpec {
 
     "redirect to SetUpTradeDetails on present when only DisposeDetails are cached" in new WithApplication {
       val request = FakeRequest().
-        withCookies(CookieFactoryForUnitSpecs.setupTradeDetails()).
-        withCookies(CookieFactoryForUnitSpecs.disposeModel())
+        withCookies(CookieFactoryForUnitSpecs.setupTradeDetails())
       val result = disposeSuccess.present(request)
       whenReady(result) { r =>
         r.header.headers.get(LOCATION) should equal(Some(VehicleLookupPage.address))
@@ -89,8 +87,7 @@ final class DisposeSuccessUnitSpec extends UnitSpec {
 
     "redirect to SetUpTradeDetails on present when only DisposeDetails and DealerDetails are cached" in new WithApplication {
       val request = FakeRequest().
-        withCookies(CookieFactoryForUnitSpecs.traderDetailsModel()).
-        withCookies(CookieFactoryForUnitSpecs.disposeModel())
+        withCookies(CookieFactoryForUnitSpecs.traderDetailsModel())
       val result = disposeSuccess.present(request)
       whenReady(result) { r =>
         r.header.headers.get(LOCATION) should equal(Some(VehicleLookupPage.address))
@@ -221,8 +218,7 @@ final class DisposeSuccessUnitSpec extends UnitSpec {
     }
 
     "redirect to SetUpTradeDetails on submit when only DisposeDetails are cached" in new WithApplication {
-      val request = FakeRequest().
-        withCookies(CookieFactoryForUnitSpecs.disposeModel())
+      val request = FakeRequest()
       val result = disposeSuccess.newDisposal(request)
       whenReady(result) { r =>
         r.header.headers.get(LOCATION) should equal(Some(SetupTradeDetailsPage.address))
@@ -251,8 +247,7 @@ final class DisposeSuccessUnitSpec extends UnitSpec {
     "redirect to SetUpTradeDetails on submit when only DisposeDetails and DealerDetails are cached" in new WithApplication {
       val request = FakeRequest().
         withCookies(CookieFactoryForUnitSpecs.setupTradeDetails()).
-        withCookies(CookieFactoryForUnitSpecs.traderDetailsModel()).
-        withCookies(CookieFactoryForUnitSpecs.disposeModel())
+        withCookies(CookieFactoryForUnitSpecs.traderDetailsModel())
       val result = disposeSuccess.newDisposal(request)
       whenReady(result) { r =>
         r.header.headers.get(LOCATION) should equal(Some(SetupTradeDetailsPage.address))
@@ -303,7 +298,6 @@ final class DisposeSuccessUnitSpec extends UnitSpec {
     withCookies(CookieFactoryForUnitSpecs.disposeFormModel()).
     withCookies(CookieFactoryForUnitSpecs.disposeTransactionId()).
     withCookies(CookieFactoryForUnitSpecs.vehicleRegistrationNumber()).
-    withCookies(CookieFactoryForUnitSpecs.disposeModel()).
     withCookies(CookieFactoryForUnitSpecs.disposeFormTimestamp())
   private lazy val present = disposeSuccess.present(requestFullyPopulated)
 

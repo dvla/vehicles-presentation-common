@@ -1,14 +1,14 @@
 package webserviceclients.fakes
 
+import models.AddressModel
 import webserviceclients.fakes.FakeAddressLookupWebServiceImpl.{traderUprnValid, traderUprnValid2}
-import viewmodels.AddressViewModel
 
 object FakeAddressLookupService {
   final val TraderBusinessNameValid = "example trader name"
   final val PostcodeWithoutAddresses = "xx99xx"
   final val PostcodeValid = "QQ99QQ"
-  val addressWithoutUprn = AddressViewModel(address = Seq("44 Hythe Road", "White City", "London", PostcodeValid))
-  val addressWithUprn = AddressViewModel(
+  val addressWithoutUprn = AddressModel(address = Seq("44 Hythe Road", "White City", "London", PostcodeValid))
+  val addressWithUprn = AddressModel(
     uprn = Some(traderUprnValid),
     address = Seq("44 Hythe Road", "White City", "London", PostcodeValid)
   )

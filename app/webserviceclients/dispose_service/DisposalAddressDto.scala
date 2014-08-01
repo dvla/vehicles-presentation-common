@@ -1,6 +1,6 @@
 package webserviceclients.dispose_service
 
-import viewmodels.AddressViewModel
+import models.AddressModel
 import viewmodels.AddressLinesViewModel.Form.LineMaxLength
 import scala.annotation.tailrec
 
@@ -15,11 +15,11 @@ object DisposalAddressDto {
   final val Line3Index = 2
   final val emptyLine = ""
 
-  def from(addressViewModel: AddressViewModel): DisposalAddressDto = {
+  def from(addressViewModel: AddressModel): DisposalAddressDto = {
     val trimRequired = linesOverMaxLength(addressViewModel.address)
     val addressMandatoryLines =
       if (addressViewModel.address.size == 2)
-        AddressViewModel(
+        AddressModel(
           addressViewModel.uprn,
           Seq(BuildingNameOrNumberHolder) ++ addressViewModel.address
         )
@@ -35,13 +35,13 @@ object DisposalAddressDto {
     else if (address.head.size > LineMaxLength) true
     else linesOverMaxLength(address.tail)
 
-  private def buildStandardDisposalAddressDto(addressViewModel: AddressViewModel): DisposalAddressDto = {
+  private def buildStandardDisposalAddressDto(addressViewModel: AddressModel): DisposalAddressDto = {
     val postcode = addressViewModel.address.last.replace(" ","")
     val postTown = Some(addressViewModel.address.takeRight(2).head)
     DisposalAddressDto(addressViewModel.address.dropRight(2), postTown , postcode, addressViewModel.uprn)
   }
 
-  private def rebuildDisposalAddressDto(addressViewModel: AddressViewModel): DisposalAddressDto = {
+  private def rebuildDisposalAddressDto(addressViewModel: AddressModel): DisposalAddressDto = {
     val address = assignEmptyLines(addressViewModel.address)
     val isLine2Empty = address(Line2Index) == emptyLine
     val isLine3Empty = address(Line3Index) == emptyLine

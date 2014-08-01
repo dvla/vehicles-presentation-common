@@ -4,6 +4,7 @@ import com.tzavellas.sse.guice.ScalaModule
 import controllers.disposal_of_vehicle.Common.PrototypeHtml
 import controllers.disposal_of_vehicle
 import helpers.common.CookieHelper
+import models.BruteForcePreventionModel
 
 import uk.gov.dvla.vehicles.presentation.common
 import common.clientsidesession.{ClientSideSessionFactory, ClearTextClientSideSessionFactory}
@@ -29,8 +30,7 @@ import mappings.common.DocumentReferenceNumber
 import mappings.disposal_of_vehicle.Dispose.SurveyRequestTriggerDateCacheKey
 import viewmodels.VehicleLookupFormViewModel.Form.{DocumentReferenceNumberId, VehicleRegistrationNumberId}
 import services.DateServiceImpl
-import viewmodels.BruteForcePreventionViewModel
-import BruteForcePreventionViewModel.BruteForcePreventionViewModelCacheKey
+import BruteForcePreventionModel.BruteForcePreventionViewModelCacheKey
 import viewmodels.VehicleLookupFormViewModel.VehicleLookupFormModelCacheKey
 import viewmodels.VehicleLookupFormViewModel.VehicleLookupResponseCodeCacheKey
 import viewmodels.VehicleLookupFormViewModel

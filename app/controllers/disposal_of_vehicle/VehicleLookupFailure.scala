@@ -1,6 +1,7 @@
 package controllers.disposal_of_vehicle
 
 import com.google.inject.Inject
+import models.BruteForcePreventionModel
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.{CookieImplicits, ClientSideSessionFactory}
 import CookieImplicits.RichCookies
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClientSideSessionFactory
@@ -9,7 +10,6 @@ import viewmodels.VehicleLookupFormViewModel.VehicleLookupResponseCodeCacheKey
 import play.api.Logger
 import play.api.mvc.{Action, AnyContent, Controller, DiscardingCookie, Request}
 import utils.helpers.Config
-import viewmodels.BruteForcePreventionViewModel
 
 final class VehicleLookupFailure @Inject()()
                                  (implicit clientSideSessionFactory: ClientSideSessionFactory,
@@ -17,7 +17,7 @@ final class VehicleLookupFailure @Inject()()
 
   def present = Action { implicit request =>
     (request.cookies.getModel[TraderDetailsViewModel],
-      request.cookies.getModel[BruteForcePreventionViewModel],
+      request.cookies.getModel[BruteForcePreventionModel],
       request.cookies.getModel[VehicleLookupFormViewModel],
       request.cookies.getString(VehicleLookupResponseCodeCacheKey)) match {
       case (Some(dealerDetails),
@@ -43,7 +43,7 @@ final class VehicleLookupFailure @Inject()()
   }
 
   private def displayVehicleLookupFailure(vehicleLookUpFormModelDetails: VehicleLookupFormViewModel,
-                                          bruteForcePreventionViewModel: BruteForcePreventionViewModel,
+                                          bruteForcePreventionViewModel: BruteForcePreventionModel,
                                           vehicleLookupResponseCode: String)(implicit request: Request[AnyContent]) = {
     Ok(views.html.disposal_of_vehicle.vehicle_lookup_failure(
       data = vehicleLookUpFormModelDetails,

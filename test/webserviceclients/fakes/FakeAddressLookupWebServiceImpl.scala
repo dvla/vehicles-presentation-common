@@ -1,11 +1,11 @@
 package webserviceclients.fakes
 
+import models.AddressModel
 import play.api.http.Status.OK
 import play.api.i18n.Lang
 import play.api.libs.json.Json
 import play.api.libs.ws.Response
 import webserviceclients.address_lookup.ordnance_survey.{UprnToAddressResponseDto, UprnAddressPairDto, PostcodeToAddressResponseDto}
-import viewmodels.AddressViewModel
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 import webserviceclients.address_lookup.AddressLookupWebService
@@ -68,7 +68,7 @@ object FakeAddressLookupWebServiceImpl {
 
   val uprnToAddressResponseValid = {
     val uprnAddressPair = uprnAddressPairWithDefaults()
-    UprnToAddressResponseDto(addressViewModel = Some(AddressViewModel(uprn = Some(uprnAddressPair.uprn.toLong), address = uprnAddressPair.address.split(", "))))
+    UprnToAddressResponseDto(addressViewModel = Some(AddressModel(uprn = Some(uprnAddressPair.uprn.toLong), address = uprnAddressPair.address.split(", "))))
   }
 
   def responseValidForUprnToAddress: Future[Response] = {

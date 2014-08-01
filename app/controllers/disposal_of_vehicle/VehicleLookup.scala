@@ -1,6 +1,7 @@
 package controllers.disposal_of_vehicle
 
 import com.google.inject.Inject
+import models.BruteForcePreventionModel
 import uk.gov.dvla.vehicles.presentation.common.LogFormats
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.{ClientSideSessionFactory, CookieImplicits}
 import CookieImplicits.{RichCookies, RichForm, RichSimpleResult}
@@ -13,7 +14,7 @@ import utils.helpers.Config
 import utils.helpers.FormExtensions.formBinding
 import viewmodels.DisposeFormViewModel.{DisposeOccurredCacheKey, PreventGoingToDisposePageCacheKey}
 import viewmodels.VehicleLookupFormViewModel.VehicleLookupResponseCodeCacheKey
-import viewmodels.{AllCacheKeys, BruteForcePreventionViewModel, TraderDetailsViewModel, VehicleDetailsViewModel, VehicleLookupFormViewModel}
+import viewmodels.{AllCacheKeys, TraderDetailsViewModel, VehicleDetailsViewModel, VehicleLookupFormViewModel}
 import webserviceclients.brute_force_prevention.BruteForcePreventionService
 import webserviceclients.vehicle_lookup.{VehicleDetailsDto, VehicleDetailsRequestDto, VehicleDetailsResponseDto, VehicleLookupService}
 
@@ -130,7 +131,7 @@ final class VehicleLookup @Inject()(bruteForceService: BruteForcePreventionServi
     }
 
   private def lookupVehicleResult(model: VehicleLookupFormViewModel,
-                                  bruteForcePreventionViewModel: BruteForcePreventionViewModel)
+                                  bruteForcePreventionViewModel: BruteForcePreventionModel)
                                  (implicit request: Request[_]): Future[SimpleResult] = {
     def vehicleFoundResult(vehicleDetailsDto: VehicleDetailsDto) =
       Redirect(routes.Dispose.present()).

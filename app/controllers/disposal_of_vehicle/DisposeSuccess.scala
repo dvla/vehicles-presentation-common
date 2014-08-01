@@ -7,7 +7,7 @@ import mappings.disposal_of_vehicle.Dispose.SurveyRequestTriggerDateCacheKey
 import services.DateService
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClientSideSessionFactory
 import viewmodels.{DisposeFormViewModel, TraderDetailsViewModel, VehicleDetailsViewModel, DisposeOnlyCacheKeys, DisposeCacheKeys, AllCacheKeys}
-import models.domain.disposal_of_vehicle.DisposeModel
+import models.DisposeModel
 import viewmodels.DisposeFormViewModel.DisposeFormRegistrationNumberCacheKey
 import viewmodels.DisposeFormViewModel.DisposeFormTimestampIdCacheKey
 import viewmodels.DisposeFormViewModel.DisposeFormTransactionIdCacheKey
