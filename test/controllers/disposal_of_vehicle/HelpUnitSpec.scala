@@ -4,16 +4,15 @@ import controllers.Help
 import controllers.disposal_of_vehicle.Common.PrototypeHtml
 import helpers.common.CookieHelper
 import CookieHelper.{fetchCookiesFromHeaders, verifyCookieHasBeenDiscarded}
-import helpers.common.CookieHelper
 import helpers.disposal_of_vehicle.CookieFactoryForUnitSpecs
 import helpers.{UnitSpec, WithApplication}
-import mappings.common.Help.HelpCacheKey
 import org.mockito.Mockito.when
 import pages.disposal_of_vehicle.{BeforeYouStartPage, SetupTradeDetailsPage}
 import play.api.test.FakeRequest
 import play.api.test.Helpers.{LOCATION, OK, REFERER, contentAsString, defaultAwaitTimeout, status}
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClientSideSessionFactory
 import utils.helpers.Config
+import viewmodels.HelpCacheKey
 
 final class HelpUnitSpec extends UnitSpec {
   "present" should {

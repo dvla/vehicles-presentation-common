@@ -2,7 +2,6 @@ package helpers.disposal_of_vehicle
 
 import composition.TestComposition
 import controllers.MicroServiceError.MicroServiceErrorRefererCacheKey
-import mappings.common.Help.HelpCacheKey
 import models.BruteForcePreventionModel.BruteForcePreventionViewModelCacheKey
 import models.{VehicleDetailsModel, AddressModel, BruteForcePreventionModel}
 import org.joda.time.DateTime
@@ -20,6 +19,7 @@ import viewmodels.DisposeFormViewModel.DisposeFormTransactionIdCacheKey
 import viewmodels.DisposeFormViewModel.DisposeOccurredCacheKey
 import viewmodels.DisposeFormViewModel.PreventGoingToDisposePageCacheKey
 import viewmodels.EnterAddressManuallyViewModel.EnterAddressManuallyCacheKey
+import viewmodels.HelpCacheKey
 import viewmodels.SetupTradeDetailsViewModel.SetupTradeDetailsCacheKey
 import viewmodels.TraderDetailsViewModel
 import TraderDetailsViewModel.TraderDetailsCacheKey
