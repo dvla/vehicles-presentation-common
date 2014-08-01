@@ -1,18 +1,17 @@
-package filters
+package uk.gov.dvla.vehicles.presentation.common.filters
 
 import java.net.URI
 import java.text.SimpleDateFormat
 import java.util.Date
 import com.google.inject.Inject
 import com.google.inject.name.Named
-import filters.AccessLoggingFilter.AccessLoggerName
 import play.api.LoggerLike
 import play.api.http.HeaderNames.CONTENT_LENGTH
 import play.api.libs.concurrent.Execution.Implicits.defaultContext
 import play.api.mvc.{Filter, RequestHeader, SimpleResult}
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClientSideSessionFactory
-import webserviceclients.HttpHeaders.{XForwardedFor, XRealIp}
 import scala.concurrent.Future
+import  AccessLoggingFilter.AccessLoggerName
 
 class AccessLoggingFilter @Inject()(clfEntryBuilder: ClfEntryBuilder,
                                     @Named(AccessLoggerName) accessLogger: LoggerLike) extends Filter {
@@ -30,6 +29,7 @@ class AccessLoggingFilter @Inject()(clfEntryBuilder: ClfEntryBuilder,
 }
 
 class ClfEntryBuilder {
+  import uk.gov.dvla.vehicles.presentation.common.webserviceclients.HttpHeaders._
 
   def clfEntry(requestTimestamp: Date, request: RequestHeader, result: SimpleResult) : String = {
     val ipAddress = Seq(
@@ -49,7 +49,7 @@ class ClfEntryBuilder {
     val protocol = request.version
     val date = s"[${ClfEntryBuilder.dateFormat.format(requestTimestamp)}]"
     val responseCode = result.header.status
-    val responseLength = result.header.headers.get(CONTENT_LENGTH).getOrElse("-")
+    val responseLength = result.header.headers. get(CONTENT_LENGTH).getOrElse("-")
 
     s"""$ipAddress - - $date "$method $uri $protocol" $responseCode $responseLength "$trackingId" """
   }

@@ -1,4 +1,4 @@
-package webserviceclients
+package uk.gov.dvla.vehicles.presentation.common.webserviceclients
 
 object HttpHeaders {
   final val TrackingId = "Tracking-Id"

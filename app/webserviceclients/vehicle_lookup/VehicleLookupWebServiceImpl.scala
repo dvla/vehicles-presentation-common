@@ -5,7 +5,7 @@ import play.api.Logger
 import play.api.libs.json.Json
 import play.api.libs.ws.{Response, WS}
 import uk.gov.dvla.vehicles.presentation.common.LogFormats
-import webserviceclients.HttpHeaders
+import uk.gov.dvla.vehicles.presentation.common.webserviceclients.HttpHeaders
 import utils.helpers.Config
 
 import scala.concurrent.Future

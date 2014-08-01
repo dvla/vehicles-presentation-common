@@ -3,9 +3,9 @@ package webserviceclients.address_lookup.ordnance_survey
 import helpers.{UnitSpec, WireMockFixture}
 import org.scalatest.concurrent.PatienceConfiguration.Interval
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.{NoCookieFlags, ClientSideSessionFactory}
+import uk.gov.dvla.vehicles.presentation.common.webserviceclients.HttpHeaders
 import scala.concurrent.duration.DurationInt
 import play.api.i18n.Lang
-import webserviceclients.HttpHeaders
 import webserviceclients.fakes.FakeAddressLookupService.{PostcodeValid, PostcodeValidWithSpace}
 import utils.helpers.Config
 import com.github.tomakehurst.wiremock.client.WireMock.{getRequestedFor, urlEqualTo, equalTo}

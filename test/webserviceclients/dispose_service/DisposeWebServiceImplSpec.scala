@@ -4,7 +4,7 @@ import com.github.tomakehurst.wiremock.client.WireMock.{equalTo, postRequestedFo
 import helpers.{UnitSpec, WireMockFixture}
 import play.api.libs.json.Json
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClientSideSessionFactory
-import webserviceclients.HttpHeaders
+import uk.gov.dvla.vehicles.presentation.common.webserviceclients.HttpHeaders
 import utils.helpers.Config
 
 class DisposeWebServiceImplSpec extends UnitSpec with WireMockFixture {

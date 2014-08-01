@@ -3,7 +3,7 @@ package webserviceclients.dispose_service
 import com.google.inject.Inject
 import play.api.libs.json.Json
 import play.api.libs.ws.{Response, WS}
-import webserviceclients.HttpHeaders
+import uk.gov.dvla.vehicles.presentation.common.webserviceclients.HttpHeaders
 import utils.helpers.Config
 
 import scala.concurrent.Future

@@ -4,8 +4,8 @@ import com.google.inject.name.Names
 import com.google.inject.{Guice, Injector}
 import com.tzavellas.sse.guice.ScalaModule
 import composition.{GlobalLike, TestComposition}
-import filters.AccessLoggingFilter.AccessLoggerName
-import filters.MockLogger
+import uk.gov.dvla.vehicles.presentation.common.filters.AccessLoggingFilter
+import AccessLoggingFilter.AccessLoggerName
 import helpers.UiSpec
 import helpers.webbrowser.{TestHarness, WebBrowserDSL, WebDriverFactory}
 import org.apache.http.client.methods.{HttpGet, HttpPost}

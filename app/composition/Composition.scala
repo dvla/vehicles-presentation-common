@@ -2,8 +2,9 @@ package composition
 
 import com.google.inject.Guice
 import csrfprevention.filters.CsrfPreventionFilter
-import filters.{AccessLoggingFilter, EnsureSessionCreatedFilter}
+import filters.EnsureSessionCreatedFilter
 import play.filters.gzip.GzipFilter
+import uk.gov.dvla.vehicles.presentation.common.filters.AccessLoggingFilter
 import utils.helpers.ErrorStrategy
 
 trait Composition {

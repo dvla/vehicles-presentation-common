@@ -2,7 +2,8 @@ package composition
 
 import com.google.inject.name.Names
 import com.tzavellas.sse.guice.ScalaModule
-import filters.AccessLoggingFilter.AccessLoggerName
+import uk.gov.dvla.vehicles.presentation.common.filters.AccessLoggingFilter
+import AccessLoggingFilter.AccessLoggerName
 import org.scalatest.mock.MockitoSugar
 import play.api.{LoggerLike, Logger}
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.{NoCookieFlags, CookieFlags, ClientSideSessionFactory, ClearTextClientSideSessionFactory}

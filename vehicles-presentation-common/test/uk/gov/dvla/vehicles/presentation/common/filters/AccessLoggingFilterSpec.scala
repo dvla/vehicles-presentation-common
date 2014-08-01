@@ -1,23 +1,24 @@
-package filters
+package uk.gov.dvla.vehicles.presentation.common.filters
 
 import java.util.Date
-
-import AccessLoggingFilterSpec.testDate
 import com.google.inject.Guice
 import com.google.inject.name.Names
 import com.tzavellas.sse.guice.ScalaModule
-import filters.AccessLoggingFilter.AccessLoggerName
-import helpers.UnitSpec
 import org.mockito.Mockito
 import play.api.LoggerLike
 import play.api.http.HeaderNames.CONTENT_LENGTH
-import play.api.mvc.{Cookie, SimpleResult, RequestHeader, Results, AnyContentAsEmpty}
+import play.api.mvc.{AnyContentAsEmpty, Cookie, RequestHeader, Results, SimpleResult}
 import play.api.test.{FakeHeaders, FakeRequest}
+import uk.gov.dvla.vehicles.presentation.common.UnitSpec
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClientSideSessionFactory
-import webserviceclients.HttpHeaders
+import uk.gov.dvla.vehicles.presentation.common.filters.AccessLoggingFilter.AccessLoggerName
+import uk.gov.dvla.vehicles.presentation.common.filters.AccessLoggingFilterSpec.testDate
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 import scala.language.existentials
+
+import uk.gov.dvla.vehicles.presentation.common.webserviceclients
+import webserviceclients.HttpHeaders.{XForwardedFor, XRealIp}
 
 class AccessLoggingFilterSpec extends UnitSpec {
 
@@ -44,8 +45,8 @@ class AccessLoggingFilterSpec extends UnitSpec {
 
       val filterResult: Future[SimpleResult] = filter.apply(nextFilter)(
         request
-          .withHeaders(HttpHeaders.XForwardedFor -> "127.0.0.2")
-          .withHeaders(HttpHeaders.XRealIp -> "127.0.0.4")
+          .withHeaders(XForwardedFor -> "127.0.0.2")
+          .withHeaders(XRealIp -> "127.0.0.4")
       )
 
       whenReady(filterResult) { result =>
@@ -58,7 +59,7 @@ class AccessLoggingFilterSpec extends UnitSpec {
     case SetUp(filter, request, sessionFactory, nextFilter, logger) =>
 
       val filterResult: Future[SimpleResult] =
-        filter.apply(nextFilter)(request.withHeaders(HttpHeaders.XRealIp -> "127.0.0.4"))
+        filter.apply(nextFilter)(request.withHeaders(XRealIp -> "127.0.0.4"))
 
       whenReady(filterResult) { result =>
         val loggerInfo = logger.captureLogInfo()
@@ -70,7 +71,7 @@ class AccessLoggingFilterSpec extends UnitSpec {
     case SetUp(filter, request, sessionFactory, nextFilter, logger) =>
 
       val filterResult: Future[SimpleResult] =
-        filter.apply(nextFilter)(request.withHeaders(HttpHeaders.XRealIp -> "127.0.0.4"))
+        filter.apply(nextFilter)(request.withHeaders(XRealIp -> "127.0.0.4"))
 
       whenReady(filterResult) { result =>
         val loggerInfo = logger.captureLogInfo()
@@ -133,7 +134,7 @@ class AccessLoggingFilterSpec extends UnitSpec {
     val accessLogger = new MockLogger
 
     class TestClfEntryBuilder extends ClfEntryBuilder {
-      import AccessLoggingFilterSpec.testDate
+      import uk.gov.dvla.vehicles.presentation.common.filters.AccessLoggingFilterSpec.testDate
 
       override def clfEntry(requestTimestamp: Date, request: RequestHeader, result: SimpleResult): String = {
         val extendedResult = result.withHeaders(CONTENT_LENGTH -> "12345").
@@ -142,12 +143,12 @@ class AccessLoggingFilterSpec extends UnitSpec {
       }
     }
 
-    val injector = Guice.createInjector(testModule(new ScalaModule {
+    val injector = Guice.createInjector(new ScalaModule {
       override def configure(): Unit = {
         bind[ClfEntryBuilder].toInstance(new TestClfEntryBuilder())
         bind[LoggerLike].annotatedWith(Names.named(AccessLoggerName)).toInstance(accessLogger)
       }
-    }))
+    })
 
     test(SetUp(
       filter = injector.getInstance(classOf[AccessLoggingFilter]),
