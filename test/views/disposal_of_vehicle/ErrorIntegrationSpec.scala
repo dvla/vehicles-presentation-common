@@ -1,15 +1,14 @@
 package views.disposal_of_vehicle
 
-import csrfprevention.filters
-import csrfprevention.filters.CsrfPreventionAction
 import helpers.UiSpec
 import helpers.common.ProgressBar
+import helpers.disposal_of_vehicle.CookieFactoryForUISpecs
 import helpers.tags.UiTag
 import helpers.webbrowser.TestHarness
-import pages.disposal_of_vehicle.{BeforeYouStartPage, ErrorPage}
-import org.openqa.selenium.{By, WebElement, WebDriver}
-import helpers.disposal_of_vehicle.CookieFactoryForUISpecs
+import org.openqa.selenium.{By, WebDriver, WebElement}
 import pages.disposal_of_vehicle.ErrorPage.startAgain
+import pages.disposal_of_vehicle.{BeforeYouStartPage, ErrorPage}
+import uk.gov.dvla.vehicles.presentation.common.filters.CsrfPreventionAction
 import viewmodels.AllCacheKeys
 
 final class ErrorIntegrationSpec extends UiSpec with TestHarness {
@@ -39,7 +38,7 @@ final class ErrorIntegrationSpec extends UiSpec with TestHarness {
       go to ErrorPage
       val csrf: WebElement = webDriver.findElement(By.name(CsrfPreventionAction.TokenName))
       csrf.getAttribute("type") should equal("hidden")
-      csrf.getAttribute("name") should equal(filters.CsrfPreventionAction.TokenName)
+      csrf.getAttribute("name") should equal(uk.gov.dvla.vehicles.presentation.common.filters.CsrfPreventionAction.TokenName)
       csrf.getAttribute("value").size > 0 should equal(true)
     }
   }

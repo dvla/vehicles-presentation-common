@@ -3,11 +3,11 @@
   displayExitButton: Boolean,
   surveyUrl: Option[String]
 )(implicit lang: Lang,
-  token: csrfprevention.filters.CsrfPreventionAction.CsrfPreventionToken,
+  token: uk.gov.dvla.vehicles.presentation.common.filters.CsrfPreventionAction.CsrfPreventionToken,
   config: utils.helpers.Config
 )
 
-@import csrfprevention.CsrfHelper
+@import uk.gov.dvla.vehicles.presentation.common.views.helpers.CsrfHelper
 @import mappings.disposal_of_vehicle.VehicleLookup.{BackId, ExitId, SubmitId}
 @import viewmodels.VehicleLookupFormViewModel.Form.{DocumentReferenceNumberId, VehicleRegistrationNumberId}
 @import views.html.disposal_of_vehicle.main

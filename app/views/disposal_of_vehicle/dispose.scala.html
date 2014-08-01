@@ -1,10 +1,10 @@
 @(data: models.DisposeModel,
         disposeForm: Form[viewmodels.DisposeFormViewModel],
         dateService: uk.gov.dvla.vehicles.presentation.common.services.DateService)(implicit lang: Lang,
-        token: csrfprevention.filters.CsrfPreventionAction.CsrfPreventionToken,
+        token: uk.gov.dvla.vehicles.presentation.common.filters.CsrfPreventionAction.CsrfPreventionToken,
         config: utils.helpers.Config)
 
-@import csrfprevention.CsrfHelper
+@import uk.gov.dvla.vehicles.presentation.common.views.helpers.CsrfHelper
 @import viewmodels.DisposeFormViewModel.Form.BackId
 @import viewmodels.DisposeFormViewModel.Form.ConsentId
 @import viewmodels.DisposeFormViewModel.Form.DateOfDisposalId

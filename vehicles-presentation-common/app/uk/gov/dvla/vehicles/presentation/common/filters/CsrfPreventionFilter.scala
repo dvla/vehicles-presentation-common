@@ -1,16 +1,22 @@
-package csrfprevention.filters
+package uk.gov.dvla.vehicles.presentation.common.filters
 
-import uk.gov.dvla.vehicles.presentation.common.clientsidesession.{AesEncryption, CookieImplicits, ClientSideSessionFactory}
-import CookieImplicits.RichCookies
+import com.google.inject.Inject
 import play.api.http.HeaderNames.REFERER
 import play.api.libs.Crypto
 import play.api.libs.concurrent.Execution.Implicits.defaultContext
 import play.api.libs.iteratee.{Enumerator, Iteratee, Traversable}
 import play.api.mvc.BodyParsers.parse.tolerantFormUrlEncoded
-import play.api.mvc.{EssentialAction, Headers, RequestHeader}
+import play.api.mvc.{EssentialAction, EssentialFilter, Headers, RequestHeader}
 import uk.gov.dvla.vehicles.presentation.common.ConfigProperties.getProperty
-
+import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicits.RichCookies
+import uk.gov.dvla.vehicles.presentation.common.clientsidesession.{AesEncryption, ClientSideSessionFactory}
 import scala.util.Try
+
+class CsrfPreventionFilter @Inject()
+                           (implicit clientSideSessionFactory: ClientSideSessionFactory) extends EssentialFilter {
+
+  def apply(next: EssentialAction): EssentialAction = new CsrfPreventionAction(next)
+}
 
 final case class CsrfPreventionException(nestedException: Throwable) extends Exception(nestedException: Throwable)
 
@@ -24,7 +30,7 @@ final case class CsrfPreventionException(nestedException: Throwable) extends Exc
  */
 class CsrfPreventionAction(next: EssentialAction)
                           (implicit clientSideSessionFactory: ClientSideSessionFactory) extends EssentialAction {
-  import csrfprevention.filters.CsrfPreventionAction._
+  import CsrfPreventionAction._
 
   def apply(requestHeader: RequestHeader) = {
 

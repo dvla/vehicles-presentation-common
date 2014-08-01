@@ -1,8 +1,8 @@
-package csrfprevention
+package uk.gov.dvla.vehicles.presentation.common.views.helpers
 
 import play.api.templates.{Html, HtmlFormat}
-import csrfprevention.filters.CsrfPreventionAction
 import uk.gov.dvla.vehicles.presentation.common.ConfigProperties.getProperty
+import uk.gov.dvla.vehicles.presentation.common.filters.CsrfPreventionAction
 
 object CsrfHelper {
 

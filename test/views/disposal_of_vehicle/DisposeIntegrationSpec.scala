@@ -1,13 +1,12 @@
 package views.disposal_of_vehicle
 
-import csrfprevention.filters
-import csrfprevention.filters.CsrfPreventionAction
 import helpers.common.ProgressBar
 import helpers.disposal_of_vehicle.CookieFactoryForUISpecs
 import ProgressBar.progressStep
 import helpers.tags.UiTag
 import helpers.UiSpec
 import helpers.webbrowser.{TestGlobal, TestHarness}
+import uk.gov.dvla.vehicles.presentation.common.filters.CsrfPreventionAction
 import viewmodels.DisposeFormViewModel.Form.TodaysDateOfDisposal
 import org.openqa.selenium.{By, WebDriver}
 import org.scalatest.concurrent.Eventually.{eventually, PatienceConfig, scaled}
@@ -30,7 +29,9 @@ import pages.disposal_of_vehicle.DisposeSuccessPage
 import pages.disposal_of_vehicle.SetupTradeDetailsPage
 import pages.disposal_of_vehicle.VehicleLookupPage
 import play.api.test.FakeApplication
-import webserviceclients.fakes.FakeDateServiceImpl.{DateOfDisposalDayValid, DateOfDisposalMonthValid, DateOfDisposalYearValid}
+import webserviceclients.fakes.FakeDateServiceImpl.DateOfDisposalDayValid
+import webserviceclients.fakes.FakeDateServiceImpl.DateOfDisposalMonthValid
+import webserviceclients.fakes.FakeDateServiceImpl.DateOfDisposalYearValid
 import webserviceclients.fakes.FakeDisposeWebServiceImpl.MileageInvalid
 import pages.disposal_of_vehicle.DisposePage.mileage
 
@@ -94,7 +95,7 @@ final class DisposeIntegrationSpec extends UiSpec with TestHarness {
       go to DisposePage
       val csrf = webDriver.findElement(By.name(CsrfPreventionAction.TokenName))
       csrf.getAttribute("type") should equal("hidden")
-      csrf.getAttribute("name") should equal(filters.CsrfPreventionAction.TokenName)
+      csrf.getAttribute("name") should equal(uk.gov.dvla.vehicles.presentation.common.filters.CsrfPreventionAction.TokenName)
       csrf.getAttribute("value").size > 0 should equal(true)
     }
   }

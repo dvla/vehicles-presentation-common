@@ -1,11 +1,10 @@
 package views.disposal_of_vehicle
 
-import csrfprevention.filters
-import csrfprevention.filters.CsrfPreventionAction
 import helpers.common.ProgressBar
 import helpers.disposal_of_vehicle.CookieFactoryForUISpecs
 import helpers.tags.UiTag
 import helpers.UiSpec
+import uk.gov.dvla.vehicles.presentation.common.filters.CsrfPreventionAction
 import viewmodels.EnterAddressManuallyViewModel
 import EnterAddressManuallyViewModel.EnterAddressManuallyCacheKey
 import helpers.webbrowser.TestHarness
@@ -89,7 +88,7 @@ final class BusinessChooseYourAddressIntegrationSpec extends UiSpec with TestHar
       SetupTradeDetailsPage.happyPath()
       val csrf: WebElement = webDriver.findElement(By.name(CsrfPreventionAction.TokenName))
       csrf.getAttribute("type") should equal("hidden")
-      csrf.getAttribute("name") should equal(filters.CsrfPreventionAction.TokenName)
+      csrf.getAttribute("name") should equal(uk.gov.dvla.vehicles.presentation.common.filters.CsrfPreventionAction.TokenName)
       csrf.getAttribute("value").size > 0 should equal(true)
     }
   }

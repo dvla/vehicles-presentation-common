@@ -1,9 +1,9 @@
 @(traderLookupForm: Form[viewmodels.SetupTradeDetailsViewModel])(implicit lang: Lang,
-        token: csrfprevention.filters.CsrfPreventionAction.CsrfPreventionToken,
+        token: uk.gov.dvla.vehicles.presentation.common.filters.CsrfPreventionAction.CsrfPreventionToken,
         config: utils.helpers.Config)
 
 @import controllers.routes.SetUpTradeDetails
-@import csrfprevention.CsrfHelper
+@import uk.gov.dvla.vehicles.presentation.common.views.helpers.CsrfHelper
 @import mappings.common.Postcode
 @import mappings.disposal_of_vehicle.SetupTradeDetails.SubmitId
 @import viewmodels.SetupTradeDetailsViewModel.Form.{TraderNameId, TraderPostcodeId, TraderNameMaxLength}

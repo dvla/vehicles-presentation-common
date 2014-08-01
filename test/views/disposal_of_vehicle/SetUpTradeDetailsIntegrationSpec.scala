@@ -1,7 +1,5 @@
 package views.disposal_of_vehicle
 
-import csrfprevention.filters
-import csrfprevention.filters.CsrfPreventionAction
 import helpers.UiSpec
 import helpers.common.ProgressBar.progressStep
 import helpers.tags.UiTag
@@ -10,6 +8,7 @@ import org.openqa.selenium.{By, WebElement}
 import pages.common.{Accessibility, ErrorPanel}
 import pages.disposal_of_vehicle.SetupTradeDetailsPage.happyPath
 import pages.disposal_of_vehicle.{BusinessChooseYourAddressPage, SetupTradeDetailsPage}
+import uk.gov.dvla.vehicles.presentation.common.filters.CsrfPreventionAction
 import viewmodels.SetupTradeDetailsViewModel
 
 final class SetUpTradeDetailsIntegrationSpec extends UiSpec with TestHarness {
@@ -35,7 +34,7 @@ final class SetUpTradeDetailsIntegrationSpec extends UiSpec with TestHarness {
       go to SetupTradeDetailsPage
       val csrf: WebElement = webDriver.findElement(By.name(CsrfPreventionAction.TokenName))
       csrf.getAttribute("type") should equal("hidden")
-      csrf.getAttribute("name") should equal(filters.CsrfPreventionAction.TokenName)
+      csrf.getAttribute("name") should equal(uk.gov.dvla.vehicles.presentation.common.filters.CsrfPreventionAction.TokenName)
       csrf.getAttribute("value").size > 0 should equal(true)
     }
   }

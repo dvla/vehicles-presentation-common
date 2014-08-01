@@ -2,11 +2,11 @@
         traderBusinessName: String,
         traderPostcode: String,
         dropDownOptions: Seq[(String, String)])(implicit lang: Lang,
-        token: csrfprevention.filters.CsrfPreventionAction.CsrfPreventionToken,
+        token: uk.gov.dvla.vehicles.presentation.common.filters.CsrfPreventionAction.CsrfPreventionToken,
         config: utils.helpers.Config)
 
 @import controllers.routes.BusinessChooseYourAddress
-@import csrfprevention.CsrfHelper
+@import uk.gov.dvla.vehicles.presentation.common.views.helpers.CsrfHelper
 @import viewmodels.BusinessChooseYourAddressViewModel.Form.AddressSelectId
 @import mappings.disposal_of_vehicle.BusinessChooseYourAddress.{BackId, EnterAddressManuallyButtonId, SelectId}
 @import uk.gov.dvla.vehicles.presentation.common

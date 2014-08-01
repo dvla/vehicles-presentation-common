@@ -1,8 +1,8 @@
 @(timeString: String)(implicit lang: Lang,
-        token: csrfprevention.filters.CsrfPreventionAction.CsrfPreventionToken,
+        token: uk.gov.dvla.vehicles.presentation.common.filters.CsrfPreventionAction.CsrfPreventionToken,
         config: utils.helpers.Config)
 
-@import csrfprevention.CsrfHelper
+@import uk.gov.dvla.vehicles.presentation.common.views.helpers.CsrfHelper
 @import mappings.disposal_of_vehicle.VrmLocked.{ExitDisposalId, NewDisposalId}
 @import views.html.disposal_of_vehicle.main
 @import views.html.helper.form
