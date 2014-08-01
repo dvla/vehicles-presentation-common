@@ -8,7 +8,7 @@ import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicit
 import utils.helpers.Config
 import viewmodels.SetupTradeDetailsViewModel
 import viewmodels.SetupTradeDetailsViewModel.Form.{TraderNameId, TraderPostcodeId}
-import views.helpers.FormExtensions.formBinding
+import uk.gov.dvla.vehicles.presentation.common.views.helpers.FormExtensions.formBinding
 
 final class SetUpTradeDetails @Inject()()(implicit clientSideSessionFactory: ClientSideSessionFactory,
                                           config: Config) extends Controller {

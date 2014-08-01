@@ -1,8 +1,8 @@
 package mappings.common
 
-import views.constraints.Postcode.validPostcode
+import uk.gov.dvla.vehicles.presentation.common.views.constraints.Postcode.validPostcode
 import play.api.data.Mapping
-import views.helpers.FormExtensions
+import uk.gov.dvla.vehicles.presentation.common.views.helpers.FormExtensions
 import FormExtensions.nonEmptyTextWithTransform
 
 object Postcode {

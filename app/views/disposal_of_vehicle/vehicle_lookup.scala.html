@@ -11,10 +11,11 @@
 @import mappings.common.{DocumentReferenceNumber, VehicleRegistrationNumber}
 @import mappings.disposal_of_vehicle.VehicleLookup.{BackId, ExitId, SubmitId}
 @import viewmodels.VehicleLookupFormViewModel.Form.{DocumentReferenceNumberId, VehicleRegistrationNumberId}
-@import views.helpers.BaseTemplate.fieldConstructor
 @import views.html.disposal_of_vehicle.main
-@import views.html.widgets.base.valtechInputText
 @import views.html.helper.form
+@import uk.gov.dvla.vehicles.presentation.common
+@import common.views.helpers.BaseTemplate.fieldConstructor
+@import common.views.html.widgets.base.valtechInputText
 
 @main(
     progress = Some(Messages("disposal_progress_4")),

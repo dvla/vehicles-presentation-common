@@ -20,7 +20,7 @@ import viewmodels.DisposeViewModel
 import viewmodels.TraderDetailsViewModel
 import viewmodels.VehicleDetailsViewModel
 import viewmodels.VehicleLookupFormViewModel
-import views.helpers.FormExtensions.formBinding
+import uk.gov.dvla.vehicles.presentation.common.views.helpers.FormExtensions.formBinding
 import views.html.disposal_of_vehicle.dispose
 import webserviceclients.dispose_service.{DisposalAddressDto, DisposeRequestDto, DisposeResponseDto, DisposeService}
 import scala.concurrent.ExecutionContext.Implicits.global

@@ -10,7 +10,7 @@ import viewmodels.DisposeFormViewModel.Form.{ConsentId, DateOfDisposalId, LossOf
 import org.mockito.Matchers.any
 import org.mockito.Mockito.when
 import play.api.libs.json.Json
-import views.models.DayMonthYear
+import uk.gov.dvla.vehicles.presentation.common.views.models.DayMonthYear
 import webserviceclients.dispose_service.{DisposeRequestDto, DisposeServiceImpl, DisposeWebService}
 import webserviceclients.fakes.FakeDateServiceImpl.{DateOfDisposalDayValid, DateOfDisposalMonthValid, DateOfDisposalYearValid}
 import webserviceclients.fakes.FakeDisposeWebServiceImpl.{ConsentValid, MileageValid, disposeResponseSuccess}

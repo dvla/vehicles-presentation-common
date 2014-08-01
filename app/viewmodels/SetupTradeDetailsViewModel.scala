@@ -6,7 +6,7 @@ import play.api.data.Forms._
 import play.api.data.Mapping
 import play.api.libs.json.Json
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CacheKey
-import views.helpers.FormExtensions
+import uk.gov.dvla.vehicles.presentation.common.views.helpers.FormExtensions
 import FormExtensions._
 
 // TODO the names of the params repeat names from the model so refactor

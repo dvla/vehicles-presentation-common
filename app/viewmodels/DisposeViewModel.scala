@@ -2,7 +2,7 @@ package viewmodels
 
 import play.api.libs.json.{Format, Json}
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CacheKey
-import views.models.DayMonthYear
+import uk.gov.dvla.vehicles.presentation.common.views.models.DayMonthYear
 
 final case class DisposeViewModel(referenceNumber: String,
                               registrationNumber: String,

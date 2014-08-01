@@ -1,6 +1,6 @@
 package viewmodels
 
-import views.models.AddressAndPostcodeViewModel
+import uk.gov.dvla.vehicles.presentation.common.views.models.AddressAndPostcodeViewModel
 import play.api.data.Forms.mapping
 import play.api.libs.json.Json
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CacheKey

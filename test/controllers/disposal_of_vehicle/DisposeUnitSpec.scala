@@ -1,6 +1,6 @@
 package controllers.disposal_of_vehicle
 
-import views.models.AddressLinesViewModel
+import uk.gov.dvla.vehicles.presentation.common.views.models.AddressLinesViewModel
 import uk.gov.dvla.vehicles.presentation.common.services.DateService
 import AddressLinesViewModel.Form.LineMaxLength
 import controllers.{Dispose, disposal_of_vehicle}
@@ -21,7 +21,7 @@ import utils.helpers.Config
 import viewmodels.DisposeFormViewModel.Form.{ConsentId, DateOfDisposalId, LossOfRegistrationConsentId, MileageId}
 import viewmodels.DisposeFormViewModel.{DisposeFormModelCacheKey, DisposeFormRegistrationNumberCacheKey, DisposeFormTimestampIdCacheKey, DisposeFormTransactionIdCacheKey}
 import viewmodels.DisposeViewModel.DisposeModelCacheKey
-import views.models.DayMonthYear
+import uk.gov.dvla.vehicles.presentation.common.views.models.DayMonthYear
 import webserviceclients.dispose_service.DisposalAddressDto.BuildingNameOrNumberHolder
 import webserviceclients.dispose_service._
 import webserviceclients.fakes.FakeAddressLookupService.{BuildingNameOrNumberValid, Line2Valid, Line3Valid, PostTownValid, PostcodeValid, PostcodeValidWithSpace, TraderBusinessNameValid}

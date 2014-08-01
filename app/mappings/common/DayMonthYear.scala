@@ -3,7 +3,7 @@ package mappings.common
 import constraints.common.DayMonthYear.required
 import play.api.data.Forms.{mapping, number, optional}
 import play.api.data.Mapping
-import views.models
+import uk.gov.dvla.vehicles.presentation.common.views.models
 
 object DayMonthYear {
   final val DayId = "day"
@@ -16,11 +16,11 @@ object DayMonthYear {
   final val MaxHoursInDay = 24
   final val MaxMinutesInHour = 59
 
-  val dayMonthYear: Mapping[models.DayMonthYear] = mapping(
+  val dayMonthYear: Mapping[uk.gov.dvla.vehicles.presentation.common.views.models.DayMonthYear] = mapping(
     DayId -> number(max = MaxDaysInMonth).verifying(required),
     MonthId -> number(max = MaxMonthsInYear).verifying(required),
     YearId -> number.verifying(required),
     HourId -> optional(number(min = 0, max = MaxHoursInDay)),
     MinutesId -> optional(number(min = 0, max = MaxMinutesInHour))
-  )(views.models.DayMonthYear.apply)(views.models.DayMonthYear.unapply)
+  )(models.DayMonthYear.apply)(models.DayMonthYear.unapply)
 }

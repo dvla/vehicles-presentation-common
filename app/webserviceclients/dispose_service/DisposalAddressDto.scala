@@ -1,6 +1,6 @@
 package webserviceclients.dispose_service
 
-import views.models.AddressLinesViewModel
+import uk.gov.dvla.vehicles.presentation.common.views.models.AddressLinesViewModel
 import viewmodels.AddressViewModel
 import AddressLinesViewModel.Form.LineMaxLength
 import scala.annotation.tailrec

@@ -7,7 +7,7 @@ import helpers.common.CookieHelper.fetchCookiesFromHeaders
 import helpers.disposal_of_vehicle.CookieFactoryForUnitSpecs
 import helpers.{UnitSpec, WithApplication}
 import mappings.common.Postcode.PostcodeId
-import views.models.AddressLinesViewModel
+import uk.gov.dvla.vehicles.presentation.common.views.models.AddressLinesViewModel
 import org.mockito.Mockito.when
 import pages.disposal_of_vehicle.{SetupTradeDetailsPage, VehicleLookupPage}
 import play.api.mvc.SimpleResult
@@ -19,7 +19,7 @@ import AddressLinesViewModel.Form.{AddressLinesId, BuildingNameOrNumberId, Line2
 import viewmodels.EnterAddressManuallyViewModel.AddressAndPostcodeId
 import viewmodels.TraderDetailsViewModel.TraderDetailsCacheKey
 import viewmodels.{EnterAddressManuallyViewModel, TraderDetailsViewModel}
-import views.helpers.FormExtensions
+import uk.gov.dvla.vehicles.presentation.common.views.helpers.FormExtensions
 import webserviceclients.fakes.FakeAddressLookupService.{BuildingNameOrNumberValid, Line2Valid, Line3Valid, PostTownValid, PostcodeValid}
 
 import scala.concurrent.Future

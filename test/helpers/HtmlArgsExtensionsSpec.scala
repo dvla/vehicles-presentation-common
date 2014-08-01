@@ -1,6 +1,6 @@
 package helpers
 
-import views.helpers.HtmlArgsExtensions
+import uk.gov.dvla.vehicles.presentation.common.views.helpers.HtmlArgsExtensions
 import HtmlArgsExtensions.RichHtmlArgs
 
 final class HtmlArgsExtensionsSpec extends UnitSpec {

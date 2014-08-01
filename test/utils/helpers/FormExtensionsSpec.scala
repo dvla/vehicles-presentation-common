@@ -3,7 +3,7 @@ package utils.helpers
 import play.api.data.Forms.{mapping, nonEmptyText, text}
 import play.api.data.{Form, FormError, Mapping}
 import helpers.UnitSpec
-import views.helpers.FormExtensions
+import uk.gov.dvla.vehicles.presentation.common.views.helpers.FormExtensions
 import FormExtensions.{formBinding, textWithTransform}
 
 final class FormExtensionsSpec extends UnitSpec {

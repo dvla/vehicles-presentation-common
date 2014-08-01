@@ -1,6 +1,6 @@
 package viewmodels
 
-import views.models.AddressAndPostcodeViewModel
+import uk.gov.dvla.vehicles.presentation.common.views.models.AddressAndPostcodeViewModel
 import play.api.libs.json.Json
 
 final case class AddressViewModel(uprn: Option[Long] = None, address: Seq[String])

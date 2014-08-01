@@ -1,7 +1,7 @@
 package models.domain.disposal_of_vehicle
 
 import helpers.UnitSpec
-import views.models.{AddressLinesViewModel, AddressAndPostcodeViewModel}
+import uk.gov.dvla.vehicles.presentation.common.views.models.{AddressLinesViewModel, AddressAndPostcodeViewModel}
 import play.api.libs.json.Json
 import viewmodels.AddressViewModel.JsonFormat
 import viewmodels.AddressViewModel

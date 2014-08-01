@@ -17,7 +17,7 @@ import viewmodels.BruteForcePreventionViewModel
 import viewmodels.TraderDetailsViewModel
 import viewmodels.VehicleDetailsViewModel
 import viewmodels.VehicleLookupFormViewModel
-import views.helpers.FormExtensions.formBinding
+import uk.gov.dvla.vehicles.presentation.common.views.helpers.FormExtensions.formBinding
 import webserviceclients.brute_force_prevention.BruteForcePreventionService
 import webserviceclients.vehicle_lookup.VehicleDetailsDto
 import webserviceclients.vehicle_lookup.VehicleDetailsRequestDto

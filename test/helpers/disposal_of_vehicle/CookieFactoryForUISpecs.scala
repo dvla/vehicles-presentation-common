@@ -2,7 +2,7 @@ package helpers.disposal_of_vehicle
 
 import controllers.MicroServiceError
 import MicroServiceError.MicroServiceErrorRefererCacheKey
-import views.models.{AddressAndPostcodeViewModel, AddressLinesViewModel}
+import uk.gov.dvla.vehicles.presentation.common.views.models.{AddressAndPostcodeViewModel, AddressLinesViewModel}
 import org.joda.time.DateTime
 import org.openqa.selenium.{Cookie, WebDriver}
 import play.api.Play
@@ -19,7 +19,7 @@ import viewmodels.TraderDetailsViewModel.TraderDetailsCacheKey
 import viewmodels.VehicleDetailsViewModel.VehicleLookupDetailsCacheKey
 import viewmodels.VehicleLookupFormViewModel.{VehicleLookupFormModelCacheKey, VehicleLookupResponseCodeCacheKey}
 import viewmodels._
-import views.models.DayMonthYear
+import uk.gov.dvla.vehicles.presentation.common.views.models.DayMonthYear
 import webserviceclients.fakes.FakeAddressLookupService.{BuildingNameOrNumberValid, Line2Valid, Line3Valid, PostTownValid, PostcodeValid, TraderBusinessNameValid, addressWithoutUprn}
 import webserviceclients.fakes.FakeAddressLookupWebServiceImpl.traderUprnValid
 import webserviceclients.fakes.FakeDateServiceImpl.{DateOfDisposalDayValid, DateOfDisposalMonthValid, DateOfDisposalYearValid}
