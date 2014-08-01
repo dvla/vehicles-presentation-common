@@ -1,9 +1,10 @@
 package viewmodels
 
+import uk.gov.dvla.vehicles.presentation.common.mappings.Mileage
 import uk.gov.dvla.vehicles.presentation.common.views.constraints.DayMonthYear.{after, notInFuture, validDate}
 import mappings.common.Consent.consent
 import mappings.common.DayMonthYear.dayMonthYear
-import mappings.common.Mileage.mileage
+import Mileage.mileage
 import play.api.data.Mapping
 import play.api.libs.json.Json
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CacheKey

@@ -3,8 +3,8 @@ package controllers.disposal_of_vehicle
 import controllers.{Dispose, disposal_of_vehicle}
 import helpers.UnitSpec
 import mappings.common.DayMonthYear.{DayId, MonthId, YearId}
-import mappings.common.Mileage
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClientSideSessionFactory
+import uk.gov.dvla.vehicles.presentation.common.mappings.Mileage
 import uk.gov.dvla.vehicles.presentation.common.services.DateService
 import viewmodels.DisposeFormViewModel.Form.{ConsentId, DateOfDisposalId, LossOfRegistrationConsentId, MileageId}
 import org.mockito.Matchers.any

@@ -8,6 +8,7 @@ import models.BruteForcePreventionModel
 
 import uk.gov.dvla.vehicles.presentation.common
 import common.clientsidesession.{ClientSideSessionFactory, ClearTextClientSideSessionFactory}
+import uk.gov.dvla.vehicles.presentation.common.mappings.DocumentReferenceNumber
 import webserviceclients.fakes.FakeAddressLookupService.TraderBusinessNameValid
 import webserviceclients.fakes.FakeAddressLookupService.BuildingNameOrNumberValid
 import webserviceclients.fakes.FakeAddressLookupService.Line2Valid
@@ -26,7 +27,6 @@ import CookieHelper.fetchCookiesFromHeaders
 import helpers.disposal_of_vehicle.CookieFactoryForUnitSpecs
 import helpers.JsonUtils.deserializeJsonToModel
 import helpers.{UnitSpec, WithApplication}
-import mappings.common.DocumentReferenceNumber
 import mappings.disposal_of_vehicle.Dispose.SurveyRequestTriggerDateCacheKey
 import viewmodels.VehicleLookupFormViewModel.Form.{DocumentReferenceNumberId, VehicleRegistrationNumberId}
 import services.DateServiceImpl

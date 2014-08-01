@@ -1,9 +1,9 @@
 package viewmodels
 
-import mappings.common.{DocumentReferenceNumber, VehicleRegistrationNumber}
 import play.api.data.Forms._
 import play.api.libs.json.Json
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CacheKey
+import uk.gov.dvla.vehicles.presentation.common.mappings.{VehicleRegistrationNumber, DocumentReferenceNumber}
 
 final case class VehicleLookupFormViewModel(referenceNumber: String,
                                         registrationNumber: String)
