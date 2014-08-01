@@ -1,18 +1,16 @@
-package filters
+package uk.gov.dvla.vehicles.presentation.common.filters
 
 import com.google.inject.Guice
 import com.tzavellas.sse.guice.ScalaModule
-import helpers.UnitSpec
-import play.api.mvc.{RequestHeader, Results, Cookies}
-import uk.gov.dvla.vehicles.presentation.common.clientsidesession.{InvalidSessionException, ClientSideSessionFactory}
-import scala.concurrent.{ExecutionContext, Future}
-import play.api.mvc.Cookie
-import play.api.mvc.SimpleResult
-import org.mockito.Mockito.{when, verify, never}
 import org.mockito.Matchers.any
-import play.api.test.FakeRequest
+import org.mockito.Mockito.{never, verify, when}
 import play.api.http.HeaderNames
-import ExecutionContext.Implicits.global
+import play.api.mvc.{Cookie, Cookies, RequestHeader, Results, SimpleResult}
+import play.api.test.FakeRequest
+import uk.gov.dvla.vehicles.presentation.common.UnitSpec
+import uk.gov.dvla.vehicles.presentation.common.clientsidesession.{ClientSideSessionFactory, InvalidSessionException}
+import scala.concurrent.ExecutionContext.Implicits.global
+import scala.concurrent.Future
 import scala.language.existentials
 
 class EnsureSessionCreatedFilterSpec extends UnitSpec {

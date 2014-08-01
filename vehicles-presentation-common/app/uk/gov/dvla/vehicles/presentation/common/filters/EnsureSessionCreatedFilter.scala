@@ -1,7 +1,7 @@
-package filters
+package uk.gov.dvla.vehicles.presentation.common.filters
 
 import com.google.inject.Inject
-import play.api.mvc.{Cookies, Filter, Headers, SimpleResult, RequestHeader}
+import play.api.mvc.{Cookies, Filter, Headers, RequestHeader, SimpleResult}
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClientSideSessionFactory
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
