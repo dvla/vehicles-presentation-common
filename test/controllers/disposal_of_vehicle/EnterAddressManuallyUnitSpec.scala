@@ -7,19 +7,18 @@ import helpers.common.CookieHelper.fetchCookiesFromHeaders
 import helpers.disposal_of_vehicle.CookieFactoryForUnitSpecs
 import helpers.{UnitSpec, WithApplication}
 import mappings.common.Postcode.PostcodeId
-import uk.gov.dvla.vehicles.presentation.common.views.models.AddressLinesViewModel
 import org.mockito.Mockito.when
 import pages.disposal_of_vehicle.{SetupTradeDetailsPage, VehicleLookupPage}
 import play.api.mvc.SimpleResult
 import play.api.test.FakeRequest
 import play.api.test.Helpers.{BAD_REQUEST, LOCATION, OK, contentAsString, defaultAwaitTimeout}
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClientSideSessionFactory
+import uk.gov.dvla.vehicles.presentation.common.views.helpers.FormExtensions
+import uk.gov.dvla.vehicles.presentation.common.views.models.AddressLinesViewModel.Form.{AddressLinesId, BuildingNameOrNumberId, Line2Id, Line3Id, PostTownId}
 import utils.helpers.Config
-import AddressLinesViewModel.Form.{AddressLinesId, BuildingNameOrNumberId, Line2Id, Line3Id, PostTownId}
-import viewmodels.EnterAddressManuallyViewModel.AddressAndPostcodeId
+import viewmodels.EnterAddressManuallyViewModel.Form.AddressAndPostcodeId
 import viewmodels.TraderDetailsViewModel.TraderDetailsCacheKey
 import viewmodels.{EnterAddressManuallyViewModel, TraderDetailsViewModel}
-import uk.gov.dvla.vehicles.presentation.common.views.helpers.FormExtensions
 import webserviceclients.fakes.FakeAddressLookupService.{BuildingNameOrNumberValid, Line2Valid, Line3Valid, PostTownValid, PostcodeValid}
 
 import scala.concurrent.Future

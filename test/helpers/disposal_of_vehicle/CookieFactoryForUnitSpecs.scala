@@ -6,7 +6,7 @@ import controllers.MicroServiceError.MicroServiceErrorRefererCacheKey
 import mappings.common.Help.HelpCacheKey
 import mappings.disposal_of_vehicle.Dispose.SurveyRequestTriggerDateCacheKey
 import models.BruteForcePreventionModel.BruteForcePreventionViewModelCacheKey
-import models.{AddressModel, BruteForcePreventionModel}
+import models.{VehicleDetailsModel, AddressModel, BruteForcePreventionModel}
 import org.joda.time.DateTime
 import pages.disposal_of_vehicle.{HelpPage, VehicleLookupPage}
 import play.api.libs.json.{Json, Writes}
@@ -17,10 +17,11 @@ import viewmodels.BusinessChooseYourAddressViewModel.BusinessChooseYourAddressCa
 import viewmodels.DisposeFormViewModel.{DisposeFormModelCacheKey, DisposeFormRegistrationNumberCacheKey, DisposeFormTimestampIdCacheKey, DisposeFormTransactionIdCacheKey, DisposeOccurredCacheKey, PreventGoingToDisposePageCacheKey}
 import viewmodels.EnterAddressManuallyViewModel.EnterAddressManuallyCacheKey
 import viewmodels.SetupTradeDetailsViewModel.SetupTradeDetailsCacheKey
-import viewmodels.TraderDetailsViewModel.TraderDetailsCacheKey
-import viewmodels.VehicleDetailsViewModel.VehicleLookupDetailsCacheKey
+import viewmodels.{TraderDetailsViewModel, BusinessChooseYourAddressViewModel, DisposeFormViewModel, EnterAddressManuallyViewModel, SeenCookieMessageCacheKey, SetupTradeDetailsViewModel, VehicleLookupFormViewModel}
+import TraderDetailsViewModel.TraderDetailsCacheKey
+import VehicleDetailsModel.VehicleLookupDetailsCacheKey
 import viewmodels.VehicleLookupFormViewModel.{VehicleLookupFormModelCacheKey, VehicleLookupResponseCodeCacheKey}
-import viewmodels.{BusinessChooseYourAddressViewModel, DisposeFormViewModel, EnterAddressManuallyViewModel, SeenCookieMessageCacheKey, SetupTradeDetailsViewModel, TraderDetailsViewModel, VehicleDetailsViewModel, VehicleLookupFormViewModel}
+import viewmodels.{TraderDetailsViewModel, BusinessChooseYourAddressViewModel, DisposeFormViewModel, EnterAddressManuallyViewModel, SeenCookieMessageCacheKey, SetupTradeDetailsViewModel, VehicleLookupFormViewModel}
 import webserviceclients.fakes.FakeAddressLookupService.{BuildingNameOrNumberValid, Line2Valid, Line3Valid, PostTownValid, PostcodeValid, TraderBusinessNameValid}
 import webserviceclients.fakes.FakeAddressLookupWebServiceImpl.traderUprnValid
 import webserviceclients.fakes.FakeDateServiceImpl.{DateOfDisposalDayValid, DateOfDisposalMonthValid, DateOfDisposalYearValid}
@@ -169,7 +170,7 @@ object CookieFactoryForUnitSpecs extends TestComposition { // TODO can we make t
                           vehicleModel: String = VehicleModelValid,
                           keeperName: String = KeeperNameValid): Cookie = {
     val key = VehicleLookupDetailsCacheKey
-    val value = VehicleDetailsViewModel(
+    val value = VehicleDetailsModel(
       registrationNumber = registrationNumber,
       vehicleMake = vehicleMake,
       vehicleModel = vehicleModel

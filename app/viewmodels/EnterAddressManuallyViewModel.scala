@@ -13,8 +13,10 @@ object EnterAddressManuallyViewModel {
   final val EnterAddressManuallyCacheKey = "enterAddressManually"
   implicit val Key = CacheKey[EnterAddressManuallyViewModel](EnterAddressManuallyCacheKey)
 
-  final val AddressAndPostcodeId = "addressAndPostcode"
-  final val FormMapping = mapping(
-    AddressAndPostcodeId -> AddressAndPostcodeViewModel.Form.Mapping
-  )(EnterAddressManuallyViewModel.apply)(EnterAddressManuallyViewModel.unapply)
+  object Form {
+    final val AddressAndPostcodeId = "addressAndPostcode"
+    final val Mapping = mapping(
+      AddressAndPostcodeId -> AddressAndPostcodeViewModel.Form.Mapping
+    )(EnterAddressManuallyViewModel.apply)(EnterAddressManuallyViewModel.unapply)
+  }
 }

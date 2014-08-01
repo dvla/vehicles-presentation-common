@@ -9,7 +9,7 @@ import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClientSideSess
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicits.{RichForm, RichCookies, RichSimpleResult}
 import uk.gov.dvla.vehicles.presentation.common.views.helpers.FormExtensions.formBinding
 import utils.helpers.Config
-import viewmodels.{EnterAddressManuallyViewModel, SetupTradeDetailsViewModel, TraderDetailsViewModel}
+import viewmodels.{TraderDetailsViewModel, EnterAddressManuallyViewModel, SetupTradeDetailsViewModel}
 import views.html.disposal_of_vehicle.enter_address_manually
 
 final class EnterAddressManually @Inject()()
@@ -17,7 +17,7 @@ final class EnterAddressManually @Inject()()
                                   config: Config) extends Controller {
 
   private[controllers] val form = Form(
-    EnterAddressManuallyViewModel.FormMapping
+    EnterAddressManuallyViewModel.Form.Mapping
   )
 
   def present = Action { implicit request =>

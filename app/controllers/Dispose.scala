@@ -1,7 +1,7 @@
 package controllers
 
 import com.google.inject.Inject
-import models.DisposeModel
+import models.{VehicleDetailsModel, DisposeModel}
 import org.joda.time.format.ISODateTimeFormat
 import play.api.Logger
 import play.api.data.{Form, FormError}
@@ -13,7 +13,7 @@ import uk.gov.dvla.vehicles.presentation.common.views.helpers.FormExtensions.for
 import utils.helpers.Config
 import viewmodels.DisposeFormViewModel.Form.{ConsentId, LossOfRegistrationConsentId}
 import viewmodels.DisposeFormViewModel.{DisposeFormRegistrationNumberCacheKey, DisposeFormTimestampIdCacheKey, DisposeFormTransactionIdCacheKey, PreventGoingToDisposePageCacheKey}
-import viewmodels.{DisposeFormViewModel, DisposeViewModel, TraderDetailsViewModel, VehicleDetailsViewModel, VehicleLookupFormViewModel}
+import viewmodels.{TraderDetailsViewModel, DisposeFormViewModel, VehicleLookupFormViewModel}
 import views.html.disposal_of_vehicle.dispose
 import webserviceclients.dispose_service.{DisposalAddressDto, DisposeRequestDto, DisposeResponseDto, DisposeService}
 
@@ -31,7 +31,7 @@ final class Dispose @Inject()(webService: DisposeService, dateService: DateServi
   def present = Action { implicit request =>
     (request.cookies.getModel[TraderDetailsViewModel], request.cookies.getString(PreventGoingToDisposePageCacheKey)) match {
       case (Some(traderDetails), None) =>
-        request.cookies.getModel[VehicleDetailsViewModel] match {
+        request.cookies.getModel[VehicleDetailsModel] match {
           case (Some(vehicleDetails)) =>
             val disposeViewModel = createViewModel(traderDetails, vehicleDetails)
             Ok(dispose(disposeViewModel, form.fill(), dateService))
@@ -50,7 +50,7 @@ final class Dispose @Inject()(webService: DisposeService, dateService: DateServi
     form.bindFromRequest.fold(
       invalidForm =>
         Future {
-          (request.cookies.getModel[TraderDetailsViewModel], request.cookies.getModel[VehicleDetailsViewModel]) match {
+          (request.cookies.getModel[TraderDetailsViewModel], request.cookies.getModel[VehicleDetailsModel]) match {
             case (Some(traderDetails), Some(vehicleDetails)) =>
               val disposeViewModel = createViewModel(traderDetails, vehicleDetails)
               BadRequest(dispose(disposeViewModel, formWithReplacedErrors(invalidForm), dateService))
@@ -94,7 +94,7 @@ final class Dispose @Inject()(webService: DisposeService, dateService: DateServi
   }
 
   private def createViewModel(traderDetails: TraderDetailsViewModel,
-                              vehicleDetails: VehicleDetailsViewModel): DisposeModel =
+                              vehicleDetails: VehicleDetailsModel): DisposeModel =
     DisposeModel(
       registrationNumber = vehicleDetails.registrationNumber,
       vehicleMake = vehicleDetails.vehicleMake,
@@ -112,8 +112,8 @@ final class Dispose @Inject()(webService: DisposeService, dateService: DateServi
         case _ => handleHttpStatusCode(httpResponseCode)
       }
 
-    def callMicroService(disposeModel: DisposeViewModel, traderDetails: TraderDetailsViewModel) = {
-      val disposeRequest = buildDisposeMicroServiceRequest(disposeModel, traderDetails)
+    def callMicroService(vehicleLookup: VehicleLookupFormViewModel, disposeForm: DisposeFormViewModel, traderDetails: TraderDetailsViewModel) = {
+      val disposeRequest = buildDisposeMicroServiceRequest(vehicleLookup, disposeForm, traderDetails)
       webService.invoke(disposeRequest, trackingId).map {
         case (httpResponseCode, response) =>
           Some(Redirect(nextPage(httpResponseCode, response))).
@@ -149,21 +149,22 @@ final class Dispose @Inject()(webService: DisposeService, dateService: DateServi
       nextPage.withCookie(DisposeFormTimestampIdCacheKey, isoDateTimeString)
     }
 
-    def buildDisposeMicroServiceRequest(disposeModel: DisposeViewModel,
+    def buildDisposeMicroServiceRequest(vehicleLookup: VehicleLookupFormViewModel,
+                                        disposeForm: DisposeFormViewModel,
                                         traderDetails: TraderDetailsViewModel): DisposeRequestDto = {
-      val dateTime = disposeModel.dateOfDisposal.toDateTime.get
+      val dateTime = disposeFormModel.dateOfDisposal.toDateTime.get
       val formatter = ISODateTimeFormat.dateTime()
       val isoDateTimeString = formatter.print(dateTime)
 
-      DisposeRequestDto(referenceNumber = disposeModel.referenceNumber,
-        registrationNumber = disposeModel.registrationNumber,
+      DisposeRequestDto(referenceNumber = vehicleLookup.referenceNumber,
+        registrationNumber = vehicleLookup.registrationNumber,
         traderName = traderDetails.traderName,
         traderAddress = DisposalAddressDto.from(traderDetails.traderAddress),
         dateOfDisposal = isoDateTimeString,
         transactionTimestamp = ISODateTimeFormat.dateTime().print(dateService.today.toDateTime.get),
-        prConsent = disposeModel.lossOfRegistrationConsent.toBoolean,
-        keeperConsent = disposeModel.consent.toBoolean,
-        mileage = disposeModel.mileage
+        prConsent = disposeFormModel.lossOfRegistrationConsent.toBoolean,
+        keeperConsent = disposeFormModel.consent.toBoolean,
+        mileage = disposeFormModel.mileage
       )
     }
 
@@ -189,13 +190,7 @@ final class Dispose @Inject()(webService: DisposeService, dateService: DateServi
 
     (request.cookies.getModel[TraderDetailsViewModel], request.cookies.getModel[VehicleLookupFormViewModel]) match {
       case (Some(traderDetails), Some(vehicleLookup)) =>
-        val disposeModel = DisposeViewModel(referenceNumber = vehicleLookup.referenceNumber,
-          registrationNumber = vehicleLookup.registrationNumber,
-          dateOfDisposal = disposeFormModel.dateOfDisposal,
-          consent = disposeFormModel.consent,
-          lossOfRegistrationConsent = disposeFormModel.lossOfRegistrationConsent,
-          mileage = disposeFormModel.mileage)
-        callMicroService(disposeModel, traderDetails)
+        callMicroService(vehicleLookup, disposeFormModel, traderDetails)
       case _ => Future {
         Logger.error("Could not find either dealer details or VehicleLookupFormModel in cache on Dispose submit")
         Redirect(routes.SetUpTradeDetails.present())

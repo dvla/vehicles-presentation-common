@@ -3,7 +3,7 @@ package helpers.disposal_of_vehicle
 import controllers.MicroServiceError
 import controllers.MicroServiceError.MicroServiceErrorRefererCacheKey
 import models.BruteForcePreventionModel.BruteForcePreventionViewModelCacheKey
-import models.{AddressModel, BruteForcePreventionModel}
+import models.{VehicleDetailsModel, AddressModel, BruteForcePreventionModel}
 import org.joda.time.DateTime
 import org.openqa.selenium.{Cookie, WebDriver}
 import play.api.Play
@@ -15,8 +15,9 @@ import viewmodels.BusinessChooseYourAddressViewModel.BusinessChooseYourAddressCa
 import viewmodels.DisposeFormViewModel.{DisposeFormModelCacheKey, DisposeFormRegistrationNumberCacheKey, DisposeFormTimestampIdCacheKey, DisposeFormTransactionIdCacheKey, DisposeOccurredCacheKey, PreventGoingToDisposePageCacheKey}
 import viewmodels.EnterAddressManuallyViewModel.EnterAddressManuallyCacheKey
 import viewmodels.SetupTradeDetailsViewModel.SetupTradeDetailsCacheKey
-import viewmodels.TraderDetailsViewModel.TraderDetailsCacheKey
-import viewmodels.VehicleDetailsViewModel.VehicleLookupDetailsCacheKey
+import viewmodels._
+import TraderDetailsViewModel.TraderDetailsCacheKey
+import VehicleDetailsModel.VehicleLookupDetailsCacheKey
 import viewmodels.VehicleLookupFormViewModel.{VehicleLookupFormModelCacheKey, VehicleLookupResponseCodeCacheKey}
 import viewmodels._
 import webserviceclients.fakes.FakeAddressLookupService.{BuildingNameOrNumberValid, Line2Valid, Line3Valid, PostTownValid, PostcodeValid, TraderBusinessNameValid, addressWithoutUprn}
@@ -114,7 +115,7 @@ object CookieFactoryForUISpecs {
                           keeperName: String = KeeperNameValid)
                          (implicit webDriver: WebDriver) = {
     val key = VehicleLookupDetailsCacheKey
-    val value = VehicleDetailsViewModel(registrationNumber = registrationNumber,
+    val value = VehicleDetailsModel(registrationNumber = registrationNumber,
       vehicleMake = vehicleMake,
       vehicleModel = vehicleModel)
     addCookie(key, value)

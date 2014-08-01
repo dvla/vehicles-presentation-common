@@ -2,7 +2,7 @@ package controllers
 
 import com.google.inject.Inject
 import mappings.disposal_of_vehicle.Dispose.SurveyRequestTriggerDateCacheKey
-import models.BruteForcePreventionModel
+import models.{VehicleDetailsModel, BruteForcePreventionModel}
 import play.api.Logger
 import play.api.data.{Form, FormError}
 import play.api.mvc.{Action, AnyContent, Controller, Request, SimpleResult}
@@ -13,7 +13,7 @@ import uk.gov.dvla.vehicles.presentation.common.services.DateService
 import uk.gov.dvla.vehicles.presentation.common.views.helpers.FormExtensions.formBinding
 import utils.helpers.Config
 import viewmodels.DisposeFormViewModel.{DisposeOccurredCacheKey, PreventGoingToDisposePageCacheKey}
-import viewmodels.{AllCacheKeys, TraderDetailsViewModel, VehicleDetailsViewModel, VehicleLookupFormViewModel}
+import viewmodels.{TraderDetailsViewModel, AllCacheKeys, VehicleLookupFormViewModel}
 import viewmodels.VehicleLookupFormViewModel.VehicleLookupResponseCodeCacheKey
 import webserviceclients.brute_force_prevention.BruteForcePreventionService
 import webserviceclients.vehicle_lookup.{VehicleDetailsDto, VehicleDetailsRequestDto, VehicleDetailsResponseDto, VehicleLookupService}
@@ -135,7 +135,7 @@ final class VehicleLookup @Inject()(bruteForceService: BruteForcePreventionServi
                                  (implicit request: Request[_]): Future[SimpleResult] = {
     def vehicleFoundResult(vehicleDetailsDto: VehicleDetailsDto) =
       Redirect(routes.Dispose.present()).
-        withCookie(VehicleDetailsViewModel.fromDto(vehicleDetailsDto)).
+        withCookie(VehicleDetailsModel.fromDto(vehicleDetailsDto)).
         discardingCookie(PreventGoingToDisposePageCacheKey) // US320: we have successfully called the lookup service so we cannot be coming back from a dispose success (as the doc id will have changed and the call sould fail).
 
     def vehicleNotFoundResult(responseCode: String) = {

@@ -1,14 +1,14 @@
 package controllers
 
 import com.google.inject.Inject
-import models.DisposeModel
+import models.{VehicleDetailsModel, DisposeModel}
 import play.api.Logger
 import play.api.mvc.{Action, Controller}
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClientSideSessionFactory
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicits.RichCookies
 import utils.helpers.Config
 import viewmodels.DisposeFormViewModel.DisposeFormTransactionIdCacheKey
-import viewmodels.{DisposeFormViewModel, TraderDetailsViewModel, VehicleDetailsViewModel}
+import viewmodels.{TraderDetailsViewModel, DisposeFormViewModel}
 
 final class DisposeFailure @Inject()()(implicit clientSideSessionFactory: ClientSideSessionFactory,
                                        config: Config) extends Controller {
@@ -16,7 +16,7 @@ final class DisposeFailure @Inject()()(implicit clientSideSessionFactory: Client
   def present = Action { implicit request =>
     (request.cookies.getModel[TraderDetailsViewModel],
      request.cookies.getModel[DisposeFormViewModel],
-     request.cookies.getModel[VehicleDetailsViewModel],
+     request.cookies.getModel[VehicleDetailsModel],
      request.cookies.getString(DisposeFormTransactionIdCacheKey)) match {
       case (Some(dealerDetails), Some(disposeFormModel), Some(vehicleDetails), Some(transactionId)) =>
         val disposeViewModel = createViewModel(dealerDetails, vehicleDetails, Some(transactionId))
@@ -28,7 +28,7 @@ final class DisposeFailure @Inject()()(implicit clientSideSessionFactory: Client
   }
 
   private def createViewModel(traderDetails: TraderDetailsViewModel,
-                              vehicleDetails: VehicleDetailsViewModel,
+                              vehicleDetails: VehicleDetailsModel,
                               transactionId: Option[String]): DisposeModel =
     DisposeModel(
       registrationNumber = vehicleDetails.registrationNumber,

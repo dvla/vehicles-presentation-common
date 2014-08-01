@@ -5,7 +5,7 @@ import uk.gov.dvla.vehicles.presentation.common.views.models.AddressLinesViewMod
 import AddressLinesViewModel.Form.LineMaxLength
 import helpers.UnitSpec
 import viewmodels.EnterAddressManuallyViewModel
-import EnterAddressManuallyViewModel.AddressAndPostcodeId
+import EnterAddressManuallyViewModel.Form.AddressAndPostcodeId
 import AddressLinesViewModel.Form.{AddressLinesId, BuildingNameOrNumberId, Line2Id, Line3Id, PostTownId}
 import webserviceclients.fakes.FakeAddressLookupService.{BuildingNameOrNumberValid, Line2Valid, Line3Valid, PostTownValid}
 

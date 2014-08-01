@@ -7,7 +7,7 @@ import play.api.mvc.{Action, Controller}
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClientSideSessionFactory
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicits.{RichCookies, RichSimpleResult}
 import utils.helpers.Config
-import viewmodels.{AllCacheKeys, DisposeCacheKeys, TraderDetailsViewModel}
+import viewmodels.{TraderDetailsViewModel, AllCacheKeys, DisposeCacheKeys}
 
 final class VrmLocked @Inject()()(implicit clientSideSessionFactory: ClientSideSessionFactory,
                                   config: Config) extends Controller {
