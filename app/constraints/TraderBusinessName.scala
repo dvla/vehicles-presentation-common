@@ -1,4 +1,4 @@
-package constraints.disposal_of_vehicle
+package constraints
 
 import play.api.data.validation.{Constraint, Invalid, Valid, ValidationError}
 

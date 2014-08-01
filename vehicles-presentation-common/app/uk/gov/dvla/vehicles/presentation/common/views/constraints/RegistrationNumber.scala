@@ -1,4 +1,4 @@
-package constraints.disposal_of_vehicle
+package uk.gov.dvla.vehicles.presentation.common.views.constraints
 
 import play.api.data.validation.{Constraint, Invalid, Valid, ValidationError}
 

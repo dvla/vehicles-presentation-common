@@ -1,6 +1,6 @@
-package constraints
+package uk.gov.dvla.vehicles.presentation.common.views.constraints
 
-import play.api.data.validation.{ValidationError, Invalid, Valid, Constraint}
+import play.api.data.validation.{Constraint, Invalid, Valid, ValidationError}
 
 object NumberOnly {
 

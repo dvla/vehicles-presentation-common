@@ -1,6 +1,6 @@
 package viewmodels
 
-import constraints.disposal_of_vehicle.TraderBusinessName
+import constraints.TraderBusinessName
 import mappings.common.Postcode.postcode
 import play.api.data.Forms._
 import play.api.data.Mapping
