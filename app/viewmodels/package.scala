@@ -1,6 +1,5 @@
 import controllers.MicroServiceError
 import MicroServiceError.MicroServiceErrorRefererCacheKey
-import mappings.common.Help.HelpCacheKey
 import models.{VehicleDetailsModel, BruteForcePreventionModel}
 import BruteForcePreventionModel.BruteForcePreventionViewModelCacheKey
 import viewmodels.BusinessChooseYourAddressViewModel.BusinessChooseYourAddressCacheKey
@@ -18,6 +17,7 @@ import VehicleDetailsModel.VehicleLookupDetailsCacheKey
 import viewmodels.VehicleLookupFormViewModel.{VehicleLookupFormModelCacheKey, VehicleLookupResponseCodeCacheKey}
 
 package object viewmodels {
+  final val HelpCacheKey = "help"
   final val SeenCookieMessageCacheKey = "seen_cookie_message"
 
   // TODO: what is this set of cookies for?
