@@ -4,7 +4,12 @@ import mappings.common.Help.HelpCacheKey
 import models.{VehicleDetailsModel, BruteForcePreventionModel}
 import BruteForcePreventionModel.BruteForcePreventionViewModelCacheKey
 import viewmodels.BusinessChooseYourAddressViewModel.BusinessChooseYourAddressCacheKey
-import viewmodels.DisposeFormViewModel.{DisposeFormModelCacheKey, DisposeFormRegistrationNumberCacheKey, DisposeFormTimestampIdCacheKey, DisposeFormTransactionIdCacheKey, DisposeOccurredCacheKey, PreventGoingToDisposePageCacheKey}
+import viewmodels.DisposeFormViewModel.DisposeFormModelCacheKey
+import viewmodels.DisposeFormViewModel.DisposeFormRegistrationNumberCacheKey
+import viewmodels.DisposeFormViewModel.DisposeFormTimestampIdCacheKey
+import viewmodels.DisposeFormViewModel.DisposeFormTransactionIdCacheKey
+import viewmodels.DisposeFormViewModel.DisposeOccurredCacheKey
+import viewmodels.DisposeFormViewModel.PreventGoingToDisposePageCacheKey
 import viewmodels.EnterAddressManuallyViewModel.EnterAddressManuallyCacheKey
 import viewmodels.SetupTradeDetailsViewModel.SetupTradeDetailsCacheKey
 import viewmodels.TraderDetailsViewModel
@@ -49,4 +54,3 @@ package object viewmodels {
     .++(Set(HelpCacheKey))
     .++(Set(MicroServiceErrorRefererCacheKey))
 }
-
