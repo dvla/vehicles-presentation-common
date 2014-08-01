@@ -1,16 +1,18 @@
 package helpers.disposal_of_vehicle
 
 import composition.TestComposition
-import controllers.disposal_of_vehicle.MicroServiceError.MicroServiceErrorRefererCacheKey
+import controllers.MicroServiceError
+import controllers.MicroServiceError.MicroServiceErrorRefererCacheKey
 import mappings.common.Help.HelpCacheKey
 import mappings.disposal_of_vehicle.Dispose.SurveyRequestTriggerDateCacheKey
 import models.BruteForcePreventionModel.BruteForcePreventionViewModelCacheKey
-import models.{AddressModel, BruteForcePreventionModel, DayMonthYear}
+import models.{AddressModel, BruteForcePreventionModel}
 import org.joda.time.DateTime
 import pages.disposal_of_vehicle.{HelpPage, VehicleLookupPage}
 import play.api.libs.json.{Json, Writes}
 import play.api.mvc.Cookie
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.{ClearTextClientSideSession, ClientSideSessionFactory, CookieFlags}
+import uk.gov.dvla.vehicles.presentation.common.views.models.{AddressAndPostcodeViewModel, AddressLinesViewModel, DayMonthYear}
 import viewmodels.BusinessChooseYourAddressViewModel.BusinessChooseYourAddressCacheKey
 import viewmodels.DisposeFormViewModel.{DisposeFormModelCacheKey, DisposeFormRegistrationNumberCacheKey, DisposeFormTimestampIdCacheKey, DisposeFormTransactionIdCacheKey, DisposeOccurredCacheKey, PreventGoingToDisposePageCacheKey}
 import viewmodels.EnterAddressManuallyViewModel.EnterAddressManuallyCacheKey
@@ -18,7 +20,7 @@ import viewmodels.SetupTradeDetailsViewModel.SetupTradeDetailsCacheKey
 import viewmodels.TraderDetailsViewModel.TraderDetailsCacheKey
 import viewmodels.VehicleDetailsViewModel.VehicleLookupDetailsCacheKey
 import viewmodels.VehicleLookupFormViewModel.{VehicleLookupFormModelCacheKey, VehicleLookupResponseCodeCacheKey}
-import viewmodels.{AddressAndPostcodeViewModel, AddressLinesViewModel, BusinessChooseYourAddressViewModel, DisposeFormViewModel, EnterAddressManuallyViewModel, SeenCookieMessageCacheKey, SetupTradeDetailsViewModel, TraderDetailsViewModel, VehicleDetailsViewModel, VehicleLookupFormViewModel}
+import viewmodels.{BusinessChooseYourAddressViewModel, DisposeFormViewModel, EnterAddressManuallyViewModel, SeenCookieMessageCacheKey, SetupTradeDetailsViewModel, TraderDetailsViewModel, VehicleDetailsViewModel, VehicleLookupFormViewModel}
 import webserviceclients.fakes.FakeAddressLookupService.{BuildingNameOrNumberValid, Line2Valid, Line3Valid, PostTownValid, PostcodeValid, TraderBusinessNameValid}
 import webserviceclients.fakes.FakeAddressLookupWebServiceImpl.traderUprnValid
 import webserviceclients.fakes.FakeDateServiceImpl.{DateOfDisposalDayValid, DateOfDisposalMonthValid, DateOfDisposalYearValid}

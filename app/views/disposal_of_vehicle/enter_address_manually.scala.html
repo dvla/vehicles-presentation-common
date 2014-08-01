@@ -8,7 +8,8 @@
 @import viewmodels.EnterAddressManuallyViewModel.AddressAndPostcodeId
 @import views.html.disposal_of_vehicle.main
 @import views.html.helper.form
-@import views.html.widgets.addressAndPostcode
+@import uk.gov.dvla.vehicles.presentation.common
+@import common.views.html.widgets.addressAndPostcode
 
 @main(
     progress = Some(Messages("disposal_progress_3")),
@@ -16,7 +17,7 @@
     currentForm = Some(enterAddressManuallyForm)
 ) {
     <div class="enter-address-manually uppercase-input">
-        @form(action = controllers.disposal_of_vehicle.routes.EnterAddressManually.submit()) {
+        @form(action = controllers.routes.EnterAddressManually.submit()) {
             @CsrfHelper.hiddenFormField
 
             @addressAndPostcode(enterAddressManuallyForm(AddressAndPostcodeId))
@@ -28,7 +29,7 @@
             <div class="read-only-input">@traderPostcode</div>
             <div class="form-steps">
                 <button id="@NextId" type="submit" name="action" class="button">@Messages("disposal_enteraddressmanually.submitbutton")</button>
-                <a id="@BackId" class="button-secondary" href="@controllers.disposal_of_vehicle.routes.BusinessChooseYourAddress.submit()">@Messages("disposal_enteraddressmanually.backbutton")</a>
+                <a id="@BackId" class="button-secondary" href="@controllers.routes.BusinessChooseYourAddress.submit()">@Messages("disposal_enteraddressmanually.backbutton")</a>
             </div>
         }
     </div>

@@ -1,6 +1,6 @@
 package utils.helpers
 
-import controllers.disposal_of_vehicle.routes
+import controllers.routes
 import play.api.mvc.Results.Redirect
 import play.api.mvc.{DiscardingCookie, RequestHeader, SimpleResult}
 import viewmodels.SeenCookieMessageCacheKey

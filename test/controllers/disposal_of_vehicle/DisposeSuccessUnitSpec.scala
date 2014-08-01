@@ -1,6 +1,7 @@
 package controllers.disposal_of_vehicle
 
 import com.tzavellas.sse.guice.ScalaModule
+import controllers.{SurveyUrl, DisposeSuccess}
 import controllers.disposal_of_vehicle.Common.PrototypeHtml
 import helpers.common.CookieHelper.fetchCookiesFromHeaders
 import helpers.disposal_of_vehicle.CookieFactoryForUnitSpecs

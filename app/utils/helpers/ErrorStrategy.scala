@@ -5,7 +5,7 @@ import javax.crypto.BadPaddingException
 
 import com.google.inject.Inject
 import com.google.inject.name.Named
-import controllers.disposal_of_vehicle.routes
+import controllers.routes
 import filters.AccessLoggingFilter.AccessLoggerName
 import filters.ClfEntryBuilder
 import play.api.libs.Codecs

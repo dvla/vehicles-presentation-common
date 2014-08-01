@@ -6,7 +6,8 @@ import play.api.data.Forms._
 import play.api.data.Mapping
 import play.api.libs.json.Json
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CacheKey
-import utils.helpers.FormExtensions._
+import uk.gov.dvla.vehicles.presentation.common.views.helpers.FormExtensions
+import FormExtensions._
 
 // TODO the names of the params repeat names from the model so refactor
 final case class SetupTradeDetailsViewModel(traderBusinessName: String, traderPostcode: String)

@@ -1,6 +1,7 @@
 package controllers.disposal_of_vehicle
 
 import Common.PrototypeHtml
+import controllers.BusinessChooseYourAddress
 import helpers.common.CookieHelper
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClientSideSessionFactory
 import webserviceclients.fakes.FakeAddressLookupWebServiceImpl.responseValidForPostcodeToAddress

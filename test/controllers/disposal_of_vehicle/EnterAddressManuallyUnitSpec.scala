@@ -1,11 +1,13 @@
 package controllers.disposal_of_vehicle
 
+import controllers.EnterAddressManually
 import controllers.disposal_of_vehicle.Common.PrototypeHtml
 import helpers.JsonUtils.deserializeJsonToModel
 import helpers.common.CookieHelper.fetchCookiesFromHeaders
 import helpers.disposal_of_vehicle.CookieFactoryForUnitSpecs
 import helpers.{UnitSpec, WithApplication}
 import mappings.common.Postcode.PostcodeId
+import uk.gov.dvla.vehicles.presentation.common.views.models.AddressLinesViewModel
 import org.mockito.Mockito.when
 import pages.disposal_of_vehicle.{SetupTradeDetailsPage, VehicleLookupPage}
 import play.api.mvc.SimpleResult
@@ -13,10 +15,11 @@ import play.api.test.FakeRequest
 import play.api.test.Helpers.{BAD_REQUEST, LOCATION, OK, contentAsString, defaultAwaitTimeout}
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClientSideSessionFactory
 import utils.helpers.Config
-import viewmodels.AddressLinesViewModel.Form.{AddressLinesId, BuildingNameOrNumberId, Line2Id, Line3Id, PostTownId}
+import AddressLinesViewModel.Form.{AddressLinesId, BuildingNameOrNumberId, Line2Id, Line3Id, PostTownId}
 import viewmodels.EnterAddressManuallyViewModel.AddressAndPostcodeId
 import viewmodels.TraderDetailsViewModel.TraderDetailsCacheKey
 import viewmodels.{EnterAddressManuallyViewModel, TraderDetailsViewModel}
+import uk.gov.dvla.vehicles.presentation.common.views.helpers.FormExtensions
 import webserviceclients.fakes.FakeAddressLookupService.{BuildingNameOrNumberValid, Line2Valid, Line3Valid, PostTownValid, PostcodeValid}
 
 import scala.concurrent.Future
@@ -191,7 +194,7 @@ final class EnterAddressManuallyUnitSpec extends UnitSpec {
     }
 
     "submit removes commas, but still applies the min length rule" in new WithApplication {
-      utils.helpers.FormExtensions.trimNonWhiteListedChars("""[A-Za-z0-9\-]""")(",, m...,,,,   ") should equal("m")
+      FormExtensions.trimNonWhiteListedChars("""[A-Za-z0-9\-]""")(",, m...,,,,   ") should equal("m")
       val result = enterAddressManually.submit(requestWithValidDefaults(
         buildingName = "m...,,,,   "  // This should be a min length of 4 chars
       ))

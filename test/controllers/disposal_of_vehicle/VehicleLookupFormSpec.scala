@@ -1,6 +1,6 @@
 package controllers.disposal_of_vehicle
 
-import controllers.disposal_of_vehicle
+import controllers.{SurveyUrl, VehicleLookup, disposal_of_vehicle}
 import helpers.UnitSpec
 import helpers.common.RandomVrmGenerator
 import helpers.disposal_of_vehicle.InvalidVRMFormat.allInvalidVrmFormats
@@ -134,7 +134,7 @@ final class VehicleLookupFormSpec extends UnitSpec {
     implicit val clientSideSessionFactory = injector.getInstance(classOf[ClientSideSessionFactory])
     implicit val config: Config = mock[Config]
     implicit val surveyUrl = new SurveyUrl()(clientSideSessionFactory, config, new FakeDateServiceImpl)
-    new disposal_of_vehicle.VehicleLookup(bruteForceService = bruteForceServiceImpl,
+    new VehicleLookup(bruteForceService = bruteForceServiceImpl,
       vehicleLookupService = vehicleLookupServiceImpl, surveyUrl, dateService)
   }
 

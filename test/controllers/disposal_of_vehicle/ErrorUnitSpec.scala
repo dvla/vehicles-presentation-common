@@ -32,7 +32,7 @@ final class ErrorUnitSpec extends UnitSpec {
       implicit val clientSideSessionFactory = injector.getInstance(classOf[ClientSideSessionFactory])
       implicit val config: Config = mock[Config]
       when(config.isPrototypeBannerVisible).thenReturn(false) // Stub this config value.
-      val errorPrototypeNotVisible = new Error()
+      val errorPrototypeNotVisible = new controllers.Error()
 
       val result = errorPrototypeNotVisible.present(ErrorPage.exceptionDigest)(request)
       contentAsString(result) should not include PrototypeHtml
@@ -41,7 +41,7 @@ final class ErrorUnitSpec extends UnitSpec {
 
   // TODO please add test for 'submit'.
 
-  private val errorController = injector.getInstance(classOf[Error])
+  private val errorController = injector.getInstance(classOf[controllers.Error])
 
   private lazy val present = {
     val request = FakeRequest().

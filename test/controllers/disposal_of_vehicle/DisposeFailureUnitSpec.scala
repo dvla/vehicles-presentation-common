@@ -1,5 +1,6 @@
 package controllers.disposal_of_vehicle
 
+import controllers.DisposeFailure
 import controllers.disposal_of_vehicle.Common.PrototypeHtml
 import helpers.{UnitSpec, WithApplication}
 import helpers.disposal_of_vehicle.CookieFactoryForUnitSpecs

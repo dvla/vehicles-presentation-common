@@ -1,7 +1,8 @@
 package models.domain.common
 
 import helpers.UnitSpec
-import viewmodels.{AddressAndPostcodeViewModel, AddressLinesViewModel}
+import uk.gov.dvla.vehicles.presentation.common.views.models.{AddressAndPostcodeViewModel, AddressLinesViewModel}
+import uk.gov.dvla.vehicles.presentation.common.views.models.AddressAndPostcodeViewModel
 
 final class AddressAndPostcodeSpec extends UnitSpec {
   "Address - model" should {

@@ -5,7 +5,7 @@ import javax.inject.Inject
 import models.BruteForcePreventionModel
 import play.api.Logger
 import play.api.libs.json.Json
-import services.DateService
+import uk.gov.dvla.vehicles.presentation.common.services.DateService
 import utils.helpers.Config
 import webserviceclients.brute_force_prevention.BruteForcePreventionResponseDto.JsonFormat
 

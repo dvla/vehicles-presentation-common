@@ -1,6 +1,6 @@
 @(data: models.DisposeModel,
         disposeForm: Form[viewmodels.DisposeFormViewModel],
-        dateService: services.DateService)(implicit lang: Lang,
+        dateService: uk.gov.dvla.vehicles.presentation.common.services.DateService)(implicit lang: Lang,
         token: csrfprevention.filters.CsrfPreventionAction.CsrfPreventionToken,
         config: utils.helpers.Config)
 
@@ -14,11 +14,12 @@
 @import viewmodels.DisposeFormViewModel.Form.MileageId
 @import viewmodels.DisposeFormViewModel.Form.SubmitId
 @import viewmodels.DisposeFormViewModel.Form.TodaysDateOfDisposal
-@import utils.helpers.BaseTemplate.fieldConstructor
 @import views.html.disposal_of_vehicle.main
-@import views.html.widgets.base.valtechDeclareCheck
-@import views.html.widgets.base.valtechInputText
-@import views.html.widgets.dates.inputDayMonthYear
+@import uk.gov.dvla.vehicles.presentation.common
+@import common.views.helpers.BaseTemplate.fieldConstructor
+@import common.views.html.widgets.base.valtechDeclareCheck
+@import common.views.html.widgets.base.valtechInputText
+@import common.views.html.widgets.dates.inputDayMonthYear
 @import views.html.helper.form
 
 @main(
@@ -26,7 +27,7 @@
     title = Messages("disposal_dispose.title"),
     currentForm = Some(disposeForm)
 ) {
-    @form(action = controllers.disposal_of_vehicle.routes.Dispose.submit()) {
+    @form(action = controllers.routes.Dispose.submit()) {
         @CsrfHelper.hiddenFormField
 
         <script src="@routes.Assets.at("javascripts/numeric-input-only.js")" type="text/javascript"></script>
@@ -85,7 +86,7 @@
                 }
                 <div class="form-steps">
                     <button id="@SubmitId" type="submit" name="action" class="button">@Messages("disposal_dispose.submitbutton")</button>
-                    <a id="@BackId" href="@controllers.disposal_of_vehicle.routes.VehicleLookup.present()" class="button-secondary">@Messages("disposal_dispose.backbutton")</a>
+                    <a id="@BackId" href="@controllers.routes.VehicleLookup.present()" class="button-secondary">@Messages("disposal_dispose.backbutton")</a>
 
                     <div class="two-col-spacer">
                     </div>

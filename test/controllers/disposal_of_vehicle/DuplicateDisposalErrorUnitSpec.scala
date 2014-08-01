@@ -1,6 +1,7 @@
 package controllers.disposal_of_vehicle
 
 import Common.PrototypeHtml
+import controllers.DuplicateDisposalError
 import helpers.{UnitSpec, WithApplication}
 import org.mockito.Mockito.when
 import play.api.test.FakeRequest

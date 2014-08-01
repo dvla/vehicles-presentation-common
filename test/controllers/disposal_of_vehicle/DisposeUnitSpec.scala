@@ -1,13 +1,14 @@
 package controllers.disposal_of_vehicle
 
-import viewmodels.AddressLinesViewModel.Form.LineMaxLength
-import controllers.disposal_of_vehicle
+import uk.gov.dvla.vehicles.presentation.common.views.models.AddressLinesViewModel
+import uk.gov.dvla.vehicles.presentation.common.services.DateService
+import AddressLinesViewModel.Form.LineMaxLength
+import controllers.{Dispose, disposal_of_vehicle}
 import controllers.disposal_of_vehicle.Common.PrototypeHtml
 import helpers.common.CookieHelper.fetchCookiesFromHeaders
 import helpers.disposal_of_vehicle.CookieFactoryForUnitSpecs
 import helpers.disposal_of_vehicle.CookieFactoryForUnitSpecs.TrackingIdValue
 import helpers.{UnitSpec, WithApplication}
-import models.DayMonthYear
 import org.mockito.ArgumentCaptor
 import org.mockito.Matchers.any
 import org.mockito.Mockito.{times, verify, when}
@@ -15,11 +16,11 @@ import pages.disposal_of_vehicle.{DisposeFailurePage, DisposeSuccessPage, Duplic
 import play.api.libs.json.Json
 import play.api.test.FakeRequest
 import play.api.test.Helpers.{BAD_REQUEST, INTERNAL_SERVER_ERROR, LOCATION, OK, SERVICE_UNAVAILABLE, contentAsString, defaultAwaitTimeout}
-import services.DateService
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClientSideSessionFactory
 import utils.helpers.Config
 import viewmodels.DisposeFormViewModel.Form.{ConsentId, DateOfDisposalId, LossOfRegistrationConsentId, MileageId}
 import viewmodels.DisposeFormViewModel.{DisposeFormModelCacheKey, DisposeFormRegistrationNumberCacheKey, DisposeFormTimestampIdCacheKey, DisposeFormTransactionIdCacheKey}
+import uk.gov.dvla.vehicles.presentation.common.views.models.DayMonthYear
 import webserviceclients.dispose_service.DisposalAddressDto.BuildingNameOrNumberHolder
 import webserviceclients.dispose_service._
 import webserviceclients.fakes.FakeAddressLookupService.{BuildingNameOrNumberValid, Line2Valid, Line3Valid, PostTownValid, PostcodeValid, PostcodeValidWithSpace, TraderBusinessNameValid}
@@ -185,7 +186,7 @@ final class DisposeUnitSpec extends UnitSpec {
       when(mockWebServiceThrows.invoke(any[DisposeRequestDto], any[String])).thenReturn(Future.failed(new RuntimeException))
       implicit val clientSideSessionFactory = injector.getInstance(classOf[ClientSideSessionFactory])
       implicit val config: Config = mock[Config]
-      val dispose = new disposal_of_vehicle.Dispose(mockWebServiceThrows, dateServiceStubbed())
+      val dispose = new Dispose(mockWebServiceThrows, dateServiceStubbed())
       val result = dispose.submit(request)
       whenReady(result) { r =>
         r.header.headers.get(LOCATION) should equal(Some(MicroServiceErrorPage.address))
@@ -309,7 +310,7 @@ final class DisposeUnitSpec extends UnitSpec {
       })
       implicit val clientSideSessionFactory = injector.getInstance(classOf[ClientSideSessionFactory])
       implicit val config: Config = mock[Config]
-      val dispose = new disposal_of_vehicle.Dispose(mockDisposeService, dateServiceStubbed())
+      val dispose = new Dispose(mockDisposeService, dateServiceStubbed())
       val result = dispose.submit(request)
       whenReady(result) { r =>
         val trackingIdCaptor = ArgumentCaptor.forClass(classOf[String])
@@ -558,7 +559,7 @@ final class DisposeUnitSpec extends UnitSpec {
                                  month: Int = DateOfDisposalMonthValid.toInt,
                                  year: Int = DateOfDisposalYearValid.toInt) = {
     val dateService = mock[DateService]
-    when(dateService.today).thenReturn(new models.DayMonthYear(day = day,
+    when(dateService.today).thenReturn(new DayMonthYear(day = day,
       month = month,
       year = year))
     dateService
@@ -609,7 +610,7 @@ final class DisposeUnitSpec extends UnitSpec {
   private def disposeController(disposeWebService: DisposeWebService, disposeService: DisposeService)(implicit config: Config = config): Dispose = {
     implicit val clientSideSessionFactory = injector.getInstance(classOf[ClientSideSessionFactory])
 
-    new disposal_of_vehicle.Dispose(disposeService, dateServiceStubbed())
+    new Dispose(disposeService, dateServiceStubbed())
   }
 
 

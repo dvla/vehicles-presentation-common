@@ -1,6 +1,6 @@
 package viewmodels
 
-import models.DayMonthYear
+import uk.gov.dvla.vehicles.presentation.common.views.models.DayMonthYear
 
 final case class DisposeViewModel(referenceNumber: String,
                               registrationNumber: String,

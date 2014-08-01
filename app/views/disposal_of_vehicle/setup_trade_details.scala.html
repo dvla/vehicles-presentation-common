@@ -2,15 +2,16 @@
         token: csrfprevention.filters.CsrfPreventionAction.CsrfPreventionToken,
         config: utils.helpers.Config)
 
-@import controllers.disposal_of_vehicle.routes.SetUpTradeDetails
+@import controllers.routes.SetUpTradeDetails
 @import csrfprevention.CsrfHelper
 @import mappings.common.Postcode
 @import mappings.disposal_of_vehicle.SetupTradeDetails.SubmitId
 @import viewmodels.SetupTradeDetailsViewModel.Form.{TraderNameId, TraderPostcodeId, TraderNameMaxLength}
-@import utils.helpers.BaseTemplate.fieldConstructor
 @import views.html.disposal_of_vehicle.main
-@import views.html.widgets.base.valtechInputText
 @import views.html.helper.form
+@import uk.gov.dvla.vehicles.presentation.common
+@import common.views.helpers.BaseTemplate.fieldConstructor
+@import common.views.html.widgets.base.valtechInputText
 
 @main(
     progress = Some(Messages("disposal_progress_2")),

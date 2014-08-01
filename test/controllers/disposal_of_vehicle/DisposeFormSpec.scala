@@ -1,20 +1,20 @@
 package controllers.disposal_of_vehicle
 
-import controllers.disposal_of_vehicle
+import controllers.{Dispose, disposal_of_vehicle}
 import helpers.UnitSpec
 import mappings.common.DayMonthYear.{DayId, MonthId, YearId}
 import mappings.common.Mileage
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClientSideSessionFactory
+import uk.gov.dvla.vehicles.presentation.common.services.DateService
 import viewmodels.DisposeFormViewModel.Form.{ConsentId, DateOfDisposalId, LossOfRegistrationConsentId, MileageId}
-import models.DayMonthYear
 import org.mockito.Matchers.any
 import org.mockito.Mockito.when
 import play.api.libs.json.Json
+import uk.gov.dvla.vehicles.presentation.common.views.models.DayMonthYear
 import webserviceclients.dispose_service.{DisposeRequestDto, DisposeServiceImpl, DisposeWebService}
 import webserviceclients.fakes.FakeDateServiceImpl.{DateOfDisposalDayValid, DateOfDisposalMonthValid, DateOfDisposalYearValid}
 import webserviceclients.fakes.FakeDisposeWebServiceImpl.{ConsentValid, MileageValid, disposeResponseSuccess}
 import webserviceclients.fakes.FakeResponse
-import services.DateService
 import utils.helpers.Config
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
@@ -142,7 +142,7 @@ final class DisposeFormSpec extends UnitSpec {
   private def dateServiceStub(dayToday: Int = DateOfDisposalDayValid.toInt,
                               monthToday: Int = DateOfDisposalMonthValid.toInt,
                               yearToday: Int = DateOfDisposalYearValid.toInt) = {
-    val dayMonthYearStub = new models.DayMonthYear(day = dayToday,
+    val dayMonthYearStub = new DayMonthYear(day = dayToday,
       month = monthToday,
       year = yearToday)
     val dateService = mock[DateService]
@@ -160,7 +160,7 @@ final class DisposeFormSpec extends UnitSpec {
     val disposeServiceImpl = new DisposeServiceImpl(new Config(), ws)
     implicit val clientSideSessionFactory = injector.getInstance(classOf[ClientSideSessionFactory])
     implicit val config: Config = mock[Config]
-    new disposal_of_vehicle.Dispose(disposeServiceImpl, dateService)
+    new Dispose(disposeServiceImpl, dateService)
   }
 
   private def formWithValidDefaults(mileage: String = MileageValid,

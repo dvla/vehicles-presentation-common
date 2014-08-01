@@ -23,8 +23,8 @@
         @{
             /* Note the reverse routing syntax for the hyperlink */
         }
-        <a class="button" id="@VehicleLookupId" href="@controllers.disposal_of_vehicle.routes.VehicleLookup.present()">@Messages("disposal_disposefailure.button")</a>
-        <a class="button" id="@SetupTradeDetailsId" href="@controllers.disposal_of_vehicle.routes.SetUpTradeDetails.present()">@Messages("disposal_disposefailure.button2")</a>
+        <a class="button" id="@VehicleLookupId" href="@controllers.routes.VehicleLookup.present()">@Messages("disposal_disposefailure.button")</a>
+        <a class="button" id="@SetupTradeDetailsId" href="@controllers.routes.SetUpTradeDetails.present()">@Messages("disposal_disposefailure.button2")</a>
         <button id="printDisposalSuccess" type="button" name="action" value="printDisposalSuccess" class="button js-only print-button" autofocus="true">@Messages("global.buttonnavprint")</button>
     </div>
 }

@@ -1,7 +1,7 @@
 package models
 
 import play.api.libs.json.Json
-import viewmodels.AddressAndPostcodeViewModel
+import uk.gov.dvla.vehicles.presentation.common.views.models.AddressAndPostcodeViewModel
 
 /**
  * UPRN is optional because if user is manually entering the address they will not be allowed to enter a UPRN, it is

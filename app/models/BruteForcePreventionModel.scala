@@ -1,9 +1,9 @@
 package models
 
 import play.api.libs.json.Json
-import services.DateService
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CacheKey
 import webserviceclients.brute_force_prevention.BruteForcePreventionResponseDto
+import uk.gov.dvla.vehicles.presentation.common.services.DateService
 
 final case class BruteForcePreventionModel(permitted: Boolean,
                                                attempts: Int,

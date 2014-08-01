@@ -1,4 +1,5 @@
-import controllers.disposal_of_vehicle.MicroServiceError.MicroServiceErrorRefererCacheKey
+import controllers.MicroServiceError
+import MicroServiceError.MicroServiceErrorRefererCacheKey
 import mappings.common.Help.HelpCacheKey
 import models.BruteForcePreventionModel
 import BruteForcePreventionModel.BruteForcePreventionViewModelCacheKey

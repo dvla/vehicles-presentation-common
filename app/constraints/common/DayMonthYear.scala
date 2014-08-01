@@ -1,11 +1,11 @@
 package constraints.common
 
-import widgets.constraints.Required
+import uk.gov.dvla.vehicles.presentation.common.services.DateService
+import uk.gov.dvla.vehicles.presentation.common.views.constraints.Required
 import Required.RequiredField
-import models.{DayMonthYear => ModelsDMY}
 import org.joda.time.DateTime
 import play.api.data.validation.{Constraint, Invalid, Valid, ValidationError}
-import services.DateService
+import uk.gov.dvla.vehicles.presentation.common.views.models.{DayMonthYear => ModelsDMY}
 import scala.util.Try
 
 object DayMonthYear {
