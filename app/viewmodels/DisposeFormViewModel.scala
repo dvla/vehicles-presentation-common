@@ -25,6 +25,7 @@ object DisposeFormViewModel {
   final val DisposeFormTransactionIdCacheKey = "disposeFormTransactionId"
   final val DisposeFormTimestampIdCacheKey = "disposeFormTimestampId"
   final val DisposeFormRegistrationNumberCacheKey = "disposeFormRegistrationNumber"
+  final val SurveyRequestTriggerDateCacheKey = "surveyRequestTriggerDate"
 
   object Form {
     final val MileageId = "mileage"

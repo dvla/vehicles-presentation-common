@@ -1,7 +1,6 @@
 package controllers
 
 import com.google.inject.Inject
-import mappings.disposal_of_vehicle.Dispose.SurveyRequestTriggerDateCacheKey
 import models.{VehicleDetailsModel, DisposeModel}
 import org.joda.time.format.DateTimeFormat
 import play.api.mvc.{Action, Controller, Request}
@@ -9,7 +8,12 @@ import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClientSideSess
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicits.{RichCookies, RichSimpleResult}
 import uk.gov.dvla.vehicles.presentation.common.services.DateService
 import utils.helpers.Config
-import viewmodels.DisposeFormViewModel.{DisposeFormRegistrationNumberCacheKey, DisposeFormTimestampIdCacheKey, DisposeFormTransactionIdCacheKey, DisposeOccurredCacheKey, PreventGoingToDisposePageCacheKey}
+import viewmodels.DisposeFormViewModel.DisposeFormRegistrationNumberCacheKey
+import viewmodels.DisposeFormViewModel.DisposeFormTimestampIdCacheKey
+import viewmodels.DisposeFormViewModel.DisposeFormTransactionIdCacheKey
+import viewmodels.DisposeFormViewModel.DisposeOccurredCacheKey
+import viewmodels.DisposeFormViewModel.PreventGoingToDisposePageCacheKey
+import viewmodels.DisposeFormViewModel.SurveyRequestTriggerDateCacheKey
 import viewmodels.{TraderDetailsViewModel, AllCacheKeys, DisposeCacheKeys, DisposeFormViewModel, DisposeOnlyCacheKeys}
 
 final class DisposeSuccess @Inject()(implicit clientSideSessionFactory: ClientSideSessionFactory,

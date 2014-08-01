@@ -1,7 +1,6 @@
 package controllers
 
 import com.google.inject.Inject
-import mappings.disposal_of_vehicle.Dispose.SurveyRequestTriggerDateCacheKey
 import models.{VehicleDetailsModel, BruteForcePreventionModel}
 import play.api.Logger
 import play.api.data.{Form, FormError}
@@ -12,7 +11,7 @@ import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicit
 import uk.gov.dvla.vehicles.presentation.common.services.DateService
 import uk.gov.dvla.vehicles.presentation.common.views.helpers.FormExtensions.formBinding
 import utils.helpers.Config
-import viewmodels.DisposeFormViewModel.{DisposeOccurredCacheKey, PreventGoingToDisposePageCacheKey}
+import viewmodels.DisposeFormViewModel.{DisposeOccurredCacheKey, PreventGoingToDisposePageCacheKey, SurveyRequestTriggerDateCacheKey}
 import viewmodels.{TraderDetailsViewModel, AllCacheKeys, VehicleLookupFormViewModel}
 import viewmodels.VehicleLookupFormViewModel.VehicleLookupResponseCodeCacheKey
 import webserviceclients.brute_force_prevention.BruteForcePreventionService

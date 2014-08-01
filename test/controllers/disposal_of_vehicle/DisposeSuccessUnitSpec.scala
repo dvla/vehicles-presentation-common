@@ -6,7 +6,6 @@ import controllers.disposal_of_vehicle.Common.PrototypeHtml
 import helpers.common.CookieHelper.fetchCookiesFromHeaders
 import helpers.disposal_of_vehicle.CookieFactoryForUnitSpecs
 import helpers.{UnitSpec, WithApplication}
-import mappings.disposal_of_vehicle.Dispose.SurveyRequestTriggerDateCacheKey
 import org.joda.time.Instant
 import org.mockito.Mockito.when
 import pages.disposal_of_vehicle.{BeforeYouStartPage, SetupTradeDetailsPage, VehicleLookupPage}
@@ -15,7 +14,7 @@ import play.api.test.Helpers.{LOCATION, OK, contentAsString, defaultAwaitTimeout
 import services.DateServiceImpl
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClientSideSessionFactory
 import utils.helpers.Config
-import viewmodels.DisposeFormViewModel.PreventGoingToDisposePageCacheKey
+import viewmodels.DisposeFormViewModel.{PreventGoingToDisposePageCacheKey, SurveyRequestTriggerDateCacheKey}
 
 import scala.concurrent.duration.DurationInt
 

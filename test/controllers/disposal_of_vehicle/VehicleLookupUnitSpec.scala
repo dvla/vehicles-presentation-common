@@ -2,7 +2,7 @@ package controllers.disposal_of_vehicle
 
 import com.tzavellas.sse.guice.ScalaModule
 import controllers.disposal_of_vehicle.Common.PrototypeHtml
-import controllers.{SurveyUrl, VehicleLookup, disposal_of_vehicle}
+import controllers.{SurveyUrl, VehicleLookup}
 import helpers.common.CookieHelper
 import models.BruteForcePreventionModel
 
@@ -27,10 +27,10 @@ import CookieHelper.fetchCookiesFromHeaders
 import helpers.disposal_of_vehicle.CookieFactoryForUnitSpecs
 import helpers.JsonUtils.deserializeJsonToModel
 import helpers.{UnitSpec, WithApplication}
-import mappings.disposal_of_vehicle.Dispose.SurveyRequestTriggerDateCacheKey
 import viewmodels.VehicleLookupFormViewModel.Form.{DocumentReferenceNumberId, VehicleRegistrationNumberId}
 import services.DateServiceImpl
 import BruteForcePreventionModel.BruteForcePreventionViewModelCacheKey
+import viewmodels.DisposeFormViewModel.SurveyRequestTriggerDateCacheKey
 import viewmodels.VehicleLookupFormViewModel.VehicleLookupFormModelCacheKey
 import viewmodels.VehicleLookupFormViewModel.VehicleLookupResponseCodeCacheKey
 import viewmodels.VehicleLookupFormViewModel
