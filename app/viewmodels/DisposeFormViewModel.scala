@@ -1,6 +1,6 @@
 package viewmodels
 
-import constraints.common.DayMonthYear.{after, notInFuture, validDate}
+import uk.gov.dvla.vehicles.presentation.common.views.constraints.DayMonthYear.{after, notInFuture, validDate}
 import mappings.common.Consent.consent
 import mappings.common.DayMonthYear.dayMonthYear
 import mappings.common.Mileage.mileage
