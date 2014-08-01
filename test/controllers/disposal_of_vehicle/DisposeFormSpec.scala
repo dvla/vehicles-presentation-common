@@ -1,24 +1,25 @@
 package controllers.disposal_of_vehicle
 
-import controllers.{Dispose, disposal_of_vehicle}
+import controllers.Dispose
 import helpers.UnitSpec
-import mappings.common.DayMonthYear.{DayId, MonthId, YearId}
-import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClientSideSessionFactory
-import uk.gov.dvla.vehicles.presentation.common.mappings.Mileage
-import uk.gov.dvla.vehicles.presentation.common.services.DateService
-import viewmodels.DisposeFormViewModel.Form.{ConsentId, DateOfDisposalId, LossOfRegistrationConsentId, MileageId}
 import org.mockito.Matchers.any
 import org.mockito.Mockito.when
 import play.api.libs.json.Json
-import uk.gov.dvla.vehicles.presentation.common.views.models.DayMonthYear
+import scala.concurrent.ExecutionContext.Implicits.global
+import scala.concurrent.Future
 import webserviceclients.dispose_service.{DisposeRequestDto, DisposeServiceImpl, DisposeWebService}
 import webserviceclients.fakes.FakeDateServiceImpl.{DateOfDisposalDayValid, DateOfDisposalMonthValid, DateOfDisposalYearValid}
 import webserviceclients.fakes.FakeDisposeWebServiceImpl.{ConsentValid, MileageValid, disposeResponseSuccess}
 import webserviceclients.fakes.FakeResponse
 import utils.helpers.Config
-import scala.concurrent.ExecutionContext.Implicits.global
-import scala.concurrent.Future
- 
+import uk.gov.dvla.vehicles.presentation.common
+import common.clientsidesession.ClientSideSessionFactory
+import common.mappings.DayMonthYear.{DayId, MonthId, YearId}
+import common.mappings.Mileage
+import common.services.DateService
+import common.views.models.DayMonthYear
+import viewmodels.DisposeFormViewModel.Form.{ConsentId, DateOfDisposalId, LossOfRegistrationConsentId, MileageId}
+
 final class DisposeFormSpec extends UnitSpec {
   "form" should {
     "accept when all fields contain valid responses" in {

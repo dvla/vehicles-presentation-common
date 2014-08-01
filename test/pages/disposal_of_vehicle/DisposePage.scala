@@ -1,7 +1,8 @@
 package pages.disposal_of_vehicle
 
 import helpers.webbrowser.{Checkbox, Element, Page, SingleSel, TelField, WebBrowserDSL, WebDriverFactory}
-import mappings.common.DayMonthYear.{DayId, MonthId, YearId}
+import uk.gov.dvla.vehicles.presentation.common.mappings.DayMonthYear
+import DayMonthYear.{DayId, MonthId, YearId}
 import org.openqa.selenium.WebDriver
 import viewmodels.DisposeFormViewModel.Form.{BackId, ConsentId, DateOfDisposalId, LossOfRegistrationConsentId, MileageId, SubmitId, TodaysDateOfDisposal}
 import webserviceclients.fakes.FakeDateServiceImpl.{DateOfDisposalDayValid, DateOfDisposalMonthValid, DateOfDisposalYearValid}

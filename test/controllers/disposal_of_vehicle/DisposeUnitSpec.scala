@@ -1,5 +1,6 @@
 package controllers.disposal_of_vehicle
 
+import uk.gov.dvla.vehicles.presentation.common.mappings
 import uk.gov.dvla.vehicles.presentation.common.views.models.AddressLinesViewModel
 import uk.gov.dvla.vehicles.presentation.common.services.DateService
 import AddressLinesViewModel.Form.LineMaxLength
@@ -566,7 +567,7 @@ final class DisposeUnitSpec extends UnitSpec {
   }
 
   private val buildCorrectlyPopulatedRequest = {
-    import mappings.common.DayMonthYear._
+    import mappings.DayMonthYear._
     FakeRequest().withFormUrlEncodedBody(
       MileageId -> MileageValid,
       s"$DateOfDisposalId.$DayId" -> DateOfDisposalDayValid,

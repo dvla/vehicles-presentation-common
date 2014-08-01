@@ -1,15 +1,15 @@
 package viewmodels
 
-import uk.gov.dvla.vehicles.presentation.common.mappings.Mileage
-import uk.gov.dvla.vehicles.presentation.common.views.constraints.DayMonthYear.{after, notInFuture, validDate}
 import mappings.common.Consent.consent
-import mappings.common.DayMonthYear.dayMonthYear
-import Mileage.mileage
 import play.api.data.Mapping
 import play.api.libs.json.Json
-import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CacheKey
-import uk.gov.dvla.vehicles.presentation.common.services.DateService
-import uk.gov.dvla.vehicles.presentation.common.views.models.DayMonthYear
+import uk.gov.dvla.vehicles.presentation.common
+import common.mappings.DayMonthYear.dayMonthYear
+import common.mappings.Mileage.mileage
+import common.views.constraints.DayMonthYear.{after, notInFuture, validDate}
+import common.clientsidesession.CacheKey
+import common.services.DateService
+import common.views.models.DayMonthYear
 
 final case class DisposeFormViewModel(mileage: Option[Int],
                                   dateOfDisposal: DayMonthYear,

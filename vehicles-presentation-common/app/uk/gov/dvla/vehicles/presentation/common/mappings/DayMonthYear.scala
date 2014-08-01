@@ -1,10 +1,10 @@
-package mappings.common
+package uk.gov.dvla.vehicles.presentation.common.mappings
 
-import uk.gov.dvla.vehicles.presentation.common.views.constraints
-import constraints.DayMonthYear.required
 import play.api.data.Forms.{mapping, number, optional}
 import play.api.data.Mapping
-import uk.gov.dvla.vehicles.presentation.common.views.models
+import uk.gov.dvla.vehicles.presentation.common.views
+import views.constraints.DayMonthYear.required
+import views.models
 
 object DayMonthYear {
   final val DayId = "day"
