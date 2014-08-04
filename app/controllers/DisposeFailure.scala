@@ -1,11 +1,12 @@
 package controllers
 
 import com.google.inject.Inject
-import models.{TraderDetailsModel, VehicleDetailsModel, DisposeModel}
+import models.{TraderDetailsModel, DisposeModel}
 import play.api.Logger
 import play.api.mvc.{Action, Controller}
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClientSideSessionFactory
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicits.RichCookies
+import uk.gov.dvla.vehicles.presentation.common.model.VehicleDetailsModel
 import utils.helpers.Config
 import viewmodels.DisposeFormViewModel.DisposeFormTransactionIdCacheKey
 import viewmodels.DisposeFormViewModel

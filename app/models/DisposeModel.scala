@@ -1,5 +1,7 @@
 package models
 
+import uk.gov.dvla.vehicles.presentation.common.model.AddressModel
+
 final case class DisposeModel(vehicleMake: String,
                                   vehicleModel: String,
                                   dealerName: String,

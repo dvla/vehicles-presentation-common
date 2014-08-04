@@ -3,6 +3,8 @@ package webserviceclients.brute_force_prevention
 import org.mockito.Mockito.when
 import play.api.libs.ws.Response
 import helpers.UnitSpec
+import uk.gov.dvla.vehicles.presentation.common.webserviceclients.bruteforceprevention.{BruteForcePreventionWebService, BruteForcePreventionServiceImpl, BruteForcePreventionService}
+import uk.gov.dvla.vehicles.presentation.common.webserviceclients.config.BruteForcePreventionConfig
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 import scala.util.Try
@@ -12,7 +14,6 @@ import webserviceclients.fakes.brute_force_protection.FakeBruteForcePreventionWe
 import webserviceclients.fakes.brute_force_protection.FakeBruteForcePreventionWebServiceImpl.VrmThrows
 import webserviceclients.fakes.FakeVehicleLookupWebService.RegistrationNumberValid
 import webserviceclients.fakes.{FakeDateServiceImpl, FakeResponse}
-import utils.helpers.Config
 
 final class BruteForcePreventionServiceImplSpec extends UnitSpec {
   "isVrmLookupPermitted" should {
@@ -74,7 +75,7 @@ final class BruteForcePreventionServiceImplSpec extends UnitSpec {
     }
 
     new BruteForcePreventionServiceImpl(
-      new Config,
+      new BruteForcePreventionConfig,
       ws = bruteForcePreventionWebService,
       dateService = new FakeDateServiceImpl
     )

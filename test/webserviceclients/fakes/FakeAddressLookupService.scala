@@ -1,6 +1,6 @@
 package webserviceclients.fakes
 
-import models.AddressModel
+import uk.gov.dvla.vehicles.presentation.common.model.AddressModel
 import webserviceclients.fakes.FakeAddressLookupWebServiceImpl.{traderUprnValid, traderUprnValid2}
 
 object FakeAddressLookupService {

@@ -1,18 +1,18 @@
 package webserviceclients.fakes
 
-import models.AddressModel
 import play.api.http.Status.OK
 import play.api.i18n.Lang
 import play.api.libs.json.Json
 import play.api.libs.ws.Response
-import webserviceclients.address_lookup.ordnance_survey.{UprnToAddressResponseDto, UprnAddressPairDto, PostcodeToAddressResponseDto}
+import uk.gov.dvla.vehicles.presentation.common.model.AddressModel
+import uk.gov.dvla.vehicles.presentation.common.webserviceclients.addresslookup.AddressLookupWebService
+import uk.gov.dvla.vehicles.presentation.common.webserviceclients.addresslookup.ordnanceservey.{UprnToAddressResponseDto, UprnAddressPairDto, PostcodeToAddressResponseDto}
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
-import webserviceclients.address_lookup.AddressLookupWebService
-import webserviceclients.address_lookup.gds.domain.Address
-import webserviceclients.address_lookup.gds.domain.Details
-import webserviceclients.address_lookup.gds.domain.Location
-import webserviceclients.address_lookup.gds.domain.Presentation
+import uk.gov.dvla.vehicles.presentation.common.webserviceclients.addresslookup.gds.domain.Address
+import uk.gov.dvla.vehicles.presentation.common.webserviceclients.addresslookup.gds.domain.Details
+import uk.gov.dvla.vehicles.presentation.common.webserviceclients.addresslookup.gds.domain.Location
+import uk.gov.dvla.vehicles.presentation.common.webserviceclients.addresslookup.gds.domain.Presentation
 import webserviceclients.fakes.FakeAddressLookupService.PostcodeWithoutAddresses
 import webserviceclients.fakes.FakeAddressLookupService.PostcodeValid
 
@@ -115,7 +115,7 @@ object FakeAddressLookupWebServiceImpl {
     )
 
   def responseValidForGdsAddressLookup: Future[Response] = {
-    import webserviceclients.address_lookup.gds.domain.JsonFormats._
+    import uk.gov.dvla.vehicles.presentation.common.webserviceclients.addresslookup.gds.domain.JsonFormats._
     val inputAsJson = Json.toJson(Seq(gdsAddress(), gdsAddress(presentationStreet = "456")))
 
     Future {

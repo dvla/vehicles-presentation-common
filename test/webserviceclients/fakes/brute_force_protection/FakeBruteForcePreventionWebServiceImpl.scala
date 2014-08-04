@@ -3,7 +3,7 @@ package webserviceclients.fakes.brute_force_protection
 import play.api.http.Status.{FORBIDDEN, OK}
 import play.api.libs.json.Json
 import play.api.libs.ws.Response
-import webserviceclients.brute_force_prevention.BruteForcePreventionWebService
+import uk.gov.dvla.vehicles.presentation.common.webserviceclients.bruteforceprevention.BruteForcePreventionWebService
 import webserviceclients.fakes.FakeResponse
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future

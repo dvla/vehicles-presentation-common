@@ -13,6 +13,15 @@ organization := "dvla"
 
 version := "1.0-SNAPSHOT"
 
+scalacOptions := Seq(
+  "-deprecation",
+  "-unchecked",
+  "-feature",
+  "-Xlint",
+  "-language:reflectiveCalls",
+  "-Xmax-classfile-name", "128"
+)
+
 libraryDependencies ++= Seq(
   jdbc,
   anorm,

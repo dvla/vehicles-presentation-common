@@ -1,6 +1,6 @@
 package webserviceclients.dispose_service
 
-import models.AddressModel
+import uk.gov.dvla.vehicles.presentation.common.model.AddressModel
 import uk.gov.dvla.vehicles.presentation.common.views.models.AddressLinesViewModel
 import uk.gov.dvla.vehicles.presentation.common.views.models.AddressLinesViewModel.Form.LineMaxLength
 

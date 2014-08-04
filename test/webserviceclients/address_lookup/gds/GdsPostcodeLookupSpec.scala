@@ -9,9 +9,11 @@ import org.scalatest.time.{Second, Span}
 import play.api.http.Status.{NOT_FOUND, OK}
 import play.api.libs.json.{JsValue, Json}
 import play.api.libs.ws.Response
-import webserviceclients.address_lookup.gds.domain.Address
-import webserviceclients.address_lookup.gds.domain.JsonFormats.addressFormat
-import webserviceclients.address_lookup.{AddressLookupService, gds}
+import uk.gov.dvla.vehicles.presentation.common.webserviceclients.addresslookup.AddressLookupService
+import uk.gov.dvla.vehicles.presentation.common.webserviceclients.addresslookup.gds.AddressLookupServiceImpl
+import uk.gov.dvla.vehicles.presentation.common.webserviceclients.addresslookup.gds.domain.Address
+import uk.gov.dvla.vehicles.presentation.common.webserviceclients.addresslookup.gds.domain.JsonFormats.addressFormat
+import webserviceclients.address_lookup.gds
 import webserviceclients.fakes.FakeAddressLookupService.PostcodeValid
 import webserviceclients.fakes.FakeAddressLookupWebServiceImpl.{gdsAddress, traderUprnValid}
 import webserviceclients.fakes.{FakeAddressLookupWebServiceImpl, FakeResponse}
@@ -217,7 +219,7 @@ final class GdsPostcodeLookupSpec extends UnitSpec {
   }
   private def addressServiceMock(response: Future[Response]): AddressLookupService = {
     // Using the real address lookup service but passing in a fake web service that returns the responses we specify.
-    new gds.AddressLookupServiceImpl(
+    new AddressLookupServiceImpl(
       new FakeAddressLookupWebServiceImpl(responseOfPostcodeWebService = response, responseOfUprnWebService = response)
     )
   }

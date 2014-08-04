@@ -6,7 +6,7 @@ import common.webserviceclients.config.VehicleLookupConfig
 import common.webserviceclients.config.OrdnanceSurveyConfig
 import common.webserviceclients.config.GDSAddressLookupConfig
 import common.webserviceclients.config.DisposeConfig
-import common.webserviceclients.config.BrutForcePreventionConfig
+import common.webserviceclients.config.BruteForcePreventionConfig
 import scala.concurrent.duration.DurationInt
 
 class Config {
@@ -14,7 +14,7 @@ class Config {
   val ordnanceSurvey = new OrdnanceSurveyConfig
   val gdsAddressLookup = new GDSAddressLookupConfig
   val dispose = new DisposeConfig
-  val brutForcePrevention = new BrutForcePreventionConfig
+  val brutForcePrevention = new BruteForcePreventionConfig
 
   // Micro-service config
   val vehicleLookupMicroServiceBaseUrl = vehiclesLookup.baseUrl

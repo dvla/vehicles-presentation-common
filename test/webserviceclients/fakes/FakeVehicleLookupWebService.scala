@@ -2,7 +2,7 @@ package webserviceclients.fakes
 
 import play.api.http.Status.{OK, SERVICE_UNAVAILABLE}
 import play.api.libs.json.Json
-import webserviceclients.vehicle_lookup.{VehicleDetailsResponseDto, VehicleDetailsRequestDto, VehicleDetailsDto, VehicleLookupWebService}
+import uk.gov.dvla.vehicles.presentation.common.webserviceclients.vehiclelookup.{VehicleLookupWebService, VehicleDetailsResponseDto, VehicleDetailsRequestDto, VehicleDetailsDto}
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 

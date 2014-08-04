@@ -1,8 +1,9 @@
 package webserviceclients.address_lookup.gds
 
 import helpers.UnitSpec
+import uk.gov.dvla.vehicles.presentation.common.webserviceclients.addresslookup.gds.WebServiceImpl
+import uk.gov.dvla.vehicles.presentation.common.webserviceclients.config.GDSAddressLookupConfig
 import webserviceclients.fakes.FakeAddressLookupService.{PostcodeValid, PostcodeValidWithSpace}
-import utils.helpers.Config
 
 final class WebServiceImplSpec extends UnitSpec {
   "postcodeWithNoSpaces" should {
@@ -19,5 +20,5 @@ final class WebServiceImplSpec extends UnitSpec {
     }
   }
 
-  private val addressLookupService = new webserviceclients.address_lookup.gds.WebServiceImpl(new Config())
+  private val addressLookupService = new WebServiceImpl(new GDSAddressLookupConfig)
 }

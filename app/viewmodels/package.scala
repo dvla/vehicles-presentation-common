@@ -1,6 +1,7 @@
 import controllers.MicroServiceError
 import MicroServiceError.MicroServiceErrorRefererCacheKey
-import models.{TraderDetailsModel, VehicleDetailsModel, BruteForcePreventionModel}
+import models.TraderDetailsModel
+import uk.gov.dvla.vehicles.presentation.common.model.{VehicleDetailsModel, BruteForcePreventionModel}
 import BruteForcePreventionModel.BruteForcePreventionViewModelCacheKey
 import viewmodels.BusinessChooseYourAddressViewModel.BusinessChooseYourAddressCacheKey
 import viewmodels.DisposeFormViewModel.DisposeFormModelCacheKey

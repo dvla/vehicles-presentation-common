@@ -4,11 +4,19 @@ import com.tzavellas.sse.guice.ScalaModule
 import controllers.disposal_of_vehicle.Common.PrototypeHtml
 import controllers.{SurveyUrl, VehicleLookup}
 import helpers.common.CookieHelper
-import models.BruteForcePreventionModel
 
 import uk.gov.dvla.vehicles.presentation.common
 import common.clientsidesession.{ClientSideSessionFactory, ClearTextClientSideSessionFactory}
-import uk.gov.dvla.vehicles.presentation.common.mappings.DocumentReferenceNumber
+import common.mappings.DocumentReferenceNumber
+import common.model.BruteForcePreventionModel
+import common.webserviceclients.bruteforceprevention.BruteForcePreventionWebService
+import common.webserviceclients.bruteforceprevention.BruteForcePreventionServiceImpl
+import common.webserviceclients.bruteforceprevention.BruteForcePreventionService
+import common.webserviceclients.vehiclelookup.VehicleLookupWebService
+import common.webserviceclients.vehiclelookup.VehicleLookupServiceImpl
+import common.webserviceclients.vehiclelookup.VehicleDetailsResponseDto
+import common.webserviceclients.vehiclelookup.VehicleDetailsRequestDto
+import uk.gov.dvla.vehicles.presentation.common.webserviceclients.config.BruteForcePreventionConfig
 import webserviceclients.fakes.FakeAddressLookupService.TraderBusinessNameValid
 import webserviceclients.fakes.FakeAddressLookupService.BuildingNameOrNumberValid
 import webserviceclients.fakes.FakeAddressLookupService.Line2Valid
@@ -53,16 +61,9 @@ import play.api.test.Helpers.{LOCATION, contentAsString, defaultAwaitTimeout}
 import scala.concurrent.duration.DurationInt
 import scala.concurrent.Future
 import scala.concurrent.ExecutionContext.Implicits.global
-import webserviceclients.brute_force_prevention.BruteForcePreventionService
-import webserviceclients.brute_force_prevention.BruteForcePreventionServiceImpl
-import webserviceclients.brute_force_prevention.BruteForcePreventionWebService
 import webserviceclients.fakes.brute_force_protection.FakeBruteForcePreventionWebServiceImpl
 import webserviceclients.fakes.FakeAddressLookupWebServiceImpl.traderUprnValid
 import webserviceclients.fakes.{FakeDateServiceImpl, FakeResponse}
-import webserviceclients.vehicle_lookup.VehicleDetailsResponseDto
-import webserviceclients.vehicle_lookup.VehicleDetailsRequestDto
-import webserviceclients.vehicle_lookup.VehicleLookupServiceImpl
-import webserviceclients.vehicle_lookup.VehicleLookupWebService
 import utils.helpers.Config
 import webserviceclients.fakes.brute_force_protection.FakeBruteForcePreventionWebServiceImpl.VrmLocked
 import webserviceclients.fakes.brute_force_protection.FakeBruteForcePreventionWebServiceImpl.VrmAttempt2
@@ -579,7 +580,7 @@ final class VehicleLookupUnitSpec extends UnitSpec {
     }
 
     new BruteForcePreventionServiceImpl(
-      config = new Config(),
+      config = new BruteForcePreventionConfig,
       ws = bruteForcePreventionWebService,
       dateService = new FakeDateServiceImpl
     )
