@@ -1,7 +1,7 @@
 package controllers
 
 import com.google.inject.Inject
-import models.{TraderDetailsModel, VehicleDetailsModel, DisposeModel}
+import models.{TraderDetailsModel, VehicleDetailsModel}
 import org.joda.time.format.ISODateTimeFormat
 import play.api.Logger
 import play.api.data.{Form, FormError}
@@ -13,7 +13,7 @@ import uk.gov.dvla.vehicles.presentation.common.views.helpers.FormExtensions.for
 import utils.helpers.Config
 import viewmodels.DisposeFormViewModel.Form.{ConsentId, LossOfRegistrationConsentId}
 import viewmodels.DisposeFormViewModel.{DisposeFormRegistrationNumberCacheKey, DisposeFormTimestampIdCacheKey, DisposeFormTransactionIdCacheKey, PreventGoingToDisposePageCacheKey}
-import viewmodels.{DisposeFormViewModel, VehicleLookupFormViewModel}
+import viewmodels.{DisposeFormViewModel, DisposeViewModel, VehicleLookupFormViewModel}
 import views.html.disposal_of_vehicle.dispose
 import webserviceclients.dispose_service.{DisposalAddressDto, DisposeRequestDto, DisposeResponseDto, DisposeService}
 
@@ -94,13 +94,13 @@ final class Dispose @Inject()(webService: DisposeService, dateService: DateServi
   }
 
   private def createViewModel(traderDetails: TraderDetailsModel,
-                              vehicleDetails: VehicleDetailsModel): DisposeModel =
-    DisposeModel(
+                              vehicleDetails: VehicleDetailsModel): DisposeViewModel =
+    DisposeViewModel(
       registrationNumber = vehicleDetails.registrationNumber,
       vehicleMake = vehicleDetails.vehicleMake,
       vehicleModel = vehicleDetails.vehicleModel,
       dealerName = traderDetails.traderName,
-      dealerAddress = traderDetails.traderAddress)
+      dealerAddress = traderDetails.traderAddress.address)
 
   private def disposeAction(webService: DisposeService, disposeFormModel: DisposeFormViewModel, trackingId: String)
                            (implicit request: Request[AnyContent]): Future[SimpleResult] = {

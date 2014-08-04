@@ -1,4 +1,4 @@
-@(data: models.DisposeModel,
+@(data: viewmodels.DisposeViewModel,
 formModel: viewmodels.DisposeFormViewModel,
 disposeDateTime: org.joda.time.DateTime,
 surveyUrl: Option[String]
@@ -96,7 +96,7 @@ title = Messages("disposal_disposeconfirmation.title")
             <dt>@Messages("disposal_disposeconfirmation.disposedto")</dt>
             <dd>
                 @data.dealerName<br />
-                @for(addr <- data.dealerAddress.address) {@addr<br/>}
+                @for(addr <- data.dealerAddress) {@addr<br/>}
             </dd>
 
             <dt>@Messages("disposal_disposeconfirmation.disposaldate")</dt>

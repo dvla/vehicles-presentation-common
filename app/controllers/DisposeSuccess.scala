@@ -1,20 +1,15 @@
 package controllers
 
 import com.google.inject.Inject
-import models.{TraderDetailsModel, VehicleDetailsModel, DisposeModel}
+import models.{TraderDetailsModel, VehicleDetailsModel}
 import org.joda.time.format.DateTimeFormat
 import play.api.mvc.{Action, Controller, Request}
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClientSideSessionFactory
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicits.{RichCookies, RichSimpleResult}
 import uk.gov.dvla.vehicles.presentation.common.services.DateService
 import utils.helpers.Config
-import viewmodels.DisposeFormViewModel.DisposeFormRegistrationNumberCacheKey
-import viewmodels.DisposeFormViewModel.DisposeFormTimestampIdCacheKey
-import viewmodels.DisposeFormViewModel.DisposeFormTransactionIdCacheKey
-import viewmodels.DisposeFormViewModel.DisposeOccurredCacheKey
-import viewmodels.DisposeFormViewModel.PreventGoingToDisposePageCacheKey
-import viewmodels.DisposeFormViewModel.SurveyRequestTriggerDateCacheKey
-import viewmodels.{AllCacheKeys, DisposeCacheKeys, DisposeFormViewModel, DisposeOnlyCacheKeys}
+import viewmodels.DisposeFormViewModel.{DisposeFormRegistrationNumberCacheKey, DisposeFormTimestampIdCacheKey, DisposeFormTransactionIdCacheKey, DisposeOccurredCacheKey, PreventGoingToDisposePageCacheKey, SurveyRequestTriggerDateCacheKey}
+import viewmodels.{AllCacheKeys, DisposeCacheKeys, DisposeFormViewModel, DisposeOnlyCacheKeys, DisposeViewModel}
 
 final class DisposeSuccess @Inject()(implicit clientSideSessionFactory: ClientSideSessionFactory,
                                      config: Config,
@@ -71,12 +66,12 @@ final class DisposeSuccess @Inject()(implicit clientSideSessionFactory: ClientSi
                               disposeFormModel: DisposeFormViewModel,
                               vehicleDetails: VehicleDetailsModel,
                               transactionId: Option[String],
-                              registrationNumber: String): DisposeModel =
-    DisposeModel(
+                              registrationNumber: String): DisposeViewModel =
+    DisposeViewModel(
       vehicleMake = vehicleDetails.vehicleMake,
       vehicleModel = vehicleDetails.vehicleModel,
       dealerName = traderDetails.traderName,
-      dealerAddress = traderDetails.traderAddress,
+      dealerAddress = traderDetails.traderAddress.address,
       transactionId = transactionId,
       registrationNumber = registrationNumber
     )

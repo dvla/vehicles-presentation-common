@@ -1,4 +1,4 @@
-@(data: models.DisposeModel,
+@(data: viewmodels.DisposeViewModel,
         disposeForm: Form[viewmodels.DisposeFormViewModel],
         dateService: uk.gov.dvla.vehicles.presentation.common.services.DateService)(implicit lang: Lang,
         token: uk.gov.dvla.vehicles.presentation.common.filters.CsrfPreventionAction.CsrfPreventionToken,
@@ -39,7 +39,7 @@
 
                 <div class="summary-detail-list">
                     <p>@data.dealerName <br />
-                        @for(addr <- data.dealerAddress.address) {@addr<br/>}</p>
+                        @for(addr <- data.dealerAddress) {@addr<br/>}</p>
                 </div>
 
                 <div class="form-declaration">
