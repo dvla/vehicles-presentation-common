@@ -6,6 +6,7 @@ import helpers.JsonUtils.deserializeJsonToModel
 import helpers.common.CookieHelper.fetchCookiesFromHeaders
 import helpers.disposal_of_vehicle.CookieFactoryForUnitSpecs
 import helpers.{UnitSpec, WithApplication}
+import models.TraderDetailsModel
 import org.mockito.Mockito.when
 import pages.disposal_of_vehicle.{SetupTradeDetailsPage, VehicleLookupPage}
 import play.api.mvc.SimpleResult
@@ -17,8 +18,8 @@ import uk.gov.dvla.vehicles.presentation.common.views.models.AddressLinesViewMod
 import utils.helpers.Config
 import views.disposal_of_vehicle.EnterAddressManually.PostcodeId
 import viewmodels.EnterAddressManuallyViewModel.Form.AddressAndPostcodeId
-import viewmodels.TraderDetailsViewModel.TraderDetailsCacheKey
-import viewmodels.{EnterAddressManuallyViewModel, TraderDetailsViewModel}
+import TraderDetailsModel.TraderDetailsCacheKey
+import viewmodels.EnterAddressManuallyViewModel
 import webserviceclients.fakes.FakeAddressLookupService.{BuildingNameOrNumberValid, Line2Valid, Line3Valid, PostTownValid, PostcodeValid}
 
 import scala.concurrent.Future
@@ -119,7 +120,7 @@ final class EnterAddressManuallyUnitSpec extends UnitSpec {
         cookies.find(_.name == traderDetailsCookieName) match {
           case Some(cookie) =>
             val json = cookie.value
-            val model = deserializeJsonToModel[TraderDetailsViewModel](json)
+            val model = deserializeJsonToModel[TraderDetailsModel](json)
             val expectedData = Seq(BuildingNameOrNumberValid.toUpperCase,
               Line2Valid.toUpperCase,
               Line3Valid.toUpperCase,
@@ -279,7 +280,7 @@ final class EnterAddressManuallyUnitSpec extends UnitSpec {
       cookies.find(_.name == traderDetailsCookieName) match {
         case Some(cookie) =>
           val json = cookie.value
-          val model = deserializeJsonToModel[TraderDetailsViewModel](json)
+          val model = deserializeJsonToModel[TraderDetailsModel](json)
           val expectedData = Seq(buildingName,
             line2,
             line3,

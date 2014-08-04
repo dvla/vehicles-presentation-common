@@ -1,13 +1,13 @@
 package controllers
 
 import com.google.inject.Inject
-import models.BruteForcePreventionModel
+import models.{TraderDetailsModel, BruteForcePreventionModel}
 import play.api.Logger
 import play.api.mvc.{Action, Controller}
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClientSideSessionFactory
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicits.{RichCookies, RichSimpleResult}
 import utils.helpers.Config
-import viewmodels.{TraderDetailsViewModel, AllCacheKeys, DisposeCacheKeys}
+import viewmodels.{AllCacheKeys, DisposeCacheKeys}
 
 final class VrmLocked @Inject()()(implicit clientSideSessionFactory: ClientSideSessionFactory,
                                   config: Config) extends Controller {
@@ -24,7 +24,7 @@ final class VrmLocked @Inject()()(implicit clientSideSessionFactory: ClientSideS
   }
 
   def newDisposal = Action { implicit request =>
-    request.cookies.getModel[TraderDetailsViewModel] match {
+    request.cookies.getModel[TraderDetailsModel] match {
       case (Some(traderDetails)) =>
         Redirect(routes.VehicleLookup.present()).discardingCookies(DisposeCacheKeys)
       case _ => Redirect(routes.SetUpTradeDetails.present())

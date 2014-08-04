@@ -1,6 +1,7 @@
 package controllers
 
 import javax.inject.Inject
+import models.TraderDetailsModel
 import play.api.Logger
 import play.api.data.{Form, FormError}
 import play.api.i18n.Lang
@@ -10,7 +11,7 @@ import uk.gov.dvla.vehicles.presentation.common.clientsidesession.{ClientSideSes
 import utils.helpers.Config
 import viewmodels.BusinessChooseYourAddressViewModel.Form.AddressSelectId
 import viewmodels.EnterAddressManuallyViewModel.EnterAddressManuallyCacheKey
-import viewmodels.{TraderDetailsViewModel, BusinessChooseYourAddressViewModel, SetupTradeDetailsViewModel}
+import viewmodels.{BusinessChooseYourAddressViewModel, SetupTradeDetailsViewModel}
 import uk.gov.dvla.vehicles.presentation.common.views.helpers.FormExtensions.formBinding
 import views.html.disposal_of_vehicle.business_choose_your_address
 import webserviceclients.address_lookup.AddressLookupService
@@ -82,7 +83,7 @@ final class BusinessChooseYourAddress @Inject()(addressLookupService: AddressLoo
     val lookedUpAddress = addressLookupService.fetchAddressForUprn(model.uprnSelected.toString, session.trackingId)
     lookedUpAddress.map {
       case Some(addressViewModel) =>
-        val traderDetailsModel = TraderDetailsViewModel(traderName = traderName, traderAddress = addressViewModel)
+        val traderDetailsModel = TraderDetailsModel(traderName = traderName, traderAddress = addressViewModel)
         /* The redirect is done as the final step within the map so that:
          1) we are not blocking threads
          2) the browser does not change page before the future has completed and written to the cache. */

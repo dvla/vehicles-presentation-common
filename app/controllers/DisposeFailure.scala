@@ -1,20 +1,20 @@
 package controllers
 
 import com.google.inject.Inject
-import models.{VehicleDetailsModel, DisposeModel}
+import models.{TraderDetailsModel, VehicleDetailsModel, DisposeModel}
 import play.api.Logger
 import play.api.mvc.{Action, Controller}
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClientSideSessionFactory
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicits.RichCookies
 import utils.helpers.Config
 import viewmodels.DisposeFormViewModel.DisposeFormTransactionIdCacheKey
-import viewmodels.{TraderDetailsViewModel, DisposeFormViewModel}
+import viewmodels.DisposeFormViewModel
 
 final class DisposeFailure @Inject()()(implicit clientSideSessionFactory: ClientSideSessionFactory,
                                        config: Config) extends Controller {
 
   def present = Action { implicit request =>
-    (request.cookies.getModel[TraderDetailsViewModel],
+    (request.cookies.getModel[TraderDetailsModel],
      request.cookies.getModel[DisposeFormViewModel],
      request.cookies.getModel[VehicleDetailsModel],
      request.cookies.getString(DisposeFormTransactionIdCacheKey)) match {
@@ -27,7 +27,7 @@ final class DisposeFailure @Inject()()(implicit clientSideSessionFactory: Client
     }
   }
 
-  private def createViewModel(traderDetails: TraderDetailsViewModel,
+  private def createViewModel(traderDetails: TraderDetailsModel,
                               vehicleDetails: VehicleDetailsModel,
                               transactionId: Option[String]): DisposeModel =
     DisposeModel(

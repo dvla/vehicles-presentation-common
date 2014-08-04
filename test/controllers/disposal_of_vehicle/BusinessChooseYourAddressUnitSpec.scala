@@ -3,8 +3,8 @@ package controllers.disposal_of_vehicle
 import Common.PrototypeHtml
 import controllers.BusinessChooseYourAddress
 import helpers.common.CookieHelper
+import models.TraderDetailsModel
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClientSideSessionFactory
-import viewmodels.TraderDetailsViewModel
 import webserviceclients.fakes.FakeAddressLookupWebServiceImpl.responseValidForPostcodeToAddress
 import webserviceclients.fakes.FakeAddressLookupWebServiceImpl.responseValidForPostcodeToAddressNotFound
 import webserviceclients.fakes.FakeAddressLookupWebServiceImpl.responseValidForUprnToAddress
@@ -15,7 +15,7 @@ import helpers.disposal_of_vehicle.CookieFactoryForUnitSpecs
 import helpers.{UnitSpec, WithApplication}
 import viewmodels.BusinessChooseYourAddressViewModel.Form.AddressSelectId
 import viewmodels.BusinessChooseYourAddressViewModel.BusinessChooseYourAddressCacheKey
-import TraderDetailsViewModel.TraderDetailsCacheKey
+import TraderDetailsModel.TraderDetailsCacheKey
 import org.mockito.Mockito.when
 import pages.disposal_of_vehicle.{SetupTradeDetailsPage, VehicleLookupPage, UprnNotFoundPage}
 import play.api.mvc.Cookies

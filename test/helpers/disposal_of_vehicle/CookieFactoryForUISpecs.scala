@@ -3,7 +3,7 @@ package helpers.disposal_of_vehicle
 import controllers.MicroServiceError
 import controllers.MicroServiceError.MicroServiceErrorRefererCacheKey
 import models.BruteForcePreventionModel.BruteForcePreventionViewModelCacheKey
-import models.{VehicleDetailsModel, AddressModel, BruteForcePreventionModel}
+import models.{TraderDetailsModel, VehicleDetailsModel, AddressModel, BruteForcePreventionModel}
 import org.joda.time.DateTime
 import org.openqa.selenium.{Cookie, WebDriver}
 import play.api.Play
@@ -16,7 +16,7 @@ import viewmodels.DisposeFormViewModel.{DisposeFormModelCacheKey, DisposeFormReg
 import viewmodels.EnterAddressManuallyViewModel.EnterAddressManuallyCacheKey
 import viewmodels.SetupTradeDetailsViewModel.SetupTradeDetailsCacheKey
 import viewmodels._
-import TraderDetailsViewModel.TraderDetailsCacheKey
+import TraderDetailsModel.TraderDetailsCacheKey
 import VehicleDetailsModel.VehicleLookupDetailsCacheKey
 import viewmodels.VehicleLookupFormViewModel.{VehicleLookupFormModelCacheKey, VehicleLookupResponseCodeCacheKey}
 import viewmodels._
@@ -78,7 +78,7 @@ object CookieFactoryForUISpecs {
 
   def dealerDetails(address: AddressModel = addressWithoutUprn)(implicit webDriver: WebDriver) = {
     val key = TraderDetailsCacheKey
-    val value = TraderDetailsViewModel(traderName = TraderBusinessNameValid, traderAddress = address)
+    val value = TraderDetailsModel(traderName = TraderBusinessNameValid, traderAddress = address)
     addCookie(key, value)
     this
   }

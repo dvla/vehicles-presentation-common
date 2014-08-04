@@ -1,7 +1,7 @@
 package controllers
 
 import com.google.inject.Inject
-import models.{VehicleDetailsModel, BruteForcePreventionModel}
+import models.{TraderDetailsModel, VehicleDetailsModel, BruteForcePreventionModel}
 import play.api.Logger
 import play.api.data.{Form, FormError}
 import play.api.mvc.{Action, AnyContent, Controller, Request, SimpleResult}
@@ -12,7 +12,7 @@ import uk.gov.dvla.vehicles.presentation.common.services.DateService
 import uk.gov.dvla.vehicles.presentation.common.views.helpers.FormExtensions.formBinding
 import utils.helpers.Config
 import viewmodels.DisposeFormViewModel.{DisposeOccurredCacheKey, PreventGoingToDisposePageCacheKey, SurveyRequestTriggerDateCacheKey}
-import viewmodels.{TraderDetailsViewModel, AllCacheKeys, VehicleLookupFormViewModel}
+import viewmodels.{VehicleLookupViewModel, AllCacheKeys, VehicleLookupFormViewModel}
 import viewmodels.VehicleLookupFormViewModel.VehicleLookupResponseCodeCacheKey
 import webserviceclients.brute_force_prevention.BruteForcePreventionService
 import webserviceclients.vehicle_lookup.{VehicleDetailsDto, VehicleDetailsRequestDto, VehicleDetailsResponseDto, VehicleLookupService}
@@ -32,14 +32,16 @@ final class VehicleLookup @Inject()(bruteForceService: BruteForcePreventionServi
   )
 
   def present = Action { implicit request =>
-    request.cookies.getModel[TraderDetailsViewModel] match {
+    request.cookies.getModel[TraderDetailsModel] match {
       case Some(traderDetails) =>
         Ok(views.html.disposal_of_vehicle.vehicle_lookup(
-          traderDetails,
+        VehicleLookupViewModel(
           form.fill(),
           shouldDisplayExitButton,
-          surveyUrl(request)
-        ))
+          surveyUrl(request),
+          traderDetails.traderName,
+          traderDetails.traderAddress.address
+        )))
       case None => Redirect(routes.SetUpTradeDetails.present())
     }
   }
@@ -48,7 +50,7 @@ final class VehicleLookup @Inject()(bruteForceService: BruteForcePreventionServi
     form.bindFromRequest.fold(
       invalidForm =>
         Future {
-          request.cookies.getModel[TraderDetailsViewModel] match {
+          request.cookies.getModel[TraderDetailsModel] match {
             case Some(traderDetails) =>
               val formWithReplacedErrors = invalidForm.replaceError(
                 VehicleLookupFormViewModel.Form.VehicleRegistrationNumberId,
@@ -66,11 +68,13 @@ final class VehicleLookup @Inject()(bruteForceService: BruteForcePreventionServi
                 ).distinctErrors
 
               BadRequest(views.html.disposal_of_vehicle.vehicle_lookup(
-                traderDetails,
-                formWithReplacedErrors,
-                shouldDisplayExitButton,
-                surveyUrl(request)
-              ))
+                VehicleLookupViewModel(
+                  formWithReplacedErrors,
+                  shouldDisplayExitButton,
+                  surveyUrl(request),
+                  traderDetails.traderName,
+                  traderDetails.traderAddress.address
+              )))
             case None => Redirect(routes.SetUpTradeDetails.present())
           }
         },
@@ -99,7 +103,7 @@ final class VehicleLookup @Inject()(bruteForceService: BruteForcePreventionServi
       .toUpperCase)
 
   def back = Action { implicit request =>
-    request.cookies.getModel[TraderDetailsViewModel] match {
+    request.cookies.getModel[TraderDetailsModel] match {
       case Some(dealerDetails) =>
         if (dealerDetails.traderAddress.uprn.isDefined) Redirect(routes.BusinessChooseYourAddress.present())
         else Redirect(routes.EnterAddressManually.present())
@@ -187,7 +191,7 @@ final class VehicleLookup @Inject()(bruteForceService: BruteForcePreventionServi
     val vehicleDetailsRequest = VehicleDetailsRequestDto(
       referenceNumber = model.referenceNumber,
       registrationNumber = model.registrationNumber,
-      userName = request.cookies.getModel[TraderDetailsViewModel].fold("")(_.traderName)
+      userName = request.cookies.getModel[TraderDetailsModel].fold("")(_.traderName)
     )
     vehicleLookupService.invoke(vehicleDetailsRequest, trackingId).map {
       case (responseStatusVehicleLookupMS: Int, vehicleDetailsResponse: Option[VehicleDetailsResponseDto]) =>

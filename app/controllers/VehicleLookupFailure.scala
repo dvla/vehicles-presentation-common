@@ -1,21 +1,21 @@
 package controllers
 
 import com.google.inject.Inject
-import models.BruteForcePreventionModel
+import models.{TraderDetailsModel, BruteForcePreventionModel}
 import play.api.Logger
 import play.api.mvc.{Action, AnyContent, Controller, DiscardingCookie, Request}
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClientSideSessionFactory
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicits.RichCookies
 import utils.helpers.Config
 import viewmodels.VehicleLookupFormViewModel.VehicleLookupResponseCodeCacheKey
-import viewmodels.{TraderDetailsViewModel, VehicleLookupFormViewModel}
+import viewmodels.VehicleLookupFormViewModel
 
 final class VehicleLookupFailure @Inject()()
                                  (implicit clientSideSessionFactory: ClientSideSessionFactory,
                                   config: Config) extends Controller {
 
   def present = Action { implicit request =>
-    (request.cookies.getModel[TraderDetailsViewModel],
+    (request.cookies.getModel[TraderDetailsModel],
       request.cookies.getModel[BruteForcePreventionModel],
       request.cookies.getModel[VehicleLookupFormViewModel],
       request.cookies.getString(VehicleLookupResponseCodeCacheKey)) match {
@@ -33,7 +33,7 @@ final class VehicleLookupFailure @Inject()()
   }
 
   def submit = Action { implicit request =>
-    (request.cookies.getModel[TraderDetailsViewModel], request.cookies.getModel[VehicleLookupFormViewModel]) match {
+    (request.cookies.getModel[TraderDetailsModel], request.cookies.getModel[VehicleLookupFormViewModel]) match {
       case (Some(dealerDetails), Some(vehicleLookUpFormModelDetails)) =>
         Logger.debug("Found dealer and vehicle details")
         Redirect(routes.VehicleLookup.present())

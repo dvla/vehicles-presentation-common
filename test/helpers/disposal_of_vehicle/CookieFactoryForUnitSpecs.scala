@@ -3,7 +3,7 @@ package helpers.disposal_of_vehicle
 import composition.TestComposition
 import controllers.MicroServiceError.MicroServiceErrorRefererCacheKey
 import models.BruteForcePreventionModel.BruteForcePreventionViewModelCacheKey
-import models.{VehicleDetailsModel, AddressModel, BruteForcePreventionModel}
+import models.{TraderDetailsModel, VehicleDetailsModel, AddressModel, BruteForcePreventionModel}
 import org.joda.time.DateTime
 import pages.disposal_of_vehicle.{HelpPage, VehicleLookupPage}
 import play.api.libs.json.{Json, Writes}
@@ -21,11 +21,10 @@ import viewmodels.DisposeFormViewModel.PreventGoingToDisposePageCacheKey
 import viewmodels.EnterAddressManuallyViewModel.EnterAddressManuallyCacheKey
 import viewmodels.HelpCacheKey
 import viewmodels.SetupTradeDetailsViewModel.SetupTradeDetailsCacheKey
-import viewmodels.TraderDetailsViewModel
-import TraderDetailsViewModel.TraderDetailsCacheKey
+import TraderDetailsModel.TraderDetailsCacheKey
 import VehicleDetailsModel.VehicleLookupDetailsCacheKey
 import viewmodels.VehicleLookupFormViewModel.{VehicleLookupFormModelCacheKey, VehicleLookupResponseCodeCacheKey}
-import viewmodels.{TraderDetailsViewModel, BusinessChooseYourAddressViewModel, DisposeFormViewModel}
+import viewmodels.{BusinessChooseYourAddressViewModel, DisposeFormViewModel}
 import viewmodels.{EnterAddressManuallyViewModel, SeenCookieMessageCacheKey, SetupTradeDetailsViewModel, VehicleLookupFormViewModel}
 import webserviceclients.fakes.FakeAddressLookupService.{BuildingNameOrNumberValid, Line2Valid, Line3Valid}
 import webserviceclients.fakes.FakeAddressLookupService.{PostTownValid, PostcodeValid, TraderBusinessNameValid}
@@ -95,7 +94,7 @@ object CookieFactoryForUnitSpecs extends TestComposition { // TODO can we make t
                          postTown: String = PostTownValid,
                          traderPostcode: String = PostcodeValid): Cookie = {
     val key = TraderDetailsCacheKey
-    val value = TraderDetailsViewModel(
+    val value = TraderDetailsModel(
       traderName = TraderBusinessNameValid,
       traderAddress = AddressModel(
         uprn = uprn,
@@ -110,7 +109,7 @@ object CookieFactoryForUnitSpecs extends TestComposition { // TODO can we make t
                                              postTown: String = PostTownValid,
                                              traderPostcode: String = PostcodeValid): Cookie = {
     val key = TraderDetailsCacheKey
-    val value = TraderDetailsViewModel(
+    val value = TraderDetailsModel(
       traderName = TraderBusinessNameValid,
       traderAddress = AddressModel(
         uprn = uprn,
@@ -126,7 +125,7 @@ object CookieFactoryForUnitSpecs extends TestComposition { // TODO can we make t
                               postTown: String = PostTownValid,
                               traderPostcode: String = PostcodeValid): Cookie = {
     val key = TraderDetailsCacheKey
-    val value = TraderDetailsViewModel(
+    val value = TraderDetailsModel(
       traderName = TraderBusinessNameValid,
       traderAddress = AddressModel(
         uprn = uprn,
@@ -140,7 +139,7 @@ object CookieFactoryForUnitSpecs extends TestComposition { // TODO can we make t
                                  postTown: String = PostTownValid,
                                  traderPostcode: String = PostcodeValid): Cookie = {
     val key = TraderDetailsCacheKey
-    val value = TraderDetailsViewModel(
+    val value = TraderDetailsModel(
       traderName = TraderBusinessNameValid,
       traderAddress = AddressModel(uprn = uprn, address = Seq(postTown, traderPostcode)
       )

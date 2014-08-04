@@ -1,7 +1,7 @@
 package controllers
 
 import com.google.inject.Inject
-import models.AddressModel
+import models.{TraderDetailsModel, AddressModel}
 import play.api.Logger
 import play.api.data.{Form, FormError}
 import play.api.mvc.{Action, Controller, Request}
@@ -9,7 +9,7 @@ import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClientSideSess
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicits.{RichForm, RichCookies, RichSimpleResult}
 import uk.gov.dvla.vehicles.presentation.common.views.helpers.FormExtensions.formBinding
 import utils.helpers.Config
-import viewmodels.{TraderDetailsViewModel, EnterAddressManuallyViewModel, SetupTradeDetailsViewModel}
+import viewmodels.{EnterAddressManuallyViewModel, SetupTradeDetailsViewModel}
 import views.html.disposal_of_vehicle.enter_address_manually
 
 final class EnterAddressManually @Inject()()
@@ -45,7 +45,7 @@ final class EnterAddressManually @Inject()()
               validForm.addressAndPostcodeModel,
               setupTradeDetails.traderPostcode
             )
-            val traderDetailsModel = TraderDetailsViewModel(
+            val traderDetailsModel = TraderDetailsModel(
               traderName = setupTradeDetails.traderBusinessName,
               traderAddress = traderAddress
             )

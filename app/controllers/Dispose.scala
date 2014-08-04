@@ -1,7 +1,7 @@
 package controllers
 
 import com.google.inject.Inject
-import models.{VehicleDetailsModel, DisposeModel}
+import models.{TraderDetailsModel, VehicleDetailsModel, DisposeModel}
 import org.joda.time.format.ISODateTimeFormat
 import play.api.Logger
 import play.api.data.{Form, FormError}
@@ -13,7 +13,7 @@ import uk.gov.dvla.vehicles.presentation.common.views.helpers.FormExtensions.for
 import utils.helpers.Config
 import viewmodels.DisposeFormViewModel.Form.{ConsentId, LossOfRegistrationConsentId}
 import viewmodels.DisposeFormViewModel.{DisposeFormRegistrationNumberCacheKey, DisposeFormTimestampIdCacheKey, DisposeFormTransactionIdCacheKey, PreventGoingToDisposePageCacheKey}
-import viewmodels.{TraderDetailsViewModel, DisposeFormViewModel, VehicleLookupFormViewModel}
+import viewmodels.{DisposeFormViewModel, VehicleLookupFormViewModel}
 import views.html.disposal_of_vehicle.dispose
 import webserviceclients.dispose_service.{DisposalAddressDto, DisposeRequestDto, DisposeResponseDto, DisposeService}
 
@@ -29,7 +29,7 @@ final class Dispose @Inject()(webService: DisposeService, dateService: DateServi
   )
 
   def present = Action { implicit request =>
-    (request.cookies.getModel[TraderDetailsViewModel], request.cookies.getString(PreventGoingToDisposePageCacheKey)) match {
+    (request.cookies.getModel[TraderDetailsModel], request.cookies.getString(PreventGoingToDisposePageCacheKey)) match {
       case (Some(traderDetails), None) =>
         request.cookies.getModel[VehicleDetailsModel] match {
           case (Some(vehicleDetails)) =>
@@ -50,7 +50,7 @@ final class Dispose @Inject()(webService: DisposeService, dateService: DateServi
     form.bindFromRequest.fold(
       invalidForm =>
         Future {
-          (request.cookies.getModel[TraderDetailsViewModel], request.cookies.getModel[VehicleDetailsModel]) match {
+          (request.cookies.getModel[TraderDetailsModel], request.cookies.getModel[VehicleDetailsModel]) match {
             case (Some(traderDetails), Some(vehicleDetails)) =>
               val disposeViewModel = createViewModel(traderDetails, vehicleDetails)
               BadRequest(dispose(disposeViewModel, formWithReplacedErrors(invalidForm), dateService))
@@ -93,7 +93,7 @@ final class Dispose @Inject()(webService: DisposeService, dateService: DateServi
       ).distinctErrors
   }
 
-  private def createViewModel(traderDetails: TraderDetailsViewModel,
+  private def createViewModel(traderDetails: TraderDetailsModel,
                               vehicleDetails: VehicleDetailsModel): DisposeModel =
     DisposeModel(
       registrationNumber = vehicleDetails.registrationNumber,
@@ -112,7 +112,7 @@ final class Dispose @Inject()(webService: DisposeService, dateService: DateServi
         case _ => handleHttpStatusCode(httpResponseCode)
       }
 
-    def callMicroService(vehicleLookup: VehicleLookupFormViewModel, disposeForm: DisposeFormViewModel, traderDetails: TraderDetailsViewModel) = {
+    def callMicroService(vehicleLookup: VehicleLookupFormViewModel, disposeForm: DisposeFormViewModel, traderDetails: TraderDetailsModel) = {
       val disposeRequest = buildDisposeMicroServiceRequest(vehicleLookup, disposeForm, traderDetails)
       webService.invoke(disposeRequest, trackingId).map {
         case (httpResponseCode, response) =>
@@ -151,7 +151,7 @@ final class Dispose @Inject()(webService: DisposeService, dateService: DateServi
 
     def buildDisposeMicroServiceRequest(vehicleLookup: VehicleLookupFormViewModel,
                                         disposeForm: DisposeFormViewModel,
-                                        traderDetails: TraderDetailsViewModel): DisposeRequestDto = {
+                                        traderDetails: TraderDetailsModel): DisposeRequestDto = {
       val dateTime = disposeFormModel.dateOfDisposal.toDateTime.get
       val formatter = ISODateTimeFormat.dateTime()
       val isoDateTimeString = formatter.print(dateTime)
@@ -188,7 +188,7 @@ final class Dispose @Inject()(webService: DisposeService, dateService: DateServi
         case _ => routes.MicroServiceError.present()
       }
 
-    (request.cookies.getModel[TraderDetailsViewModel], request.cookies.getModel[VehicleLookupFormViewModel]) match {
+    (request.cookies.getModel[TraderDetailsModel], request.cookies.getModel[VehicleLookupFormViewModel]) match {
       case (Some(traderDetails), Some(vehicleLookup)) =>
         callMicroService(vehicleLookup, disposeFormModel, traderDetails)
       case _ => Future {
