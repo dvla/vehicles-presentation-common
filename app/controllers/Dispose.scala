@@ -1,7 +1,6 @@
 package controllers
 
 import com.google.inject.Inject
-import models.TraderDetailsModel
 import models.DisposeModel
 import org.joda.time.format.ISODateTimeFormat
 import play.api.Logger
@@ -9,7 +8,7 @@ import play.api.data.{Form, FormError}
 import play.api.mvc.{Action, AnyContent, Call, Controller, Request, SimpleResult}
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClientSideSessionFactory
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicits.{RichCookies, RichForm, RichSimpleResult}
-import uk.gov.dvla.vehicles.presentation.common.model.VehicleDetailsModel
+import uk.gov.dvla.vehicles.presentation.common.model.{TraderDetailsModel, VehicleDetailsModel}
 import uk.gov.dvla.vehicles.presentation.common.services.DateService
 import uk.gov.dvla.vehicles.presentation.common.views.helpers.FormExtensions.formBinding
 import utils.helpers.Config
