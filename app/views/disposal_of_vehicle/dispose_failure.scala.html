@@ -1,7 +1,7 @@
-@(data: models.DisposeModel,
-        formModel: viewmodels.DisposeFormViewModel)(implicit lang: Lang,
-        token: uk.gov.dvla.vehicles.presentation.common.filters.CsrfPreventionAction.CsrfPreventionToken,
-        config: utils.helpers.Config)
+@(transactionId: Option[String],
+  formModel: viewmodels.DisposeFormViewModel)(implicit lang: Lang,
+  token: uk.gov.dvla.vehicles.presentation.common.filters.CsrfPreventionAction.CsrfPreventionToken,
+  config: utils.helpers.Config)
 
 @import views.disposal_of_vehicle.DisposeFailure.{SetupTradeDetailsId, VehicleLookupId}
 @import views.html.disposal_of_vehicle.main
@@ -16,7 +16,7 @@
             <br>
             @Messages("ms.vehiclesService.response.unableToProcessApplication-address")
         </p>
-        <p>Your transaction ID is<br /><span class="emphasized">@Messages("disposal_disposefailure.transactionid", data.transactionId.getOrElse(""))</span></p>
+        <p>Your transaction ID is<br /><span class="emphasized">@Messages("disposal_disposefailure.transactionid", transactionId.getOrElse(""))</span></p>
     </div>
 
     <div class="form-steps">

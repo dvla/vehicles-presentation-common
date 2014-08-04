@@ -20,7 +20,7 @@ final class DisposeFailure @Inject()()(implicit clientSideSessionFactory: Client
      request.cookies.getString(DisposeFormTransactionIdCacheKey)) match {
       case (Some(dealerDetails), Some(disposeFormModel), Some(vehicleDetails), Some(transactionId)) =>
         val disposeViewModel = createViewModel(dealerDetails, vehicleDetails, Some(transactionId))
-        Ok(views.html.disposal_of_vehicle.dispose_failure(disposeViewModel, disposeFormModel))
+        Ok(views.html.disposal_of_vehicle.dispose_failure(disposeViewModel.transactionId, disposeFormModel))
       case _ =>
         Logger.debug("Could not find all expected data in cache on dispose failure present, redirecting")
         Redirect(routes.SetUpTradeDetails.present())
