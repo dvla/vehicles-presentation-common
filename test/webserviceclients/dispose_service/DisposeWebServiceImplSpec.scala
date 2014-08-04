@@ -5,13 +5,14 @@ import helpers.{UnitSpec, WireMockFixture}
 import play.api.libs.json.Json
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClientSideSessionFactory
 import uk.gov.dvla.vehicles.presentation.common.webserviceclients.HttpHeaders
-import utils.helpers.Config
+import uk.gov.dvla.vehicles.presentation.common.webserviceclients.config.DisposeConfig
+import uk.gov.dvla.vehicles.presentation.common.webserviceclients.dispose.{DisposeWebServiceImpl, DisposeRequestDto, DisposalAddressDto}
 
 class DisposeWebServiceImplSpec extends UnitSpec with WireMockFixture {
 
   implicit val clientSideSessionFactory = injector.getInstance(classOf[ClientSideSessionFactory])
-  val disposeService = new DisposeWebServiceImpl(new Config() {
-    override val disposeVehicleMicroServiceBaseUrl = s"http://localhost:$wireMockPort"
+  val disposeService = new DisposeWebServiceImpl(new DisposeConfig() {
+    override val baseUrl = s"http://localhost:$wireMockPort"
   })
 
   private final val trackingId = "track-id-test"

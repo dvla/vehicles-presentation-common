@@ -1,13 +1,12 @@
 package controllers
 
 import com.google.inject.Inject
-import models.TraderDetailsModel
 import play.api.Logger
 import play.api.data.{Form, FormError}
 import play.api.mvc.{Action, Controller, Request}
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClientSideSessionFactory
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicits.{RichForm, RichCookies, RichSimpleResult}
-import uk.gov.dvla.vehicles.presentation.common.model.AddressModel
+import uk.gov.dvla.vehicles.presentation.common.model.{TraderDetailsModel, AddressModel}
 import uk.gov.dvla.vehicles.presentation.common.views.helpers.FormExtensions.formBinding
 import utils.helpers.Config
 import viewmodels.{EnterAddressManuallyViewModel, SetupTradeDetailsViewModel}

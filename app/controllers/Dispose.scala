@@ -1,22 +1,21 @@
 package controllers
 
 import com.google.inject.Inject
-import models.TraderDetailsModel
 import org.joda.time.format.ISODateTimeFormat
 import play.api.Logger
 import play.api.data.{Form, FormError}
 import play.api.mvc.{Action, AnyContent, Call, Controller, Request, SimpleResult}
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClientSideSessionFactory
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicits.{RichCookies, RichForm, RichSimpleResult}
-import uk.gov.dvla.vehicles.presentation.common.model.VehicleDetailsModel
+import uk.gov.dvla.vehicles.presentation.common.model.{TraderDetailsModel, VehicleDetailsModel}
 import uk.gov.dvla.vehicles.presentation.common.services.DateService
 import uk.gov.dvla.vehicles.presentation.common.views.helpers.FormExtensions.formBinding
+import uk.gov.dvla.vehicles.presentation.common.webserviceclients.dispose.{DisposalAddressDto, DisposeRequestDto, DisposeResponseDto, DisposeService}
 import utils.helpers.Config
 import viewmodels.DisposeFormViewModel.Form.{ConsentId, LossOfRegistrationConsentId}
 import viewmodels.DisposeFormViewModel.{DisposeFormRegistrationNumberCacheKey, DisposeFormTimestampIdCacheKey, DisposeFormTransactionIdCacheKey, PreventGoingToDisposePageCacheKey}
 import viewmodels.{DisposeFormViewModel, DisposeViewModel, VehicleLookupFormViewModel}
 import views.html.disposal_of_vehicle.dispose
-import webserviceclients.dispose_service.{DisposalAddressDto, DisposeRequestDto, DisposeResponseDto, DisposeService}
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future

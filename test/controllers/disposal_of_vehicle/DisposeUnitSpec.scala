@@ -4,7 +4,7 @@ import uk.gov.dvla.vehicles.presentation.common.mappings
 import uk.gov.dvla.vehicles.presentation.common.views.models.AddressLinesViewModel
 import uk.gov.dvla.vehicles.presentation.common.services.DateService
 import AddressLinesViewModel.Form.LineMaxLength
-import controllers.{Dispose, disposal_of_vehicle}
+import controllers.Dispose
 import controllers.disposal_of_vehicle.Common.PrototypeHtml
 import helpers.common.CookieHelper.fetchCookiesFromHeaders
 import helpers.disposal_of_vehicle.CookieFactoryForUnitSpecs
@@ -18,12 +18,13 @@ import play.api.libs.json.Json
 import play.api.test.FakeRequest
 import play.api.test.Helpers.{BAD_REQUEST, INTERNAL_SERVER_ERROR, LOCATION, OK, SERVICE_UNAVAILABLE, contentAsString, defaultAwaitTimeout}
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClientSideSessionFactory
+import uk.gov.dvla.vehicles.presentation.common.webserviceclients.config.DisposeConfig
+import uk.gov.dvla.vehicles.presentation.common.webserviceclients.dispose.{DisposeWebService, DisposeServiceImpl, DisposeService, DisposeResponseDto, DisposeRequestDto, DisposalAddressDto}
 import utils.helpers.Config
 import viewmodels.DisposeFormViewModel.Form.{ConsentId, DateOfDisposalId, LossOfRegistrationConsentId, MileageId}
 import viewmodels.DisposeFormViewModel.{DisposeFormModelCacheKey, DisposeFormRegistrationNumberCacheKey, DisposeFormTimestampIdCacheKey, DisposeFormTransactionIdCacheKey}
 import uk.gov.dvla.vehicles.presentation.common.views.models.DayMonthYear
-import webserviceclients.dispose_service.DisposalAddressDto.BuildingNameOrNumberHolder
-import webserviceclients.dispose_service._
+import DisposalAddressDto.BuildingNameOrNumberHolder
 import webserviceclients.fakes.FakeAddressLookupService.{BuildingNameOrNumberValid, Line2Valid, Line3Valid, PostTownValid, PostcodeValid, PostcodeValidWithSpace, TraderBusinessNameValid}
 import webserviceclients.fakes.FakeDateServiceImpl.{DateOfDisposalDayValid, DateOfDisposalMonthValid, DateOfDisposalYearValid}
 import webserviceclients.fakes.FakeDisposeWebServiceImpl.{MileageValid, disposeResponseApplicationBeingProcessed, disposeResponseFailureWithDuplicateDisposal, disposeResponseSuccess, disposeResponseUnableToProcessApplication, disposeResponseUndefinedError}
@@ -103,7 +104,7 @@ final class DisposeUnitSpec extends UnitSpec {
         withCookies(CookieFactoryForUnitSpecs.traderDetailsModel()).
         withCookies(CookieFactoryForUnitSpecs.vehicleDetailsModel())
       val webService: DisposeWebService = disposeWebService()
-      val disposeService = new DisposeServiceImpl(config, webService)
+      val disposeService = new DisposeServiceImpl(config.dispose, webService)
       val result = disposeController(disposeWebService = webService, disposeService = disposeService).present(request)
       contentAsString(result) should not include PrototypeHtml
     }
@@ -604,11 +605,12 @@ final class DisposeUnitSpec extends UnitSpec {
   }
 
   private def disposeController(disposeWebService: DisposeWebService): Dispose = {
-    val disposeService = new DisposeServiceImpl(config, disposeWebService)
+    val disposeService = new DisposeServiceImpl(config.dispose, disposeWebService)
     disposeController(disposeWebService, disposeService)
   }
 
-  private def disposeController(disposeWebService: DisposeWebService, disposeService: DisposeService)(implicit config: Config = config): Dispose = {
+  private def disposeController(disposeWebService: DisposeWebService, disposeService: DisposeService)
+                               (implicit config: Config = config): Dispose = {
     implicit val clientSideSessionFactory = injector.getInstance(classOf[ClientSideSessionFactory])
 
     new Dispose(disposeService, dateServiceStubbed())

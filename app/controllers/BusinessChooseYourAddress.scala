@@ -1,13 +1,13 @@
 package controllers
 
 import javax.inject.Inject
-import models.TraderDetailsModel
 import play.api.Logger
 import play.api.data.{Form, FormError}
 import play.api.i18n.Lang
 import play.api.mvc.{Action, Controller, Request}
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicits.{RichCookies, RichForm, RichSimpleResult}
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.{ClientSideSession, ClientSideSessionFactory}
+import uk.gov.dvla.vehicles.presentation.common.model.TraderDetailsModel
 import uk.gov.dvla.vehicles.presentation.common.webserviceclients.addresslookup.AddressLookupService
 import utils.helpers.Config
 import viewmodels.BusinessChooseYourAddressViewModel.Form.AddressSelectId

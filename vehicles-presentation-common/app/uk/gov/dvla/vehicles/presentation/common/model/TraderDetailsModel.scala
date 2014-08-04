@@ -1,8 +1,7 @@
-package models
+package uk.gov.dvla.vehicles.presentation.common.model
 
 import play.api.libs.json.Json
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CacheKey
-import uk.gov.dvla.vehicles.presentation.common.model.AddressModel
 
 final case class TraderDetailsModel(traderName: String, traderAddress: AddressModel)
 
