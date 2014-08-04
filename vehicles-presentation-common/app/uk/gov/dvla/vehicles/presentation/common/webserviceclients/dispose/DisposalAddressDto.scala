@@ -1,9 +1,7 @@
-package webserviceclients.dispose_service
+package uk.gov.dvla.vehicles.presentation.common.webserviceclients.dispose
 
 import uk.gov.dvla.vehicles.presentation.common.model.AddressModel
-import uk.gov.dvla.vehicles.presentation.common.views.models.AddressLinesViewModel
 import uk.gov.dvla.vehicles.presentation.common.views.models.AddressLinesViewModel.Form.LineMaxLength
-
 import scala.annotation.tailrec
 
 case class DisposalAddressDto(line: Seq[String], postTown: Option[String], postCode: String, uprn: Option[Long])

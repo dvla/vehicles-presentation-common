@@ -1,14 +1,14 @@
-package webserviceclients.dispose_service
+package uk.gov.dvla.vehicles.presentation.common.webserviceclients.dispose
 
 import javax.inject.Inject
 import play.api.Logger
 import play.api.http.Status.OK
 import uk.gov.dvla.vehicles.presentation.common.LogFormats
-import utils.helpers.Config
+import uk.gov.dvla.vehicles.presentation.common.webserviceclients.config.DisposeConfig
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
-final class DisposeServiceImpl @Inject()(config: Config, ws: DisposeWebService) extends DisposeService {
+final class DisposeServiceImpl @Inject()(config: DisposeConfig, ws: DisposeWebService) extends DisposeService {
 
   override def invoke(cmd: DisposeRequestDto, trackingId: String): Future[(Int, Option[DisposeResponseDto])] = {
     val vrm = LogFormats.anonymize(cmd.registrationNumber)

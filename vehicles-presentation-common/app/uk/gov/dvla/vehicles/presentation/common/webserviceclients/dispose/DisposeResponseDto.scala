@@ -1,4 +1,4 @@
-package webserviceclients.dispose_service
+package uk.gov.dvla.vehicles.presentation.common.webserviceclients.dispose
 
 import play.api.libs.json.Json
 

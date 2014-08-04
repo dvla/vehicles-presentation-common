@@ -4,7 +4,7 @@ import play.api.Logger
 import play.api.http.Status.OK
 import play.api.libs.json.Json
 import play.api.libs.ws.Response
-import webserviceclients.dispose_service.{DisposeResponseDto, DisposeRequestDto, DisposeWebService}
+import uk.gov.dvla.vehicles.presentation.common.webserviceclients.dispose.{DisposeWebService, DisposeResponseDto, DisposeRequestDto}
 import webserviceclients.fakes.FakeVehicleLookupWebService.RegistrationNumberValid
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
