@@ -1,7 +1,8 @@
 package pages.disposal_of_vehicle
 
 import helpers.webbrowser.{Element, Page, WebBrowserDSL, WebDriverFactory}
-import mappings.disposal_of_vehicle.BeforeYouStart.NextId
+import views.disposal_of_vehicle.BeforeYouStart
+import BeforeYouStart.NextId
 import org.openqa.selenium.WebDriver
 
 object  BeforeYouStartPage extends Page with WebBrowserDSL {

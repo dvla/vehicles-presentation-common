@@ -6,7 +6,6 @@ import helpers.JsonUtils.deserializeJsonToModel
 import helpers.common.CookieHelper.fetchCookiesFromHeaders
 import helpers.disposal_of_vehicle.CookieFactoryForUnitSpecs
 import helpers.{UnitSpec, WithApplication}
-import mappings.common.Postcode.PostcodeId
 import org.mockito.Mockito.when
 import pages.disposal_of_vehicle.{SetupTradeDetailsPage, VehicleLookupPage}
 import play.api.mvc.SimpleResult
@@ -16,6 +15,7 @@ import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClientSideSess
 import uk.gov.dvla.vehicles.presentation.common.views.helpers.FormExtensions
 import uk.gov.dvla.vehicles.presentation.common.views.models.AddressLinesViewModel.Form.{AddressLinesId, BuildingNameOrNumberId, Line2Id, Line3Id, PostTownId}
 import utils.helpers.Config
+import views.disposal_of_vehicle.EnterAddressManually.PostcodeId
 import viewmodels.EnterAddressManuallyViewModel.Form.AddressAndPostcodeId
 import viewmodels.TraderDetailsViewModel.TraderDetailsCacheKey
 import viewmodels.{EnterAddressManuallyViewModel, TraderDetailsViewModel}

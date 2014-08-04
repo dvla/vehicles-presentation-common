@@ -1,7 +1,8 @@
 package pages.disposal_of_vehicle
 
 import helpers.webbrowser.{Element, Page, WebBrowserDSL, WebDriverFactory}
-import mappings.disposal_of_vehicle.Error.SubmitId
+import views.disposal_of_vehicle.Error
+import Error.SubmitId
 import org.openqa.selenium.WebDriver
 
 object ErrorPage extends Page with WebBrowserDSL {

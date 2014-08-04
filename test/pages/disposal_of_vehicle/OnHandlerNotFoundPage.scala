@@ -1,7 +1,8 @@
 package pages.disposal_of_vehicle
 
 import helpers.webbrowser.{Element, Page, WebBrowserDSL, WebDriverFactory}
-import mappings.disposal_of_vehicle.OnHandlerNotFound.ExitId
+import views.disposal_of_vehicle.OnHandlerNotFound
+import OnHandlerNotFound.ExitId
 import org.openqa.selenium.WebDriver
 
 object OnHandlerNotFoundPage extends Page with WebBrowserDSL {

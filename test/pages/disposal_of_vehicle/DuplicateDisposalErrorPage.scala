@@ -1,7 +1,8 @@
 package pages.disposal_of_vehicle
 
 import helpers.webbrowser.{Element, Page, WebBrowserDSL, WebDriverFactory}
-import mappings.disposal_of_vehicle.MicroserviceError.{ExitId, TryAgainId}
+import views.disposal_of_vehicle.MicroserviceError
+import MicroserviceError.{ExitId, TryAgainId}
 import org.openqa.selenium.WebDriver
 
 object DuplicateDisposalErrorPage extends Page with WebBrowserDSL {

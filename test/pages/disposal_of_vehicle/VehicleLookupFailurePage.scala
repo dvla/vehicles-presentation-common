@@ -1,7 +1,8 @@
 package pages.disposal_of_vehicle
 
 import helpers.webbrowser.{Element, Page, WebBrowserDSL, WebDriverFactory}
-import mappings.disposal_of_vehicle.VehicleLookupFailure.{BeforeYouStartId, VehicleLookupId}
+import views.disposal_of_vehicle.VehicleLookupFailure
+import VehicleLookupFailure.{BeforeYouStartId, VehicleLookupId}
 import org.openqa.selenium.WebDriver
 
 object VehicleLookupFailurePage extends Page with WebBrowserDSL {

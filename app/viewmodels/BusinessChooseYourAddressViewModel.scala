@@ -1,6 +1,6 @@
 package viewmodels
 
-import mappings.common.DropDown
+import mappings.DropDown
 import play.api.data.Forms._
 import play.api.libs.json.Json
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CacheKey

@@ -1,7 +1,8 @@
 package pages.disposal_of_vehicle
 
 import helpers.webbrowser.{Element, Page, TextField, WebBrowserDSL, WebDriverFactory}
-import mappings.disposal_of_vehicle.EnterAddressManually.{BackId, NextId}
+import views.disposal_of_vehicle.EnterAddressManually
+import EnterAddressManually.{BackId, NextId}
 import uk.gov.dvla.vehicles.presentation.common.views.models.AddressLinesViewModel
 import org.openqa.selenium.WebDriver
 import AddressLinesViewModel.Form.{AddressLinesId, BuildingNameOrNumberId, Line2Id, Line3Id, PostTownId}

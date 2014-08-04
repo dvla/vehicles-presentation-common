@@ -1,6 +1,7 @@
 package viewmodels
 
-import mappings.common.Consent.consent
+import mappings.Consent
+import Consent.consent
 import play.api.data.Mapping
 import play.api.libs.json.Json
 import uk.gov.dvla.vehicles.presentation.common

@@ -1,9 +1,9 @@
-package mappings.disposal_of_vehicle
+package views.disposal_of_vehicle
 
 /**
  * The following are used to deduplicate code across views and tests; they are not used in view-model mappings.
  */
-object VehicleLookupFailure {
+object DisposeFailure {
   final val VehicleLookupId = "vehiclelookup"
-  final val BeforeYouStartId = "beforeyoustart"
+  final val SetupTradeDetailsId = "setuptradedetails"
 }

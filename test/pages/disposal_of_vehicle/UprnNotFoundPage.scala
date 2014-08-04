@@ -1,7 +1,8 @@
 package pages.disposal_of_vehicle
 
 import helpers.webbrowser.{Element, Page, WebBrowserDSL, WebDriverFactory}
-import mappings.disposal_of_vehicle.UprnNotFound.{ManualaddressbuttonId, SetuptradedetailsbuttonId}
+import views.disposal_of_vehicle.UprnNotFound
+import UprnNotFound.{ManualaddressbuttonId, SetuptradedetailsbuttonId}
 import org.openqa.selenium.WebDriver
 
 object UprnNotFoundPage extends Page with WebBrowserDSL {

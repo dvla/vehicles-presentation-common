@@ -1,7 +1,8 @@
 package pages.disposal_of_vehicle
 
 import helpers.webbrowser.{Element, Page, TextField, WebBrowserDSL, WebDriverFactory}
-import mappings.disposal_of_vehicle.SetupTradeDetails.SubmitId
+import views.disposal_of_vehicle.SetupTradeDetails
+import SetupTradeDetails.SubmitId
 import viewmodels.SetupTradeDetailsViewModel.Form.{TraderNameId, TraderPostcodeId}
 import org.openqa.selenium.WebDriver
 import webserviceclients.fakes.FakeAddressLookupService.{PostcodeWithoutAddresses, PostcodeValid, TraderBusinessNameValid}

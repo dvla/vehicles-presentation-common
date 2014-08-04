@@ -1,4 +1,4 @@
-package mappings.disposal_of_vehicle
+package views.disposal_of_vehicle
 
 object VehicleLookup {
   final val BackId = "back"
