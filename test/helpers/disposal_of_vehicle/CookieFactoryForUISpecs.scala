@@ -1,9 +1,9 @@
 package helpers.disposal_of_vehicle
 
-import controllers.MicroServiceError
 import controllers.MicroServiceError.MicroServiceErrorRefererCacheKey
-import models.BruteForcePreventionModel.BruteForcePreventionViewModelCacheKey
-import models.{TraderDetailsModel, VehicleDetailsModel, AddressModel, BruteForcePreventionModel}
+import models.TraderDetailsModel
+import uk.gov.dvla.vehicles.presentation.common.model.{VehicleDetailsModel, AddressModel, BruteForcePreventionModel}
+import BruteForcePreventionModel.BruteForcePreventionViewModelCacheKey
 import org.joda.time.DateTime
 import org.openqa.selenium.{Cookie, WebDriver}
 import play.api.Play
@@ -15,7 +15,6 @@ import viewmodels.BusinessChooseYourAddressViewModel.BusinessChooseYourAddressCa
 import viewmodels.DisposeFormViewModel.{DisposeFormModelCacheKey, DisposeFormRegistrationNumberCacheKey, DisposeFormTimestampIdCacheKey, DisposeFormTransactionIdCacheKey, DisposeOccurredCacheKey, PreventGoingToDisposePageCacheKey}
 import viewmodels.EnterAddressManuallyViewModel.EnterAddressManuallyCacheKey
 import viewmodels.SetupTradeDetailsViewModel.SetupTradeDetailsCacheKey
-import viewmodels._
 import TraderDetailsModel.TraderDetailsCacheKey
 import VehicleDetailsModel.VehicleLookupDetailsCacheKey
 import viewmodels.VehicleLookupFormViewModel.{VehicleLookupFormModelCacheKey, VehicleLookupResponseCodeCacheKey}

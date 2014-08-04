@@ -2,8 +2,9 @@ package helpers.disposal_of_vehicle
 
 import composition.TestComposition
 import controllers.MicroServiceError.MicroServiceErrorRefererCacheKey
-import models.BruteForcePreventionModel.BruteForcePreventionViewModelCacheKey
-import models.{TraderDetailsModel, VehicleDetailsModel, AddressModel, BruteForcePreventionModel}
+import models.TraderDetailsModel
+import uk.gov.dvla.vehicles.presentation.common.model.{VehicleDetailsModel, AddressModel, BruteForcePreventionModel}
+import BruteForcePreventionModel.BruteForcePreventionViewModelCacheKey
 import org.joda.time.DateTime
 import pages.disposal_of_vehicle.{HelpPage, VehicleLookupPage}
 import play.api.libs.json.{Json, Writes}

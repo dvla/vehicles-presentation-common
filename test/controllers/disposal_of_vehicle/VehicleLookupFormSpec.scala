@@ -1,11 +1,14 @@
 package controllers.disposal_of_vehicle
 
-import controllers.{SurveyUrl, VehicleLookup, disposal_of_vehicle}
+import controllers.{SurveyUrl, VehicleLookup}
 import helpers.UnitSpec
 import helpers.common.RandomVrmGenerator
 import helpers.disposal_of_vehicle.InvalidVRMFormat.allInvalidVrmFormats
 import helpers.disposal_of_vehicle.ValidVRMFormat.allValidVrmFormats
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClientSideSessionFactory
+import uk.gov.dvla.vehicles.presentation.common.webserviceclients.bruteforceprevention.{BruteForcePreventionWebService, BruteForcePreventionServiceImpl, BruteForcePreventionService}
+import uk.gov.dvla.vehicles.presentation.common.webserviceclients.config.BruteForcePreventionConfig
+import uk.gov.dvla.vehicles.presentation.common.webserviceclients.vehiclelookup.{VehicleLookupWebService, VehicleLookupServiceImpl, VehicleDetailsResponseDto, VehicleDetailsRequestDto}
 import viewmodels.VehicleLookupFormViewModel.Form.{DocumentReferenceNumberId, VehicleRegistrationNumberId}
 import org.mockito.Matchers.{any, anyString}
 import org.mockito.Mockito.when
@@ -14,15 +17,11 @@ import play.api.libs.json.{JsValue, Json}
 import services.DateServiceImpl
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
-import webserviceclients.brute_force_prevention.BruteForcePreventionService
-import webserviceclients.brute_force_prevention.BruteForcePreventionServiceImpl
-import webserviceclients.brute_force_prevention.BruteForcePreventionWebService
 import webserviceclients.fakes.FakeVehicleLookupWebService.ConsentValid
 import webserviceclients.fakes.FakeVehicleLookupWebService.ReferenceNumberValid
 import webserviceclients.fakes.FakeVehicleLookupWebService.RegistrationNumberValid
 import webserviceclients.fakes.FakeVehicleLookupWebService.vehicleDetailsResponseSuccess
 import webserviceclients.fakes.{FakeDateServiceImpl, FakeResponse}
-import webserviceclients.vehicle_lookup.{VehicleDetailsResponseDto, VehicleDetailsRequestDto, VehicleLookupServiceImpl, VehicleLookupWebService}
 import utils.helpers.Config
 
 final class VehicleLookupFormSpec extends UnitSpec {
@@ -115,7 +114,7 @@ final class VehicleLookupFormSpec extends UnitSpec {
     )
 
     new BruteForcePreventionServiceImpl(
-      config = new Config(),
+      config = new BruteForcePreventionConfig,
       ws = bruteForcePreventionWebService,
       dateService = new FakeDateServiceImpl
     )

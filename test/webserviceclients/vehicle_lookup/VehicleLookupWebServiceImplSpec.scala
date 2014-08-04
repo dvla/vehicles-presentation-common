@@ -3,9 +3,11 @@ package webserviceclients.vehicle_lookup
 import com.github.tomakehurst.wiremock.client.WireMock.{equalTo, postRequestedFor, urlEqualTo}
 import helpers.{UnitSpec, WireMockFixture}
 import play.api.libs.json.Json
-import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClientSideSessionFactory
-import uk.gov.dvla.vehicles.presentation.common.webserviceclients.HttpHeaders
-import utils.helpers.Config
+import uk.gov.dvla.vehicles.presentation.common
+import common.clientsidesession.ClientSideSessionFactory
+import common.webserviceclients.HttpHeaders
+import common.webserviceclients.config.VehicleLookupConfig
+import common.webserviceclients.vehiclelookup.{VehicleLookupWebServiceImpl, VehicleDetailsRequestDto}
 
 class VehicleLookupWebServiceImplSpec  extends UnitSpec  with WireMockFixture {
 
@@ -22,8 +24,8 @@ class VehicleLookupWebServiceImplSpec  extends UnitSpec  with WireMockFixture {
   }
 
   implicit val clientSideSessionFactory = injector.getInstance(classOf[ClientSideSessionFactory])
-  val lookupService = new VehicleLookupWebServiceImpl(new Config() {
-    override val vehicleLookupMicroServiceBaseUrl = s"http://localhost:$wireMockPort"
+  val lookupService = new VehicleLookupWebServiceImpl(new VehicleLookupConfig() {
+    override val baseUrl = s"http://localhost:$wireMockPort"
   })
   implicit val vehiclesDetailsFormat = Json.format[VehicleDetailsRequestDto]
 

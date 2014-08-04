@@ -1,11 +1,12 @@
 package controllers
 
 import com.google.inject.Inject
-import models.{TraderDetailsModel, BruteForcePreventionModel}
+import models.TraderDetailsModel
 import play.api.Logger
 import play.api.mvc.{Action, Controller}
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClientSideSessionFactory
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicits.{RichCookies, RichSimpleResult}
+import uk.gov.dvla.vehicles.presentation.common.model.BruteForcePreventionModel
 import utils.helpers.Config
 import viewmodels.{AllCacheKeys, DisposeCacheKeys}
 

@@ -6,9 +6,10 @@ import play.api.libs.json.Json
 import play.api.libs.json.JsValue
 import play.api.libs.ws.Response
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClearTextClientSideSessionFactory
+import uk.gov.dvla.vehicles.presentation.common.webserviceclients.addresslookup.AddressLookupService
+import uk.gov.dvla.vehicles.presentation.common.webserviceclients.addresslookup.ordnanceservey.{UprnToAddressResponseDto, PostcodeToAddressResponseDto, AddressLookupServiceImpl}
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
-import webserviceclients.address_lookup.AddressLookupService
 import webserviceclients.fakes.FakeAddressLookupService.PostcodeValid
 import webserviceclients.fakes.FakeAddressLookupWebServiceImpl
 import webserviceclients.fakes.FakeAddressLookupWebServiceImpl.postcodeToAddressResponseValid
