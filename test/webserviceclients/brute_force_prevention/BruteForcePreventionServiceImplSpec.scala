@@ -3,8 +3,7 @@ package webserviceclients.brute_force_prevention
 import org.mockito.Mockito.when
 import play.api.libs.ws.Response
 import helpers.UnitSpec
-import uk.gov.dvla.vehicles.presentation.common.webserviceclients.bruteforceprevention.{BruteForcePreventionWebService, BruteForcePreventionServiceImpl, BruteForcePreventionService}
-import uk.gov.dvla.vehicles.presentation.common.webserviceclients.config.BruteForcePreventionConfig
+import uk.gov.dvla.vehicles.presentation.common.webserviceclients.bruteforceprevention.{BruteForcePreventionConfig, BruteForcePreventionWebService, BruteForcePreventionServiceImpl, BruteForcePreventionService}
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 import scala.util.Try

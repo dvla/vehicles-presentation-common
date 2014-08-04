@@ -1,4 +1,4 @@
-package uk.gov.dvla.vehicles.presentation.common.webserviceclients.config
+package uk.gov.dvla.vehicles.presentation.common.webserviceclients.bruteforceprevention
 
 import uk.gov.dvla.vehicles.presentation.common.ConfigProperties.getProperty
 import scala.concurrent.duration.DurationInt

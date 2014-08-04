@@ -2,11 +2,8 @@ package utils.helpers
 
 import uk.gov.dvla.vehicles.presentation.common
 import common.ConfigProperties.{getProperty, getDurationProperty}
-import common.webserviceclients.config.VehicleLookupConfig
-import common.webserviceclients.config.OrdnanceSurveyConfig
-import common.webserviceclients.config.GDSAddressLookupConfig
-import common.webserviceclients.config.DisposeConfig
-import common.webserviceclients.config.BruteForcePreventionConfig
+import uk.gov.dvla.vehicles.presentation.common.webserviceclients.bruteforceprevention.BruteForcePreventionConfig
+import uk.gov.dvla.vehicles.presentation.common.webserviceclients.config.{DisposeConfig, GDSAddressLookupConfig, OrdnanceSurveyConfig, VehicleLookupConfig}
 import scala.concurrent.duration.DurationInt
 
 class Config {

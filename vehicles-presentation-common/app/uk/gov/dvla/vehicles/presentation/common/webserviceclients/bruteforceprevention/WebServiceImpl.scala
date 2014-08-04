@@ -3,7 +3,6 @@ package uk.gov.dvla.vehicles.presentation.common.webserviceclients.bruteforcepre
 import com.google.inject.Inject
 import play.api.Logger
 import play.api.libs.ws.{Response, WS}
-import uk.gov.dvla.vehicles.presentation.common.webserviceclients.config.BruteForcePreventionConfig
 import scala.concurrent.Future
 
 final class WebServiceImpl @Inject()(config: BruteForcePreventionConfig) extends BruteForcePreventionWebService {

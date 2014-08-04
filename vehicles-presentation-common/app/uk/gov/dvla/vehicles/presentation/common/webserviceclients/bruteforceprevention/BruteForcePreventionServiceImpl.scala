@@ -5,7 +5,6 @@ import play.api.Logger
 import play.api.libs.json.Json
 import uk.gov.dvla.vehicles.presentation.common.model.BruteForcePreventionModel
 import uk.gov.dvla.vehicles.presentation.common.services.DateService
-import uk.gov.dvla.vehicles.presentation.common.webserviceclients.config.BruteForcePreventionConfig
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 

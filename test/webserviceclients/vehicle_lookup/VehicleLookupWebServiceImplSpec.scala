@@ -6,8 +6,8 @@ import play.api.libs.json.Json
 import uk.gov.dvla.vehicles.presentation.common
 import common.clientsidesession.ClientSideSessionFactory
 import common.webserviceclients.HttpHeaders
-import common.webserviceclients.config.VehicleLookupConfig
-import common.webserviceclients.vehiclelookup.{VehicleLookupWebServiceImpl, VehicleDetailsRequestDto}
+import uk.gov.dvla.vehicles.presentation.common.webserviceclients.config.VehicleLookupConfig
+import uk.gov.dvla.vehicles.presentation.common.webserviceclients.vehiclelookup.{VehicleLookupWebServiceImpl, VehicleDetailsRequestDto}
 
 class VehicleLookupWebServiceImplSpec  extends UnitSpec  with WireMockFixture {
 
