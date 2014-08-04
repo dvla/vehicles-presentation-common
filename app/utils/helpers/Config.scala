@@ -1,32 +1,41 @@
 package utils.helpers
 
-import uk.gov.dvla.vehicles.presentation.common.ConfigProperties.{getProperty, getDurationProperty}
+import uk.gov.dvla.vehicles.presentation.common
+import common.ConfigProperties.{getProperty, getDurationProperty}
+import common.webserviceclients.config.VehicleLookupConfig
+import common.webserviceclients.config.OrdnanceSurveyConfig
+import common.webserviceclients.config.GDSAddressLookupConfig
+import common.webserviceclients.config.DisposeConfig
+import common.webserviceclients.config.BrutForcePreventionConfig
 import scala.concurrent.duration.DurationInt
 
 class Config {
+  val vehiclesLookup = new VehicleLookupConfig
+  val ordnanceSurvey = new OrdnanceSurveyConfig
+  val gdsAddressLookup = new GDSAddressLookupConfig
+  val dispose = new DisposeConfig
+  val brutForcePrevention = new BrutForcePreventionConfig
+
   // Micro-service config
-  val vehicleLookupMicroServiceBaseUrl: String = getProperty("vehicleLookup.baseUrl", "NOT FOUND")
+  val vehicleLookupMicroServiceBaseUrl = vehiclesLookup.baseUrl
 
-  // Ordnance survey config
-  val ordnanceSurveyMicroServiceUrl: String = getProperty("ordnancesurvey.baseUrl", "NOT FOUND")
-  val ordnanceSurveyRequestTimeout: Int = getProperty("ordnancesurvey.requestTimeout", 5.seconds.toMillis.toInt)
+  val ordnanceSurveyMicroServiceUrl = ordnanceSurvey.baseUrl
+  val ordnanceSurveyRequestTimeout = ordnanceSurvey.requestTimeout
 
-  // GDS address lookup config
-  val gdsAddressLookupBaseUrl: String = getProperty("gdsaddresslookup.baseUrl", "")
-  val gdsAddressLookupAuthorisation: String = getProperty("gdsaddresslookup.authorisation", "")
-  val gdsAddressLookupRequestTimeout: Int = getProperty("gdsaddresslookup.requestTimeout", 5.seconds.toMillis.toInt)
+  val gdsAddressLookupBaseUrl = gdsAddressLookup.baseUrl
+  val gdsAddressLookupRequestTimeout = gdsAddressLookup.requestTimeout
+  val gdsAddressLookupAuthorisation = gdsAddressLookup.authorisation
 
-  // Dispose
-  val disposeVehicleMicroServiceBaseUrl: String = getProperty("disposeVehicle.baseUrl", "NOT FOUND")
-  val disposeMsRequestTimeout: Int = getProperty("disposeVehicle.requestTimeout", 5.seconds.toMillis.toInt)
+  val disposeVehicleMicroServiceBaseUrl = dispose.baseUrl
+  val disposeMsRequestTimeout = dispose.requestTimeout
 
   // Brute force prevention config
-  val bruteForcePreventionMicroServiceBaseUrl: String = getProperty("bruteForcePrevention.baseUrl", "NOT FOUND")
-  val bruteForcePreventionTimeout: Int = getProperty("bruteForcePrevention.requestTimeout", 5.seconds.toMillis.toInt)
-  val isBruteForcePreventionEnabled: Boolean = getProperty("bruteForcePrevention.enabled", default = true)
-  val bruteForcePreventionServiceNameHeader: String = getProperty("bruteForcePrevention.headers.serviceName", "")
-  val bruteForcePreventionMaxAttemptsHeader: Int = getProperty("bruteForcePrevention.headers.maxAttempts", 3)
-  val bruteForcePreventionExpiryHeader: String = getProperty("bruteForcePrevention.headers.expiry", "")
+  val bruteForcePreventionExpiryHeader = brutForcePrevention.expiryHeader
+  val bruteForcePreventionMicroServiceBaseUrl = brutForcePrevention.baseUrl
+  val bruteForcePreventionTimeout = brutForcePrevention.requestTimeout
+  val isBruteForcePreventionEnabled: Boolean = brutForcePrevention.isEnabled
+  val bruteForcePreventionServiceNameHeader: String = brutForcePrevention.nameHeader
+  val bruteForcePreventionMaxAttemptsHeader: Int = brutForcePrevention.maxAttemptsHeader
 
   // Prototype message in html
   val isPrototypeBannerVisible: Boolean = getProperty("prototype.disclaimer", default = true)
