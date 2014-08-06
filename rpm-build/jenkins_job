@@ -6,4 +6,4 @@ export JAVA_OPTS="-Dspecs2.color=false -Dsbt.log.format=true -Dsbt.log.noformat=
 
 sbt -Dsbt.log.noformat=true -ivy $WORKSPACE vehiclesPresentationCommon/clean clean vehiclesPresentationCommon/test test dist publish
 
-./jenkins_job_build_rpm
+./rpm-build/jenkins_job_build_rpm
