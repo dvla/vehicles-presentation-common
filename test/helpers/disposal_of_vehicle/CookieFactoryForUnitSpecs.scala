@@ -26,15 +26,15 @@ import VehicleDetailsModel.VehicleLookupDetailsCacheKey
 import viewmodels.VehicleLookupFormViewModel.{VehicleLookupFormModelCacheKey, VehicleLookupResponseCodeCacheKey}
 import viewmodels.{BusinessChooseYourAddressViewModel, DisposeFormViewModel}
 import viewmodels.{EnterAddressManuallyViewModel, SeenCookieMessageCacheKey, SetupTradeDetailsViewModel, VehicleLookupFormViewModel}
-import uk.gov.dvla.vehicles.presentation.common.webserviceclients.fakes.FakeAddressLookupService.{BuildingNameOrNumberValid, Line2Valid, Line3Valid}
-import uk.gov.dvla.vehicles.presentation.common.webserviceclients.fakes.FakeAddressLookupService.{PostTownValid, PostcodeValid, TraderBusinessNameValid}
-import uk.gov.dvla.vehicles.presentation.common.webserviceclients.fakes.FakeAddressLookupWebServiceImpl.traderUprnValid
-import uk.gov.dvla.vehicles.presentation.common.webserviceclients.fakes.FakeDateServiceImpl.{DateOfDisposalDayValid, DateOfDisposalMonthValid, DateOfDisposalYearValid}
-import uk.gov.dvla.vehicles.presentation.common.webserviceclients.fakes.FakeDisposeWebServiceImpl.TransactionIdValid
-import uk.gov.dvla.vehicles.presentation.common.webserviceclients.fakes.FakeVehicleLookupWebService.{KeeperNameValid, ReferenceNumberValid}
-import uk.gov.dvla.vehicles.presentation.common.webserviceclients.fakes.FakeVehicleLookupWebService.{RegistrationNumberValid, VehicleModelValid}
-import uk.gov.dvla.vehicles.presentation.common.webserviceclients.fakes.brute_force_protection.FakeBruteForcePreventionWebServiceImpl.MaxAttempts
-import uk.gov.dvla.vehicles.presentation.common.webserviceclients.fakes.{FakeDateServiceImpl, FakeDisposeWebServiceImpl, FakeVehicleLookupWebService}
+import webserviceclients.fakes.FakeAddressLookupService.{BuildingNameOrNumberValid, Line2Valid, Line3Valid}
+import webserviceclients.fakes.FakeAddressLookupService.{PostTownValid, PostcodeValid, TraderBusinessNameValid}
+import webserviceclients.fakes.FakeAddressLookupWebServiceImpl.traderUprnValid
+import webserviceclients.fakes.FakeDateServiceImpl.{DateOfDisposalDayValid, DateOfDisposalMonthValid, DateOfDisposalYearValid}
+import webserviceclients.fakes.FakeDisposeWebServiceImpl.TransactionIdValid
+import webserviceclients.fakes.FakeVehicleLookupWebService.{KeeperNameValid, ReferenceNumberValid}
+import webserviceclients.fakes.FakeVehicleLookupWebService.{RegistrationNumberValid, VehicleModelValid}
+import webserviceclients.fakes.brute_force_protection.FakeBruteForcePreventionWebServiceImpl.MaxAttempts
+import webserviceclients.fakes.{FakeDateServiceImpl, FakeDisposeWebServiceImpl, FakeVehicleLookupWebService}
 
 object CookieFactoryForUnitSpecs extends TestComposition { // TODO can we make this more fluent by returning "this" at the end of the defs
 

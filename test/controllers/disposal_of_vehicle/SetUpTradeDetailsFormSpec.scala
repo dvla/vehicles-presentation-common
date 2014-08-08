@@ -2,7 +2,7 @@ package controllers.disposal_of_vehicle
 
 import controllers.SetUpTradeDetails
 import viewmodels.SetupTradeDetailsViewModel.Form.{TraderNameId, TraderPostcodeId}
-import uk.gov.dvla.vehicles.presentation.common.webserviceclients.fakes.FakeAddressLookupService.{PostcodeValid, TraderBusinessNameValid}
+import webserviceclients.fakes.FakeAddressLookupService.{PostcodeValid, TraderBusinessNameValid}
 import helpers.UnitSpec
 
 final class SetUpTradeDetailsFormSpec extends UnitSpec {

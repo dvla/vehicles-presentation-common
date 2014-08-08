@@ -5,8 +5,8 @@ import uk.gov.dvla.vehicles.presentation.common.mappings.DayMonthYear
 import DayMonthYear.{DayId, MonthId, YearId}
 import org.openqa.selenium.WebDriver
 import viewmodels.DisposeFormViewModel.Form.{BackId, ConsentId, DateOfDisposalId, LossOfRegistrationConsentId, MileageId, SubmitId, TodaysDateOfDisposal}
-import uk.gov.dvla.vehicles.presentation.common.webserviceclients.fakes.FakeDateServiceImpl.{DateOfDisposalDayValid, DateOfDisposalMonthValid, DateOfDisposalYearValid}
-import uk.gov.dvla.vehicles.presentation.common.webserviceclients.fakes.FakeDisposeWebServiceImpl.MileageValid
+import webserviceclients.fakes.FakeDateServiceImpl.{DateOfDisposalDayValid, DateOfDisposalMonthValid, DateOfDisposalYearValid}
+import webserviceclients.fakes.FakeDisposeWebServiceImpl.MileageValid
 
 object DisposePage extends Page with WebBrowserDSL {
   final val address = "/sell-to-the-trade/complete-and-confirm"

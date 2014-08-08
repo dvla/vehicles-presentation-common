@@ -7,8 +7,8 @@ import viewmodels.VehicleLookupFormViewModel.Form.{DocumentReferenceNumberId, Ve
 import VehicleLookup.ExitId
 import VehicleLookup.SubmitId
 import org.openqa.selenium.WebDriver
-import uk.gov.dvla.vehicles.presentation.common.webserviceclients.fakes.FakeVehicleLookupWebService.{ReferenceNumberValid, RegistrationNumberValid}
-import uk.gov.dvla.vehicles.presentation.common.webserviceclients.fakes.brute_force_protection.FakeBruteForcePreventionWebServiceImpl.VrmLocked
+import webserviceclients.fakes.FakeVehicleLookupWebService.{ReferenceNumberValid, RegistrationNumberValid}
+import webserviceclients.fakes.brute_force_protection.FakeBruteForcePreventionWebServiceImpl.VrmLocked
 
 object VehicleLookupPage extends Page with WebBrowserDSL {
   final val address = "/sell-to-the-trade/vehicle-lookup"

@@ -5,7 +5,7 @@ import views.disposal_of_vehicle.SetupTradeDetails
 import SetupTradeDetails.SubmitId
 import viewmodels.SetupTradeDetailsViewModel.Form.{TraderNameId, TraderPostcodeId}
 import org.openqa.selenium.WebDriver
-import uk.gov.dvla.vehicles.presentation.common.webserviceclients.fakes.FakeAddressLookupService.{PostcodeWithoutAddresses, PostcodeValid, TraderBusinessNameValid}
+import webserviceclients.fakes.FakeAddressLookupService.{PostcodeWithoutAddresses, PostcodeValid, TraderBusinessNameValid}
 
 object SetupTradeDetailsPage extends Page with WebBrowserDSL {
   final val address = "/sell-to-the-trade/setup-trade-details"

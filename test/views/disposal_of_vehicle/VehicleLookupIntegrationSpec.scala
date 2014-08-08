@@ -19,7 +19,7 @@ import pages.disposal_of_vehicle.VrmLockedPage
 import play.api.test.FakeApplication
 import uk.gov.dvla.vehicles.presentation.common.filters.CsrfPreventionAction
 import viewmodels.AllCacheKeys
-import uk.gov.dvla.vehicles.presentation.common.webserviceclients.fakes.FakeAddressLookupService.addressWithUprn
+import webserviceclients.fakes.FakeAddressLookupService.addressWithUprn
 
 final class VehicleLookupIntegrationSpec extends UiSpec with TestHarness {
 

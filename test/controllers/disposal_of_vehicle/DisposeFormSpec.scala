@@ -9,9 +9,9 @@ import uk.gov.dvla.vehicles.presentation.common.webserviceclients.config.Dispose
 import uk.gov.dvla.vehicles.presentation.common.webserviceclients.dispose.{DisposeWebService, DisposeServiceImpl, DisposeRequestDto}
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
-import uk.gov.dvla.vehicles.presentation.common.webserviceclients.fakes.FakeDateServiceImpl.{DateOfDisposalDayValid, DateOfDisposalMonthValid, DateOfDisposalYearValid}
-import uk.gov.dvla.vehicles.presentation.common.webserviceclients.fakes.FakeDisposeWebServiceImpl.{ConsentValid, MileageValid, disposeResponseSuccess}
-import uk.gov.dvla.vehicles.presentation.common.webserviceclients.fakes.FakeResponse
+import webserviceclients.fakes.FakeDateServiceImpl.{DateOfDisposalDayValid, DateOfDisposalMonthValid, DateOfDisposalYearValid}
+import webserviceclients.fakes.FakeDisposeWebServiceImpl.{ConsentValid, MileageValid, disposeResponseSuccess}
+import webserviceclients.fakes.FakeResponse
 import utils.helpers.Config
 import uk.gov.dvla.vehicles.presentation.common
 import common.clientsidesession.ClientSideSessionFactory

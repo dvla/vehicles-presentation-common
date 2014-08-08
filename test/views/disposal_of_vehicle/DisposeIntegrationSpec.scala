@@ -29,10 +29,10 @@ import pages.disposal_of_vehicle.DisposeSuccessPage
 import pages.disposal_of_vehicle.SetupTradeDetailsPage
 import pages.disposal_of_vehicle.VehicleLookupPage
 import play.api.test.FakeApplication
-import uk.gov.dvla.vehicles.presentation.common.webserviceclients.fakes.FakeDateServiceImpl.DateOfDisposalDayValid
-import uk.gov.dvla.vehicles.presentation.common.webserviceclients.fakes.FakeDateServiceImpl.DateOfDisposalMonthValid
-import uk.gov.dvla.vehicles.presentation.common.webserviceclients.fakes.FakeDateServiceImpl.DateOfDisposalYearValid
-import uk.gov.dvla.vehicles.presentation.common.webserviceclients.fakes.FakeDisposeWebServiceImpl.MileageInvalid
+import webserviceclients.fakes.FakeDateServiceImpl.DateOfDisposalDayValid
+import webserviceclients.fakes.FakeDateServiceImpl.DateOfDisposalMonthValid
+import webserviceclients.fakes.FakeDateServiceImpl.DateOfDisposalYearValid
+import webserviceclients.fakes.FakeDisposeWebServiceImpl.MileageInvalid
 import pages.disposal_of_vehicle.DisposePage.mileage
 
 final class DisposeIntegrationSpec extends UiSpec with TestHarness {

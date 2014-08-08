@@ -2,10 +2,10 @@ package models.domain.common
 
 import helpers.UnitSpec
 import uk.gov.dvla.vehicles.presentation.common.views.models.AddressLinesViewModel
-import uk.gov.dvla.vehicles.presentation.common.webserviceclients.fakes.FakeAddressLookupService.BuildingNameOrNumberValid
-import uk.gov.dvla.vehicles.presentation.common.webserviceclients.fakes.FakeAddressLookupService.Line2Valid
-import uk.gov.dvla.vehicles.presentation.common.webserviceclients.fakes.FakeAddressLookupService.Line3Valid
-import uk.gov.dvla.vehicles.presentation.common.webserviceclients.fakes.FakeAddressLookupService.PostTownValid
+import webserviceclients.fakes.FakeAddressLookupService.BuildingNameOrNumberValid
+import webserviceclients.fakes.FakeAddressLookupService.Line2Valid
+import webserviceclients.fakes.FakeAddressLookupService.Line3Valid
+import webserviceclients.fakes.FakeAddressLookupService.PostTownValid
 
 final class AddressLinesModelSpec extends UnitSpec {
   "toViewFormat" should {
