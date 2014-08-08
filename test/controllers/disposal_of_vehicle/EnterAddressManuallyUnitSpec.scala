@@ -20,7 +20,7 @@ import views.disposal_of_vehicle.EnterAddressManually.PostcodeId
 import viewmodels.EnterAddressManuallyViewModel.Form.AddressAndPostcodeId
 import TraderDetailsModel.TraderDetailsCacheKey
 import viewmodels.EnterAddressManuallyViewModel
-import webserviceclients.fakes.FakeAddressLookupService.{BuildingNameOrNumberValid, Line2Valid, Line3Valid, PostTownValid, PostcodeValid}
+import uk.gov.dvla.vehicles.presentation.common.webserviceclients.fakes.FakeAddressLookupService.{BuildingNameOrNumberValid, Line2Valid, Line3Valid, PostTownValid, PostcodeValid}
 
 import scala.concurrent.Future
 

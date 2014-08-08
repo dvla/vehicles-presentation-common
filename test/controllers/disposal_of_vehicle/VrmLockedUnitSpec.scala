@@ -9,7 +9,7 @@ import pages.disposal_of_vehicle.{BeforeYouStartPage, SetupTradeDetailsPage, Veh
 import play.api.test.FakeRequest
 import play.api.test.Helpers.{LOCATION, contentAsString, defaultAwaitTimeout}
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClientSideSessionFactory
-import webserviceclients.fakes.FakeDateServiceImpl
+import uk.gov.dvla.vehicles.presentation.common.webserviceclients.fakes.FakeDateServiceImpl
 import utils.helpers.Config
 
 final class VrmLockedUnitSpec extends UnitSpec {

@@ -1,4 +1,4 @@
-package webserviceclients.fakes
+package uk.gov.dvla.vehicles.presentation.common.webserviceclients.fakes
 
 import play.api.libs.json.JsValue
 import play.api.libs.ws.Response

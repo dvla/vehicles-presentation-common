@@ -16,11 +16,11 @@ import play.api.libs.json.{JsValue, Json}
 import services.DateServiceImpl
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
-import webserviceclients.fakes.FakeVehicleLookupWebService.ConsentValid
-import webserviceclients.fakes.FakeVehicleLookupWebService.ReferenceNumberValid
-import webserviceclients.fakes.FakeVehicleLookupWebService.RegistrationNumberValid
-import webserviceclients.fakes.FakeVehicleLookupWebService.vehicleDetailsResponseSuccess
-import webserviceclients.fakes.{FakeDateServiceImpl, FakeResponse}
+import uk.gov.dvla.vehicles.presentation.common.webserviceclients.fakes.FakeVehicleLookupWebService.ConsentValid
+import uk.gov.dvla.vehicles.presentation.common.webserviceclients.fakes.FakeVehicleLookupWebService.ReferenceNumberValid
+import uk.gov.dvla.vehicles.presentation.common.webserviceclients.fakes.FakeVehicleLookupWebService.RegistrationNumberValid
+import uk.gov.dvla.vehicles.presentation.common.webserviceclients.fakes.FakeVehicleLookupWebService.vehicleDetailsResponseSuccess
+import uk.gov.dvla.vehicles.presentation.common.webserviceclients.fakes.{FakeDateServiceImpl, FakeResponse}
 import utils.helpers.Config
 
 final class VehicleLookupFormSpec extends UnitSpec {

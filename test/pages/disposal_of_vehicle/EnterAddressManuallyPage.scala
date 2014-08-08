@@ -7,7 +7,7 @@ import uk.gov.dvla.vehicles.presentation.common.views.models.AddressLinesViewMod
 import org.openqa.selenium.WebDriver
 import AddressLinesViewModel.Form.{AddressLinesId, BuildingNameOrNumberId, Line2Id, Line3Id, PostTownId}
 import viewmodels.EnterAddressManuallyViewModel.Form.AddressAndPostcodeId
-import webserviceclients.fakes.FakeAddressLookupService.{BuildingNameOrNumberValid, Line2Valid, Line3Valid, PostTownValid}
+import uk.gov.dvla.vehicles.presentation.common.webserviceclients.fakes.FakeAddressLookupService.{BuildingNameOrNumberValid, Line2Valid, Line3Valid, PostTownValid}
 
 object EnterAddressManuallyPage extends Page with WebBrowserDSL {
   final val address = "/sell-to-the-trade/enter-address-manually"

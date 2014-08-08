@@ -1,4 +1,4 @@
-package webserviceclients.fakes
+package uk.gov.dvla.vehicles.presentation.common.webserviceclients.fakes
 
 import org.joda.time.{DateTime, Instant}
 import uk.gov.dvla.vehicles.presentation.common.services.DateService

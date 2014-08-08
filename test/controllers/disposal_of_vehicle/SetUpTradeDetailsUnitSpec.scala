@@ -16,7 +16,7 @@ import utils.helpers.Config
 import viewmodels.SetupTradeDetailsViewModel
 import viewmodels.SetupTradeDetailsViewModel.Form.{TraderNameId, TraderNameMaxLength, TraderPostcodeId}
 import viewmodels.SetupTradeDetailsViewModel.SetupTradeDetailsCacheKey
-import webserviceclients.fakes.FakeAddressLookupService.{PostcodeValid, TraderBusinessNameValid}
+import uk.gov.dvla.vehicles.presentation.common.webserviceclients.fakes.FakeAddressLookupService.{PostcodeValid, TraderBusinessNameValid}
 
 final class SetUpTradeDetailsUnitSpec extends UnitSpec {
 

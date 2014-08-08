@@ -13,11 +13,11 @@ import uk.gov.dvla.vehicles.presentation.common.webserviceclients.addresslookup.
 import uk.gov.dvla.vehicles.presentation.common.webserviceclients.bruteforceprevention.{BruteForcePreventionWebService, BruteForcePreventionServiceImpl, BruteForcePreventionService}
 import uk.gov.dvla.vehicles.presentation.common.webserviceclients.dispose.{DisposeWebService, DisposeServiceImpl, DisposeService}
 import uk.gov.dvla.vehicles.presentation.common.webserviceclients.vehiclelookup.{VehicleLookupWebService, VehicleLookupServiceImpl, VehicleLookupService}
-import webserviceclients.fakes.FakeVehicleLookupWebService
-import webserviceclients.fakes.FakeDisposeWebServiceImpl
-import webserviceclients.fakes.FakeDateServiceImpl
-import webserviceclients.fakes.FakeAddressLookupWebServiceImpl
-import webserviceclients.fakes.brute_force_protection.FakeBruteForcePreventionWebServiceImpl
+import uk.gov.dvla.vehicles.presentation.common.webserviceclients.fakes.FakeVehicleLookupWebService
+import uk.gov.dvla.vehicles.presentation.common.webserviceclients.fakes.FakeDisposeWebServiceImpl
+import uk.gov.dvla.vehicles.presentation.common.webserviceclients.fakes.FakeDateServiceImpl
+import uk.gov.dvla.vehicles.presentation.common.webserviceclients.fakes.FakeAddressLookupWebServiceImpl
+import uk.gov.dvla.vehicles.presentation.common.webserviceclients.fakes.brute_force_protection.FakeBruteForcePreventionWebServiceImpl
 import uk.gov.dvla.vehicles.presentation.common.ConfigProperties.getProperty
 
 class TestModule() extends ScalaModule with MockitoSugar {

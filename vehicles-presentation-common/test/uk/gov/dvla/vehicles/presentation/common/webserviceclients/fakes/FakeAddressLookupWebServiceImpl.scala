@@ -1,4 +1,4 @@
-package webserviceclients.fakes
+package uk.gov.dvla.vehicles.presentation.common.webserviceclients.fakes
 
 import play.api.http.Status.OK
 import play.api.i18n.Lang
@@ -13,8 +13,8 @@ import uk.gov.dvla.vehicles.presentation.common.webserviceclients.addresslookup.
 import uk.gov.dvla.vehicles.presentation.common.webserviceclients.addresslookup.gds.domain.Details
 import uk.gov.dvla.vehicles.presentation.common.webserviceclients.addresslookup.gds.domain.Location
 import uk.gov.dvla.vehicles.presentation.common.webserviceclients.addresslookup.gds.domain.Presentation
-import webserviceclients.fakes.FakeAddressLookupService.PostcodeWithoutAddresses
-import webserviceclients.fakes.FakeAddressLookupService.PostcodeValid
+import uk.gov.dvla.vehicles.presentation.common.webserviceclients.fakes.FakeAddressLookupService.PostcodeWithoutAddresses
+import uk.gov.dvla.vehicles.presentation.common.webserviceclients.fakes.FakeAddressLookupService.PostcodeValid
 
 final class FakeAddressLookupWebServiceImpl(responseOfPostcodeWebService: Future[Response],
                                             responseOfUprnWebService: Future[Response]) extends AddressLookupWebService {
