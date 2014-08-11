@@ -11,7 +11,7 @@ import play.api.libs.concurrent.Execution.Implicits.defaultContext
 import play.api.mvc.{Filter, RequestHeader, SimpleResult}
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClientSideSessionFactory
 import scala.concurrent.Future
-import  AccessLoggingFilter.AccessLoggerName
+import AccessLoggingFilter.AccessLoggerName
 
 class AccessLoggingFilter @Inject()(clfEntryBuilder: ClfEntryBuilder,
                                     @Named(AccessLoggerName) accessLogger: LoggerLike) extends Filter {
@@ -40,8 +40,8 @@ class ClfEntryBuilder {
     ).flatten.head
 
     val trackingId = request.cookies.get(ClientSideSessionFactory.TrackingIdCookieName) match {
-     case Some(c) => c.value
-     case _ => "-"
+      case Some(c) => c.value
+      case _ => "-"
     }
 
     val method = request.method
