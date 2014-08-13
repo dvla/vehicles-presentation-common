@@ -3,7 +3,8 @@ package uk.gov.dvla.vehicles.presentation.common.webserviceclients.addresslookup
 import com.google.inject.Inject
 import play.api.Logger
 import play.api.i18n.Lang
-import play.api.libs.ws.{Response, WS}
+import play.api.libs.ws.{WSResponse, WS}
+import play.api.Play.current
 import uk.gov.dvla.vehicles.presentation.common.LogFormats
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClientSideSessionFactory
 import uk.gov.dvla.vehicles.presentation.common.webserviceclients.HttpHeaders
@@ -16,7 +17,7 @@ final class WebServiceImpl @Inject()(config: OrdnanceSurveyConfig) extends Addre
   private val requestTimeout: Int = config.requestTimeout
 
   override def callPostcodeWebService(postcode: String, trackingId: String)
-                                     (implicit lang: Lang): Future[Response] = {
+                                     (implicit lang: Lang): Future[WSResponse] = {
     val endPoint = s"$baseUrl/postcode-to-address?" +
       postcodeParam(postcode) +
       languageParam +
@@ -32,7 +33,7 @@ final class WebServiceImpl @Inject()(config: OrdnanceSurveyConfig) extends Addre
   }
 
   override def callUprnWebService(uprn: String, trackingId: String)
-                                 (implicit lang: Lang): Future[Response] = {
+                                 (implicit lang: Lang): Future[WSResponse] = {
     val endPoint = s"$baseUrl/uprn-to-address?" +
       s"uprn=$uprn" +
       languageParam +

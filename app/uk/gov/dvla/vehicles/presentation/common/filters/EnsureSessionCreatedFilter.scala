@@ -1,15 +1,15 @@
 package uk.gov.dvla.vehicles.presentation.common.filters
 
 import com.google.inject.Inject
-import play.api.mvc.{Cookies, Filter, Headers, RequestHeader, SimpleResult}
+import play.api.mvc.{Cookies, Filter, Headers, RequestHeader, Result}
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClientSideSessionFactory
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
 class EnsureSessionCreatedFilter @Inject()(sessionFactory: ClientSideSessionFactory) extends Filter {
 
-  def apply(nextFilter: (RequestHeader) => Future[SimpleResult])
-           (requestHeader: RequestHeader): Future[SimpleResult] =
+  def apply(nextFilter: (RequestHeader) => Future[Result])
+           (requestHeader: RequestHeader): Future[Result] =
     sessionFactory.newSessionCookiesIfNeeded(requestHeader.cookies) match {
       case Some(cookies) =>
         val requestWithSessionCookies = {

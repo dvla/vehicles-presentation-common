@@ -4,7 +4,7 @@ import uk.gov.dvla.vehicles.presentation.common.UnitSpec
 import play.api.http.Status.{OK, NOT_FOUND}
 import play.api.libs.json.Json
 import play.api.libs.json.JsValue
-import play.api.libs.ws.Response
+import play.api.libs.ws.WSResponse
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClearTextClientSideSessionFactory
 import uk.gov.dvla.vehicles.presentation.common.webserviceclients.addresslookup.AddressLookupService
 import uk.gov.dvla.vehicles.presentation.common.webserviceclients.addresslookup.ordnanceservey.{UprnToAddressResponseDto, PostcodeToAddressResponseDto, AddressLookupServiceImpl}
@@ -132,30 +132,30 @@ final class OSAddressLookupServiceSpec extends UnitSpec {
     }
   }
 
-  private def addressServiceMock(response: Future[Response]): AddressLookupService = {
+  private def addressServiceMock(response: Future[WSResponse]): AddressLookupService = {
     // Using the real address lookup service but passing in a fake web service that returns the responses we specify.
     new AddressLookupServiceImpl(
       new FakeAddressLookupWebServiceImpl(responseOfPostcodeWebService = response, responseOfUprnWebService = response)
     )
   }
 
-  private def response(statusCode: Int, inputAsJson: JsValue): Future[Response] = Future {
+  private def response(statusCode: Int, inputAsJson: JsValue): Future[WSResponse] = Future {
     FakeResponse(status = statusCode, fakeJson = Some(inputAsJson))
   }
 
   private def responsePostcode(statusCode: Int,
-                       input: PostcodeToAddressResponseDto = postcodeToAddressResponseValid): Future[Response] = {
+                       input: PostcodeToAddressResponseDto = postcodeToAddressResponseValid): Future[WSResponse] = {
     val inputAsJson = Json.toJson(input)
     response(statusCode, inputAsJson)
   }
 
   private def responseUprn(statusCode: Int,
-                   input: UprnToAddressResponseDto = uprnToAddressResponseValid): Future[Response] = {
+                   input: UprnToAddressResponseDto = uprnToAddressResponseValid): Future[WSResponse] = {
     val inputAsJson = Json.toJson(input)
     response(statusCode, inputAsJson)
   }
 
-  private val responseThrows: Future[Response] = Future {
+  private val responseThrows: Future[WSResponse] = Future {
     throw new RuntimeException("This error is generated deliberately by a test")
   }
 }

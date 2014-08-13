@@ -3,7 +3,8 @@ package uk.gov.dvla.vehicles.presentation.common.webserviceclients.addresslookup
 import com.google.inject.Inject
 import play.api.Logger
 import play.api.i18n.Lang
-import play.api.libs.ws.{Response, WS}
+import play.api.libs.ws.{WSResponse, WS}
+import play.api.Play.current
 import uk.gov.dvla.vehicles.presentation.common.webserviceclients.HttpHeaders
 import uk.gov.dvla.vehicles.presentation.common.webserviceclients.addresslookup.AddressLookupWebService
 import uk.gov.dvla.vehicles.presentation.common.webserviceclients.config.GDSAddressLookupConfig
@@ -18,7 +19,7 @@ final class WebServiceImpl @Inject()(config: GDSAddressLookupConfig) extends Add
 
   // request should look like    (GET, "/addresses?postcode=kt70ej").withHeaders(validAuthHeader)
   override def callPostcodeWebService(postcode: String, trackingId: String)
-                                     (implicit lang: Lang): Future[Response] = {
+                                     (implicit lang: Lang): Future[WSResponse] = {
     val endPoint = s"$baseUrl/addresses?postcode=${ postcodeWithNoSpaces(postcode) }"
     Logger.debug(s"Calling GDS postcode lookup service on $endPoint...")
     WS.url(endPoint).
@@ -29,7 +30,7 @@ final class WebServiceImpl @Inject()(config: GDSAddressLookupConfig) extends Add
   }
 
   override def callUprnWebService(uprn: String, trackingId: String)
-                                 (implicit lang: Lang): Future[Response] = {
+                                 (implicit lang: Lang): Future[WSResponse] = {
     val endPoint = s"$baseUrl/uprn?uprn=$uprn"
     Logger.debug(s"Calling GDS uprn lookup service on $endPoint...")
     WS.url(endPoint).

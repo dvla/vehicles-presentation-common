@@ -8,7 +8,7 @@ import com.google.inject.name.Named
 import play.api.LoggerLike
 import play.api.http.HeaderNames.CONTENT_LENGTH
 import play.api.libs.concurrent.Execution.Implicits.defaultContext
-import play.api.mvc.{Filter, RequestHeader, SimpleResult}
+import play.api.mvc.{Filter, RequestHeader, Result}
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClientSideSessionFactory
 import scala.concurrent.Future
 import AccessLoggingFilter.AccessLoggerName
@@ -16,8 +16,8 @@ import AccessLoggingFilter.AccessLoggerName
 class AccessLoggingFilter @Inject()(clfEntryBuilder: ClfEntryBuilder,
                                     @Named(AccessLoggerName) accessLogger: LoggerLike) extends Filter {
 
-  override def apply(filter: (RequestHeader) => Future[SimpleResult])
-                    (requestHeader: RequestHeader): Future[SimpleResult] = {
+  override def apply(filter: (RequestHeader) => Future[Result])
+                    (requestHeader: RequestHeader): Future[Result] = {
     val requestTimestamp = new Date()
     filter(requestHeader).map {result =>
       val requestPath = new URI(requestHeader.uri).getPath
@@ -31,7 +31,7 @@ class AccessLoggingFilter @Inject()(clfEntryBuilder: ClfEntryBuilder,
 class ClfEntryBuilder {
   import uk.gov.dvla.vehicles.presentation.common.webserviceclients.HttpHeaders._
 
-  def clfEntry(requestTimestamp: Date, request: RequestHeader, result: SimpleResult) : String = {
+  def clfEntry(requestTimestamp: Date, request: RequestHeader, result: Result) : String = {
     val ipAddress = Seq(
       request.headers.get(XForwardedFor),
       Option(request.remoteAddress),

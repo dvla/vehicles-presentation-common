@@ -5,7 +5,7 @@ import com.tzavellas.sse.guice.ScalaModule
 import org.mockito.Matchers.any
 import org.mockito.Mockito.{never, verify, when}
 import play.api.http.HeaderNames
-import play.api.mvc.{Cookie, Cookies, RequestHeader, Results, SimpleResult}
+import play.api.mvc.{Cookie, Cookies, RequestHeader, Results, Result}
 import play.api.test.FakeRequest
 import uk.gov.dvla.vehicles.presentation.common.UnitSpec
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.{ClientSideSessionFactory, InvalidSessionException}
@@ -26,7 +26,7 @@ class EnsureSessionCreatedFilterSpec extends UnitSpec {
       when(sessionFactory.newSessionCookiesIfNeeded(requestWithSomeCookies.cookies)).
         thenReturn(Some(Seq(trackingIdCookie, sessionCookie)))
 
-      val filterResult: Future[SimpleResult] = filter.apply(nextFilter)(requestWithSomeCookies)
+      val filterResult: Future[Result] = filter.apply(nextFilter)(requestWithSomeCookies)
 
       whenReady(filterResult) { result =>
         info("Request passed to the next filter should have the session cookies")
@@ -79,16 +79,16 @@ class EnsureSessionCreatedFilterSpec extends UnitSpec {
       }
   }
 
-  private def toCookies(result: SimpleResult): Seq[Cookie] = {
+  private def toCookies(result: Result): Seq[Cookie] = {
     Cookies(result.header.headers.get(HeaderNames.SET_COOKIE)).cookies.map {
       case (k, cookie) => cookie
     }.toSeq
   }
 
-  private class MockFilter extends ((RequestHeader) => Future[SimpleResult]) {
+  private class MockFilter extends ((RequestHeader) => Future[Result]) {
     var passedRequest: RequestHeader = _
 
-    override def apply(rh: RequestHeader): Future[SimpleResult] = {
+    override def apply(rh: RequestHeader): Future[Result] = {
       passedRequest = rh
       Future(Results.Ok)
     }

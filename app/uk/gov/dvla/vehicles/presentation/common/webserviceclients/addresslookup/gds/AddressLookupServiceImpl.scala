@@ -3,7 +3,7 @@ package uk.gov.dvla.vehicles.presentation.common.webserviceclients.addresslookup
 import javax.inject.Inject
 import play.api.Logger
 import play.api.i18n.Lang
-import play.api.libs.ws.Response
+import play.api.libs.ws.WSResponse
 import uk.gov.dvla.vehicles.presentation.common.model.AddressModel
 import uk.gov.dvla.vehicles.presentation.common.webserviceclients.addresslookup.{AddressLookupService, AddressLookupWebService}
 import uk.gov.dvla.vehicles.presentation.common.webserviceclients.addresslookup.gds.domain.Address
@@ -14,7 +14,7 @@ import ExecutionContext.Implicits.global
 final class AddressLookupServiceImpl @Inject()(ws: AddressLookupWebService)
   extends AddressLookupService {
 
-  private def extractFromJson(resp: Response): Seq[Address] =
+  private def extractFromJson(resp: WSResponse): Seq[Address] =
     try resp.json.as[Seq[Address]]
     catch {
       case e: Throwable => Seq.empty //  return empty seq given invalid json
@@ -31,7 +31,7 @@ final class AddressLookupServiceImpl @Inject()(ws: AddressLookupWebService)
       })
     }
 
-    def toDropDown(resp: Response): Seq[(String, String)] = {
+    def toDropDown(resp: WSResponse): Seq[(String, String)] = {
       val addresses = extractFromJson(resp)
       sort(addresses) map { address => (address.presentation.uprn, address.toViewModel.mkString(", ")) }
       // Sort before translating to drop down format.
@@ -51,7 +51,7 @@ final class AddressLookupServiceImpl @Inject()(ws: AddressLookupWebService)
 
   override def fetchAddressForUprn(uprn: String, trackingId: String)
                                   (implicit lang: Lang): Future[Option[AddressModel]] = {
-    def toViewModel(resp: Response) = {
+    def toViewModel(resp: WSResponse) = {
       val addresses = extractFromJson(resp)
       require(addresses.length >= 1, s"Should be at least one address for the UPRN: $uprn")
       Some(AddressModel(uprn = Some(addresses.head.presentation.uprn.toLong), address = addresses.head.toViewModel))
