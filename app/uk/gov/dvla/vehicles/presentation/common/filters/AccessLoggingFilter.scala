@@ -14,7 +14,7 @@ import scala.concurrent.Future
 import AccessLoggingFilter.AccessLoggerName
 
 class AccessLoggingFilter @Inject()(clfEntryBuilder: ClfEntryBuilder,
-                                    @Named(AccessLoggerName) accessLogger: LoggerLike) extends Filter {
+                                    @Named("AccessLogger") accessLogger: LoggerLike) extends Filter {
 
   override def apply(filter: (RequestHeader) => Future[SimpleResult])
                     (requestHeader: RequestHeader): Future[SimpleResult] = {

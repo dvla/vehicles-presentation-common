@@ -39,3 +39,9 @@ libraryDependencies ++= Seq(
 play.Project.playScalaSettings
 
 credentials += Credentials(Path.userHome / ".sbt/.credentials")
+
+ScoverageSbtPlugin.instrumentSettings
+
+ScoverageSbtPlugin.ScoverageKeys.excludedPackages in ScoverageSbtPlugin.scoverage := "<empty>;Reverse.*"
+
+CoverallsPlugin.coverallsSettings

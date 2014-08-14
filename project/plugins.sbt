@@ -6,3 +6,8 @@ resolvers += "Typesafe repository" at "http://repo.typesafe.com/typesafe/release
 
 // Use the Play sbt plugin for Play projects
 addSbtPlugin("com.typesafe.play" % "sbt-plugin" % "2.2.2")
+
+// Plugin for publishing scoverage results to coveralls
+addSbtPlugin("org.scoverage" %% "sbt-scoverage" % "0.98.2")
+
+addSbtPlugin("com.sksamuel.scoverage" %% "sbt-coveralls" % "0.0.5")
