@@ -7,7 +7,7 @@ publishTo <<= version { v: String =>
     Some("releases" at s"$nexus/releases")
 }
 
-lazy val root = (project in file(".")).enablePlugins(PlayScala)
+lazy val root = (project in file(".")).enablePlugins(PlayScala, SbtWeb)
 
 name := "vehicles-presentation-common"
 
@@ -23,6 +23,11 @@ scalacOptions := Seq(
   "-language:reflectiveCalls",
   "-Xmax-classfile-name", "128"
 )
+
+// Include assets when publishing jars
+artifact in (Compile, packageBin) ~= { (art: Artifact) =>
+  art.copy(`classifier` = Some("asset"))
+}
 
 libraryDependencies ++= Seq(
   cache,
