@@ -29,6 +29,9 @@ artifact in (Compile, packageBin) ~= { (art: Artifact) =>
   art.copy(`classifier` = Some("asset"))
 }
 
+// Disable documentation generation to save time for the CI build process
+sources in doc in Compile := List()
+
 libraryDependencies ++= Seq(
   cache,
   ws,
