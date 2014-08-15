@@ -1,7 +1,7 @@
 package uk.gov.dvla.vehicles.presentation.common.webserviceclients.dispose_service
 
 import play.api.libs.json.Json
-import uk.gov.dvla.vehicles.presentation.common.UnitSpec
+import uk.gov.dvla.vehicles.presentation.common.{WithApplication, UnitSpec}
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.{ClearTextClientSideSessionFactory, NoCookieFlags}
 import uk.gov.dvla.vehicles.presentation.common.testhelpers.WireMockFixture
 import uk.gov.dvla.vehicles.presentation.common.webserviceclients.HttpHeaders
@@ -39,7 +39,7 @@ class DisposeWebServiceImplSpec extends UnitSpec with WireMockFixture {
   )
 
   "callDisposeService" should {
-    "send the serialised json request" in {
+    "send the serialised json request" in new WithApplication {
       val resultFuture = disposeService.callDisposeService(request, trackingId)
       whenReady(resultFuture, timeout) { result =>
         wireMock.verifyThat(1, postRequestedFor(

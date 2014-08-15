@@ -3,7 +3,8 @@ package uk.gov.dvla.vehicles.presentation.common.webserviceclients.addresslookup
 import javax.inject.Inject
 import play.api.Logger
 import play.api.i18n.Lang
-import play.api.libs.ws.Response
+import play.api.Play.current
+import play.api.libs.ws.WSResponse
 import uk.gov.dvla.vehicles.presentation.common.LogFormats
 import uk.gov.dvla.vehicles.presentation.common.model.AddressModel
 import uk.gov.dvla.vehicles.presentation.common.webserviceclients.addresslookup.{AddressLookupService, AddressLookupWebService}
@@ -15,10 +16,10 @@ final class AddressLookupServiceImpl @Inject()(ws: AddressLookupWebService) exte
   override def fetchAddressesForPostcode(postcode: String, trackingId: String)
                                         (implicit lang: Lang): Future[Seq[(String, String)]] = {
 
-    def extractFromJson(resp: Response): Option[PostcodeToAddressResponseDto] =
+    def extractFromJson(resp: WSResponse): Option[PostcodeToAddressResponseDto] =
       resp.json.asOpt[PostcodeToAddressResponseDto]
 
-    def toDropDown(resp: Response): Seq[(String, String)] =
+    def toDropDown(resp: WSResponse): Seq[(String, String)] =
       extractFromJson(resp) match {
         case Some(results) =>
           results.addresses.map(address => (address.uprn, address.address))
@@ -44,11 +45,11 @@ final class AddressLookupServiceImpl @Inject()(ws: AddressLookupWebService) exte
                                   (implicit lang: Lang): Future[Option[AddressModel]] = {
 
     // Extract result from response and return as a view model.
-    def extractFromJson(resp: Response): Option[UprnToAddressResponseDto] = {
+    def extractFromJson(resp: WSResponse): Option[UprnToAddressResponseDto] = {
       resp.json.asOpt[UprnToAddressResponseDto]
     }
 
-    def toViewModel(resp: Response) =
+    def toViewModel(resp: WSResponse) =
       extractFromJson(resp) match {
         case Some(deserialized) => deserialized.addressViewModel
         case None =>

@@ -7,7 +7,7 @@ import com.tzavellas.sse.guice.ScalaModule
 import org.mockito.Mockito
 import play.api.LoggerLike
 import play.api.http.HeaderNames.CONTENT_LENGTH
-import play.api.mvc.{AnyContentAsEmpty, Cookie, RequestHeader, Results, SimpleResult}
+import play.api.mvc.{AnyContentAsEmpty, Cookie, RequestHeader, Results, Result}
 import play.api.test.{FakeHeaders, FakeRequest}
 import uk.gov.dvla.vehicles.presentation.common.UnitSpec
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClientSideSessionFactory
@@ -25,7 +25,7 @@ class AccessLoggingFilterSpec extends UnitSpec {
   "Log an incoming request" in setUp() {
     case SetUp(filter, request, sessionFactory, nextFilter, logger) =>
       val trackingIdCookie = Cookie(ClientSideSessionFactory.TrackingIdCookieName, "98765")
-      val filterResult: Future[SimpleResult] = filter.apply(nextFilter)(request.withCookies(trackingIdCookie))
+      val filterResult: Future[Result] = filter.apply(nextFilter)(request.withCookies(trackingIdCookie))
 
       whenReady(filterResult) { result =>
         val loggerInfo = logger.captureLogInfo()
@@ -43,7 +43,7 @@ class AccessLoggingFilterSpec extends UnitSpec {
   "Log an incoming request with ipAddress provided in XForwardedFor only" in setUp("127.0.0.3") {
     case SetUp(filter, request, sessionFactory, nextFilter, logger) =>
 
-      val filterResult: Future[SimpleResult] = filter.apply(nextFilter)(
+      val filterResult: Future[Result] = filter.apply(nextFilter)(
         request
           .withHeaders(XForwardedFor -> "127.0.0.2")
           .withHeaders(XRealIp -> "127.0.0.4")
@@ -58,7 +58,7 @@ class AccessLoggingFilterSpec extends UnitSpec {
   "Log an incoming request with ipAddress provided in remoteAddress only" in setUp("127.0.0.3") {
     case SetUp(filter, request, sessionFactory, nextFilter, logger) =>
 
-      val filterResult: Future[SimpleResult] =
+      val filterResult: Future[Result] =
         filter.apply(nextFilter)(request.withHeaders(XRealIp -> "127.0.0.4"))
 
       whenReady(filterResult) { result =>
@@ -70,7 +70,7 @@ class AccessLoggingFilterSpec extends UnitSpec {
   "Log an incoming request with ipAddress provided in XRealIp only" in setUp(null) {
     case SetUp(filter, request, sessionFactory, nextFilter, logger) =>
 
-      val filterResult: Future[SimpleResult] =
+      val filterResult: Future[Result] =
         filter.apply(nextFilter)(request.withHeaders(XRealIp -> "127.0.0.4"))
 
       whenReady(filterResult) { result =>
@@ -82,7 +82,7 @@ class AccessLoggingFilterSpec extends UnitSpec {
   "Log an incoming request with no ipAddress provided" in setUp(null) {
     case SetUp(filter, request, sessionFactory, nextFilter, logger) =>
 
-      val filterResult: Future[SimpleResult] = filter.apply(nextFilter)(request)
+      val filterResult: Future[Result] = filter.apply(nextFilter)(request)
 
       whenReady(filterResult) { result =>
         val loggerInfo = logger.captureLogInfo()
@@ -114,10 +114,10 @@ class AccessLoggingFilterSpec extends UnitSpec {
       }
   }
 
-  private class MockFilter extends ((RequestHeader) => Future[SimpleResult]) {
+  private class MockFilter extends ((RequestHeader) => Future[Result]) {
     var passedRequest: RequestHeader = _
 
-    override def apply(rh: RequestHeader): Future[SimpleResult] = {
+    override def apply(rh: RequestHeader): Future[Result] = {
       passedRequest = rh
       Future(Results.Ok)
     }
@@ -136,7 +136,7 @@ class AccessLoggingFilterSpec extends UnitSpec {
     class TestClfEntryBuilder extends ClfEntryBuilder {
       import uk.gov.dvla.vehicles.presentation.common.filters.AccessLoggingFilterSpec.testDate
 
-      override def clfEntry(requestTimestamp: Date, request: RequestHeader, result: SimpleResult): String = {
+      override def clfEntry(requestTimestamp: Date, request: RequestHeader, result: Result): String = {
         val extendedResult = result.withHeaders(CONTENT_LENGTH -> "12345").
           withHeaders(ClientSideSessionFactory.TrackingIdCookieName -> "98765")
         super.clfEntry(testDate, request, extendedResult)

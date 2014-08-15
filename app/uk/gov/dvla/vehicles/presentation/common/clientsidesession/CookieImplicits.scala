@@ -2,7 +2,7 @@ package uk.gov.dvla.vehicles.presentation.common.clientsidesession
 
 import play.api.data.Form
 import play.api.libs.json.{Json, Reads, Writes}
-import play.api.mvc.{Cookie, DiscardingCookie, Request, SimpleResult}
+import play.api.mvc.{Cookie, DiscardingCookie, Request, Result}
 
 /**
  * These are adapters that add cookie methods to a number of Play Framework classes.
@@ -37,20 +37,20 @@ object CookieImplicits {
       clientSideSessionFactory.getSession(requestCookies).trackingId
   }
 
-  implicit class RichSimpleResult(val inner: SimpleResult) extends AnyVal {
+  implicit class RichResult(val inner: Result) extends AnyVal {
 
     def withCookie[A](model: A)(implicit
                                 toJson: Writes[A],
                                 cacheKey: CacheKey[A],
                                 request: Request[_],
-                                clientSideSessionFactory: ClientSideSessionFactory): SimpleResult = {
+                                clientSideSessionFactory: ClientSideSessionFactory): Result = {
       val json = Json.toJson(model).toString()
       withCookie(cacheKey.value, json)
     }
 
     def withCookie(key: String, value: String)
                   (implicit request: Request[_],
-                   clientSideSessionFactory: ClientSideSessionFactory): SimpleResult = {
+                   clientSideSessionFactory: ClientSideSessionFactory): Result = {
       val session = clientSideSessionFactory.getSession(request.cookies)
       val cookieName = session.nameCookie(key)
       val cookie = session.newCookie(cookieName, value)
@@ -59,12 +59,12 @@ object CookieImplicits {
 
     def discardingCookie(key: String)
                         (implicit request: Request[_],
-                         clientSideSessionFactory: ClientSideSessionFactory): SimpleResult =
+                         clientSideSessionFactory: ClientSideSessionFactory): Result =
       discardingCookies(Set(key))
 
     def discardingCookies(keys: Set[String])
                          (implicit request: Request[_],
-                          clientSideSessionFactory: ClientSideSessionFactory): SimpleResult = {
+                          clientSideSessionFactory: ClientSideSessionFactory): Result = {
       val session = clientSideSessionFactory.getSession(request.cookies)
       val cookieNames = keys.map(session.nameCookie)
       val discardingCookies = cookieNames.map(name => DiscardingCookie(name.value)).toSeq

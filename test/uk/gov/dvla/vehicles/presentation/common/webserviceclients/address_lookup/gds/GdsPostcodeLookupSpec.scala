@@ -8,7 +8,7 @@ import org.scalatest.concurrent.PatienceConfiguration.Timeout
 import org.scalatest.time.{Second, Span}
 import play.api.http.Status.{NOT_FOUND, OK}
 import play.api.libs.json.{JsValue, Json}
-import play.api.libs.ws.Response
+import play.api.libs.ws.WSResponse
 import uk.gov.dvla.vehicles.presentation.common.webserviceclients.addresslookup.AddressLookupService
 import uk.gov.dvla.vehicles.presentation.common.webserviceclients.addresslookup.gds.AddressLookupServiceImpl
 import uk.gov.dvla.vehicles.presentation.common.webserviceclients.addresslookup.gds.domain.Address
@@ -217,7 +217,7 @@ final class GdsPostcodeLookupSpec extends UnitSpec {
       }
     }
   }
-  private def addressServiceMock(response: Future[Response]): AddressLookupService = {
+  private def addressServiceMock(response: Future[WSResponse]): AddressLookupService = {
     // Using the real address lookup service but passing in a fake web service that returns the responses we specify.
     new AddressLookupServiceImpl(
       new FakeAddressLookupWebServiceImpl(responseOfPostcodeWebService = response, responseOfUprnWebService = response)
@@ -229,13 +229,13 @@ final class GdsPostcodeLookupSpec extends UnitSpec {
   }
 
   private val responseThrows = Future {
-    val response = mock[Response]
+    val response = mock[WSResponse]
     when(response.status).thenThrow(new RuntimeException("This error is generated deliberately by a test"))
     response
   }
 
   private val responseTimeout = Future {
-    val response = mock[Response]
+    val response = mock[WSResponse]
     when(response.status).thenThrow(
       new java.util.concurrent.TimeoutException("This error is generated deliberately by a test")
     )

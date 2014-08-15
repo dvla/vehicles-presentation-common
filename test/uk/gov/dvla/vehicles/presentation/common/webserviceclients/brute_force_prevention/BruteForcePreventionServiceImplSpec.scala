@@ -1,7 +1,7 @@
 package uk.gov.dvla.vehicles.presentation.common.webserviceclients.brute_force_prevention
 
 import org.mockito.Mockito.when
-import play.api.libs.ws.Response
+import play.api.libs.ws.WSResponse
 import uk.gov.dvla.vehicles.presentation.common.UnitSpec
 import uk.gov.dvla.vehicles.presentation.common.webserviceclients.bruteforceprevention.{BruteForcePreventionConfig, BruteForcePreventionWebService, BruteForcePreventionServiceImpl, BruteForcePreventionService}
 import scala.concurrent.ExecutionContext.Implicits.global
@@ -48,7 +48,7 @@ final class BruteForcePreventionServiceImplSpec extends UnitSpec {
     }
   }
 
-  private def responseThrows: Future[Response] = Future {
+  private def responseThrows: Future[WSResponse] = Future {
     throw new RuntimeException("This error is generated deliberately by a test")
   }
 
