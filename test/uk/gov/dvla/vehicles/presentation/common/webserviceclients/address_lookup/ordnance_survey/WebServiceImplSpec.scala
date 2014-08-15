@@ -1,7 +1,7 @@
 package uk.gov.dvla.vehicles.presentation.common.webserviceclients.address_lookup.ordnance_survey
 
 import org.scalatest.concurrent.PatienceConfiguration.Interval
-import uk.gov.dvla.vehicles.presentation.common.UnitSpec
+import uk.gov.dvla.vehicles.presentation.common.{UnitSpec, WithApplication}
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.{ClearTextClientSideSessionFactory, NoCookieFlags, ClientSideSessionFactory}
 import uk.gov.dvla.vehicles.presentation.common.testhelpers.WireMockFixture
 import uk.gov.dvla.vehicles.presentation.common.webserviceclients.HttpHeaders
@@ -38,7 +38,7 @@ final class WebServiceImplSpec extends UnitSpec  with WireMockFixture {
   }
 
   "callPostcodeWebService" should {
-    "send the trackingId to the PostcodeWebService" in {
+    "send the trackingId to the PostcodeWebService" in new WithApplication {
       val postCode = "N193NN"
 
       val futureResult = addressLookupService.callPostcodeWebService(postCode, trackingIdValue)(lang = Lang("en"))
@@ -50,7 +50,7 @@ final class WebServiceImplSpec extends UnitSpec  with WireMockFixture {
       }
     }
 
-    "send the trackingId to the callUprnWebService" in {
+    "send the trackingId to the callUprnWebService" in new WithApplication {
       val postCode = "N193NN"
 
       val futureResult = addressLookupService.callUprnWebService(postCode, trackingIdValue)(Lang("en"))

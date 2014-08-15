@@ -5,7 +5,7 @@ import play.api.libs.json.Json
 import uk.gov.dvla.vehicles.presentation.common
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.{ClearTextClientSideSessionFactory, NoCookieFlags, ClientSideSessionFactory}
 import common.webserviceclients.HttpHeaders
-import uk.gov.dvla.vehicles.presentation.common.UnitSpec
+import uk.gov.dvla.vehicles.presentation.common.{WithApplication, UnitSpec}
 import uk.gov.dvla.vehicles.presentation.common.testhelpers.WireMockFixture
 import uk.gov.dvla.vehicles.presentation.common.webserviceclients.config.VehicleLookupConfig
 import uk.gov.dvla.vehicles.presentation.common.webserviceclients.vehiclelookup.{VehicleLookupWebServiceImpl, VehicleDetailsRequestDto}
@@ -13,7 +13,7 @@ import uk.gov.dvla.vehicles.presentation.common.webserviceclients.vehiclelookup.
 class VehicleLookupWebServiceImplSpec  extends UnitSpec  with WireMockFixture {
 
   "callDisposeService" should {
-    "send the serialised json request" in {
+    "send the serialised json request" in new WithApplication {
       val resultFuture = lookupService.callVehicleLookupService(request, trackingId)
       whenReady(resultFuture, timeout) { result =>
         wireMock.verifyThat(1, postRequestedFor(
