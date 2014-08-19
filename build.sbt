@@ -8,7 +8,7 @@ name := "vehicles-presentation-common"
 
 organization := "dvla"
 
-version := "2.1-SNAPSHOT"
+version := "2.0-SNAPSHOT"
 
 scalacOptions := Seq(
   "-deprecation",
@@ -30,11 +30,6 @@ credentials += Credentials(Path.userHome / ".sbt/.credentials")
 
 // Uncomment that when released and before publishing to github. NOTE: bintray plugin doesn't work with SNAPSHOTS
 //bintrayPublishSettings
-
-// Include assets when publishing jars
-artifact in (Compile, packageBin) ~= { (art: Artifact) =>
-  art.copy(`classifier` = Some("asset"))
-}
 
 // Disable documentation generation to save time for the CI build process
 sources in doc in Compile := List()
