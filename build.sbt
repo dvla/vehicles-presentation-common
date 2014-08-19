@@ -1,11 +1,6 @@
 import CommonResolvers._
 
-publishTo <<= version { v: String =>
-  if (v.trim.endsWith("SNAPSHOT"))
-    Some("snapshots" at s"$nexus/snapshots")
-  else
-    Some("releases" at s"$nexus/releases")
-}
+licenses += ("MIT", url("http://opensource.org/licenses/MIT"))
 
 lazy val root = (project in file(".")).enablePlugins(PlayScala, SbtWeb)
 
@@ -23,6 +18,18 @@ scalacOptions := Seq(
   "-language:reflectiveCalls",
   "-Xmax-classfile-name", "128"
 )
+
+publishTo <<= version { v: String =>
+  if (v.trim.endsWith("SNAPSHOT"))
+    Some("snapshots" at s"$nexus/snapshots")
+  else
+    Some("releases" at s"$nexus/releases")
+}
+
+credentials += Credentials(Path.userHome / ".sbt/.credentials")
+
+// Uncomment that when released and before publishing to github. NOTE: bintray plugin doesn't work with SNAPSHOTS
+//bintrayPublishSettings
 
 // Include assets when publishing jars
 artifact in (Compile, packageBin) ~= { (art: Artifact) =>
@@ -44,8 +51,6 @@ libraryDependencies ++= Seq(
   "org.slf4j" % "log4j-over-slf4j" % "1.7.7" % "test" withSources() withJavadoc(),
   "com.github.tomakehurst" % "wiremock" % "1.46" % "test" withSources() withJavadoc() exclude("log4j", "log4j")
 )     
-
-credentials += Credentials(Path.userHome / ".sbt/.credentials")
 
 ScoverageSbtPlugin.instrumentSettings
 
