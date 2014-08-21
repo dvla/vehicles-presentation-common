@@ -53,12 +53,16 @@
                 font-size: 14px;
             }
         }
-        & + .form-hint {
-            display: block;
-            color: $grey-1;
-            margin: 3px;
+    }
+    .form-hint {
+        display: block;
+        color: $grey-1;
+        margin: 3px;
+        .ie6 & {
+            width:100%;
         }
     }
+
 
     input[type="text"],
     input[type="number"],
@@ -314,5 +318,4 @@
     .uppercase-input input {
         @include to-uppercase;
     }
-
 }

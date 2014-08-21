@@ -1,5 +1,0 @@
-#!/bin/bash
-
-initctl stop vehicles-online
-initctl start vehicles-online
-exit 0
