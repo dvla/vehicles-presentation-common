@@ -1,0 +1,72 @@
+#!/bin/bash
+
+RED=$(tput setaf 1)
+GREEN=$(tput setaf 2)
+YELLOW=$(tput setaf 3)
+NORMAL=$(tput sgr0)
+
+command -v fswatch >/dev/null 2>&1 || { echo >&2 "${RED}Please install 'fswatch' and try again.${NORMAL}"; echo "OSX Users, please run: brew install fswatch"; exit 1; }
+
+cd ..
+ROOT=`pwd`
+VEHICLES_ONLINE_ROOT=$ROOT/vehicles-online
+VRM_RETENTION_ONLINE_ROOT=$ROOT/vrm-retention-online
+VEHICLES_ACQUIRE_ONLINE_ROOT=$ROOT/vehicles-acquire-online
+PRESENTATION_COMMON_ROOT=$ROOT/vehicles-presentation-common
+ASSETS_ROOT=$PRESENTATION_COMMON_ROOT/app/assets
+WEBJAR_DEST=/target/web/web-modules/main/webjars/lib/vehicles-presentation-common
+SASS_TO_TOUCH=/app/assets/screen.scss
+
+function checkError {
+    if [[ $? -ne 0 ]]; then
+        echo "${RED} $1 ${NORMAL} "
+    else
+        echo "${GREEN}$2 ${NORMAL}"
+    fi
+}
+
+function create_link {
+    message=$1
+    app_location=$2
+    link_location=$app_location$WEBJAR_DEST
+    app_sass_to_touch=$app_location$SASS_TO_TOUCH
+
+    echo "$message ${NORMAL}"
+
+    if [ -d $link_location ]; then
+        rm -rf $link_location
+    fi
+
+    if [ -d $ASSETS_ROOT ]; then
+        ln -s $ASSETS_ROOT $link_location
+        checkError "failed" "$link_location"
+    else
+        echo "${RED}  not creating as link source $ASSETS_ROOT doesn't exist!${NORMAL}"
+    fi
+
+    touch $app_sass_to_touch
+}
+
+function run_setup {
+    echo ""
+    create_link "1. Creating symbolic link for vehicles-online..." $VEHICLES_ONLINE_ROOT
+    create_link "2. Creating symbolic link for vrm-retention-online..." $VRM_RETENTION_ONLINE_ROOT
+    create_link "3. Creating symbolic link for vehicles-acquire-online..." $VEHICLES_ACQUIRE_ONLINE_ROOT
+    echo ""
+    echo "Monitoring changes in vehicles-presentation-common to reflect in *-online applications."
+    echo "Press ctrl+c to stop..."
+}
+
+function on_source_change {
+    while read event
+    do
+        run_setup
+    done
+}
+
+export -f on_source_change
+
+
+run_setup
+fswatch -o $ASSETS_ROOT | on_source_change
+
