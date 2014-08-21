@@ -8,7 +8,7 @@ name := "vehicles-presentation-common"
 
 organization := "dvla"
 
-version := "2.0"
+version := "2.1-SNAPSHOT"
 
 scalacOptions := Seq(
   "-deprecation",
