@@ -8,7 +8,7 @@ name := "vehicles-presentation-common"
 
 organization := "dvla"
 
-version := "2.0-SNAPSHOT"
+version := "2.1-SNAPSHOT"
 
 scalacOptions := Seq(
   "-deprecation",
@@ -28,8 +28,10 @@ publishTo <<= version { v: String =>
 
 credentials += Credentials(Path.userHome / ".sbt/.credentials")
 
-// Uncomment that when released and before publishing to github. NOTE: bintray plugin doesn't work with SNAPSHOTS
+// Uncomment next line when released and before publishing to github. NOTE: bintray plugin doesn't work with SNAPSHOTS
 //bintrayPublishSettings
+
+BintrayCredentials.bintrayCredentialsTask
 
 // Disable documentation generation to save time for the CI build process
 sources in doc in Compile := List()
@@ -45,10 +47,13 @@ libraryDependencies ++= Seq(
   "org.mockito" % "mockito-all" % "1.9.5" % "test" withSources() withJavadoc(),
   "org.slf4j" % "log4j-over-slf4j" % "1.7.7" % "test" withSources() withJavadoc(),
   "com.github.tomakehurst" % "wiremock" % "1.46" % "test" withSources() withJavadoc() exclude("log4j", "log4j")
-)     
+)
+
 
 ScoverageSbtPlugin.instrumentSettings
 
 ScoverageSbtPlugin.ScoverageKeys.excludedPackages in ScoverageSbtPlugin.scoverage := "<empty>;Reverse.*"
 
 CoverallsPlugin.coverallsSettings
+
+
