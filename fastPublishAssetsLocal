@@ -17,7 +17,7 @@ ASSETS_ROOT=$PRESENTATION_COMMON_ROOT/app/assets
 WEBJAR_DEST=/target/web/web-modules/main/webjars/lib/vehicles-presentation-common
 SASS_TO_TOUCH=/app/assets/screen.scss
 
-function checkError {
+function check_error {
     if [[ $? -ne 0 ]]; then
         echo "${RED} $1 ${NORMAL} "
     else
@@ -25,23 +25,23 @@ function checkError {
     fi
 }
 
-function create_link {
+function copy_assets {
     message=$1
     app_location=$2
-    link_location=$app_location$WEBJAR_DEST
+    destination=$app_location$WEBJAR_DEST
     app_sass_to_touch=$app_location$SASS_TO_TOUCH
 
     echo "$message ${NORMAL}"
 
-    if [ -d $link_location ]; then
-        rm -rf $link_location
+    if [ -d $destination ]; then
+        rm -rf $destination
     fi
 
     if [ -d $ASSETS_ROOT ]; then
-        ln -s $ASSETS_ROOT $link_location
-        checkError "failed" "$link_location"
+        cp -r $ASSETS_ROOT $destination
+        check_error "failed" "$destination"
     else
-        echo "${RED}  not creating as link source $ASSETS_ROOT doesn't exist!${NORMAL}"
+        echo "${RED} not copying assets as source $ASSETS_ROOT doesn't exist!${NORMAL}"
     fi
 
     touch $app_sass_to_touch
@@ -49,9 +49,9 @@ function create_link {
 
 function run_setup {
     echo ""
-    create_link "1. Creating symbolic link for vehicles-online..." $VEHICLES_ONLINE_ROOT
-    create_link "2. Creating symbolic link for vrm-retention-online..." $VRM_RETENTION_ONLINE_ROOT
-    create_link "3. Creating symbolic link for vehicles-acquire-online..." $VEHICLES_ACQUIRE_ONLINE_ROOT
+    copy_assets "1. Creating symbolic link for vehicles-online..." $VEHICLES_ONLINE_ROOT
+    copy_assets "2. Creating symbolic link for vrm-retention-online..." $VRM_RETENTION_ONLINE_ROOT
+    copy_assets "3. Creating symbolic link for vehicles-acquire-online..." $VEHICLES_ACQUIRE_ONLINE_ROOT
     echo ""
     echo "Monitoring changes in vehicles-presentation-common to reflect in *-online applications."
     echo "Press ctrl+c to stop..."
