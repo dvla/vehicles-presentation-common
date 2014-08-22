@@ -10,7 +10,9 @@ final case class DayMonthYear(day: Int,
                               month: Int,
                               year: Int,
                               hour: Option[Int] = None,
-                              minutes: Option[Int] = None) extends Ordered[DayMonthYear] {
+                              minutes: Option[Int] = None,
+                              seconds: Option[Int] = None,
+                              milliseconds: Option[Int] = None) extends Ordered[DayMonthYear] {
 
   def withTime(hour: Int, minutes: Int) = copy(hour = Some(hour), minutes = Some(minutes))
   def `yyyy-MM-dd`: String = format("yyyy-MM-dd")
@@ -45,6 +47,12 @@ final case class DayMonthYear(day: Int,
 
   def toDateTime: Option[DateTime] =
     try Some(new DateTime(year, month, day, hour.getOrElse(0), minutes.getOrElse(0)))
+    catch {
+      case e: Exception => None
+    }
+
+  def toDateTimeMillis: Option[DateTime] =
+    try Some(new DateTime(year, month, day, hour.getOrElse(0), minutes.getOrElse(0), seconds.getOrElse(0), milliseconds.getOrElse(0)))
     catch {
       case e: Exception => None
     }
@@ -128,8 +136,10 @@ object DayMonthYear {
       now.dayOfMonth().get,
       now.monthOfYear().get,
       now.year().get,
-      Some(now.hourOfDay().get()),
-      Some(now.minuteOfHour().get)
+      Some(now.hourOfDay().get),
+      Some(now.minuteOfHour().get),
+      Some(now.secondOfMinute().get),
+      Some(now.millisOfSecond().get)
     )
   }
 }
