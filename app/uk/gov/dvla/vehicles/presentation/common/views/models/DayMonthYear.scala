@@ -136,8 +136,10 @@ object DayMonthYear {
       now.dayOfMonth().get,
       now.monthOfYear().get,
       now.year().get,
-      Some(now.hourOfDay().get()),
-      Some(now.minuteOfHour().get)
+      Some(now.hourOfDay().get),
+      Some(now.minuteOfHour().get),
+      Some(now.secondOfMinute().get),
+      Some(now.millisOfSecond().get)
     )
   }
 }
