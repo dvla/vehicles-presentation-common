@@ -7,9 +7,9 @@
 }
 
 @function phase-tag-colour($phase) {
-  @if $phase == "alpha" { @return $alpha-colour }
-  @if $phase == "beta" { @return $beta-colour }
-  @else { @return $beta-colour; }
+    @if $phase == "alpha" { @return $alpha-colour }
+    @if $phase == "beta" { @return $beta-colour }
+    @else { @return $beta-colour; }
 }
 
 @mixin clearfix {
