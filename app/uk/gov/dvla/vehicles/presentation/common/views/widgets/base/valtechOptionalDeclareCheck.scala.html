@@ -1,8 +1,9 @@
 @(field: play.api.data.Field, args: Map[Symbol, Any])(implicit handler: helper.FieldConstructor, lang: Lang)
 
 @import play.api.templates.PlayMagic.toHtmlArgs
-@import uk.gov.dvla.vehicles.presentation.common.views.html.widgets.base.valtechLabelText
 @import _root_.views.html.helper.input
+@import uk.gov.dvla.vehicles.presentation.common.views
+@import views.html.widgets.base.labelOrId
 
 @boxValue = @{ args.toMap.getOrElse('value, "true") } @*TODO make a helper extension method for this.*@
 
@@ -18,6 +19,6 @@
            @{if(field.hasErrors) "aria-invalid=true" else ""} @* TODO move this into an extension method and write unit tests *@
            @toHtmlArgs(htmlArgs.filterKeys(_ != 'value))
     >
-    @valtechLabelText(field,args)
+    @labelOrId(field.id, args)
 </label>
 }
