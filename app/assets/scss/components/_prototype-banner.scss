@@ -1,0 +1,48 @@
+//coloured prototype banner
+
+#{$prototype-banner} {
+    padding:0.750em 0 0 0;
+    margin:0 15px;
+
+    @media screen and (max-width: $device-large) {
+        padding-top: 0.7em;
+        padding-bottom: 0.7em;
+    }
+
+    span.phase-tag {
+        display:inline-block;
+        vertical-align:baseline;
+        color:$white;
+        font: {
+          size:16px;
+          weight:bold;
+        }
+        padding:5px 6px 2px 6px;
+        margin-right:.3em;
+        text-transform:uppercase;
+    }
+
+    p {
+        margin:0;
+        padding:0 0 8px 0;
+        line-height:1.2em;
+        color:$black-2;
+        font: {
+            size:15px;
+            size:1.5rem;
+        }
+
+        @media screen and (max-width: $device-small) {
+            font-size:1.3rem;
+            font-size:13px;
+        }
+    }
+
+    a, a:visited {
+        color: $purple-2;
+        text-decoration: underline;
+        &:hover {
+            color: $black-1;
+        }
+    }
+}
