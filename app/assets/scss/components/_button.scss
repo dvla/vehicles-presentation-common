@@ -17,7 +17,6 @@
             weight: 500;
         } 
         @include appearance(none);
-        @include border-radius(5px);  
         
         .ie & {
             font-size: 19px;
