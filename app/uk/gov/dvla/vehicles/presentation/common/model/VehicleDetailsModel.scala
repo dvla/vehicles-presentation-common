@@ -6,7 +6,8 @@ import uk.gov.dvla.vehicles.presentation.common.webserviceclients.vehiclelookup.
 
 final case class VehicleDetailsModel(registrationNumber: String,
                                vehicleMake: String,
-                               vehicleModel: String)
+                               vehicleModel: String,
+                               disposeFlag: Option[Boolean] = None)
 
 object VehicleDetailsModel {
   // Create a VehicleDetailsModel from the given VehicleDetailsDto. We do this in order get the data out of the response from micro-service call
@@ -14,7 +15,8 @@ object VehicleDetailsModel {
     VehicleDetailsModel(
       registrationNumber = model.registrationNumber,
       vehicleMake = model.vehicleMake,
-      vehicleModel = model.vehicleModel
+      vehicleModel = model.vehicleModel,
+      disposeFlag = model.disposeFlag
     )
 
   implicit val JsonFormat = Json.format[VehicleDetailsModel]
