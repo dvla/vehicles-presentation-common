@@ -7,7 +7,7 @@ import uk.gov.dvla.vehicles.presentation.common.webserviceclients.vehiclelookup.
 final case class VehicleDetailsModel(registrationNumber: String,
                                vehicleMake: String,
                                vehicleModel: String,
-                               disposeFlag: Option[Boolean] = None)
+                               disposeFlag: Boolean)
 
 object VehicleDetailsModel {
   // Create a VehicleDetailsModel from the given VehicleDetailsDto. We do this in order get the data out of the response from micro-service call
