@@ -35,55 +35,67 @@
 }
 
 
-//provides smaller width, more flexible container with a single/full column row
-@mixin summary-detail-list-flex {
-    @media screen and (min-width:$device-medium) {
-        max-width:500px;
-    }
-    @media screen and (min-width:$device-large) {
-        max-width:55%;
-    }
-}
-
 @mixin summary-detail-list-item-float {
     float:left;
     @media screen and (max-width:$device-small) {
-        width:auto !important;
+        clear:both;
+        width:100%;
     }
 }
 
 //summary detail item width for one column
-@mixin summary-detail-list-item-float-one-col {
-    p,
-    dd {
-        @include summary-detail-list-item-float;
-        width:73.5%;
-        @media screen and (max-width: $device-medium) {
-            width:66%;
+@mixin summary-detail-list-item-base {
+    dt, dd {
+        @include copy-19;
+        margin-bottom:0;
+        .ie6 & {
+            float:none;
         }
     }
-}
-
-//summary detail item width for the first column in a two column layout
-@mixin summary-detail-list-item-float-two-col-first {
     p,
     dd {
-        @include summary-detail-list-item-float;
+        //prevent long text from breaking out of container. see:
+        //css-tricks.com/snippets/css/prevent-long-urls-from-breaking-out-of-container/
+        -ms-word-break:break-all;
+        word-break:break-all;
+        word-break:break-word;
+        word-wrap:break-word;
+        webkit-hyphens:auto;
+        -moz-hyphens:auto;
+        hyphens:auto;
+        width:61%;
         @media screen and (max-width: $device-medium) {
-            width:auto;
+            width:100%;
         }
     }
-}
+    dt {
+        float:left;
+        min-width:120px;
+        width:36%;
+        font-weight:bold;
+        clear:left;
 
-//summary detail item width for the second/last column in a two column layout
-@mixin summary-detail-list-item-float-two-col-second {
-    p,
-    dd {
-        @include summary-detail-list-item-float;
-            width:44%;
         @media screen and (max-width: $device-medium) {
-            width:auto;
+            padding-top:0;
+            margin-bottom:0;
+            width:100%;
         }
+        &.full-width {
+            width:100%;
+        }
+    }
+    dd {
+        @include to-uppercase;
+    }
+    p {
+        margin:0;
+    }
+    dt,
+    dd,
+    p {
+        font-size:15px;
+        @include box-sizing(border-box);
+        @include summary-detail-list-item-float;
     }
 }
 
