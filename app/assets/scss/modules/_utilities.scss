@@ -105,8 +105,11 @@
         @include clearfix;
         @include box-sizing(border-box);
         @include summary-detail-list-item-base;
-        
-        padding:1em;
+        @if$bg == transparent {
+            padding:0;
+        } @else {
+            padding:1em;
+        }
         margin:23px 0 20px 0;
         margin:2.3rem 0 2rem 0;
         width:50%;
