@@ -145,28 +145,6 @@ button {
         @include img-multi-wrap(300px);
     }
 
-    //information list
-    //this could be a DL element, or a wrapping div
-    .summary-detail-list {
-        @include clearfix;
-        @include box-sizing(border-box);
-        @include summary-detail-list-item-base;
-        background:$light-blue-25;
-        padding:1em;
-        margin:23px 0 20px 0;
-        margin:2.3rem 0 2rem 0;
-        width:50%;
-        .first-col & {
-            width:100%;
-        }
-        @media screen and (max-width:$device-medium - 1px) {
-            width:50%;
-        }
-        @media screen and (max-width:$device-small) {
-            width:100%;
-        }
-    }
-
     //two column layout
     .two-col {
         @include clearfix;
