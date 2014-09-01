@@ -44,7 +44,7 @@
 }
 
 //summary detail item width for one column
-@mixin summary-detail-list-item-base {
+@mixin summary-detail-list-item-base($title-min-width:120px) {
     dt, dd {
         @include copy-19;
         margin-bottom:0;
@@ -70,7 +70,7 @@
     }
     dt {
         float:left;
-        min-width:120px;
+        min-width:$title-min-width;
         width:36%;
         font-weight:bold;
         clear:left;
@@ -100,11 +100,11 @@
 }
 
 //summary playback. This could be a DL element, or a wrapping div
-@mixin summary-detail-list($bg:transparent) {
+@mixin summary-detail-list($bg:transparent,$title-min-width:120px) {
     .summary-detail-list {
         @include clearfix;
         @include box-sizing(border-box);
-        @include summary-detail-list-item-base;
+        @include summary-detail-list-item-base($title-min-width);
         @if$bg == transparent {
             padding:0;
         } @else {
