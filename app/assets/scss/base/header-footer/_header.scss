@@ -1,5 +1,16 @@
 //Header
 
+@mixin header-global-desktop {
+    float:left;
+    width:33.33%;
+}
+
+@mixin header-proposition-desktop {
+    padding-top:0;
+    width:66.66%;
+    float:left;
+}
+
 .global-header {
     background-color: $header-colour;
     width:100%;
@@ -43,8 +54,12 @@
             margin:5px 0 2px;
         }
         @media (min-width: $device-medium) {
-            float:left;
-            width:33.33%;
+            @include header-global-desktop;
+        }
+        .ie8 &,
+        .ie7 &,
+        .ie6 & {
+            @include header-global-desktop;
         }     
     }
 
@@ -126,9 +141,12 @@
             }
         }
         @media (min-width: $device-medium) {
-            padding-top:0;
-            width:66.66%;
-            float:left;
+            @include header-proposition-desktop;
+        }
+        .ie8 &,
+        .ie7 &,
+        .ie6 & {
+            @include header-proposition-desktop;
         }
     }
 
