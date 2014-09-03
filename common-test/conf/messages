@@ -1,0 +1,107 @@
+#main header
+main.banner = Generic widgets
+
+#widget messages
+errorsummary.title = Please check the form
+errorsummary.p1 = Please fix the following:
+widget.optional=(optional)
+
+#day month year control
+datePlaceholder.day=Day
+datePlaceholder.month=Month
+datePlaceholder.year=Year
+datePlaceholder.January=January
+datePlaceholder.February=February
+datePlaceholder.March=March
+datePlaceholder.April=April
+datePlaceholder.May=May
+datePlaceholder.June=June
+datePlaceholder.July=July
+datePlaceholder.August=August
+datePlaceholder.September=September
+datePlaceholder.October=October
+datePlaceholder.November=November
+datePlaceholder.December=December
+
+select_default = Please select
+
+#index page
+index.title = Widget index
+
+#success page
+success.pageTitle = Success
+
+#valtechInputText widget
+valtechInputText.pageTitle = Valtech input text
+valtechInputText.name = Valtech Input text
+valtechInputText.label = Vehicle reference number
+valtechInputText.hint = Enter 11 digit document reference number
+valtechInputText.validation = You must enter a number with a length of 11 digits
+valtechInputText.button = Submit
+# Convert the id to text to use in error messages
+documentReferenceNumber = Document reference number
+
+#valtechDeclareCheck widget
+valtechDeclareCheck.pageTitle = Valtech declare check
+valtechDeclareCheck.name = Valtech declare check
+valtechDeclareCheck.label = I have the consent of the current keeper to notify the sale of this vehicle
+valtechDeclareCheck.button = Confirm
+declareSelectId = Consent
+
+#valtechSelect widget
+valtechSelect.pageTitle = Valtech select
+valtechSelect.name = Valtech select
+valtechSelect.label = Please select an option
+valtechSelect.button = Submit
+valtechSelect_default = Please select
+demo_select = Select an option
+error.dropDownInvalid = No option has been chosen
+
+#postcode widget
+postcode.pageTitle = Postcode capture
+postcode.name = Postcode capture
+postcode.hint = e.g. AB1 2BA or AB12BA
+postcode.label = Postcode
+postcode.button = Submit
+error.restricted.validPostcode = Postcode must be in valid format, e.g. AB1 2BA or AB12BA
+
+#valtechInputDayMonthYear widget
+valtechInputDayMonthYear.pageTitle = Valtech input day month year
+valtechInputDayMonthYear.label = Date of birth
+valtechInputDayMonthYear.button = Submit
+# Convert the ids to text to use in error messages
+dateOfBirth.day = Day
+dateOfBirth.month = Month
+dateOfBirth.year = Year
+
+#v5cRegistrationNumber widget
+v5cRegistrationNumber.pageTitle = V5c Registration Number
+v5cRegistrationNumber.name = V5c Registration Number
+v5cRegistrationNumber.label = V5c Registration Number
+v5cRegistrationNumber.button = Submit
+v5cRegistrationNumber.hint = V5c Registration Number
+
+#valtechInputDigits widget
+valtechInputDigits.pageTitle = Valtech input digits
+valtechInputDigits.label = Mileage
+valtechInputDigits.hint = Enter your mileage
+valtechInputDigits.button = Submit
+# Convert the id to text to use in error messages
+mileage = Mileage
+
+#valtechRadio widget
+valtechRadio.pageTitle = Valtech radio buttons
+valtechRadio.label = What is the keeper type?
+valtechRadio.business = Business owner
+valtechRadio.private = Private owner
+valtechRadio.button = Submit
+# Convert the id to text to use in error messages
+keeperType = Keeper type
+
+#email widget
+email.pageTitle = Email capture
+email.name = Email capture
+email.hint = e.g. test@test.com
+email.label = Email
+email.button = Submit
+error.restricted.validEmail = Email must be in valid format, e.g. AB1 2BA or AB12BA

@@ -1,0 +1,42 @@
+# Routes
+# This file defines all application routes (Higher priority routes first)
+# ~~~~
+
+# IoC
+# For those controllers whose dependencies are being injected, we use the @controllers syntax here so that
+# the router knows we are referring to a class (not an object). In turn it will call on the
+# GlobalSettings.getControllerInstance method to resolve the actual controller instance. This method hooks into
+# Guice to provide the actual instance complete with its injected dependencies
+
+# Home page
+GET     /                               @controllers.Application.present
+
+# Map static resources from the /public folder to the /assets URL path
+GET     /assets/*file                   controllers.Assets.at(path="/public", file)
+
+GET     /valtech-input-text             @controllers.ValtechInputTextController.present
+POST    /valtech-input-text             @controllers.ValtechInputTextController.submit
+
+GET     /valtech-declare-check          @controllers.ValtechDeclareCheckController.present
+POST    /valtech-declare-check          @controllers.ValtechDeclareCheckController.submit
+
+GET     /valtech-select                 @controllers.ValtechSelectController.present
+POST    /valtech-select                 @controllers.ValtechSelectController.submit
+
+GET     /postcode                       @controllers.PostcodeController.present
+POST    /postcode                       @controllers.PostcodeController.submit
+
+GET     /valtech-input-day-month-year   @controllers.ValtechInputDayMonthYearController.present
+POST    /valtech-input-day-month-year   @controllers.ValtechInputDayMonthYearController.submit
+
+GET     /v5c-registration-number        @controllers.V5cRegistrationNumberController.present
+POST    /v5c-registration-number        @controllers.V5cRegistrationNumberController.submit
+
+GET     /valtech-input-digits           @controllers.ValtechInputDigitsController.present
+POST    /valtech-input-digits           @controllers.ValtechInputDigitsController.submit
+
+GET     /valtech-radio                  @controllers.ValtechRadioController.present
+POST    /valtech-radio                  @controllers.ValtechRadioController.submit
+
+GET     /email                          @controllers.EmailController.present
+POST    /email                          @controllers.EmailController.submit
