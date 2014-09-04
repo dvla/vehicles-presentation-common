@@ -1,0 +1,17 @@
+@(title: String, currentForm: Option[Form[_]] = None)(content: Html)(implicit lang: Lang)
+
+@import uk.gov.dvla.vehicles.presentation.common
+@import common.views.html.widgets.errorsSummary
+
+@govMain(title) {
+    <div class="app common-test">
+
+        <div class="section-content">
+            <h1>@title</h1>
+
+            @errorsSummary(currentForm)
+
+            @content
+        </div>
+    </div>
+}
