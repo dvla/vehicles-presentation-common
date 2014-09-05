@@ -2,7 +2,6 @@ package uk.gov.dvla.vehicles.presentation.common.mappings
 
 import play.api.data.Forms.nonEmptyText
 import play.api.data.Mapping
-import uk.gov.dvla.vehicles.presentation.common.views.constraints.RegistrationNumber
 import uk.gov.dvla.vehicles.presentation.common.views.constraints.RegistrationNumber.validRegistrationNumber
 
 object VehicleRegistrationNumber {
