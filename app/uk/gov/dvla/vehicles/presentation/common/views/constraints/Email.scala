@@ -1,6 +1,7 @@
 package uk.gov.dvla.vehicles.presentation.common.views.constraints
 
 import java.util.regex.Pattern
+import scala.annotation.tailrec
 import uk.gov.dvla.vehicles.presentation.common.mappings.Email.{EmailUsernameMaxLength, InvalidUsernameChar, EmailDomainSectionMaxLength}
 import uk.gov.dvla.vehicles.presentation.common.mappings.Email.{InvalidDomainContentChar, InvalidDomainStartEndChar, EmailMinLength, EmailMaxLength}
 import play.api.data.validation.{Valid, ValidationError, Invalid, Constraint}
@@ -96,7 +97,7 @@ object Email {
     else if (emailDomain.length > EmailDomainSectionMaxLength) false
     else true
 
-  //domainLengthValid is tail recursive as it may be made up of multiple parts
+  @tailrec
   def domainSectionValid(emailDomain: Seq[String]): Boolean =
     if (emailDomain.head.isEmpty) true
     else if (emailDomain.head.length > EmailDomainSectionMaxLength

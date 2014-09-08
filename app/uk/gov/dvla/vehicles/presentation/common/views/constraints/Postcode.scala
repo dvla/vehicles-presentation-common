@@ -1,22 +1,21 @@
 package uk.gov.dvla.vehicles.presentation.common.views.constraints
 
-import play.api.data.validation.{Constraint, Invalid, Valid, ValidationError}
+import play.api.data.validation.Constraint
+import play.api.data.validation.Constraints.pattern
 
 object Postcode {
 
-  def validPostcode: Constraint[String] = Constraint("constraint.restricted.validPostcode") { input =>
-    val whitelist =
+  def validPostcode: Constraint[String] = pattern(
+    regex =
       """^
         |(?i)(GIR 0AA)|
         |((([A-Z][0-9][0-9]?)|
         |(([A-Z][A-HJ-Y][0-9][0-9]?)|
         |(([A-Z][0-9][A-Z])|
         |([A-Z][A-HJ-Y][0-9]?[A-Z]))))[ ]?[0-9][A-Z]{2})
-        |$""".stripMargin.replace("\n", "").r
-
-    if (whitelist.pattern.matcher(input).matches) Valid
-    else Invalid(ValidationError("error.restricted.validPostcode"))
-  }
+        |$""".stripMargin.replace("\n", "").r,
+    name = "constraint.restricted.validPostcode",
+    error = "error.restricted.validPostcode")
 
   // TODO I think this should move out of the constraint as it is not a constraint, it re-formats for viewing. It could live in a model but we don't yet have a model for postcode
   def formatPostcode(postcode: String): String = {

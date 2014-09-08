@@ -1,6 +1,6 @@
 package uk.gov.dvla.vehicles.presentation.common.views.constraints
 
-import play.api.data.validation.{ValidationError, Invalid, Valid}
+import play.api.data.validation.{Invalid, Valid}
 import uk.gov.dvla.vehicles.presentation.common.UnitSpec
 
 class BusinessNameUnitSpec extends UnitSpec {
@@ -22,6 +22,7 @@ class BusinessNameUnitSpec extends UnitSpec {
     "Bob/Kerry's Cars", "A")
   invalidNames.map(name => "indicate the business name is invalid: " + name in {
     val result = BusinessName.validBusinessName(name)
-    result should equal(Invalid(ValidationError("error.validBusinessName")))
+    val invalid = result.asInstanceOf[Invalid]
+    invalid.errors(0).message should equal("error.validBusinessName")
   })
 }
