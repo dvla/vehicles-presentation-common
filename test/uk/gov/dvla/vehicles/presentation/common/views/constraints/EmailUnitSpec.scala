@@ -2,7 +2,7 @@ package uk.gov.dvla.vehicles.presentation.common.views.constraints
 
 import play.api.data.validation.{ValidationError, Invalid, Valid}
 import uk.gov.dvla.vehicles.presentation.common.UnitSpec
-import uk.gov.dvla.vehicles.presentation.common.mappings.Email
+import uk.gov.dvla.vehicles.presentation.common.views.constraints.Email.emailAddress
 
 final class EmailUnitSpec extends UnitSpec {
 
@@ -18,7 +18,7 @@ final class EmailUnitSpec extends UnitSpec {
     "abcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghiklm@abcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghikl.abcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghikl.abcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghi",
     "\"test\"@iana.org", "\"\\a\"@iana.org", "\"\\\"\"@iana.org", "xn--test@iana.org")
   validEmails.map(name => "indicate the email is valid: " + name in {
-    val result = Email.emailAddress(name)
+    val result = emailAddress(name)
     result should equal(Valid)
   })  
   
@@ -36,7 +36,7 @@ final class EmailUnitSpec extends UnitSpec {
     "\"test\"\"test\"@iana.org", "\"test\".\"test\"@iana.org", "\"test\".test@iana.org", "test@iana.org-", "(test@iana.org",
     "test@(iana.org", "\"test\\\"@iana.org", "test@.org", "test@iana/icann.org")
   invalidEmails.map(name => "indicate the email is invalid: " + name in {
-    val result = Email.emailAddress(name)
+    val result = emailAddress(name)
     result should equal(Invalid(ValidationError("error.email")))
   })
 }
