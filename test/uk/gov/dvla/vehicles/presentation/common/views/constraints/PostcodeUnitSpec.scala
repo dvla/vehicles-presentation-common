@@ -3,75 +3,24 @@ package uk.gov.dvla.vehicles.presentation.common.views.constraints
 import uk.gov.dvla.vehicles.presentation.common.UnitSpec
 
 final class PostcodeUnitSpec extends UnitSpec {
-  "output format" should {
-    "transform 'A12BC' correctly" in {
-      val postcode = "A12BC"
 
-      val result = Postcode.formatPostcode(postcode)
-
-      result should equal("A1 2BC")
-    }
-    "transform 'A 012BC' correctly" in {
-      val postcode = "A 012BC"
-
-      val result = Postcode.formatPostcode(postcode)
-      result should equal("A1 2BC")
-    }
-    "transform 'A123BC' correctly" in {
-      val postcode = "A123BC"
-
-      val result = Postcode.formatPostcode(postcode)
-
-      result should equal("A12 3BC")
-    }
-    "transform 'A 123BC' correctly" in {
-      val postcode = "A 123BC"
-
-      val result = Postcode.formatPostcode(postcode)
-
-      result should equal("A12 3BC")
-    }
-    "transform 'A1B2CD' correctly" in {
-      val postcode = "A1B2CD"
-
-      val result = Postcode.formatPostcode(postcode)
-
-      result should equal("A1B 2CD")
-    }
-    "transform 'A 1B2CD' correctly" in {
-      val postcode = "A 1B2CD"
-
-      val result = Postcode.formatPostcode(postcode)
-
-      result should equal("A1B 2CD")
-    }
-    "transform 'AB12CD' correctly" in {
-      val postcode = "AB12CD"
-
-      val result = Postcode.formatPostcode(postcode)
-
-      result should equal("AB1 2CD")
-    }
-    "transform 'AB012CD' correctly" in {
-      val postcode = "AB012CD"
-
-      val result = Postcode.formatPostcode(postcode)
-
-      result should equal("AB1 2CD")
-    }
-    "transform 'AB123CD' correctly" in {
-      val postcode = "AB123CD"
-
-      val result = Postcode.formatPostcode(postcode)
-
-      result should equal("AB12 3CD")
-    }
-    "transform 'AB1C2DE' correctly" in {
-      val postcode = "AB1C2DE"
-
-      val result = Postcode.formatPostcode(postcode)
-
-      result should equal("AB1C 2DE")
-    }
-  }
+  /**
+   * Test postcode formatting
+   */
+  val inputs = Seq(
+    ("A12BC", "A1 2BC"),
+    ("A 012BC", "A1 2BC"),
+    ("A123BC", "A12 3BC"),
+    ("A 123BC", "A12 3BC"),
+    ("A1B2CD", "A1B 2CD"),
+    ("A 1B2CD", "A1B 2CD"),
+    ("AB12CD", "AB1 2CD"),
+    ("AB012CD", "AB1 2CD"),
+    ("AB123CD", "AB12 3CD"),
+    ("AB1C2DE", "AB1C 2DE")
+  )
+  inputs.map(postcodeTuple => s"transform '${postcodeTuple._1}' correctly" in {
+    val result = Postcode.formatPostcode(postcodeTuple._1)
+    result should equal(postcodeTuple._2)
+  })
 }
