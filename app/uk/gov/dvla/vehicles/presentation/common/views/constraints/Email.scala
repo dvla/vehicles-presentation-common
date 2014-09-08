@@ -6,6 +6,15 @@ import uk.gov.dvla.vehicles.presentation.common.mappings.Email.{EmailUsernameMax
 import uk.gov.dvla.vehicles.presentation.common.mappings.Email.{InvalidDomainContentChar, InvalidDomainStartEndChar, EmailMinLength, EmailMaxLength}
 import play.api.data.validation.{Valid, ValidationError, Invalid, Constraint}
 
+/**
+ * This class validates an email address using a regular expression which is based on RFC822
+ *
+ * http://tools.ietf.org/html/rfc822
+ * http://www.ex-parrot.com/~pdw/Mail-RFC822-Address.html
+ *
+ */
+
+
 object Email {
   private val validEmail =
     "(?:(?:\\r\\n)?[ \\t])*(?:(?:(?:[^()<>@,;:\\\\\".\\[\\] \\000-\\031]+(?:(?:(?:\\r\\n)?[ \\t])+|\\Z|(?=[\\[\"()<>@,;:\\\\\".\\[\\]]))" +
