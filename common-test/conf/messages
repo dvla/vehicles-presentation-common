@@ -105,3 +105,11 @@ email.hint = e.g. test@test.com
 email.label = Email
 email.button = Submit
 error.restricted.validEmail = Email must be in valid format, e.g. AB1 2BA or AB12BA
+
+#business name mapping/constraint
+businessName.pageTitle = Business name
+businessName.hint = Enter business name
+businessName.label = Business name
+businessName.button = Submit
+name = Business name
+error.validBusinessName = Must be between two and 56 characters and only contain valid characters (a-z, A-Z, 0-9, -, ‘, and ,)
