@@ -2,7 +2,7 @@ package uk.gov.dvla.vehicles.presentation.common.views.constraints
 
 import play.api.data.validation.{ValidationError, Invalid, Valid}
 import uk.gov.dvla.vehicles.presentation.common.UnitSpec
-import uk.gov.dvla.vehicles.presentation.common.mappings.Email.emailAddress
+import uk.gov.dvla.vehicles.presentation.common.views.constraints.Email.emailAddress
 
 final class EmailUnitSpec extends UnitSpec {
 

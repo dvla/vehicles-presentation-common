@@ -2,7 +2,8 @@ package uk.gov.dvla.vehicles.presentation.common.views.constraints
 
 import java.util.regex.Pattern
 import uk.gov.dvla.vehicles.presentation.common.mappings.Email.{EmailUsernameMaxLength, InvalidUsernameChar, EmailDomainSectionMaxLength}
-import uk.gov.dvla.vehicles.presentation.common.mappings.Email.{InvalidDomainContentChar, InvalidDomainStartEndChar}
+import uk.gov.dvla.vehicles.presentation.common.mappings.Email.{InvalidDomainContentChar, InvalidDomainStartEndChar, EmailMinLength, EmailMaxLength}
+import play.api.data.validation.{Valid, ValidationError, Invalid, Constraint}
 
 object Email {
   private val validEmail =
@@ -67,6 +68,14 @@ object Email {
       ")<>@,;:\\\\\".\\[\\]]))|\\[([^\\[\\]\\r\\\\]|\\\\.)*\\](?:(?:\\r\\n)?[ \\t])*))*\\>(?:(?:\\r\\n)?[ \\t])*))*)?;\\s*)"
 
   val ptr = Pattern.compile(validEmail)
+
+  def emailAddress: Constraint[String] = Constraint[String]("constraint.email") {
+    e =>
+      if (!(EmailMinLength to EmailMaxLength contains e.length)) Invalid(ValidationError("error.email"))
+      else if (ptr.matcher(e).matches())
+        if (emailStyleValid(e)) Valid else Invalid(ValidationError("error.email"))
+      else Invalid(ValidationError("error.email"))
+  }
 
   def emailStyleValid (email: String): Boolean =
     if (email.split("@")(0).length > EmailUsernameMaxLength || (email.split("@")(0) contains InvalidUsernameChar)) false
