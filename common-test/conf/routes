@@ -40,3 +40,6 @@ POST    /valtech-radio                  @controllers.ValtechRadioController.subm
 
 GET     /email                          @controllers.EmailController.present
 POST    /email                          @controllers.EmailController.submit
+
+GET     /date-of-birth                  @controllers.DateOfBirthController.present
+POST    /date-of-birth                  @controllers.DateOfBirthController.submit

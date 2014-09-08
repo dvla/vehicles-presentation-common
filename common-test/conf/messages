@@ -105,3 +105,16 @@ email.hint = e.g. test@test.com
 email.label = Email
 email.button = Submit
 error.restricted.validEmail = Email must be in valid format, e.g. AB1 2BA or AB12BA
+
+#Date of birth widget
+dateOfBirthInput.pageTitle = Date Of Birth Input
+dateOfBirthInput.label = Testing date of birth
+dateOfBirthInput.hint = Eg. 24 05 2012
+dateOfBirthInput.future = Date of birth cannot be in the future
+DateOfBirthFieldId.day = Birth day
+DateOfBirthFieldId.month = Birth month
+DateOfBirthFieldId.year = Birth year
+
+DateOfBirthFieldId1.day = Birth day
+DateOfBirthFieldId1.month = Birth month
+DateOfBirthFieldId1.year = Birth year
