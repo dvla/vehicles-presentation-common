@@ -20,8 +20,7 @@
         id="@id"
         name="@name"
         value="@value"
-        @Html(if(htmlArgs.contains('typeTel)) """type=tel onkeydown="return isNumber(event)" """ else """type=text""")
-        @Html(if(htmlArgs.contains('typeEmail)) """type=email""" else """type=text""")
+        @Html(if(htmlArgs.contains('typeTel)) """type=tel onkeydown="return isNumber(event)" """ else if(htmlArgs.contains('typeEmail)) """type=email""" else """type=text""")
         @{if(field.constraints.find(_._1 == RequiredField)) "aria-required=true" else ""} @* TODO move this into an extension method and write unit tests *@
         @{if(field.hasErrors) "aria-invalid=true" else ""} @* TODO move this into an extension method and write unit tests *@
         @toHtmlArgs(htmlArgs.maxLengthRules.autoCompleteRules)
