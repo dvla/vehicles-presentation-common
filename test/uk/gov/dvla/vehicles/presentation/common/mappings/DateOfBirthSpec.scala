@@ -1,9 +1,9 @@
-package uk.gov.dvla.vehicles.presentation.common.mapping
+package uk.gov.dvla.vehicles.presentation.common.mappings
 
 import play.api.data.Form
 import play.api.data.Forms.mapping
 import uk.gov.dvla.vehicles.presentation.common.views.models.DateOfBirth
-import uk.gov.dvla.vehicles.presentation.common.{mappings, UnitSpec}
+import uk.gov.dvla.vehicles.presentation.common.{UnitSpec, mappings}
 
 class DateOfBirthSpec extends UnitSpec {
   case class OptionalDateOfBirthModel(dateOfBirth: Option[DateOfBirth])
