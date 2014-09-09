@@ -1,7 +1,7 @@
 package uk.gov.dvla.vehicles.presentation.common.mappings
 
 import org.joda.time.DateTime
-import play.api.data.Forms.{mapping, number, optional}
+import play.api.data.Forms.{mapping => map, number, optional}
 import play.api.data.Mapping
 import play.api.data.validation.{Constraint, Invalid, Valid, ValidationError}
 import play.api.i18n.Messages
@@ -16,11 +16,11 @@ object DateOfBirth {
   final val MaxMonthsInYear = 12
   final val OptionalDateOfBirth = "optional.date.of.birth"
 
-  val requiredDateOfBirth: Mapping[models.DateOfBirth] = map(constraint(RequiredField))
+  val requiredDateOfBirth: Mapping[models.DateOfBirth] = mapping(constraint(RequiredField))
 
-  val optionalDateOfBirth: Mapping[Option[models.DateOfBirth]] = optional(map(constraint(OptionalDateOfBirth)))
+  val optionalDateOfBirth: Mapping[Option[models.DateOfBirth]] = optional(mapping(constraint(OptionalDateOfBirth)))
 
-  private def map(constraint: Constraint[models.DateOfBirth] ) = mapping(
+  private def mapping(constraint: Constraint[models.DateOfBirth] ) = map(
     DayId -> number(min = 1, max = MaxDaysInMonth),
     MonthId -> number(min = 1, max = MaxMonthsInYear),
     YearId -> number(min = 1)
@@ -32,8 +32,7 @@ object DateOfBirth {
       if (new DateTime(year, month, day, 0, 0).toDate.getTime >=
         new DateTime().plusDays(1).withTimeAtStartOfDay().toDate.getTime)
         Invalid(ValidationError(Messages("dateOfBirthInput.future")))
-      else
-        Valid
+      else Valid
     case _ => Invalid(ValidationError("error.dropDownInvalid"))
   }
 }
