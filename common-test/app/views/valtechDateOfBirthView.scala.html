@@ -1,0 +1,38 @@
+@(valtechDateOfBirthForm: Form[models.DateOfBirthModel])(implicit lang: Lang)
+
+@import uk.gov.dvla.vehicles.presentation.common
+@import common.views.helpers.BaseTemplate.fieldConstructor
+@import common.views.html.widgets.dates.valtechDateOfBirth
+@import models.ValtechInputTextModel.Form.DocumentReferenceNumberId
+@import views.html.helper.form
+
+@main(title = Messages("dateOfBirthInput.pageTitle"),
+  currentForm = Some(valtechDateOfBirthForm)) {
+  @form(action = controllers.routes.DateOfBirthController.submit) {
+
+    @valtechDateOfBirth(valtechDateOfBirthForm(models.DateOfBirthModel.Form.DateOfBirthDayId),
+                        args = Map(
+                            '_showConstraints -> false,
+                            'autofocus -> true
+                        )
+    )
+
+    @valtechDateOfBirth(valtechDateOfBirthForm(models.DateOfBirthModel.Form.DateOfBirthDayId1),
+                        Some("Changed hint"),
+                        args = Map(
+                            '_label -> "A changed label",
+                            '_showConstraints -> false
+                        )
+    )
+
+    <div class="form-steps">
+        <button id="submit"
+                type="submit"
+                name="action"
+                class="button"
+                aria-label="Next button">
+            @Messages("valtechInputText.button")
+        </button>
+    </div>
+  }
+}

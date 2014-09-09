@@ -1,0 +1,27 @@
+@(businessNameForm: Form[models.BusinessNameModel])(implicit lang: Lang)
+
+@import uk.gov.dvla.vehicles.presentation.common
+@import common.views.helpers.BaseTemplate.fieldConstructor
+@import common.views.html.widgets.base.valtechInputText
+@import models.BusinessNameModel.Form.BusinessNameId
+@import views.html.helper.form
+
+@main(
+    title = Messages("businessName.pageTitle"),
+    currentForm = Some(businessNameForm)
+) {
+    @form(action = controllers.routes.BusinessNameController.submit) {
+
+        @valtechInputText(businessNameForm(BusinessNameId),
+            hintText = Some(Messages("businessName.hint")),
+            args =  Map('_label -> Messages("businessName.label"),
+                '_showConstraints -> false,
+                'autofocus -> true
+            )
+        )
+
+        <div class="form-steps">
+            <button id="submit" type="submit" name="action" class="button" aria-label="Next button">@Messages("businessName.button")</button>
+        </div>
+    }
+}

@@ -4,10 +4,10 @@ import play.api.data.Forms.{number, optional}
 import play.api.data.Mapping
 
 object Mileage {
-  private final val minLength = 1
-  final val maxLength = 6
+  private final val MinLength = 1
+  final val MaxLength = 6
   final val Max = 999999 // confirmed as max size by BAs
-  final val Pattern = s"\\d{$minLength,$maxLength}" // Digits only with specified size.
+  final val Pattern = s"\\d{$MinLength,$MaxLength}" // Digits only with specified size.
 
-  def mileage (max: Int = Max): Mapping[Option[Int]] = optional(number(max = max))
+  def mileage: Mapping[Option[Int]] = optional(number(max = Max))
 }
