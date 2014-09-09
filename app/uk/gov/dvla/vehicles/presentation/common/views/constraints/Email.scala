@@ -14,7 +14,6 @@ import play.api.data.validation.{Valid, ValidationError, Invalid, Constraint}
  *
  */
 
-
 object Email {
   private val validEmail =
     "(?:(?:\\r\\n)?[ \\t])*(?:(?:(?:[^()<>@,;:\\\\\".\\[\\] \\000-\\031]+(?:(?:(?:\\r\\n)?[ \\t])+|\\Z|(?=[\\[\"()<>@,;:\\\\\".\\[\\]]))" +

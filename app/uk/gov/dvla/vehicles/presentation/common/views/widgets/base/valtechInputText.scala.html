@@ -1,4 +1,6 @@
-@(field: play.api.data.Field, hintText: Option[String] = None, args: Map[Symbol, Any] = Map.empty)(implicit handler: helper.FieldConstructor, lang: Lang)
+@(field: play.api.data.Field,
+  hintText: Option[String] = None,
+  args: Map[Symbol, Any] = Map.empty)(implicit handler: helper.FieldConstructor, lang: Lang)
 
 @import uk.gov.dvla.vehicles.presentation.common.views
 @import views.constraints.Required.RequiredField

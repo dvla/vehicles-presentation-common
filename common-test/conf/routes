@@ -43,3 +43,6 @@ POST    /email                          @controllers.EmailController.submit
 
 GET     /business-name                  @controllers.BusinessNameController.present
 POST    /business-name                  @controllers.BusinessNameController.submit
+
+GET     /date-of-birth                  @controllers.DateOfBirthController.present
+POST    /date-of-birth                  @controllers.DateOfBirthController.submit

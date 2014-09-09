@@ -113,3 +113,15 @@ businessName.label = Business name
 businessName.button = Submit
 name = Business name
 error.validBusinessName = Must be between two and 56 characters and only contain valid characters (a-z, A-Z, 0-9, -, ‘, and ,)
+
+#Date of birth widget
+dateOfBirthInput.pageTitle = Date Of Birth Input
+dateOfBirthInput.label = Testing date of birth
+dateOfBirthInput.hint = Eg. 24 05 2012
+dateOfBirthInput.future = Date of birth cannot be in the future
+DateOfBirthFieldId.day = Birth day
+DateOfBirthFieldId.month = Birth month
+DateOfBirthFieldId.year = Birth year
+DateOfBirthFieldId1.day = Birth day
+DateOfBirthFieldId1.month = Birth month
+DateOfBirthFieldId1.year = Birth year
