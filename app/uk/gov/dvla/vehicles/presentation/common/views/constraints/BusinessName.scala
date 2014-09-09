@@ -6,7 +6,7 @@ import play.api.data.validation.Constraints.pattern
 object BusinessName {
 
   def validBusinessName: Constraint[String] = pattern(
-    regex = """^[a-zA-Z0-9\s\-\'\,]{2,}$""".r,
+    regex = """^[a-zA-Z0-9][a-zA-Z0-9\s\-\'\,]*$""".r,
     name = "constraint.validBusinessName",
     error = "error.validBusinessName")
 }

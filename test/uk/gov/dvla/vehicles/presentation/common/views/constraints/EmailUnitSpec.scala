@@ -17,8 +17,8 @@ final class EmailUnitSpec extends UnitSpec {
     "a@a.b.c.d.e.f.g.h.i.j.k.l.m.n.o.p.q.r.s.t.u.v.w.x.y.z.a.b.c.d.e.f.g.h.i.j.k.l.m.n.o.p.q.r.s.t.u.v.w.x.y.z.a.b.c.d.e.f.g.h.i.j.k.l.m.n.o.p.q.r.s.t.u.v.w.x.y.z.a.b.c.d.e.f.g.h.i.j.k.l.m.n.o.p.q.r.s.t.u.v.w.x.y.z.a.b.c.d.e.f.g.h.i.j.k.l.m.n.o.p.q.r.s.t.u.v",
     "abcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghiklm@abcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghikl.abcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghikl.abcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghi",
     "\"test\"@iana.org", "\"\\a\"@iana.org", "\"\\\"\"@iana.org", "xn--test@iana.org")
-  validEmails.map(name => "indicate the email is valid: " + name in {
-    val result = emailAddress(name)
+  validEmails.map(email => s"indicate the email is valid: $email" in {
+    val result = emailAddress(email)
     result should equal(Valid)
   })  
   
@@ -35,8 +35,8 @@ final class EmailUnitSpec extends UnitSpec {
     "\"\"\"@iana.org", "test\"@iana.org", "\"test@iana.org", "\"test\"test@iana.org", "test\"text\"@iana.org",
     "\"test\"\"test\"@iana.org", "\"test\".\"test\"@iana.org", "\"test\".test@iana.org", "test@iana.org-", "(test@iana.org",
     "test@(iana.org", "\"test\\\"@iana.org", "test@.org", "test@iana/icann.org")
-  invalidEmails.map(name => "indicate the email is invalid: " + name in {
-    val result = emailAddress(name)
+  invalidEmails.map(email => s"indicate the email is invalid: $email" in {
+    val result = emailAddress(email)
     result should equal(Invalid(ValidationError("error.email")))
   })
 }

@@ -24,7 +24,7 @@ class BusinessNameIntegrationSpec extends UiSpec with TestHarness {
 
     "reject submit when field contains less than minimum characters" in new WebBrowser {
       BusinessNamePage.navigate(businessName = "A")
-      ErrorPanel.numberOfErrors should equal(2)
+      ErrorPanel.numberOfErrors should equal(1)
     }
 
     "reject submit when business name fails regular expression because it contains ampersand" in new WebBrowser {
