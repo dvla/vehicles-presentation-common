@@ -30,6 +30,7 @@ libraryDependencies ++= Seq(
   "org.slf4j" % "log4j-over-slf4j" % "1.7.7" % "test" withSources() withJavadoc(),
   "org.scalatest" %% "scalatest" % "2.2.1" % "test" withSources() withJavadoc(),
   "commons-codec" % "commons-codec" % "1.9" withSources() withJavadoc(),
+  "com.github.nscala-time" %% "nscala-time" % "1.4.0" withSources() withJavadoc(),
   "org.apache.httpcomponents" % "httpclient" % "4.3.4" withSources() withJavadoc()
 )
 

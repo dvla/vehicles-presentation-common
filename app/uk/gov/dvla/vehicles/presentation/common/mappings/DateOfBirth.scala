@@ -1,12 +1,13 @@
 package uk.gov.dvla.vehicles.presentation.common.mappings
 
-import org.joda.time.DateTime
-import play.api.data.Forms.{mapping => map, number, optional}
-import play.api.data.Mapping
+import org.joda.time.LocalDate
+import play.api.data.FormError
+import play.api.data.Forms.{of, optional}
+import play.api.data.format.Formatter
 import play.api.data.validation.{Constraint, Invalid, Valid, ValidationError}
 import play.api.i18n.Messages
-import uk.gov.dvla.vehicles.presentation.common.views.constraints.Required.RequiredField
-import uk.gov.dvla.vehicles.presentation.common.views.models
+import uk.gov.dvla.vehicles.presentation.common.views.constraints.Required
+import scala.util.Try
 
 object DateOfBirth {
   final val DayId = "day"
@@ -16,23 +17,32 @@ object DateOfBirth {
   final val MaxMonthsInYear = 12
   final val OptionalDateOfBirth = "optional.date.of.birth"
 
-  val requiredDateOfBirth: Mapping[models.DateOfBirth] = mapping(constraint(RequiredField))
+  val formatter = new Formatter[LocalDate] {
+    def bind(key: String, data: Map[String, String]): Either[Seq[FormError], LocalDate] = {
+      val dateOfBirth: Option[LocalDate] = for {
+        dayText <- data.get(s"$key.$DayId")
+        monthText <- data.get(s"$key.$MonthId")
+        yearText <- data.get(s"$key.$YearId")
+        day <- Try(dayText.toInt).toOption
+        month <- Try(monthText.toInt).toOption
+        year <- Try(yearText.toInt).toOption
+        dateOfBirth <- Try(new LocalDate(year, month, day)).toOption
+      } yield dateOfBirth
+      dateOfBirth.map(Right(_)).getOrElse{
+        Left(Seq[FormError](FormError(key, "error.dateOfBirth.invalid")))
+      }
+    }
 
-  val optionalDateOfBirth: Mapping[Option[models.DateOfBirth]] = optional(mapping(constraint(OptionalDateOfBirth)))
+    def unbind(key: String, value: LocalDate) = ???
+  }
 
-  private def mapping(constraint: Constraint[models.DateOfBirth] ) = map(
-    DayId -> number(min = 1, max = MaxDaysInMonth),
-    MonthId -> number(min = 1, max = MaxMonthsInYear),
-    YearId -> number(min = 1)
-  )(models.DateOfBirth.apply)(models.DateOfBirth.unapply)
-    .verifying(constraint)
+  val mapping = of[LocalDate](formatter) verifying constraint(Required.RequiredField)
 
-  private def constraint(name: String) = Constraint[models.DateOfBirth](name) {
-    case models.DateOfBirth(day, month, year) =>
-      if (new DateTime(year, month, day, 0, 0).toDate.getTime >=
-        new DateTime().plusDays(1).withTimeAtStartOfDay().toDate.getTime)
-        Invalid(ValidationError(Messages("dateOfBirthInput.future")))
+  val optionalMapping = optional(of[LocalDate](formatter) verifying constraint("Optional DateOfBirth"))
+
+  def constraint(name: String) = Constraint[LocalDate](name) {
+    case d: LocalDate =>
+      if (d.isAfter(LocalDate.now)) Invalid(ValidationError(Messages("error.dateOfBirth.inTheFuture")))
       else Valid
-    case _ => Invalid(ValidationError("error.dropDownInvalid"))
   }
 }

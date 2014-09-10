@@ -46,6 +46,7 @@ libraryDependencies ++= Seq(
   "org.scalatest" %% "scalatest" % "2.2.1" % "test" withSources() withJavadoc(),
   "org.mockito" % "mockito-all" % "1.9.5" % "test" withSources() withJavadoc(),
   "org.slf4j" % "log4j-over-slf4j" % "1.7.7" % "test" withSources() withJavadoc(),
+  "com.github.nscala-time" %% "nscala-time" % "1.4.0" withSources() withJavadoc(),
   "com.github.tomakehurst" % "wiremock" % "1.46" % "test" withSources() withJavadoc() exclude("log4j", "log4j")
 )
 
