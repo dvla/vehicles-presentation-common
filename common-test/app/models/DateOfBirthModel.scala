@@ -13,7 +13,7 @@ object DateOfBirthModel {
 
 
     final val Mapping = mapping(
-      DateOfBirthDayId -> optional(mappings.DateOfBirth.mapping),
+      DateOfBirthDayId -> mappings.DateOfBirth.optionalMapping,
       DateOfBirthDayId1 -> mappings.DateOfBirth.mapping
     )(DateOfBirthModel.apply)(DateOfBirthModel.unapply)
   }

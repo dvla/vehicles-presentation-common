@@ -33,7 +33,7 @@ object DateOfBirth {
       }
     }
 
-    def unbind(key: String, value: LocalDate) = ???
+    def unbind(key: String, value: LocalDate) = Map[String, String]()
   }
 
   val mapping = of[LocalDate](formatter) verifying constraint(Required.RequiredField)
