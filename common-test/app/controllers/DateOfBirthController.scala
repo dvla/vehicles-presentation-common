@@ -4,7 +4,6 @@ import com.google.inject.Inject
 import play.api.data.Form
 import play.api.mvc.{Action, Controller}
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClientSideSessionFactory
-import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicits.RichForm
 
 
 class DateOfBirthController @Inject()(implicit clientSideSessionFactory: ClientSideSessionFactory)
@@ -13,7 +12,7 @@ class DateOfBirthController @Inject()(implicit clientSideSessionFactory: ClientS
   private[controllers] val form = Form(models.DateOfBirthModel.Form.Mapping)
 
   def present = Action { implicit request =>
-    Ok(views.html.valtechDateOfBirthView(form.fill()))
+    Ok(views.html.valtechDateOfBirthView(form))
   }
 
   def submit = Action {

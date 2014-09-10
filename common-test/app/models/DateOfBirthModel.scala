@@ -1,7 +1,7 @@
 package models
 
 import org.joda.time.LocalDate
-import play.api.data.Forms.{mapping, optional}
+import play.api.data.Forms.mapping
 import uk.gov.dvla.vehicles.presentation.common.mappings
 
 case class DateOfBirthModel(dateOfBirth: Option[LocalDate], dateOfBirth1: LocalDate)
