@@ -125,3 +125,9 @@ DateOfBirthFieldId.year = Birth year
 DateOfBirthFieldId1.day = Birth day
 DateOfBirthFieldId1.month = Birth month
 DateOfBirthFieldId1.year = Birth year
+
+#mileage widget
+mileage.pageTitle = Mileage
+mileage.label = Mileage
+mileage.hint = Enter your mileage
+mileage.button = Submit

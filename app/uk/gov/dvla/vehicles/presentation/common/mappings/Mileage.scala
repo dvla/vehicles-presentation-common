@@ -9,5 +9,5 @@ object Mileage {
   final val Max = 999999 // confirmed as max size by BAs
   final val Pattern = s"\\d{$MinLength,$MaxLength}" // Digits only with specified size.
 
-  def mileage: Mapping[Option[Int]] = optional(number(max = Max))
+  def mileage: Mapping[Option[Int]] = optional(number(min = 0, max = Max))
 }
