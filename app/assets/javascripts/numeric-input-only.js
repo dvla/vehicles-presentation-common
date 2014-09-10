@@ -28,7 +28,7 @@ function isFleetNumber(event) {
     var hyphen = 173;
     if (event) {
         var charCode = (event.which) ? event.which : event.keyCode;
-        console.log(charCode)
+//        console.log(charCode)
         if (charCode != hyphen && charCode != tab && charCode != end &&
             charCode != home && charCode != backspace && charCode != deleteCode &&
             (charCode < zero || charCode > nine) &&
