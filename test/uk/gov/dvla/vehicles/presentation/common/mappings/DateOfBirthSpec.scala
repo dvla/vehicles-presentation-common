@@ -115,6 +115,11 @@ class DateOfBirthSpec extends UnitSpec {
     }
   }
 
+  "Unbind should populate the fields of the map" in {
+    val formData = RequiredDateOfBirthModel(new LocalDate(1, 2, 3))
+    RequiredForm.bind(RequiredForm.fill(formData).data).value should ===(Some(formData))
+  }
+
   private def validateInvalidDate(day: String, month: String, year: String): Unit = {
     val form = RequiredForm.bind(Map("required.day" -> day, "required.month" -> month, "required.year" -> year))
     form.value should ===(None)

@@ -1,11 +1,14 @@
 package views
 
-import helpers.UiSpec
+import helpers.{CookieFactoryForUnitSpecs, UiSpec}
 import helpers.webbrowser.TestHarness
 import org.joda.time.chrono.ISOChronology
 import pages.{ErrorPanel, DateOfBirthPage}
 import play.api.i18n.Messages
 import com.github.nscala_time.time.Imports.LocalDate
+import play.api.test.FakeRequest
+import play.api.test.Helpers.contentAsString
+import views.ValtechRadioView.KeeperType_Business
 
 class DateOfBirthSpec extends UiSpec with TestHarness {
 
