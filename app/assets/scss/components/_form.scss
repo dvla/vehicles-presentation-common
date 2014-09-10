@@ -223,6 +223,10 @@
             left:14px;
             top:1.3em;
             margin-right:10px;
+            .ie6 & {
+                top:13px;
+                left:-30px;
+            }
             @media (min-width: 641px) {
               margin-bottom:10px;
             }
