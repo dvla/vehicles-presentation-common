@@ -134,6 +134,7 @@
         max-width:$max-width;
         .ie6 & {
             width:$max-width;
+            border:0 none;
         }
     }
     &.img-wrap-mobile {
