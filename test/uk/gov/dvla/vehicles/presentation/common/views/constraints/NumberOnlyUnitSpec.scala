@@ -6,22 +6,22 @@ import uk.gov.dvla.vehicles.presentation.common.views.constraints.NumberOnly.rul
 
 final class NumberOnlyUnitSpec extends UnitSpec {
 
-  /**
-   * Test valid number formats
-   */
-  val validNumbers = Seq("1234")
-  validNumbers.map(validNumber => s"indicate the number is valid: $validNumber" in {
-    val result = rules(validNumber)
-    result should equal(Valid)
-  })
+  "rules" should {
 
-  /**
-   * Test invalid numbers
-   */
-  val invalidNumbers = Seq("", "test", "123,")
-  invalidNumbers.map(invalidNumber => s"indicate not a valid number: $invalidNumber" in {
-    val result = rules(invalidNumber)
-    val invalid = result.asInstanceOf[Invalid]
-    invalid.errors(0).message should equal("error.restricted.validNumberOnly")
-  })
+    val validNumbers = Seq("1234", "0")
+    validNumbers.foreach { validNumber =>
+      s"indicate the number is valid: $validNumber" in {
+        rules(validNumber) should equal(Valid)
+      }
+    }
+
+    val invalidNumbers = Seq("", "test", "123,", "-1", "0.1")
+    invalidNumbers.foreach { invalidNumber =>
+      s"indicate not a valid number: $invalidNumber" in {
+        val result = rules(invalidNumber)
+        val invalid = result.asInstanceOf[Invalid]
+        invalid.errors(0).message should equal("error.restricted.validNumberOnly")
+      }
+    }
+  }
 }

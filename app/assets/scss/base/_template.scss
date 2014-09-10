@@ -160,7 +160,10 @@ button {
         .first-col {
             @include clearfix;
             width:47%;
-            float:left;
+            float:right;
+            .ie6 & {
+                width:43%;
+            }
             @media screen and (max-width: $device-medium) {
                 float:none;
                 width:100%;
@@ -171,7 +174,10 @@ button {
         .second-col {
             @include clearfix;
             width:47%;
-            float:right;
+            float:left;
+            .ie6 & {
+                width:43%;
+            }
             @media screen and (max-width: $device-medium) {
                 float:none;
                 width:100%;
