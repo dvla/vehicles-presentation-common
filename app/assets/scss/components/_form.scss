@@ -118,6 +118,10 @@
             padding: 0.2em 0 0.4em 0.4em;
             width: 283px;
         }
+        .ie6 & {
+            width: 146px;
+            font-size: 14px;
+        }
         @media screen and (max-width: $device-small) {
             width: 100%;
             @include box-sizing(border-box);
@@ -223,13 +227,13 @@
               margin-bottom:10px;
             }
         }
-        /*
+
         &.selected {
             border: 1px solid #555;
             background: #fff;
             padding: 11px 13px 11px 45px;
         }
-        */
+
     }
 
 
