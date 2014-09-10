@@ -1,6 +1,6 @@
 package pages
 
-import helpers.webbrowser.{Element, Page, TextField, WebBrowserDSL, WebDriverFactory}
+import helpers.webbrowser._
 import models.EmailModel.Form.EmailId
 import org.openqa.selenium.WebDriver
 
@@ -11,7 +11,7 @@ object EmailPage extends Page with WebBrowserDSL {
   final override val title: String = "Email capture"
   val emailValid = "test@test.com"
 
-  def businessEmail(implicit driver: WebDriver): TextField = textField(id(EmailId))
+  def businessEmail(implicit driver: WebDriver): EmailField = emailField(id(EmailId))
 
   def submit(implicit driver: WebDriver): Element = find(id("submit")).get
 

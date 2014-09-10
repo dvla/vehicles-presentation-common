@@ -117,11 +117,20 @@ error.validBusinessName = Must be between two and 56 characters and only contain
 #Date of birth widget
 dateOfBirthInput.pageTitle = Date Of Birth Input
 dateOfBirthInput.label = Testing date of birth
-dateOfBirthInput.hint = Eg. 24 05 2012
-dateOfBirthInput.future = Date of birth cannot be in the future
+dateOfBirthInput.hint = for example, 20 3 1976
+error.dateOfBirth.inTheFuture = Date of birth cannot be in the future
+error.dateOfBirth.invalid = Please enter a valid date in the format DD MM YYYY for example 20 3 1976 or 1 03 1976
+DateOfBirthFieldId = Optional date of birth
 DateOfBirthFieldId.day = Birth day
 DateOfBirthFieldId.month = Birth month
 DateOfBirthFieldId.year = Birth year
+DateOfBirthFieldId1 = Required date of birth
 DateOfBirthFieldId1.day = Birth day
 DateOfBirthFieldId1.month = Birth month
 DateOfBirthFieldId1.year = Birth year
+
+#mileage widget
+mileage.pageTitle = Mileage
+mileage.label = Mileage
+mileage.hint = Enter your mileage
+mileage.button = Submit

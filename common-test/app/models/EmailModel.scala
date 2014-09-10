@@ -3,7 +3,7 @@ package models
 import play.api.data.Forms._
 import uk.gov.dvla.vehicles.presentation.common.mappings.Email.email
 
-case class EmailModel(email: String)
+case class EmailModel(email: Option[String])
 
 object EmailModel {
 
@@ -11,7 +11,7 @@ object EmailModel {
     final val EmailId = "Email"
 
     final val Mapping =  mapping(
-      EmailId -> email
+      EmailId -> optional(email)
     )(EmailModel.apply)(EmailModel.unapply)
 
   }

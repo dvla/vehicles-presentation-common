@@ -46,3 +46,6 @@ POST    /business-name                  @controllers.BusinessNameController.subm
 
 GET     /date-of-birth                  @controllers.DateOfBirthController.present
 POST    /date-of-birth                  @controllers.DateOfBirthController.submit
+
+GET     /mileage                        @controllers.MileageController.present
+POST    /mileage                        @controllers.MileageController.submit

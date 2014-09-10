@@ -42,13 +42,13 @@ object FormExtensions {
 
   def textWithTransform(transform: String => String)
                        (minLength: Int = 0, maxLength: Int = Int.MaxValue): Mapping[String] = {
-    val formatter = of[String](transformedStringFormat(transform))
+    val fieldMapping = of[String](transformedStringFormat(transform))
 
     (minLength, maxLength) match {
-      case (0, Int.MaxValue) => formatter
-      case (min, Int.MaxValue) => formatter verifying Constraints.minLength(min)
-      case (0, max) => formatter verifying Constraints.maxLength(max)
-      case (min, max) => formatter verifying(Constraints.minLength(min), Constraints.maxLength(max))
+      case (0, Int.MaxValue) => fieldMapping
+      case (min, Int.MaxValue) => fieldMapping verifying Constraints.minLength(min)
+      case (0, max) => fieldMapping verifying Constraints.maxLength(max)
+      case (min, max) => fieldMapping verifying(Constraints.minLength(min), Constraints.maxLength(max))
     }
   }
 
