@@ -16,7 +16,7 @@ final class MileageUnitSpec extends UnitSpec {
   /**
    * Test invalid mileage formats
    */
-  val invalidMileage = Seq("", "1234567", "-12")
+  val invalidMileage = Seq("", "1234567", "-12", "Aaaaaa")
   invalidMileage.map(mileage => s"indicate the mileage is not valid: $mileage" in {
     val result = isValidMileage(mileage)
     result should equal(false)

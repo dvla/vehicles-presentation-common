@@ -39,6 +39,12 @@ object CookieImplicits {
 
   implicit class RichResult(val inner: Result) extends AnyVal {
 
+    // 'Ex' suffix to avoid conflict with play framework.
+    def withCookiesEx(cookies: CookieKeyValue*)
+                     (implicit request: Request[_],
+                      clientSideSessionFactory: ClientSideSessionFactory): Result =
+      (inner /: cookies)(_.withCookie(_))
+
     def withCookie[A](model: A)(implicit
                                 toJson: Writes[A],
                                 cacheKey: CacheKey[A],
@@ -47,11 +53,6 @@ object CookieImplicits {
       val json = Json.toJson(model).toString()
       withCookie(cacheKey.value, json)
     }
-
-    def withCookies(cookies: CookieKeyValue*)
-                  (implicit request: Request[_],
-                   clientSideSessionFactory: ClientSideSessionFactory): Result =
-      (inner /: cookies)(_.withCookie(_))
 
     def withCookie(cookie: CookieKeyValue)
                   (implicit request: Request[_],
