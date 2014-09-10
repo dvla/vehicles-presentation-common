@@ -48,6 +48,11 @@ object CookieImplicits {
       withCookie(cacheKey.value, json)
     }
 
+    def withCookie(cookie: CookieKeyValue)
+                  (implicit request: Request[_],
+                   clientSideSessionFactory: ClientSideSessionFactory): Result =
+      withCookie(cookie.key, cookie.value)
+
     def withCookie(key: String, value: String)
                   (implicit request: Request[_],
                    clientSideSessionFactory: ClientSideSessionFactory): Result = {
