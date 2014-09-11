@@ -25,7 +25,7 @@ function isFleetNumber(event) {
     var nine = 57;
     var numpad0 = 96;
     var numpad9 = 105;
-    var hyphen = 173;
+    var hyphen = 189;
     if (event) {
         var charCode = (event.which) ? event.which : event.keyCode;
 //        console.log(charCode)
