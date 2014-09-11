@@ -29,6 +29,9 @@ def getSecureRandomBytes(numberOfBytes: Int): Array[Byte] = {
 
 val secretKey = getSecureRandomBytes(keySizeInBits / 8)
 val base64EncodedSecretKey = Base64.encodeBase64String(secretKey)
-val lineOfConfig = s"""application.secret256Bit = "$base64EncodedSecretKey""""
+val secretLine = s"""application.secret256Bit = "$base64EncodedSecretKey""""
+val newGuid = java.util.UUID.randomUUID().toString
+val sessionLine = s"""application.sessionSecretKeySuffixKey = "$base64EncodedSecretKey""""
 
-println(s"Add/overwrite the following line in the encrypted config:\n\n$lineOfConfig")
+println(s"\n\nAdd/overwrite the following lines in the encrypted config:\n\n$secretLine\n\n$sessionLine")
+
