@@ -19,7 +19,6 @@ final class FakeVehicleLookupWebService extends VehicleLookupWebService {
       }
     }
     val responseAsJson = Json.toJson(response)
-    //Logger.debug(s"FakeVehicleLookupWebService callVehicleLookupService with: $responseAsJson")
     new FakeResponse(status = responseStatus, fakeJson = Some(responseAsJson)) // Any call to a webservice will always return this successful response.
   }
 }
