@@ -28,9 +28,7 @@ object DateOfBirth {
         year <- Try(yearText.toInt).toOption
         dateOfBirth <- Try(new LocalDate(year, month, day)).toOption
       } yield dateOfBirth
-      dateOfBirth.map(Right(_)).getOrElse{
-        Left(Seq[FormError](FormError(key, "error.dateOfBirth.invalid")))
-      }
+      dateOfBirth.toRight(Seq[FormError](FormError(key, "error.dateOfBirth.invalid")))
     }
 
     def unbind(key: String, value: LocalDate) = Map(
@@ -42,7 +40,7 @@ object DateOfBirth {
 
   val mapping = of[LocalDate](formatter) verifying constraint(Required.RequiredField)
 
-  val optionalMapping = optional(of[LocalDate](formatter) verifying constraint("Optional DateOfBirth"))
+  val optionalMapping = optional(of[LocalDate](formatter) verifying constraint("constraint.optionalDateOfBirth"))
 
   def constraint(name: String) = Constraint[LocalDate](name) {
     case d: LocalDate =>

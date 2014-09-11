@@ -92,7 +92,7 @@ class DateOfBirthSpec extends UnitSpec {
   }
 
   "Optional date of birth mapping" should {
-    "bind with empty data" in {
+    "Bind with empty data" in {
       OptionalForm.bind(
         Map("optional.day" -> "", "optional.month" -> "", "optional.year" -> "")
       ).value should ===(Some(OptionalDateOfBirthModel(None)))
