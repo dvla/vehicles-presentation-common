@@ -29,4 +29,3 @@ class ValtechRadioController @Inject()(implicit clientSideSessionFactory: Client
     }
   }
 }
-

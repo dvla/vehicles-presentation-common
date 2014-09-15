@@ -1,6 +1,6 @@
 package uk.gov.dvla.vehicles.presentation.common.mappings
 
-import play.api.data.Forms._
+import play.api.data.Forms.{mapping, number, optional}
 import play.api.data.Mapping
 import uk.gov.dvla.vehicles.presentation.common.views
 import views.constraints.DayMonthYear.required

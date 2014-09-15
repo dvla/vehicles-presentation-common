@@ -13,6 +13,5 @@ object EmailModel {
     final val Mapping =  mapping(
       EmailId -> optional(email)
     )(EmailModel.apply)(EmailModel.unapply)
-
   }
 }

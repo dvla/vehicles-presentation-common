@@ -8,5 +8,4 @@ class Application @Inject() extends Controller {
   def present = Action { implicit request =>
     Ok(views.html.index())
   }
-
 }
