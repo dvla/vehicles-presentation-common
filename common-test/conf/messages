@@ -80,6 +80,8 @@ v5cRegistrationNumber.name = V5c Registration Number
 v5cRegistrationNumber.label = V5c Registration Number
 v5cRegistrationNumber.button = Submit
 v5cRegistrationNumber.hint = V5c Registration Number
+error.restricted.validVrnOnly = Must be as shown on the latest V5C
+v5cRegistrationNumber = Registration number
 
 #valtechInputDigits widget
 valtechInputDigits.pageTitle = Valtech input digits
