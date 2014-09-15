@@ -11,7 +11,7 @@ import uk.gov.dvla.vehicles.presentation.common.ConfigProperties.getProperty
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicits.RichCookies
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.{AesEncryption, ClientSideSessionFactory}
 import scala.util.Try
-import play.api.Logger
+import play.api.http.HeaderNames.ORIGIN
 
 class CsrfPreventionFilter @Inject()
                            (implicit clientSideSessionFactory: ClientSideSessionFactory) extends EssentialFilter {
@@ -41,12 +41,15 @@ class CsrfPreventionAction(next: EssentialAction)
 
         // if the POST from a trusted source which doesn't send a csrf token, ignore the check and create a
         // new token for the next request
-        if (postWhitelist contains requestHeader.headers.get("Origin").get) {
-          next(requestWithNewToken(requestHeader))
-        } else if (requestHeader.contentType.get == "application/x-www-form-urlencoded")
-          checkBody(requestHeader, next)
-        else
-          throw new CsrfPreventionException(new Throwable("No CSRF token found in body"))
+
+        requestHeader.headers.get(ORIGIN) match {
+          case Some(requestOrigin) if postWhitelist contains requestOrigin => next(requestWithNewToken(requestHeader))
+          case _ =>
+            if (requestHeader.contentType.get == "application/x-www-form-urlencoded")
+              checkBody(requestHeader, next)
+            else
+              throw new CsrfPreventionException(new Throwable("No CSRF token found in body"))
+        }
 
       } else if (requestHeader.method == "GET" && requestHeader.accepts("text/html")) {
         next(requestWithNewToken(requestHeader))
