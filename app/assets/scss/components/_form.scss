@@ -54,6 +54,12 @@
             }
         }
     }
+
+    //screen reader only labels
+    .sr-only-labels label {
+        @include sr-only;
+    }
+
     .form-hint {
         display: block;
         color: $grey-1;
@@ -279,8 +285,13 @@
                 line-height:normal;
             }
             input {
-                min-width: 4em;
-                max-width: 4em;
+                &.day,
+                &.month {
+                    width:2.75em;
+                }
+                &.year {
+                    width:4.25em;
+                }
             }
         }
         @media screen and (max-width: $device-x-small) {
