@@ -2,16 +2,15 @@ package models
 
 import play.api.data.Forms.{mapping, nonEmptyText}
 
-case class ValtechInputTextModel(documentReferenceNumber: String)
+case class ValtechInputTextModel(inputText: String)
 
 object ValtechInputTextModel {
 
   object Form {
-    final val DocumentReferenceNumberId = "documentReferenceNumber"
+    final val InputTextId = "inputText"
 
     final val Mapping = mapping(
-      DocumentReferenceNumberId -> nonEmptyText(minLength = 11, maxLength = 11)
+      InputTextId -> nonEmptyText(minLength = 11, maxLength = 11)
     )(ValtechInputTextModel.apply)(ValtechInputTextModel.unapply)
-
   }
 }

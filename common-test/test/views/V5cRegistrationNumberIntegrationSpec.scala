@@ -6,7 +6,7 @@ import pages.{ErrorPanel, V5cRegistrationNumberPage}
 
 class V5cRegistrationNumberIntegrationSpec extends UiSpec with TestHarness {
 
-  "ValtechInputText integration" should {
+  "V5cRegistration number integration" should {
     "display the page" in new WebBrowser {
       go to V5cRegistrationNumberPage
       page.title should equal(V5cRegistrationNumberPage.title)
@@ -19,7 +19,7 @@ class V5cRegistrationNumberIntegrationSpec extends UiSpec with TestHarness {
 
     "reject submit when field is blank" in new WebBrowser {
       V5cRegistrationNumberPage.navigate(v5cRegistrationNumber = "")
-      ErrorPanel.numberOfErrors should equal(2)
+      ErrorPanel.numberOfErrors should equal(3)
     }
   }
 }

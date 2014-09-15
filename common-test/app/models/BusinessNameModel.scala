@@ -14,5 +14,4 @@ object BusinessNameModel {
       BusinessNameId -> businessNameMapping
     )(BusinessNameModel.apply)(BusinessNameModel.unapply)
   }
-  
 }

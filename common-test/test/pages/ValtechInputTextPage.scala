@@ -1,7 +1,7 @@
 package pages
 
 import helpers.webbrowser.{Element, Page, WebBrowserDSL, TextField, WebDriverFactory}
-import models.ValtechInputTextModel.Form.DocumentReferenceNumberId
+import models.ValtechInputTextModel.Form.InputTextId
 import org.openqa.selenium.WebDriver
 
 object ValtechInputTextPage extends Page with WebBrowserDSL {
@@ -10,7 +10,7 @@ object ValtechInputTextPage extends Page with WebBrowserDSL {
   override val url: String = WebDriverFactory.testUrl + address.substring(1)
   final override val title: String = "Valtech input text"
 
-  def documentReferenceNumberElement(implicit driver: WebDriver): TextField = textField(id(DocumentReferenceNumberId))
+  def documentReferenceNumberElement(implicit driver: WebDriver): TextField = textField(id(InputTextId))
 
   def submit(implicit driver: WebDriver): Element = find(id("submit")).get
 

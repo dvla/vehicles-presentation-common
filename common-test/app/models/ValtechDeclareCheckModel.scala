@@ -12,6 +12,5 @@ object ValtechDeclareCheckModel {
     final val Mapping = mapping(
       DeclareSelectId -> nonEmptyText
     )(ValtechDeclareCheckModel.apply)(ValtechDeclareCheckModel.unapply)
-
   }
 }

@@ -18,6 +18,5 @@ object ValtechRadioModel {
     final val Mapping = mapping(
       KeeperTypeId -> nonEmptyText
     )(ValtechRadioModel.apply)(ValtechRadioModel.unapply)
-
   }
 }

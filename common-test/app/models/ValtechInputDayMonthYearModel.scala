@@ -45,6 +45,5 @@ object ValtechInputDayMonthYearModel {
     final val Mapping = mapping(
       DateOfBirthId -> dayMonthYear.verifying(validDate())
     )(ValtechInputDayMonthYearModel.apply)(ValtechInputDayMonthYearModel.unapply)
-
   }
 }

@@ -34,12 +34,12 @@ success.pageTitle = Success
 #valtechInputText widget
 valtechInputText.pageTitle = Valtech input text
 valtechInputText.name = Valtech Input text
-valtechInputText.label = Vehicle reference number
-valtechInputText.hint = Enter 11 digit document reference number
-valtechInputText.validation = You must enter a number with a length of 11 digits
+valtechInputText.label = Example label
+valtechInputText.hint = Enter 11 characters
+valtechInputText.validation = You must enter 11 characters
 valtechInputText.button = Submit
 # Convert the id to text to use in error messages
-documentReferenceNumber = Document reference number
+inputText = Input text
 
 #valtechDeclareCheck widget
 valtechDeclareCheck.pageTitle = Valtech declare check
@@ -80,6 +80,8 @@ v5cRegistrationNumber.name = V5c Registration Number
 v5cRegistrationNumber.label = V5c Registration Number
 v5cRegistrationNumber.button = Submit
 v5cRegistrationNumber.hint = V5c Registration Number
+error.restricted.validVrnOnly = Must be as shown on the latest V5C
+v5cRegistrationNumber = Registration number
 
 #valtechInputDigits widget
 valtechInputDigits.pageTitle = Valtech input digits
