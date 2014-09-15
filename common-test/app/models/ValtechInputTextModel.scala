@@ -12,6 +12,5 @@ object ValtechInputTextModel {
     final val Mapping = mapping(
       InputTextId -> nonEmptyText(minLength = 11, maxLength = 11)
     )(ValtechInputTextModel.apply)(ValtechInputTextModel.unapply)
-
   }
 }
