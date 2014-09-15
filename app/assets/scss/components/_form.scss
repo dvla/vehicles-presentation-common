@@ -264,7 +264,7 @@
         .form-item {
             display: inline-block;
             margin: {
-                right:5px;
+                right:1em;
                 bottom:0;
             }
             .ie7 & {
@@ -274,13 +274,9 @@
         }
 
         &.form-date {
-            label {
-                @include sr-only;
-            }
             select {
                 max-width: 10em;
                 line-height:normal;
-
             }
             input {
                 min-width: 4em;
