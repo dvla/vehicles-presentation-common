@@ -11,6 +11,7 @@ import uk.gov.dvla.vehicles.presentation.common.ConfigProperties.getProperty
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicits.RichCookies
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.{AesEncryption, ClientSideSessionFactory}
 import scala.util.Try
+import play.api.Logger
 
 class CsrfPreventionFilter @Inject()
                            (implicit clientSideSessionFactory: ClientSideSessionFactory) extends EssentialFilter {
@@ -37,41 +38,37 @@ class CsrfPreventionAction(next: EssentialAction)
     // check if csrf prevention is switched on
     if (preventionEnabled) {
       if (requestHeader.method == "POST") {
-        val headerToken = buildTokenWithReferer(
-          requestHeader.cookies.trackingId,
-          requestHeader.headers
-        )
 
-        if (requestHeader.contentType.get == "application/x-www-form-urlencoded")
-          checkBody(requestHeader, headerToken, next)
+        // if the POST from a trusted source which doesn't send a csrf token, ignore the check and create a
+        // new token for the next request
+        if (postWhitelist contains requestHeader.headers.get("Origin").get) {
+          next(requestWithNewToken(requestHeader))
+        } else if (requestHeader.contentType.get == "application/x-www-form-urlencoded")
+          checkBody(requestHeader, next)
         else
           throw new CsrfPreventionException(new Throwable("No CSRF token found in body"))
 
       } else if (requestHeader.method == "GET" && requestHeader.accepts("text/html")) {
-
-        // No token in header and we have to create one if not found, so create a new token
-        val newToken = buildTokenWithUri(requestHeader.cookies.trackingId, requestHeader.uri)
-        val newEncryptedToken = aesEncryption.encrypt(newToken)
-        val newSignedEncryptedToken = Crypto.signToken(newEncryptedToken)
-
-        val requestWithNewToken = requestHeader.copy(
-          tags = requestHeader.tags + (TokenName -> newSignedEncryptedToken)
-        )
-
-        // Once done, add it to the result
-        next(requestWithNewToken)
-
+        next(requestWithNewToken(requestHeader))
       } else next(requestHeader)
     } else next(requestHeader)
   }
 
-  private def checkBody(request: RequestHeader, headerToken: String, next: EssentialAction) = {
+  private def requestWithNewToken(requestHeader: RequestHeader) = {
+    // No token in header and we have to create one if not found, so create a new token
+    val newToken = buildTokenWithUri(requestHeader.cookies.trackingId, requestHeader.uri)
+    val newEncryptedToken = aesEncryption.encrypt(newToken)
+    val newSignedEncryptedToken = Crypto.signToken(newEncryptedToken)
+    requestHeader.copy(tags = requestHeader.tags + (TokenName -> newSignedEncryptedToken))
+  }
 
+  private def checkBody(requestHeader: RequestHeader, next: EssentialAction) = {
+    
     val firstPartOfBody: Iteratee[Array[Byte], Array[Byte]] =
       Traversable.take[Array[Byte]](102400L.asInstanceOf[Int]) &>> Iteratee.consume[Array[Byte]]()
 
     firstPartOfBody.flatMap { bytes: Array[Byte] =>
-      val parsedBody = Enumerator(bytes) |>>> tolerantFormUrlEncoded(request)
+      val parsedBody = Enumerator(bytes) |>>> tolerantFormUrlEncoded(requestHeader)
 
       Iteratee.flatten(parsedBody.map { parseResult =>
         val validToken = parseResult.fold(
@@ -84,6 +81,10 @@ class CsrfPreventionAction(next: EssentialAction)
               throw new CsrfPreventionException(new Throwable("Invalid token found in form body"))))
             //TODO name the tuple parts accordingly instead of referencing it by number
             val splitDecryptedExtractedSignedToken = splitToken(decryptedExtractedSignedToken)
+            val headerToken = buildTokenWithReferer(
+              requestHeader.cookies.trackingId,
+              requestHeader.headers
+            )
             val splitTokenFromHeader = splitToken(headerToken)
             (splitDecryptedExtractedSignedToken._1 == splitTokenFromHeader._1) &&
               splitTokenFromHeader._2.contains(splitDecryptedExtractedSignedToken._2)
@@ -91,7 +92,7 @@ class CsrfPreventionAction(next: EssentialAction)
         )
 
         if (validToken)
-          Iteratee.flatten(Enumerator(bytes) |>> next(request))
+          Iteratee.flatten(Enumerator(bytes) |>> next(requestHeader))
         else
           throw new CsrfPreventionException(new Throwable("Invalid token found in form body"))
       })
@@ -103,6 +104,7 @@ object CsrfPreventionAction {
   final val TokenName = "csrf_prevention_token"
   private final val Delimiter = "-"
   lazy val preventionEnabled = getProperty("csrf.prevention", default = true)
+  lazy val postWhitelist = getProperty("csrf.post.whitelist", "").split(",")
   private val aesEncryption = new AesEncryption()
 
   case class CsrfPreventionToken(value: String)
