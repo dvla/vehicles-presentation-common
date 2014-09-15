@@ -21,7 +21,7 @@ class ValtechInputTextController @Inject()(implicit clientSideSessionFactory: Cl
       form.bindFromRequest.fold(
         invalidForm => BadRequest(views.html.valtechInputTextView(invalidForm)),
         validForm => {
-          val msg = s"Success - you entered documentReferenceNumber of ${validForm.documentReferenceNumber}"
+          val msg = s"Success - you entered value of ${validForm.inputText}"
           Ok(views.html.success(msg))
         }
       )

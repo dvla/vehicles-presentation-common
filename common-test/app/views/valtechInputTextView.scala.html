@@ -3,7 +3,7 @@
 @import uk.gov.dvla.vehicles.presentation.common
 @import common.views.helpers.BaseTemplate.fieldConstructor
 @import common.views.html.widgets.base.valtechInputText
-@import models.ValtechInputTextModel.Form.DocumentReferenceNumberId
+@import models.ValtechInputTextModel.Form.InputTextId
 @import views.html.helper.form
 
 @main(
@@ -12,7 +12,7 @@
 ) {
     @form(action = controllers.routes.ValtechInputTextController.submit) {
 
-        @valtechInputText(valtechInputTextForm(DocumentReferenceNumberId),
+        @valtechInputText(valtechInputTextForm(InputTextId),
             hintText = Some(Messages("valtechInputText.hint")),
             args =  Map('_label -> Messages("valtechInputText.label"),
                 '_showConstraints -> false,
