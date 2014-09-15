@@ -7,8 +7,8 @@ import common.views.constraints.BusinessName.validBusinessName
 
 object BusinessName {
   final val MinLength = 2
-  final val MaxLength = 56
+  final val MaxLength = 58
 
   def businessNameMapping: Mapping[String] =
-    nonEmptyTextWithTransform(_.trim)(MinLength, MaxLength) verifying validBusinessName
+    nonEmptyTextWithTransform(_.toUpperCase.trim)(MinLength, MaxLength) verifying validBusinessName
 }
