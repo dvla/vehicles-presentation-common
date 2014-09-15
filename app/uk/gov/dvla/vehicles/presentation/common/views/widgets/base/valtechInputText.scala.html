@@ -22,10 +22,11 @@
         value="@value"
         @Html(
             if(htmlArgs.contains('typeTel)) """type=tel onkeydown="return isNumber(event)" """
-            else if(htmlArgs.contains('typeFleetNumber)) """type=text onkeydown="return isFleetNumber(event)" """
+            else if(htmlArgs.contains('typeFleetNumber)) """type=text onkeyup="this.value=this.value.replace(/[^\d/-]/g,'')" """
             else if(htmlArgs.contains('typeEmail)) """type=email"""
             else """type=text"""
         )
+        @Html(htmlArgs.get('class).fold("")(classValue => s"""class="$classValue""""))
         @{if(field.constraints.find(_._1 == RequiredField)) "aria-required=true" else ""} @* TODO move this into an extension method and write unit tests *@
         @{if(field.hasErrors) "aria-invalid=true" else ""} @* TODO move this into an extension method and write unit tests *@
         @toHtmlArgs(htmlArgs.maxLengthRules.autoCompleteRules)
