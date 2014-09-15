@@ -9,7 +9,7 @@ final class BusinessNameFormSpec extends UnitSpec {
   "form" should {
     "accept if form is valid with business name field filled in" in {
       val model = formWithValidDefaults().get
-      model.name should equal(BusinessNameValid)
+      model.name should equal(BusinessNameValid.toUpperCase)
     }
   }
 
