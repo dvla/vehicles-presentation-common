@@ -6,6 +6,6 @@
 
 @labelOrId(field.id, args)
 
-@if(!field.constraints.find(_._1 == RequiredField)) {
+@if((!field.constraints.find(_._1 == RequiredField) && !args.contains('NO_OPTIONAL_LABEL))) {
     <em>@Messages("widget.optional")</em>
 }
