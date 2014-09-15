@@ -1,8 +1,8 @@
 package models
 
 import play.api.data.Mapping
-import play.api.data.Forms._
-import play.api.data.validation.{ValidationError, Invalid, Valid, Constraint}
+import play.api.data.Forms.{mapping, nonEmptyText}
+import uk.gov.dvla.vehicles.presentation.common.views.constraints.Postcode.validPostcode
 
 case class PostcodeModel(postcode:String)
 
@@ -19,14 +19,6 @@ object PostcodeModel {
 
     def postcode (minLength: Int = MinLength, maxLength: Int = MaxLength): Mapping[String] = {
       nonEmptyText(minLength, maxLength) verifying validPostcode
-    }
-
-    def validPostcode: Constraint[String] = Constraint[String]("constraint.restrictedvalidPostcode") { input =>
-      val inputRegex = """^(?i)(GIR 0AA)|((([A-Z][0-9][0-9]?)|(([A-Z][A-HJ-Y][0-9][0-9]?)|(([A-Z][0-9][A-Z])|([A-Z][A-HJ-Y][0-9]?[A-Z]))))[ ]?[0-9][A-Z]{2})$""".r
-      inputRegex.pattern.matcher(input).matches match {
-        case true => Valid
-        case false => Invalid(ValidationError("error.restricted.validPostcode"))
-      }
     }
   }
 }
