@@ -4,6 +4,7 @@ import com.github.nscala_time.time.Imports._
 import play.api.data.Forms.mapping
 import play.api.data.{Form, FormError}
 import uk.gov.dvla.vehicles.presentation.common.{UnitSpec, mappings}
+import com.github.nscala_time.time.RichLocalDate
 
 class DateOfBirthSpec extends UnitSpec {
   case class OptionalDateOfBirthModel(dateOfBirth: Option[LocalDate])
@@ -23,15 +24,15 @@ class DateOfBirthSpec extends UnitSpec {
         Map("required.day" -> s"$day", "required.month" -> s"$month", "required.year" -> s"$year")
       ).value should ===(Some(RequiredDateOfBirthModel(new LocalDate(year, month, day))))
 
-      validateBind(1, 2, 3)
-      validateBind(28, 2, 4)
+      validateBind(1, 2, 1943)
+      validateBind(28, 2, 1944)
       validateBind(29, 2, 2000)
-      validateBind(29, 3, -2000)
+      validateBind(29, 3, LocalDate.today.minusYears(110).getYear)
     }
 
     "Fail to bind when there are some errors in the values provided" in {
       val form = RequiredForm.bind(
-        Map("required.day" -> "&^", "required.month" -> "1", "required.year" -> "1111")
+        Map("required.day" -> "&^", "required.month" -> "1", "required.year" -> "1951")
       )
 
       form.value should ===(None)
@@ -49,7 +50,7 @@ class DateOfBirthSpec extends UnitSpec {
     }
 
     "Fail to bind with invalid day" in {
-      def validateInvalidDay(day: String, month: String = "3", year: String = "1111") =
+      def validateInvalidDay(day: String, month: String = "3", year: String = "1951") =
         validateInvalidDate(day, month, year)
       validateInvalidDay("0")
       validateInvalidDay("29", "2", "2001")
@@ -61,7 +62,7 @@ class DateOfBirthSpec extends UnitSpec {
     }
 
     "Fail to bind with invalid month" in {
-      def validateInvalidMonth(month: String) = validateInvalidDate("5", month, "1111")
+      def validateInvalidMonth(month: String) = validateInvalidDate("5", month, "1951")
       validateInvalidMonth("0")
       validateInvalidMonth("29")
       validateInvalidMonth("32")
@@ -77,6 +78,13 @@ class DateOfBirthSpec extends UnitSpec {
       validateInvalidYear("")
       validateInvalidYear("sdfsdf")
       validateInvalidYear("*&^*")
+      validateInvalidYear(LocalDate.today.minusYears(111).getYear.toString)
+    }
+
+    "Fail to bind with less then 4 characters" in {
+      validateInvalidDate("5", "6", "1")
+      validateInvalidDate("5", "6", "11")
+      validateInvalidDate("5", "6", "111")
     }
 
     "Fail to bind to a date in the future" in {
@@ -102,13 +110,13 @@ class DateOfBirthSpec extends UnitSpec {
 
     "Bind correctly when all the parameters are provided" in {
       OptionalForm.bind(
-        Map("optional.day" -> "1", "optional.month" -> "2", "optional.year" -> "1234")
-      ).value should ===(Some(OptionalDateOfBirthModel(Some(new LocalDate(1234, 2, 1)))))
+        Map("optional.day" -> "1", "optional.month" -> "2", "optional.year" -> "1934")
+      ).value should ===(Some(OptionalDateOfBirthModel(Some(new LocalDate(1934, 2, 1)))))
     }
 
     "Fail to bind when there are some errors in the values provided" in {
       val form = OptionalForm.bind(
-        Map("optional.day" -> "&^", "optional.month" -> "1", "optional.year" -> "1111")
+        Map("optional.day" -> "&^", "optional.month" -> "1", "optional.year" -> "1951")
       )
       form.value should ===(None)
       form.errors should ===(Seq(FormError("optional", "error.dateOfBirth.invalid")))
@@ -116,7 +124,7 @@ class DateOfBirthSpec extends UnitSpec {
   }
 
   "Unbind should populate the fields of the map" in {
-    val formData = RequiredDateOfBirthModel(new LocalDate(1, 2, 3))
+    val formData = RequiredDateOfBirthModel(new LocalDate(1961, 2, 3))
     RequiredForm.bind(RequiredForm.fill(formData).data).value should ===(Some(formData))
   }
 
