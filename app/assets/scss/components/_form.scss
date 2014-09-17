@@ -221,7 +221,7 @@
         display:block;
         position:relative;
         background:$grey-8;
-        padding:12px 14px 12px 0;
+        padding:12px 14px;
         margin:0 0 1em 0;
         overflow:hidden;
         cursor:pointer;
@@ -234,8 +234,10 @@
             width:auto;
         }
 
-        .ie7 & {
+        .ie7 &,
+        .ie6 & {
             display:inline-block;
+            float:none;
             span.text {
                 display:inline-block;
             }
@@ -248,7 +250,6 @@
                 top:6px;
                 right:10px;
                 bottom:6px;
-                left:17px;
             }
             .ie9 & {
                 margin-top:3px;
@@ -268,7 +269,7 @@
         &.selected {
             border: 1px solid #555;
             background: #fff;
-            padding: 11px 13px 11px 45px;
+            padding: 11px 13px;
         }
 
     }
