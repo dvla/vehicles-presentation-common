@@ -12,7 +12,7 @@
     @*<p>args=@args</p>*@
 
     @options.map { v =>
-        <label for="@{id+"_"+v._1}" class="form-radio selectable">@v._2
+        <label for="@{id+"_"+v._1}" class="form-radio selectable">
             <input type="radio"
                    id="@{id+"_"+v._1}"
                    name="@name"
@@ -24,6 +24,7 @@
                         value="@v._1" @(if(value == Some(v._1)) "checked" else "")
                    }
                    @toHtmlArgs(htmlArgs)>
+                   <span class="text">@v._2</span>
         </label>
     }
 }
