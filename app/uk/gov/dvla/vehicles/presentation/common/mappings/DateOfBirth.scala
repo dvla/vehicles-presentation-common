@@ -8,6 +8,7 @@ import play.api.data.validation.{Constraint, Invalid, Valid, ValidationError}
 import play.api.i18n.Messages
 import uk.gov.dvla.vehicles.presentation.common.views.constraints.Required
 import scala.util.Try
+import com.github.nscala_time.time.RichLocalDate
 
 object DateOfBirth {
   final val DayId = "day"
@@ -16,6 +17,7 @@ object DateOfBirth {
   final val MaxDaysInMonth = 31
   final val MaxMonthsInYear = 12
   final val OptionalDateOfBirth = "optional.date.of.birth"
+  final val ValidYearsAgo = 110
 
   val formatter = new Formatter[LocalDate] {
     def bind(key: String, data: Map[String, String]): Either[Seq[FormError], LocalDate] = {
@@ -26,6 +28,7 @@ object DateOfBirth {
         day <- Try(dayText.toInt).toOption
         month <- Try(monthText.toInt).toOption
         year <- Try(yearText.toInt).toOption
+        yearFourDigits <- if (year >= LocalDate.now.minusYears(ValidYearsAgo).getYear) Some(year) else None
         dateOfBirth <- Try(new LocalDate(year, month, day)).toOption
       } yield dateOfBirth
       dateOfBirth.toRight(Seq[FormError](FormError(key, "error.dateOfBirth.invalid")))

@@ -1,14 +1,11 @@
 package views
 
-import helpers.{CookieFactoryForUnitSpecs, UiSpec}
+import com.github.nscala_time.time.Imports.LocalDate
+import helpers.UiSpec
 import helpers.webbrowser.TestHarness
 import org.joda.time.chrono.ISOChronology
-import pages.{ErrorPanel, DateOfBirthPage}
+import pages.{DateOfBirthPage, ErrorPanel}
 import play.api.i18n.Messages
-import com.github.nscala_time.time.Imports.LocalDate
-import play.api.test.FakeRequest
-import play.api.test.Helpers.contentAsString
-import views.ValtechRadioView.KeeperType_Business
 
 class DateOfBirthSpec extends UiSpec with TestHarness {
 
@@ -64,8 +61,8 @@ class DateOfBirthSpec extends UiSpec with TestHarness {
         DateOfBirthPage.instance.navigate(day.toString, month.toString, year.toString)
         page.title should equal("Success")
       }
-      success(1, 2, 3)
-      success(31, 12, 1234)
+      success(1, 2, 2003)
+      success(31, 12, 1934)
       val today = LocalDate.today
       success(today.getDayOfMonth, today.getMonthOfYear, today.getYear)
     }
@@ -73,7 +70,7 @@ class DateOfBirthSpec extends UiSpec with TestHarness {
 
   "Required date of birth" should {
     "Not allow any empty fields" in new WebBrowser {
-      DateOfBirthPage.instance.navigate("1", "1", "1111", "", "", "")
+      DateOfBirthPage.instance.navigate("1", "1", "1939", "", "", "")
       ErrorPanel.text should include(Messages("error.dateOfBirth.invalid"))
       ErrorPanel.numberOfErrors should equal(1)
     }

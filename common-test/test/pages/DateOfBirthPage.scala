@@ -17,7 +17,7 @@ class DateOfBirthPage(implicit driver: WebDriver) extends Page with WebBrowserDS
   def submit(implicit driver: WebDriver): Element = find(id("submit")).get
 
   def navigate(day: String = "3", month: String = "4", year: String = "2014",
-               day1: String = "30", month1: String = "12", year1: String = "10")
+               day1: String = "30", month1: String = "12", year1: String = "1970")
               (implicit driver: WebDriver) {
     go to this
 
