@@ -35,7 +35,7 @@
 }
 
 
-@mixin summary-detail-list-item-float {
+@mixin playback-list-item-float {
     float:left;
     @media screen and (max-width:$device-small) {
         clear:both;
@@ -43,8 +43,8 @@
     }
 }
 
-//summary detail item width for one column
-@mixin summary-detail-list-item-base($title-min-width:120px) {
+//playback item width for one column
+@mixin playback-list-item-base($title-min-width:120px) {
     dt, dd {
         @include copy-19;
         margin-bottom:0;
@@ -95,16 +95,16 @@
     p {
         font-size:15px;
         @include box-sizing(border-box);
-        @include summary-detail-list-item-float;
+        @include playback-list-item-float;
     }
 }
 
-//summary playback. This could be a DL element, or a wrapping div
-@mixin summary-detail-list($bg:transparent,$title-min-width:120px) {
-    .summary-detail-list {
+//playback - this could be a DL element, or a wrapping div
+@mixin playback($bg:transparent,$title-min-width:120px) {
+    .playback {
         @include clearfix;
         @include box-sizing(border-box);
-        @include summary-detail-list-item-base($title-min-width);
+        @include playback-list-item-base($title-min-width);
         @if$bg == transparent {
             padding:0;
         } @else {
