@@ -12,23 +12,12 @@ final class EncryptedClientSideSessionFactorySpec extends UnitSpec {
 
   "newSessionCookiesIfNeeded" should {
 
-    "create a couple of session cookies if there are not yet in the request" ignore {
+    "create a couple of session cookies if there are not yet in the request" in {
       val cookies = encryptedClientSideSessionFactory.newSessionCookiesIfNeeded(Seq.empty[Cookie])
 
       cookies.get should have size 2
       cookies.get.head.value should have size 20
       cookies.get.last.value should not be empty
-    }
-
-    // This should be removed as soon as the Welsh translations are done, and the test above
-    "create a couple of session cookies if there are not yet in the request (with bodge for disabling welsh)" in {
-      val cookies = encryptedClientSideSessionFactory.newSessionCookiesIfNeeded(Seq.empty[Cookie])
-
-      cookies.get should have size 3
-      cookies.get.head.value should have size 20
-      cookies.get(1).value should not be empty
-      cookies.get(2).name should be ("PLAY_LANG")
-      cookies.get(2).value should be ("en")
     }
 
     "returns None if the cookies are already present in the request" in {

@@ -42,10 +42,7 @@ class EncryptedClientSideSessionFactory @Inject()()
           maxAge = SessionSecretKeyLifetime
         )
 
-        // Force English language until Welsh translation is finalised
-        val langCookie = Cookie("PLAY_LANG", "en")
-
-        Some(Seq(trackingIdCookie, sessionSecretKeySuffixCookie, langCookie))
+        Some(Seq(trackingIdCookie, sessionSecretKeySuffixCookie))
     }
 
   override def getSession(request: Traversable[Cookie]): ClientSideSession =

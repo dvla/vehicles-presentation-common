@@ -5,8 +5,7 @@ import play.api.mvc.Cookie
 
 class ClearTextClientSideSessionFactory @Inject()(implicit cookieFlags: CookieFlags) extends ClientSideSessionFactory {
 
-  override def newSessionCookiesIfNeeded(request: Traversable[Cookie]): Option[Seq[Cookie]] =
-    Some(Seq(Cookie("PLAY_LANG", "en"))) // Force English language until Welsh translation is finalised
+  override def newSessionCookiesIfNeeded(request: Traversable[Cookie]): Option[Seq[Cookie]] = None
 
   override def getSession(request: Traversable[Cookie]): ClientSideSession =
     getTrackingId(request) match {
