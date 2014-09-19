@@ -1,0 +1,57 @@
+@(field: play.api.data.Field, labelText: String,  hintText: Option[String] = None, args: Map[Symbol, Any] = Map.empty)(implicit handler: views.html.helper.FieldConstructor, lang: Lang)
+
+@import uk.gov.dvla.vehicles.presentation.common.views
+@import views.constraints.Required.RequiredField
+@import play.api.templates.PlayMagic.toHtmlArgs
+@import views.helpers.HtmlArgsExtensions.richHtmlArgs
+@import views.html.widgets.base.valtechLabel
+@import views.html.widgets.base.valtechInputText
+@import _root_.views.html.helper.input
+@import uk.gov.dvla.vehicles.presentation.common.mappings.DateOfBirth.{DayId, MonthId, YearId}
+
+@input(field, args.toSeq:_*) { (id, name, value, htmlArgs) =>
+    @valtechLabel(field, Map('_label -> labelText) ++ args)
+
+    <span class="form-hint">@hintText.getOrElse(Messages("nonFutureDate.hint"))</span>
+
+    <div class="form-inline form-date">
+        <div class="form-item">
+        @valtechInputText(
+          field(DayId),
+          None,
+          args = Map(
+            '_label -> "Day",
+            '_showConstraints -> false,
+            'typeTel -> true,
+            'maxLength -> 2,
+            'NO_OPTIONAL_LABEL -> true,
+            'class -> "day"
+          )
+        )
+        @valtechInputText(
+          field(MonthId),
+          None,
+          args = Map(
+            '_label -> "Month",
+            '_showConstraints -> false,
+            'typeTel -> true,
+            'maxLength -> 2,
+            'NO_OPTIONAL_LABEL -> true,
+            'class -> "month"
+          )
+        )
+        @valtechInputText(
+          field(YearId),
+          None,
+          args = Map(
+            '_label -> "Year",
+            '_showConstraints -> false,
+            'typeTel -> true,
+            'maxLength -> 4,
+            'NO_OPTIONAL_LABEL -> true,
+            'class -> "year"
+          )
+        )
+        </div>
+    </div>
+}
