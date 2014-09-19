@@ -12,7 +12,7 @@
 @input(field, args.toSeq:_*) { (id, name, value, htmlArgs) =>
     @valtechLabel(field, Map('_label -> labelText) ++ args)
 
-    <span class="form-hint">@hintText.getOrElse(Messages("nonFutureDate.hint"))</span>
+    <span class="form-hint">@hintText.getOrElse("")</span>
 
     <div class="form-inline form-date">
         <div class="form-item">
