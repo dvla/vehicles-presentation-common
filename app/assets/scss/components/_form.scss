@@ -173,6 +173,7 @@
     .form-item {
         margin:0 0 1.5em 0;
         padding: 0;
+        .ie7 &,
         .ie6 & {
             clear:both;
         }
@@ -305,10 +306,7 @@
                 right:1em;
                 bottom:0;
             }
-            .ie7 & {
-                display:inline;
-                float:left;
-            }
+            .ie7 &,
             .ie6 & {
                 clear:none;
                 display:inline;
