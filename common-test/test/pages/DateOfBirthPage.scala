@@ -1,7 +1,7 @@
 package pages
 
 import helpers.webbrowser.{Element, Page, WebBrowserDSL, WebDriverFactory, _}
-import models.DateOfBirthModel.Form.{DateOfBirthDayId, DateOfBirthDayId1}
+import models.DateOfBirthModel.Form.{DateId, OptionalDateId}
 import org.openqa.selenium.WebDriver
 
 class DateOfBirthPage(implicit driver: WebDriver) extends Page with WebBrowserDSL {
@@ -10,9 +10,9 @@ class DateOfBirthPage(implicit driver: WebDriver) extends Page with WebBrowserDS
   override val url: String = WebDriverFactory.testUrl + address.substring(1)
   final override val title: String = "Date Of Birth Input"
 
-  lazy val optional: DateOfBirthWidget = DateOfBirthWidget(DateOfBirthDayId)
+  lazy val optional: DateOfBirthWidget = DateOfBirthWidget(DateId)
 
-  lazy val required: DateOfBirthWidget = DateOfBirthWidget(DateOfBirthDayId1)
+  lazy val required: DateOfBirthWidget = DateOfBirthWidget(OptionalDateId)
 
   def submit(implicit driver: WebDriver): Element = find(id("submit")).get
 

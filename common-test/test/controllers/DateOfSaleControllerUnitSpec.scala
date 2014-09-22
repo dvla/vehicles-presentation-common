@@ -11,7 +11,7 @@ import play.api.test.Helpers.{OK, contentAsString, defaultAwaitTimeout}
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClearTextClientSideSession
 
 
-class NonFutureDateControllerUnitSpec extends UnitSpec {
+class DateOfSaleControllerUnitSpec extends UnitSpec {
   private val nonFutureDateController = {
     injector.getInstance(classOf[NonFutureDateController])
   }
