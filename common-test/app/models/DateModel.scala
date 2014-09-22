@@ -6,19 +6,19 @@ import play.api.libs.json.Json
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CacheKey
 import uk.gov.dvla.vehicles.presentation.common.mappings
 
-case class DateModel(date: Option[LocalDate], optionalDate: LocalDate)
+case class DateModel(optionalDate: Option[LocalDate], date: LocalDate)
 
 object DateModel {
   implicit val Key = CacheKey[DateModel]("test")
   implicit val JsonFormat = Json.format[DateModel]
 
   object Form {
-    final val DateId = "DateOfBirthFieldId"
-    final val OptionalDateId = "DateOfBirthFieldId1"
+    final val OptionalDateId = "DateOfBirthFieldId"
+    final val DateId = "DateOfBirthFieldId1"
 
     final val Mapping = mapping(
-      DateId -> mappings.Date.optionalNonFutureDateMapping,
-      OptionalDateId -> mappings.Date.nonFutureDateMapping
+      OptionalDateId -> mappings.Date.optionalNonFutureDateMapping,
+      DateId -> mappings.Date.nonFutureDateMapping
     )(DateModel.apply)(DateModel.unapply)
   }
 }

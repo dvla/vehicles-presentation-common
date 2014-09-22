@@ -1,7 +1,7 @@
 package pages
 
 import helpers.webbrowser.{Element, Page, WebBrowserDSL, WebDriverFactory, _}
-import models.NonFutureDateModel.Form.NonFutureDateId
+import models.DateModel.Form.DateId
 import org.openqa.selenium.WebDriver
 
 class NonFutureDatePage(implicit driver: WebDriver) extends Page with WebBrowserDSL {
@@ -12,7 +12,7 @@ class NonFutureDatePage(implicit driver: WebDriver) extends Page with WebBrowser
 
   //lazy val optional: DateOfBirthWidget = DateOfBirthWidget(DateOfBirthDayId)
 
-  lazy val required: DateOfBirthWidget = DateOfBirthWidget(NonFutureDateId)
+  lazy val required: DateOfBirthWidget = DateOfBirthWidget(DateId)
 
   def submit(implicit driver: WebDriver): Element = find(id("submit")).get
 

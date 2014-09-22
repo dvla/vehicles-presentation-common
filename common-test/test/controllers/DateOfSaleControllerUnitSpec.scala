@@ -1,8 +1,8 @@
 package controllers
 
 import helpers.{UnitSpec, WithApplication}
-import models.NonFutureDateModel
-import models.NonFutureDateModel.Key
+import models.DateModel
+import models.DateModel.Key
 import org.joda.time.LocalDate
 import play.api.libs.json.{Json, Writes}
 import play.api.mvc.Cookie
@@ -13,7 +13,7 @@ import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClearTextClien
 
 class DateOfSaleControllerUnitSpec extends UnitSpec {
   private val nonFutureDateController = {
-    injector.getInstance(classOf[NonFutureDateController])
+    injector.getInstance(classOf[DateOfBirthController])
   }
 
   "present" should {
@@ -25,7 +25,8 @@ class DateOfSaleControllerUnitSpec extends UnitSpec {
     }
 
     "show a full form when cookie is found" in new WithApplication {
-      val value = NonFutureDateModel(new LocalDate(1234, 12, 24))
+      val stubbedDate = new LocalDate(1234, 12, 24)
+      val value = DateModel(optionalDate = Some(stubbedDate), date = stubbedDate)
 
       val request = FakeRequest()
         .withCookies(createCookie(Key.value, value))

@@ -22,25 +22,25 @@ class DateOfBirthSpec extends UiSpec with TestHarness {
 
     "validate partial input" in new WebBrowser {
       DateOfBirthPage.instance.navigate("", "", "1920")
-      ErrorPanel.text should include(Messages("error.dateOfBirth.invalid"))
+      ErrorPanel.text should include(Messages("error.date.invalid"))
       ErrorPanel.numberOfErrors should equal(1)
     }
 
     "validate the day if there is any input" in new WebBrowser {
       DateOfBirthPage.instance.navigate("oij", "04", "1950")
-      ErrorPanel.text should include(Messages("error.dateOfBirth.invalid"))
+      ErrorPanel.text should include(Messages("error.date.invalid"))
       ErrorPanel.numberOfErrors should equal(1)
     }
 
     "validate the moth if there is any input" in new WebBrowser {
       DateOfBirthPage.instance.navigate("01", "we", "1950")
-      ErrorPanel.text should include(Messages("error.dateOfBirth.invalid"))
+      ErrorPanel.text should include(Messages("error.date.invalid"))
       ErrorPanel.numberOfErrors should equal(1)
     }
 
     "validate the year if there is any input" in new WebBrowser {
       DateOfBirthPage.instance.navigate("01", "04", "wwer")
-      ErrorPanel.text should include(Messages("error.dateOfBirth.invalid"))
+      ErrorPanel.text should include(Messages("error.date.invalid"))
       ErrorPanel.numberOfErrors should equal(1)
     }
 
@@ -52,7 +52,7 @@ class DateOfBirthSpec extends UiSpec with TestHarness {
       val year = chronology.year().get(now)
 
       DateOfBirthPage.instance.navigate((day + 1).toString, month.toString, year.toString)
-      ErrorPanel.text should include(Messages("error.dateOfBirth.inTheFuture"))
+      ErrorPanel.text should include(Messages("error.date.inTheFuture"))
       ErrorPanel.numberOfErrors should equal(1)
     }
 
@@ -71,7 +71,7 @@ class DateOfBirthSpec extends UiSpec with TestHarness {
   "Required date of birth" should {
     "Not allow any empty fields" in new WebBrowser {
       DateOfBirthPage.instance.navigate("1", "1", "1939", "", "", "")
-      ErrorPanel.text should include(Messages("error.dateOfBirth.invalid"))
+      ErrorPanel.text should include(Messages("error.date.invalid"))
       ErrorPanel.numberOfErrors should equal(1)
     }
   }
