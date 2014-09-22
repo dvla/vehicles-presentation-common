@@ -131,6 +131,10 @@ DateOfBirthFieldId1.day = Birth day
 DateOfBirthFieldId1.month = Birth month
 DateOfBirthFieldId1.year = Birth year
 
+#Non future date
+nonFutureDate = Non Future Date
+nonFutureDateInput.pageTitle = Non Future Date Input
+
 #mileage widget
 mileage.pageTitle = Mileage
 mileage.label = Mileage
