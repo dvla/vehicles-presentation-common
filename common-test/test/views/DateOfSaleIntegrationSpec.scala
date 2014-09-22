@@ -7,7 +7,7 @@ import org.joda.time.chrono.ISOChronology
 import pages.{NonFutureDatePage, ErrorPanel}
 import play.api.i18n.Messages
 
-class NonFutureDateIntegrationSpec extends UiSpec with TestHarness {
+class DateOfSaleIntegrationSpec extends UiSpec with TestHarness {
 
   "Non future date" should {
     "be on a page with the correct title" in new WebBrowser {
