@@ -173,6 +173,9 @@
     .form-item {
         margin:0 0 1.5em 0;
         padding: 0;
+        .ie6 & {
+            clear:both;
+        }
     }
 
     .form-declaration {
@@ -295,14 +298,20 @@
 
     //form elements in a line
     .form-inline {
+
         .form-item {
-            display: inline-block;
-            margin: {
+            display:inline-block;
+            margin:{
                 right:1em;
                 bottom:0;
             }
             .ie7 & {
-                display: inline;
+                display:inline;
+                float:left;
+            }
+            .ie6 & {
+                clear:none;
+                display:inline;
                 float:left;
             }
         }
