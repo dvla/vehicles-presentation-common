@@ -220,6 +220,7 @@
             }
         }
     }
+
     label.form-radio {
         @include box-sizing(border-box);
         display:block;
@@ -403,4 +404,16 @@
     .uppercase-input input {
         @include to-uppercase;
     }
+
+    //post town form label
+    .post-town label {
+        position:relative;
+        top:0;
+        left:0;
+        .ie7 & {
+            width:100%;
+        }
+    }
+
+
 }
