@@ -1,20 +1,21 @@
 package uk.gov.dvla.vehicles.presentation.common.filters
 
 import com.google.inject.Inject
+import play.api.http.ContentTypes.HTML
 import play.api.http.HeaderNames.REFERER
+import play.api.http.HttpVerbs.{GET, POST}
 import play.api.libs.Crypto
 import play.api.libs.concurrent.Execution.Implicits.defaultContext
 import play.api.libs.iteratee.{Enumerator, Iteratee, Traversable}
 import play.api.mvc.BodyParsers.parse.tolerantFormUrlEncoded
-import play.api.mvc.{EssentialAction, EssentialFilter, Headers, RequestHeader}
+import play.api.mvc._
 import uk.gov.dvla.vehicles.presentation.common.ConfigProperties.getProperty
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicits.RichCookies
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.{AesEncryption, ClientSideSessionFactory}
 import scala.util.Try
-import play.api.http.HeaderNames.ORIGIN
 
 class CsrfPreventionFilter @Inject()
-                           (implicit clientSideSessionFactory: ClientSideSessionFactory) extends EssentialFilter {
+(implicit clientSideSessionFactory: ClientSideSessionFactory) extends EssentialFilter {
 
   def apply(next: EssentialAction): EssentialAction = new CsrfPreventionAction(next)
 }
@@ -31,27 +32,17 @@ final case class CsrfPreventionException(nestedException: Throwable) extends Exc
  */
 class CsrfPreventionAction(next: EssentialAction)
                           (implicit clientSideSessionFactory: ClientSideSessionFactory) extends EssentialAction {
-  import CsrfPreventionAction._
+
+  import uk.gov.dvla.vehicles.presentation.common.filters.CsrfPreventionAction._
 
   def apply(requestHeader: RequestHeader) = {
-
     // check if csrf prevention is switched on
     if (preventionEnabled) {
-      if (requestHeader.method == "POST") {
-
-        // if the POST from a trusted source which doesn't send a csrf token, ignore the check and create a
-        // new token for the next request
-
-        requestHeader.headers.get(ORIGIN) match {
-          case Some(requestOrigin) if postWhitelist contains requestOrigin => next(requestWithNewToken(requestHeader))
-          case _ =>
-            if (requestHeader.contentType.get == "application/x-www-form-urlencoded")
-              checkBody(requestHeader, next)
-            else
-              throw new CsrfPreventionException(new Throwable("No CSRF token found in body"))
-        }
-
-      } else if (requestHeader.method == "GET" && requestHeader.accepts("text/html")) {
+      if (requestHeader.method == POST) {
+        // TODO remove debris around reading the whitelist from config.
+        if (requestHeader.contentType.get == "application/x-www-form-urlencoded") checkBody(requestHeader, next)
+        else throw new CsrfPreventionException(new Throwable("POST contentType was not urlencoded"))
+      } else if (requestHeader.method == GET && requestHeader.accepts(HTML)) {
         next(requestWithNewToken(requestHeader))
       } else next(requestHeader)
     } else next(requestHeader)
@@ -66,44 +57,76 @@ class CsrfPreventionAction(next: EssentialAction)
   }
 
   private def checkBody(requestHeader: RequestHeader, next: EssentialAction) = {
-    
     val firstPartOfBody: Iteratee[Array[Byte], Array[Byte]] =
       Traversable.take[Array[Byte]](102400L.asInstanceOf[Int]) &>> Iteratee.consume[Array[Byte]]()
-
     firstPartOfBody.flatMap { bytes: Array[Byte] =>
       val parsedBody = Enumerator(bytes) |>>> tolerantFormUrlEncoded(requestHeader)
-
       Iteratee.flatten(parsedBody.map { parseResult =>
-        val validToken = parseResult.fold(
-          simpleResult => false, // valid token not found
-          body => (for { // valid token found
-            values <- identity(body).get(TokenName)
-            token <- values.headOption
-          } yield {
-            val decryptedExtractedSignedToken = aesEncryption.decrypt(Crypto.extractSignedToken(token).getOrElse(
-              throw new CsrfPreventionException(new Throwable("Invalid token found in form body"))))
-            //TODO name the tuple parts accordingly instead of referencing it by number
-            val splitDecryptedExtractedSignedToken = splitToken(decryptedExtractedSignedToken)
-            val headerToken = buildTokenWithReferer(
-              requestHeader.cookies.trackingId,
-              requestHeader.headers
-            )
-            val splitTokenFromHeader = splitToken(headerToken)
-            (splitDecryptedExtractedSignedToken._1 == splitTokenFromHeader._1) &&
-              splitTokenFromHeader._2.contains(splitDecryptedExtractedSignedToken._2)
-          }).getOrElse(false)
-        )
-
-        if (validToken)
+        if (isValidTokenInPostBody(parseResult, requestHeader) || isValidTokenInPostCookie(requestHeader))
           Iteratee.flatten(Enumerator(bytes) |>> next(requestHeader))
         else
-          throw new CsrfPreventionException(new Throwable("Invalid token found in form body"))
+          throw new CsrfPreventionException(new Throwable("No valid token found in form body or cookies"))
       })
     }
+  }
+
+  private def isValidTokenInPostBody(parseResult: Either[Result, Map[String, Seq[String]]],
+                                     requestHeader: RequestHeader) =
+    parseResult.fold(
+      simpleResult => false, // valid token not found
+      body => (for {// valid token found
+        values <- identity(body).get(TokenName)
+        token <- values.headOption
+      } yield {
+        val decryptedExtractedSignedToken = aesEncryption.decrypt(Crypto.extractSignedToken(token).getOrElse(
+          throw new CsrfPreventionException(new Throwable("Invalid or no token found in form body"))))
+        val splitDecryptedExtractedSignedToken = split(decryptedExtractedSignedToken)
+        val headerToken = buildTokenWithReferer(
+          requestHeader.cookies.trackingId,
+          requestHeader.headers
+        )
+        //TODO name the tuple parts accordingly instead of referencing it by number
+        val splitTokenFromHeader = split(headerToken)
+        (splitDecryptedExtractedSignedToken._1 == splitTokenFromHeader._1) &&
+          splitTokenFromHeader._2.contains(splitDecryptedExtractedSignedToken._2)
+      }).getOrElse(false)
+    )
+
+  private def isValidTokenInPostCookie(requestHeader: RequestHeader) = {
+    //TODO name the tuple parts accordingly instead of referencing it by number
+    val splitDecryptedExtractedSignedToken = {
+      val decryptedExtractedSignedToken = {
+        val tokenOpt = requestHeader.cookies.getString(TokenName)
+        tokenOpt match {
+          case Some(value) => aesEncryption.decrypt(Crypto.extractSignedToken(tokenOpt.get).getOrElse(
+            throw new CsrfPreventionException(new Throwable("Invalid or no token found in form body"))))
+          case None => throw new CsrfPreventionException(new Throwable("No TokenName found in cookies")) // Fetch from cookie if it exists.
+        }
+      }
+      split(decryptedExtractedSignedToken)
+    }
+
+    //TODO name the tuple parts accordingly instead of referencing it by number
+    val splitTokenFromHeader = {
+      val trackingId = requestHeader.cookies.trackingId
+      val referer = {
+        val refererOpt = requestHeader.cookies.getString(REFERER)
+        refererOpt match {
+          case Some(value) => value
+          case None => throw new CsrfPreventionException(new Throwable("No REFERER found in cookies")) // Fetch from cookie if it exists.
+        }
+      }
+      val headerToken = buildTokenWithUri(trackingId = trackingId, uri = referer)
+      split(headerToken)
+    }
+
+    (splitDecryptedExtractedSignedToken._1 == splitTokenFromHeader._1) &&
+      splitTokenFromHeader._2.contains(splitDecryptedExtractedSignedToken._2)
   }
 }
 
 object CsrfPreventionAction {
+
   final val TokenName = "csrf_prevention_token"
   private final val Delimiter = "-"
   lazy val preventionEnabled = getProperty("csrf.prevention", default = true)
@@ -126,14 +149,14 @@ object CsrfPreventionAction {
     }.getOrElse(throw new CsrfPreventionException(new Throwable("No CSRF token found")))
 
   private def buildTokenWithReferer(trackingId: String, requestHeaders: Headers) = {
-    trackingId + Delimiter + requestHeaders.get(REFERER)
+    trackingId + Delimiter + requestHeaders.get(REFERER).getOrElse("INVALID")
   }
 
   private def buildTokenWithUri(trackingId: String, uri: String) = {
     trackingId + Delimiter + uri
   }
 
-  private def splitToken(token: String): (String, String) = {
+  private def split(token: String): (String, String) = {
     (token.split(Delimiter)(0), token.drop(token.indexOf(Delimiter) + 1))
   }
 }
