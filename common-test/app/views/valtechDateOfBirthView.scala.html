@@ -9,14 +9,14 @@
   currentForm = Some(valtechDateOfBirthForm)) {
   @form(action = controllers.routes.DateOfBirthController.submit) {
 
-    @valtechDate(valtechDateOfBirthForm(models.DateModel.Form.OptionalDateId),
+    @valtechDate(valtechDateOfBirthForm(models.DateModel.Form.OptionalDateId), Messages("dateOfBirthInput.label"),
         args = Map(
             '_showConstraints -> false,
             'autofocus -> true
         )
     )
 
-    @valtechDate(valtechDateOfBirthForm(models.DateModel.Form.DateId),
+    @valtechDate(valtechDateOfBirthForm(models.DateModel.Form.DateId), Messages("dateOfBirthInput.label"),
         Some("Changed hint"),
         args = Map(
             '_label -> "A changed label",
