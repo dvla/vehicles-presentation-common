@@ -7,30 +7,31 @@ import org.joda.time.LocalDate
 import play.api.libs.json.{Json, Writes}
 import play.api.mvc.Cookie
 import play.api.test.FakeRequest
-import play.api.test.Helpers.{OK, contentAsString, defaultAwaitTimeout}
+import play.api.test.Helpers._
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClearTextClientSideSession
+import play.api.mvc.Cookie
+import scala.Some
 
 
 class DateOfSaleControllerUnitSpec extends UnitSpec {
-  private val nonFutureDateController = {
-    injector.getInstance(classOf[DateOfBirthController])
+  private val dateOfSaleController = {
+    injector.getInstance(classOf[DateOfSaleController])
   }
 
   "present" should {
     "show an empty form when no cookie are found" in new WithApplication {
       val request = FakeRequest()
-      whenReady(nonFutureDateController.present(request)) {
+      whenReady(dateOfSaleController.present(request)) {
         r => r.header.status should equal(OK)
       }
     }
 
     "show a full form when cookie is found" in new WithApplication {
-      val stubbedDate = new LocalDate(1234, 12, 24)
-      val value = DateModel(optionalDate = Some(stubbedDate), date = stubbedDate)
+      val value = DateModel(Some(new LocalDate(1234, 12, 24)), new LocalDate(1234, 12, 24))
 
       val request = FakeRequest()
         .withCookies(createCookie(Key.value, value))
-      val html = contentAsString(nonFutureDateController.present(request))
+      val html = contentAsString(dateOfSaleController.present(request))
       html should include("24")
       html should include("12")
       html should include("1234")
