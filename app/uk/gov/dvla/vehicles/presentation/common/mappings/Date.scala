@@ -10,13 +10,13 @@ import uk.gov.dvla.vehicles.presentation.common.views.constraints.Required
 import scala.util.Try
 import com.github.nscala_time.time.RichLocalDate
 
-object DateOfBirth {
+object Date {
   final val DayId = "day"
   final val MonthId = "month"
   final val YearId = "year"
   final val MaxDaysInMonth = 31
   final val MaxMonthsInYear = 12
-  final val OptionalDateOfBirth = "optional.date.of.birth"
+  final val OptionalDateOfBirth = "optional.date"
   final val ValidYearsAgo = 110
 
   val formatter = new Formatter[LocalDate] {
@@ -31,7 +31,7 @@ object DateOfBirth {
         yearFourDigits <- if (year >= LocalDate.now.minusYears(ValidYearsAgo).getYear) Some(year) else None
         dateOfBirth <- Try(new LocalDate(year, month, day)).toOption
       } yield dateOfBirth
-      dateOfBirth.toRight(Seq[FormError](FormError(key, "error.dateOfBirth.invalid")))
+      dateOfBirth.toRight(Seq[FormError](FormError(key, "error.date.invalid")))
     }
 
     def unbind(key: String, value: LocalDate) = Map(
@@ -41,13 +41,13 @@ object DateOfBirth {
     )
   }
 
-  val mapping = of[LocalDate](formatter) verifying constraint(Required.RequiredField)
+  val nonFutureDateMapping = of[LocalDate](formatter) verifying constraint(Required.RequiredField)
 
-  val optionalMapping = optional(of[LocalDate](formatter) verifying constraint("constraint.optionalDateOfBirth"))
+  val optionalNonFutureDateMapping = optional(of[LocalDate](formatter) verifying constraint("constraint.nonFutureOptionalDate"))
 
   def constraint(name: String) = Constraint[LocalDate](name) {
     case d: LocalDate =>
-      if (d.isAfter(LocalDate.now)) Invalid(ValidationError(Messages("error.dateOfBirth.inTheFuture")))
+      if (d.isAfter(LocalDate.now)) Invalid(ValidationError(Messages("error.date.inTheFuture")))
       else Valid
   }
 }

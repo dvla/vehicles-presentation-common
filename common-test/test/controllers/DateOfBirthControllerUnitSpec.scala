@@ -1,8 +1,8 @@
 package controllers
 
 import helpers.{UnitSpec, WithApplication}
-import models.DateOfBirthModel
-import models.DateOfBirthModel.Key
+import models.DateModel
+import models.DateModel.Key
 import org.joda.time.LocalDate
 import play.api.libs.json.{Json, Writes}
 import play.api.mvc.Cookie
@@ -25,7 +25,7 @@ class DateOfBirthControllerUnitSpec extends UnitSpec {
     }
 
     "present a full form" in new WithApplication {
-      val value = DateOfBirthModel(Some(new LocalDate(1234, 12, 24)), new LocalDate(1234, 12, 24))
+      val value = DateModel(Some(new LocalDate(1234, 12, 24)), new LocalDate(1234, 12, 24))
 
       val request = FakeRequest()
         .withCookies(createCookie(Key.value, value))

@@ -6,23 +6,23 @@ import play.api.data.{Form, FormError}
 import uk.gov.dvla.vehicles.presentation.common.{UnitSpec, mappings}
 import com.github.nscala_time.time.RichLocalDate
 
-class DateOfBirthSpec extends UnitSpec {
-  case class OptionalDateOfBirthModel(dateOfBirth: Option[LocalDate])
-  case class RequiredDateOfBirthModel(dateOfBirth: LocalDate)
+class DateSpec extends UnitSpec {
+  case class OptionalDateModel(date: Option[LocalDate])
+  case class RequiredDateModel(date: LocalDate)
 
   final val OptionalForm = Form(mapping(
-    "optional" -> mappings.DateOfBirth.optionalMapping
-  )(OptionalDateOfBirthModel.apply)(OptionalDateOfBirthModel.unapply))
+    "optional" -> mappings.Date.optionalNonFutureDateMapping
+  )(OptionalDateModel.apply)(OptionalDateModel.unapply))
 
   final val RequiredForm = Form(mapping(
-    "required" -> mappings.DateOfBirth.mapping
-  )(RequiredDateOfBirthModel.apply)(RequiredDateOfBirthModel.unapply))
+    "required" -> mappings.Date.nonFutureDateMapping
+  )(RequiredDateModel.apply)(RequiredDateModel.unapply))
 
   "Required date of birth mapping" should {
     "Bind correctly when all the parameters are provided and are valid" in {
       def validateBind(day: Int, month: Int, year: Int) = RequiredForm.bind(
         Map("required.day" -> s"$day", "required.month" -> s"$month", "required.year" -> s"$year")
-      ).value should ===(Some(RequiredDateOfBirthModel(new LocalDate(year, month, day))))
+      ).value should ===(Some(RequiredDateModel(new LocalDate(year, month, day))))
 
       validateBind(1, 2, 1943)
       validateBind(28, 2, 1944)
@@ -36,17 +36,17 @@ class DateOfBirthSpec extends UnitSpec {
       )
 
       form.value should ===(None)
-      form.errors should ===(Seq(FormError("required", "error.dateOfBirth.invalid")))
+      form.errors should ===(Seq(FormError("required", "error.date.invalid")))
     }
 
     "Fail to bind with empty data" in {
       val form = RequiredForm.bind(Map("required.day" -> "", "required.month" -> "", "required.year" -> ""))
       form.value should ===(None)
-      form.errors should ===(Seq(FormError("required", "error.dateOfBirth.invalid")))
+      form.errors should ===(Seq(FormError("required", "error.date.invalid")))
 
       val form1 = RequiredForm.bind(Map[String, String]())
       form1.value should ===(None)
-      form1.errors should ===(Seq(FormError("required", "error.dateOfBirth.invalid")))
+      form1.errors should ===(Seq(FormError("required", "error.date.invalid")))
     }
 
     "Fail to bind with invalid day" in {
@@ -95,7 +95,7 @@ class DateOfBirthSpec extends UnitSpec {
         "required.year" -> tomorrow.getYear.toString
       ))
       form.value should ===(None)
-      form.errors should ===(Seq(FormError("required", "error.dateOfBirth.inTheFuture")))
+      form.errors should ===(Seq(FormError("required", "error.date.inTheFuture")))
     }
   }
 
@@ -103,15 +103,15 @@ class DateOfBirthSpec extends UnitSpec {
     "Bind with empty data" in {
       OptionalForm.bind(
         Map("optional.day" -> "", "optional.month" -> "", "optional.year" -> "")
-      ).value should ===(Some(OptionalDateOfBirthModel(None)))
+      ).value should ===(Some(OptionalDateModel(None)))
 
-      OptionalForm.bind(Map[String, String]()).value should ===(Some(OptionalDateOfBirthModel(None)))
+      OptionalForm.bind(Map[String, String]()).value should ===(Some(OptionalDateModel(None)))
     }
 
     "Bind correctly when all the parameters are provided" in {
       OptionalForm.bind(
         Map("optional.day" -> "1", "optional.month" -> "2", "optional.year" -> "1934")
-      ).value should ===(Some(OptionalDateOfBirthModel(Some(new LocalDate(1934, 2, 1)))))
+      ).value should ===(Some(OptionalDateModel(Some(new LocalDate(1934, 2, 1)))))
     }
 
     "Fail to bind when there are some errors in the values provided" in {
@@ -119,18 +119,18 @@ class DateOfBirthSpec extends UnitSpec {
         Map("optional.day" -> "&^", "optional.month" -> "1", "optional.year" -> "1951")
       )
       form.value should ===(None)
-      form.errors should ===(Seq(FormError("optional", "error.dateOfBirth.invalid")))
+      form.errors should ===(Seq(FormError("optional", "error.date.invalid")))
     }
   }
 
   "Unbind should populate the fields of the map" in {
-    val formData = RequiredDateOfBirthModel(new LocalDate(1961, 2, 3))
+    val formData = RequiredDateModel(new LocalDate(1961, 2, 3))
     RequiredForm.bind(RequiredForm.fill(formData).data).value should ===(Some(formData))
   }
 
   private def validateInvalidDate(day: String, month: String, year: String): Unit = {
     val form = RequiredForm.bind(Map("required.day" -> day, "required.month" -> month, "required.year" -> year))
     form.value should ===(None)
-    form.errors should ===(Seq(FormError("required", "error.dateOfBirth.invalid")))
+    form.errors should ===(Seq(FormError("required", "error.date.invalid")))
   }
 }

@@ -1,22 +1,22 @@
-@(valtechDateOfBirthForm: Form[models.DateModel])(implicit lang: Lang)
+@(valtechDateOfSaleForm: Form[models.DateOfSaleModel])(implicit lang: Lang)
 
 @import uk.gov.dvla.vehicles.presentation.common
 @import common.views.helpers.BaseTemplate.fieldConstructor
 @import common.views.html.widgets.dates.valtechDate
 @import views.html.helper.form
 
-@main(title = Messages("dateOfBirthInput.pageTitle"),
-  currentForm = Some(valtechDateOfBirthForm)) {
-  @form(action = controllers.routes.DateOfBirthController.submit) {
+@main(title = Messages("dateOfSaleInput.pageTitle"),
+  currentForm = Some(valtechDateOfSaleForm)) {
+  @form(action = controllers.routes.DateOfSaleController.submit) {
 
-    @valtechDate(valtechDateOfBirthForm(models.DateModel.Form.OptionalDateId), Messages("dateOfBirthInput.label"),
+    @valtechDate(valtechDateOfSaleForm(models.DateOfSaleModel.Form.OptionalDateId), Messages("dateOfSaleInput.label"),
         args = Map(
             '_showConstraints -> false,
             'autofocus -> true
         )
     )
 
-    @valtechDate(valtechDateOfBirthForm(models.DateModel.Form.DateId), Messages("dateOfBirthInput.label"),
+    @valtechDate(valtechDateOfSaleForm(models.DateOfSaleModel.Form.DateId), Messages("dateOfSaleInput.label"),
         Some("Changed hint"),
         args = Map(
             '_label -> "A changed label",

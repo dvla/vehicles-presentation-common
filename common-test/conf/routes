@@ -47,8 +47,8 @@ POST    /business-name                  @controllers.BusinessNameController.subm
 GET     /date-of-birth                  @controllers.DateOfBirthController.present
 POST    /date-of-birth                  @controllers.DateOfBirthController.submit
 
-GET     /non-future-date                @controllers.NonFutureDateController.present
-POST    /non-future-date                @controllers.NonFutureDateController.submit
+GET     /date-of-sale                   @controllers.DateOfSaleController.present
+POST    /date-of-sale                   @controllers.DateOfSaleController.submit
 
 GET     /mileage                        @controllers.MileageController.present
 POST    /mileage                        @controllers.MileageController.submit

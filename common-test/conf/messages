@@ -120,8 +120,8 @@ error.validBusinessName = Must be between two and 56 characters and only contain
 dateOfBirthInput.pageTitle = Date Of Birth Input
 dateOfBirthInput.label = Testing date of birth
 dateOfBirthInput.hint = for example, 20 3 1976
-error.dateOfBirth.inTheFuture = Date of birth cannot be in the future
-error.dateOfBirth.invalid = Please enter a valid date in the format DD MM YYYY for example 20 3 1976 or 1 03 1976
+error.date.inTheFuture = Date of birth cannot be in the future
+error.date.invalid = Please enter a valid date in the format DD MM YYYY for example 20 3 1976 or 1 03 1976
 DateOfBirthFieldId = Optional date of birth
 DateOfBirthFieldId.day = Birth day
 DateOfBirthFieldId.month = Birth month
@@ -130,6 +130,19 @@ DateOfBirthFieldId1 = Required date of birth
 DateOfBirthFieldId1.day = Birth day
 DateOfBirthFieldId1.month = Birth month
 DateOfBirthFieldId1.year = Birth year
+
+#Date of sale widget
+dateOfSaleInput.pageTitle = Date Of Sale Input
+dateOfSaleInput.label = Testing date of sale
+dateOfSaleInput.hint = for example, 20 3 1976
+DateOfSaleFieldId = Optional date of sale
+DateOfSaleFieldId.day = Day of sale
+DateOfSaleFieldId.month = Month of sale
+DateOfSaleFieldId.year = Year of sale
+DateOfSaleFieldId1 = Required date of sale
+DateOfSaleFieldId1.day = Day of sale
+DateOfSaleFieldId1.month = Month of sale
+DateOfSaleFieldId1.year = Year of sale
 
 #Non future date
 nonFutureDate = Non Future Date
