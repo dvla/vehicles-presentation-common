@@ -93,8 +93,7 @@ class CsrfPreventionAction(next: EssentialAction)
     )
 
   private def isValidTokenInPostCookie(requestHeader: RequestHeader) = {
-    //TODO name the tuple parts accordingly instead of referencing it by number
-    val splitDecryptedExtractedSignedToken = {
+    val (token, uri) = {
       val decryptedExtractedSignedToken = {
         val tokenOpt = requestHeader.cookies.getString(TokenName)
         tokenOpt match {
@@ -106,8 +105,7 @@ class CsrfPreventionAction(next: EssentialAction)
       split(decryptedExtractedSignedToken)
     }
 
-    //TODO name the tuple parts accordingly instead of referencing it by number
-    val splitTokenFromHeader = {
+    val (trackingId, refererUri) = {
       val trackingId = requestHeader.cookies.trackingId
       val referer = {
         val refererOpt = requestHeader.cookies.getString(REFERER)
@@ -120,8 +118,7 @@ class CsrfPreventionAction(next: EssentialAction)
       split(headerToken)
     }
 
-    (splitDecryptedExtractedSignedToken._1 == splitTokenFromHeader._1) &&
-      splitTokenFromHeader._2.contains(splitDecryptedExtractedSignedToken._2)
+    (token == trackingId) && refererUri.contains(uri)
   }
 }
 
