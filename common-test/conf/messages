@@ -131,6 +131,19 @@ DateOfBirthFieldId1.day = Birth day
 DateOfBirthFieldId1.month = Birth month
 DateOfBirthFieldId1.year = Birth year
 
+#Date of sale widget
+dateOfSaleInput.pageTitle = Date Of Sale Input
+dateOfSaleInput.label = Testing date of sale
+dateOfSaleInput.hint = for example, 20 3 1976
+DateOfSaleFieldId = Optional date of sale
+DateOfSaleFieldId.day = Day of sale
+DateOfSaleFieldId.month = Month of sale
+DateOfSaleFieldId.year = Year of sale
+DateOfSaleFieldId1 = Required date of sale
+DateOfSaleFieldId1.day = Day of sale
+DateOfSaleFieldId1.month = Month of sale
+DateOfSaleFieldId1.year = Year of sale
+
 #Non future date
 nonFutureDate = Non Future Date
 nonFutureDateInput.pageTitle = Non Future Date Input
