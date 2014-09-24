@@ -1,0 +1,33 @@
+//Common page/section specifics
+
+//vehicle lookup/enter vehicle details
+.vehicle-lookup {
+    .second-col .form-steps {
+        margin-top:0;
+
+        .button-secondary {
+          color:$black-2; //failsafe for ie6
+        }
+    }
+
+    .trader-details {
+        .playback {
+            margin-bottom:38px;
+            margin-bottom:3.75rem;
+            @media screen and (max-width:$device-medium) {
+                margin-bottom:20px;
+                margin-bottom:2rem;
+            }
+        }
+        dd {
+            .ie6 & {
+                clear:both;
+            }
+        }
+    }
+    .img-wrap img {
+        .ie8 & {
+            max-height:200px; //failsafe to ensure that the correct height is rendered in ie8
+        }
+    }
+}

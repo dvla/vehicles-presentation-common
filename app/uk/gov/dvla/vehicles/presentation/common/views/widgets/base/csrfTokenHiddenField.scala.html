@@ -6,5 +6,5 @@
 
 @defining(getProperty("csrf.prevention", default = true)) { csrfPrevention =>
 @if(csrfPrevention) {
-<input type="hidden" name="@{CsrfPreventionAction.TokenName}" value="@token.value"/>
+<input type="hidden" name="@{CsrfPreventionAction.TokenName}" value="@token.value"/> <!-- Token -->
 }}
