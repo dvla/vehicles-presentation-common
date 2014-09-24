@@ -23,10 +23,10 @@
         <div class="todays-date js-only">
             <button id="@showTodaysDateButtonId" type="button" class="button" onclick="AutoFillTodaysDate(@{dateService.today.day},
                 @{dateService.today.month}, @{dateService.today.year}, 'todaysDateOfDisposal', '@{id}_day', '@{id}_month',
-            '@{id}_year')">@Messages("disposal_dispose.todays_date_of_disposal")</button>
+            '@{id}_year')">@Messages("use_todays_date.label")</button>
         </div>
     }
-
+    
     <div class="form-inline form-date sr-only-labels">
         <div class="form-item">
             @valtechInputText(
