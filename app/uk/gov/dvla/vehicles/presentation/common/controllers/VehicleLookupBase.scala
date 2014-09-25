@@ -1,9 +1,10 @@
 package uk.gov.dvla.vehicles.presentation.common.controllers
 
 import play.api.Logger
+import play.api.libs.json.Writes
 import play.api.mvc._
 import uk.gov.dvla.vehicles.presentation.common.LogFormats
-import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClientSideSessionFactory
+import uk.gov.dvla.vehicles.presentation.common.clientsidesession.{CacheKey, ClientSideSessionFactory}
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicits.{RichCookies, RichResult}
 import uk.gov.dvla.vehicles.presentation.common.controllers.VehicleLookupBase.{DtoMissing, VehicleFound, VehicleNotFound, LookupResult}
 import uk.gov.dvla.vehicles.presentation.common.model.BruteForcePreventionModel
@@ -25,7 +26,7 @@ trait VehicleLookupBase extends Controller {
   implicit val clientSideSessionFactory: ClientSideSessionFactory
 
   def bruteForceAndLookup(registrationNumber: String, referenceNumber: String, form: Form)
-                         (implicit request: Request[_]): Future[Result] =
+                         (implicit request: Request[_], toJson: Writes[Form], cacheKey: CacheKey[Form]): Future[Result] =
     bruteForceService.isVrmLookupPermitted(registrationNumber).flatMap { bruteForcePreventionModel =>
       val resultFuture = if (bruteForcePreventionModel.permitted)
         lookupVehicle(registrationNumber, referenceNumber, bruteForcePreventionModel, form)
@@ -46,6 +47,8 @@ trait VehicleLookupBase extends Controller {
             s"Exception ${exception.getStackTraceString}"
         )
         Redirect(microServiceError)
+    } map { result =>
+      result.withCookie(form)
     }
 
   protected def callLookupService(trackingId: String, form: Form)(implicit request: Request[_]): Future[LookupResult]
