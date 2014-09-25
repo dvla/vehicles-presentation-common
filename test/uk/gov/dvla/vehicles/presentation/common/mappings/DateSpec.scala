@@ -11,23 +11,24 @@ class DateSpec extends UnitSpec {
   case class RequiredDateModel(date: LocalDate)
 
   final val OptionalForm = Form(mapping(
-    "optional" -> mappings.Date.optionalNonFutureDateMapping
+    "optional" -> mappings.Date.optionalDateMapping
   )(OptionalDateModel.apply)(OptionalDateModel.unapply))
 
   final val RequiredForm = Form(mapping(
-    "required" -> mappings.Date.nonFutureDateMapping
+    "required" -> mappings.Date.dateMapping
   )(RequiredDateModel.apply)(RequiredDateModel.unapply))
 
-  "Required date of birth mapping" should {
+  "Required date mapping" should {
     "Bind correctly when all the parameters are provided and are valid" in {
       def validateBind(day: Int, month: Int, year: Int) = RequiredForm.bind(
         Map("required.day" -> s"$day", "required.month" -> s"$month", "required.year" -> s"$year")
       ).value should ===(Some(RequiredDateModel(new LocalDate(year, month, day))))
 
+      validateBind(1, 2, 1000)
+      validateBind(1, 2, 3419)
       validateBind(1, 2, 1943)
       validateBind(28, 2, 1944)
       validateBind(29, 2, 2000)
-      validateBind(29, 3, LocalDate.today.minusYears(110).getYear)
     }
 
     "Fail to bind when there are some errors in the values provided" in {
@@ -78,7 +79,6 @@ class DateSpec extends UnitSpec {
       validateInvalidYear("")
       validateInvalidYear("sdfsdf")
       validateInvalidYear("*&^*")
-      validateInvalidYear(LocalDate.today.minusYears(111).getYear.toString)
     }
 
     "Fail to bind with less then 4 characters" in {
@@ -86,20 +86,9 @@ class DateSpec extends UnitSpec {
       validateInvalidDate("5", "6", "11")
       validateInvalidDate("5", "6", "111")
     }
-
-    "Fail to bind to a date in the future" in {
-      val tomorrow = LocalDate.tomorrow
-      val form = RequiredForm.bind(Map(
-        "required.day" -> tomorrow.getDayOfMonth.toString,
-        "required.month" -> tomorrow.getMonthOfYear.toString,
-        "required.year" -> tomorrow.getYear.toString
-      ))
-      form.value should ===(None)
-      form.errors should ===(Seq(FormError("required", "error.date.inTheFuture")))
-    }
   }
 
-  "Optional date of birth mapping" should {
+  "Optional date mapping" should {
     "Bind with empty data" in {
       OptionalForm.bind(
         Map("optional.day" -> "", "optional.month" -> "", "optional.year" -> "")
@@ -123,14 +112,143 @@ class DateSpec extends UnitSpec {
     }
   }
 
+  "Not before and not after constraints" should {
+    "Invalidate an year after some date" in {
+      val notAfterForm = Form(mapping(
+        "required" -> mappings.Date.dateMapping.verifying(mappings.Date.notAfter(LocalDate.tomorrow))
+      )(RequiredDateModel.apply)(RequiredDateModel.unapply))
+
+      val tomorrowPlusOne = LocalDate.tomorrow.plusDays(1)
+      val form = notAfterForm.bind(Map(
+        "required.day" -> tomorrowPlusOne.getDayOfMonth.toString,
+        "required.month" -> tomorrowPlusOne.getMonthOfYear.toString,
+        "required.year" -> tomorrowPlusOne.getYear.toString
+      ))
+      form.value should ===(None)
+      form.errors should ===(Seq(FormError("required", "error.date.notAfter")))
+    }
+
+    "Invalidate an date in the future" in {
+      val notInTheFutureForm = Form(mapping(
+        "required" -> mappings.Date.dateMapping.verifying(mappings.Date.notInTheFuture())
+      )(RequiredDateModel.apply)(RequiredDateModel.unapply))
+
+      val tomorrowPlusOne = LocalDate.tomorrow
+      val form = notInTheFutureForm.bind(Map(
+        "required.day" -> tomorrowPlusOne.getDayOfMonth.toString,
+        "required.month" -> tomorrowPlusOne.getMonthOfYear.toString,
+        "required.year" -> tomorrowPlusOne.getYear.toString
+      ))
+      form.value should ===(None)
+      form.errors should ===(Seq(FormError("required", "error.date.notInTheFuture")))
+    }
+
+    "Invalidate an year before some date" in {
+      val notBeforeForm = Form(mapping(
+        "required" -> mappings.Date.dateMapping.verifying(mappings.Date.notBefore(LocalDate.yesterday))
+      )(RequiredDateModel.apply)(RequiredDateModel.unapply))
+
+      val tomorrowPlusOne = LocalDate.yesterday.minusDays(1)
+      val form = notBeforeForm.bind(Map(
+        "required.day" -> tomorrowPlusOne.getDayOfMonth.toString,
+        "required.month" -> tomorrowPlusOne.getMonthOfYear.toString,
+        "required.year" -> tomorrowPlusOne.getYear.toString
+      ))
+      form.value should ===(None)
+      form.errors should ===(Seq(FormError("required", "error.date.notBefore")))
+    }
+
+    "Invalidate an year in the past" in {
+      val notInThePastForm = Form(mapping(
+        "required" -> mappings.Date.dateMapping.verifying(mappings.Date.notInThePast())
+      )(RequiredDateModel.apply)(RequiredDateModel.unapply))
+
+      val tomorrowPlusOne = LocalDate.yesterday
+      val form = notInThePastForm.bind(Map(
+        "required.day" -> tomorrowPlusOne.getDayOfMonth.toString,
+        "required.month" -> tomorrowPlusOne.getMonthOfYear.toString,
+        "required.year" -> tomorrowPlusOne.getYear.toString
+      ))
+      form.value should ===(None)
+      form.errors should ===(Seq(FormError("required", "error.date.notInThePast")))
+    }
+  }
+
+  "Date of birth mapping" should {
+    val dateOfBirthForm = Form(mapping(
+      "required" -> mappings.Date.dateOfBirth
+    )(RequiredDateModel.apply)(RequiredDateModel.unapply))
+
+    "Validate is not in the future" in {
+      val tomorrow = LocalDate.tomorrow
+      validateInvalidDate(
+        dateOfBirthForm,
+        tomorrow.getDayOfMonth.toString,
+        tomorrow.getMonthOfYear.toString,
+        tomorrow.getYear.toString,
+        "error.dateOfBirth.notInTheFuture"
+      )
+
+      val today = LocalDate.today
+      validateValidDate(
+        dateOfBirthForm,
+        today.getDayOfMonth,
+        today.getMonthOfYear,
+        today.getYear
+      )
+    }
+
+    "Date is not optional" in {
+      validateInvalidDate(dateOfBirthForm, "", "", "", "error.dateOfBirth.invalid")
+      validateInvalidDate(dateOfBirthForm, "1", "1", "", "error.dateOfBirth.invalid")
+      validateInvalidDate(dateOfBirthForm, "1", "", "1", "error.dateOfBirth.invalid")
+      validateInvalidDate(dateOfBirthForm, "", "1", "1", "error.dateOfBirth.invalid")
+    }
+
+    "Date is no more then 110 years in the past" in {
+      validateInvalidDate(
+        dateOfBirthForm,
+        "1",
+        "1",
+        LocalDate.today.minusYears(111).getYear.toString,
+        "error.dateOfBirth.110yearsInThePast"
+      )
+    }
+  }
+
+  "Optional date of birth mapping" should {
+    val dateOfBirthForm = Form(mapping(
+      "dateOfBirth" -> mappings.Date.optionalDateOfBirth
+    )(OptionalDateModel.apply)(OptionalDateModel.unapply))
+
+    "Allow no date to be entered" in {
+      val bound = dateOfBirthForm.bind(
+        Map("required.day" -> "", "required.month" -> "", "required.year" -> "")
+      )
+      bound.value should ===(Some(OptionalDateModel(None)))
+      bound.errors should be(empty)
+    }
+  }
+
   "Unbind should populate the fields of the map" in {
     val formData = RequiredDateModel(new LocalDate(1961, 2, 3))
     RequiredForm.bind(RequiredForm.fill(formData).data).value should ===(Some(formData))
   }
 
-  private def validateInvalidDate(day: String, month: String, year: String): Unit = {
-    val form = RequiredForm.bind(Map("required.day" -> day, "required.month" -> month, "required.year" -> year))
-    form.value should ===(None)
-    form.errors should ===(Seq(FormError("required", "error.date.invalid")))
+  private def validateInvalidDate(day: String, month: String, year: String): Unit =
+    validateInvalidDate(RequiredForm, day, month, year)
+
+  private def validateInvalidDate(form: Form[_],
+                                  day: String,
+                                  month: String,
+                                  year: String,
+                                  message: String = "error.date.invalid"): Unit = {
+    val form1 = form.bind(Map("required.day" -> day, "required.month" -> month, "required.year" -> year))
+    form1.value should ===(None)
+    form1.errors should ===(Seq(FormError("required", message)))
   }
+
+  private def validateValidDate(form: Form[_], day: Int, month: Int, year: Int) = form.bind(
+    Map("required.day" -> s"$day", "required.month" -> s"$month", "required.year" -> s"$year")
+  ).value should ===(Some(RequiredDateModel(new LocalDate(year, month, day))))
 }

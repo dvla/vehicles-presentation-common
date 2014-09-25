@@ -17,8 +17,8 @@ object DateOfSaleModel {
     final val DateId = "DateOfSaleFieldId1"
 
     final val Mapping = mapping(
-      OptionalDateId -> mappings.Date.optionalNonFutureDateMapping,
-      DateId -> mappings.Date.nonFutureDateMapping
+      OptionalDateId -> mappings.Date.optionalDateMapping,
+      DateId -> mappings.Date.dateMapping
     )(DateOfSaleModel.apply)(DateOfSaleModel.unapply)
   }
 }

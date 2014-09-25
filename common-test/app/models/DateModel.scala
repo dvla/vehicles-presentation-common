@@ -17,8 +17,8 @@ object DateModel {
     final val DateId = "DateOfBirthFieldId1"
 
     final val Mapping = mapping(
-      OptionalDateId -> mappings.Date.optionalNonFutureDateMapping,
-      DateId -> mappings.Date.nonFutureDateMapping
+      OptionalDateId -> mappings.Date.optionalDateMapping,
+      DateId -> mappings.Date.dateMapping
     )(DateModel.apply)(DateModel.unapply)
   }
 }
