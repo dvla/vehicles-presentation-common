@@ -140,7 +140,7 @@ class DateSpec extends UnitSpec {
         "required.year" -> tomorrowPlusOne.getYear.toString
       ))
       form.value should ===(None)
-      form.errors should ===(Seq(FormError("required", "error.date.notInTheFuture")))
+      form.errors should ===(Seq(FormError("required", "error.date.inTheFuture")))
     }
 
     "Invalidate an year before some date" in {

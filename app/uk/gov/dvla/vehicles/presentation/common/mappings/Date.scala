@@ -46,6 +46,8 @@ object Date {
 
   val optionalDateMapping = optional(of[LocalDate](formatter()))
 
+  val optionalNonFutureDateMapping = optional(of[LocalDate](formatter()) verifying notInTheFuture())
+
   private val genericDateOfBirth = of[LocalDate](formatter("error.dateOfBirth.invalid"))
     .verifying(notInTheFuture(Messages("error.dateOfBirth.notInTheFuture")))
     .verifying(notBefore(LocalDate.now.minusYears(110), Messages("error.dateOfBirth.110yearsInThePast")))
@@ -66,7 +68,7 @@ object Date {
       else Valid
   }
 
-  def notInTheFuture(message: String = Messages("error.date.notInTheFuture"),
+  def notInTheFuture(message: String = Messages("error.date.inTheFuture"),
                      name: String = "constraint.notInTheFuture") = notAfter(LocalDate.now, message, name)
 
   def notBefore(date: LocalDate,

@@ -1,7 +1,7 @@
 package pages
 
 import helpers.webbrowser.{Element, Page, WebBrowserDSL, WebDriverFactory, _}
-import models.DateModel.Form.{OptionalDateId, DateId}
+import models.DateOfSaleModel.Form.{OptionalDateId, DateId}
 import org.openqa.selenium.WebDriver
 
 class DateOfSalePage(implicit driver: WebDriver) extends Page with WebBrowserDSL {
@@ -34,7 +34,7 @@ class DateOfSalePage(implicit driver: WebDriver) extends Page with WebBrowserDSL
 }
 
 object DateOfSalePage {
-  def instance(implicit driver: WebDriver) = new DateOfBirthPage
+  def instance(implicit driver: WebDriver) = new DateOfSalePage
 }
 
 

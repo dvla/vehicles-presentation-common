@@ -47,8 +47,8 @@ POST    /email                          @controllers.EmailController.submit
 GET     /business-name                  @controllers.BusinessNameController.present
 POST    /business-name                  @controllers.BusinessNameController.submit
 
-GET     /date-of-birth                  @controllers.DateOfBirthController.present
-POST    /date-of-birth                  @controllers.DateOfBirthController.submit
+GET     /date                           @controllers.DateController.present
+POST    /date                           @controllers.DateController.submit
 
 GET     /date-of-sale                   @controllers.DateOfSaleController.present
 POST    /date-of-sale                   @controllers.DateOfSaleController.submit

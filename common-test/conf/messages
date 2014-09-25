@@ -117,19 +117,19 @@ name = Business name
 error.validBusinessName = Must be between two and 56 characters and only contain valid characters (a-z, A-Z, 0-9, -, ‘, and ,)
 
 #Date of birth widget
-dateOfBirthInput.pageTitle = Date Of Birth Input
-dateOfBirthInput.label = Testing date of birth
-dateOfBirthInput.hint = for example, 20 3 1976
+dateInput.pageTitle = Date Of Birth Input
+dateInput.label = Testing date of birth
+dateInput.hint = for example, 20 3 1976
 error.date.inTheFuture = Date of birth cannot be in the future
 error.date.invalid = Please enter a valid date in the format DD MM YYYY for example 20 3 1976 or 1 03 1976
-DateOfBirthFieldId = Optional date of birth
-DateOfBirthFieldId.day = Birth day
-DateOfBirthFieldId.month = Birth month
-DateOfBirthFieldId.year = Birth year
-DateOfBirthFieldId1 = Required date of birth
-DateOfBirthFieldId1.day = Birth day
-DateOfBirthFieldId1.month = Birth month
-DateOfBirthFieldId1.year = Birth year
+DateFieldId = Optional date of birth
+DateFieldId.day = Birth day
+DateFieldId.month = Birth month
+DateFieldId.year = Birth year
+DateFieldId1 = Required date of birth
+DateFieldId1.day = Birth day
+DateFieldId1.month = Birth month
+DateFieldId1.year = Birth year
 
 #Date of sale widget
 dateOfSaleInput.pageTitle = Date Of Sale Input
