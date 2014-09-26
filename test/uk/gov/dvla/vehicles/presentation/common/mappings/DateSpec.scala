@@ -186,7 +186,7 @@ class DateSpec extends UnitSpec {
         tomorrow.getDayOfMonth.toString,
         tomorrow.getMonthOfYear.toString,
         tomorrow.getYear.toString,
-        "error.dateOfBirth.notInTheFuture"
+        "error.dateOfBirth.inTheFuture"
       )
 
       val today = LocalDate.today
