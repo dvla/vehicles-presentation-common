@@ -4,15 +4,15 @@ import helpers.webbrowser.{Element, Page, WebBrowserDSL, WebDriverFactory, _}
 import models.DateModel.Form.{OptionalDateId, DateId}
 import org.openqa.selenium.WebDriver
 
-class DateOfBirthPage(implicit driver: WebDriver) extends Page with WebBrowserDSL {
+class DatePage(implicit driver: WebDriver) extends Page with WebBrowserDSL {
 
-  final val address = "/date-of-birth"
+  final val address = "/date"
   override val url: String = WebDriverFactory.testUrl + address.substring(1)
   final override val title: String = "Date Of Birth Input"
 
-  lazy val optional: DateOfBirthWidget = DateOfBirthWidget(OptionalDateId)
+  lazy val optional: DateWidget = DateWidget(OptionalDateId)
 
-  lazy val required: DateOfBirthWidget = DateOfBirthWidget(DateId)
+  lazy val required: DateWidget = DateWidget(DateId)
 
   def submit(implicit driver: WebDriver): Element = find(id("submit")).get
 
@@ -33,12 +33,12 @@ class DateOfBirthPage(implicit driver: WebDriver) extends Page with WebBrowserDS
   }
 }
 
-object DateOfBirthPage {
-  def instance(implicit driver: WebDriver) = new DateOfBirthPage
+object DatePage {
+  def instance(implicit driver: WebDriver) = new DatePage
 }
 
 
-class DateOfBirthWidget(idStr: String)(implicit driver: WebDriver) extends WebBrowserDSL {
+class DateWidget(idStr: String)(implicit driver: WebDriver) extends WebBrowserDSL {
   def label: String = ???
 
   def hint: String = ???
@@ -50,6 +50,6 @@ class DateOfBirthWidget(idStr: String)(implicit driver: WebDriver) extends WebBr
   lazy val year: TelField = telField(id(s"${idStr}_year"))
 }
 
-object DateOfBirthWidget {
-  def apply(idStr: String)(implicit driver: WebDriver): DateOfBirthWidget = new DateOfBirthWidget(idStr)
+object DateWidget {
+  def apply(idStr: String)(implicit driver: WebDriver): DateWidget = new DateWidget(idStr)
 }

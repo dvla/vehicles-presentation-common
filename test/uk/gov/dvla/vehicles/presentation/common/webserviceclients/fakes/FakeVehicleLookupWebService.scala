@@ -2,9 +2,11 @@ package uk.gov.dvla.vehicles.presentation.common.webserviceclients.fakes
 
 import play.api.http.Status.{OK, SERVICE_UNAVAILABLE}
 import play.api.libs.json.Json
-import uk.gov.dvla.vehicles.presentation.common.webserviceclients.vehiclelookup.{VehicleLookupWebService, VehicleDetailsResponseDto, VehicleDetailsRequestDto, VehicleDetailsDto}
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
+import uk.gov.dvla.vehicles.presentation.common
+import common.webserviceclients.vehiclelookup.{VehicleLookupWebService, VehicleDetailsResponseDto}
+import common.webserviceclients.vehiclelookup.{VehicleDetailsRequestDto, VehicleDetailsDto}
 
 final class FakeVehicleLookupWebService extends VehicleLookupWebService {
   import uk.gov.dvla.vehicles.presentation.common.webserviceclients.fakes.FakeVehicleLookupWebService._

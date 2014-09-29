@@ -11,9 +11,9 @@ import play.api.test.Helpers.{OK, contentAsString, defaultAwaitTimeout}
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClearTextClientSideSession
 
 
-class DateOfBirthControllerUnitSpec extends UnitSpec {
+class DateControllerUnitSpec extends UnitSpec {
   private val dateOfBirthController = {
-    injector.getInstance(classOf[DateOfBirthController])
+    injector.getInstance(classOf[DateController])
   }
 
   "Private keeper detail complete controller" should {

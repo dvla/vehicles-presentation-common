@@ -1,8 +1,8 @@
 package uk.gov.dvla.vehicles.presentation.common.webserviceclients.fakes
 
-
-import uk.gov.dvla.vehicles.presentation.common.model.AddressModel
-import uk.gov.dvla.vehicles.presentation.common.webserviceclients.fakes.FakeAddressLookupWebServiceImpl.{traderUprnValid, traderUprnValid2}
+import uk.gov.dvla.vehicles.presentation.common
+import common.model.AddressModel
+import common.webserviceclients.fakes.FakeAddressLookupWebServiceImpl.{traderUprnValid, traderUprnValid2}
 
 object FakeAddressLookupService {
   final val TraderBusinessNameValid = "example trader name"

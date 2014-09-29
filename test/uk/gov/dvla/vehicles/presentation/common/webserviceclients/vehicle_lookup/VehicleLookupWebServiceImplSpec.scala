@@ -3,12 +3,12 @@ package uk.gov.dvla.vehicles.presentation.common.webserviceclients.vehicle_looku
 import com.github.tomakehurst.wiremock.client.WireMock.{equalTo, postRequestedFor, urlEqualTo}
 import play.api.libs.json.Json
 import uk.gov.dvla.vehicles.presentation.common
-import uk.gov.dvla.vehicles.presentation.common.clientsidesession.{ClearTextClientSideSessionFactory, NoCookieFlags, ClientSideSessionFactory}
 import common.webserviceclients.HttpHeaders
-import uk.gov.dvla.vehicles.presentation.common.{WithApplication, UnitSpec}
-import uk.gov.dvla.vehicles.presentation.common.testhelpers.WireMockFixture
-import uk.gov.dvla.vehicles.presentation.common.webserviceclients.config.VehicleLookupConfig
-import uk.gov.dvla.vehicles.presentation.common.webserviceclients.vehiclelookup.{VehicleLookupWebServiceImpl, VehicleDetailsRequestDto}
+import common.clientsidesession.{ClearTextClientSideSessionFactory, NoCookieFlags}
+import common.{WithApplication, UnitSpec}
+import common.testhelpers.WireMockFixture
+import common.webserviceclients.config.VehicleLookupConfig
+import common.webserviceclients.vehiclelookup.{VehicleLookupWebServiceImpl, VehicleDetailsRequestDto}
 
 class VehicleLookupWebServiceImplSpec  extends UnitSpec  with WireMockFixture {
 

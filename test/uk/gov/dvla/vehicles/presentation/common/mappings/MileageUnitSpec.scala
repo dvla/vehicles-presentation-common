@@ -23,7 +23,8 @@ final class MileageUnitSpec extends UnitSpec {
     })
   }
 
-  private def isValidMileage(mileage: String): Boolean = {    val regex = Mileage.Pattern.r
+  private def isValidMileage(mileage: String): Boolean = {
+    val regex = Mileage.Pattern.r
     if (regex.pattern.matcher(mileage).matches) true
     else false
   }
