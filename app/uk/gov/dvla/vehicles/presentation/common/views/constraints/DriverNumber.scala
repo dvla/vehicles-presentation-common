@@ -17,5 +17,4 @@ object DriverNumber {
       else if (ptr.matcher(dn).matches()) Valid
       else Invalid(ValidationError("error.driverNumber"))
   }
-
 }

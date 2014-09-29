@@ -1,12 +1,13 @@
 package uk.gov.dvla.vehicles.presentation.common.views.models
 
-import play.api.data.Forms._
+import play.api.data.Forms.{mapping, number, optional}
 import play.api.data.Mapping
 import play.api.data.validation.{Constraint, Invalid, Valid, ValidationError}
 import play.api.libs.json.Json
-import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CacheKey
-import uk.gov.dvla.vehicles.presentation.common.views.models.AddressLinesViewModel.Form.{AddressLinesId, mapping => addressLines}
-import uk.gov.dvla.vehicles.presentation.common.views.constraints.Required._
+import uk.gov.dvla.vehicles.presentation.common
+import common.clientsidesession.CacheKey
+import common.views.models.AddressLinesViewModel.Form.{AddressLinesId, mapping => addressLines}
+import common.views.constraints.Required.RequiredField
 
 case class AddressAndPostcodeViewModel(uprn: Option[Int] = None, addressLinesModel: AddressLinesViewModel) {
   def toViewFormat(postcode: String): Seq[String] = addressLinesModel.toViewFormat :+ postcode

@@ -93,5 +93,4 @@ object CookieImplicits {
         case _ => f // No cookie found so return a blank form.
       }
   }
-
 }

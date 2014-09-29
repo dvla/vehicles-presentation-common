@@ -1,23 +1,26 @@
 package uk.gov.dvla.vehicles.presentation.common.webserviceclients.address_lookup.ordnance_survey
 
-import uk.gov.dvla.vehicles.presentation.common.UnitSpec
 import play.api.http.Status.{OK, NOT_FOUND}
 import play.api.libs.json.Json
 import play.api.libs.json.JsValue
 import play.api.libs.ws.WSResponse
-import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClearTextClientSideSessionFactory
-import uk.gov.dvla.vehicles.presentation.common.webserviceclients.addresslookup.AddressLookupService
-import uk.gov.dvla.vehicles.presentation.common.webserviceclients.addresslookup.ordnanceservey.{UprnToAddressResponseDto, PostcodeToAddressResponseDto, AddressLookupServiceImpl}
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
-import uk.gov.dvla.vehicles.presentation.common.webserviceclients.fakes.FakeAddressLookupService.PostcodeValid
-import uk.gov.dvla.vehicles.presentation.common.webserviceclients.fakes.FakeAddressLookupWebServiceImpl
-import uk.gov.dvla.vehicles.presentation.common.webserviceclients.fakes.FakeAddressLookupWebServiceImpl.postcodeToAddressResponseValid
-import uk.gov.dvla.vehicles.presentation.common.webserviceclients.fakes.FakeAddressLookupWebServiceImpl.responseValidForPostcodeToAddress
-import uk.gov.dvla.vehicles.presentation.common.webserviceclients.fakes.FakeAddressLookupWebServiceImpl.responseValidForUprnToAddress
-import uk.gov.dvla.vehicles.presentation.common.webserviceclients.fakes.FakeAddressLookupWebServiceImpl.traderUprnValid
-import uk.gov.dvla.vehicles.presentation.common.webserviceclients.fakes.FakeAddressLookupWebServiceImpl.uprnToAddressResponseValid
-import uk.gov.dvla.vehicles.presentation.common.webserviceclients.fakes.FakeResponse
+import uk.gov.dvla.vehicles.presentation.common
+import uk.gov.dvla.vehicles.presentation.common.UnitSpec
+import common.clientsidesession.ClearTextClientSideSessionFactory
+import common.webserviceclients.addresslookup.AddressLookupService
+import common.webserviceclients.addresslookup.ordnanceservey.UprnToAddressResponseDto
+import common.webserviceclients.addresslookup.ordnanceservey.PostcodeToAddressResponseDto
+import common.webserviceclients.addresslookup.ordnanceservey.AddressLookupServiceImpl
+import common.webserviceclients.fakes.FakeAddressLookupService.PostcodeValid
+import common.webserviceclients.fakes.FakeAddressLookupWebServiceImpl
+import common.webserviceclients.fakes.FakeAddressLookupWebServiceImpl.postcodeToAddressResponseValid
+import common.webserviceclients.fakes.FakeAddressLookupWebServiceImpl.responseValidForPostcodeToAddress
+import common.webserviceclients.fakes.FakeAddressLookupWebServiceImpl.responseValidForUprnToAddress
+import common.webserviceclients.fakes.FakeAddressLookupWebServiceImpl.traderUprnValid
+import common.webserviceclients.fakes.FakeAddressLookupWebServiceImpl.uprnToAddressResponseValid
+import common.webserviceclients.fakes.FakeResponse
 
 final class OSAddressLookupServiceSpec extends UnitSpec {
 

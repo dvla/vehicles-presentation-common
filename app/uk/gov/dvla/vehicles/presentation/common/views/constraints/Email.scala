@@ -2,8 +2,9 @@ package uk.gov.dvla.vehicles.presentation.common.views.constraints
 
 import java.util.regex.Pattern
 import scala.annotation.tailrec
-import uk.gov.dvla.vehicles.presentation.common.mappings.Email.{EmailUsernameMaxLength, InvalidUsernameChar, EmailDomainSectionMaxLength}
-import uk.gov.dvla.vehicles.presentation.common.mappings.Email.{InvalidDomainContentChar, InvalidDomainStartEndChar, EmailMinLength, EmailMaxLength}
+import uk.gov.dvla.vehicles.presentation.common
+import common.mappings.Email.{EmailUsernameMaxLength, InvalidUsernameChar, EmailDomainSectionMaxLength}
+import common.mappings.Email.{InvalidDomainContentChar, InvalidDomainStartEndChar, EmailMinLength, EmailMaxLength}
 import play.api.data.validation.{Valid, ValidationError, Invalid, Constraint}
 
 /**

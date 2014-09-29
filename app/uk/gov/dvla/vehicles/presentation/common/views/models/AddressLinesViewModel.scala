@@ -3,8 +3,9 @@ package uk.gov.dvla.vehicles.presentation.common.views.models
 import play.api.data.Forms.optional
 import play.api.data.Mapping
 import play.api.libs.json.Json
-import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CacheKey
-import uk.gov.dvla.vehicles.presentation.common.views.helpers.FormExtensions.{nonEmptyTextWithTransform, textWithTransform, trimNonWhiteListedChars}
+import uk.gov.dvla.vehicles.presentation.common
+import common.clientsidesession.CacheKey
+import common.views.helpers.FormExtensions.{nonEmptyTextWithTransform, textWithTransform, trimNonWhiteListedChars}
 
 case class AddressLinesViewModel(buildingNameOrNumber: String,
                              line2: Option[String] = None,

@@ -6,10 +6,8 @@ import play.api.data.Forms.{of, optional}
 import play.api.data.format.Formatter
 import play.api.data.validation.{Constraint, Invalid, Valid, ValidationError}
 import play.api.i18n.Messages
-import play.api.i18n.Messages.Message
 import uk.gov.dvla.vehicles.presentation.common.views.constraints.Required
 import scala.util.Try
-import com.github.nscala_time.time.RichLocalDate
 
 object Date {
   final val DayId = "day"

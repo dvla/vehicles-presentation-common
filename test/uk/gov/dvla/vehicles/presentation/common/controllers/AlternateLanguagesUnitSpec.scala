@@ -1,6 +1,5 @@
 package uk.gov.dvla.vehicles.presentation.common.controllers
 
-
 import play.api.Play
 import play.api.test.FakeRequest
 import play.api.test.Helpers.{LOCATION, REFERER, SEE_OTHER}

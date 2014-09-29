@@ -87,7 +87,5 @@ final class DrivernNumberUnitSpec extends UnitSpec {
         DriverNumber.validDriverNumber(input) should equal(Invalid(ValidationError("error.driverNumber")))
       }
     }
-
   }
-
- }
+}

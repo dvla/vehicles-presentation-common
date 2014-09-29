@@ -105,8 +105,6 @@ final case class DayMonthYear(day: Int,
   }
 }
 
-
-
 sealed trait Period {
   def day: DayMonthYear = days
   def days: DayMonthYear

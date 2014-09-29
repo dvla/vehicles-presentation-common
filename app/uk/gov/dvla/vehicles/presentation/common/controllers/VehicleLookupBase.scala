@@ -3,12 +3,13 @@ package uk.gov.dvla.vehicles.presentation.common.controllers
 import play.api.Logger
 import play.api.libs.json.Writes
 import play.api.mvc._
-import uk.gov.dvla.vehicles.presentation.common.LogFormats
-import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicits.{RichCookies, RichResult}
-import uk.gov.dvla.vehicles.presentation.common.clientsidesession.{CacheKey, ClientSideSessionFactory}
-import uk.gov.dvla.vehicles.presentation.common.controllers.VehicleLookupBase.{LookupResult, VehicleFound, VehicleNotFound}
-import uk.gov.dvla.vehicles.presentation.common.model.BruteForcePreventionModel
-import uk.gov.dvla.vehicles.presentation.common.webserviceclients.bruteforceprevention.BruteForcePreventionService
+import uk.gov.dvla.vehicles.presentation.common
+import common.LogFormats
+import common.clientsidesession.CookieImplicits.{RichCookies, RichResult}
+import common.clientsidesession.{CacheKey, ClientSideSessionFactory}
+import common.controllers.VehicleLookupBase.{LookupResult, VehicleFound, VehicleNotFound}
+import common.model.BruteForcePreventionModel
+import common.webserviceclients.bruteforceprevention.BruteForcePreventionService
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
