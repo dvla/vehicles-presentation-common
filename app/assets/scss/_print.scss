@@ -278,6 +278,12 @@ p.transaction-id {
     width:100%;
     margin:0 0 10px 0;
 }
+.form-inline {
+    .form-item {
+        clear:none;
+        width:auto;
+    }
+}
 .form-declaration {
     margin-bottom:0 !important;
 }
