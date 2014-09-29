@@ -1,4 +1,5 @@
 @(field: play.api.data.Field,
+    years: Seq[(String, String)],
     args: Map[Symbol, Any] = Map.empty,
     dateService: uk.gov.dvla.vehicles.presentation.common.services.DateService,
     showTodaysDateButton: Boolean = false,
@@ -9,5 +10,5 @@
 @import _root_.views.html.helper.input
 
 @input(field, args.toSeq: _*) { (id, name, value, htmlArgs) =>
-    @datePlaceholderTextbox(field, id, args, dateService, showTodaysDateButton, showTodaysDateButtonId)
+    @datePlaceholderTextbox(field, id, years, args, dateService, showTodaysDateButton, showTodaysDateButtonId)
 }
