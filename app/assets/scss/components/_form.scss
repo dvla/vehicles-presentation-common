@@ -415,5 +415,12 @@
         }
     }
 
-
+    .form-date {
+        clear:both;
+        .ie6 & {
+            .form-item {
+                float:left;
+            }
+        }
+    }
 }
