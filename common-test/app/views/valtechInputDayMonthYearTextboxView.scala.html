@@ -16,7 +16,6 @@ dateService: uk.gov.dvla.vehicles.presentation.common.services.DateService)(impl
         <script src="@routes.Assets.at("lib/vehicles-presentation-common/javascripts/autofill-todays-date.js")" type="text/javascript"></script>
         @inputDayMonthYearTextbox(
             field = valtechInputDayMonthYearForm(DateOfBirthId),
-            years = dateService.today.yearRangeToDropdown(yearsIntoThePast = 10),
             args = Map(
                 '_label -> Messages("valtechInputDayMonthYear.label"),
                 'autofocus -> true
