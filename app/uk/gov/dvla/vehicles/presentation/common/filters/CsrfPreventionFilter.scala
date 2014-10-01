@@ -62,7 +62,7 @@ class CsrfPreventionAction(next: EssentialAction)
     firstPartOfBody.flatMap { bytes: Array[Byte] =>
       val parsedBody = Enumerator(bytes) |>>> tolerantFormUrlEncoded(requestHeader)
       Iteratee.flatten(parsedBody.map { parseResult =>
-        if (isValidTokenInPostBody(parseResult, requestHeader) || isValidTokenInPostCookie(requestHeader))
+        if (isValidTokenInPostBody(parseResult, requestHeader) || isValidTokenInPostUrl(requestHeader))
           Iteratee.flatten(Enumerator(bytes) |>> next(requestHeader))
         else
           throw new CsrfPreventionException(new Throwable("No valid token found in form body or cookies"))
@@ -92,33 +92,20 @@ class CsrfPreventionAction(next: EssentialAction)
       }).getOrElse(false)
     )
 
-  private def isValidTokenInPostCookie(requestHeader: RequestHeader) = {
-    val (token, uri) = {
-      val decryptedExtractedSignedToken = {
-        val tokenOpt = requestHeader.cookies.getString(TokenName)
-        tokenOpt match {
-          case Some(value) => aesEncryption.decrypt(Crypto.extractSignedToken(tokenOpt.get).getOrElse(
-            throw new CsrfPreventionException(new Throwable("Invalid or no token found in form body"))))
-          case None => throw new CsrfPreventionException(new Throwable("No TokenName found in cookies")) // Fetch from cookie if it exists.
-        }
-      }
-      split(decryptedExtractedSignedToken)
-    }
-
-    val (trackingId, refererUri) = {
-      val trackingId = requestHeader.cookies.trackingId
-      val referer = {
-        val refererOpt = requestHeader.cookies.getString(REFERER)
-        refererOpt match {
-          case Some(value) => value
-          case None => throw new CsrfPreventionException(new Throwable("No REFERER found in cookies")) // Fetch from cookie if it exists.
-        }
-      }
-      val headerToken = buildTokenWithUri(trackingId = trackingId, uri = referer)
-      split(headerToken)
-    }
-
-    (token == trackingId) && refererUri.contains(uri)
+  private def isValidTokenInPostUrl(requestHeader: RequestHeader) = {
+    val token = requestHeader.path.split("/").last // Split the path based on "/" character, if there is a token it will be at the end
+    val decryptedExtractedSignedToken = aesEncryption.decrypt(Crypto.extractSignedToken(token).getOrElse(
+      throw new CsrfPreventionException(new Throwable("Invalid or no token found in form body"))))
+    val splitDecryptedExtractedSignedToken = split(decryptedExtractedSignedToken)
+    val headerToken = buildTokenWithReferer(
+      requestHeader.cookies.trackingId,
+      requestHeader.headers
+    )
+    val splitTokenFromHeader = split(headerToken)
+    // Compare value from url (decrypted) to value from cookie
+    // TODO name the tuple parts accordingly instead of referencing it by number
+    (splitDecryptedExtractedSignedToken._1 == splitTokenFromHeader._1) &&
+      splitTokenFromHeader._2.contains(splitDecryptedExtractedSignedToken._2)
   }
 }
 
