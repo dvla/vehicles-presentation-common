@@ -2,18 +2,18 @@ package uk.gov.dvla.vehicles.presentation.common.controllers
 
 import play.api.Logger
 import play.api.libs.json.Writes
-import play.api.mvc._
+import play.api.mvc.{Call, Controller, Request, Result}
+import scala.concurrent.ExecutionContext.Implicits.global
+import scala.concurrent.Future
+import scala.util.{Failure, Success}
+import scala.util.control.NonFatal
 import uk.gov.dvla.vehicles.presentation.common
-import common.LogFormats
 import common.clientsidesession.CookieImplicits.{RichCookies, RichResult}
 import common.clientsidesession.{CacheKey, ClientSideSessionFactory}
 import common.controllers.VehicleLookupBase.{LookupResult, VehicleFound, VehicleNotFound}
+import common.LogFormats
 import common.model.BruteForcePreventionModel
 import common.webserviceclients.bruteforceprevention.BruteForcePreventionService
-
-import scala.concurrent.ExecutionContext.Implicits.global
-import scala.concurrent.Future
-import scala.util.control.NonFatal
 
 trait VehicleLookupBase extends Controller {
   val vrmLocked: Call
@@ -70,7 +70,12 @@ trait VehicleLookupBase extends Controller {
 
     callLookupService(request.cookies.trackingId(), form).map {
       case VehicleNotFound(responseCode) => notFound(responseCode)
-      case VehicleFound(result) => result
+      case VehicleFound(result) =>
+        bruteForceService.reset(registrationNumber).onComplete {
+          case Success(httpCode) => Logger.debug(s"Brute force reset was called - it returned httpCode: $httpCode")
+          case Failure(t) => Logger.error(s"Brute force reset failed: ${t.getStackTraceString}")
+        }
+        result
     } recover {
       case NonFatal(e) =>
         microServiceErrorResult("Lookup web service call failed.", e)
