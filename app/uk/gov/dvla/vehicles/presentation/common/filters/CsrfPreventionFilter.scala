@@ -93,19 +93,27 @@ class CsrfPreventionAction(next: EssentialAction)
     )
 
   private def isValidTokenInPostUrl(requestHeader: RequestHeader) = {
-    val token = requestHeader.path.split("/").last // Split the path based on "/" character, if there is a token it will be at the end
-    val decryptedExtractedSignedToken = aesEncryption.decrypt(Crypto.extractSignedToken(token).getOrElse(
-      throw new CsrfPreventionException(new Throwable("Invalid or no token found in form body"))))
-    val splitDecryptedExtractedSignedToken = split(decryptedExtractedSignedToken)
-    val headerToken = buildTokenWithReferer(
-      requestHeader.cookies.trackingId,
-      requestHeader.headers
-    )
-    val splitTokenFromHeader = split(headerToken)
-    // Compare value from url (decrypted) to value from cookie
-    // TODO name the tuple parts accordingly instead of referencing it by number
-    (splitDecryptedExtractedSignedToken._1 == splitTokenFromHeader._1) &&
-      splitTokenFromHeader._2.contains(splitDecryptedExtractedSignedToken._2)
+    val (token, uri) = {
+      val tokenEncrypted = requestHeader.path.split("/").last // Split the path based on "/" character, if there is a token it will be at the end
+      val decryptedExtractedSignedToken = aesEncryption.decrypt(Crypto.extractSignedToken(tokenEncrypted).getOrElse(
+          throw new CsrfPreventionException(new Throwable("Invalid or no token found in POST url"))))
+      split(decryptedExtractedSignedToken)
+    }
+
+    val (trackingId, refererUri) = {
+      val trackingId = requestHeader.cookies.trackingId
+      val referer = {
+        val refererOpt = requestHeader.cookies.getString(REFERER)
+        refererOpt match {
+          case Some(value) => value
+          case None => throw new CsrfPreventionException(new Throwable("No REFERER found in cookies")) // Fetch from cookie if it exists.
+        }
+      }
+      val headerToken = buildTokenWithUri(trackingId = trackingId, uri = referer)
+      split(headerToken)
+    }
+
+    (token == trackingId) && refererUri.contains(uri)
   }
 }
 
