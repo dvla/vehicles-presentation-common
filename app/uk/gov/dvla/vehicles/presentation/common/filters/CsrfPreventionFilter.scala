@@ -94,9 +94,11 @@ class CsrfPreventionAction(next: EssentialAction)
 
   private def isValidTokenInPostUrl(requestHeader: RequestHeader) = {
     val (token, uri) = {
-      val tokenEncrypted = requestHeader.path.split("/").last // Split the path based on "/" character, if there is a token it will be at the end
-      val decryptedExtractedSignedToken = aesEncryption.decrypt(Crypto.extractSignedToken(tokenEncrypted).getOrElse(
-          throw new CsrfPreventionException(new Throwable("Invalid or no token found in POST url"))))
+      val tokenEncryptedAndUriEncoded = requestHeader.path.split("/").last // Split the path based on "/" character, if there is a token it will be at the end
+      val tokenEncrypted = play.utils.UriEncoding.decodePathSegment(tokenEncryptedAndUriEncoded, "UTF-8")
+      val signedToken = Crypto.extractSignedToken(tokenEncrypted).getOrElse(
+        throw new CsrfPreventionException(new Throwable("Invalid or no token found in POST url")))
+      val decryptedExtractedSignedToken = aesEncryption.decrypt(signedToken)
       split(decryptedExtractedSignedToken)
     }
 
