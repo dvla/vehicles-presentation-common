@@ -93,7 +93,7 @@ class CsrfPreventionAction(next: EssentialAction)
     )
 
   private def isValidTokenInPostUrl(requestHeader: RequestHeader) = {
-    val (token, uri) = {
+    val (trackingIdFromUrl, refererFromUrl) = {
       val tokenEncryptedAndUriEncoded = requestHeader.path.split("/").last // Split the path based on "/" character, if there is a token it will be at the end
       val tokenEncrypted = play.utils.UriEncoding.decodePathSegment(tokenEncryptedAndUriEncoded, "UTF-8")
       val signedToken = Crypto.extractSignedToken(tokenEncrypted).getOrElse(
@@ -102,20 +102,12 @@ class CsrfPreventionAction(next: EssentialAction)
       split(decryptedExtractedSignedToken)
     }
 
-    val (trackingId, refererUri) = {
-      val trackingId = requestHeader.cookies.trackingId
-      val referer = {
-        val refererOpt = requestHeader.cookies.getString(REFERER)
-        refererOpt match {
-          case Some(value) => value
-          case None => throw new CsrfPreventionException(new Throwable("No REFERER found in cookies")) // Fetch from cookie if it exists.
-        }
-      }
-      val headerToken = buildTokenWithUri(trackingId = trackingId, uri = referer)
-      split(headerToken)
-    }
+    val trackingIdFromCookie = requestHeader.cookies.trackingId
+    val refererFromCookie = requestHeader.cookies.getString(REFERER).getOrElse(
+        throw new CsrfPreventionException(new Throwable("No REFERER found in cookies"))
+      )
 
-    (token == trackingId) && refererUri.contains(uri)
+    (trackingIdFromUrl == trackingIdFromCookie) && refererFromCookie.contains(refererFromUrl)
   }
 }
 
