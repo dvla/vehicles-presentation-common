@@ -1,6 +1,8 @@
 package uk.gov.dvla.vehicles.presentation.common.webserviceclients.brute_force_prevention
 
 import org.mockito.Mockito.when
+import org.mockito.Matchers.anyString
+import play.api.http.Status.{FORBIDDEN, OK}
 import play.api.libs.ws.WSResponse
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
@@ -40,12 +42,46 @@ final class BruteForcePreventionServiceImplSpec extends UnitSpec {
       }
     }
 
-    "fail future when webservice call throws" in {
+    "fail future when webservice call throws exception" in {
       val service = bruteForceServiceImpl(permitted = true)
       val result = service.isVrmLookupPermitted(VrmThrows)
 
       Try(
-        whenReady(result){ r => fail("whenReady should throw") }
+        whenReady(result){ r => fail("we expect whenReady to throw an exception") }
+      ).isFailure should equal(true)
+    }
+  }
+
+  "reset" should {
+    "return the http code from the underlying web service" in {
+      val bruteForcePreventionWebServiceMock: BruteForcePreventionWebService = mock[BruteForcePreventionWebService]
+      when(bruteForcePreventionWebServiceMock.reset(anyString)).thenReturn(Future {
+        new FakeResponse(status = OK)
+      })
+
+      val service = new BruteForcePreventionServiceImpl(
+        new BruteForcePreventionConfig,
+        ws = bruteForcePreventionWebServiceMock,
+        dateService = new FakeDateServiceImpl
+      )
+      whenReady(service.reset("A1")) {
+        case httpCode: Int =>
+          httpCode should equal(OK)
+      }
+    }
+
+    "fail future when webservice call throws exception" in {
+      val bruteForcePreventionWebServiceMock: BruteForcePreventionWebService = mock[BruteForcePreventionWebService]
+      when(bruteForcePreventionWebServiceMock.reset(anyString)).thenReturn(responseThrows)
+
+      val service = new BruteForcePreventionServiceImpl(
+        new BruteForcePreventionConfig,
+        ws = bruteForcePreventionWebServiceMock,
+        dateService = new FakeDateServiceImpl
+      )
+      val result = service.reset("A1")
+      Try(
+        whenReady(result){ r => fail("we expect whenReady to throw an exception") }
       ).isFailure should equal(true)
     }
   }
@@ -56,7 +92,7 @@ final class BruteForcePreventionServiceImplSpec extends UnitSpec {
 
   private def bruteForceServiceImpl(permitted: Boolean): BruteForcePreventionService = {
     def bruteForcePreventionWebService: BruteForcePreventionWebService = {
-      val status = if (permitted) play.api.http.Status.OK else play.api.http.Status.FORBIDDEN
+      val status = if (permitted) OK else FORBIDDEN
       val bruteForcePreventionWebService: BruteForcePreventionWebService = mock[BruteForcePreventionWebService]
 
       when(bruteForcePreventionWebService.callBruteForce(RegistrationNumberValid)).thenReturn(Future {
