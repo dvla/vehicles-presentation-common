@@ -55,3 +55,6 @@ POST    /date-of-sale                   @controllers.DateOfSaleController.submit
 
 GET     /mileage                        @controllers.MileageController.present
 POST    /mileage                        @controllers.MileageController.submit
+
+GET     /title-picker                   @controllers.TitlePickerController.present
+POST    /title-picker                   @controllers.TitlePickerController.submit

@@ -5,4 +5,5 @@ import scala.concurrent.Future
 
 trait BruteForcePreventionService {
   def isVrmLookupPermitted(vrm: String): Future[BruteForcePreventionModel]
+  def reset(vrm: String): Future[Int]
 }

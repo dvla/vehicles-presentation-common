@@ -14,7 +14,7 @@ final class BruteForcePreventionServiceImpl @Inject()(config: BruteForcePreventi
   private val maxAttempts: Int = config.maxAttemptsHeader.toInt
 
   override def isVrmLookupPermitted(vrm: String): Future[BruteForcePreventionModel] =
-  // TODO US270 this if-statement is a temporary feature toggle until all developers have Redis setup locally.
+    // Feature toggle until all developers have Redis and the brute force micro service setup locally.
     if (config.isEnabled) {
       val returnedFuture = scala.concurrent.Promise[BruteForcePreventionModel]()
       ws.callBruteForce(vrm).map { resp =>
@@ -33,7 +33,11 @@ final class BruteForcePreventionServiceImpl @Inject()(config: BruteForcePreventi
               returnedFuture.failure(new Exception("TODO"))
           }
         }
-        def notPermitted = BruteForcePreventionModel.fromResponse(permitted = false, BruteForcePreventionResponseDto(attempts = 0), dateService, maxAttempts = maxAttempts)
+        def notPermitted = BruteForcePreventionModel.fromResponse(permitted = false,
+          BruteForcePreventionResponseDto(attempts = 0),
+          dateService,
+          maxAttempts = maxAttempts
+        )
         resp.status match {
           case play.api.http.Status.OK => permitted()
           case play.api.http.Status.FORBIDDEN => returnedFuture.success(notPermitted)
@@ -41,12 +45,31 @@ final class BruteForcePreventionServiceImpl @Inject()(config: BruteForcePreventi
         }
       }.recover {
         case e: Throwable =>
-          Logger.error(s"Brute force prevention service throws: ${e.getStackTraceString}")
+          Logger.error(s"Brute force prevention service throw exception: ${e.getStackTraceString}")
           returnedFuture.failure(e)
       }
       returnedFuture.future
     }
     else Future {
-      BruteForcePreventionModel.fromResponse(permitted = true, BruteForcePreventionResponseDto(attempts = 0), dateService, maxAttempts = maxAttempts)
+      BruteForcePreventionModel.fromResponse(permitted = true,
+        BruteForcePreventionResponseDto(attempts = 0),
+        dateService,
+        maxAttempts = maxAttempts
+      )
+    }
+
+  override def reset(vrm: String): Future[Int] =
+    // Feature toggle until all developers have Redis and the brute force micro service setup locally.
+    if (config.isEnabled) {
+      val returnedFuture = scala.concurrent.Promise[Int]()
+      ws.reset(vrm).map { resp =>
+        returnedFuture.success(resp.status)
+      }.recover { case e: Throwable =>
+          returnedFuture.failure(e)
+      }
+      returnedFuture.future
+    }
+    else Future {
+      play.api.http.Status.OK
     }
 }

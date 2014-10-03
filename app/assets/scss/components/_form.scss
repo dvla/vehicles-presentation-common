@@ -38,7 +38,7 @@
 
     label {
         display: block;
-        padding-bottom: .3em;
+        padding-bottom: .5em;
         font: {
             size: 1.9rem;
             weight: 400;
@@ -78,20 +78,19 @@
     input[type="search"],
     textarea {
         background: $form-element-bg;
-        border:1px inset $form-element-border;
+        border: 1px solid $form-element-border;
         font: {
             size:1.9rem;
             weight: 400;
         }
         line-height: 1.31579;
-        padding: 0.25em 0 0.1em 0.4em;
+        padding: 0.5em;
         width: 28.3rem;
         .ie & {
             font-size: 19px;
         }
         .ie7 &, 
         .ie8 & {
-            padding: 0.2em 0 0.4em 0.4em;
             width: 283px;
         }
         @media screen and (max-width: $device-small) {
@@ -108,9 +107,10 @@
 
     .read-only-input {
         line-height: 1.31579;
-        padding: 0.25em 0 0.1em 0.4em;
-        width: 28.3rem;
-        border: 1px solid $grey-5;
+        padding: 0.5em;
+        width: 285px;
+        width: 28.5rem;
+        border: 1px solid $form-element-border;
         cursor: default;
         font: {
             size:1.9rem;
@@ -122,10 +122,10 @@
         .ie7 &, 
         .ie8 & {
             padding: 0.2em 0 0.4em 0.4em;
-            width: 283px;
+            width: 295px;
         }
         .ie6 & {
-            width: 146px;
+            width: 142px;
             font-size: 14px;
         }
         @media screen and (max-width: $device-small) {

@@ -3,20 +3,21 @@ package uk.gov.dvla.vehicles.presentation.common.webserviceclients.fakes.brute_f
 import play.api.http.Status.{FORBIDDEN, OK}
 import play.api.libs.json.Json
 import play.api.libs.ws.WSResponse
+import scala.concurrent.Future
 import uk.gov.dvla.vehicles.presentation.common.webserviceclients.bruteforceprevention.BruteForcePreventionWebService
 import uk.gov.dvla.vehicles.presentation.common.webserviceclients.fakes.FakeResponse
-import scala.concurrent.ExecutionContext.Implicits.global
-import scala.concurrent.Future
 
 final class FakeBruteForcePreventionWebServiceImpl() extends BruteForcePreventionWebService {
-  import FakeBruteForcePreventionWebServiceImpl._
+  import FakeBruteForcePreventionWebServiceImpl.{responseFirstAttempt, VrmLocked}
 
-  override def callBruteForce(vrm: String): Future[WSResponse] = Future {
+  override def callBruteForce(vrm: String): Future[WSResponse] = Future.successful {
     vrm match {
-      case VrmLocked => new FakeResponse(status = FORBIDDEN)
-      case _ => new FakeResponse(status = OK, fakeJson = responseFirstAttempt)
+      case VrmLocked => FakeResponse(status = FORBIDDEN)
+      case _ => FakeResponse(status = OK, fakeJson = responseFirstAttempt)
     }
   }
+
+  override def reset(vrm: String): Future[WSResponse] = Future.successful { FakeResponse(status = OK) }
 }
 
 object FakeBruteForcePreventionWebServiceImpl {
