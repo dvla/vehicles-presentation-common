@@ -9,6 +9,7 @@ import play.api.LoggerLike
 import play.api.http.HeaderNames.CONTENT_LENGTH
 import play.api.libs.concurrent.Execution.Implicits.defaultContext
 import play.api.mvc.{Filter, RequestHeader, Result}
+import play.mvc.Http
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClientSideSessionFactory
 import scala.concurrent.Future
 import AccessLoggingFilter.AccessLoggerName
@@ -23,7 +24,11 @@ class AccessLoggingFilter @Inject()(clfEntryBuilder: ClfEntryBuilder,
       val requestPath = new URI(requestHeader.uri).getPath
       if (!AccessLoggingFilter.NonLoggingUrls.contains(requestPath))
         accessLogger.info(clfEntryBuilder.clfEntry(requestTimestamp, requestHeader, result))
-      result
+      result.header.headers.get(Http.HeaderNames.CONTENT_TYPE).fold(result) { contentType =>
+        if (contentType.startsWith("text/html"))
+          result.withHeaders(Http.HeaderNames.PRAGMA -> "no-cache", Http.HeaderNames.CACHE_CONTROL -> "no-store")
+        else result
+      }
     }
   }
 }
