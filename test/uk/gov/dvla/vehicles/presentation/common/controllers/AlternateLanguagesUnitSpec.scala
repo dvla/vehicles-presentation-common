@@ -1,6 +1,7 @@
 package uk.gov.dvla.vehicles.presentation.common.controllers
 
 import play.api.Play
+import play.api.mvc.Cookie
 import play.api.test.FakeRequest
 import play.api.test.Helpers.{LOCATION, HOST, NOT_FOUND, REFERER, SEE_OTHER}
 import uk.gov.dvla.vehicles.presentation.common
@@ -13,8 +14,15 @@ final class AlternateLanguagesUnitSpec extends UnitSpec {
   val referer = s"https://$host/the/initial/page"
 
   "withLanguage" should {
-    "prevent redirect to referrers outside our website for https" in new WithApplication {
+    "prevent redirect to referers outside our website for http" in new WithApplication {
       val result = withLanguage(CyId)(request.withHeaders(HOST -> "our.app", REFERER -> "http://external.referer"))
+      whenReady(result) { r =>
+        r.header.status should equal(NOT_FOUND)
+      }
+    }
+
+    "prevent redirect to referers outside our website for https" in new WithApplication {
+      val result = withLanguage(CyId)(request.withHeaders(HOST -> "our.app", REFERER -> "https://external.referer"))
       whenReady(result) { r =>
         r.header.status should equal(NOT_FOUND)
       }
@@ -34,10 +42,7 @@ final class AlternateLanguagesUnitSpec extends UnitSpec {
       val result = withLanguage(CyId)(request)
       whenReady(result) { r =>
         val cookies = fetchCookiesFromHeaders(r)
-        cookies.find(_.name == Play.langCookieName) match {
-          case Some(cookie) => cookie.value should equal("cy")
-          case None => fail("langCookieName not found")
-        }
+        cookies should contain (Cookie(Play.langCookieName, "cy"))
       }
     }
   }
@@ -55,10 +60,7 @@ final class AlternateLanguagesUnitSpec extends UnitSpec {
       val result = withLanguage(EnId)(request)
       whenReady(result) { r =>
         val cookies = fetchCookiesFromHeaders(r)
-        cookies.find(_.name == Play.langCookieName) match {
-          case Some(cookie) => cookie.value should equal("en")
-          case None => fail("langCookieName not found")
-        }
+        cookies should contain (Cookie(Play.langCookieName, "en"))
       }
     }
   }
