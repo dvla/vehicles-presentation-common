@@ -4,7 +4,6 @@ import com.github.nscala_time.time.Imports._
 import play.api.data.Forms.mapping
 import play.api.data.{Form, FormError}
 import uk.gov.dvla.vehicles.presentation.common.{UnitSpec, mappings}
-import com.github.nscala_time.time.RichLocalDate
 
 class DateSpec extends UnitSpec {
   case class OptionalDateModel(date: Option[LocalDate])
