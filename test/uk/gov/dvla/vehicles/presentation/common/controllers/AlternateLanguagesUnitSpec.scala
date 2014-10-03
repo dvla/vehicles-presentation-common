@@ -9,12 +9,11 @@ import common.controllers.AlternateLanguages.{withLanguage, CyId, EnId}
 import common.testhelpers.CookieHelper.fetchCookiesFromHeaders
 
 final class AlternateLanguagesUnitSpec extends UnitSpec {
-  val initialPagePath = "/the/initial/page"
   val host = "testHost.com"
-  val referer = s"https://$host$initialPagePath"
+  val referer = s"https://$host/the/initial/page"
 
   "withLanguage" should {
-    "prevent redirect to referrers outside our website" ignore new WithApplication {
+    "prevent redirect to referrers outside our website for https" in new WithApplication {
       val result = withLanguage(CyId)(request.withHeaders(HOST -> "our.app", REFERER -> "http://external.referer"))
       whenReady(result) { r =>
         r.header.status should equal(NOT_FOUND)
@@ -23,15 +22,15 @@ final class AlternateLanguagesUnitSpec extends UnitSpec {
   }
 
   "withLanguageCy" should {
-    "redirect back to the same page" ignore new WithApplication {
+    "redirect back to the same page" in new WithApplication {
       val result = withLanguage(CyId)(request)
       whenReady(result) { r =>
         r.header.status should equal(SEE_OTHER) // Redirect...
-        r.header.headers.get(LOCATION) should equal(Some(initialPagePath)) // ... back to the same page.
+        r.header.headers.get(LOCATION) should equal(Some(referer)) // ... back to the same page.
       }
     }
 
-    "writes language cookie set to 'cy'" ignore new WithApplication {
+    "writes language cookie set to 'cy'" in new WithApplication {
       val result = withLanguage(CyId)(request)
       whenReady(result) { r =>
         val cookies = fetchCookiesFromHeaders(r)
@@ -44,15 +43,15 @@ final class AlternateLanguagesUnitSpec extends UnitSpec {
   }
 
   "withLanguageEn" should {
-    "redirect back to the same page" ignore new WithApplication {
+    "redirect back to the same page" in new WithApplication {
       val result = withLanguage(EnId)(request)
       whenReady(result) { r =>
         r.header.status should equal(SEE_OTHER) // Redirect...
-        r.header.headers.get(LOCATION) should equal(Some(initialPagePath)) // ... back to the same page.
+        r.header.headers.get(LOCATION) should equal(Some(referer)) // ... back to the same page.
       }
     }
 
-    "writes language cookie set to 'en'" ignore new WithApplication {
+    "writes language cookie set to 'en'" in new WithApplication {
       val result = withLanguage(EnId)(request)
       whenReady(result) { r =>
         val cookies = fetchCookiesFromHeaders(r)

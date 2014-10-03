@@ -11,13 +11,11 @@ object AlternateLanguages extends Controller {
   val langEn = Lang(EnId)
 
   def withLanguage(chosenLanguage: String) = Action { implicit request =>
-    val referer = request.headers.get(REFERER)
-    val safeReferer = referer.filter(_.startsWith(protocolAndHost(request)))
+    val refererOpt = request.headers.get(REFERER)
+    val safeReferer = refererOpt.filter { _.stripPrefix("https://").stripPrefix("http://") startsWith request.host }
 
     safeReferer.map { ref =>
       Redirect(ref).withLang(Lang(chosenLanguage))
-    } getOrElse BadRequest("The link is invalid")
+    } getOrElse NotFound("The link is invalid")
   }
-
-  def protocolAndHost(request: Request[_]) = "http" + (if (request.secure) "s" else "") + "://" + request.host
 }
