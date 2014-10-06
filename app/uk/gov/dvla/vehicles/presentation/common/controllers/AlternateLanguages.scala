@@ -2,7 +2,7 @@ package uk.gov.dvla.vehicles.presentation.common.controllers
 
 import play.api.Play.current
 import play.api.i18n.Lang
-import play.api.mvc.{Action, Controller, Request}
+import play.api.mvc.{Action, Controller}
 
 object AlternateLanguages extends Controller {
   final val CyId = "cy"
