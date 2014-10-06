@@ -27,24 +27,6 @@ a {
         background-color: $yellow;
         outline: 3px solid $yellow;
     }
-    &[rel="external"] {
-        &:after {
-            background-image: url(https://assets.digital.cabinet-office.gov.uk/static/external-link-4247fe6cbf644abe4092032a36a5837e.png);
-            background-repeat: no-repeat;
-            content: "\A0\A0\A0\A0";
-            background-position: right 6px;
-        }
-        &:hover:after {
-            background-position: right -382px;
-        }
-    }
-}
-
-@media only screen and (-webkit-min-device-pixel-ratio: 2), only screen and (min--moz-device-pixel-ratio: 2), only screen and (-o-min-device-pixel-ratio: 20 / 10), only screen and (min-device-pixel-ratio: 2), only screen and (min-resolution: 192dpi), only screen and (min-resolution: 2dppx) {
-    a[rel="external"]:after {
-        background-image: url(https://assets.digital.cabinet-office.gov.uk/static/external-link-24x24-d888ebcab9570f3a9e2d96f852ac841e.png);
-        background-size: 12px 400px;
-    }
 }
 
 @media (max-width: 640px) {
