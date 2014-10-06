@@ -17,7 +17,7 @@
   <div class="form-inline form-title">
       <div class="form-item">
     @listRadioGroup(
-        field = field("titlesOptions").copy(constraints = Seq(RequiredField -> Seq[Any]())),
+        field = field(TitleRadioKey).copy(constraints = Seq(RequiredField -> Seq[Any]())),
         args = Map(
             '_label -> "",
             'items -> StandardOptions.map(opt => opt -> Messages(opt)),
@@ -26,13 +26,22 @@
     )
     <br>
     @listRadioGroup(
-        field = field("titlesOptions").copy(constraints = Seq(RequiredField -> Seq[Any]())),
+        field = field(TitleRadioKey).copy(constraints = Seq(RequiredField -> Seq[Any]())),
         args = Map(
             '_label -> Messages("titlePicker.or"),
-            'items -> Seq(TitleRadioKey -> Messages(OtherTitleRadioValue)),
+            'items -> Seq(OtherTitleRadioValue -> Messages(OtherTitleRadioValue)),
             'autofocus -> true
         )
     )
+    <br>
+    @valtechInputText(
+        field = field(TitleTextKey).copy(constraints = Seq(RequiredField -> Seq[Any]())),
+        hintText = Some(Messages("titlePicker.textHint")),
+        args =  Map(
+            '_label -> Messages("titlePicker.textLabel"),
+            '_showConstraints -> false,
+            'autofocus -> true)
+        )
     </div>
   </div>
 }

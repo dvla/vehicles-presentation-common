@@ -162,7 +162,12 @@ titlePicker.miss = Miss
 titlePicker.mrs = Mrs
 titlePicker.other = Other
 titlePicker.or = Or
-error.title.unknownOption = Unknown option
+titlePicker.textLabel = Please provide your 'Other' title
+titlePicker.textHint = (10 characters maximum)
+error.title.unknownOption = Other Title - This is a required field
+error.title.missing = Other - This is a required field
+error.title.tooLong = Other - The text must contain characters in A to Z format only.
+error.title.illegalCharacters = Other - The text must contain characters in A to Z format only.
 titlePicker.button = Submit
 # Convert the id to text to use in error messages
 title = Title

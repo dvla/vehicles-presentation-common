@@ -13,14 +13,22 @@ object TitlePickerString {
   final val StandardOptions = List("titlePicker.mr", "titlePicker.miss", "titlePicker.mrs")
   private final val MaxOtherTitleLength = 12
 
+  private type R = Either[Seq[FormError], String]
+
   def formatter = new Formatter[String] {
-    def bind(key: String, data: Map[String, String]): Either[Seq[FormError], String] = {
+    def bind(key: String, data: Map[String, String]): R = {
       data.getOrElse(s"$key.$TitleRadioKey", Left(Seq[FormError](FormError(key, "error.title.unknownOption")))) match {
-        case OtherTitleRadioValue => data.get(s"$key.$TitleTextKey") match {
-          case Some(longTitle) if longTitle.length > MaxOtherTitleLength =>
-            Left(Seq[FormError](FormError(key, "error.title.tooLong")))
-          case Some(title) => Right(title)
-        }
+        case OtherTitleRadioValue =>
+          data.get(s"$key.$TitleTextKey") match {
+            case Some(longTitle) if longTitle.length > MaxOtherTitleLength =>
+              Left(Seq[FormError](FormError(key, "error.title.tooLong")))
+            case Some(emptyTitle) if emptyTitle.isEmpty =>
+              Left(Seq[FormError](FormError(key, "error.title.missing")))
+            case Some(title) =>
+              if (title.filterNot(Character.isAlphabetic(_)).isEmpty) Right(title)
+              else Left(Seq[FormError](FormError(key, "error.title.illegalCharacters")))
+            case None => Left(Seq[FormError](FormError(key, "error.title.missing")))
+          }
         case s: String if StandardOptions.contains(s) => Right[Seq[FormError], String](s)
         case _ => Left(Seq[FormError](FormError(key, "error.title.unknownOption")))
       }

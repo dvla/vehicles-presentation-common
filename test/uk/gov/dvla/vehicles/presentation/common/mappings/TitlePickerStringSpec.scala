@@ -34,11 +34,35 @@ class TitlePickerStringSpec extends UnitSpec {
       )) should equal(Right("smthelse"))
     }
 
+    "Pick the other option no value" in {
+      formatter.bind("key1", Map(
+        s"key1.$TitleRadioKey" -> OtherTitleRadioValue,
+        s"key1.$TitleTextKey" -> ""
+      )) should equal(Left(Seq(FormError("key1", "error.title.missing"))))
+
+      formatter.bind("key1", Map(
+        s"key1.$TitleRadioKey" -> OtherTitleRadioValue
+      )) should equal(Left(Seq(FormError("key1", "error.title.missing"))))
+    }
+
     "Validate other option value length" in {
       formatter.bind("key1", Map(
         s"key1.$TitleRadioKey" -> OtherTitleRadioValue,
         s"key1.$TitleTextKey" -> "A long other option value"
       )) should equal(Left(Seq(FormError("key1", "error.title.tooLong"))))
+    }
+
+    "Validate other option value incorrect characters" in {
+      def validate(other: String) = formatter.bind("key1", Map(
+        s"key1.$TitleRadioKey" -> OtherTitleRadioValue,
+        s"key1.$TitleTextKey" -> other
+      )) should equal(Left(Seq(FormError("key1", "error.title.illegalCharacters"))))
+
+      validate(" ")
+      validate("  ")
+      validate("sdf123sdf")
+      validate("sdf!sdf")
+      validate("sf!@#%^")
     }
 
     "Validate some random option" in {
