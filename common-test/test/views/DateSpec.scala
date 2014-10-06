@@ -3,7 +3,6 @@ package views
 import com.github.nscala_time.time.Imports.LocalDate
 import helpers.UiSpec
 import helpers.webbrowser.TestHarness
-import org.joda.time.chrono.ISOChronology
 import pages.{DatePage, ErrorPanel}
 import play.api.i18n.Messages
 
@@ -43,19 +42,6 @@ class DateSpec extends UiSpec with TestHarness {
       ErrorPanel.text should include(Messages("error.date.invalid"))
       ErrorPanel.numberOfErrors should equal(1)
     }
-
-// Not needed anymore
-//    "validate the whole date is not in the future" in new WebBrowser {
-//      val chronology = ISOChronology.getInstance()
-//      val now = System.currentTimeMillis()
-//      val day = chronology.dayOfMonth().get(now)
-//      val month = chronology.monthOfYear().get(now)
-//      val year = chronology.year().get(now)
-//
-//      DatePage.instance.navigate((day + 1).toString, month.toString, year.toString)
-//      ErrorPanel.text should include(Messages("error.date.inTheFuture"))
-//      ErrorPanel.numberOfErrors should equal(1)
-//    }
 
     "Pass trough valid dates" in new WebBrowser {
       def success(day: Int, month: Int, year: Int): Unit = {
