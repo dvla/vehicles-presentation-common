@@ -1,0 +1,38 @@
+@(field: play.api.data.Field, hintText: String = "", args: Map[Symbol, Any] = Map.empty)(implicit handler: views.html.helper.FieldConstructor, lang: Lang)
+
+@import uk.gov.dvla.vehicles.presentation.common.views
+@import views.html.widgets.base.valtechLabel
+@import views.html.widgets.base.valtechInputText
+@import _root_.views.html.helper.input
+@import uk.gov.dvla.vehicles.presentation.common
+@import common.mappings.Date.{DayId, MonthId, YearId}
+@import common.views.html.widgets.listRadioGroup
+@import views.constraints.Required.RequiredField
+@import common.mappings.TitlePickerString.{TitleRadioKey, TitleTextKey, OtherTitleRadioValue, StandardOptions}
+
+@input(field, args.toSeq:_*) { (id, name, value, htmlArgs) =>
+  @valtechLabel(field, Map('_label -> Messages("titlePicker.label")) ++ args)
+
+  <span class="form-hint">@hintText</span>
+  <div class="form-inline form-title">
+      <div class="form-item">
+    @listRadioGroup(
+        field = field("titlesOptions").copy(constraints = Seq(RequiredField -> Seq[Any]())),
+        args = Map(
+            '_label -> "",
+            'items -> StandardOptions.map(opt => opt -> Messages(opt)),
+            'autofocus -> true
+        )
+    )
+    <br>
+    @listRadioGroup(
+        field = field("titlesOptions").copy(constraints = Seq(RequiredField -> Seq[Any]())),
+        args = Map(
+            '_label -> Messages("titlePicker.or"),
+            'items -> Seq(TitleRadioKey -> Messages(OtherTitleRadioValue)),
+            'autofocus -> true
+        )
+    )
+    </div>
+  </div>
+}

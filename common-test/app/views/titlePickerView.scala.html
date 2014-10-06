@@ -5,27 +5,14 @@
 @import common.views.html.widgets.listRadioGroup
 @import models.TitlePickerModel.Form.TitleId
 @import views.html.helper.form
-@import views.TitlePickerView.{Title_Mr, Title_Miss, Title_Mrs, Title_Other}
+@import common.views.html.widgets.titlePicker
 
 @main(
     title = Messages("titlePicker.pageTitle"),
     currentForm = Some(titlePickerForm)
 ) {
     @form(action = controllers.routes.TitlePickerController.submit) {
-
-        @listRadioGroup(field = titlePickerForm(TitleId),
-            args = Map(
-                'items -> Seq(
-                    Title_Mr    -> Messages("titlePicker.mr"),
-                    Title_Miss  -> Messages("titlePicker.miss"),
-                    Title_Mrs   -> Messages("titlePicker.mrs"),
-                    Title_Other -> Messages("titlePicker.other")
-                ),
-                //'value -> Title_Mr, // The radio button that is checked when user first arrives on the page.
-                '_label -> Messages("titlePicker.label"),
-                'autofocus -> true
-            )
-        )
+        @titlePicker(field = titlePickerForm(TitleId))
 
         <div class="form-steps">
             <button id="submit" type="submit" name="action" class="button" aria-label="Next button">

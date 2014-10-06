@@ -161,6 +161,8 @@ titlePicker.mr = Mr
 titlePicker.miss = Miss
 titlePicker.mrs = Mrs
 titlePicker.other = Other
+titlePicker.or = Or
+error.title.unknownOption = Unknown option
 titlePicker.button = Submit
 # Convert the id to text to use in error messages
 title = Title
