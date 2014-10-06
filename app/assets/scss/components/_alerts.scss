@@ -96,7 +96,7 @@
     .alert-warning {
         @extend .alert;
         border: none;
-        background: transparent url(https://assets.digital.cabinet-office.gov.uk/static/icon-important-187bcc8d8a6d56498c4ac26cadad102d.png) left top no-repeat;
+        background: transparent url($image-path + "icon-important.png") left top no-repeat;
         padding: {
             top:.3em;
             left:3em;
