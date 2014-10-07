@@ -15,7 +15,6 @@ object TitlePickerPage extends Page with WebBrowserDSL with Matchers {
   def miss(implicit driver: WebDriver) = radioButton(id(s"${TitleId}_titleOption_titlePicker.miss"))
   def mrs(implicit driver: WebDriver) = radioButton(id(s"${TitleId}_titleOption_titlePicker.mrs"))
   def other(implicit driver: WebDriver) = radioButton(id(s"${TitleId}_titleOption_titlePicker.other"))
-
   def otherText(implicit driver: WebDriver) = textField(id(s"${TitleId}_titleText"))
 
   def submit(implicit driver: WebDriver): Element = find(id("submit")).get

@@ -4,14 +4,17 @@ import play.api.data.FormError
 import play.api.data.Forms.of
 import play.api.data.format.Formatter
 import play.api.data.validation.{Constraint, Valid}
+import play.api.i18n.Messages
 import uk.gov.dvla.vehicles.presentation.common.views.constraints.Required
 
 object TitlePickerString {
   final val TitleRadioKey = "titleOption"
   final val TitleTextKey = "titleText"
   final val OtherTitleRadioValue = "titlePicker.other"
-  final val StandardOptions = List("titlePicker.mr", "titlePicker.miss", "titlePicker.mrs")
   private final val MaxOtherTitleLength = 12
+  
+  def standardOptions = List("titlePicker.mr", "titlePicker.miss", "titlePicker.mrs")
+  def standardOptionsMessages = standardOptions.map(Messages(_))
 
   private type R = Either[Seq[FormError], String]
 
@@ -25,18 +28,18 @@ object TitlePickerString {
             case Some(emptyTitle) if emptyTitle.isEmpty =>
               Left(Seq[FormError](FormError(key, "error.title.missing")))
             case Some(title) =>
-              if (title.filterNot(Character.isAlphabetic(_)).isEmpty) Right(title)
+              if (title.filterNot(Character.isAlphabetic(_)).isEmpty) Right(Messages(title))
               else Left(Seq[FormError](FormError(key, "error.title.illegalCharacters")))
             case None => Left(Seq[FormError](FormError(key, "error.title.missing")))
           }
-        case s: String if StandardOptions.contains(s) => Right[Seq[FormError], String](s)
+        case s: String if standardOptions.contains(s) => Right(Messages(s))
         case _ => Left(Seq[FormError](FormError(key, "error.title.unknownOption")))
       }
     }
 
     def unbind(key: String, value: String) = Map(
-      s"$key.$TitleRadioKey" -> s"${if(StandardOptions.contains(value)) value else OtherTitleRadioValue}",
-      s"$key.$TitleTextKey" -> s"${if(StandardOptions.contains(value)) "" else value}"
+      s"$key.$TitleRadioKey" -> s"${if(standardOptionsMessages.contains(value)) value else OtherTitleRadioValue}",
+      s"$key.$TitleTextKey" -> s"${if(standardOptionsMessages.contains(value)) "" else value}"
     )
   }
 

@@ -8,7 +8,7 @@
 @import common.mappings.Date.{DayId, MonthId, YearId}
 @import common.views.html.widgets.listRadioGroup
 @import views.constraints.Required.RequiredField
-@import common.mappings.TitlePickerString.{TitleRadioKey, TitleTextKey, OtherTitleRadioValue, StandardOptions}
+@import common.mappings.TitlePickerString.{TitleRadioKey, TitleTextKey, OtherTitleRadioValue, standardOptions}
 
 @input(field, args.toSeq:_*) { (id, name, value, htmlArgs) =>
   @valtechLabel(field, Map('_label -> Messages("titlePicker.label")) ++ args)
@@ -20,7 +20,7 @@
         field = field(TitleRadioKey).copy(constraints = Seq(RequiredField -> Seq[Any]())),
         args = Map(
             '_label -> "",
-            'items -> StandardOptions.map(opt => opt -> Messages(opt)),
+            'items -> standardOptions.map(opt => opt -> Messages(opt)),
             'autofocus -> true
         )
     )
