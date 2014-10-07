@@ -5,59 +5,47 @@ import models.TitlePickerModel.Form.TitleId
 import org.openqa.selenium.WebDriver
 import org.scalatest.Matchers
 
-class TitlePickerPage(implicit driver: WebDriver) extends Page with WebBrowserDSL {
+object TitlePickerPage extends Page with WebBrowserDSL with Matchers {
 
-    final val address = "/title-picker"
-    override val url: String = WebDriverFactory.testUrl + address.substring(1)
-    final override val title: String = "Title Picker Input"
+  final val address = "/title-picker"
+  override val url = WebDriverFactory.testUrl + address.substring(1)
+  final override val title = "Title Picker Input"
 
-    lazy val titlePicker = new TitlePickerWidget(TitleId)
+  def mr(implicit driver: WebDriver) = radioButton(id(s"${TitleId}_titleOption_titlePicker.mr"))
+  def miss(implicit driver: WebDriver) = radioButton(id(s"${TitleId}_titleOption_titlePicker.miss"))
+  def mrs(implicit driver: WebDriver) = radioButton(id(s"${TitleId}_titleOption_titlePicker.mrs"))
+  def other(implicit driver: WebDriver) = radioButton(id(s"${TitleId}_titleOption_titlePicker.other"))
 
-    def submit(implicit driver: WebDriver): Element = find(id("submit")).get
-}
+  def otherText(implicit driver: WebDriver) = textField(id(s"${TitleId}_titleText"))
 
-object TitlePickerPage extends WebBrowserDSL {
-  def navigate(title: String, otherTitle: String)
-              (implicit driver: WebDriver): TitlePickerPage = {
-    val page = new TitlePickerPage()
-    go to page
-    page.titlePicker.select(title)
-    page.titlePicker.otherText.value = otherTitle
-    page
-  }
-}
+  def submit(implicit driver: WebDriver): Element = find(id("submit")).get
 
-class TitlePickerWidget(idStr: String)(implicit driver: WebDriver) extends WebBrowserDSL with Matchers {
-  lazy val mr = radioButton(id(s"${idStr}_titleOption_titlePicker.mr"))
-  lazy val miss = radioButton(id(s"${idStr}_titleOption_titlePicker.miss"))
-  lazy val mrs = radioButton(id(s"${idStr}_titleOption_titlePicker.mrs"))
-  lazy val other = radioButton(id(s"${idStr}_titleOption_titlePicker.other"))
+  def radioButtons(implicit driver: WebDriver) = Seq(mr, miss, mrs, other)
 
-  lazy val radioButtons = Seq(mr, miss, mrs, other)
-
-  def assertEnabled(): TitlePickerWidget = {
+  def assertEnabled()(implicit driver: WebDriver): Unit = {
     radioButtons.foreach(_.isEnabled should equal(true))
-    this
   }
 
-  def select(title: String): TitlePickerWidget = {
+  def select(title: String)(implicit driver: WebDriver): Unit = {
     radioButtons.find(_.underlying.getAttribute("id") endsWith title).fold(throw new Exception)(click on _)
-    this
   }
 
-  def assertSelected(title: String): TitlePickerWidget = {
-    val radioButtons = new TitlePickerWidget(idStr).radioButtons
+  def assertSelected(title: String)(implicit driver: WebDriver): Unit = {
     radioButtons.find(_.underlying.getAttribute("id") endsWith title)
       .fold(throw new Exception) ( _.isSelected should equal(true))
     radioButtons.filterNot(_.underlying.getAttribute("id") endsWith title)
       .map(_.isSelected should equal(false))
-    this
   }
 
-  def assertNothingSelected(): TitlePickerWidget = {
+  def assertNothingSelected()(implicit driver: WebDriver): Unit = {
     radioButtons.foreach(_.isSelected should equal(false))
-    this
   }
 
-  lazy val otherText = textField(id(s"${idStr}_titleText"))
+  def navigate(title: String, otherTitle: String)
+              (implicit driver: WebDriver): Unit = {
+    go to TitlePickerPage
+    select(title)
+    otherText.value = otherTitle
+  }
 }
+
