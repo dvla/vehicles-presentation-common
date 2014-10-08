@@ -14,8 +14,6 @@
   @valtechLabel(field, Map('_label -> Messages("titlePicker.label")) ++ args)
 
   <span class="form-hint">@hintText</span>
-  <div class="form-inline form-title">
-      <div class="form-item">
     @listRadioGroup(
         field = field(TitleRadioKey).copy(constraints = Seq(RequiredField -> Seq[Any]())),
         args = Map(
@@ -24,7 +22,6 @@
             'autofocus -> true
         )
     )
-    <br>
     @listRadioGroup(
         field = field(TitleRadioKey).copy(constraints = Seq(RequiredField -> Seq[Any]())),
         args = Map(
@@ -32,7 +29,6 @@
             'items -> Seq(OtherTitleRadioValue -> Messages(OtherTitleRadioValue))
         )
     )
-    <br>
     @valtechInputText(
         field = field(TitleTextKey).copy(constraints = Seq(RequiredField -> Seq[Any]())),
         hintText = Some(Messages("titlePicker.textHint")),
@@ -43,6 +39,4 @@
             'alphabeticalOnly -> true 
           )
         )
-    </div>
-  </div>
 }

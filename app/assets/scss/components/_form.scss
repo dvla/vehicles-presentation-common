@@ -173,10 +173,7 @@
     .form-item {
         margin:0 0 1.5em 0;
         padding: 0;
-        .ie7 &,
-        .ie6 & {
-            clear:both;
-        }
+        clear:both;
     }
 
     .form-declaration {
@@ -302,6 +299,7 @@
     .form-inline {
 
         .form-item {
+            clear:none;
             display:inline-block;
             margin:{
                 right:1em;
