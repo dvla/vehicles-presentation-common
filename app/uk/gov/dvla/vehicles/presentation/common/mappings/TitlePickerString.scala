@@ -39,9 +39,19 @@ object TitlePickerString {
     }
 
     def unbind(key: String, value: String) = Map(
-      s"$key.$TitleRadioKey" -> s"${if(standardOptionsMessages.contains(value)) value else OtherTitleRadioValue}",
-      s"$key.$TitleTextKey" -> s"${if(standardOptionsMessages.contains(value)) "" else value}"
+      s"$key.$TitleRadioKey" -> radioValue(value),
+      s"$key.$TitleTextKey" -> textValue(value)
     )
+
+    private def radioValue(value: String): String =
+      if(standardOptions.contains(value))
+        standardOptions.find(_ == value).fold(throw new Exception(""))(value => value)
+      else if(standardOptionsMessages.contains(value))
+        standardOptions.find(Messages(_) == value).fold(throw new Exception(""))(value => value)
+      else OtherTitleRadioValue
+
+    private def textValue(value: String): String =
+      if (standardOptions.contains(value) || standardOptionsMessages.contains(value)) "" else value
   }
 
   def mapping = of[String](formatter).verifying(required)
