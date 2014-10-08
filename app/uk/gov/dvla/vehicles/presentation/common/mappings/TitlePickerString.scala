@@ -11,7 +11,7 @@ object TitlePickerString {
   final val TitleRadioKey = "titleOption"
   final val TitleTextKey = "titleText"
   final val OtherTitleRadioValue = "titlePicker.other"
-  private final val MaxOtherTitleLength = 12
+  final val MaxOtherTitleLength = 10
   
   def standardOptions = List("titlePicker.mr", "titlePicker.miss", "titlePicker.mrs")
   def standardOptionsMessages = standardOptions.map(Messages(_))
