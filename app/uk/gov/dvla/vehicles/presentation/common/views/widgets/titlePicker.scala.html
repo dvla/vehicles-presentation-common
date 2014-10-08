@@ -18,7 +18,7 @@
         field = field(TitleRadioKey).copy(constraints = Seq(RequiredField -> Seq[Any]())),
         args = Map(
             '_label -> "",
-            'items -> standardOptions.map(opt => opt -> Messages(opt)),
+            'items -> standardOptions.map(opt => (standardOptions.indexOf(opt) + 1).toString -> Messages(opt)),
             'autofocus -> true
         )
     )
@@ -26,7 +26,7 @@
         field = field(TitleRadioKey).copy(constraints = Seq(RequiredField -> Seq[Any]())),
         args = Map(
             '_label -> Messages("titlePicker.or"),
-            'items -> Seq(OtherTitleRadioValue -> Messages(OtherTitleRadioValue))
+            'items -> Seq(OtherTitleRadioValue.toString -> Messages("titlePicker.other"))
         )
     )
     @valtechInputText(
