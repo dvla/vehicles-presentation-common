@@ -33,6 +33,7 @@ object TitlePickerString {
             case None => Left(Seq[FormError](FormError(key, "error.title.missing")))
           }
         case s: String if standardOptions.contains(s) => Right(Messages(s))
+        case s: String if standardOptionsMessages.contains(s) => Right(s)
         case _ => Left(Seq[FormError](FormError(key, "error.title.unknownOption")))
       }
     }
