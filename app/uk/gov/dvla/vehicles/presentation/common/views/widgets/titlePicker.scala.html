@@ -18,8 +18,7 @@
         field = field(TitleRadioKey).copy(constraints = Seq(RequiredField -> Seq[Any]())),
         args = Map(
             '_label -> "",
-            'items -> standardOptions.map(opt => (standardOptions.indexOf(opt) + 1).toString -> Messages(opt)),
-            'autofocus -> true
+            'items -> standardOptions.map(opt => (standardOptions.indexOf(opt) + 1).toString -> Messages(opt))
         )
     )
     @listRadioGroup(
