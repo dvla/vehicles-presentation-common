@@ -1,6 +1,7 @@
 package uk.gov.dvla.vehicles.presentation.common.filters
 
 import com.google.inject.Inject
+import org.apache.commons.codec.binary.Base64
 import play.api.http.ContentTypes.HTML
 import play.api.http.HeaderNames.REFERER
 import play.api.http.HttpVerbs.{GET, POST}
@@ -95,7 +96,7 @@ class CsrfPreventionAction(next: EssentialAction)
   private def isValidTokenInPostUrl(requestHeader: RequestHeader) = {
     val (trackingIdFromUrl, refererFromUrl) = {
       val tokenEncryptedAndUriEncoded = requestHeader.path.split("/").last // Split the path based on "/" character, if there is a token it will be at the end
-      val tokenEncrypted = play.utils.UriEncoding.decodePathSegment(tokenEncryptedAndUriEncoded, "UTF-8")
+      val tokenEncrypted = new String(Base64.decodeBase64(tokenEncryptedAndUriEncoded))
       val signedToken = Crypto.extractSignedToken(tokenEncrypted).getOrElse(
         throw new CsrfPreventionException(new Throwable("Invalid or no token found in POST url")))
       val decryptedExtractedSignedToken = aesEncryption.decrypt(signedToken)
