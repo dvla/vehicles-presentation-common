@@ -130,16 +130,11 @@ $is-print: false !default;
     } @else {
         font-family: $NTA-Light;
     }
-    @if $is-print == false {
-        font-size: 27px;
-    } @else {
-        font-size: 16pt;
-    }
+    font-size:27px;
     line-height: $line-height;
     font-weight: 400;
     text-transform: none;
     @media (max-width: 640px) {
-        font-size: 18px;
         line-height: $line-height-640;
     }
 }
@@ -286,8 +281,8 @@ $is-print: false !default;
 
 @mixin heading-27($tabular-numbers: false) {
     @include core-27($tabular-numbers: $tabular-numbers);
-    padding-top: 8px;
-    padding-bottom: 7px;
+    padding-top: 0.225em;
+    padding-bottom: 0.9em;
     @include media-large (4px, 6px);
 }
 
