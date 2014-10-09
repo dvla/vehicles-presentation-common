@@ -302,6 +302,7 @@ $is-print: false !default;
     @include core-19($tabular-numbers: $tabular-numbers);
     padding-top: 2px;
     padding-bottom: 8px;
+    margin:0 0 1em;
     @include media-large (0, 5px);
 }
 
