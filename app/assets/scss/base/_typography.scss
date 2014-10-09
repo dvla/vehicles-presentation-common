@@ -145,16 +145,12 @@ $is-print: false !default;
     } @else {
         font-family: $NTA-Light;
     }
-    @if $is-print == false {
-        font-size: 24px;
-    } @else {
-        font-size: 16pt;
-    }
+    font-size: 24px;
     line-height: $line-height;
     font-weight: 400;
     text-transform: none;
     @media (max-width: 640px) {
-        font-size: 20px;
+        font-size: 17px;
         line-height: $line-height-640;
     }
 }
@@ -283,6 +279,7 @@ $is-print: false !default;
     @include core-27($tabular-numbers: $tabular-numbers);
     padding-top: 0.225em;
     padding-bottom: 0.9em;
+    margin: 0;
     @include media-large (4px, 6px);
 }
 
