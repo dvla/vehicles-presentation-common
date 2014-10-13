@@ -34,23 +34,12 @@
     text-transform:uppercase;
 }
 
-
-@mixin playback-list-item-float {
-    float:left;
-    @media screen and (max-width:$device-small) {
-        clear:both;
-        width:100%;
-    }
-}
-
 //playback item width for one column
-@mixin playback-list-item-base($title-min-width:120px) {
+@mixin playback-list-item-base {
     dt, dd {
         @include copy-19;
+        padding-top:0;
         margin-bottom:0;
-        .ie6 & {
-            float:none;
-        }
     }
     p,
     dd {
@@ -63,29 +52,17 @@
         webkit-hyphens:auto;
         -moz-hyphens:auto;
         hyphens:auto;
-        width:61%;
-        @media screen and (max-width: $device-medium) {
-            width:100%;
-        }
     }
     dt {
-        float:left;
-        min-width:$title-min-width;
-        width:36%;
         font-weight:bold;
-        clear:left;
-
-        @media screen and (max-width: $device-medium) {
-            padding-top:0;
-            margin-bottom:0;
-            width:100%;
-        }
-        &.full-width {
-            width:100%;
-        }
+        padding-bottom:5px;
     }
     dd {
         @include to-uppercase;
+        padding-bottom:10px;
+        &:last-child {
+            padding-bottom:0;
+        }
     }
     p {
         margin:0;
@@ -93,18 +70,19 @@
     dt,
     dd,
     p {
+        clear:both;
+        width:100%;
         font-size:15px;
         @include box-sizing(border-box);
-        @include playback-list-item-float;
     }
 }
 
 //playback - this could be a DL element, or a wrapping div
-@mixin playback($title-min-width:120px) {
+@mixin playback() {
     .playback {
         @include clearfix;
         @include box-sizing(border-box);
-        @include playback-list-item-base($title-min-width);
+        @include playback-list-item-base;
         padding:1em;
         margin:23px 0 20px 0;
         margin:2.3rem 0 2rem 0;
