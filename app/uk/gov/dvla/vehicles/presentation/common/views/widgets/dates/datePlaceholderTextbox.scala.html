@@ -3,7 +3,8 @@
     args: Map[Symbol, Any],
     dateService: uk.gov.dvla.vehicles.presentation.common.services.DateService,
     showTodaysDateButton: Boolean,
-    showTodaysDateButtonId: Option[String])(implicit lang: Lang)
+    showTodaysDateButtonId: Option[String],
+    hintText: Option[String])(implicit lang: Lang)
 
 @import uk.gov.dvla.vehicles.presentation.common.views
 @import views.helpers.EmptyTemplate.fieldConstructor
@@ -25,6 +26,7 @@
             '@{id}_year')">@Messages("use_todays_date.label")</button>
         </div>
     }
+    <span class="form-hint">@hintText.getOrElse("")</span>
 
     <div class="form-inline form-date">
         <div class="form-item">
