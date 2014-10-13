@@ -27,6 +27,10 @@ val commonTests = project.in(file(testProjectName))
 
 addCommandAlias("all-tests", ";test;commonTests/test")
 
+addCommandAlias("all-clean", ";clean;commonTests/clean")
+
+addCommandAlias("all-tests-clean", ";clean;commonTests/clean;test;commonTests/test")
+
 addCommandAlias("common-tests-run", ";project commonTests;run;project root")
 
 // Uncomment next line when released and before publishing to github. NOTE: bintray plugin doesn't work with SNAPSHOTS
