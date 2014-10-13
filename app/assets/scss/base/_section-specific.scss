@@ -34,6 +34,8 @@
 
 #{$htmlNamespace} {
 
+    @include playback;
+
     //date of sale - todays date
     .todays-date {
         margin-bottom:10px;

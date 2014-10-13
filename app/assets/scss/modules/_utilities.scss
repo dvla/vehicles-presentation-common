@@ -100,20 +100,16 @@
 }
 
 //playback - this could be a DL element, or a wrapping div
-@mixin playback($bg:transparent,$title-min-width:120px) {
+@mixin playback($title-min-width:120px) {
     .playback {
         @include clearfix;
         @include box-sizing(border-box);
         @include playback-list-item-base($title-min-width);
-        @if$bg == transparent {
-            padding:0;
-        } @else {
-            padding:1em;
-        }
+        padding:1em;
         margin:23px 0 20px 0;
         margin:2.3rem 0 2rem 0;
         width:50%;
-        background:$bg;
+        background:$light-blue-25;
         .first-col & {
             width:100%;
         }
