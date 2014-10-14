@@ -16,7 +16,7 @@
   <span class="form-hint">@hintText</span>
     @listRadioGroup(
         field = field(TitleRadioKey).copy(constraints = Seq(RequiredField -> Seq[Any]())),
-        args = Map(
+        args = args ++ Map(
             '_label -> "",
             'items -> standardOptions.map(opt => (standardOptions.indexOf(opt) + 1).toString -> Messages(opt))
         )

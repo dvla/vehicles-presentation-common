@@ -2,6 +2,7 @@ package views
 
 import helpers.UiSpec
 import helpers.webbrowser.TestHarness
+//import org.openqa.selenium.WebDriver
 import pages.{TitlePickerPage, ErrorPanel}
 import play.api.i18n.Messages
 
@@ -12,6 +13,8 @@ class TitlePickerSpec extends UiSpec with TestHarness {
 
       TitlePickerPage.assertEnabled()
       TitlePickerPage.assertNothingSelected()
+//      TitlePickerPage.mr.underlying should equal(activeElementUnderlying)
+//      def activeElementUnderlying(implicit driver: WebDriver) = activeElement.switch(driver)
     }
   }
 
