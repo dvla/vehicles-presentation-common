@@ -278,8 +278,10 @@ $is-print: false !default;
 @mixin heading-27($tabular-numbers: false) {
     @include core-27($tabular-numbers: $tabular-numbers);
     padding-top: 0.225em;
-    padding-bottom: 0.9em;
     margin: 0;
+    @media screen and (max-width:$device-small) {
+        padding-bottom: 0.9em;
+    }
     @include media-large (4px, 6px);
 }
 

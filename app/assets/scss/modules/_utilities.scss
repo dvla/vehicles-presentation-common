@@ -84,10 +84,12 @@
         @include box-sizing(border-box);
         @include playback-list-item-base;
         padding:1em;
-        margin:23px 0 20px 0;
-        margin:2.3rem 0 2rem 0;
         width:50%;
         background:$light-blue-25;
+        margin:0 0 20px 0;
+        @media screen and (max-width:$device-small) {
+            margin:0 0 10px 0;
+        }
         .first-col & {
             width:100%;
         }
