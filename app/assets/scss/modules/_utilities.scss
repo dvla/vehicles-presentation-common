@@ -54,11 +54,11 @@
         hyphens:auto;
     }
     dt {
-        font-weight:bold;
         padding-bottom:5px;
     }
     dd {
         @include to-uppercase;
+        font-weight:bold;
         padding-bottom:10px;
         &:last-child {
             padding-bottom:0;
