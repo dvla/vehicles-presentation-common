@@ -12,10 +12,6 @@
 @input(field, args.toSeq:_*) { (id, name, value, htmlArgs) =>
     @valtechLabel(field, args)
 
-    @if(hintText.isDefined) {
-        <span class="form-hint">@hintText.get</span>
-    }
-
     <input 
         id="@id"
         name="@name"
@@ -32,4 +28,7 @@
         @{if(field.hasErrors) "aria-invalid=true" else ""} @* TODO move this into an extension method and write unit tests *@
         @toHtmlArgs(htmlArgs.maxLengthRules.autoCompleteRules)
     >
+    @if(hintText.isDefined) {
+        <span class="form-hint">@hintText.get</span>
+    }
 }

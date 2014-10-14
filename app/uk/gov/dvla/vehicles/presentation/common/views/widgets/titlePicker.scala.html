@@ -12,8 +12,6 @@
 
 @input(field, args.toSeq:_*) { (id, name, value, htmlArgs) =>
   @valtechLabel(field, Map('_label -> Messages("titlePicker.label")) ++ args)
-
-  <span class="form-hint">@hintText</span>
     @listRadioGroup(
         field = field(TitleRadioKey).copy(constraints = Seq(RequiredField -> Seq[Any]())),
         args = Map(
@@ -38,4 +36,5 @@
             'alphabeticalOnly -> true 
           )
         )
+    <span class="form-hint">@hintText</span>
 }
