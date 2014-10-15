@@ -23,7 +23,8 @@
                         @* Handle re-selecting the option in the widget that was chosen the last time the widget was displayed in a page *@
                         value="@v._1" @(if(value == Some(v._1)) "checked" else "")
                    }
-                   @toHtmlArgs(htmlArgs)>
+                   @if(v == options.head) {@toHtmlArgs(htmlArgs)} else {@toHtmlArgs(htmlArgs - 'autofocus) }
+            >
                    <span class="text">@v._2</span>
         </label>
     }
