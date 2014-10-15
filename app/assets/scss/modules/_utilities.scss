@@ -85,19 +85,36 @@
         @include playback-list-item-base;
         padding:1em;
         width:50%;
-        background:$light-blue-25;
         margin:0 0 20px 0;
         @media screen and (max-width:$device-small) {
             margin:0 0 10px 0;
-        }
-        .first-col & {
-            width:100%;
         }
         @media screen and (max-width:$device-medium - 1px) {
             width:50%;
         }
         @media screen and (max-width:$device-small) {
             width:100%;
+        }
+    }
+    .first-col .playback {
+        width:100%;
+        padding:0;
+        background:none;
+        dt,
+        dd,
+        p {
+            font-size:15px;
+        }
+    }
+    .second-col .playback {
+        background:$light-blue-25;
+        dt,
+        dd,
+        p {
+            font-size:19px;
+            @media screen and (max-width:$device-small) {
+                font-size:16px;
+            }
         }
     }
 }
