@@ -40,15 +40,22 @@
     .reg-number {
         display: inline-block;
         vertical-align: top;
-        width: 272px;
+        width: 135px;
         text-align: center;
         line-height: 1.25;
         font-weight: bold;
         padding: 0.4em 0.5em 0.3em 0.5em;
         margin-bottom: 10px;
+        letter-spacing: 1px;
         background-color: $yellow-75;
         border: solid 1px $grey-9;
         border-radius: 5px;
+    }
+    
+    .playback .reg-number {
+        width: 135px;
+        padding: 0.4em 0.5em 0.3em 0.5em;
+        margin-bottom: 10px;
     }
 
     //originally from retention sass
