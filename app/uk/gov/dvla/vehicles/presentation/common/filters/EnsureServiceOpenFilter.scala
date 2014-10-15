@@ -8,11 +8,10 @@ import scala.concurrent.ExecutionContext.Implicits.global
 
 trait EnsureServiceOpenFilter extends Filter {
 
-  private val millisPerHour = 3600000
   protected val opening: Int
   protected val closing: Int
   protected val dateTimeZone: DateTimeZoneService
-  protected val html: String
+  protected val html: Appendable
 
   override def apply(nextFilter: (RequestHeader) => Future[Result])(requestHeader: RequestHeader): Future[Result] = {
     if (whitelist.exists(requestHeader.path.contains)) nextFilter(requestHeader)
