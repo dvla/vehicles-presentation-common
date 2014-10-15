@@ -36,6 +36,28 @@
 
     @include playback;
 
+    //originally from retention sass
+    .reg-number {
+        display: inline-block;
+        vertical-align: top;
+        width: 272px;
+        text-align: center;
+        line-height: 1.25;
+        font-weight: bold;
+        padding: 0.4em 0.5em 0.3em 0.5em;
+        margin-bottom: 10px;
+        background-color: $yellow-75;
+        border: solid 1px $grey-9;
+        border-radius: 5px;
+    }
+
+    //originally from retention sass
+    a.pdf-link img {
+        float: left;
+        max-height: 40px;
+        padding-right: 10px;
+    }
+
     //date of sale - todays date
     .todays-date {
         margin-bottom:10px;
