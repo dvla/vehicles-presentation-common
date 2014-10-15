@@ -4,14 +4,7 @@
 
 @helper.input(field, args.toSeq:_*) { (id, name, value, htmlArgs) =>
 
-    @*<p>id=@id</p>*@
-    @*<p>name=@name</p>*@
-    @*<p>value=@value</p>*@
-    @*<p>htmlArgs=@htmlArgs</p>*@
-    @*<p>options=@options</p>*@
-    @*<p>args=@args</p>*@
-
-    @options.map { v =>
+    @for(v <- options) {
         <label for="@{id+"_"+v._1}" class="form-radio selectable">
             <input type="radio"
                    id="@{id+"_"+v._1}"
