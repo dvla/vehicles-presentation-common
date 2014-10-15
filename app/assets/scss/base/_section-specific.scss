@@ -51,11 +51,24 @@
         border: solid 1px $grey-9;
         border-radius: 5px;
     }
-    
+
     .playback .reg-number {
         width: 135px;
         padding: 0.4em 0.5em 0.3em 0.5em;
         margin-bottom: 10px;
+    }
+    .alert-complete .reg-number {
+        clear: both;
+        display: block;
+        padding: 0.2em 0.5em 0.1em 0.5em;
+        margin: {
+            top:2px;
+            left:30px;
+        }
+        width: 155px;
+        margin-bottom: 5px;
+        color: $black-2;
+
     }
 
     //originally from retention sass
