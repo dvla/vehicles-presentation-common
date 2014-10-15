@@ -96,12 +96,14 @@ button {
 
     h1 {
         @include heading-27;
-        font-weight: 700;
-        margin-bottom: 0.4em;
-        .ie & {
-            font-size: 36px;
+        font: {
+            weight: bold;
+            size: 25px;
         }
+        margin-bottom: 0.4em;
         @media screen and (min-width:$device-small) {
+            @include heading-36;
+            font-weight: bold;
             padding-bottom: 24px;
         }
     }
