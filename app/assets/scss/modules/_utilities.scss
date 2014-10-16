@@ -102,6 +102,10 @@
         width:100%;
         background:$light-blue-25;
         padding:1em;
+        &.bg-plain {
+            background:none;
+            padding:0;
+        }
         dt,
         dd,
         p {
