@@ -83,9 +83,10 @@
         @include clearfix;
         @include box-sizing(border-box);
         @include playback-list-item-base;
-        padding:1em;
         width:50%;
         margin:0 0 20px 0;
+        padding:0;
+        background:none;
         @media screen and (max-width:$device-small) {
             margin:0 0 10px 0;
         }
@@ -96,10 +97,11 @@
             width:100%;
         }
     }
+
     .first-col .playback {
         width:100%;
-        padding:0;
-        background:none;
+        background:$light-blue-25;
+        padding:1em;
         dt,
         dd,
         p {
@@ -107,7 +109,6 @@
         }
     }
     .second-col .playback {
-        background:$light-blue-25;
         dt,
         dd,
         p {
