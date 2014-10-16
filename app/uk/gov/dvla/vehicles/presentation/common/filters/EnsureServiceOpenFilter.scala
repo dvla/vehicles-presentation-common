@@ -1,5 +1,6 @@
 package uk.gov.dvla.vehicles.presentation.common.filters
 
+import java.nio.channels.WritableByteChannel
 import org.joda.time.{DateTime, DateTimeZone}
 import play.api.mvc.{Filter, RequestHeader, Result, Results}
 import play.twirl.api.HtmlFormat
@@ -17,7 +18,7 @@ trait EnsureServiceOpenFilter extends Filter {
   override def apply(nextFilter: (RequestHeader) => Future[Result])(requestHeader: RequestHeader): Future[Result] = {
     if (whitelist.exists(requestHeader.path.contains)) nextFilter(requestHeader)
     else if (!serviceOpen()) Future(Results.Ok(html))
-         else nextFilter(requestHeader)
+    else nextFilter(requestHeader)
   }
 
   def serviceOpen(currentDateTime: DateTime = new DateTime(dateTimeZone.currentDateTimeZone)): Boolean = {
