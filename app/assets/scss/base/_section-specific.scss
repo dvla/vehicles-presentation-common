@@ -32,9 +32,17 @@
     }
 }
 
+
 #{$htmlNamespace} {
 
     @include playback;
+
+    //manual address entry
+    .enter-address-manually {
+        .form-item {
+            margin-bottom: 1em;
+        }
+    }
 
     //originally from retention sass
     .reg-number {
