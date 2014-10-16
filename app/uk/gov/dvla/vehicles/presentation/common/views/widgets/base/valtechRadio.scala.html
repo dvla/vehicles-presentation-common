@@ -4,14 +4,7 @@
 
 @helper.input(field, args.toSeq:_*) { (id, name, value, htmlArgs) =>
 
-    @*<p>id=@id</p>*@
-    @*<p>name=@name</p>*@
-    @*<p>value=@value</p>*@
-    @*<p>htmlArgs=@htmlArgs</p>*@
-    @*<p>options=@options</p>*@
-    @*<p>args=@args</p>*@
-
-    @options.map { v =>
+    @for(v <- options) {
         <label for="@{id+"_"+v._1}" class="form-radio selectable">
             <input type="radio"
                    id="@{id+"_"+v._1}"
@@ -23,7 +16,8 @@
                         @* Handle re-selecting the option in the widget that was chosen the last time the widget was displayed in a page *@
                         value="@v._1" @(if(value == Some(v._1)) "checked" else "")
                    }
-                   @toHtmlArgs(htmlArgs)>
+                   @if(v == options.head) {@toHtmlArgs(htmlArgs)} else {@toHtmlArgs(htmlArgs - 'autofocus) }
+            >
                    <span class="text">@v._2</span>
         </label>
     }

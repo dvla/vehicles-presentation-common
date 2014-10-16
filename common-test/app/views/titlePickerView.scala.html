@@ -12,7 +12,10 @@
     currentForm = Some(titlePickerForm)
 ) {
     @form(action = controllers.routes.TitlePickerController.submit) {
-        @titlePicker(field = titlePickerForm(TitleId))
+        @titlePicker(
+          field = titlePickerForm(TitleId),
+          args = Map('autofocus -> true)
+        )
 
         <div class="form-steps">
             <button id="submit" type="submit" name="action" class="button" aria-label="Next button">
