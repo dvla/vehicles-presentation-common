@@ -7,6 +7,7 @@ import play.api.test.FakeRequest
 import play.twirl.api.{Html, Content, HtmlFormat}
 import uk.gov.dvla.vehicles.presentation.common.UnitSpec
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClientSideSessionFactory
+import uk.gov.dvla.vehicles.presentation.common.filters.DateTimeZoneServiceImpl
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 import scala.language.existentials
@@ -14,15 +15,17 @@ import scala.language.existentials
 class EnsureServiceOpenFilterSpec extends UnitSpec {
   private val milliesInAnHour = 3600000
 
+  private val dateTimeService = new DateTimeZoneServiceImpl
+
   "Return True for an acceptable time, with the current timezone as GMT" in {
-    val dateTime = new DateTime()
+    val dateTime = new DateTime(dateTimeService.currentDateTimeZone)
     setUpInHours((setup: SetUp) => {
       setup.filter.serviceOpen(dateTime) should equal(true)
     }, dateTime)
   }
 
   "Return False for an out of hours time, with the current timezone as GMT" in {
-    val dateTime = new DateTime()
+    val dateTime = new DateTime(dateTimeService.currentDateTimeZone)
     setUpOutOfHours((setup: SetUp) => {
       setup.filter.serviceOpen(dateTime) should equal(false)
     }, dateTime)
@@ -43,7 +46,7 @@ class EnsureServiceOpenFilterSpec extends UnitSpec {
   }
 
   "Return a null next filter request if trying to access the service out of hours" in {
-    val dateTime = new DateTime()
+    val dateTime = new DateTime(dateTimeService.currentDateTimeZone)
     setUpOutOfHours((setup: SetUp) => {
       val filterResult: Future[Result] = setup.filter.apply(setup.nextFilter)(setup.request)
       whenReady(filterResult) { result =>
@@ -53,7 +56,7 @@ class EnsureServiceOpenFilterSpec extends UnitSpec {
   }
 
   "Return a valid next filter request if trying to access the service within acceptable hours" in {
-    val dateTime = new DateTime()
+    val dateTime = new DateTime(dateTimeService.currentDateTimeZone)
     setUpInHours((setup: SetUp) => {
       val filterResult: Future[Result] = setup.filter.apply(setup.nextFilter)(setup.request)
       whenReady(filterResult) { result =>
@@ -74,7 +77,7 @@ class EnsureServiceOpenFilterSpec extends UnitSpec {
   private def inHoursOffset: Int = {
     val formatter = DateTimeFormat.forPattern("dd/MM/yyyy HH:mm:ss")
     val targetDateTime = formatter.parseDateTime("01/01/2014 11:30:30")
-    val currentDateTime = new DateTime()
+    val currentDateTime = new DateTime(dateTimeService.currentDateTimeZone)
 
     - (currentDateTime.hourOfDay.get() - targetDateTime.getHourOfDay)
   }
