@@ -17,6 +17,7 @@ final case class DayMonthYear(day: Int,
   def withTime(hour: Int, minutes: Int) = copy(hour = Some(hour), minutes = Some(minutes))
   def `yyyy-MM-dd`: String = format("yyyy-MM-dd")
   def `dd month, yyyy`: String = format("dd MMMM, yyyy")
+  def `dd shortMonth yyyy`: String = format("dd MMM yyyy")
   def `yyyy-MM-dd'T'HH:mm:00`: String = format("yyyy-MM-dd'T'HH:mm:00")
   def `HH:mm`: String = format("HH:mm")
 
