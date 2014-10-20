@@ -175,33 +175,6 @@
         }
     }
 
-    //style labels for checkboxes
-    .form-checkbox {
-        position:relative;
-        padding-left:25px;
-        font-size: 1.7rem;
-        input {
-            position: absolute;
-            top:0;
-            left:0;
-        }
-        .ie & {
-            font-size:17px;
-        }
-        .ie6 & {
-            input {
-                left:-25px;
-            }
-        }
-    }
-
-    label.form-checkbox {
-        cursor:pointer;
-        .ie6 & {
-            cursor:default;
-        }
-    }
-
     //radio form inputs/labels
     div.radio {
         .form-item {
@@ -211,7 +184,8 @@
         }
     }
 
-    label.form-radio {
+    label.form-radio,
+    label.form-checkbox {
         @include box-sizing(border-box);
         display:block;
         position:relative;
