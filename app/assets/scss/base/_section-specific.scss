@@ -27,10 +27,12 @@
     }
     .img-wrap {
         &.img-wrap-mobile {
-            display:inline-block;
-            vertical-align:top;
-            width:100%;
-            margin-top:2em;
+            @media screen and (max-width:$device-medium) {
+                display:inline-block;
+                vertical-align:top;
+                width:100%;
+                margin-top:2em;
+            }
         }
         img {
             .ie8 & {
