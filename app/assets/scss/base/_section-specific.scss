@@ -25,9 +25,17 @@
             }
         }
     }
-    .img-wrap img {
-        .ie8 & {
-            max-height:200px; //failsafe to ensure that the correct height is rendered in ie8
+    .img-wrap {
+        &.img-wrap-mobile {
+            display:inline-block;
+            vertical-align:top;
+            width:100%;
+            margin-top:2em;
+        }
+        img {
+            .ie8 & {
+                max-height:200px; //failsafe to ensure that the correct height is rendered in ie8
+            }
         }
     }
 }
