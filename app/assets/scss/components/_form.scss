@@ -308,7 +308,7 @@
         }
     }
 
-    //container for action buttons at the base of a page
+    //container for action buttons at the bottom of a page
     .form-steps {
         margin-top: 2.2em;
         clear: both;
@@ -366,8 +366,15 @@
             padding-right:0;
           }
         }
-        br {
-            clear:both;
+        .exit,
+        .back {
+            clear: both;
+            padding: .8em 0;
+            text-align: center;
+            @media screen and (min-width: $device-small) {
+                display: table-cell;
+                text-align:left;
+            }
         }
     }
 
