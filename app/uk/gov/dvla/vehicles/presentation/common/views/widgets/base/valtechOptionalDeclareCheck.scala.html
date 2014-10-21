@@ -10,7 +10,7 @@
 @input(field, args.toSeq: _*) { (id, name, value, htmlArgs) =>
 
 @* TODO make a helper extension method for this. This is really confusing as 'value' is being set in a separate method above *@
-<label class="form-checkbox">
+<label class="form-checkbox selectable">
     <input type="checkbox"
            id="@id"
            name="@name"
