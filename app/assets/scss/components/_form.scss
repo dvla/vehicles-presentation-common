@@ -346,11 +346,11 @@
             padding: .8em 0;
             text-align: center;
             @media screen and (min-width: $device-small) {
-                display: table-cell;
-                text-align:left;
+                float: left;
+                text-align: left;
             }
         }
-    }
+     }
 
     //uppercase text inputs (class is applied to a parent wrapper)
     .uppercase-input input {
