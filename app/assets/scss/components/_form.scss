@@ -78,11 +78,11 @@
         }
         line-height: 1.31579;
         padding: 0.5em;
-        width: 28.3rem;
+        width: 31.3rem;
         .ie & {
             font-size: 19px;
         }
-        .ie7 &, 
+        .ie7 &,
         .ie8 & {
             width: 283px;
         }
@@ -112,7 +112,7 @@
         .ie & {
             font-size: 19px;
         }
-        .ie7 &, 
+        .ie7 &,
         .ie8 & {
             padding: 0.2em 0 0.4em 0.4em;
             width: 295px;
@@ -157,8 +157,8 @@
          min-width:0;
         }
     }
-    input:focus, 
-    textarea:focus, 
+    input:focus,
+    textarea:focus,
     select:focus {
         outline: 3px solid $yellow;
     }
@@ -316,7 +316,7 @@
                 padding: .4em 1em;
             }
         }
-        a, 
+        a,
         input,
         .button,
         .button-secondary {
