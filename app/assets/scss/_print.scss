@@ -253,7 +253,7 @@ p.transaction-id {
             font-size:26pt;
             font-weight:bold;
             text-decoration:none;
-            &[href^="http://"]:after, 
+            &[href^="http://"]:after,
             &[href^="https://"]:after {
                 content:'';
             }
@@ -338,6 +338,7 @@ select {
 button,
 .button,
 .button-secondary,
-.button-text {
+.button-text,
+.pdf-link img {
     display: none !important;
 }

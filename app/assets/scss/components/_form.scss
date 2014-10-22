@@ -78,7 +78,7 @@
         }
         line-height: 1.31579;
         padding: 0.5em;
-        width: 31.3rem;
+        width: $input-width;
         .ie & {
             font-size: 19px;
         }
@@ -102,7 +102,7 @@
         line-height: 1.31579;
         padding: 0.5em;
         width: 285px;
-        width: 28.5rem;
+        width: $input-width;
         border: 1px solid $form-element-border;
         cursor: default;
         font: {
@@ -345,6 +345,7 @@
             clear: both;
             padding: .8em 0;
             text-align: center;
+            line-height: 300%;
             @media screen and (min-width: $device-small) {
                 float: left;
                 text-align: left;
