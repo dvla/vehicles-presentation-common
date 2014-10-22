@@ -21,22 +21,28 @@ object TitlePickerString {
 
   def formatter = new Formatter[TitleType] {
     def bind(key: String, data: Map[String, String]): R = {
-      data.getOrElse(s"$key.$TitleRadioKey", Left(Seq[FormError](FormError(key, "error.title.unknownOption")))) match {
+      data.getOrElse(s"$key.$TitleRadioKey", constructError(key, "error.title.unknownOption")) match {
         case OtherTitleRadioValue.toString =>
           data.get(s"$key.$TitleTextKey") match {
             case Some(longTitle) if longTitle.length > MaxOtherTitleLength =>
-              Left(Seq[FormError](FormError(key, "error.title.tooLong")))
+              constructError(key, "error.title.tooLong")
             case Some(emptyTitle) if emptyTitle.isEmpty =>
-              Left(Seq[FormError](FormError(key, "error.title.missing")))
+              constructError(key, "error.title.missing")
             case Some(title) =>
-              if (title.filterNot(Character.isAlphabetic(_)).isEmpty) Right(TitleType(OtherTitleRadioValue, title))
-              else Left(Seq[FormError](FormError(key, "error.title.illegalCharacters")))
-            case None => Left(Seq[FormError](FormError(key, "error.title.missing")))
+              if (title.filterNot(Character.isAlphabetic(_)).isEmpty) constructSuccess(OtherTitleRadioValue, title)
+              else constructError(key, "error.title.illegalCharacters")
+            case None => constructError(key, "error.title.missing")
           }
-        case s: String if isWithinStandard(s) => Right(TitleType(s.toInt, ""))
-        case _ => Left(Seq[FormError](FormError(key, "error.title.unknownOption")))
+        case s: String if isWithinStandard(s) => constructSuccess(s.toInt, "")
+        case _ => constructError(key, "error.title.unknownOption")
       }
     }
+
+    private def constructError(key: String, errorKey: String) : R =
+      Left(Seq[FormError](FormError(key, errorKey)))
+
+    private def constructSuccess(titleType: Int, otherText: String) : R =
+      Right(TitleType(titleType, otherText))
 
     def unbind(key: String, value: TitleType) =
       if (isWithin(value.titleType)) Map(
@@ -57,7 +63,6 @@ object TitlePickerString {
 
     private def textValue(value: TitleType): String =
       if (OtherTitleRadioValue == value.titleType) value.other else ""
-
   }
 
   def mapping = of[TitleType](formatter).verifying(required)
