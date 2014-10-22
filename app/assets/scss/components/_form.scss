@@ -178,9 +178,6 @@
     //radio form inputs/labels
     div.radio {
         .form-item {
-            .ie8 & {
-                display:inline-block;
-            }
         }
     }
 
@@ -343,11 +340,12 @@
         .exit,
         .back {
             clear: both;
-            padding: .8em 0;
+            padding: .350em 0;
             text-align: center;
             @media screen and (min-width: $device-small) {
                 float: left;
                 text-align: left;
+                padding: .8em 0;
             }
         }
      }
