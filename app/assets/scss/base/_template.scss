@@ -148,41 +148,35 @@ button {
     //two column layout
     .two-col {
         @include clearfix;
-        width:100%; //failsafe
+        width: 100%; //failsafe
 
         .first-col,
         .second-col {
             .playback {
-                width:100%;
+                width: 100%;
              }
         }
 
         .first-col {
             @include clearfix;
-            width:47%;
-            float:right;
-            .ie6 & {
-                width:43%;
-            }
+            width: 30%;
+            float: right;
             @media screen and (max-width: $device-medium) {
-                float:none;
-                width:100%;
-                clear:both;
-                margin-bottom:2em;
+                float: none;
+                width: 100%;
+                clear: both;
+                margin-bottom: 2em;
             }
         }
         .second-col {
             @include clearfix;
-            width:47%;
-            float:left;
-            .ie6 & {
-                width:43%;
-            }
+            width: 63%;
+            float: left;
             @media screen and (max-width: $device-medium) {
-                float:none;
-                width:100%;
-                clear:both;
-                margin-bottom:2em;
+                float: none;
+                width: 100%;
+                clear: both;
+                margin-bottom: 2em;
             }
         }
         
