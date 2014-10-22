@@ -150,13 +150,17 @@
         vertical-align: middle;
         max-width: 100%;
         .ie & {
-         height: auto;
-         font-size: 15px
+            height: auto;
+            font-size: 15px
         }
         .ie8 & {
-         min-width:0;
+            min-width:0;
+        }
+        .ie7 & {
+            width:100%;
         }
     }
+    
     input:focus,
     textarea:focus,
     select:focus {
