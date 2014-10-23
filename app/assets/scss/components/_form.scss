@@ -201,10 +201,11 @@
         @media screen and (min-width: $device-small) {
             width:auto;
         }
+        .ie7 &,
         .ie8 & {
             width:auto;
         }
-        .ie7 &,
+        /*.ie7 &,
         .ie6 & {
             display:inline-block;
             float:none;
@@ -212,6 +213,7 @@
                 display:inline-block;
             }
         }
+        */
 
         input {
             float:left;
