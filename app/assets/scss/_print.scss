@@ -249,6 +249,9 @@ p.transaction-id {
         position: relative;
         display: block;
         overflow: hidden;
+        img {
+            margin-right: 5px;
+        }
         a {
             font-size:26pt;
             font-weight:bold;
