@@ -160,7 +160,7 @@
             width:100%;
         }
     }
-    
+
     input:focus,
     textarea:focus,
     select:focus {
@@ -180,11 +180,9 @@
     }
 
     //radio form inputs/labels
-    div.radio {
-        .form-item {
-        }
+    .radio > .form-item {
+        margin-bottom: 0.5em;
     }
-
     label.form-radio,
     label.form-checkbox {
         @include box-sizing(border-box);
@@ -203,7 +201,9 @@
         @media screen and (min-width: $device-small) {
             width:auto;
         }
-
+        .ie8 & {
+            width:auto;
+        }
         .ie7 &,
         .ie6 & {
             display:inline-block;
