@@ -378,6 +378,14 @@
 
     .form-date {
         clear:both;
+        .ie7 & {
+            > .form-item {
+                width:100%;
+            }
+            .form-hint {
+                clear:both;
+            }
+        }
         .ie6 & {
             .form-item {
                 float:left;
