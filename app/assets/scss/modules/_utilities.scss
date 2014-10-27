@@ -34,6 +34,27 @@
     text-transform:uppercase;
 }
 
+//prevent long text from breaking out of container. see:
+//css-tricks.com/snippets/css/prevent-long-urls-from-breaking-out-of-container/
+@mixin long-text-wrap($type) {
+    @if $type == "full" {
+        -ms-word-break: break-all;
+        word-break: break-all;
+        word-break: break-word;
+        word-wrap: break-word;
+        webkit-hyphens: auto;
+        -moz-hyphens: auto;
+        hyphens: auto;
+    }
+    @if $type == "word" {
+        word-break: break-word;
+        -webkit-hyphens: auto;
+        -moz-hyphens: auto;
+        hyphens: auto;
+    }
+}
+
+
 //playback item width for one column
 @mixin playback-list-item-base {
     dt, dd {
@@ -43,15 +64,10 @@
     }
     p,
     dd {
-        //prevent long text from breaking out of container. see:
-        //css-tricks.com/snippets/css/prevent-long-urls-from-breaking-out-of-container/
-        -ms-word-break:break-all;
-        word-break:break-all;
-        word-break:break-word;
-        word-wrap:break-word;
-        webkit-hyphens:auto;
-        -moz-hyphens:auto;
-        hyphens:auto;
+        @include long-text-wrap('full');
+        &.word-wrap-only {
+            @include long-text-wrap('word');
+        }
     }
     dt {
         padding-bottom:5px;
