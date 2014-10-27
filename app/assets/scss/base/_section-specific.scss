@@ -3,40 +3,40 @@
 //vehicle lookup/enter vehicle details
 .vehicle-lookup {
     .second-col .form-steps {
-        margin-top:0;
+        margin-top: 0;
 
         .button-secondary {
-          color:$black-2; //failsafe for ie6
+          color: $black-2; //failsafe for ie6
         }
     }
 
     .trader-details {
         .playback {
-            margin-bottom:38px;
-            margin-bottom:3.75rem;
+            margin-bottom: 38px;
+            margin-bottom: 3.75rem;
             @media screen and (max-width:$device-medium) {
-                margin-bottom:20px;
-                margin-bottom:2rem;
+                margin-bottom: 20px;
+                margin-bottom: 2rem;
             }
         }
         dd {
             .ie6 & {
-                clear:both;
+                clear: both;
             }
         }
     }
     .img-wrap {
         &.img-wrap-mobile {
             @media screen and (max-width:$device-medium) {
-                display:inline-block;
-                vertical-align:top;
-                width:100%;
-                margin-top:2em;
+                display: inline-block;
+                vertical-align: top;
+                width: 100%;
+                margin-top: 2em;
             }
         }
         img {
             .ie8 & {
-                max-height:200px; //failsafe to ensure that the correct height is rendered in ie8
+                max-height: 200px; //failsafe to ensure that the correct height is rendered in ie8
             }
         }
     }
@@ -106,8 +106,8 @@
         display: block;
         padding: 0.2em 0.5em 0.1em 0.5em;
         margin: {
-            top:2px;
-            left:30px;
+            top: 2px;
+            left: 30px;
         }
         width: 155px;
         margin-bottom: 5px;
@@ -124,45 +124,45 @@
 
     //date of sale - todays date
     .todays-date {
-        margin-bottom:10px;
-        margin-bottom:1rem;
+        margin-bottom: 10px;
+        margin-bottom: 1rem;
 
         @media screen and (max-width:$device-medium) {
-            margin-bottom:12px;
-            margin-bottom:1.25rem;
+            margin-bottom: 12px;
+            margin-bottom: 1.25rem;
         }
 
         button {
-            -webkit-appearance:none;
-            border:0 none;
-            padding:0;
-            font-size:0.9em;
-            background:none;
-            color:$govuk-blue;
-            cursor:pointer;
+            -webkit-appearance: none;
+            border: 0 none;
+            padding: 0;
+            font-size: 0.9em;
+            background: none;
+            color: $govuk-blue;
+            cursor: pointer;
             @include box-shadow(none);
             &:hover,
             &:active {
-                background:none;
-                color:$govuk-blue;
-                text-decoration:underline;
+                background: none;
+                color: $govuk-blue;
+                text-decoration: underline;
             }
 
             &:focus {
-              overflow:hidden; //prevents overlapping bug in Firefox
+              overflow: hidden; //prevents overlapping bug in Firefox
             }
 
             .ie & {
-              font-size:15px;
+              font-size: 15px;
             }
             .ie8 &,
             .ie7 & {
-              padding-right:0;
-              padding-left:0;
+              padding-right: 0;
+              padding-left: 0;
             }
             @media screen and (max-width:$device-medium) {
-              padding:0.6em 0;
-              margin-top:0;
+              padding: 0.6em 0;
+              margin-top: 0;
             }
         }
     }
