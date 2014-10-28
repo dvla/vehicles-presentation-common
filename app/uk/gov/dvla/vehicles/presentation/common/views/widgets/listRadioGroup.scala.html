@@ -6,17 +6,23 @@
 @import uk.gov.dvla.vehicles.presentation.common.views.models.RadioWithHint
 
 @input(field, args.toSeq: _*) { (id, name, value, htmlArgs) =>
-    <legend>@labelOrId(field.id, args)</legend>
+    @*
+    Form missing fieldset and legend to group multiple radio buttons.
+    http://achecker.ca/checker/suggestion.php?id=168
+    *@
+    <fieldset>
+        <legend>@labelOrId(field.id, args)</legend>
 
-    @if(args.exists(_._1 == 'items)) {
-        @radioListPlaceholder(field,
-            options = args.find(_._1 == 'items).get._2.asInstanceOf[Seq[(String, String)]],
-            args = args.filter(e => e._1 != 'label && e._1 != 'items)
-        )
-    } else {
-        @radioListWithHintsPlaceholder(field,
-            options = args.find(_._1 == 'itemsWithHints).get._2.asInstanceOf[Seq[RadioWithHint]],
-            args = args.filter(e => e._1 != 'label && e._1 != 'items)
-        )
-    }
+        @if(args.exists(_._1 == 'items)) {
+            @radioListPlaceholder(field,
+                options = args.find(_._1 == 'items).get._2.asInstanceOf[Seq[(String, String)]],
+                args = args.filter(e => e._1 != 'label && e._1 != 'items)
+            )
+        } else {
+            @radioListWithHintsPlaceholder(field,
+                options = args.find(_._1 == 'itemsWithHints).get._2.asInstanceOf[Seq[RadioWithHint]],
+                args = args.filter(e => e._1 != 'label && e._1 != 'items)
+            )
+        }
+    </fieldset>
 }
