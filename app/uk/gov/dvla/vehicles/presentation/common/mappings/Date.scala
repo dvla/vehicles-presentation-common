@@ -13,6 +13,7 @@ object Date {
   final val DayId = "day"
   final val MonthId = "month"
   final val YearId = "year"
+  final val TodaysDateId = "todays_date"
   final val MaxDaysInMonth = 31
   final val MaxMonthsInYear = 12
   final val OptionalDateOfBirth = "optional.date"
