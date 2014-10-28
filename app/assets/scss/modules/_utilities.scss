@@ -26,12 +26,12 @@
 //CSS for hiding elements visually but not for screen readers
 @mixin sr-only {
     position: absolute;
-    top:0;
-    left:-9999px;
+    top: 0;
+    left: -9999px;
 }
 
 @mixin to-uppercase {
-    text-transform:uppercase;
+    text-transform: uppercase;
 }
 
 //prevent long text from breaking out of container. see:
@@ -59,8 +59,8 @@
 @mixin playback-list-item-base {
     dt, dd {
         @include copy-19;
-        padding-top:0;
-        margin-bottom:0;
+        padding-top: 0;
+        margin-bottom: 0;
     }
     p,
     dd {
@@ -70,25 +70,25 @@
         }
     }
     dt {
-        padding-bottom:5px;
+        padding-bottom: 5px;
     }
     dd {
         @include to-uppercase;
-        font-weight:bold;
-        padding-bottom:10px;
+        font-weight: bold;
+        padding-bottom: 10px;
         &:last-child {
-            padding-bottom:0;
+            padding-bottom: 0;
         }
     }
     p {
-        margin:0;
+        margin: 0;
     }
     dt,
     dd,
     p {
-        clear:both;
-        width:100%;
-        font-size:15px;
+        clear: both;
+        width: 100%;
+        font-size: 15px;
         @include box-sizing(border-box);
     }
 }
@@ -99,42 +99,42 @@
         @include clearfix;
         @include box-sizing(border-box);
         @include playback-list-item-base;
-        width:50%;
-        margin:0 0 20px 0;
-        padding:0;
-        background:none;
+        width: 50%;
+        margin: 0 0 20px 0;
+        padding: 0;
+        background: none;
         @media screen and (max-width:$device-small) {
-            margin:0 0 10px 0;
+            margin: 0 0 10px 0;
         }
         @media screen and (max-width:$device-medium - 1px) {
-            width:50%;
+            width: 50%;
         }
         @media screen and (max-width:$device-small) {
-            width:100%;
+            width: 100%;
         }
     }
 
     .first-col .playback {
-        width:100%;
-        background:$light-blue-25;
-        padding:1em;
+        width: 100%;
+        background: $light-blue-25;
+        padding: 1em;
         &.bg-plain {
-            background:none;
-            padding:0;
+            background: none;
+            padding: 0;
         }
         dt,
         dd,
         p {
-            font-size:15px;
+            font-size: 15px;
         }
     }
     .second-col .playback {
         dt,
         dd,
         p {
-            font-size:19px;
+            font-size: 19px;
             @media screen and (max-width:$device-small) {
-                font-size:16px;
+                font-size: 16px;
             }
         }
     }
@@ -148,35 +148,35 @@
 @mixin img-multi-wrap($max-width){
     clear:both;
     img {
-        width:100%;
-        max-width:$max-width;
+        width: 100%;
+        max-width: $max-width;
         .ie6 & {
-            width:$max-width;
-            border:0 none;
+            width: $max-width;
+            border: 0 none;
         }
     }
     &.img-wrap-mobile {
-        display:none;
+        display: none;
     }
     @media screen and (max-width:$device-medium) {
         &.img-wrap-mobile {
-            display:block;
+            display: block;
             img {
-                display:inline-block;
-                vertical-align:top;
-                margin:0 0 2.2em 0;
-                text-align:left;
+                display: inline-block;
+                vertical-align: top;
+                margin: 0 0 2.2em 0;
+                text-align: left;
             }
         }
         &.img-wrap-desktop {
-            display:none;
+            display: none;
         }
     }
     @media screen and (max-width:$device-small) {
         &.img-wrap-mobile img {
-          display:block;
-          margin-left:auto;
-          margin-right:auto;
+          display: block;
+          margin-left: auto;
+          margin-right: auto;
         }
     }
 }
