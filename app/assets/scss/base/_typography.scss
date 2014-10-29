@@ -281,7 +281,7 @@ $is-print: false !default;
     @include core-27($tabular-numbers: $tabular-numbers);
     padding-top: 0.225em;
     padding-bottom: 0;
-    margin: 0;
+    margin: 0 0 1em 0;
 }
 
 @mixin heading-24($tabular-numbers: false) {
