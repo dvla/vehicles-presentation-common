@@ -86,10 +86,13 @@
     dt,
     dd,
     p {
+        @include box-sizing(border-box);
         clear: both;
         width: 100%;
-        font-size: 15px;
-        @include box-sizing(border-box);
+        font-size: 19px;
+        @media screen and (max-width:$device-small) {
+            font-size: 16px;
+        }
     }
 }
 
@@ -126,16 +129,6 @@
         dd,
         p {
             font-size: 15px;
-        }
-    }
-    .second-col .playback {
-        dt,
-        dd,
-        p {
-            font-size: 19px;
-            @media screen and (max-width:$device-small) {
-                font-size: 16px;
-            }
         }
     }
     .info-notice .playback {
