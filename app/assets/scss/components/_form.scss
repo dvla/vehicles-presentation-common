@@ -352,7 +352,7 @@
             @media screen and (min-width: $device-small) {
                 float: left;
                 text-align: left;
-                padding: .8em 0;
+                padding:0;
             }
             .ie7 & {
                 display: inline-block;
