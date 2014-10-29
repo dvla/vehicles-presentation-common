@@ -274,14 +274,14 @@ $is-print: false !default;
 @mixin heading-36($tabular-numbers: false) {
     @include core-36($tabular-numbers: $tabular-numbers);
     padding-top: 0.225em;
-    margin: 0;
+    margin: 0 0 1em 0;
 }
 
 @mixin heading-27($tabular-numbers: false) {
     @include core-27($tabular-numbers: $tabular-numbers);
     padding-top: 0.225em;
     padding-bottom: 0;
-    margin: 0 0 1em 0;
+    margin: 0;
 }
 
 @mixin heading-24($tabular-numbers: false) {
