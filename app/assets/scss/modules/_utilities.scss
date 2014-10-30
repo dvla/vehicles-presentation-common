@@ -23,7 +23,7 @@
     }
 }
 
-//CSS for hiding elements visually but not for screen readers
+//hide elements visually but not for screen readers
 @mixin sr-only {
     position: absolute;
     top: 0;
@@ -32,6 +32,23 @@
 
 @mixin to-uppercase {
     text-transform: uppercase;
+}
+
+@mixin h1-typography {
+    @include heading-27;
+    font: {
+        weight: bold;
+        size: 25px;
+    }
+    padding-bottom: 24px;
+    @media screen and (min-width:$device-small) {
+        @include heading-36;
+        font-weight: bold;
+        padding-bottom: 0;
+    }
+    @media screen and (min-width:$device-medium) {
+        padding-bottom: 24px;
+    }
 }
 
 //prevent long text from breaking out of container. see:

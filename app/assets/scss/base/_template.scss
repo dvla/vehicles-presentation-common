@@ -95,20 +95,7 @@ button {
     }
 
     h1 {
-        @include heading-27;
-        font: {
-            weight: bold;
-            size: 25px;
-        }
-        padding-bottom: 24px;
-        @media screen and (min-width:$device-small) {
-            @include heading-36;
-            font-weight: bold;
-            padding-bottom: 0;
-        }
-        @media screen and (min-width:$device-medium) {
-            padding-bottom: 24px;
-        }
+        @include h1-typography;
     }
 
     h2 {
@@ -118,6 +105,9 @@ button {
         .ie & {
             font-size: 24px;
         }
+    }
+    h2.page-title {
+        @include h1-typography;
     }
 
     p {
