@@ -298,6 +298,10 @@
         .step {
             display:inline-block;
             vertical-align:top;
+            //failsafe to prevent overlapping issue
+            .ie8 & {
+                border: solid 1px $white;
+            }
             @media screen and (max-width: $device-small) {
                 display:block;
                 width:100%;
@@ -341,6 +345,10 @@
           @media screen and (max-width: $device-small) {
             padding-left:0;
             padding-right:0;
+          }
+          //failsafe to prevent overlapping issue
+          .ie8 & {
+                border: solid 1px $white;
           }
         }
         .exit,
