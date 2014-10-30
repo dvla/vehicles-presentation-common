@@ -176,13 +176,21 @@ button {
 
     .mobile-only {
         @media screen and (min-width:$device-medium) {
-            display:none;
+            display: none;
+        }
+        .ie8 &,
+        .ie7 & {
+            display: none;
         }
     }
     .desktop-only {
-        display:none;
+        display: none;
         @media screen and (min-width:$device-medium) {
-            display:block;
+            display: block;
+        }
+        .ie8 &,
+        .ie7 & {
+            display: block;
         }
     }
 
