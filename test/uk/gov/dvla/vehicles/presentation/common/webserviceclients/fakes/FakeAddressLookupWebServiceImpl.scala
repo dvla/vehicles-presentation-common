@@ -18,7 +18,7 @@ import uk.gov.dvla.vehicles.presentation.common.webserviceclients.fakes.FakeAddr
 
 final class FakeAddressLookupWebServiceImpl(responseOfPostcodeWebService: Future[WSResponse],
                                             responseOfUprnWebService: Future[WSResponse]) extends AddressLookupWebService {
-  override def callPostcodeWebService(postcode: String, trackingId: String)
+  override def callPostcodeWebService(postcode: String, trackingId: String, showBusinessName: Option[Boolean] = None)
                                      (implicit lang: Lang): Future[WSResponse] =
     if (postcode == PostcodeWithoutAddresses.toUpperCase) Future {
       FakeResponse(status = OK, fakeJson = None)

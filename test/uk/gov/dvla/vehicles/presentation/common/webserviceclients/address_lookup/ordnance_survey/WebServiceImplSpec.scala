@@ -41,7 +41,7 @@ final class WebServiceImplSpec extends UnitSpec  with WireMockFixture {
     "send the trackingId to the PostcodeWebService" in new WithApplication {
       val postCode = "N193NN"
 
-      val futureResult = addressLookupService.callPostcodeWebService(postCode, trackingIdValue)(lang = Lang("en"))
+      val futureResult = addressLookupService.callPostcodeWebService(postCode, trackingIdValue, showBusinessName = None)(lang = Lang("en"))
 
       whenReady(futureResult, timeout, interval) { result =>
         wireMock.verifyThat(1, getRequestedFor(
