@@ -20,7 +20,7 @@ final class AddressLookupServiceImpl @Inject()(ws: AddressLookupWebService)
       case e: Throwable => Seq.empty //  return empty seq given invalid json
     }
 
-  override def fetchAddressesForPostcode(postcode: String, trackingId: String)
+  override def fetchAddressesForPostcode(postcode: String, trackingId: String, showBusinessName: Option[Boolean] = None)
                                         (implicit lang: Lang): Future[Seq[(String, String)]] = {
     def sort(addresses: Seq[Address]): Seq[Address] = {
       addresses.sortBy(addressDpa => {
@@ -37,7 +37,7 @@ final class AddressLookupServiceImpl @Inject()(ws: AddressLookupWebService)
       // Sort before translating to drop down format.
     }
 
-    ws.callPostcodeWebService(postcode, trackingId).map {
+    ws.callPostcodeWebService(postcode, trackingId, showBusinessName).map {
       resp =>
         Logger.debug(s"Http response code from GDS postcode lookup service was: ${ resp.status }")
         if (resp.status == play.api.http.Status.OK) toDropDown(resp)

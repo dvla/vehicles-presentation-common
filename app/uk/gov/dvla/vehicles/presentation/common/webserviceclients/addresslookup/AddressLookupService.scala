@@ -6,7 +6,7 @@ import scala.concurrent.Future
 
 trait AddressLookupService {
 
-  def fetchAddressesForPostcode(postcode: String, trackingId: String)
+  def fetchAddressesForPostcode(postcode: String, trackingId: String, showBusinessName: Option[Boolean] = None)
                                (implicit lang: Lang): Future[Seq[(String, String)]]
 
   def fetchAddressForUprn(uprn: String, trackingId: String)
