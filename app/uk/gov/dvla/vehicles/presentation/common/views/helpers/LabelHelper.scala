@@ -9,4 +9,7 @@ object LabelHelper {
     if (args.contains('_label)) args('_label).toString
     else id
   }
+
+  val optionalFieldKey = Symbol("OptionalFieldKey")
+
 }
