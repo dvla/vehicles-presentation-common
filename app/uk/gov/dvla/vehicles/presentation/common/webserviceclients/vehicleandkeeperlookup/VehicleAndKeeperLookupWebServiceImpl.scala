@@ -1,4 +1,4 @@
-package webserviceclients.vehicleandkeeperlookup
+package uk.gov.dvla.vehicles.presentation.common.webserviceclients.vehicleandkeeperlookup
 
 import com.google.inject.Inject
 import play.api.Logger

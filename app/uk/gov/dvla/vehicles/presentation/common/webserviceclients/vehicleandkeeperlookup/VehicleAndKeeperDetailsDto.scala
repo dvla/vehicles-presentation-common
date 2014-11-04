@@ -1,4 +1,4 @@
-package webserviceclients.vehicleandkeeperlookup
+package uk.gov.dvla.vehicles.presentation.common.webserviceclients.vehicleandkeeperlookup
 
 import org.joda.time.DateTime
 import play.api.libs.json.Json
