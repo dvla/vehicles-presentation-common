@@ -13,7 +13,7 @@ import scala.concurrent.ExecutionContext.Implicits.global
 
 final class AddressLookupServiceImpl @Inject()(ws: AddressLookupWebService) extends AddressLookupService {
 
-  override def fetchAddressesForPostcode(postcode: String, trackingId: String)
+  override def fetchAddressesForPostcode(postcode: String, trackingId: String, showBusinessName: Option[Boolean] = None)
                                         (implicit lang: Lang): Future[Seq[(String, String)]] = {
 
     def extractFromJson(resp: WSResponse): Option[PostcodeToAddressResponseDto] =
@@ -30,7 +30,7 @@ final class AddressLookupServiceImpl @Inject()(ws: AddressLookupWebService) exte
           Seq.empty// Exception case and empty seq case are treated the same in the UI
       }
 
-    ws.callPostcodeWebService(postcode, trackingId)(lang).map { resp =>
+    ws.callPostcodeWebService(postcode, trackingId, showBusinessName)(lang).map { resp =>
         Logger.debug(s"Http response code from Ordnance Survey postcode lookup service was: ${resp.status}")
         if (resp.status == play.api.http.Status.OK) toDropDown(resp)
         else Seq.empty // The service returned http code other than 200 OK

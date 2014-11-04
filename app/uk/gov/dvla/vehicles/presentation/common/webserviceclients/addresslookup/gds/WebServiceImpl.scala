@@ -18,7 +18,7 @@ final class WebServiceImpl @Inject()(config: GDSAddressLookupConfig) extends Add
   def postcodeWithNoSpaces(postcode: String): String = postcode.filter(_ != ' ')
 
   // request should look like    (GET, "/addresses?postcode=kt70ej").withHeaders(validAuthHeader)
-  override def callPostcodeWebService(postcode: String, trackingId: String)
+  override def callPostcodeWebService(postcode: String, trackingId: String, showBusinessName: Option[Boolean])
                                      (implicit lang: Lang): Future[WSResponse] = {
     val endPoint = s"$baseUrl/addresses?postcode=${ postcodeWithNoSpaces(postcode) }"
     Logger.debug(s"Calling GDS postcode lookup service on $endPoint...")
