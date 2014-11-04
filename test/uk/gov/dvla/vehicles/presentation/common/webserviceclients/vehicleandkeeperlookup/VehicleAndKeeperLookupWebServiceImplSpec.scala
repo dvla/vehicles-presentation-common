@@ -1,4 +1,4 @@
-package webserviceclients.vehicleandkeeperlookup
+package uk.gov.dvla.vehicles.presentation.common.webserviceclients.vehicleandkeeperlookup
 
 import com.github.tomakehurst.wiremock.client.WireMock.{equalTo, postRequestedFor, urlEqualTo}
 import uk.gov.dvla.vehicles.presentation.common.WithApplication
