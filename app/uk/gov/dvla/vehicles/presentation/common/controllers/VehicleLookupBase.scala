@@ -45,7 +45,7 @@ trait VehicleLookupBase extends Controller {
       case exception: Throwable =>
         Logger.error(
           s"Exception thrown by BruteForceService so for safety we won't let anyone through. " +
-            s"Exception ${exception.getStackTraceString}"
+            s"Exception ${exception.getStackTrace}"
         )
         Redirect(microServiceError)
     } map { result =>
@@ -73,7 +73,7 @@ trait VehicleLookupBase extends Controller {
       case VehicleFound(result) =>
         bruteForceService.reset(registrationNumber).onComplete {
           case Success(httpCode) => Logger.debug(s"Brute force reset was called - it returned httpCode: $httpCode")
-          case Failure(t) => Logger.error(s"Brute force reset failed: ${t.getStackTraceString}")
+          case Failure(t) => Logger.error(s"Brute force reset failed: ${t.getStackTrace}")
         }
         result
     } recover {

@@ -4,10 +4,9 @@ import org.joda.time.format.DateTimeFormat
 import org.joda.time.{DateTime, DateTimeZone}
 import play.api.mvc.{RequestHeader, Result, Results}
 import play.api.test.FakeRequest
-import play.twirl.api.{Html, Content, HtmlFormat}
+import play.twirl.api.{Html, HtmlFormat}
 import uk.gov.dvla.vehicles.presentation.common.UnitSpec
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClientSideSessionFactory
-import uk.gov.dvla.vehicles.presentation.common.filters.DateTimeZoneServiceImpl
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 import scala.language.existentials
