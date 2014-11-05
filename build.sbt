@@ -60,4 +60,4 @@ ScoverageSbtPlugin.ScoverageKeys.excludedPackages in ScoverageSbtPlugin.scoverag
 
 CoverallsPlugin.coverallsSettings
 
-
+sbt.Keys.fork in Test := false
