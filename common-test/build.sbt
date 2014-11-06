@@ -20,6 +20,8 @@ credentials += sbtCredentials
 
 licenses += ("MIT", url("http://opensource.org/licenses/MIT"))
 
+crossScalaVersions := Seq("2.10.3", "2.11.4")
+
 lazy val root = project.in(file(".")).enablePlugins(PlayScala, SbtWeb)
 
 libraryDependencies ++= Seq(
