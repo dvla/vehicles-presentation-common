@@ -22,7 +22,7 @@ object TitlePickerString {
   def formatter = new Formatter[TitleType] {
     def bind(key: String, data: Map[String, String]): R = {
       data.getOrElse(s"$key.$TitleRadioKey", constructError(key, "error.title.unknownOption")) match {
-        case OtherTitleRadioValue.toString =>
+        case s: String if s == OtherTitleRadioValue.toString =>
           data.get(s"$key.$TitleTextKey") match {
             case Some(longTitle) if longTitle.length > MaxOtherTitleLength =>
               constructError(key, "error.title.tooLong")

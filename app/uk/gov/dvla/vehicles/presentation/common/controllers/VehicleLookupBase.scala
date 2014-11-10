@@ -90,7 +90,7 @@ trait VehicleLookupBase extends Controller {
 
 object VehicleLookupBase {
   sealed trait LookupResult
-  
+
   final case class VehicleNotFound(responseCode: String) extends LookupResult
 
   final case class VehicleFound(result: Result) extends LookupResult

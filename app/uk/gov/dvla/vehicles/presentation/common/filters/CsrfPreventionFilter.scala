@@ -51,7 +51,7 @@ class CsrfPreventionAction(next: EssentialAction)
 
   private def requestWithNewToken(requestHeader: RequestHeader) = {
     // No token in header and we have to create one if not found, so create a new token
-    val newToken = buildTokenWithUri(requestHeader.cookies.trackingId, requestHeader.uri)
+    val newToken = buildTokenWithUri(requestHeader.cookies.trackingId(), requestHeader.uri)
     val newEncryptedToken = aesEncryption.encrypt(newToken)
     val newSignedEncryptedToken = Crypto.signToken(newEncryptedToken)
     requestHeader.copy(tags = requestHeader.tags + (TokenName -> newSignedEncryptedToken))
@@ -83,7 +83,7 @@ class CsrfPreventionAction(next: EssentialAction)
           throw new CsrfPreventionException(new Throwable("Invalid or no token found in form body"))))
         val splitDecryptedExtractedSignedToken = split(decryptedExtractedSignedToken)
         val headerToken = buildTokenWithReferer(
-          requestHeader.cookies.trackingId,
+          requestHeader.cookies.trackingId(),
           requestHeader.headers
         )
         //TODO name the tuple parts accordingly instead of referencing it by number
@@ -103,7 +103,7 @@ class CsrfPreventionAction(next: EssentialAction)
       split(decryptedExtractedSignedToken)
     }
 
-    val trackingIdFromCookie = requestHeader.cookies.trackingId
+    val trackingIdFromCookie = requestHeader.cookies.trackingId()
     val refererFromCookie = requestHeader.cookies.getString(REFERER).getOrElse(
         throw new CsrfPreventionException(new Throwable("No REFERER found in cookies"))
       )
@@ -129,7 +129,7 @@ object CsrfPreventionAction {
       CsrfPreventionToken(
         Crypto.signToken(
           aesEncryption.encrypt(
-            buildTokenWithUri(request.cookies.trackingId, request.uri)
+            buildTokenWithUri(request.cookies.trackingId(), request.uri)
           )
         )
       )

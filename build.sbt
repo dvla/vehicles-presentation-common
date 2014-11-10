@@ -19,6 +19,8 @@ credentials += sbtCredentials
 
 licenses += ("MIT", url("http://opensource.org/licenses/MIT"))
 
+crossScalaVersions := Seq("2.10.3", "2.11.4")
+
 val root = project.in(file(".")).enablePlugins(PlayScala, SbtWeb)
 
 val commonTests = project.in(file(testProjectName))
@@ -54,10 +56,10 @@ libraryDependencies ++= Seq(
   "com.github.tomakehurst" % "wiremock" % "1.46" % "test" withSources() withJavadoc() exclude("log4j", "log4j")
 )
 
-ScoverageSbtPlugin.instrumentSettings
+instrumentSettings
 
-ScoverageSbtPlugin.ScoverageKeys.excludedPackages in ScoverageSbtPlugin.scoverage := "<empty>;Reverse.*"
+ScoverageKeys.excludedPackages := "<empty>;Reverse.*"
 
 CoverallsPlugin.coverallsSettings
 
-
+sbt.Keys.fork in Test := false

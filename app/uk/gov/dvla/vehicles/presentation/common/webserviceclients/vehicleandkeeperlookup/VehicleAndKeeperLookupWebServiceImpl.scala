@@ -20,7 +20,7 @@ final class VehicleAndKeeperLookupWebServiceImpl @Inject()(config: VehicleAndKee
     val vrm = LogFormats.anonymize(request.registrationNumber)
     val refNo = LogFormats.anonymize(request.referenceNumber)
 
-    Logger.debug(s"Calling vehicle and keeper lookup micro-service with request $refNo $vrm tracking id: $trackingId")
+    Logger.debug(s"Calling vehicle and keeper lookup micro-service ($endPoint) with request $refNo $vrm tracking id: $trackingId")
     WS.url(endPoint)
       .withHeaders(HttpHeaders.TrackingId -> trackingId)
       .post(Json.toJson(request))
