@@ -25,4 +25,7 @@ object AddressModel {
 
   def from(address: AddressAndPostcodeViewModel, postcode: String): AddressModel =
     AddressModel(address = address.toViewFormat(postcode))
+
+  def from(addressString: String): AddressModel =
+    AddressModel(uprn = None, address = addressString.split(",") map (line => line.trim))
 }
