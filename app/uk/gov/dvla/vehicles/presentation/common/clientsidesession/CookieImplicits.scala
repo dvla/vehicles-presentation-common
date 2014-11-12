@@ -1,8 +1,9 @@
 package uk.gov.dvla.vehicles.presentation.common.clientsidesession
 
 import play.api.data.Form
+import play.api.http.HeaderNames
 import play.api.libs.json.{Json, Reads, Writes}
-import play.api.mvc.{Cookie, DiscardingCookie, Request, Result}
+import play.api.mvc._
 
 /**
  * These are adapters that add cookie methods to a number of Play Framework classes.
@@ -80,6 +81,10 @@ object CookieImplicits {
       val cookieNames = keys.map(session.nameCookie)
       val discardingCookies = cookieNames.map(name => DiscardingCookie(name.value)).toSeq
       inner.discardingCookies(discardingCookies: _*)
+    }
+
+    def cookies: Map[String, Cookie] = {
+      Cookies(inner.header.headers.get(HeaderNames.SET_COOKIE)).cookies
     }
   }
 
