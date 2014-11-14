@@ -16,7 +16,7 @@ final class VehicleLookupServiceImpl @Inject()(ws: VehicleLookupWebService) exte
         resp.json.as[VehicleDetailsResponseDto]
       else throw new RuntimeException(
         s"Vehicle lookup web service call http status not OK, it " +
-        s"was: ${resp.status}. Problem may come from either vehicle lookup micro-service or the VSS"
+        s"was: ${resp.status}: ${resp.body}. Problem may come from either vehicle lookup micro-service or the VSS"
       )
     }.recover {
       case NonFatal(e) => throw new RuntimeException("Vehicle lookup call failed for an unknown reason", e)

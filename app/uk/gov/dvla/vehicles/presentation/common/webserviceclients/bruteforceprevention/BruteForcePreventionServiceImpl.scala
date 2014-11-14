@@ -41,7 +41,7 @@ final class BruteForcePreventionServiceImpl @Inject()(config: BruteForcePreventi
         resp.status match {
           case play.api.http.Status.OK => permitted()
           case play.api.http.Status.FORBIDDEN => returnedFuture.success(notPermitted)
-          case _ => returnedFuture.failure(new Exception("unknownPermission"))
+          case _ => returnedFuture.failure(new Exception(s"unknownPermission '${resp.status}: ${resp.body}'"))
         }
       }.recover {
         case e: Throwable =>

@@ -41,7 +41,10 @@ final class AddressLookupServiceImpl @Inject()(ws: AddressLookupWebService)
       resp =>
         Logger.debug(s"Http response code from GDS postcode lookup service was: ${ resp.status }")
         if (resp.status == play.api.http.Status.OK) toDropDown(resp)
-        else Seq.empty // The service returned http code other than 200 OK
+        else {
+          Logger.error(s"Post code service returned abnormally '${resp.status}: ${resp.body}'")
+          Seq.empty // The service returned http code other than 200 OK
+        }
     }.recover {
       case e: Throwable =>
         Logger.error(s"GDS postcode lookup service error: $e")
@@ -61,7 +64,10 @@ final class AddressLookupServiceImpl @Inject()(ws: AddressLookupWebService)
     ws.callUprnWebService(uprn, trackingId).map { resp =>
         Logger.debug(s"Http response code from GDS postcode lookup service was: ${ resp.status }")
         if (resp.status == play.api.http.Status.OK) toViewModel(resp)
-        else None
+        else {
+          Logger.error(s"UPRN service returned abnormally '${resp.status}: ${resp.body}'")
+          None
+        }
     }.recover {
       case e: Throwable =>
         Logger.error(s"GDS uprn lookup service error: $e")
