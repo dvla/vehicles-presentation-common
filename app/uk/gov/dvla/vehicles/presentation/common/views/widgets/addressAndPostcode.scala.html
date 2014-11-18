@@ -9,6 +9,7 @@
 <fieldset>
     @input(field,args.toSeq: _*){(id, name, value, htmlArgs) =>
         @addressLines(field(AddressLinesId),
-            args = Map('_label -> Messages("address.lines.label")))
+            args = args + ('_label -> Messages("address.lines.label"))
+        )
     }
 </fieldset>

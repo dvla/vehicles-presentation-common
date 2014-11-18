@@ -7,7 +7,6 @@
 @import _root_.views.html.helper.input
 
 @input(field,args.toSeq: _*){(id, name, value, htmlArgs) =>
-
 <legend>@valtechLabelText(field, args)</legend>
     <div id="@id">
         <div class="form-item">
@@ -42,13 +41,23 @@
         </div>
         <br>
         <div class="form-item post-town">
-            @valtechInputText(field(PostTownId),
-            args = Map(
-                '_label -> Messages("addressAndPostcode.addressLines.postTown"),
-                '_showConstraints -> false,
-                'maxLength -> LineMaxLength.toString,
-                //'title -> Messages("address.buildingNameOrNumber.label"),
-                'showErrors -> false))
+            @if(args.contains('_postTownMaxLength)) {
+                @valtechInputText(field(PostTownId),
+                args = Map(
+                    '_label -> Messages("addressAndPostcode.addressLines.postTown"),
+                    '_showConstraints -> false,
+                    'maxLength -> args('_postTownMaxLength),
+                    //'title -> Messages("address.buildingNameOrNumber.label"),
+                    'showErrors -> false))
+            } else {
+                @valtechInputText(field(PostTownId),
+                args = Map(
+                    '_label -> Messages("addressAndPostcode.addressLines.postTown"),
+                    '_showConstraints -> false,
+                    'maxLength -> LineMaxLength.toString,
+                    //'title -> Messages("address.buildingNameOrNumber.label"),
+                    'showErrors -> false))
+            }
         </div>
     </div>
 }
