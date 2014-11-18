@@ -40,13 +40,13 @@ object AddressLinesViewModel {
     final val PostTownMinLength = 3
     final val LineMaxLength = 30
 
-    def mapping: Mapping[AddressLinesViewModel] = play.api.data.Forms.mapping(
+    def mapping(postTownMaxLength: Int = LineMaxLength): Mapping[AddressLinesViewModel] = play.api.data.Forms.mapping(
       BuildingNameOrNumberId ->
         nonEmptyTextWithTransform(fieldTransform)(minLength = BuildingNameOrNumberMinLength, maxLength = LineMaxLength),
       Line2Id -> optional(textWithTransform(fieldTransform)(maxLength = LineMaxLength)),
       Line3Id -> optional(textWithTransform(fieldTransform)(maxLength = LineMaxLength)),
       Line4Id -> optional(textWithTransform(fieldTransform)(maxLength = LineMaxLength)),
-      PostTownId -> nonEmptyTextWithTransform(fieldTransform)(minLength = PostTownMinLength, maxLength = LineMaxLength)
+      PostTownId -> nonEmptyTextWithTransform(fieldTransform)(minLength = PostTownMinLength, maxLength = postTownMaxLength)
     )(AddressLinesViewModel.apply)(AddressLinesViewModel.unapply)
 
     private def fieldTransform(s: String) = trimNonWhiteListedChars("""[A-Za-z0-9]""")(s.toUpperCase)

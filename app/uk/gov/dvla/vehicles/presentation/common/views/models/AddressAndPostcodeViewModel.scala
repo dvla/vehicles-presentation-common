@@ -6,7 +6,7 @@ import play.api.data.validation.{Constraint, Invalid, Valid, ValidationError}
 import play.api.libs.json.Json
 import uk.gov.dvla.vehicles.presentation.common
 import common.clientsidesession.CacheKey
-import common.views.models.AddressLinesViewModel.Form.{AddressLinesId, mapping => addressLines}
+import common.views.models.AddressLinesViewModel.Form.{AddressLinesId, mapping => addressLinesMapping}
 import common.views.constraints.Required.RequiredField
 
 case class AddressAndPostcodeViewModel(uprn: Option[Int] = None, addressLinesModel: AddressLinesViewModel) {
@@ -22,10 +22,17 @@ object AddressAndPostcodeViewModel {
     final val UprnId = "uprn"
     final val MaxLengthOfLinesConcatenated = 120
 
+    // This is being left for backwards compatibility
     final val Mapping: Mapping[AddressAndPostcodeViewModel] = mapping(
       UprnId -> uprn,
-      AddressLinesId -> addressLines.verifying(validAddressLines)
+      AddressLinesId -> addressLinesMapping().verifying(validAddressLines)
     )(AddressAndPostcodeViewModel.apply)(AddressAndPostcodeViewModel.unapply)
+
+    def mappingWithCustomPostTownMaxLength(postTownMaxLength: Int): Mapping[AddressAndPostcodeViewModel] =
+      play.api.data.Forms.mapping(
+        UprnId -> uprn,
+        AddressLinesId -> addressLinesMapping(postTownMaxLength).verifying(validAddressLines)
+      )(AddressAndPostcodeViewModel.apply)(AddressAndPostcodeViewModel.unapply)
 
     private def uprn: Mapping[Option[Int]] = optional(number)
 
