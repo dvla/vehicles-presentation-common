@@ -18,7 +18,7 @@
         value="@value"
         @Html(
             if(htmlArgs.contains('typeTel)) """type=tel onkeyup="this.value=this.value.replace(/[^\d/]/g,'')" onkeydown="this.value=this.value.replace(/[^\d/]/g,'')" """
-            else if(htmlArgs.contains('typeFleetNumber)) """type=text onkeyup="this.value=this.value.replace(/[^\d/-]/g,'')" onkeydown="this.value=this.value.replace(/[^\d/-]/g,'')" """
+            else if(htmlArgs.contains('typeFleetNumber)) """type=tel onkeyup="this.value=this.value.replace(/[^\d/-]/g,'')" onkeydown="this.value=this.value.replace(/[^\d/-]/g,'')" """
             else if(htmlArgs.contains('typeEmail)) """type=email"""
             else if(htmlArgs.contains('alphabeticalOnly)) """type=text onkeyup="this.value=this.value.replace(/[^a-zA-Z]/g,'')" onkeydown="this.value=this.value.replace(/[^a-zA-Z]/g,'')"  """
             else """type=text"""
