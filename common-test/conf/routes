@@ -58,3 +58,5 @@ POST    /mileage                        @controllers.MileageController.submit
 
 GET     /title-picker                   @controllers.TitlePickerController.present
 POST    /title-picker                   @controllers.TitlePickerController.submit
+
+GET     /version                        @controllers.Version.version
