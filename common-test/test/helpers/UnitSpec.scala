@@ -1,6 +1,6 @@
 package helpers
 
-import composition.TestComposition
+import uk.gov.dvla.vehicles.presentation.common.composition.TestComposition
 import org.scalatest.concurrent.PatienceConfiguration.Timeout
 import org.scalatest.concurrent.ScalaFutures
 import org.scalatest.mock.MockitoSugar

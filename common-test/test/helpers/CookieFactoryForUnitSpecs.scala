@@ -1,6 +1,6 @@
 package helpers
 
-import composition.TestComposition
+import uk.gov.dvla.vehicles.presentation.common.composition.TestComposition
 import models.ValtechSelectModel
 import models.ValtechSelectModel.ValtechSelectModelCacheKey
 import models.ValtechRadioModel

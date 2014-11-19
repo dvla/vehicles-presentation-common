@@ -1,4 +1,4 @@
-package composition
+package uk.gov.dvla.vehicles.presentation.common.composition
 
 import com.tzavellas.sse.guice.ScalaModule
 import org.scalatest.mock.MockitoSugar
