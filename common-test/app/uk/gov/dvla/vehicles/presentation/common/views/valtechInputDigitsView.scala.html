@@ -1,0 +1,28 @@
+@(valtechInputDigitsForm: Form[uk.gov.dvla.vehicles.presentation.common.models.ValtechInputDigitsModel])(implicit lang: Lang)
+
+@import uk.gov.dvla.vehicles.presentation.common
+@import uk.gov.dvla.vehicles.presentation.common.models
+@import uk.gov.dvla.vehicles.presentation.common.controllers
+@import common.views.helpers.BaseTemplate.fieldConstructor
+@import common.views.html.widgets.base.valtechInputDigits
+@import models.ValtechInputDigitsModel.Form.MileageId
+@import views.html.helper.form
+
+@main(
+    title = Messages("valtechInputDigits.pageTitle"),
+    currentForm = Some(valtechInputDigitsForm)
+) {
+    @form(action = controllers.routes.ValtechInputDigitsController.submit) {
+        @*  hintText = Some(Messages("valtechInputDigits.hint")), *@
+        @valtechInputDigits(valtechInputDigitsForm(MileageId),
+            args =  Map('_label -> Messages("valtechInputDigits.label"),
+                '_showConstraints -> false,
+                'autofocus -> true
+            )
+        )
+
+        <div class="form-steps">
+            <button id="submit" type="submit" name="action" class="button" aria-label="Next button">@Messages("valtechInputDigits.button")</button>
+        </div>
+    }
+}

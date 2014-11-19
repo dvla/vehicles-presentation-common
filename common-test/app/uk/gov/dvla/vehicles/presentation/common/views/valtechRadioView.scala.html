@@ -1,0 +1,35 @@
+@(valtechRadioForm: Form[uk.gov.dvla.vehicles.presentation.common.models.ValtechRadioModel])(implicit lang: Lang)
+
+@import uk.gov.dvla.vehicles.presentation.common
+@import uk.gov.dvla.vehicles.presentation.common.models
+@import uk.gov.dvla.vehicles.presentation.common.controllers
+@import uk.gov.dvla.vehicles.presentation.common.views
+@import common.views.helpers.BaseTemplate.fieldConstructor
+@import common.views.html.widgets.listRadioGroup
+@import models.ValtechRadioModel.Form.KeeperTypeId
+@import _root_.views.html.helper.form
+@import views.ValtechRadioView.{KeeperType_Private, KeeperType_Business}
+
+@main(
+    title = Messages("valtechRadio.pageTitle"),
+    currentForm = Some(valtechRadioForm)
+) {
+    @form(action = controllers.routes.ValtechRadioController.submit) {
+
+        @listRadioGroup(field = valtechRadioForm(KeeperTypeId),
+            args = Map(
+                'items -> Seq(
+                    KeeperType_Private  -> Messages("valtechRadio.private"),
+                    KeeperType_Business -> Messages("valtechRadio.business")
+                ),
+                'value -> KeeperType_Private, // The radio button that is checked when user first arrives on the page.
+                '_label -> Messages("valtechRadio.label"),
+                'autofocus -> true
+            )
+        )
+
+        <div class="form-steps">
+            <button id="submit" type="submit" name="action" class="button" aria-label="Next button">@Messages("valtechRadio.button")</button>
+        </div>
+    }
+}

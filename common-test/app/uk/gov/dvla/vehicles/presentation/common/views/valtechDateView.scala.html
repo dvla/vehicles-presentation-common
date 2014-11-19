@@ -1,0 +1,39 @@
+@(valtechDateForm: Form[uk.gov.dvla.vehicles.presentation.common.models.DateModel])(implicit lang: Lang)
+
+@import uk.gov.dvla.vehicles.presentation.common
+@import uk.gov.dvla.vehicles.presentation.common.models
+@import uk.gov.dvla.vehicles.presentation.common.controllers
+@import common.views.helpers.BaseTemplate.fieldConstructor
+@import common.views.html.widgets.dates.valtechDate
+@import views.html.helper.form
+
+@main(title = Messages("dateInput.pageTitle"),
+  currentForm = Some(valtechDateForm)) {
+  @form(action = controllers.routes.DateController.submit) {
+
+    @valtechDate(valtechDateForm(models.DateModel.Form.OptionalDateId), Messages("dateInput.label"),
+        args = Map(
+            '_showConstraints -> false,
+            'autofocus -> true
+        )
+    )
+
+    @valtechDate(valtechDateForm(models.DateModel.Form.DateId), Messages("dateInput.label"),
+        Some("Changed hint"),
+        args = Map(
+            '_label -> "A changed label",
+            '_showConstraints -> false
+        )
+    )
+
+    <div class="form-steps">
+        <button id="submit"
+                type="submit"
+                name="action"
+                class="button"
+                aria-label="Next button">
+            @Messages("valtechInputText.button")
+        </button>
+    </div>
+  }
+}

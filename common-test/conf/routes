@@ -9,54 +9,54 @@
 # Guice to provide the actual instance complete with its injected dependencies
 
 # Home page
-GET     /                               @controllers.Application.present
+GET     /                               @uk.gov.dvla.vehicles.presentation.common.controllers.Application.present
 
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file                   controllers.Assets.at(path="/public", file)
 
-GET     /valtech-input-text             @controllers.ValtechInputTextController.present
-POST    /valtech-input-text             @controllers.ValtechInputTextController.submit
+GET     /valtech-input-text             @uk.gov.dvla.vehicles.presentation.common.controllers.ValtechInputTextController.present
+POST    /valtech-input-text             @uk.gov.dvla.vehicles.presentation.common.controllers.ValtechInputTextController.submit
 
-GET     /valtech-declare-check          @controllers.ValtechDeclareCheckController.present
-POST    /valtech-declare-check          @controllers.ValtechDeclareCheckController.submit
+GET     /valtech-declare-check          @uk.gov.dvla.vehicles.presentation.common.controllers.ValtechDeclareCheckController.present
+POST    /valtech-declare-check          @uk.gov.dvla.vehicles.presentation.common.controllers.ValtechDeclareCheckController.submit
 
-GET     /valtech-select                 @controllers.ValtechSelectController.present
-POST    /valtech-select                 @controllers.ValtechSelectController.submit
+GET     /valtech-select                 @uk.gov.dvla.vehicles.presentation.common.controllers.ValtechSelectController.present
+POST    /valtech-select                 @uk.gov.dvla.vehicles.presentation.common.controllers.ValtechSelectController.submit
 
-GET     /postcode                       @controllers.PostcodeController.present
-POST    /postcode                       @controllers.PostcodeController.submit
+GET     /postcode                       @uk.gov.dvla.vehicles.presentation.common.controllers.PostcodeController.present
+POST    /postcode                       @uk.gov.dvla.vehicles.presentation.common.controllers.PostcodeController.submit
 
-GET     /valtech-input-day-month-year   @controllers.ValtechInputDayMonthYearController.present
-POST    /valtech-input-day-month-year   @controllers.ValtechInputDayMonthYearController.submit
+GET     /valtech-input-day-month-year   @uk.gov.dvla.vehicles.presentation.common.controllers.ValtechInputDayMonthYearController.present
+POST    /valtech-input-day-month-year   @uk.gov.dvla.vehicles.presentation.common.controllers.ValtechInputDayMonthYearController.submit
 
-GET     /valtech-input-day-month-year-textbox   @controllers.ValtechInputDayMonthYearTextboxController.present
-POST    /valtech-input-day-month-year-textbox   @controllers.ValtechInputDayMonthYearTextboxController.submit
+GET     /valtech-input-day-month-year-textbox   @uk.gov.dvla.vehicles.presentation.common.controllers.ValtechInputDayMonthYearTextboxController.present
+POST    /valtech-input-day-month-year-textbox   @uk.gov.dvla.vehicles.presentation.common.controllers.ValtechInputDayMonthYearTextboxController.submit
 
-GET     /v5c-registration-number        @controllers.V5cRegistrationNumberController.present
-POST    /v5c-registration-number        @controllers.V5cRegistrationNumberController.submit
+GET     /v5c-registration-number        @uk.gov.dvla.vehicles.presentation.common.controllers.V5cRegistrationNumberController.present
+POST    /v5c-registration-number        @uk.gov.dvla.vehicles.presentation.common.controllers.V5cRegistrationNumberController.submit
 
-GET     /valtech-input-digits           @controllers.ValtechInputDigitsController.present
-POST    /valtech-input-digits           @controllers.ValtechInputDigitsController.submit
+GET     /valtech-input-digits           @uk.gov.dvla.vehicles.presentation.common.controllers.ValtechInputDigitsController.present
+POST    /valtech-input-digits           @uk.gov.dvla.vehicles.presentation.common.controllers.ValtechInputDigitsController.submit
 
-GET     /valtech-radio                  @controllers.ValtechRadioController.present
-POST    /valtech-radio                  @controllers.ValtechRadioController.submit
+GET     /valtech-radio                  @uk.gov.dvla.vehicles.presentation.common.controllers.ValtechRadioController.present
+POST    /valtech-radio                  @uk.gov.dvla.vehicles.presentation.common.controllers.ValtechRadioController.submit
 
-GET     /email                          @controllers.EmailController.present
-POST    /email                          @controllers.EmailController.submit
+GET     /email                          @uk.gov.dvla.vehicles.presentation.common.controllers.EmailController.present
+POST    /email                          @uk.gov.dvla.vehicles.presentation.common.controllers.EmailController.submit
 
-GET     /business-name                  @controllers.BusinessNameController.present
-POST    /business-name                  @controllers.BusinessNameController.submit
+GET     /business-name                  @uk.gov.dvla.vehicles.presentation.common.controllers.BusinessNameController.present
+POST    /business-name                  @uk.gov.dvla.vehicles.presentation.common.controllers.BusinessNameController.submit
 
-GET     /date                           @controllers.DateController.present
-POST    /date                           @controllers.DateController.submit
+GET     /date                           @uk.gov.dvla.vehicles.presentation.common.controllers.DateController.present
+POST    /date                           @uk.gov.dvla.vehicles.presentation.common.controllers.DateController.submit
 
-GET     /date-of-sale                   @controllers.DateOfSaleController.present
-POST    /date-of-sale                   @controllers.DateOfSaleController.submit
+GET     /date-of-sale                   @uk.gov.dvla.vehicles.presentation.common.controllers.DateOfSaleController.present
+POST    /date-of-sale                   @uk.gov.dvla.vehicles.presentation.common.controllers.DateOfSaleController.submit
 
-GET     /mileage                        @controllers.MileageController.present
-POST    /mileage                        @controllers.MileageController.submit
+GET     /mileage                        @uk.gov.dvla.vehicles.presentation.common.controllers.MileageController.present
+POST    /mileage                        @uk.gov.dvla.vehicles.presentation.common.controllers.MileageController.submit
 
-GET     /title-picker                   @controllers.TitlePickerController.present
-POST    /title-picker                   @controllers.TitlePickerController.submit
+GET     /title-picker                   @uk.gov.dvla.vehicles.presentation.common.controllers.TitlePickerController.present
+POST    /title-picker                   @uk.gov.dvla.vehicles.presentation.common.controllers.TitlePickerController.submit
 
-GET     /version                        @controllers.Version.version
+GET     /version                        @uk.gov.dvla.vehicles.presentation.common.controllers.VersionControllerTest.version
