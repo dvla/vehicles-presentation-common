@@ -56,3 +56,5 @@ sbt.Keys.fork in Test := false
 
 // Disable documentation generation to save time for the CI build process
 sources in doc in Compile := List()
+
+publishArtifact in (Test, packageBin) := true
