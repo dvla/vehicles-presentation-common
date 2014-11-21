@@ -33,15 +33,15 @@ class EnsureServiceOpenFilterSpec extends UnitSpec {
   "Return True for a timezone time falling within opening hours, and False for a time in another timezone falling outside opening hours" in {
     setUpInHours ((setup: SetUp) => {
         setup.filter.serviceOpen() should equal(true)
-    }, new DateTimeZoneServiceImpl)
-
-    val nonDefaultTimeZoneService = new DateTimeZoneService {
-      override def currentDateTimeZone: DateTimeZone = DateTimeZone.forOffsetHours(outOfHoursOffset(inHoursOffset))
-    }
+    }, new DateTimeZoneService {
+      override def currentDateTimeZone: DateTimeZone = DateTimeZone.forOffsetHours(inHoursOffset)
+    })
 
     setUpInHours ((setup: SetUp) => {
         setup.filter.serviceOpen() should equal(false)
-    }, nonDefaultTimeZoneService)
+    }, new DateTimeZoneService {
+      override def currentDateTimeZone: DateTimeZone = DateTimeZone.forOffsetHours(outOfHoursOffset)
+    })
   }
 
   "Return a null next filter request if trying to access the service out of hours" in {
@@ -75,18 +75,17 @@ class EnsureServiceOpenFilterSpec extends UnitSpec {
 
   private def inHoursOffset: Int = {
     val formatter = DateTimeFormat.forPattern("dd/MM/yyyy HH:mm:ss")
-    val targetDateTime = formatter.parseDateTime("01/01/2014 11:30:30")
-    val currentDateTime = new DateTime(dateTimeService.currentDateTimeZone)
-
-    - (currentDateTime.hourOfDay.get() - targetDateTime.getHourOfDay)
+    timezoneOffset(formatter.parseDateTime("01/01/2014 11:30:30"))
   }
 
-  private def outOfHoursOffset (inHoursOffset: Int): Int = {
-    if (inHoursOffset > 0) {
-      inHoursOffset - 12
-    } else {
-      inHoursOffset + 12
-    }
+  private def outOfHoursOffset: Int = {
+    val formatter = DateTimeFormat.forPattern("dd/MM/yyyy HH:mm:ss")
+    timezoneOffset(formatter.parseDateTime("01/01/2014 21:30:30"))
+  }
+
+  private def timezoneOffset(targetDateTime: DateTime): Int = {
+    val currentDateTime = new DateTime(dateTimeService.currentDateTimeZone)
+    - (currentDateTime.hourOfDay.get() - targetDateTime.getHourOfDay)
   }
 
   private case class SetUp(filter: EnsureServiceOpenFilter,
