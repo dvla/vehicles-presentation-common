@@ -14,7 +14,7 @@ class VersionIntegrationSpec extends UiSpec with TestHarness {
       go.to(VersionPage)
       val t = fromInputStream(getClass.getResourceAsStream("/build-details.txt")).getLines().toList
 
-      page.source.lines should contain allOf(t.head, t.tail.head, t.tail.tail)
+      page.source.lines.toSeq should contain allOf(t.head, t.tail.head, t.tail.tail.toSeq:_*)
     }
   }
 }
