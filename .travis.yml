@@ -1,21 +1,19 @@
 language: scala
-
 before_install:
- - echo "Installing sass dependency..."
- - gem install sass --version 3.2.13
- - echo "Done."
-
+- echo "Installing sass dependency..."
+- gem install sass --version 3.2.13
+- echo "Done."
 after_success:
-  - sbt bintrayCredentials publish
-
+- sbt bintrayCredentials publish
 scala:
-  - 2.10.4
-
+- 2.10.4
 jdk:
-  - oraclejdk7
-
+- oraclejdk7
 matrix:
   fast_finish: true
-
 notifications:
   email: false
+env:
+  global:
+  - secure: CFh+20bgek7x4/isHj57nLspPzdGQOF1/tFlXT4IRSk1NQ90zcp9qpFAnl0Ri8syZaWPmhJxHcF5ayBn0mNvdUZgwjgoy2PCj+5wCEttGVcn4NZMQxsz9sbKT3NHYuMsFsld/Fgdr8foJHaqe2MOSlFp6KedGkmYkumevqA5zOo=
+  - secure: E2jqDkqUZ4epUbJs9+3xcWdIw15drR3Ff7f3nhUZjjAtdjtbjkXmMtapZyEHvPE7AfQdrQNU8RRVdeJmQdfG9Iw+MZvw97hZUqGcd0Oa7wNHwl7Z1mTFH/UIk6ksccmENhJR2SlF/MscLyUtTp5xbff+KOgoAFU+SAj7Ci1HzOw=
