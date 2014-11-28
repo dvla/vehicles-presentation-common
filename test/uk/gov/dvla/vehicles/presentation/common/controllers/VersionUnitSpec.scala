@@ -3,6 +3,9 @@ package uk.gov.dvla.vehicles.presentation.common.controllers
 import java.io.ByteArrayInputStream
 import java.net.URL
 
+import com.github.tomakehurst.wiremock.client.MappingBuilder
+import play.api.test.Helpers.{BAD_REQUEST, LOCATION, OK, SET_COOKIE, contentAsString, defaultAwaitTimeout}
+import com.github.tomakehurst.wiremock.http.RequestMethod
 import org.apache.commons.io.{FileUtils, IOUtils}
 import org.mockito.Mockito.when
 import org.scalatest.BeforeAndAfterAll
@@ -10,12 +13,14 @@ import play.api.libs.Files.TemporaryFile
 import play.api.mvc.Result
 import play.api.test.FakeRequest
 import play.api.test.Helpers._
-import uk.gov.dvla.vehicles.presentation.common.UnitSpec
+import uk.gov.dvla.vehicles.presentation.common.{WithApplication, UnitSpec}
 
 import scala.concurrent.Future
 import scala.tools.nsc.util.ScalaClassLoader.URLClassLoader
+import org.scalatest.concurrent.Futures
+import uk.gov.dvla.vehicles.presentation.common.testhelpers.WireMockFixture
 
-class VersionUnitSpec extends UnitSpec with BeforeAndAfterAll {
+class VersionUnitSpec extends UnitSpec with BeforeAndAfterAll with WireMockFixture {
   val buildTimeDetails = "Build time details"
   val tmpFile = java.io.File.createTempFile("VersionUnitSpecTmpFile", "tmp")
 
@@ -66,6 +71,34 @@ class VersionUnitSpec extends UnitSpec with BeforeAndAfterAll {
 
       resultContent should include("No build details /build-details.txt")
       resultContent should include("Runtime Java:")
+    }
+
+    "fetch the version strings from microservices" in new WithApplication {
+      import com.github.tomakehurst.wiremock.client.WireMock.{get, urlEqualTo, aResponse}
+      wireMock.register(get(urlEqualTo("/version1")).willReturn(aResponse().withBody("version1-body")))
+      wireMock.register(get(urlEqualTo("/version2")).willReturn(aResponse().withBody("version2-body")))
+      wireMock.register(get(urlEqualTo("/version3")).willReturn(aResponse().withBody("version3-body")))
+
+      val versionController = new Version(
+        s"http://localhost:$wireMockPort/version1",
+        s"http://localhost:$wireMockPort/version2",
+        s"http://localhost:$wireMockPort/version3"
+      )
+
+      val versionString = contentAsString(versionController.version(FakeRequest()))
+      versionString should include("version1-body")
+      versionString should include("version2-body")
+      versionString should include("version2-body")
+    }
+
+    "fetch the version strings from not existing url" in new WithApplication {
+      val versionController = new Version("http://localhost:36234/test", "http://localhost:36234/test2")
+      val versionString = contentAsString(versionController.version(FakeRequest()))
+      println(versionString)
+
+      versionString should include("http://localhost:36234/test")
+      versionString should include("http://localhost:36234/test2")
+      versionString should include("NettyConnectListener")
     }
   }
 }

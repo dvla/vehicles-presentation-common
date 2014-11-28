@@ -10,6 +10,7 @@ import play.api.Play.current
 import ExecutionContext.Implicits.global
 import views.html.widgets.{version => versionWidget}
 import Future.sequence
+import scala.util.control.NonFatal
 
 class Version(msVersionUrls: String*) extends Controller {
 
@@ -21,17 +22,23 @@ class Version(msVersionUrls: String*) extends Controller {
       }
 
     def result(msVersions: Seq[String]) = Ok(
-      versionWidget(s"""$buildDetails
+//      versionWidget(
+        s"""$buildDetails
          |Running as: ${prop("user.name")}@${java.net.InetAddress.getLocalHost.getHostName}
          |Runtime OS: ${prop("os.name")}-${prop("os.version")}
          |Runtime Java: ${prop("java.version")} ${prop("java.vendor")}
          |
-         |${msVersions.foldLeft("")((result, version) => result + version + "\n\n")}
+         |==========================================================
+         |
+         |${msVersions.foldLeft("")((result, version) => result + version + "\n----------------------------------------------------------\n")}
        """.stripMargin
-    ))
+//    )
+    )
 
-    sequence(
-      msVersionUrls.map(WS.url(_).get().map(_.body))
-    ) map result
+    def fetchVersion(url: String) = WS.url(url).get().map(_.body) recover {
+      case NonFatal(e) => s"Cannot fetch version from url $url because of\n${e.getStackTraceString}"
+    }
+
+    sequence(msVersionUrls map fetchVersion) map result
   }
 }

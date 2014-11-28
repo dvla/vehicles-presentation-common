@@ -20,6 +20,10 @@ final class VehicleAndKeeperLookupWebServiceImpl @Inject()(config: VehicleAndKee
     val vrm = LogFormats.anonymize(request.registrationNumber)
     val refNo = LogFormats.anonymize(request.referenceNumber)
 
+    def a(implicit app: play.api.Application) = s"Application play is : $app"
+
+    println(a)
+
     Logger.debug(s"Calling vehicle and keeper lookup micro-service ($endPoint) with request $refNo $vrm tracking id: $trackingId")
     WS.url(endPoint)
       .withHeaders(HttpHeaders.TrackingId -> trackingId)

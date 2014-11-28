@@ -22,6 +22,7 @@ trait WireMockFixture extends Suite with SuiteMixin with BeforeAndAfterEach {
   var wireMock: WireMock = _
 
   override def beforeEach() {
+    super.beforeEach()
     wireMock = new WireMock("localhost", wireMockPort)
     wireMockServer.start()
   }
@@ -29,6 +30,7 @@ trait WireMockFixture extends Suite with SuiteMixin with BeforeAndAfterEach {
   override def afterEach() {
     wireMock.resetMappings()
     wireMockServer.stop()
+    super.afterEach()
   }
 
   val wireMockServer = new WireMockServer(wireMockConfig().port(wireMockPort))
