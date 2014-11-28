@@ -1,6 +1,7 @@
 package uk.gov.dvla.vehicles.presentation.common.webserviceclients.vehicleandkeeperlookup
 
 import com.github.tomakehurst.wiremock.client.WireMock.{equalTo, postRequestedFor, urlEqualTo}
+import org.joda.time.DateTime
 import uk.gov.dvla.vehicles.presentation.common.WithApplication
 
 import play.api.libs.json.Json
@@ -32,7 +33,8 @@ final class VehicleAndKeeperLookupWebServiceImplSpec extends UnitSpec with WireM
 
   private val request = VehicleAndKeeperDetailsRequest(
     referenceNumber = "ref number",
-    registrationNumber = "reg number"
+    registrationNumber = "reg number",
+    transactionTimestamp = new DateTime
   )
 
   private implicit val vehicleAndKeeperDetailsFormat = Json.format[VehicleAndKeeperDetailsRequest]
