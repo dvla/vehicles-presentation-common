@@ -1,13 +1,22 @@
 package uk.gov.dvla.vehicles.presentation.common.webserviceclients.vehicleandkeeperlookup
 
 import org.joda.time.DateTime
-import play.api.libs.json.Json
+import org.joda.time.format.ISODateTimeFormat
+import play.api.libs.json.{JsString, JsValue, Writes, Json}
 
 final case class VehicleAndKeeperDetailsRequest(referenceNumber: String,
                                                 registrationNumber: String,
                                                 transactionTimestamp: DateTime)
 
 object VehicleAndKeeperDetailsRequest {
+
+  // Handles this type of formatted string 2014-03-04T00:00:00.000Z
+  implicit val jodaISODateWrites: Writes[DateTime] = new Writes[DateTime] {
+    override def writes(dateTime: DateTime): JsValue = {
+      val formatter = ISODateTimeFormat.dateTime
+      JsString(formatter.print(dateTime))
+    }
+  }
 
   implicit val JsonFormat = Json.format[VehicleAndKeeperDetailsRequest]
 
