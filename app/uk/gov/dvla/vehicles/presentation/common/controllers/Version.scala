@@ -1,5 +1,7 @@
 package uk.gov.dvla.vehicles.presentation.common.controllers
 
+import java.net.URL
+
 import play.api.libs.ws.WS
 import play.api.mvc.{Action, Controller}
 
@@ -10,6 +12,7 @@ import play.api.Play.current
 import ExecutionContext.Implicits.global
 import views.html.widgets.{version => versionWidget}
 import Future.sequence
+import scala.util.{Failure, Success, Try}
 import scala.util.control.NonFatal
 
 class Version(msVersionUrls: String*) extends Controller {
@@ -35,8 +38,34 @@ class Version(msVersionUrls: String*) extends Controller {
 //    )
     )
 
-    def fetchVersion(url: String) = WS.url(url).get().map(_.body) recover {
-      case NonFatal(e) => s"Cannot fetch version from url $url because of\n${e.getStackTraceString}"
+    def fetchVersion(url: String) = {
+//      try {
+//        new URL(url)// validates
+//        WS.url(url).get().map(_.body) recover {
+//          case NonFatal(e) => s"Cannot fetch version from url $url because of\n${e.getStackTraceString}"
+//        }
+//      } catch {
+//        case NonFatal(t) =>
+//          Future.successful(s"Cannot parse the given version url: $url . The error is : ${t.getStackTraceString}")
+//      }
+
+      Try(new URL(url)).map(_.toURI.toString) match {
+        case Success(validUrl) =>
+          WS.url(validUrl).get().map(_.body) recover {
+            case NonFatal(e) => s"Cannot fetch version from url $validUrl because of\n${e.getStackTraceString}"
+          }
+        case Failure(t) =>
+          Future.successful(s"Cannot parse the given version url: $url . The error is : ${t.getStackTraceString}")
+      }
+
+//      Try(new URL(url)).map(_.toURI.toString) map { validUrl =>
+//        WS.url(validUrl).get().map(_.body) recover {
+//          case NonFatal(e) => s"Cannot fetch version from url $validUrl because of\n${e.getStackTraceString}"
+//        }
+//      } recover {
+//        case NonFatal(t) =>
+//          Future.successful(s"Cannot parse the given version url: $url . The error is : ${t.getStackTraceString}")
+//      }
     }
 
     sequence(msVersionUrls map fetchVersion) map result

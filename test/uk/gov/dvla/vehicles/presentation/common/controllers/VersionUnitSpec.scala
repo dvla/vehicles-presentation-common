@@ -94,11 +94,18 @@ class VersionUnitSpec extends UnitSpec with BeforeAndAfterAll with WireMockFixtu
     "fetch the version strings from not existing url" in new WithApplication {
       val versionController = new Version("http://localhost:36234/test", "http://localhost:36234/test2")
       val versionString = contentAsString(versionController.version(FakeRequest()))
-      println(versionString)
 
       versionString should include("http://localhost:36234/test")
       versionString should include("http://localhost:36234/test2")
       versionString should include("NettyConnectListener")
+    }
+
+    "fetch the version sting from a non parsing url" in new WithApplication {
+      val versionController = new Version("not parsing url 1", "not parsing url 2")
+      val versionString = contentAsString(versionController.version(FakeRequest()))
+
+      versionString should include("not parsing url 1")
+      versionString should include("not parsing url 2")
     }
   }
 }
