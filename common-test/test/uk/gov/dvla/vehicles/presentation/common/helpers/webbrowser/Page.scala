@@ -20,6 +20,6 @@
 package uk.gov.dvla.vehicles.presentation.common.helpers.webbrowser
 
 trait Page {
-  val url: String
+  def url: String
   val title: String
 }
