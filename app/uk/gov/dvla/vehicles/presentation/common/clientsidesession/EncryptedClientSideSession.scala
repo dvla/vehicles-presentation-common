@@ -10,13 +10,16 @@ class EncryptedClientSideSession(override val trackingId: String,
 
   override def nameCookie(key: String): CookieName = CookieName(cookieNameHashGenerator.hash(sessionSecretKey + key))
 
-  override def newCookie(name: CookieName, value: String): Cookie = {
+  override def newCookie(name: CookieName, value: String, key: String): Cookie = {
     val nameCoupledToValue = name.value + value
     val cipherText = encryption.encrypt(nameCoupledToValue)
     cookieFlags.applyToCookie(
-      Cookie(name = name.value, value = cipherText)
+      Cookie(name = name.value, value = cipherText),
+      key = key
     )
   }
+
+  override def newCookie(name: CookieName, value: String): Cookie = newCookie(name, value, key = "not-set")
 
   override def getCookieValue(cookie: Cookie): String = {
     val cookieName = cookie.name

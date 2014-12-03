@@ -25,7 +25,7 @@ final class EncryptedClientSideSessionSpec extends UnitSpec {
         new EncryptedClientSideSession("trackingId", SessionSecretKey)(noCookieFlags, noEncryption, noHashing)
       val cookieNameType = encryptedClientSideSession.nameCookie(CookieName)
       val value = "value"
-      val cookie = encryptedClientSideSession.newCookie(cookieNameType, value)
+      val cookie = encryptedClientSideSession.newCookie(cookieNameType, value, key = CookieName)
       cookie.value should equal(cookie.name + value)
     }
 
@@ -35,7 +35,7 @@ final class EncryptedClientSideSessionSpec extends UnitSpec {
         new EncryptedClientSideSession("trackingId", SessionSecretKey)(noCookieFlags, aesEncryption, sha1Hashing)
       val cookieNameType = encryptedClientSideSession.nameCookie(CookieName)
       val value = "value"
-      val cookie = encryptedClientSideSession.newCookie(cookieNameType, value)
+      val cookie = encryptedClientSideSession.newCookie(cookieNameType, value, key = CookieName)
       val valueFromCookie = encryptedClientSideSession.getCookieValue(cookie)
       valueFromCookie should equal(value)
     }
