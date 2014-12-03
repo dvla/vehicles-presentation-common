@@ -65,7 +65,7 @@ object CookieImplicits {
                    clientSideSessionFactory: ClientSideSessionFactory): Result = {
       val session = clientSideSessionFactory.getSession(request.cookies)
       val cookieName = session.nameCookie(key)
-      val cookie = session.newCookie(cookieName, value)
+      val cookie = session.newCookie(cookieName, value, key)
       inner.withCookies(cookie)
     }
 
