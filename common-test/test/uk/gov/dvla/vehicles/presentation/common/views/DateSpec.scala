@@ -1,7 +1,7 @@
 package uk.gov.dvla.vehicles.presentation.common.views
 
+import uk.gov.dvla.vehicles.presentation.common.composition.TestHarness
 import uk.gov.dvla.vehicles.presentation.common.helpers.UiSpec
-import uk.gov.dvla.vehicles.presentation.common.helpers.webbrowser.TestHarness
 import uk.gov.dvla.vehicles.presentation.common.pages
 
 import com.github.nscala_time.time.Imports.LocalDate

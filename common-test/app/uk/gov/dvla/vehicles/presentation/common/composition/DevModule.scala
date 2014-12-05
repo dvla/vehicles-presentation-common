@@ -14,7 +14,7 @@ import common.clientsidesession.{NoCookieFlags, CookieFlags, ClearTextClientSide
  *
  * Look in build.scala for where we import the sse-guice library
  */
-object DevModule extends ScalaModule {
+class DevModule extends ScalaModule {
   def configure() {
     bind[ClientSideSessionFactory].to[ClearTextClientSideSessionFactory].asEagerSingleton()
     bind[CookieFlags].to[NoCookieFlags].asEagerSingleton()

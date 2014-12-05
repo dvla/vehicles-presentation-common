@@ -20,20 +20,13 @@
 
 package uk.gov.dvla.vehicles.presentation.common.helpers.webbrowser
 
-import org.openqa.selenium.WebElement
-import org.openqa.selenium.Cookie
-import org.openqa.selenium.WebDriver
-import org.openqa.selenium.Alert
-import org.openqa.selenium.By
-import org.openqa.selenium.support.ui.Select
-import org.openqa.selenium.TakesScreenshot
-import org.openqa.selenium.OutputType
-import org.openqa.selenium.JavascriptExecutor
-import java.io.File
-import java.io.FileOutputStream
-import java.io.FileInputStream
+import java.io.{File, FileInputStream, FileOutputStream}
 import java.util.Date
 import java.util.concurrent.TimeUnit
+
+import org.openqa.selenium.support.ui.Select
+import org.openqa.selenium.{Alert, By, Cookie, JavascriptExecutor, OutputType, TakesScreenshot, WebDriver, WebElement}
+
 import scala.collection.JavaConverters.{asScalaBufferConverter, asScalaSetConverter}
 import scala.language.implicitConversions
 

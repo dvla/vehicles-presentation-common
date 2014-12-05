@@ -1,18 +1,15 @@
 package uk.gov.dvla.vehicles.presentation.common.controllers
 
-import uk.gov.dvla.vehicles.presentation.common.helpers.{WithApplication, UnitSpec}
-import uk.gov.dvla.vehicles.presentation.common.models
-
-import models.DateModel
-import models.DateModel.Key
 import org.joda.time.LocalDate
 import play.api.libs.json.{Json, Writes}
 import play.api.mvc.Cookie
 import play.api.test.FakeRequest
 import play.api.test.Helpers._
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClearTextClientSideSession
-import play.api.mvc.Cookie
-import scala.Some
+import uk.gov.dvla.vehicles.presentation.common.composition.WithTestApplication
+import uk.gov.dvla.vehicles.presentation.common.helpers.UnitSpec
+import uk.gov.dvla.vehicles.presentation.common.models.DateModel
+import uk.gov.dvla.vehicles.presentation.common.models.DateModel.Key
 
 
 class DateOfSaleControllerUnitSpec extends UnitSpec {
@@ -21,14 +18,14 @@ class DateOfSaleControllerUnitSpec extends UnitSpec {
   }
 
   "present" should {
-    "show an empty form when no cookie are found" in new WithApplication {
+    "show an empty form when no cookie are found" in new WithTestApplication {
       val request = FakeRequest()
       whenReady(dateOfSaleController.present(request)) {
         r => r.header.status should equal(OK)
       }
     }
 
-    "show a full form when cookie is found" in new WithApplication {
+    "show a full form when cookie is found" in new WithTestApplication {
       val value = DateModel(Some(new LocalDate(1234, 12, 24)), new LocalDate(1234, 12, 24))
 
       val request = FakeRequest()

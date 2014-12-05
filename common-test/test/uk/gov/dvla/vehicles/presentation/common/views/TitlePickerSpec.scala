@@ -1,10 +1,10 @@
 package uk.gov.dvla.vehicles.presentation.common.views
 
 import uk.gov.dvla.vehicles.presentation.common
+import uk.gov.dvla.vehicles.presentation.common.composition.TestHarness
 import uk.gov.dvla.vehicles.presentation.common.pages
 
 import common.helpers.UiSpec
-import common.helpers.webbrowser.TestHarness
 //import org.openqa.selenium.WebDriver
 import pages.{TitlePickerPage, ErrorPanel}
 import play.api.i18n.Messages

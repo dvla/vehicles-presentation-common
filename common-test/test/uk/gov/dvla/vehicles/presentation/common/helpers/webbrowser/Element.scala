@@ -20,8 +20,9 @@
 
 package uk.gov.dvla.vehicles.presentation.common.helpers.webbrowser
 
-import org.openqa.selenium.{By, WebDriver, WebElement}
 import org.openqa.selenium.support.ui.Select
+import org.openqa.selenium.{By, WebDriver, WebElement}
+
 import scala.collection.JavaConverters._
 
 trait Element {

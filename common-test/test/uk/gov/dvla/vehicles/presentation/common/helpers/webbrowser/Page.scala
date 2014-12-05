@@ -17,6 +17,7 @@
 /*
  * TODO Check for licensing issues as the code below is based on code found in Scalatest
  */
+
 package uk.gov.dvla.vehicles.presentation.common.helpers.webbrowser
 
 trait Page {

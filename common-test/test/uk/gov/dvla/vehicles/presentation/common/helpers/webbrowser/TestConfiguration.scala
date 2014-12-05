@@ -1,6 +1,5 @@
 package uk.gov.dvla.vehicles.presentation.common.helpers.webbrowser
 
-import org.specs2.execute.Result
 import play.api.Logger
 
 object TestConfiguration {
@@ -18,12 +17,12 @@ object TestConfiguration {
   }
 
   def testPort: Int = sys.props.get(TestPort)
-    .orElse(sys.env.get(environmentVariableName(TestPort)))
-    .getOrElse(DefaultTestPort).toInt
+      .orElse(sys.env.get(environmentVariableName(TestPort)))
+      .getOrElse(DefaultTestPort).toInt
 
-  def configureTestUrl(port: Int = testPort)(code: => Result): Result = {
+  def configureTestUrl[T](port: Int = testPort)(code: => T): T = {
     val value = s"http://localhost:$port/"
-    Logger.debug(s"configureTestUrl - Set system property $TestUrl to value $value")
+    Logger.debug(s"TestHarness - Set system property ${TestUrl} to value $value")
     sys.props += ((TestUrl, value))
     try code
     finally sys.props -= TestUrl
@@ -32,4 +31,3 @@ object TestConfiguration {
   // The environment variables have underscore instead of full stop
   private def environmentVariableName(systemProperty: String) : String = systemProperty.replace('.', '_')
 }
-

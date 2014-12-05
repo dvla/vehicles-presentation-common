@@ -1,22 +1,24 @@
 package uk.gov.dvla.vehicles.presentation.common.helpers.webbrowser
 
+import java.util.concurrent.TimeUnit
+
 import org.openqa.selenium.WebDriver
 import org.openqa.selenium.chrome.ChromeDriver
-import org.openqa.selenium.ie.InternetExplorerDriver
-import org.openqa.selenium.safari.SafariDriver
-import org.openqa.selenium.htmlunit.HtmlUnitDriver
 import org.openqa.selenium.firefox.{FirefoxDriver, FirefoxProfile}
+import org.openqa.selenium.htmlunit.HtmlUnitDriver
+import org.openqa.selenium.ie.InternetExplorerDriver
 import org.openqa.selenium.phantomjs.{PhantomJSDriver, PhantomJSDriverService}
 import org.openqa.selenium.remote.DesiredCapabilities
+import org.openqa.selenium.safari.SafariDriver
 import uk.gov.dvla.vehicles.presentation.common.ConfigProperties.getProperty
-
-import java.util.concurrent.TimeUnit
 
 object WebDriverFactory {
   private val systemProperties = System.getProperties
 
+  def browserType = getProperty("browser.type", "htmlunit")
+
   def webDriver: WebDriver = {
-    val targetBrowser = getProperty("browser.type", "htmlunit")
+    val targetBrowser = browserType
     webDriver(
       targetBrowser = targetBrowser,
       javascriptEnabled = false // Default to off.
@@ -42,24 +44,16 @@ object WebDriverFactory {
     selectedDriver
   }
 
-  def testRemote: Boolean = {
-    getProperty("test.remote", default = false)
+  def webDriver(javascriptEnabled: Boolean): WebDriver = {
+    webDriver(browserType, javascriptEnabled)
   }
 
-  def testUrl: String = {
-    if (testRemote) {
-      getProperty("test.url", "http://localhost:9000/")
-    }
-    else {
-      // Default if testing locally
-      new String("http://localhost:9001/")
-    }
-  }
+  def testUrl: String = TestConfiguration.testUrl
 
   private def chromeDriver = {
     systemProperties.setProperty(
       "webdriver.chrome.driver",
-      getProperty("webdriver.chrome.driver", s"test/resources/drivers/chromedriver-2.9_$driverSuffix"))
+      getProperty("webdriver.chrome.driver", s"test/resources/drivers/chromedriver"))
     new ChromeDriver()
   }
 

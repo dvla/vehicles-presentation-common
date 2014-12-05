@@ -1,11 +1,10 @@
 package uk.gov.dvla.vehicles.presentation.common.controllers
 
-import uk.gov.dvla.vehicles.presentation.common.models
-import uk.gov.dvla.vehicles.presentation.common
-import common.helpers.{CookieFactoryForUnitSpecs, UnitSpec, WithApplication}
 import play.api.test.FakeRequest
 import play.api.test.Helpers.{OK, contentAsString, defaultAwaitTimeout}
-import models.ValtechSelectModel.Form.{FirstOption, SecondOption}
+import uk.gov.dvla.vehicles.presentation.common.WithApplication
+import uk.gov.dvla.vehicles.presentation.common.helpers.{CookieFactoryForUnitSpecs, UnitSpec}
+import uk.gov.dvla.vehicles.presentation.common.models.ValtechSelectModel.Form.{FirstOption, SecondOption}
 
 final class ValtechSelectControllerUnitSpec extends UnitSpec {
 
