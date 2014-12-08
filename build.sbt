@@ -65,3 +65,5 @@ CoverallsPlugin.coverallsSettings
 net.virtualvoid.sbt.graph.Plugin.graphSettings
 
 sbt.Keys.fork in Test := false
+
+publishArtifact in (Test, packageBin) := true
