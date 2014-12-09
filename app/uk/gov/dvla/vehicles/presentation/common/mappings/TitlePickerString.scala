@@ -23,13 +23,15 @@ object TitlePickerString {
     def bind(key: String, data: Map[String, String]): R = {
       data.getOrElse(s"$key.$TitleRadioKey", constructError(key, "error.title.unknownOption")) match {
         case s: String if s == OtherTitleRadioValue.toString =>
-          data.get(s"$key.$TitleTextKey") match {
+          data.get(s"$key.$TitleTextKey").map(removeWhiteSpacesFromMiddle) match {
             case Some(longTitle) if longTitle.length > MaxOtherTitleLength =>
               constructError(key, "error.title.tooLong")
             case Some(emptyTitle) if emptyTitle.isEmpty =>
               constructError(key, "error.title.missing")
             case Some(title) =>
-              if (title.filterNot(Character.isAlphabetic(_)).isEmpty) constructSuccess(OtherTitleRadioValue, title)
+              if (title.filterNot(ch => Character.isAlphabetic(ch) || Character.isWhitespace(ch)).isEmpty) {
+                constructSuccess(OtherTitleRadioValue, title)
+              }
               else constructError(key, "error.title.illegalCharacters")
             case None => constructError(key, "error.title.missing")
           }
@@ -37,6 +39,17 @@ object TitlePickerString {
         case _ => constructError(key, "error.title.unknownOption")
       }
     }
+
+    /**
+     * Removes all the extra whitespaces and adds back one whitespace if the original text started with one.
+     * @param text the text to process
+     * @return a text with all the extra whitespaces stripped apart from the first one.
+     */
+    private def removeWhiteSpacesFromMiddle(text: String): String = text.headOption.foldLeft {
+        text.split(" ").filter("" != _).mkString(" ") } { (z, a) =>
+        if (a == ' ') a.toString ++ z else z
+      }
+
 
     private def constructError(key: String, errorKey: String) : R =
       Left(Seq[FormError](FormError(key, errorKey)))
