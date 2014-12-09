@@ -29,7 +29,8 @@ object TitlePickerString {
             case Some(emptyTitle) if emptyTitle.isEmpty =>
               constructError(key, "error.title.missing")
             case Some(title) =>
-              if (title.filterNot(ch => Character.isAlphabetic(ch) || Character.isWhitespace(ch)).isEmpty) {
+              if (title.filterNot(ch => Character.isAlphabetic(ch) || Character.isWhitespace(ch)).isEmpty &&
+                title != " ") {
                 constructSuccess(OtherTitleRadioValue, title)
               }
               else constructError(key, "error.title.illegalCharacters")
