@@ -17,4 +17,13 @@ object CookieHelper {
        case _ => fail("should be some maxAge")
      }
    }
+
+  def verifyCookieHasNotBeenDiscarded(cookieName: String, cookies: Seq[Cookie]) = {
+    // A discarded cookie is identified by a negative maxAge
+    val cookie = cookies.find(_.name == cookieName)
+    cookie.get.maxAge match {
+      case Some(maxAge) => fail("Should be no maxAge for a cookie that has not been discarded")
+      case None => //Success
+    }
+  }
  }
