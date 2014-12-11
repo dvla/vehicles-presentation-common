@@ -11,7 +11,7 @@ object TestConfiguration {
     Logger.debug(s"testUrl - Looking in for property $TestUrl in system props and environment vars...")
     val sysOrEnvProp = sys.props.get(TestUrl)
       .orElse(sys.env.get(environmentVariableName(TestUrl)))
-      .getOrElse(throw new RuntimeException(s"Error - cannot run tests. You need to configure property <$TestUrl>"))
+      .getOrElse(throw new RuntimeException(s"testUrl - Error: cannot run tests. You need to configure property <$TestUrl>"))
     Logger.debug(s"testUrl - Found property $TestUrl in system or environment properties, value = $sysOrEnvProp")
     sysOrEnvProp
   }
@@ -22,7 +22,7 @@ object TestConfiguration {
 
   def configureTestUrl[T](port: Int = testPort)(code: => T): T = {
     val value = s"http://localhost:$port/"
-    Logger.debug(s"TestHarness - Set system property ${TestUrl} to value $value")
+    Logger.debug(s"configureTestUrl - Set system property ${TestUrl} to value $value")
     sys.props += ((TestUrl, value))
     try code
     finally sys.props -= TestUrl
