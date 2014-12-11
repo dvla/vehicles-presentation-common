@@ -1,11 +1,16 @@
 package uk.gov.dvla.vehicles.presentation.common.filters
 
+import java.util.Locale
+
 import org.joda.time.format.DateTimeFormat
 import org.joda.time.{DateTime, DateTimeZone}
+import org.mockito.Mockito._
+import play.api.i18n.Messages
 import play.api.mvc.{RequestHeader, Result, Results}
 import play.api.test.FakeRequest
+import play.api.test.Helpers._
 import play.twirl.api.{Html, HtmlFormat}
-import uk.gov.dvla.vehicles.presentation.common.UnitSpec
+import uk.gov.dvla.vehicles.presentation.common.{WithApplication, UnitSpec}
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClientSideSessionFactory
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
@@ -64,6 +69,32 @@ class EnsureServiceOpenFilterSpec extends UnitSpec {
     }, dateTime)
   }
 
+  "The out of hours message contains the hours from the config" in new WithApplication {
+    val requestHeader = mock[RequestHeader]
+    when(requestHeader.path).thenReturn("some-test-path")
+    val next = (request:RequestHeader) => Future.successful[Result](throw new Exception("Should not come here"))
+    val dateTime = new DateTime()
+    setUpOutOfHours((setup: SetUp) => {
+      val result = setup.filter.apply(next)(requestHeader)
+      val resultString = contentAsString(result)
+      resultString should include(h(setup.opening))
+      resultString should include(h(setup.closing))
+    }, dateTime)
+
+    setUpOutOfHours((setup: SetUp) => {
+      val result = setup.filter.apply(next)(requestHeader)
+      val resultString = contentAsString(result)
+      resultString should include(h(setup.opening))
+      resultString should include(h(setup.closing))
+    }, dateTime, new DateTimeZoneService {
+      override def currentDateTimeZone = DateTimeZone.forID("Europe/London")
+    })
+
+    def h(hour: Long) =
+      DateTimeFormat.forPattern("HH:mm").withLocale(Locale.UK)
+        .print(new DateTime(hour * 3600000, DateTimeZone.forID("UTC"))).toLowerCase
+  }
+
   private class MockFilter extends ((RequestHeader) => Future[Result]) {
     var passedRequest: RequestHeader = _
 
@@ -91,7 +122,9 @@ class EnsureServiceOpenFilterSpec extends UnitSpec {
   private case class SetUp(filter: EnsureServiceOpenFilter,
                            request: FakeRequest[_],
                            sessionFactory:ClientSideSessionFactory,
-                           nextFilter: MockFilter)
+                           nextFilter: MockFilter,
+                           opening: Long,
+                           closing: Long)
 
   private def setUpInHours(test: SetUp => Any, dateTime: DateTime): Unit = {
     val opening = dateTime.getMillisOfDay - 5000
@@ -109,8 +142,12 @@ class EnsureServiceOpenFilterSpec extends UnitSpec {
     setUp(test, opening, closing)
   }
 
-  private def setUpOutOfHours(test: SetUp => Any, dateTimeZoneService: DateTimeZoneService): Unit = {
-    setUp(test, 1 * milliesInAnHour, 1 * milliesInAnHour, dateTimeZoneService)
+  private def setUpOutOfHours(test: SetUp => Any,
+                              dateTime: DateTime,
+                              dateTimeZoneService: DateTimeZoneService): Unit = {
+    val opening = dateTime.getMillisOfDay - 2
+    val closing = dateTime.getMillisOfDay - 1
+    setUp(test, opening, closing, dateTimeZoneService)
   }
 
   private def setUp(test: SetUp => Any,
@@ -122,14 +159,19 @@ class EnsureServiceOpenFilterSpec extends UnitSpec {
     case class TestServiceOpenFilter(override val opening: Int,
                                 override val closing: Int,
                                 override val dateTimeZone: DateTimeZoneService) extends EnsureServiceOpenFilter {
-      protected val html: HtmlFormat.Appendable = Html("")
+      override val html = Html("")
+
+      override def html(o: String, c: String): HtmlFormat.Appendable =
+        Html(s"opening hours $o to $c")
     }
 
     test(SetUp(
       filter = TestServiceOpenFilter(opening, closing, dateTimeZoneService),
       request = FakeRequest(),
       sessionFactory = sessionFactory,
-      nextFilter = new MockFilter()
+      nextFilter = new MockFilter(),
+      opening,
+      closing
     ))
   }
 
