@@ -4,9 +4,8 @@ import play.api.Logger
 import play.api.http.Status.OK
 import play.api.libs.json.Json
 import play.api.libs.ws.WSResponse
-import uk.gov.dvla.vehicles.presentation.common.webserviceclients.acquire.{AcquireResponseDto, AcquireRequestDto, AcquireWebService}
-import uk.gov.dvla.vehicles.presentation.common.webserviceclients.fakes.FakeResponse
-import scala.concurrent.ExecutionContext.Implicits.global
+import uk.gov.dvla.vehicles.presentation.common.webserviceclients.acquire
+import acquire.{AcquireResponseDto, AcquireRequestDto, AcquireWebService}
 import scala.concurrent.Future
 
 class FakeAcquireWebServiceImpl extends AcquireWebService {
