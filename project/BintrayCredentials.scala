@@ -21,5 +21,6 @@ object BintrayCredentials {
         |user=$bintrayUser
         |password=$bintrayApiKey""".stripMargin
     )
+    println(sys.props.get("user.home").get + "/.bintray/.credentials" + " written")
   }
 }
