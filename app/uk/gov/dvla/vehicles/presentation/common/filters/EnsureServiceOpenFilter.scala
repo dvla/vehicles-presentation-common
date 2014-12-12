@@ -15,13 +15,17 @@ trait EnsureServiceOpenFilter extends Filter {
   protected val opening: Int
   protected val closing: Int
   protected val dateTimeZone: DateTimeZoneService
+  private def millisInHour = 60 * 60 * 1000L
+
+  private def openingHourMillis = opening * millisInHour
+  private def closingHourMillis = closing * millisInHour
   protected val html: HtmlFormat.Appendable
 
   protected def html(openingTime: String, closingTime: String): HtmlFormat.Appendable = html
 
   override def apply(nextFilter: (RequestHeader) => Future[Result])(requestHeader: RequestHeader): Future[Result] = {
     if (whitelist.exists(requestHeader.path.contains)) nextFilter(requestHeader)
-    else if (!serviceOpen()) Future(Results.Ok(html(h(opening), h(closing))))
+    else if (!serviceOpen()) Future(Results.Ok(html(h(openingHourMillis), h(closingHourMillis))))
     else nextFilter(requestHeader)
   }
 
@@ -32,13 +36,13 @@ trait EnsureServiceOpenFilter extends Filter {
   def isNotSunday(day: DateTime): Boolean = day.getDayOfWeek != 7
 
   def isDuringOpeningHours(timeInMillis: Int): Boolean = {
-    if (closing >= opening) (timeInMillis >= opening) && (timeInMillis < closing)
-    else (timeInMillis >= opening) || (timeInMillis < closing)
+    if (closingHourMillis >= openingHourMillis) (timeInMillis >= openingHourMillis) && (timeInMillis < closingHourMillis)
+    else (timeInMillis >= openingHourMillis) || (timeInMillis < closingHourMillis)
   }
 
-  private def h(hour: Long) =
+  private def h(hourMillis: Long) =
     DateTimeFormat.forPattern("HH:mm").withLocale(Locale.UK)
-      .print(new DateTime(hour * 3600000, DateTimeZone.forID("UTC"))).toLowerCase // Must use UTC as we only want to format the hour
+      .print(new DateTime(hourMillis, DateTimeZone.forID("UTC"))).toLowerCase // Must use UTC as we only want to format the hour
 }
 
 trait DateTimeZoneService {

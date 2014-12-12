@@ -17,7 +17,7 @@ import scala.concurrent.Future
 import scala.language.existentials
 
 class EnsureServiceOpenFilterSpec extends UnitSpec {
-  private val milliesInAnHour = 3600000
+  private val hourMilllis = 60 * 60 * 1000
 
   private val dateTimeService = new DateTimeZoneServiceImpl
 
@@ -127,20 +127,18 @@ class EnsureServiceOpenFilterSpec extends UnitSpec {
                            closing: Long)
 
   private def setUpInHours(test: SetUp => Any, dateTime: DateTime): Unit = {
-    val opening = dateTime.getMillisOfDay - 5000
-    val closing = dateTime.getMillisOfDay + 5000
+    val opening = Math.min(0, dateTime.getMillisOfDay / hourMilllis - 1)
+    val closing = Math.max(23, dateTime.getMillisOfDay / hourMilllis + 1)
     setUp(test, opening, closing)
   }
 
   private def setUpInHours(test: SetUp => Any, dateTimeZoneService: DateTimeZoneService): Unit = {
-    setUp(test, 8 * milliesInAnHour, 18 * milliesInAnHour, dateTimeZoneService)
+    setUp(test, 8, 18, dateTimeZoneService)
   }
 
-  private def setUpOutOfHours(test: SetUp => Any, dateTime: DateTime): Unit = {
-    val opening = dateTime.getMillisOfDay - 2
-    val closing = dateTime.getMillisOfDay - 1
-    setUp(test, opening, closing)
-  }
+  private def setUpOutOfHours(test: SetUp => Any, dateTime: DateTime): Unit =
+    if (dateTime.getMillisOfDay / hourMilllis > 12) setUp(test, 0, 1)
+    else setUp(test, 13, 14)
 
   private def setUpOutOfHours(test: SetUp => Any,
                               dateTime: DateTime,
@@ -152,7 +150,7 @@ class EnsureServiceOpenFilterSpec extends UnitSpec {
 
   private def setUp(test: SetUp => Any,
                     opening: Int = 0,
-                    closing: Int = 24 * milliesInAnHour,
+                    closing: Int = 24,
                     dateTimeZoneService: DateTimeZoneService = new DateTimeZoneServiceImpl) {
     val sessionFactory =  org.scalatest.mock.MockitoSugar.mock[ClientSideSessionFactory]
 
