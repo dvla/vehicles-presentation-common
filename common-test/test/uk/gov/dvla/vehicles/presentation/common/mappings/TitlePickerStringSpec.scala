@@ -79,11 +79,19 @@ class TitlePickerStringSpec extends UnitSpec {
         s"key1.$TitleTextKey" -> other
       )) should equal(Left(Seq(FormError("key1", "error.title.illegalCharacters"))))
 
-      validate(" ")
-      validate("  ")
       validate("sdf123sdf")
       validate("sdf!sdf")
       validate("sf!@#%^")
+    }
+
+    "Validate other option value with empty title" in {
+      def validate(other: String) = formatter.bind("key1", Map(
+        s"key1.$TitleRadioKey" -> OtherTitleRadioValue.toString,
+        s"key1.$TitleTextKey" -> other
+      )) should equal(Left(Seq(FormError("key1", "error.title.missing"))))
+
+      validate(" ")
+      validate("  ")
     }
 
     "Validate some random option" in {

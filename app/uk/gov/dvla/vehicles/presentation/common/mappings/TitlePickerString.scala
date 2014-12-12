@@ -30,7 +30,7 @@ object TitlePickerString {
               constructError(key, "error.title.missing")
             case Some(title) =>
               if (title.filterNot(ch => Character.isAlphabetic(ch) || Character.isWhitespace(ch)).isEmpty &&
-                title != " ") {
+                !title.isEmpty) {
                 constructSuccess(OtherTitleRadioValue, title)
               }
               else constructError(key, "error.title.illegalCharacters")
@@ -42,14 +42,12 @@ object TitlePickerString {
     }
 
     /**
-     * Removes all the extra whitespaces and adds back one whitespace if the original text started with one.
+     * Removes all the extra whitespaces.
      * @param text the text to process
-     * @return a text with all the extra whitespaces stripped apart from the first one.
+     * @return a text with all the extra whitespaces stripped.
      */
-    private def removeWhiteSpacesFromMiddle(text: String): String = text.headOption.foldLeft {
-        text.split(" ").filter("" != _).mkString(" ") } { (z, a) =>
-        if (a == ' ') a.toString ++ z else z
-      }
+    private def removeWhiteSpacesFromMiddle(text: String): String =
+        text.split(" ").filter("" != _).mkString(" ")
 
 
     private def constructError(key: String, errorKey: String) : R =
