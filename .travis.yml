@@ -4,7 +4,8 @@ before_install:
 - gem install sass --version 3.2.13
 - echo "Done."
 after_success:
-- sbt bintrayCredentials publish
+- sbt bintrayCredentials
+- sbt publish
 scala:
 - 2.10.4
 jdk:
