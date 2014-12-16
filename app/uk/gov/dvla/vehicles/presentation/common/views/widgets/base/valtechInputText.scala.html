@@ -12,23 +12,51 @@
 @input(field, args.toSeq:_*) { (id, name, value, htmlArgs) =>
     @valtechLabel(field, args)
 
-    <input 
-        id="@id"
-        name="@name"
-        value="@value"
-        @Html(
-            if(htmlArgs.contains('typeTel)) """type=tel onkeyup="this.value=this.value.replace(/[^\d/]/g,'')" onkeydown="this.value=this.value.replace(/[^\d/]/g,'')" """
-            else if(htmlArgs.contains('typeFleetNumber)) """type=tel onkeyup="this.value=this.value.replace(/[^\d/-]/g,'')" onkeydown="this.value=this.value.replace(/[^\d/-]/g,'')" """
-            else if(htmlArgs.contains('typeEmail)) """type=email"""
-            else if(htmlArgs.contains('alphabeticalOnly)) """type=text onkeyup="this.value=this.value.replace(/[^a-zA-Z]/g,'')" onkeydown="this.value=this.value.replace(/[^a-zA-Z]/g,'')"  """
-            else """type=text"""
-        )
-        @Html(htmlArgs.get('class).fold("")(classValue => s"""class="$classValue""""))
-        @{if(field.constraints.exists({case (key, _) => key == RequiredField})) "aria-required=true" else ""} @* TODO move this into an extension method and write unit tests *@
-        @{if(field.hasErrors) "aria-invalid=true" else ""} @* TODO move this into an extension method and write unit tests *@
-        @toHtmlArgs(htmlArgs.maxLengthRules.autoCompleteRules)
-    >
-    @if(hintText.isDefined) {
-        <span class="form-hint">@hintText.get</span>
-    }
+        <input
+            id="@id"
+            name="@name"
+            value="@value"
+            @Html(
+                if(htmlArgs.contains('typeTel)) """type=tel onkeydown="check(event, this);" onkeyup="check(event, this);" """
+                else if(htmlArgs.contains('typeFleetNumber)) """type=tel onkeyup="this.value=this.value.replace(/[^\d/-]/g,'')" onkeydown="this.value=this.value.replace(/[^\d/-]/g,'')" """
+                else if(htmlArgs.contains('typeEmail)) """type=email"""
+                else if(htmlArgs.contains('alphabeticalOnly)) """type=text onkeyup="this.value=this.value.replace(/[^a-zA-Z]/g,'')" onkeydown="this.value=this.value.replace(/[^a-zA-Z]/g,'')"  """
+                else """type=text"""
+            )
+            @Html(htmlArgs.get('class).fold("")(classValue => s"""class="$classValue""""))
+            @{if(field.constraints.exists({case (key, _) => key == RequiredField})) "aria-required=true" else ""} @* TODO move this into an extension method and write unit tests *@
+            @{if(field.hasErrors) "aria-invalid=true" else ""} @* TODO move this into an extension method and write unit tests *@
+            @toHtmlArgs(htmlArgs.maxLengthRules.autoCompleteRules)
+        >
+        @if(hintText.isDefined) {
+            <span class="form-hint">@hintText.get</span>
+        }
+
+  <script type="text/javascript">
+  function check(evt, id)
+  {
+
+  var value = id.value;
+
+  var theEvent = evt || window.event;
+  var key = theEvent.keyCode || theEvent.which;
+
+  // Don't validate the input if below arrow, delete and backspace keys were pressed
+  if(key == 37 || key == 39 || key == 8 || key == 46) { // Left / Up / Right / Down Arrow, Backspace, Delete keys
+  return;
+  }
+
+  key = String.fromCharCode( key );
+  var regex = /[0-9|/]/;
+
+  if( !regex.test(key))
+  {
+  theEvent.returnValue = false;
+
+  if(theEvent.preventDefault)
+  theEvent.preventDefault();
+  }
+  }
+  </script>
+
 }
