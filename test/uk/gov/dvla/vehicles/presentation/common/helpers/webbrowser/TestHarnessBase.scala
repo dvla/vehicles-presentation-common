@@ -14,6 +14,19 @@ import play.api.test.{FakeApplication, TestServer, _}
 
 trait TestHarnessBase extends ProgressBar with GlobalCreator {
   import WebBrowser._
+
+  abstract class WebBrowserForSelenium(val app: FakeApplication = fakeAppWithTestGlobal,
+                                       val port: Int = testPort,
+                                       implicit protected val webDriver: WebDriver = WebDriverFactory.webDriver)
+    extends Around with Scope {
+
+    override def around[T: AsResult](t: => T): Result =
+      TestConfiguration.configureTestUrl(port) {
+        try Helpers.running(TestServer(port, app))(AsResult.effectively(t))
+        finally webDriver.quit()
+      }
+  }
+
   abstract class WebBrowser(val app: FakeApplication = fakeAppWithTestGlobal,
                             val port: Int = testPort,
                             implicit protected val webDriver: WebDriver = WebDriverFactory.webDriver)
@@ -34,8 +47,9 @@ trait TestHarnessBase extends ProgressBar with GlobalCreator {
   )
 
   object WebBrowser {
-    private lazy val fakeAppWithTestGlobal: FakeApplication = FakeApplication(withGlobal = Some(global))
-    private lazy val testPort: Int = TestConfiguration.testPort
+
+    private[TestHarnessBase] lazy val fakeAppWithTestGlobal: FakeApplication = FakeApplication(withGlobal = Some(global))
+    private[TestHarnessBase] lazy val testPort: Int = TestConfiguration.testPort
   }
 }
 
