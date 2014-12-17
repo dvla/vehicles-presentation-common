@@ -38,6 +38,10 @@
       var value = id.value;
 
       var theEvent = evt || window.event;
+      if ( theEvent == null || theEvent == undefined) {
+          return;
+      }
+
       var key = theEvent.keyCode || theEvent.which;
 
       // Don't validate the input if below arrow, delete and backspace keys were pressed
