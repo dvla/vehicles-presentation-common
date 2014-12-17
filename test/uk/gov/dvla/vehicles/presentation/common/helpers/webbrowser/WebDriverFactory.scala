@@ -16,7 +16,7 @@ import org.openqa.selenium.phantomjs.PhantomJSDriver
 object WebDriverFactory {
   private val systemProperties = System.getProperties
 
-  def browserType = getProperty("browser.type", "htmlunit")
+  def browserType = sys.props.getOrElse("browser.type", "htmlunit")
 
   def webDriver: WebDriver = {
     val targetBrowser = browserType
