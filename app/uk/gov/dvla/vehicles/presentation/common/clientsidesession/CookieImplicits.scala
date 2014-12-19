@@ -20,7 +20,9 @@ object CookieImplicits {
     def withDomain(domain: String) = {
       domain match {
         case "NOT FOUND" =>
-          Logger.error("cross-domain cookies will not be set as the url is not set in the config")
+          Logger.error("cross-domain cookies not set in the config! This is OK only if running as localhost, but " +
+            "cross-domain cookies will not work in the dev/qa/live environments as the domains will have " +
+            "different names")
           cookie
         case _ => cookie.copy(domain = Some(domain))
       }
