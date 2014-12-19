@@ -1,5 +1,6 @@
 package uk.gov.dvla.vehicles.presentation.common.clientsidesession
 
+import play.api.Logger
 import play.api.data.Form
 import play.api.http.HeaderNames
 import play.api.libs.json.{Json, Reads, Writes}
@@ -9,6 +10,22 @@ import play.api.mvc._
  * These are adapters that add cookie methods to a number of Play Framework classes.
  */
 object CookieImplicits {
+
+  implicit class RichCookie(val cookie: Cookie) extends AnyVal {
+
+    def withSecure(flag: Boolean): Cookie = cookie.copy(secure = flag)
+
+    def withMaxAge(age: Int): Cookie = cookie.copy(maxAge = Some(age))
+
+    def withDomain(domain: String) = {
+      domain match {
+        case "NOT FOUND" =>
+          Logger.error("cross-domain cookies will not be set as the url is not set in the config")
+          cookie
+        case _ => cookie.copy(domain = Some(domain))
+      }
+    }
+  }
 
   implicit class RichCookies[A](val requestCookies: Traversable[Cookie]) extends AnyVal {
 
@@ -36,6 +53,8 @@ object CookieImplicits {
 
     def trackingId()(implicit clientSideSessionFactory: ClientSideSessionFactory): String =
       clientSideSessionFactory.getSession(requestCookies).trackingId
+
+    def withSecure(flag: Boolean) = ???
   }
 
   implicit class RichResult(val inner: Result) extends AnyVal {
@@ -89,6 +108,7 @@ object CookieImplicits {
   }
 
   implicit class RichForm[A](val f: Form[A]) extends AnyVal {
+
     def fill()(implicit request: Request[_],
                fromJson: Reads[A],
                cacheKey: CacheKey[A],
@@ -98,4 +118,5 @@ object CookieImplicits {
         case _ => f // No cookie found so return a blank form.
       }
   }
+
 }
