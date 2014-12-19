@@ -1,14 +1,10 @@
 @(elements: helper.FieldElements)
 
-@if(elements.hasErrors && !elements.args.exists(_ == 'showErrors -> false)) {
-    <div class="form-item validation">
-        <p class="error">@{elements.errors(elements.lang).mkString(", ")}</p>
-} else {
-    <div class="form-item">
-}
-
     @if(elements.hasErrors && !elements.args.exists(_ == 'showErrors -> false)) {
-
+        <div class="form-item validation">
+            <p class="error">@{elements.errors(elements.lang).mkString(", ")}</p>
+    } else {
+        <div class="form-item">
     }
 
     @if(elements.args.contains('prompt)) {

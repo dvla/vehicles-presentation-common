@@ -16,12 +16,12 @@
         @if(args.exists(_._1 == 'items)) {
             @radioListPlaceholder(field,
                 options = args.find(_._1 == 'items).get._2.asInstanceOf[Seq[(String, String)]],
-                args = args.filter(e => e._1 != 'label && e._1 != 'items)
+                args = args.filter(e => e._1 != 'label && e._1 != 'items) + ('showErrors -> false)
             )
         } else {
             @radioListWithHintsPlaceholder(field,
                 options = args.find(_._1 == 'itemsWithHints).get._2.asInstanceOf[Seq[RadioWithHint]],
-                args = args.filter(e => e._1 != 'label && e._1 != 'items)
+                args = args.filter(e => e._1 != 'label && e._1 != 'items) + ('showErrors -> false)
             )
         }
     </fieldset>

@@ -3,8 +3,9 @@
 @import play.api.templates.PlayMagic.toHtmlArgs
 @import views.html.helper.input
 
-@for(radio <- options) {
-    @input(field, args.toSeq:_*) { (id, name, value, htmlArgs) =>
+@input(field, args.toSeq:_*) { (id, name, value, htmlArgs) =>
+
+    @for(radio <- options) {
         <label for="@{id + "_"+ radio.key}" class="form-radio selectable">
             <input type="radio"
             id="@{id + "_"+ radio.key}"
@@ -19,9 +20,9 @@
                 @toHtmlArgs(htmlArgs)>
             <span class="text">@{radio.message}</span>
         </label>
-    }
 
-    <div class="form-item">
-        <span class="form-hint">@{radio.hint}</span>
-    </div>
+        <div class="form-item">
+            <span class="form-hint">@{radio.hint}</span>
+        </div>
+    }
 }
