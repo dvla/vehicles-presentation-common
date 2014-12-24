@@ -30,8 +30,8 @@ class BusinessNameIntegrationSpec extends UiSpec with TestHarness {
       ErrorPanel.numberOfErrors should equal(1)
     }
 
-    "reject submit when business name fails regular expression because it contains ampersand" in new WebBrowser {
-      BusinessNamePage.navigate(businessName = "Foo & Bar")
+    "reject submit when business name fails regular expression because it contains @ character" in new WebBrowser {
+      BusinessNamePage.navigate(businessName = "Foo @ Bar")
       ErrorPanel.numberOfErrors should equal(1)
     }
   }
