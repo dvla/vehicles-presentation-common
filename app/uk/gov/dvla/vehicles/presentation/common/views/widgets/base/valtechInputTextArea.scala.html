@@ -20,12 +20,10 @@
                """type=text"""
             )
             @Html(htmlArgs.get('class).fold("")(classValue => s"""class="$classValue""""))
-            @{if(field.constraints.exists({case (key, _) => key == RequiredField})) "aria-required=true" else ""} @* TODO move this into an extension method and write unit tests *@
-            @{if(field.hasErrors) "aria-invalid=true" else ""} @* TODO move this into an extension method and write unit tests *@
             @toHtmlArgs(htmlArgs.maxLengthRules.autoCompleteRules)
         ></textarea>
         @if(hintText.isDefined) {
-            <span class="form-hint">@hintText.get</span>
+            <div class="form-hint">@hintText.get</div>
         }
 
 }

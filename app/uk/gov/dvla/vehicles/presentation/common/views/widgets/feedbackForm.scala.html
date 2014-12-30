@@ -12,14 +12,17 @@
   @csrfTokenHiddenField()
   <dl class="playback">
     <dt>@Messages("common_feedback.message")</dt>
+    <dt><b>@Messages("common_feedback.label")</b></dt>
     <dl>
     @valtechInputTextArea(feedbackForm(feedback),
+      hintText = Some(Messages("common_feedback.placeholder")),
       args = Map(
-        '_label -> Messages("common_feedback.label"),
-        'placeholder -> Messages("common_feedback.placeholder"),
+        '_label -> "",
+        'optionalFieldKey -> false,
+        'NO_OPTIONAL_LABEL -> true,
         '_showConstraints -> false,
         'autofocus -> true,
-        'maxLength -> "1024",
+        'maxLength -> "1200",
         'showErrors -> false))
     </dl>
   </dl>
