@@ -54,6 +54,8 @@ libraryDependencies ++= Seq(
   "org.slf4j" % "log4j-over-slf4j" % "1.7.7" % "test" withSources() withJavadoc(),
   "com.github.nscala-time" %% "nscala-time" % "1.4.0" withSources() withJavadoc(),
   "com.github.detro" % "phantomjsdriver" % "1.2.0" % "test" withSources() withJavadoc(),
+  "org.apache.commons" % "commons-io" % "1.3.2" withSources() withJavadoc(),
+  "org.apache.commons" % "commons-email" % "1.2" withSources() withJavadoc(),
   "com.github.tomakehurst" % "wiremock" % "1.46" % "test" withSources() withJavadoc() exclude("log4j", "log4j")
 )
 
