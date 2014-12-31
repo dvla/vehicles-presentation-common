@@ -45,7 +45,7 @@ trait VehicleLookupBase extends Controller {
       case exception: Throwable =>
         Logger.error(
           s"Exception thrown by BruteForceService so for safety we won't let anyone through. " +
-            s"Exception ${exception.getStackTraceString}"
+            s"Exception:\n${exception.getMessage}\n${exception.getStackTraceString}"
         )
         Redirect(microServiceError)
     } map { result =>
