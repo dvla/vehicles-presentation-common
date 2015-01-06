@@ -2,12 +2,11 @@ package uk.gov.dvla.vehicles.presentation.common.views
 
 import uk.gov.dvla.vehicles.presentation.common.composition.TestHarness
 import uk.gov.dvla.vehicles.presentation.common.helpers.UiSpec
-import uk.gov.dvla.vehicles.presentation.common.pages
 import uk.gov.dvla.vehicles.presentation.common.pages.{ErrorPanel, ValtechInputTextAreaPage}
 
-class ValtechInputTextAreaIntegrationSpec extends UiSpec with TestHarness {
+class FeedbackFormIntegrationSpec extends UiSpec with TestHarness {
 
-  "ValtechInputTextArea integration" should {
+  "Feedback Form integration" should {
     "be presented" in new WebBrowser {
       go to ValtechInputTextAreaPage
       page.title should equal(ValtechInputTextAreaPage.title)
@@ -15,7 +14,7 @@ class ValtechInputTextAreaIntegrationSpec extends UiSpec with TestHarness {
 
     "redirects to the next page given valid input" in new WebBrowser {
       ValtechInputTextAreaPage.navigate()
-      page.title should equal("Success") // Check the new title of the success page
+      page.title should equal("Success")
     }
 
     "reject submit when field is blank" in new WebBrowser {
@@ -28,7 +27,7 @@ class ValtechInputTextAreaIntegrationSpec extends UiSpec with TestHarness {
       ErrorPanel.numberOfErrors should equal(1)
     }
 
-    "reject submit when vehicleReferenceNumber contains more than maximum characters" in new WebBrowser {
+    "reject submit when field contains more than maximum characters" in new WebBrowser {
       ValtechInputTextAreaPage.navigate(documentReferenceNumber = "1" * 1201)
       ErrorPanel.numberOfErrors should equal(1)
     }
