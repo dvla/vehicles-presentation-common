@@ -1,0 +1,13 @@
+@(form: Form[uk.gov.dvla.vehicles.presentation.common.model.FeedbackForm])(implicit lang: Lang,
+token: uk.gov.dvla.vehicles.presentation.common.filters.CsrfPreventionAction.CsrfPreventionToken,
+controls: Map[String, Call])
+
+@import uk.gov.dvla.vehicles.presentation.common
+@import common.views.html.widgets.feedbackForm
+
+@main(
+    title = Messages("feedbackForm.pageTitle"),
+    currentForm = Some(form)
+) {
+    @feedbackForm(form)
+}

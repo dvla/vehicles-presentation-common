@@ -17,6 +17,9 @@ GET     /assets/*file                   controllers.Assets.at(path="/public", fi
 GET     /valtech-input-text             @uk.gov.dvla.vehicles.presentation.common.controllers.ValtechInputTextController.present
 POST    /valtech-input-text             @uk.gov.dvla.vehicles.presentation.common.controllers.ValtechInputTextController.submit
 
+GET     /valtech-input-text-area        @uk.gov.dvla.vehicles.presentation.common.controllers.ValtechInputTextAreaController.present
+POST    /valtech-input-text-area        @uk.gov.dvla.vehicles.presentation.common.controllers.ValtechInputTextAreaController.submit
+
 GET     /valtech-declare-check          @uk.gov.dvla.vehicles.presentation.common.controllers.ValtechDeclareCheckController.present
 POST    /valtech-declare-check          @uk.gov.dvla.vehicles.presentation.common.controllers.ValtechDeclareCheckController.submit
 
@@ -60,3 +63,6 @@ GET     /title-picker                   @uk.gov.dvla.vehicles.presentation.commo
 POST    /title-picker                   @uk.gov.dvla.vehicles.presentation.common.controllers.TitlePickerController.submit
 
 GET     /version                        @uk.gov.dvla.vehicles.presentation.common.controllers.VersionControllerTest.version
+
+GET     /feedback-form                  @uk.gov.dvla.vehicles.presentation.common.controllers.FeedbackFormController.present
+POST    /feedback-form                  @uk.gov.dvla.vehicles.presentation.common.controllers.FeedbackFormController.submit

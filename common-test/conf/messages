@@ -41,6 +41,14 @@ valtechInputText.button = Submit
 # Convert the id to text to use in error messages
 inputText = Input text
 
+#valtechInputTextArea widget
+valtechInputTextArea.pageTitle = Valtech input text area
+valtechInputTextArea.name = Valtech Input text area
+valtechInputTextArea.label = Example label
+valtechInputTextArea.hint = Enter at least 2 characters
+valtechInputTextArea.validation = You must at least 2 characters
+valtechInputTextArea.button = Submit
+
 #valtechDeclareCheck widget
 valtechDeclareCheck.pageTitle = Valtech declare check
 valtechDeclareCheck.name = Valtech declare check
@@ -171,3 +179,10 @@ error.title.illegalCharacters = Other - The text must contain characters in A to
 titlePicker.button = Submit
 # Convert the id to text to use in error messages
 title = Title
+
+#Feedback
+feedbackForm.pageTitle = Feedback Form
+common_feedback.message = Please enter your message
+common_feedback.label = This should be bold
+common_feedback.placeholder = placeholder
+common_feedback.submit_button = "end feedback

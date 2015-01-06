@@ -1,0 +1,32 @@
+@(valtechInputTextAreaForm: Form[uk.gov.dvla.vehicles.presentation.common.models.ValtechInputTextAreaModel])(implicit lang: Lang)
+
+@import uk.gov.dvla.vehicles.presentation.common
+@import uk.gov.dvla.vehicles.presentation.common.models
+@import uk.gov.dvla.vehicles.presentation.common.controllers
+@import common.views.helpers.BaseTemplate.fieldConstructor
+@import common.views.html.widgets.base.valtechInputTextArea
+@import models.ValtechInputTextAreaModel.Form.InputTextId
+@import views.html.helper.form
+
+@main(
+    title = Messages("valtechInputTextArea.pageTitle"),
+    currentForm = Some(valtechInputTextAreaForm)
+) {
+    @form(action = controllers.routes.ValtechInputTextAreaController.submit) {
+
+        @valtechInputTextArea(valtechInputTextAreaForm(InputTextId),
+            hintText = Some(Messages("valtechInputTextArea.hint")),
+            args = Map(
+                '_label -> "",
+                'optionalFieldKey -> false,
+                'NO_OPTIONAL_LABEL -> true,
+                '_showConstraints -> false,
+                'autofocus -> true,
+                'maxLength -> "1200",
+                'showErrors -> false))
+
+        <div class="form-steps">
+            <button id="submit" type="submit" name="action" class="button" aria-label="Next button">@Messages("valtechInputTextArea.button")</button>
+        </div>
+    }
+}
