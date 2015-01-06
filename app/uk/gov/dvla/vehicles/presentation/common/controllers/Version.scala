@@ -53,3 +53,7 @@ class Version(msVersionUrls: String*) extends Controller {
     sequence(msVersionUrls map fetchVersion) map result
   }
 }
+
+object Version {
+  final val Suffix = "/version"
+}
