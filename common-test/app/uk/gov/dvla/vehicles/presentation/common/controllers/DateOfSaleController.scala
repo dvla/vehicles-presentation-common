@@ -4,13 +4,11 @@ import com.google.inject.Inject
 import play.api.data.Form
 import play.api.mvc.{Action, Controller}
 import uk.gov.dvla.vehicles.presentation.common.models
-import uk.gov.dvla.vehicles.presentation.common.services.DateService
 import uk.gov.dvla.vehicles.presentation.common.views
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClientSideSessionFactory
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicits.RichForm
 
-class DateOfSaleController @Inject()(implicit clientSideSessionFactory: ClientSideSessionFactory,
-                                    dateService: DateService)
+class DateOfSaleController @Inject()(implicit clientSideSessionFactory: ClientSideSessionFactory)
   extends Controller {
 
   private[controllers] val form = Form(models.DateOfSaleModel.Form.detailMapping)
