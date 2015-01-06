@@ -6,6 +6,7 @@ import play.api.data.Forms.{of, optional}
 import play.api.data.format.Formatter
 import play.api.data.validation.{Constraint, Invalid, Valid, ValidationError}
 import play.api.i18n.Messages
+import uk.gov.dvla.vehicles.presentation.common.services.DateService
 import uk.gov.dvla.vehicles.presentation.common.views.constraints.Required
 import scala.util.Try
 
@@ -45,15 +46,18 @@ object Date {
 
   val optionalDateMapping = optional(of[LocalDate](formatter()))
 
-  def optionalNonFutureDateMapping = optional(of[LocalDate](formatter()) verifying notInTheFuture())
+  def optionalNonFutureDateMapping(implicit dateService: DateService) =
+    optional(of[LocalDate](formatter()) verifying notInTheFuture())
 
-  private def genericDateOfBirth = of[LocalDate](formatter("error.dateOfBirth.invalid"))
+  private def genericDateOfBirth(implicit dateService: DateService) =
+    of[LocalDate](formatter("error.dateOfBirth.invalid"))
     .verifying(notInTheFuture(Messages("error.dateOfBirth.inTheFuture")))
-    .verifying(notBefore(LocalDate.now.minusYears(110), Messages("error.dateOfBirth.110yearsInThePast")))
+    .verifying(notBefore(dateService.now.toDateTime.toLocalDate.minusYears(110),
+      Messages("error.dateOfBirth.110yearsInThePast")))
 
-  def dateOfBirth = genericDateOfBirth verifying required
+  def dateOfBirth()(implicit dateService: DateService) = genericDateOfBirth verifying required
 
-  def optionalDateOfBirth = optional(genericDateOfBirth)
+  def optionalDateOfBirth()(implicit dateService: DateService) = optional(genericDateOfBirth)
 
   def required = Constraint[LocalDate](Required.RequiredField) {
     case _ => Valid
@@ -68,7 +72,8 @@ object Date {
   }
 
   def notInTheFuture(message: String = Messages("error.date.inTheFuture"),
-                     name: String = "constraint.notInTheFuture") = notAfter(LocalDate.now, message, name)
+                     name: String = "constraint.notInTheFuture")(implicit dateService: DateService) =
+    notAfter(dateService.now.toDateTime.toLocalDate, message, name)
 
   def notBefore(date: LocalDate,
                 message: String = Messages("error.date.notBefore"),
@@ -79,5 +84,6 @@ object Date {
   }
 
   def notInThePast(message: String = Messages("error.date.notInThePast"),
-                     name: String = "constraint.notInThePast") = notBefore(LocalDate.now, message, name)
+                     name: String = "constraint.notInThePast")(implicit dateService: DateService) =
+    notBefore(dateService.now.toDateTime.toLocalDate, message, name)
 }
