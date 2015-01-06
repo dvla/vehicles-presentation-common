@@ -12,6 +12,7 @@ ROOT=`pwd`
 VEHICLES_ONLINE_ROOT=$ROOT/vehicles-online
 VRM_RETENTION_ONLINE_ROOT=$ROOT/vrm-retention-online
 VEHICLES_ACQUIRE_ONLINE_ROOT=$ROOT/vehicles-acquire-online
+CHANGE_KEEPER_ONLINE=$ROOT/vehicles-change-keeper-online
 PRESENTATION_COMMON_ROOT=$ROOT/vehicles-presentation-common
 ASSETS_ROOT=$PRESENTATION_COMMON_ROOT/app/assets
 WEBJAR_DEST=/target/web/web-modules/main/webjars/lib/vehicles-presentation-common
@@ -52,6 +53,7 @@ function run_setup {
     copy_assets "1. Creating symbolic link for vehicles-online..." $VEHICLES_ONLINE_ROOT
     copy_assets "2. Creating symbolic link for vrm-retention-online..." $VRM_RETENTION_ONLINE_ROOT
     copy_assets "3. Creating symbolic link for vehicles-acquire-online..." $VEHICLES_ACQUIRE_ONLINE_ROOT
+    copy_assets "4. Creating symbolic link for vehicles-change-keeper-online..." $CHANGE_KEEPER_ONLINE
     echo ""
     echo "Monitoring changes in vehicles-presentation-common to reflect in *-online applications."
     echo "Press ctrl+c to stop..."
