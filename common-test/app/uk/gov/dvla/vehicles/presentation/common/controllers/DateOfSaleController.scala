@@ -11,7 +11,7 @@ import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicit
 class DateOfSaleController @Inject()(implicit clientSideSessionFactory: ClientSideSessionFactory)
   extends Controller {
 
-  private[controllers] val form = Form(models.DateOfSaleModel.Form.Mapping)
+  private[controllers] val form = Form(models.DateOfSaleModel.Form.detailMapping)
 
   def present = Action { implicit request =>
     Ok(views.html.valtechDateOfSaleView(form.fill()))
