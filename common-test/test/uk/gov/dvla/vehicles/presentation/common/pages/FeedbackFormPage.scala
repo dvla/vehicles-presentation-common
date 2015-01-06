@@ -1,10 +1,9 @@
 package uk.gov.dvla.vehicles.presentation.common.pages
 
 import uk.gov.dvla.vehicles.presentation.common.helpers
-import uk.gov.dvla.vehicles.presentation.common.models
 
 import helpers.webbrowser.{Element, Page, WebBrowserDSL, TextArea, WebDriverFactory}
-import models.ValtechInputTextModel.Form.InputTextId
+import uk.gov.dvla.vehicles.presentation.common.model.FeedbackForm.Form.feedback
 import org.openqa.selenium.WebDriver
 
 object FeedbackFormPage extends Page with WebBrowserDSL {
@@ -13,13 +12,13 @@ object FeedbackFormPage extends Page with WebBrowserDSL {
   override val url: String = WebDriverFactory.testUrl + address.substring(1)
   final override val title: String = "Feedback Form"
 
-  def documentReferenceNumberElement(implicit driver: WebDriver): TextArea = textArea(id(InputTextId))
+  def feedbackElement(implicit driver: WebDriver): TextArea = textArea(id(feedback))
 
   def submit(implicit driver: WebDriver): Element = find(id("submit")).get
 
   def navigate (feedback: String = "f" * 100)(implicit driver: WebDriver) {
     go to FeedbackFormPage
-    documentReferenceNumberElement enter feedback
+    feedbackElement enter feedback
     click on submit
   }
 }

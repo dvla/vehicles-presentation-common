@@ -16,7 +16,7 @@ object FeedbackForm {
 
 
     final val Mapping = mapping(
-      feedback -> text(0, 1200)
+      feedback -> nonEmptyText(minLength = 2, maxLength = 1200)
     )(FeedbackForm.apply)(FeedbackForm.unapply)
   }
 
