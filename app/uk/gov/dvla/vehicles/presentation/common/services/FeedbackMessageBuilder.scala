@@ -15,8 +15,13 @@ object FeedbackMessageBuilder {
 
     val date = new SimpleDateFormat("dd/MM/yyyy hh:mm").format(new Date())
 
+    val htmlContents = contents.map {
+      case ch if ch == '\n' => "<br />"
+      case ch => ch
+    }.mkString
+
     Contents(
-      buildHtml(contents, date),
+      buildHtml(htmlContents, date),
       buildText(contents, date)
     )
   }
