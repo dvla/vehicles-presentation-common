@@ -11,12 +11,13 @@
 @form(action = controls("submit")) {
   @csrfTokenHiddenField()
 
-  <h1>@Messages("common_feedback.title")</h1>
+  <!--<h1>@Messages("common_feedback.title")</h1>-->
 
   <!--<p>@Messages("common_feedback.message")</p>-->
+
   <p>@Messages("common_feedback.label")</p>
 
-  <dl class="playback">
+  <dl class="playback" id="feedback-form">
     <dl>
     @valtechInputTextArea(feedbackForm(feedback),
       hintText = Some(Messages("common_feedback.placeholder")),
@@ -28,6 +29,9 @@
         'autofocus -> true,
         'maxLength -> "500",
         'showErrors -> false))
+    </dl>
+    <dl>
+        <div class="character-countdown"><span>500</span> characters remaining</div>
     </dl>
   </dl>
 

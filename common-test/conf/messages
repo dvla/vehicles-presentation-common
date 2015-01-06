@@ -185,4 +185,4 @@ feedbackForm.pageTitle = Feedback Form
 common_feedback.message = Please enter your message
 common_feedback.label = This should be bold
 common_feedback.placeholder = placeholder
-common_feedback.submit_button = "end feedback
+common_feedback.submit_button = send feedback
