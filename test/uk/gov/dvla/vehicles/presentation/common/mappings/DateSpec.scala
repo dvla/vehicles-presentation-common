@@ -3,9 +3,6 @@ package uk.gov.dvla.vehicles.presentation.common.mappings
 import com.github.nscala_time.time.Imports._
 import play.api.data.Forms.mapping
 import play.api.data.{Form, FormError}
-import uk.gov.dvla.vehicles.presentation.common.webserviceclients.fakes.FakePastDateServiceImpl
-import uk.gov.dvla.vehicles.presentation.common.webserviceclients.fakes.FakeFutureDateServiceImpl
-import uk.gov.dvla.vehicles.presentation.common.webserviceclients.fakes.FakeDateServiceImpl
 import uk.gov.dvla.vehicles.presentation.common.{UnitSpec, mappings}
 
 class DateSpec extends UnitSpec {
@@ -115,33 +112,6 @@ class DateSpec extends UnitSpec {
   }
 
   "Not before and not after constraints" should {
-
-    "Disallow future dates, and allow the same dates as they become past dates" in {
-      val notAfterFormPast = Form(mapping(
-        "required" -> mappings.Date.dateMapping.verifying(mappings.Date.notInTheFuture()(new FakePastDateServiceImpl))
-      )(RequiredDateModel.apply)(RequiredDateModel.unapply))
-
-      val formNotAfterFormPast = notAfterFormPast.bind(Map(
-        "required.day" -> "01",
-        "required.month" -> "01",
-        "required.year" -> "2015"
-      ))
-      formNotAfterFormPast.value should === (None)
-      formNotAfterFormPast.errors should === (Seq(FormError("required", "error.date.inTheFuture")))
-
-      val notAfterFormFuture = Form(mapping(
-        "required" -> mappings.Date.dateMapping.verifying(mappings.Date.notInTheFuture()(new FakeFutureDateServiceImpl))
-      )(RequiredDateModel.apply)(RequiredDateModel.unapply))
-
-      val formNotAfterFormFuture = notAfterFormFuture.bind(Map(
-        "required.day" -> "01",
-        "required.month" -> "01",
-        "required.year" -> "2015"
-      ))
-      formNotAfterFormFuture.value should ===(Some(RequiredDateModel(new LocalDate(2015, 1, 1))))
-      formNotAfterFormFuture.errors should ===(Seq.empty)
-    }
-
     "Invalidate an year after some date" in {
       val notAfterForm = Form(mapping(
         "required" -> mappings.Date.dateMapping.verifying(mappings.Date.notAfter(LocalDate.tomorrow))
@@ -158,7 +128,6 @@ class DateSpec extends UnitSpec {
     }
 
     "Invalidate an date in the future" in {
-      implicit val dateService = new FakeDateServiceImpl
       val notInTheFutureForm = Form(mapping(
         "required" -> mappings.Date.dateMapping.verifying(mappings.Date.notInTheFuture())
       )(RequiredDateModel.apply)(RequiredDateModel.unapply))
@@ -189,7 +158,6 @@ class DateSpec extends UnitSpec {
     }
 
     "Invalidate an year in the past" in {
-      implicit val dateService = new FakeDateServiceImpl
       val notInThePastForm = Form(mapping(
         "required" -> mappings.Date.dateMapping.verifying(mappings.Date.notInThePast())
       )(RequiredDateModel.apply)(RequiredDateModel.unapply))
@@ -206,9 +174,8 @@ class DateSpec extends UnitSpec {
   }
 
   "Date of birth mapping" should {
-    implicit val dateService = new FakeDateServiceImpl
     val dateOfBirthForm = Form(mapping(
-      "required" -> mappings.Date.dateOfBirth()
+      "required" -> mappings.Date.dateOfBirth
     )(RequiredDateModel.apply)(RequiredDateModel.unapply))
 
     "Validate is not in the future" in {
@@ -249,7 +216,6 @@ class DateSpec extends UnitSpec {
   }
 
   "Optional date of birth mapping" should {
-    implicit val dateService = new FakeDateServiceImpl
     val dateOfBirthForm = Form(mapping(
       "dateOfBirth" -> mappings.Date.optionalDateOfBirth
     )(OptionalDateModel.apply)(OptionalDateModel.unapply))
