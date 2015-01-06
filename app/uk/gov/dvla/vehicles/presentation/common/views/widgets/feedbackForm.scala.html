@@ -11,16 +11,11 @@
 @form(action = controls("submit")) {
   @csrfTokenHiddenField()
 
-  <!--<h1>@Messages("common_feedback.title")</h1>-->
-
-  <!--<p>@Messages("common_feedback.message")</p>-->
-
   <p>@Messages("common_feedback.label")</p>
 
   <dl class="playback" id="feedback-form">
     <dl>
     @valtechInputTextArea(feedbackForm(feedback),
-      hintText = Some(Messages("common_feedback.placeholder")),
       args = Map(
         '_label -> "",
         'optionalFieldKey -> false,
