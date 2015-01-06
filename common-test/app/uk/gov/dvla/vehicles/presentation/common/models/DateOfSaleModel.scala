@@ -6,7 +6,6 @@ import play.api.i18n.Messages
 import play.api.libs.json.Json
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CacheKey
 import uk.gov.dvla.vehicles.presentation.common.mappings
-import uk.gov.dvla.vehicles.presentation.common.services.DateService
 
 case class DateOfSaleModel(optionalDate: Option[LocalDate], date: LocalDate)
 
@@ -18,7 +17,7 @@ object DateOfSaleModel {
     final val OptionalDateId = "DateOfSaleFieldId"
     final val DateId = "DateOfSaleFieldId1"
 
-    final def detailMapping(implicit dateService: DateService) = mapping(
+    final val Mapping = mapping(
       OptionalDateId -> mappings.Date.optionalNonFutureDateMapping,
       DateId -> mappings.Date.dateMapping.verifying(mappings.Date.notInTheFuture())
     )(DateOfSaleModel.apply)(DateOfSaleModel.unapply)
