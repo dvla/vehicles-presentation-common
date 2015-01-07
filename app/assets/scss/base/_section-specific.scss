@@ -147,7 +147,7 @@
             padding: 0;
             background: none;
             cursor: pointer;
-            color: #2E3191;
+            color: $purple-2;
             font-weight: bold;
             text-decoration: underline;
             font-size: 18px;
@@ -155,7 +155,7 @@
             &:hover,
             &:active {
                 background: none;
-                color: #2E8ACA;
+                color: $link-hover-colour;
                 text-decoration: underline;
             }
 
