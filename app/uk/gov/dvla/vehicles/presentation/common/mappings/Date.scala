@@ -51,8 +51,8 @@ object Date {
 
   private def genericDateOfBirth(implicit dateService: DateService) =
     of[LocalDate](formatter("error.dateOfBirth.invalid"))
-    .verifying(notInTheFuture(Messages("error.dateOfBirth.inTheFuture")))
-    .verifying(notBefore(dateService.now.toDateTime.toLocalDate.minusYears(110),
+      .verifying(notInTheFuture(Messages("error.dateOfBirth.inTheFuture")))
+      .verifying(notBefore(dateService.now.toDateTime.toLocalDate.minusYears(110),
       Messages("error.dateOfBirth.110yearsInThePast")))
 
   def dateOfBirth()(implicit dateService: DateService) = genericDateOfBirth verifying required
@@ -66,9 +66,9 @@ object Date {
   def notAfter(notAfter: LocalDate,
                message: String = Messages("error.date.notAfter"),
                name: String = "constraint.notAfter") = Constraint[LocalDate](name) {
-      case d: LocalDate =>
-        if (d.isAfter(notAfter)) Invalid(ValidationError(message))
-        else Valid
+    case d: LocalDate =>
+      if (d.isAfter(notAfter)) Invalid(ValidationError(message))
+      else Valid
   }
 
   def notInTheFuture(message: String = Messages("error.date.inTheFuture"),
@@ -84,6 +84,6 @@ object Date {
   }
 
   def notInThePast(message: String = Messages("error.date.notInThePast"),
-                     name: String = "constraint.notInThePast")(implicit dateService: DateService) =
+                   name: String = "constraint.notInThePast")(implicit dateService: DateService) =
     notBefore(dateService.now.toDateTime.toLocalDate, message, name)
 }

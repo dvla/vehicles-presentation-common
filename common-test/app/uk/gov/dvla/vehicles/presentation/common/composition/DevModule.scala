@@ -3,6 +3,7 @@ package uk.gov.dvla.vehicles.presentation.common.composition
 import com.tzavellas.sse.guice.ScalaModule
 import uk.gov.dvla.vehicles.presentation.common
 import common.clientsidesession.{NoCookieFlags, CookieFlags, ClearTextClientSideSessionFactory, ClientSideSessionFactory}
+import uk.gov.dvla.vehicles.presentation.common.services.{DateServiceImpl, DateService}
 
 /**
  * Provides implementations of traits
@@ -18,5 +19,6 @@ class DevModule extends ScalaModule {
   def configure() {
     bind[ClientSideSessionFactory].to[ClearTextClientSideSessionFactory].asEagerSingleton()
     bind[CookieFlags].to[NoCookieFlags].asEagerSingleton()
+    bind[DateService].to[DateServiceImpl].asEagerSingleton()
   }
 }
