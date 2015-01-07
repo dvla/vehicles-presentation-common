@@ -178,8 +178,18 @@
 }
 
 // "Use today's date" button for all exemplars
-#todaysDateOfDisposal,
-#todays_date {
+.todays-date-btn {
+    color: #2E3191;
     font-weight: bold;
+    text-decoration: underline;
     font-size: 18px;
+    &:hover {
+        color: #2E8ACA;
+    }
+}
+
+// Fixes button rendering in Firefox
+button::-moz-focus-inner {
+    border: 0;
+    padding: 0;
 }
