@@ -34,22 +34,11 @@
             @Html(if(field.constraints.exists({case (key, _) => key == RequiredField})) "aria-required=true" else "") @* TODO move this into an extension method and write unit tests *@
             @Html(if(field.hasErrors) "aria-invalid=true" else "") @* TODO move this into an extension method and write unit tests *@
 
-@* TODO put the below in the pimp. Use it in all fields *@
-            @*
-            Screen readers do not automatically announce the hint text when focus moves to the field, and so screen reader users may be unaware of it as they tab through the form.
-            Use the aria-describedby attribute to create an association between the hint and the field. It takes the id of the hint container as a value.
-            *@
-            @if(hintText.isDefined) {
-                @Html(s"""aria-describedby="@{"$id-hint"}"""")
-            } else {
-                @Html("")
-            }
-
             @************************
             End accessibility section
             ************************@
 
-            @toHtmlArgs(htmlArgs.withMaxLength.withoutAutoComplete)
+            @toHtmlArgs(htmlArgs.withMaxLength.withoutAutoComplete.withAriaDescribedby(hintText, id))
         >
 
         @hintTextSnippet(hintText, idOfRelatedInput = id)

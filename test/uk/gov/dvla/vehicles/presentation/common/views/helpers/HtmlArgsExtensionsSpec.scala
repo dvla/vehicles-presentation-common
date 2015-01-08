@@ -24,11 +24,8 @@ final class HtmlArgsExtensionsSpec extends UnitSpec {
   }
 
   "withoutAutoComplete" should {
-    val htmlArgsMinimal: Map[Symbol, Any] = Map('title -> "test")
-    val htmlArgsWithAutoCompleteOff: Map[Symbol, Any] = Map('title -> "test", 'autocomplete -> "off")
-    val htmlArgsWithAutoCompleteOn: Map[Symbol, Any] = Map('title -> "test", 'autocomplete -> "on")
 
-    "add autocomplete off when key is not present" in new WithApplication {
+    "add autocomplete off attribute when key is not present" in new WithApplication {
       val richHtmlArgs = new RichHtmlArgs(htmlArgsMinimal)
 
       val result = richHtmlArgs.withoutAutoComplete
@@ -45,6 +42,7 @@ final class HtmlArgsExtensionsSpec extends UnitSpec {
     }
 
     "replace key-value autocomplete 'on' with autocomplete 'off'" in new WithApplication {
+      val htmlArgsWithAutoCompleteOn: Map[Symbol, Any] = Map('title -> "test", 'autocomplete -> "on")
       val richHtmlArgs = new RichHtmlArgs(htmlArgsWithAutoCompleteOn)
 
       val result = richHtmlArgs.withoutAutoComplete
@@ -53,6 +51,30 @@ final class HtmlArgsExtensionsSpec extends UnitSpec {
     }
   }
 
-  private val htmlArgsMinimal: Map[Symbol, Any] = Map('title -> "test")
-  private val htmlArgsWithMaxLength: Map[Symbol, Any] = Map('title -> "test", 'maxLength -> 60)
+  "withAriaDescribedby" should {
+    "return the same when hint text is not present" in {
+      val richHtmlArgs = new RichHtmlArgs(htmlArgsMinimal)
+      val key = Symbol("aria-describedby")
+
+      val result: Map[Symbol, Any] = richHtmlArgs.withAriaDescribedby(hintText = None, idOfRelatedField = "test-id")
+
+      result.contains(key) should equal(false)
+    }
+
+    "add aria-describedby attribute when hint text is present" in {
+      val richHtmlArgs = new RichHtmlArgs(htmlArgsMinimal)
+      val key = Symbol("aria-describedby")
+
+      val result: Map[Symbol, Any] = richHtmlArgs.withAriaDescribedby(hintText = Some("test-hint-text"), idOfRelatedField = "test-id")
+
+      result.contains(key) should equal(true)
+      result.get(key) should equal(Some("test-id-hint"))
+    }
+  }
+
+  private def htmlArgsMinimal: Map[Symbol, Any] = Map('title -> "test")
+
+  private def htmlArgsWithMaxLength: Map[Symbol, Any] = Map('title -> "test", 'maxLength -> 60)
+
+  private def htmlArgsWithAutoCompleteOff: Map[Symbol, Any] = Map('title -> "test", 'autocomplete -> "off")
 }

@@ -8,13 +8,16 @@ object HtmlArgsExtensions {
 
   implicit class RichHtmlArgs(val htmlArgs: Map[Symbol, Any]) extends AnyVal {
 
-    // Always have a maxLength on production, so if you forgot to add one then the default is used.
-    // We need to be able to override this behaviour when running integration tests that check that
-    // server-side error messages are shown in non-html5 browser
+    // Always have a maxLength on production, so if you forgot to add one then the default is used. We need to be able
+    // to override this behaviour when running integration tests that check that server-side error messages are shown
+    // in non-html5 browser
     def withMaxLength = {
-      val DefaultMaxLength = 60
       if (htmlArgs.contains('maxLength)) htmlArgs // No change
-      else htmlArgs + ('maxLength -> DefaultMaxLength) // On production we should have a maxLength, so if you forgot to add one then the default is used.
+      else {
+        // On production we should have a maxLength, so if you forgot to add one then the default is used.
+        val DefaultMaxLength = 60
+        htmlArgs + ('maxLength -> DefaultMaxLength)
+      }
     }
 
     // Always turn off autocomplete to protect user details.
@@ -27,6 +30,16 @@ object HtmlArgsExtensions {
           }
         case None => htmlArgs + ('autocomplete -> "off")
       }
+
+    // Screen readers do not automatically announce the hint text when focus moves to the field, and so screen reader
+    // users may be unaware of it as they tab through the form. The aria-describedby attribute creates an association
+    // between the hint and the field. It takes the id of the hint container as a value.
+    def withAriaDescribedby(hintText: Option[String], idOfRelatedField: String): Map[Symbol, Any] =
+      if (hintText.isDefined) {
+        val key = Symbol("aria-describedby")
+        htmlArgs + (key -> s"$idOfRelatedField-hint")
+      }
+      else htmlArgs
   }
 
 }
