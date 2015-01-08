@@ -20,7 +20,5 @@
         @{if(field.hasErrors) "aria-invalid=true" else ""} @* TODO move this into an extension method and write unit tests *@
         @toHtmlArgs(htmlArgs.withMaxLength.withoutAutoComplete)>
 
-    @if(hintText.isDefined) {
-        <span class="form-hint">@hintText.get</span>
-    }
+    @if(hintText.isDefined) {<span class="form-hint" id="@{s"$id-hint"}">@Html(hintText.get)</span>} else {Html("")}
 }
