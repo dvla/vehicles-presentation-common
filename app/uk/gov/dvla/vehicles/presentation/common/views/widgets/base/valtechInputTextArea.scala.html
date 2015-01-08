@@ -3,27 +3,23 @@
   args: Map[Symbol, Any] = Map.empty)(implicit handler: helper.FieldConstructor, lang: Lang)
 
 @import uk.gov.dvla.vehicles.presentation.common.views
-@import views.constraints.Required.RequiredField
 @import play.api.templates.PlayMagic.toHtmlArgs
 @import views.helpers.HtmlArgsExtensions.RichHtmlArgs
 @import views.html.widgets.base.valtechLabel
 @import _root_.views.html.helper.input
+@import views.html.widgets.base.hintTextSnippet
 
 @input(field, args.toSeq:_*) { (id, name, value, htmlArgs) =>
     @valtechLabel(field, args)
 
-        <textarea
-            id="@id"
-            name="@name"
-            value="@value"
-            @Html(
-               """type=text"""
-            )
-            @Html(htmlArgs.get('class).fold("")(classValue => s"""class="$classValue""""))
-            @toHtmlArgs(htmlArgs.withMaxLength.withoutAutoComplete)
-        ></textarea>
-        @if(hintText.isDefined) {
-            <div class="form-hint">@hintText.get</div>
-        }
+    <textarea
+        id="@id"
+        name="@name"
+        value="@value"
+        @Html("""type=text""") @* TODO move this into an extension method and write unit tests *@
+        @Html(htmlArgs.get('class).fold("")(classValue => s"""class="$classValue""""))
+        @toHtmlArgs(htmlArgs.withMaxLength.withoutAutoComplete.withAriaDescribedby(hintText, id))
+    ></textarea>
 
+    @hintTextSnippet(hintText, idOfRelatedInput = id)
 }

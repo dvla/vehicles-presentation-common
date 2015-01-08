@@ -6,6 +6,7 @@
 @import views.helpers.HtmlArgsExtensions.RichHtmlArgs
 @import views.html.widgets.base.valtechLabel
 @import _root_.views.html.helper.input
+@import views.html.widgets.base.hintTextSnippet
 
 @input(field, args.toSeq:_* ) { (id, name, value, htmlArgs) =>
     @valtechLabel(field,args)
@@ -18,7 +19,8 @@
         value="@value"
         @{if(field.constraints.find(_._1 == RequiredField)) "aria-required=true" else ""} @* TODO move this into an extension method and write unit tests *@
         @{if(field.hasErrors) "aria-invalid=true" else ""} @* TODO move this into an extension method and write unit tests *@
-        @toHtmlArgs(htmlArgs.withMaxLength.withoutAutoComplete)>
+        @toHtmlArgs(htmlArgs.withMaxLength.withoutAutoComplete.withAriaDescribedby(hintText, id))
+    >
 
-    @if(hintText.isDefined) {<span class="form-hint" id="@{s"$id-hint"}">@Html(hintText.get)</span>} else {Html("")}
+    @hintTextSnippet(hintText, idOfRelatedInput = id)
 }
