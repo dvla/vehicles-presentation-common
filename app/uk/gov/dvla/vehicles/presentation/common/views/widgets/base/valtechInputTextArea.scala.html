@@ -5,7 +5,7 @@
 @import uk.gov.dvla.vehicles.presentation.common.views
 @import views.constraints.Required.RequiredField
 @import play.api.templates.PlayMagic.toHtmlArgs
-@import views.helpers.HtmlArgsExtensions.richHtmlArgs
+@import views.helpers.HtmlArgsExtensions.RichHtmlArgs
 @import views.html.widgets.base.valtechLabel
 @import _root_.views.html.helper.input
 
@@ -20,7 +20,7 @@
                """type=text"""
             )
             @Html(htmlArgs.get('class).fold("")(classValue => s"""class="$classValue""""))
-            @toHtmlArgs(htmlArgs.maxLengthRules.autoCompleteRules)
+            @toHtmlArgs(htmlArgs.withMaxLength.withoutAutoComplete)
         ></textarea>
         @if(hintText.isDefined) {
             <div class="form-hint">@hintText.get</div>
