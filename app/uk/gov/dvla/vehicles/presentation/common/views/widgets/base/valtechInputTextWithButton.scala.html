@@ -9,8 +9,9 @@
 @import views.constraints.Required.RequiredField
 @import play.api.templates.PlayMagic.toHtmlArgs
 @import views.helpers.HtmlArgsExtensions.RichHtmlArgs
-@import views.html.widgets.base.{labelOrId, valtechLabel}
+@import views.html.widgets.base.labelOrId
 @import _root_.views.html.helper.input
+@import views.html.widgets.base.valtechLabel
 
 @input(field, args.toSeq:_*) { (id, name, value, htmlArgs) =>
     @valtechLabel(field, args)
