@@ -9,8 +9,7 @@ import scala.concurrent.Future
 import scala.util.Try
 import uk.gov.dvla.vehicles.presentation.common
 import common.UnitSpec
-import common.webserviceclients.bruteforceprevention.{BruteForcePreventionConfig, BruteForcePreventionWebService}
-import common.webserviceclients.bruteforceprevention.{BruteForcePreventionServiceImpl, BruteForcePreventionService}
+import uk.gov.dvla.vehicles.presentation.common.webserviceclients.bruteforceprevention._
 import common.webserviceclients.fakes.brute_force_protection.FakeBruteForcePreventionWebServiceImpl
 import common.webserviceclients.fakes.brute_force_protection.FakeBruteForcePreventionWebServiceImpl.responseFirstAttempt
 import common.webserviceclients.fakes.brute_force_protection.FakeBruteForcePreventionWebServiceImpl.responseSecondAttempt
@@ -60,7 +59,7 @@ final class BruteForcePreventionServiceImplSpec extends UnitSpec {
       })
 
       val service = new BruteForcePreventionServiceImpl(
-        new BruteForcePreventionConfig,
+        new TestBruteForcePreventionConfig,
         ws = bruteForcePreventionWebServiceMock,
         dateService = new FakeDateServiceImpl
       )
@@ -75,7 +74,7 @@ final class BruteForcePreventionServiceImplSpec extends UnitSpec {
       when(bruteForcePreventionWebServiceMock.reset(anyString)).thenReturn(responseThrows)
 
       val service = new BruteForcePreventionServiceImpl(
-        new BruteForcePreventionConfig,
+        new TestBruteForcePreventionConfig,
         ws = bruteForcePreventionWebServiceMock,
         dateService = new FakeDateServiceImpl
       )
@@ -112,7 +111,7 @@ final class BruteForcePreventionServiceImplSpec extends UnitSpec {
     }
 
     new BruteForcePreventionServiceImpl(
-      new BruteForcePreventionConfig,
+      new TestBruteForcePreventionConfig,
       ws = bruteForcePreventionWebService,
       dateService = new FakeDateServiceImpl
     )

@@ -26,9 +26,7 @@ class VehicleLookupWebServiceImplSpec  extends UnitSpec  with WireMockFixture {
 
   implicit val noCookieFlags = new NoCookieFlags
   implicit val clientSideSessionFactory = new ClearTextClientSideSessionFactory()
-  val lookupService = new VehicleLookupWebServiceImpl(new VehicleLookupConfig() {
-    override val baseUrl = s"http://localhost:$wireMockPort"
-  })
+  val lookupService = new VehicleLookupWebServiceImpl(new TestVehicleLookupConfig(wireMockPort))
   implicit val vehiclesDetailsFormat = Json.format[VehicleDetailsRequestDto]
 
   val trackingId = "track-id-test"
@@ -38,4 +36,8 @@ class VehicleLookupWebServiceImplSpec  extends UnitSpec  with WireMockFixture {
     registrationNumber = "reg number",
     userName = "user name"
   )
+}
+
+class TestVehicleLookupConfig(wireMockPort:Int) extends VehicleLookupConfig {
+  override lazy val baseUrl = s"http://localhost:$wireMockPort"
 }

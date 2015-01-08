@@ -14,7 +14,7 @@ final class BruteForcePreventionServiceImpl @Inject()(config: BruteForcePreventi
                                                       ws: BruteForcePreventionWebService,
                                                       dateService: DateService) extends BruteForcePreventionService {
 
-  private val maxAttempts: Int = config.maxAttemptsHeader.toInt
+  private val maxAttempts: Int = config.maxAttemptsHeader
 
   override def isVrmLookupPermitted(vrm: String): Future[BruteForcePreventionModel] =
   // Feature toggle until all developers have Redis and the brute force micro service setup locally.

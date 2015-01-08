@@ -3,6 +3,8 @@ package uk.gov.dvla.vehicles.presentation.common.services
 import org.apache.commons.mail.{Email => ApacheEmail, EmailException, HtmlEmail}
 import play.api.Logger
 
+import scala.concurrent.{ExecutionContext, Future}
+
 
 /**
  * A simple service to send an email, leveraging the apache commons email library.

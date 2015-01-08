@@ -1,10 +1,10 @@
 @()(implicit token: uk.gov.dvla.vehicles.presentation.common.filters.CsrfPreventionAction.CsrfPreventionToken)
 
-@import uk.gov.dvla.vehicles.presentation.common.ConfigProperties.getProperty
+@import uk.gov.dvla.vehicles.presentation.common.ConfigProperties.getOptionalProperty
 @import uk.gov.dvla.vehicles.presentation.common.filters.CsrfPreventionAction
 
 
-@defining(getProperty("csrf.prevention", default = true)) { csrfPrevention =>
-@if(csrfPrevention) {
+@defining(getOptionalProperty[Boolean]("csrf.prevention")) { csrfPrevention =>
+@if(csrfPrevention.getOrElse(true)) {
 <input type="hidden" name="@{CsrfPreventionAction.TokenName}" value="@token.value"/> <!-- Token -->
 }}

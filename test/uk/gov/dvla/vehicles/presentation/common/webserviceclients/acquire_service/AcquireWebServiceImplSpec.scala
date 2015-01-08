@@ -3,20 +3,20 @@ package uk.gov.dvla.vehicles.presentation.common.webserviceclients.acquire
 import org.joda.time.DateTime
 import org.joda.time.format.ISODateTimeFormat
 import play.api.libs.json.{JsString, JsValue, Writes, Json}
+import uk.gov.dvla.vehicles.presentation.common.ConfigProperties._
 import uk.gov.dvla.vehicles.presentation.common.{WithApplication, UnitSpec}
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.{ClearTextClientSideSessionFactory, NoCookieFlags}
 import uk.gov.dvla.vehicles.presentation.common.testhelpers.WireMockFixture
 import uk.gov.dvla.vehicles.presentation.common.webserviceclients.HttpHeaders
 import uk.gov.dvla.vehicles.presentation.common.webserviceclients.common.{VssWebHeaderDto, VssWebEndUserDto}
 import com.github.tomakehurst.wiremock.client.WireMock.{equalTo, postRequestedFor, urlEqualTo}
+import scala.concurrent.duration.DurationInt
 
 class AcquireWebServiceImplSpec extends UnitSpec with WireMockFixture {
 
   implicit val noCookieFlags = new NoCookieFlags
   implicit val clientSideSessionFactory = new ClearTextClientSideSessionFactory()
-  val acquireService = new AcquireWebServiceImpl(new AcquireConfig() {
-    override val baseUrl = s"http://localhost:$wireMockPort"
-  })
+  val acquireService = new AcquireWebServiceImpl(new TestAcquireConfig(wireMockPort))
 
   private final val trackingId = "track-id-test"
 
@@ -75,4 +75,9 @@ class AcquireWebServiceImplSpec extends UnitSpec with WireMockFixture {
       }
     }
   }
+}
+
+class TestAcquireConfig(wireMockPort:Int) extends AcquireConfig {
+  override lazy val baseUrl = s"http://localhost:$wireMockPort"
+  override lazy val requestTimeout = 5.seconds.toMillis.toInt
 }

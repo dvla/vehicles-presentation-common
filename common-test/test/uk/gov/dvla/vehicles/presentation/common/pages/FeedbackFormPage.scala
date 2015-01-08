@@ -9,7 +9,7 @@ import org.openqa.selenium.WebDriver
 object FeedbackFormPage extends Page with WebBrowserDSL {
 
   final val address = "/feedback-form"
-  override val url: String = WebDriverFactory.testUrl + address.substring(1)
+  override val url: String = WebDriverFactory.testUrl + address
   final override val title: String = "Feedback Form"
 
   def feedbackElement(implicit driver: WebDriver): TextArea = textArea(id(feedback))

@@ -1,6 +1,7 @@
 package uk.gov.dvla.vehicles.presentation.common.clientsidesession
 
 import play.api.mvc.Cookie
+import uk.gov.dvla.vehicles.presentation.common.ConfigProperties._
 import uk.gov.dvla.vehicles.presentation.common.UnitSpec
 
 final class EncryptedClientSideSessionFactorySpec extends UnitSpec {
@@ -8,7 +9,10 @@ final class EncryptedClientSideSessionFactorySpec extends UnitSpec {
   implicit val noEncryption = new NoEncryption with CookieEncryption
   implicit val noHashing = new NoHashGenerator with CookieNameHashGenerator
   val encryptedClientSideSessionFactory =
-    new EncryptedClientSideSessionFactory()(noCookieFlags, noEncryption, noHashing)
+    new EncryptedClientSideSessionFactory()(noCookieFlags, noEncryption, noHashing) {
+      override protected lazy val secureCookies: Boolean = true
+      override protected lazy val sessionSecretKeySuffixKey: String = "FE291934-66BD-4500-B27F-517C7D77F26B"
+    }
 
   "newSessionCookiesIfNeeded" should {
 

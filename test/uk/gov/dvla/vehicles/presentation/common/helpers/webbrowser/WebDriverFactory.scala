@@ -40,7 +40,12 @@ object WebDriverFactory {
       }
     }
 
-    val implicitlyWait = getProperty("browser.implicitlyWait", 5000)
+    lazy val implicitlyWait = try {
+      getProperty[Int]("browser.implicitlyWait")
+    } catch {
+      case _:Throwable => 5000
+    }
+//    val implicitlyWait = getProperty("browser.implicitlyWait", 5000)
     selectedDriver.manage().timeouts().implicitlyWait(implicitlyWait, TimeUnit.MILLISECONDS)
     selectedDriver
   }
@@ -52,9 +57,16 @@ object WebDriverFactory {
   def testUrl: String = TestConfiguration.testUrl
 
   private def chromeDriver = {
+    val webDriverProperty: String = try {
+      getProperty[String]("webdriver.chrome.driver")
+    } catch {
+      case _:Throwable => s"test/resources/drivers/chromedriver"
+    }
+
     systemProperties.setProperty(
       "webdriver.chrome.driver",
-      getProperty("webdriver.chrome.driver", s"test/resources/drivers/chromedriver"))
+      webDriverProperty)
+
     new ChromeDriver()
   }
 
@@ -71,9 +83,14 @@ object WebDriverFactory {
   }
 
   private def phantomjsDriver(javascriptEnabled: Boolean) = {
+    val phantomLibrary: String = try {
+      getProperty("webdriver.phantomjs.binary")
+    } catch {
+      case _:Throwable => s"test/resources/drivers/phantomjs-1.9.7_$driverSuffix"
+    }
     systemProperties.setProperty(
       "webdriver.phantomjs.binary",
-      getProperty("webdriver.phantomjs.binary", s"test/resources/drivers/phantomjs-1.9.7_$driverSuffix")
+      phantomLibrary
     )
 
     val capabilities = new DesiredCapabilities

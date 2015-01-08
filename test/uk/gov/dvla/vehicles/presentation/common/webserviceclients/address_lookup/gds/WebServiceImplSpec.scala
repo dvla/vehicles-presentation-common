@@ -1,5 +1,7 @@
 package uk.gov.dvla.vehicles.presentation.common.webserviceclients.address_lookup.gds
 
+import uk.gov.dvla.vehicles.presentation.common.ConfigProperties._
+import scala.concurrent.duration.DurationInt
 import uk.gov.dvla.vehicles.presentation.common.UnitSpec
 import uk.gov.dvla.vehicles.presentation.common.webserviceclients.addresslookup.gds.WebServiceImpl
 import uk.gov.dvla.vehicles.presentation.common.webserviceclients.config.GDSAddressLookupConfig
@@ -20,5 +22,11 @@ final class WebServiceImplSpec extends UnitSpec {
     }
   }
 
-  private val addressLookupService = new WebServiceImpl(new GDSAddressLookupConfig)
+  private val addressLookupService = new WebServiceImpl(new TestGDSAddressLookupConfig)
+}
+
+class TestGDSAddressLookupConfig extends GDSAddressLookupConfig {
+  override lazy val baseUrl = ""
+  override lazy val authorisation = ""
+  override lazy val requestTimeout = 5.seconds.toMillis.toInt
 }

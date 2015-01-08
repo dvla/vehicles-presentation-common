@@ -3,6 +3,7 @@ package uk.gov.dvla.vehicles.presentation.common.webserviceclients.vehicleandkee
 import com.github.tomakehurst.wiremock.client.WireMock.{equalTo, postRequestedFor, urlEqualTo}
 import org.joda.time.DateTime
 import org.joda.time.format.ISODateTimeFormat
+import uk.gov.dvla.vehicles.presentation.common.ConfigProperties._
 import uk.gov.dvla.vehicles.presentation.common.WithApplication
 
 import play.api.libs.json.{JsString, JsValue, Writes, Json}
@@ -26,9 +27,7 @@ final class VehicleAndKeeperLookupWebServiceImplSpec extends UnitSpec with WireM
     }
   }
 
-  private val lookupService = new VehicleAndKeeperLookupWebServiceImpl(new VehicleAndKeeperLookupConfig() {
-    override val vehicleAndKeeperLookupMicroServiceBaseUrl = s"http://localhost:$wireMockPort"
-  })
+  private val lookupService = new VehicleAndKeeperLookupWebServiceImpl(new TestVehicleAndKeeperLookupConfig(wireMockPort))
 
   private final val trackingId = "track-id-test"
 
@@ -48,4 +47,8 @@ final class VehicleAndKeeperLookupWebServiceImplSpec extends UnitSpec with WireM
 
   private implicit val vehicleAndKeeperDetailsFormat = Json.format[VehicleAndKeeperDetailsRequest]
 
+}
+
+class TestVehicleAndKeeperLookupConfig(wireMockPort: Int) extends VehicleAndKeeperLookupConfig {
+  override lazy val vehicleAndKeeperLookupMicroServiceBaseUrl = s"http://localhost:$wireMockPort"
 }

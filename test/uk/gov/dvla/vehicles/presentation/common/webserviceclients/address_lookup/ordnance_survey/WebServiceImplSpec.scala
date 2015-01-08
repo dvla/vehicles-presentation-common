@@ -1,6 +1,7 @@
 package uk.gov.dvla.vehicles.presentation.common.webserviceclients.address_lookup.ordnance_survey
 
 import org.scalatest.concurrent.PatienceConfiguration.Interval
+import uk.gov.dvla.vehicles.presentation.common.ConfigProperties._
 import uk.gov.dvla.vehicles.presentation.common.{UnitSpec, WithApplication}
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.{ClearTextClientSideSessionFactory, NoCookieFlags, ClientSideSessionFactory}
 import uk.gov.dvla.vehicles.presentation.common.testhelpers.WireMockFixture
@@ -19,9 +20,7 @@ final class WebServiceImplSpec extends UnitSpec  with WireMockFixture {
 
   implicit val noCookieFlags = new NoCookieFlags
   implicit val clientSideSessionFactory = new ClearTextClientSideSessionFactory()
-  val addressLookupService = new WebServiceImpl(new OrdnanceSurveyConfig() {
-    override val baseUrl = s"http://localhost:$wireMockPort"
-  })
+  val addressLookupService = new WebServiceImpl(new TestOrdnanceSurveyConfig(wireMockPort))
 
   "postcodeWithNoSpaces" should {
     "return the same string if no spaces present" in {
@@ -62,4 +61,10 @@ final class WebServiceImplSpec extends UnitSpec  with WireMockFixture {
       }
     }
   }
+}
+
+class TestOrdnanceSurveyConfig(wireMockPort: Int) extends OrdnanceSurveyConfig {
+  override lazy val baseUrl = s"http://localhost:$wireMockPort"
+  override lazy val requestTimeout = 5.seconds.toMillis.toInt
+
 }

@@ -4,7 +4,8 @@ import uk.gov.dvla.vehicles.presentation.common.ConfigProperties.getProperty
 import scala.concurrent.duration.DurationInt
 
 class GDSAddressLookupConfig {
-  val baseUrl = getProperty("gdsaddresslookup.baseUrl", "")
-  val authorisation = getProperty("gdsaddresslookup.authorisation", "")
-  val requestTimeout = getProperty("gdsaddresslookup.requestTimeout", 5.seconds.toMillis.toInt)
+  lazy val baseUrl = getProperty[String]("gdsaddresslookup.baseUrl")
+  lazy val authorisation = getProperty[String]("gdsaddresslookup.authorisation")
+  lazy val requestTimeout = getProperty[Int]("gdsaddresslookup.requestTimeout")
+//  val requestTimeout = getProperty("gdsaddresslookup.requestTimeout", 5.seconds.toMillis.toInt)
 }

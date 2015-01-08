@@ -10,7 +10,7 @@ import play.api.libs.concurrent.Execution.Implicits.defaultContext
 import play.api.libs.iteratee.{Enumerator, Iteratee, Traversable}
 import play.api.mvc.BodyParsers.parse.tolerantFormUrlEncoded
 import play.api.mvc._
-import uk.gov.dvla.vehicles.presentation.common.ConfigProperties.getProperty
+import uk.gov.dvla.vehicles.presentation.common.ConfigProperties.{getProperty, getOptionalProperty}
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicits.RichCookies
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.{AesEncryption, ClientSideSessionFactory}
 import scala.util.Try
@@ -116,8 +116,8 @@ object CsrfPreventionAction {
 
   final val TokenName = "csrf_prevention_token"
   private final val Delimiter = "-"
-  lazy val preventionEnabled = getProperty("csrf.prevention", default = true)
-  lazy val postWhitelist = getProperty("csrf.post.whitelist", "").split(",")
+  lazy val preventionEnabled = getOptionalProperty[Boolean]("csrf.prevention").getOrElse(true)
+  lazy val postWhitelist = getProperty[String]("csrf.post.whitelist").split(",")
   private val aesEncryption = new AesEncryption()
 
   case class CsrfPreventionToken(value: String)

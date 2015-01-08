@@ -15,9 +15,11 @@ class EncryptedClientSideSessionFactory @Inject()()
    * Session secret key must not expire before any other cookie that relies on it.
    */
   private final val SessionSecretKeyLifetime = None
-  private val secureCookies: Boolean = getProperty("secureCookies", default = true)
-  private val sessionSecretKeySuffixKey: String =
-    getProperty(SessionSecretKeySuffixKey, SessionSecretKeySuffixDefaultValue)
+//  private val secureCookies: Boolean = getProperty[Boolean]("secureCookies", default = true)
+  protected lazy val secureCookies: Boolean = getProperty[Boolean]("secureCookies")
+  protected lazy val sessionSecretKeySuffixKey: String = getProperty[String](SessionSecretKeySuffixKey)
+//private val sessionSecretKeySuffixKey: String =
+//    getProperty(SessionSecretKeySuffixKey, SessionSecretKeySuffixDefaultValue)
 
   override def newSessionCookiesIfNeeded(request: Traversable[Cookie]): Option[Seq[Cookie]] =
     validateSessionCookies(request) match {
