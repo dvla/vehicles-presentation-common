@@ -39,7 +39,11 @@
             Screen readers do not automatically announce the hint text when focus moves to the field, and so screen reader users may be unaware of it as they tab through the form.
             Use the aria-describedby attribute to create an association between the hint and the field. It takes the id of the hint container as a value.
             *@
-            @hintText.map { _ => aria-describedby="@{s"$id-hint"}" }
+            @if(hintText.isDefined) {
+                @Html(s"""aria-describedby="@{"$id-hint"}"""")
+            } else {
+                @Html("")
+            }
 
             @************************
             End accessibility section

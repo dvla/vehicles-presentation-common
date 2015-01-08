@@ -6,4 +6,6 @@ The id should be the id of the field it relates to suffixed with "-hint" so that
 *@
 @if(hintText.isDefined) {
     <span class="form-hint" id="@{s"$idOfRelatedInput-hint"}">@Html(hintText.get)</span>
-} else {@Html("")}
+} else {
+    @Html("")
+}
