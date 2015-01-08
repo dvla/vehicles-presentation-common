@@ -44,8 +44,9 @@ object ConfigProperties {
       case x if x.tpe.toString == "Int" => Play.current.configuration.getInt(property).map(_.asInstanceOf[T])
       case x if x.tpe.toString == "Boolean" => Play.current.configuration.getBoolean(property).map(_.asInstanceOf[T])
       case x if x.tpe.toString == "Long" => Play.current.configuration.getLong(property).map(_.asInstanceOf[T])
-      case x if x.tpe.toString == "java.util.List[String]" => Play.current.configuration.getStringList(property).map(_.asInstanceOf[T])
-      case _ => Logger.error(s"${typeOf[T]} for properties is not supported by the application"); None
+      case x if x.tpe.toString == "java.util.List[String]" =>
+        Play.current.configuration.getStringList(property).map(_.asInstanceOf[T])
+      case _ => Logger.error(s"type ${typeOf[T]} for properties is not supported by the application"); None
     }
   }
 
