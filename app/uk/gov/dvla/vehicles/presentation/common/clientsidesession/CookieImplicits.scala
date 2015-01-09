@@ -55,8 +55,6 @@ object CookieImplicits {
 
     def trackingId()(implicit clientSideSessionFactory: ClientSideSessionFactory): String =
       clientSideSessionFactory.getSession(requestCookies).trackingId
-
-    def withSecure(flag: Boolean) = ???
   }
 
   implicit class RichResult(val inner: Result) extends AnyVal {

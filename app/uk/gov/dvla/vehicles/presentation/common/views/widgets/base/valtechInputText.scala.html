@@ -5,9 +5,10 @@
 @import uk.gov.dvla.vehicles.presentation.common.views
 @import views.constraints.Required.RequiredField
 @import play.api.templates.PlayMagic.toHtmlArgs
-@import views.helpers.HtmlArgsExtensions.richHtmlArgs
+@import views.helpers.HtmlArgsExtensions.RichHtmlArgs
 @import views.html.widgets.base.valtechLabel
 @import _root_.views.html.helper.input
+@import views.html.widgets.base.hintTextSnippet
 
 @input(field, args.toSeq:_*) { (id, name, value, htmlArgs) =>
     @valtechLabel(field, args)
@@ -24,13 +25,23 @@
                 else """type=text"""
             )
             @Html(htmlArgs.get('class).fold("")(classValue => s"""class="$classValue""""))
-            @{if(field.constraints.exists({case (key, _) => key == RequiredField})) "aria-required=true" else ""} @* TODO move this into an extension method and write unit tests *@
-            @{if(field.hasErrors) "aria-invalid=true" else ""} @* TODO move this into an extension method and write unit tests *@
-            @toHtmlArgs(htmlArgs.maxLengthRules.autoCompleteRules)
+
+            @********************
+            Accessibility section
+            ********************@
+
+            @* If field is required then show attribute aria-required=true *@
+            @Html(if(field.constraints.exists({case (key, _) => key == RequiredField})) "aria-required=true" else "") @* TODO move this into an extension method and write unit tests *@
+            @Html(if(field.hasErrors) "aria-invalid=true" else "") @* TODO move this into an extension method and write unit tests *@
+
+            @************************
+            End accessibility section
+            ************************@
+
+            @toHtmlArgs(htmlArgs.withMaxLength.withoutAutoComplete.withAriaDescribedby(hintText, id))
         >
-        @if(hintText.isDefined) {
-            <span class="form-hint">@hintText.get</span>
-        }
+
+        @hintTextSnippet(hintText, idOfRelatedInput = id)
 
   <script type="text/javascript">
   function check(evt, id) {
@@ -60,5 +71,4 @@
       }
   }
   </script>
-
 }
