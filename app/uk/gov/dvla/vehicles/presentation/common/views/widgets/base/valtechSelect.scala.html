@@ -1,10 +1,12 @@
-@(field: play.api.data.Field, defaultOptionMessage: String = "select_default", options: Seq[(String, String)], args: Map[Symbol, Any] = Map.empty)(implicit handler: helper.FieldConstructor, lang: Lang)
+@(field: play.api.data.Field, defaultOptionMessage: String = "select_default", options: Seq[(String, String)], hintText: Option[String] = None, args: Map[Symbol, Any] = Map.empty)(implicit handler: helper.FieldConstructor, lang: Lang)
 
 @import uk.gov.dvla.vehicles.presentation.common.views
 @import views.constraints.Required.RequiredField
 @import play.api.templates.PlayMagic.toHtmlArgs
+@import views.helpers.HtmlArgsExtensions.RichHtmlArgs
 @import views.helpers.SelectHelper.defaultOption
 @import views.html.widgets.base.valtechLabel
+@import views.html.widgets.base.hintTextSnippet
 
 @helper.input(field, args.toSeq: _*) { (id, name, selectedKey, htmlArgs) =>
     @valtechLabel(field, args)
@@ -13,7 +15,7 @@
         name="@name"
         @{if(field.constraints.find(_._1 == RequiredField)) "aria-required=true" else ""} @* TODO move this into an extension method and write unit tests *@
         @{if(field.hasErrors) "aria-invalid=true" else ""} @* TODO move this into an extension method and write unit tests *@
-        @toHtmlArgs(htmlArgs)
+        @toHtmlArgs(htmlArgs.withAriaDescribedby(hintText, id))
     >
         @defaultOption(htmlArgs)
 
@@ -22,4 +24,6 @@
             <option value="@mappingValue" @(if(selectedKey == Some(mappingValue)) "selected" else "")>@humanReadableLabel</option>
             }
     </select>
+
+    @hintTextSnippet(hintText, idOfRelatedInput = id)
 }
