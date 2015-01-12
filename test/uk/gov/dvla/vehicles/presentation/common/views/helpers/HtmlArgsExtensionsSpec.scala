@@ -113,7 +113,7 @@ final class HtmlArgsExtensionsSpec extends UnitSpec {
     }
 
     "remove key 'typeFleetNumber' when present" in {
-      val richHtmlArgs = new RichHtmlArgs(htmlArgsWithTypeTel)
+      val richHtmlArgs = new RichHtmlArgs(htmlArgsWithTypeFleetNumber)
 
       val result = richHtmlArgs.withTypeAttribute
 
@@ -132,7 +132,7 @@ final class HtmlArgsExtensionsSpec extends UnitSpec {
     }
 
     "remove key 'typeEmail' when present" in {
-      val richHtmlArgs = new RichHtmlArgs(htmlArgsWithTypeTel)
+      val richHtmlArgs = new RichHtmlArgs(htmlArgsWithTypeEmail)
 
       val result = richHtmlArgs.withTypeAttribute
 
@@ -151,7 +151,7 @@ final class HtmlArgsExtensionsSpec extends UnitSpec {
     }
 
     "remove key 'alphabeticalOnly' when present" in {
-      val richHtmlArgs = new RichHtmlArgs(htmlArgsWithTypeTel)
+      val richHtmlArgs = new RichHtmlArgs(htmlArgsWithTypeAlphabeticalOnly)
 
       val result = richHtmlArgs.withTypeAttribute
 
@@ -165,11 +165,11 @@ final class HtmlArgsExtensionsSpec extends UnitSpec {
 
   private def htmlArgsWithAutoCompleteOff: Map[Symbol, Any] = Map('title -> "test", 'autocomplete -> "off")
 
-  private def htmlArgsWithTypeTel = Map('title -> "test", 'typeTel -> "")
+  private def htmlArgsWithTypeTel = Map('title -> "test", 'typeTel -> true)
 
-  private def htmlArgsWithTypeFleetNumber = Map('title -> "test", 'typeFleetNumber -> "")
+  private def htmlArgsWithTypeFleetNumber = Map('title -> "test", 'typeFleetNumber -> true)
 
-  private def htmlArgsWithTypeEmail = Map('title -> "test", 'typeEmail -> "")
+  private def htmlArgsWithTypeEmail = Map('title -> "test", 'typeEmail -> true)
 
-  private def htmlArgsWithTypeAlphabeticalOnly = Map('title -> "test", 'alphabeticalOnly -> "")
+  private def htmlArgsWithTypeAlphabeticalOnly = Map('title -> "test", 'alphabeticalOnly -> true)
 }
