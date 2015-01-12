@@ -37,7 +37,7 @@ object Helper {
   def isNumberField(webElement: WebElement): Boolean = isInputField(webElement, "number")
   def isRangeField(webElement: WebElement): Boolean = isInputField(webElement, "range")
   def isSearchField(webElement: WebElement): Boolean = isInputField(webElement, "search")
-  def isTelField(webElement: WebElement): Boolean = isInputField(webElement, "tel")
+  def isTelField(webElement: WebElement): Boolean = isInputField(webElement, """tel onkeypress="check(event, this);"""")
   def isTimeField(webElement: WebElement): Boolean = isInputField(webElement, "time")
   def isUrlField(webElement: WebElement): Boolean = isInputField(webElement, "url")
   def isWeekField(webElement: WebElement): Boolean = isInputField(webElement, "week")
