@@ -107,7 +107,7 @@ final class HtmlArgsExtensionsSpec extends UnitSpec {
       val result = richHtmlArgs.withTypeAttribute
 
       val key = 'type
-      val value = """tel onkeyup="this.value=this.value.replace(/[^\d/-]/g,'')" onkeydown="this.value=this.value.replace(/[^\d/-]/g,'')""""
+      val value = """tel"""
       result.contains(key)
       result.get(key) should equal(Some(value))
     }
@@ -145,7 +145,7 @@ final class HtmlArgsExtensionsSpec extends UnitSpec {
       val result = richHtmlArgs.withTypeAttribute
 
       val key = 'type
-      val value = """text onkeyup="this.value=this.value.replace(/[^a-zA-Z]/g,'')" onkeydown="this.value=this.value.replace(/[^a-zA-Z]/g,'')""""
+      val value = """text"""
       result.contains(key)
       result.get(key) should equal(Some(value))
     }
