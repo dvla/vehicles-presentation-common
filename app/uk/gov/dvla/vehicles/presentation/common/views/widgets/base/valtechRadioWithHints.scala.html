@@ -20,7 +20,11 @@
                     @* Handle re-selecting the option in the widget that was chosen the last time the widget was displayed in a page *@
                     value="@{radio.key}" @(if(value == Some(radio.key)) "checked" else "")
                     }
-                @toHtmlArgs(htmlArgs.withTypeAttributeRadio)>
+                @toHtmlArgs(
+                    htmlArgs.withTypeAttributeRadio.
+                            withAriaRequired(field.constraints)
+                )
+            >
             <span class="text">@{radio.message}</span>
         </label>
 

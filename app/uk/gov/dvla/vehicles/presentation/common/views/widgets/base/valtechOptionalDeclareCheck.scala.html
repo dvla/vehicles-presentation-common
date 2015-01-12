@@ -18,7 +18,13 @@
            name="@name"
            value="@boxValue"
            @{if(value == Some(boxValue)) "checked" else ""}
-           @toHtmlArgs(htmlArgs.filterKeys(_ != 'value).withAriaDescribedby(hintText, id).withTypeAttributeCheckbox.withAriaInvalid(field.hasErrors))
+           @toHtmlArgs(
+               htmlArgs.filterKeys(_ != 'value).
+                       withAriaDescribedby(hintText, id).
+                       withTypeAttributeCheckbox.
+                       withAriaInvalid(field.hasErrors).
+                       withAriaRequired(field.constraints)
+           )
     >
     @labelOrId(field.id, args)
 </label>

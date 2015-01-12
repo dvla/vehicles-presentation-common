@@ -1,5 +1,6 @@
 package uk.gov.dvla.vehicles.presentation.common.views.helpers
 
+import uk.gov.dvla.vehicles.presentation.common.views.constraints.Required.RequiredField
 import uk.gov.dvla.vehicles.presentation.common.views.helpers.HtmlArgsExtensions.RichHtmlArgs
 import uk.gov.dvla.vehicles.presentation.common.{UnitSpec, WithApplication}
 
@@ -159,7 +160,7 @@ final class HtmlArgsExtensionsSpec extends UnitSpec {
     }
   }
 
-  "withAriaInvalid" must {
+  "withAriaInvalid" should {
     "return the same when hasErrors is false" in {
       val richHtmlArgs = new RichHtmlArgs(htmlArgsMinimal)
 
@@ -176,6 +177,27 @@ final class HtmlArgsExtensionsSpec extends UnitSpec {
       val key = Symbol("aria-invalid")
       val htmlArgsWithAriaInvalid: Map[Symbol, Any] = Map('title -> "test", key -> true)
       result should equal(htmlArgsWithAriaInvalid)
+    }
+  }
+
+  "withAriaRequired" should {
+    "return the same when field does not have a required constraint" in {
+      val richHtmlArgs = new RichHtmlArgs(htmlArgsMinimal)
+      val constraints: Seq[(String, Seq[Any])] = Seq.empty
+
+      val result = richHtmlArgs.withAriaRequired(constraints)
+
+      result should equal(htmlArgsMinimal)
+    }
+
+    "add aria-required when field has a required constraint" in {
+      val richHtmlArgs = new RichHtmlArgs(htmlArgsMinimal)
+      val constraints: Seq[(String, Seq[Any])] = Seq((RequiredField, Seq()))
+
+      val result = richHtmlArgs.withAriaRequired(constraints)
+
+      val key = Symbol("aria-required")
+      result should equal(Map('title -> "test", key -> true))
     }
   }
 

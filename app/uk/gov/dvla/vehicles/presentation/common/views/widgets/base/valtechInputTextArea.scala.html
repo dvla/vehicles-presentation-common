@@ -17,7 +17,13 @@
         name="@name"
         value="@value"
         @Html(htmlArgs.get('class).fold("")(classValue => s"""class="$classValue""""))
-        @toHtmlArgs(htmlArgs.withMaxLength.withoutAutoComplete.withAriaDescribedby(hintText, id).withTypeAttributeText)
+        @toHtmlArgs(
+            htmlArgs.withMaxLength.
+                    withoutAutoComplete.
+                    withAriaDescribedby(hintText, id).
+                    withTypeAttributeText.
+                    withAriaRequired(field.constraints)
+        )
     ></textarea>
 
     @hintTextSnippet(hintText, idOfRelatedInput = id)

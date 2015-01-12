@@ -19,8 +19,13 @@
            name="@name"
            value="@boxValue"
            @{if(value == Some(boxValue)) "checked" else ""}
-           @{if(field.constraints.find(_._1 == RequiredField)) "aria-required=true" else ""} @* TODO move this into an extension method for fields *@
-           @toHtmlArgs(htmlArgs.filterKeys(_ != 'value).withAriaDescribedby(hintText, id).withTypeAttributeCheckbox.withAriaInvalid(field.hasErrors))
+           @toHtmlArgs(
+               htmlArgs.filterKeys(_ != 'value).
+                       withAriaDescribedby(hintText, id).
+                       withTypeAttributeCheckbox.
+                       withAriaInvalid(field.hasErrors).
+                       withAriaRequired(field.constraints)
+           )
     >
 
     @valtechLabelText(field,args)

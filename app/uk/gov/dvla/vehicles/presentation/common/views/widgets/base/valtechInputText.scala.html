@@ -19,18 +19,17 @@
             value="@value"
             @Html(htmlArgs.get('class).fold("")(classValue => s"""class="$classValue""""))
 
-            @********************
-            Accessibility section
-            ********************@
-
-            @* If field is required then show attribute aria-required=true *@
-            @Html(if(field.constraints.exists({case (key, _) => key == RequiredField})) "aria-required=true" else "") @* TODO move this into an extension method and write unit tests *@
-
             @************************
             End accessibility section
             ************************@
 
-            @toHtmlArgs(htmlArgs.withMaxLength.withoutAutoComplete.withAriaDescribedby(hintText, id).withTypeAttribute.withAriaInvalid(field.hasErrors))
+            @toHtmlArgs(
+                htmlArgs.withMaxLength.
+                        withoutAutoComplete.
+                        withAriaDescribedby(hintText, id).
+                        withTypeAttribute.withAriaInvalid(field.hasErrors).
+                        withAriaRequired(field.constraints)
+            )
         >
 
         @hintTextSnippet(hintText, idOfRelatedInput = id)

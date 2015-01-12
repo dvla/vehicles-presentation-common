@@ -1,5 +1,7 @@
 package uk.gov.dvla.vehicles.presentation.common.views.helpers
 
+import uk.gov.dvla.vehicles.presentation.common.views.constraints.Required.RequiredField
+
 import scala.language.implicitConversions
 
 // See the Scala docs for value scala.language.implicitConversions for a discussion why the feature should be explicitly enabled.
@@ -36,8 +38,8 @@ object HtmlArgsExtensions {
     // between the hint and the field. It takes the id of the hint container as a value.
     def withAriaDescribedby(hintText: Option[String], idOfRelatedField: String): Map[Symbol, Any] =
       if (hintText.isDefined) {
-        val key = Symbol("aria-describedby")
-        htmlArgs + (key -> s"$idOfRelatedField-hint")
+        val ariaDescribedKey = Symbol("aria-describedby")
+        htmlArgs + (ariaDescribedKey -> s"$idOfRelatedField-hint")
       }
       else htmlArgs
 
@@ -65,8 +67,15 @@ object HtmlArgsExtensions {
 
     def withAriaInvalid(hasErrors: Boolean): Map[Symbol, Any] =
       if (hasErrors) {
-        val key = Symbol("aria-invalid")
-        htmlArgs + (key -> true)
+        val ariaInvalidKey = Symbol("aria-invalid")
+        htmlArgs + (ariaInvalidKey -> true)
+      }
+      else htmlArgs
+
+    def withAriaRequired(constraints: Seq[(String, Seq[Any])]): Map[Symbol, Any] =
+      if (constraints.exists({case (key, _) => key == RequiredField})) {
+        val ariaRequiredKey = Symbol("aria-required")
+        htmlArgs + (ariaRequiredKey -> true)
       }
       else htmlArgs
   }

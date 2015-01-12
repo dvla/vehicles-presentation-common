@@ -22,8 +22,14 @@
         id="@id"
         name="@name"
         value="@value"
-        @{if(field.constraints.find(_._1 == RequiredField)) "aria-required=true" else ""} @* TODO move this into an extension method and write unit tests *@
-        @toHtmlArgs(htmlArgs.withMaxLength.withoutAutoComplete.withAriaDescribedby(hintText, id).withTypeAttributeText.withAriaInvalid(field.hasErrors))
+        @toHtmlArgs(
+            htmlArgs.withMaxLength.
+                withoutAutoComplete.
+                withAriaDescribedby(hintText, id).
+                withTypeAttributeText.
+                withAriaInvalid(field.hasErrors).
+                withAriaRequired(field.constraints)
+        )
     >
 
     <button type=@buttonType name="@buttonName" class="@buttonClass" aria-disabled="@buttonAriaDisabled" disabled>

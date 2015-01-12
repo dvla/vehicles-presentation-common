@@ -17,8 +17,14 @@
         pattern="[0-9]{1,20}"
         title="Must be numbers only" @* TODO move this value into a constant *@
         value="@value"
-        @{if(field.constraints.find(_._1 == RequiredField)) "aria-required=true" else ""} @* TODO move this into an extension method and write unit tests *@
-        @toHtmlArgs(htmlArgs.withMaxLength.withoutAutoComplete.withAriaDescribedby(hintText, id).withTypeAttributeTel.withAriaInvalid(field.hasErrors))
+        @toHtmlArgs(
+            htmlArgs.withMaxLength.
+                    withoutAutoComplete.
+                    withAriaDescribedby(hintText, id).
+                    withTypeAttributeTel.
+                    withAriaInvalid(field.hasErrors).
+                    withAriaRequired(field.constraints)
+        )
     >
 
     @hintTextSnippet(hintText, idOfRelatedInput = id)
