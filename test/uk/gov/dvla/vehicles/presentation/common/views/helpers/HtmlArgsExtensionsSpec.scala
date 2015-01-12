@@ -159,6 +159,10 @@ final class HtmlArgsExtensionsSpec extends UnitSpec {
     }
   }
 
+  "withAriaInvalid" must {
+    "return the same when hasErrors is false" in pending
+  }
+
   private def htmlArgsMinimal: Map[Symbol, Any] = Map('title -> "test")
 
   private def htmlArgsWithMaxLength: Map[Symbol, Any] = Map('title -> "test", 'maxLength -> 60)

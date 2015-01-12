@@ -13,13 +13,13 @@
 
 @* TODO make a helper extension method for this. This is really confusing as 'value' is being set in a separate method above *@
 <label class="form-checkbox selectable">
-    <input type="checkbox"
+    <input
            id="@id"
            name="@name"
            value="@boxValue"
            @{if(value == Some(boxValue)) "checked" else ""}
            @{if(field.hasErrors) "aria-invalid=true" else ""} @* TODO move this into an extension method and write unit tests *@
-           @toHtmlArgs(htmlArgs.filterKeys(_ != 'value).withAriaDescribedby(hintText, id))
+           @toHtmlArgs(htmlArgs.filterKeys(_ != 'value).withAriaDescribedby(hintText, id).withTypeAttributeCheckbox)
     >
     @labelOrId(field.id, args)
 </label>

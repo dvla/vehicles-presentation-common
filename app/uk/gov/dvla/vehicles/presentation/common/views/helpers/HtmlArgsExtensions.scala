@@ -58,6 +58,10 @@ object HtmlArgsExtensions {
     def withTypeAttributeAlphabeticalOnly: Map[Symbol, Any] = htmlArgs - 'alphabeticalOnly + ('type -> "text") + ('onkeyup -> """this.value=this.value.replace(/[^a-zA-Z]/g,'')""") + ('onkeydown -> """this.value=this.value.replace(/[^a-zA-Z]/g,'')""")
 
     def withTypeAttributeText: Map[Symbol, Any] = htmlArgs + ('type -> "text")
+
+    def withTypeAttributeCheckbox: Map[Symbol, Any] = htmlArgs + ('type -> "checkbox")
+
+    def withTypeAttributeRadio: Map[Symbol, Any] = htmlArgs + ('type -> "radio")
   }
 
 }

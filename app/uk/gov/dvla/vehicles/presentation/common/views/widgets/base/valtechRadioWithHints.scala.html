@@ -1,13 +1,16 @@
 @(field: play.api.data.Field, options: Seq[uk.gov.dvla.vehicles.presentation.common.views.models.RadioWithHint], args: Map[Symbol, Any])(implicit handler: helper.FieldConstructor, lang: Lang)
+@import uk.gov.dvla.vehicles.presentation.common.views.helpers.HtmlArgsExtensions.RichHtmlArgs
 
+@import uk.gov.dvla.vehicles.presentation.common.views
 @import play.api.templates.PlayMagic.toHtmlArgs
-@import views.html.helper.input
+@import views.helpers.HtmlArgsExtensions.RichHtmlArgs
+@import _root_.views.html.helper.input
 
 @input(field, args.toSeq:_*) { (id, name, value, htmlArgs) =>
 
     @for(radio <- options) {
         <label for="@{id + "_"+ radio.key}" class="form-radio selectable">
-            <input type="radio"
+            <input
             id="@{id + "_"+ radio.key}"
             name="@name"
                 @if(value.isEmpty) {
@@ -17,7 +20,7 @@
                     @* Handle re-selecting the option in the widget that was chosen the last time the widget was displayed in a page *@
                     value="@{radio.key}" @(if(value == Some(radio.key)) "checked" else "")
                     }
-                @toHtmlArgs(htmlArgs)>
+                @toHtmlArgs(htmlArgs.withTypeAttributeRadio)>
             <span class="text">@{radio.message}</span>
         </label>
 
