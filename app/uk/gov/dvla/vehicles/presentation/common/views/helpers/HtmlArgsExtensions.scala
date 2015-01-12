@@ -41,16 +41,12 @@ object HtmlArgsExtensions {
       }
       else htmlArgs
 
-    // Detects a type attriubte passed in using html args, replaces the arg.
     def withTypeAttribute: Map[Symbol, Any] =
-      if (htmlArgs.contains('typeTel)) withTypeAttributeTel
+      if (htmlArgs.contains('typeTel)) htmlArgs - 'typeTel + ('type -> """tel onkeypress="check(event, this);"""")
       else if (htmlArgs.contains('typeFleetNumber)) htmlArgs - 'typeFleetNumber + ('type -> """tel onkeyup="this.value=this.value.replace(/[^\d/-]/g,'')" onkeydown="this.value=this.value.replace(/[^\d/-]/g,'')"""")
       else if (htmlArgs.contains('typeEmail)) htmlArgs - 'typeFleetNumber + ('type -> "email")
       else if (htmlArgs.contains('alphabeticalOnly)) htmlArgs - 'alphabeticalOnly + ('type -> """text onkeyup="this.value=this.value.replace(/[^a-zA-Z]/g,'')" onkeydown="this.value=this.value.replace(/[^a-zA-Z]/g,'')"""")
       else htmlArgs + ('type -> "text")
-
-    // Add the 'tel' type attribute.
-    def withTypeAttributeTel: Map[Symbol, Any] = htmlArgs - 'typeTel + ('type -> """tel onkeypress="check(event, this);"""")
   }
 
 }
