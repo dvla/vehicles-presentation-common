@@ -25,13 +25,12 @@
 
             @* If field is required then show attribute aria-required=true *@
             @Html(if(field.constraints.exists({case (key, _) => key == RequiredField})) "aria-required=true" else "") @* TODO move this into an extension method and write unit tests *@
-            @Html(if(field.hasErrors) "aria-invalid=true" else "") @* TODO move this into an extension method and write unit tests *@
 
             @************************
             End accessibility section
             ************************@
 
-            @toHtmlArgs(htmlArgs.withMaxLength.withoutAutoComplete.withAriaDescribedby(hintText, id).withTypeAttribute)
+            @toHtmlArgs(htmlArgs.withMaxLength.withoutAutoComplete.withAriaDescribedby(hintText, id).withTypeAttribute.withAriaInvalid(field.hasErrors))
         >
 
         @hintTextSnippet(hintText, idOfRelatedInput = id)

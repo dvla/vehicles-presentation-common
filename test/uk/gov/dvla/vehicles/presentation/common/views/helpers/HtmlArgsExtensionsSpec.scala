@@ -160,7 +160,23 @@ final class HtmlArgsExtensionsSpec extends UnitSpec {
   }
 
   "withAriaInvalid" must {
-    "return the same when hasErrors is false" in pending
+    "return the same when hasErrors is false" in {
+      val richHtmlArgs = new RichHtmlArgs(htmlArgsMinimal)
+
+      val result = richHtmlArgs.withAriaInvalid(hasErrors = false)
+
+      result should equal(htmlArgsMinimal)
+    }
+
+    "add aria-invalid when hasErrors is true" in {
+      val richHtmlArgs = new RichHtmlArgs(htmlArgsMinimal)
+
+      val result = richHtmlArgs.withAriaInvalid(hasErrors = true)
+
+      val key = Symbol("aria-invalid")
+      val htmlArgsWithAriaInvalid: Map[Symbol, Any] = Map('title -> "test", key -> true)
+      result should equal(htmlArgsWithAriaInvalid)
+    }
   }
 
   private def htmlArgsMinimal: Map[Symbol, Any] = Map('title -> "test")

@@ -62,6 +62,13 @@ object HtmlArgsExtensions {
     def withTypeAttributeCheckbox: Map[Symbol, Any] = htmlArgs + ('type -> "checkbox")
 
     def withTypeAttributeRadio: Map[Symbol, Any] = htmlArgs + ('type -> "radio")
+
+    def withAriaInvalid(hasErrors: Boolean): Map[Symbol, Any] =
+      if (hasErrors) {
+        val key = Symbol("aria-invalid")
+        htmlArgs + (key -> true)
+      }
+      else htmlArgs
   }
 
 }

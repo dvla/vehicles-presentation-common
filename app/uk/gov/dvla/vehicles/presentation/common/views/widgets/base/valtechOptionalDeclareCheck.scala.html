@@ -18,8 +18,7 @@
            name="@name"
            value="@boxValue"
            @{if(value == Some(boxValue)) "checked" else ""}
-           @{if(field.hasErrors) "aria-invalid=true" else ""} @* TODO move this into an extension method and write unit tests *@
-           @toHtmlArgs(htmlArgs.filterKeys(_ != 'value).withAriaDescribedby(hintText, id).withTypeAttributeCheckbox)
+           @toHtmlArgs(htmlArgs.filterKeys(_ != 'value).withAriaDescribedby(hintText, id).withTypeAttributeCheckbox.withAriaInvalid(field.hasErrors))
     >
     @labelOrId(field.id, args)
 </label>

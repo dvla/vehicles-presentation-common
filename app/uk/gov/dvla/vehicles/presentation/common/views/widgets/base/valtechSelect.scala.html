@@ -14,8 +14,7 @@
     <select id="@field.id"
         name="@name"
         @{if(field.constraints.find(_._1 == RequiredField)) "aria-required=true" else ""} @* TODO move this into an extension method and write unit tests *@
-        @{if(field.hasErrors) "aria-invalid=true" else ""} @* TODO move this into an extension method and write unit tests *@
-        @toHtmlArgs(htmlArgs.withAriaDescribedby(hintText, id).withTypeAttribute)
+        @toHtmlArgs(htmlArgs.withAriaDescribedby(hintText, id).withTypeAttribute.withAriaInvalid(field.hasErrors))
     >
         @defaultOption(htmlArgs)
 
