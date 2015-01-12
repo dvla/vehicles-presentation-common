@@ -88,7 +88,7 @@ final class HtmlArgsExtensionsSpec extends UnitSpec {
       val result = richHtmlArgs.withTypeAttribute
 
       val key = 'type
-      val value = """tel onkeypress="check(event, this);""""
+      val value = """tel"""
       result.contains(key)
       result.get(key) should equal(Some(value))
     }

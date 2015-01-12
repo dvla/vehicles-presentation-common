@@ -50,7 +50,7 @@ object HtmlArgsExtensions {
       else htmlArgs + ('type -> "text")
 
     // Add the 'tel' type attribute.
-    def withTypeAttributeTel: Map[Symbol, Any] = htmlArgs - 'typeTel + ('type -> """tel onkeypress="check(event, this);"""")
+    def withTypeAttributeTel: Map[Symbol, Any] = htmlArgs - 'typeTel + ('type -> """tel""") + ('onkeypress -> """check(event, this);""")
   }
 
 }
