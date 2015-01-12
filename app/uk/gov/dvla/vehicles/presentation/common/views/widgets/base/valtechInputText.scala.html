@@ -17,13 +17,6 @@
             id="@id"
             name="@name"
             value="@value"
-            @Html(
-                if(htmlArgs.contains('typeTel)) """type=tel onkeypress="check(event, this);" """
-                else if(htmlArgs.contains('typeFleetNumber)) """type=tel onkeyup="this.value=this.value.replace(/[^\d/-]/g,'')" onkeydown="this.value=this.value.replace(/[^\d/-]/g,'')" """
-                else if(htmlArgs.contains('typeEmail)) """type=email"""
-                else if(htmlArgs.contains('alphabeticalOnly)) """type=text onkeyup="this.value=this.value.replace(/[^a-zA-Z]/g,'')" onkeydown="this.value=this.value.replace(/[^a-zA-Z]/g,'')"  """
-                else """type=text"""
-            )
             @Html(htmlArgs.get('class).fold("")(classValue => s"""class="$classValue""""))
 
             @********************
@@ -38,7 +31,7 @@
             End accessibility section
             ************************@
 
-            @toHtmlArgs(htmlArgs.withMaxLength.withoutAutoComplete.withAriaDescribedby(hintText, id))
+            @toHtmlArgs(htmlArgs.withMaxLength.withoutAutoComplete.withAriaDescribedby(hintText, id).withTypeAttribute)
         >
 
         @hintTextSnippet(hintText, idOfRelatedInput = id)
