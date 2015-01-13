@@ -13,7 +13,7 @@ object HtmlArgsExtensions {
     // Always have a maxLength on production, so if you forgot to add one then the default is used. We need to be able
     // to override this behaviour when running integration tests that check that server-side error messages are shown
     // in non-html5 browser
-    def withMaxLength = {
+    def withMaxLength: Map[Symbol, Any] = {
       if (htmlArgs.contains('maxLength)) htmlArgs // No change
       else {
         // On production we should have a maxLength, so if you forgot to add one then the default is used.
@@ -73,10 +73,18 @@ object HtmlArgsExtensions {
       else htmlArgs
 
     def withAriaRequired(constraints: Seq[(String, Seq[Any])]): Map[Symbol, Any] =
-      if (constraints.exists({case (key, _) => key == RequiredField})) {
+      if (constraints.exists({ case (key, _) => key == RequiredField})) {
         val ariaRequiredKey = Symbol("aria-required")
         htmlArgs + (ariaRequiredKey -> true)
       }
+      else htmlArgs
+
+    def valueElseTrue: Map[Symbol, Any] =
+      if (htmlArgs.contains('value)) htmlArgs
+      else htmlArgs + ('value -> true)
+
+    def checkedWhenValueMatches(fieldValue: Option[String]): Map[Symbol, Any] =
+      if(htmlArgs.get('value) == fieldValue) htmlArgs + ('checked -> "")
       else htmlArgs
   }
 
