@@ -1,23 +1,31 @@
 @(field: play.api.data.Field, options: Seq[uk.gov.dvla.vehicles.presentation.common.views.models.RadioWithHint], args: Map[Symbol, Any])(implicit handler: helper.FieldConstructor, lang: Lang)
+@import uk.gov.dvla.vehicles.presentation.common.views.helpers.HtmlArgsExtensions.RichHtmlArgs
 
+@import uk.gov.dvla.vehicles.presentation.common.views
 @import play.api.templates.PlayMagic.toHtmlArgs
-@import views.html.helper.input
+@import views.helpers.HtmlArgsExtensions.RichHtmlArgs
+@import _root_.views.html.helper.input
 
 @input(field, args.toSeq:_*) { (id, name, value, htmlArgs) =>
 
     @for(radio <- options) {
         <label for="@{id + "_"+ radio.key}" class="form-radio selectable">
-            <input type="radio"
-            id="@{id + "_"+ radio.key}"
-            name="@name"
+            <input
+                id="@{id + "_"+ radio.key}"
+                name="@name"
+                value="@{radio.key}"
                 @if(value.isEmpty) {
                     @* Nothing previously selected so just select the default option. The default option is stored against the 'value key in the args map *@
-                    value="@{radio.key}" @(if(args.get('value) == Some(radio.key)) "checked" else "")
+                    @(if(args.get('value) == Some(radio.key)) "checked" else "")
                 } else {
                     @* Handle re-selecting the option in the widget that was chosen the last time the widget was displayed in a page *@
-                    value="@{radio.key}" @(if(value == Some(radio.key)) "checked" else "")
-                    }
-                @toHtmlArgs(htmlArgs)>
+                    @(if(value == Some(radio.key)) "checked" else "")
+                }
+                @toHtmlArgs(
+                    htmlArgs.withTypeAttributeRadio.
+                            withAriaRequired(field.constraints)
+                )
+            >
             <span class="text">@{radio.message}</span>
         </label>
 

@@ -1,10 +1,12 @@
-@(field: play.api.data.Field, args: Map[Symbol, Any])(implicit handler: helper.FieldConstructor, lang: Lang)
+@(field: play.api.data.Field, hintText: Option[String] = None, args: Map[Symbol, Any])(implicit handler: helper.FieldConstructor, lang: Lang)
 
 @import uk.gov.dvla.vehicles.presentation.common.views
 @import views.constraints.Required.RequiredField
 @import play.api.templates.PlayMagic.toHtmlArgs
+@import views.helpers.HtmlArgsExtensions.RichHtmlArgs
 @import views.html.widgets.base.valtechLabelText
 @import _root_.views.html.helper.input
+@import views.html.widgets.base.hintTextSnippet
 
 @boxValue = @{ args.toMap.getOrElse('value, "true") } @*TODO make a helper extension method for this.*@
 
@@ -12,16 +14,22 @@
 
 @* TODO make a helper extension method for this. This is really confusing as 'value' is being set in a separate method above *@
 <label class="form-checkbox selectable">
-    <input type="checkbox"
+    <input
            id="@id"
            name="@name"
            value="@boxValue"
            @{if(value == Some(boxValue)) "checked" else ""}
-           @{if(field.constraints.find(_._1 == RequiredField)) "aria-required=true" else ""} @* TODO move this into an extension method for fields *@
-           @{if(field.hasErrors) "aria-invalid=true" else ""} @* TODO move this into an extension method and write unit tests *@
-           @toHtmlArgs(htmlArgs.filterKeys(_ != 'value))
+           @toHtmlArgs(
+               htmlArgs.filterKeys(_ != 'value).
+                       withAriaDescribedby(hintText, id).
+                       withTypeAttributeCheckbox.
+                       withAriaInvalid(field.hasErrors).
+                       withAriaRequired(field.constraints)
+           )
     >
 
     @valtechLabelText(field,args)
 </label>
+
+@hintTextSnippet(hintText, idOfRelatedInput = id)
 }

@@ -17,28 +17,18 @@
             id="@id"
             name="@name"
             value="@value"
-            @Html(
-                if(htmlArgs.contains('typeTel)) """type=tel onkeypress="check(event, this);" """
-                else if(htmlArgs.contains('typeFleetNumber)) """type=tel onkeyup="this.value=this.value.replace(/[^\d/-]/g,'')" onkeydown="this.value=this.value.replace(/[^\d/-]/g,'')" """
-                else if(htmlArgs.contains('typeEmail)) """type=email"""
-                else if(htmlArgs.contains('alphabeticalOnly)) """type=text onkeyup="this.value=this.value.replace(/[^a-zA-Z]/g,'')" onkeydown="this.value=this.value.replace(/[^a-zA-Z]/g,'')"  """
-                else """type=text"""
-            )
-            @Html(htmlArgs.get('class).fold("")(classValue => s"""class="$classValue""""))
-
-            @********************
-            Accessibility section
-            ********************@
-
-            @* If field is required then show attribute aria-required=true *@
-            @Html(if(field.constraints.exists({case (key, _) => key == RequiredField})) "aria-required=true" else "") @* TODO move this into an extension method and write unit tests *@
-            @Html(if(field.hasErrors) "aria-invalid=true" else "") @* TODO move this into an extension method and write unit tests *@
 
             @************************
             End accessibility section
             ************************@
 
-            @toHtmlArgs(htmlArgs.withMaxLength.withoutAutoComplete.withAriaDescribedby(hintText, id))
+            @toHtmlArgs(
+                htmlArgs.withMaxLength.
+                        withoutAutoComplete.
+                        withAriaDescribedby(hintText, id).
+                        withTypeAttribute.withAriaInvalid(field.hasErrors).
+                        withAriaRequired(field.constraints)
+            )
         >
 
         @hintTextSnippet(hintText, idOfRelatedInput = id)

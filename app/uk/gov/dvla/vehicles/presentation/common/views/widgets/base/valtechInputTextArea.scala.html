@@ -16,9 +16,14 @@
         id="@id"
         name="@name"
         value="@value"
-        @Html("""type=text""") @* TODO move this into an extension method and write unit tests *@
         @Html(htmlArgs.get('class).fold("")(classValue => s"""class="$classValue""""))
-        @toHtmlArgs(htmlArgs.withMaxLength.withoutAutoComplete.withAriaDescribedby(hintText, id))
+        @toHtmlArgs(
+            htmlArgs.withMaxLength.
+                    withoutAutoComplete.
+                    withAriaDescribedby(hintText, id).
+                    withTypeAttributeText.
+                    withAriaRequired(field.constraints)
+        )
     ></textarea>
 
     @hintTextSnippet(hintText, idOfRelatedInput = id)

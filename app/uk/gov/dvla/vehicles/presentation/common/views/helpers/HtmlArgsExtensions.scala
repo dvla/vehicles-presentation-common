@@ -1,5 +1,7 @@
 package uk.gov.dvla.vehicles.presentation.common.views.helpers
 
+import uk.gov.dvla.vehicles.presentation.common.views.constraints.Required.RequiredField
+
 import scala.language.implicitConversions
 
 // See the Scala docs for value scala.language.implicitConversions for a discussion why the feature should be explicitly enabled.
@@ -36,8 +38,44 @@ object HtmlArgsExtensions {
     // between the hint and the field. It takes the id of the hint container as a value.
     def withAriaDescribedby(hintText: Option[String], idOfRelatedField: String): Map[Symbol, Any] =
       if (hintText.isDefined) {
-        val key = Symbol("aria-describedby")
-        htmlArgs + (key -> s"$idOfRelatedField-hint")
+        val ariaDescribedKey = Symbol("aria-describedby")
+        htmlArgs + (ariaDescribedKey -> s"$idOfRelatedField-hint")
+      }
+      else htmlArgs
+
+    // Detects a type attriubte passed in using html args, replaces the arg.
+    def withTypeAttribute: Map[Symbol, Any] =
+      if (htmlArgs.contains('typeTel)) withTypeAttributeTel
+      else if (htmlArgs.contains('typeFleetNumber)) withTypeAttributeFleetNumber
+      else if (htmlArgs.contains('typeEmail)) withTypeAttributeEmail
+      else if (htmlArgs.contains('alphabeticalOnly)) withTypeAttributeAlphabeticalOnly
+      else htmlArgs + ('type -> "text")
+
+    def withTypeAttributeTel: Map[Symbol, Any] = htmlArgs - 'typeTel + ('type -> """tel""") + ('onkeypress -> """check(event, this);""")
+
+    def withTypeAttributeFleetNumber: Map[Symbol, Any] = htmlArgs - 'typeFleetNumber + ('type -> "tel") + ('onkeyup -> """this.value=this.value.replace(/[^\d/-]/g,'')""") + ('onkeydown -> """this.value=this.value.replace(/[^\d/-]/g,'')""")
+
+    def withTypeAttributeEmail: Map[Symbol, Any] = htmlArgs - 'typeEmail + ('type -> "email")
+
+    def withTypeAttributeAlphabeticalOnly: Map[Symbol, Any] = htmlArgs - 'alphabeticalOnly + ('type -> "text") + ('onkeyup -> """this.value=this.value.replace(/[^a-zA-Z]/g,'')""") + ('onkeydown -> """this.value=this.value.replace(/[^a-zA-Z]/g,'')""")
+
+    def withTypeAttributeText: Map[Symbol, Any] = htmlArgs + ('type -> "text")
+
+    def withTypeAttributeCheckbox: Map[Symbol, Any] = htmlArgs + ('type -> "checkbox")
+
+    def withTypeAttributeRadio: Map[Symbol, Any] = htmlArgs + ('type -> "radio")
+
+    def withAriaInvalid(hasErrors: Boolean): Map[Symbol, Any] =
+      if (hasErrors) {
+        val ariaInvalidKey = Symbol("aria-invalid")
+        htmlArgs + (ariaInvalidKey -> true)
+      }
+      else htmlArgs
+
+    def withAriaRequired(constraints: Seq[(String, Seq[Any])]): Map[Symbol, Any] =
+      if (constraints.exists({case (key, _) => key == RequiredField})) {
+        val ariaRequiredKey = Symbol("aria-required")
+        htmlArgs + (ariaRequiredKey -> true)
       }
       else htmlArgs
   }

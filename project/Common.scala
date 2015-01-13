@@ -27,6 +27,8 @@ object Common {
   val publishResolver: sbt.Def.Initialize[Option[sbt.Resolver]] = version { v: String =>
     if (v.trim.endsWith("SNAPSHOT"))
       Some("snapshots" at s"$nexus/snapshots")
+    else if (v.trim.endsWith("LOCAL"))
+      None // Do not publish local test versions that are accidentally committed.
     else
       Some("releases" at s"$nexus/releases")
   }
