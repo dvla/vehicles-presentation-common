@@ -20,7 +20,7 @@ final class VehicleLookupServiceImpl @Inject()(ws: VehicleLookupWebService) exte
       )
     }.recover {
       case NonFatal(e) =>
-        Logger.error("", e)
+        Logger.error(e.getStackTraceString)
         throw new RuntimeException("Vehicle lookup call failed for an unknown reason", e)
     }
 }
