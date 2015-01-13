@@ -66,3 +66,5 @@ GET     /version                        @uk.gov.dvla.vehicles.presentation.commo
 
 GET     /feedback-form                  @uk.gov.dvla.vehicles.presentation.common.controllers.FeedbackFormController.present
 POST    /feedback-form                  @uk.gov.dvla.vehicles.presentation.common.controllers.FeedbackFormController.submit
+
+GET     /cookie-policy                  @uk.gov.dvla.vehicles.presentation.common.controllers.CookiePolicyController.present

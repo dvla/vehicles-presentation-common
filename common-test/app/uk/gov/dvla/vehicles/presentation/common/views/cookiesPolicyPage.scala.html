@@ -1,0 +1,11 @@
+@(cookiesPolicyMap: Map[String, List[uk.gov.dvla.vehicles.presentation.common.model.CookieReport]])(implicit lang: Lang)
+
+@import uk.gov.dvla.vehicles.presentation.common
+@import common.views.html.widgets.cookiesPolicy
+@import common.model.CookieReport
+
+@main(
+  title = "Cookie Report"
+) {
+  @cookiesPolicy(cookiesPolicyMap)
+}
