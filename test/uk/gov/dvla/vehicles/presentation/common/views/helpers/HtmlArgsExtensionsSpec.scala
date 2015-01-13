@@ -241,6 +241,15 @@ final class HtmlArgsExtensionsSpec extends UnitSpec {
       result should equal(htmlArgsWithDifferentValue)
     }
 
+    "return the same when field and htmlArgs have no 'checked' value" in {
+      val fieldValue = None
+      val richHtmlArgs = new RichHtmlArgs(htmlArgsMinimal)
+
+      val result = richHtmlArgs.checkedWhenValueMatches(fieldValue)
+
+      result should equal(htmlArgsMinimal)
+    }
+
     "return the same when field has no value" in {
       val fieldValue = None
       val htmlArgsWithValue = Map('title -> "test", 'value -> "test-value")
@@ -251,6 +260,17 @@ final class HtmlArgsExtensionsSpec extends UnitSpec {
       result should equal(htmlArgsWithValue)
     }
 
+//    "add 'checked' when the field has no value (so defaults to 'true') and htmlArgs contains value 'true'" in {
+//      val fieldValue = None
+//      val htmlArgsWithValue = Map('title -> "test", 'value -> true)
+//      val richHtmlArgs = new RichHtmlArgs(htmlArgsWithValue)
+//
+//      val result = richHtmlArgs.checkedWhenValueMatches(fieldValue)
+//
+//      val htmlArgsWithChecked = Map('title -> "test", 'value -> true, 'checked -> "")
+//      result should equal(htmlArgsWithChecked)
+//    }
+
     "add 'checked' when the field has the same value as the htmlArgs value" in {
       val fieldValue = Some("test-value")
       val htmlArgsWithSameValue = Map('title -> "test", 'value -> "test-value")
@@ -259,6 +279,17 @@ final class HtmlArgsExtensionsSpec extends UnitSpec {
       val result = richHtmlArgs.checkedWhenValueMatches(fieldValue)
 
       val htmlArgsWithChecked = Map('title -> "test", 'value -> "test-value", 'checked -> "")
+      result should equal(htmlArgsWithChecked)
+    }
+
+    "add 'checked' when the field has the same value as the htmlArgs value (specified as a boolean)" in {
+      val fieldValue = Some("true")
+      val htmlArgsWithSameValue = Map('title -> "test", 'value -> true)
+      val richHtmlArgs = new RichHtmlArgs(htmlArgsWithSameValue)
+
+      val result = richHtmlArgs.checkedWhenValueMatches(fieldValue)
+
+      val htmlArgsWithChecked = Map('title -> "test", 'value -> true, 'checked -> "")
       result should equal(htmlArgsWithChecked)
     }
   }

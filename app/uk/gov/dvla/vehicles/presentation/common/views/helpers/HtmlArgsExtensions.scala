@@ -84,8 +84,10 @@ object HtmlArgsExtensions {
       else htmlArgs + ('value -> true)
 
     def checkedWhenValueMatches(fieldValue: Option[String]): Map[Symbol, Any] =
-      if(htmlArgs.get('value) == fieldValue) htmlArgs + ('checked -> "")
-      else htmlArgs
+      fieldValue match {
+        case Some(value) if value == htmlArgs.getOrElse('value, true).toString => htmlArgs + ('checked -> "") // Either there's a fieldValue and it matches or there is no fieldValue so try to match against the default.
+        case _ => htmlArgs
+      }
   }
 
 }

@@ -8,8 +8,6 @@
 @import _root_.views.html.helper.input
 @import views.html.widgets.base.hintTextSnippet
 
-@boxValue = @{ args.toMap.getOrElse('value, "true") } @*TODO make a helper extension method for this.*@
-
 @input(field, args.toSeq: _*) { (id, name, value, htmlArgs) =>
 
 <label class="form-checkbox selectable">
