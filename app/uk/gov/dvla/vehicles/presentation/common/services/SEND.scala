@@ -3,6 +3,9 @@ package uk.gov.dvla.vehicles.presentation.common.services
 import org.apache.commons.mail.{Email => ApacheEmail, EmailException, HtmlEmail}
 import play.api.Logger
 
+import scala.concurrent.{ExecutionContext, Future}
+import ExecutionContext.Implicits.global
+
 
 /**
  * A simple service to send an email, leveraging the apache commons email library.
@@ -96,11 +99,13 @@ object SEND {
 
       }
       try {
-        populateReceivers(email)(createEmail(config)).
-          setHtmlMsg(email.message.htmlMessage).
-          setTextMsg(email.message.plainMessage).
-          setSubject(email.subject).
-          send()
+        Future {
+          populateReceivers(email)(createEmail(config)).
+            setHtmlMsg(email.message.htmlMessage).
+            setTextMsg(email.message.plainMessage).
+            setSubject(email.subject).
+            send()
+        }
       } catch {
         case ex: EmailException => Logger.error(s"""Failed to send email for ${email.toPeople.mkString(" ")} reason was ${ex.getMessage}""")
       }
