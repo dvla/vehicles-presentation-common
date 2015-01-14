@@ -8,19 +8,15 @@
 @import _root_.views.html.helper.input
 @import views.html.widgets.base.hintTextSnippet
 
-@boxValue = @{ args.toMap.getOrElse('value, "true") } @*TODO make a helper extension method for this.*@
-
 @input(field, args.toSeq: _*) { (id, name, value, htmlArgs) =>
 
-@* TODO make a helper extension method for this. This is really confusing as 'value' is being set in a separate method above *@
 <label class="form-checkbox selectable">
     <input
            id="@id"
            name="@name"
-           value="@boxValue"
-           @{if(value == Some(boxValue)) "checked" else ""}
            @toHtmlArgs(
-               htmlArgs.filterKeys(_ != 'value).
+               htmlArgs.valueElseTrue.
+                       checkedWhenValueMatches(value).
                        withAriaDescribedby(hintText, id).
                        withTypeAttributeCheckbox.
                        withAriaInvalid(field.hasErrors).

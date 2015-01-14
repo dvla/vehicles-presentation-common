@@ -1,13 +1,13 @@
 package uk.gov.dvla.vehicles.presentation.common.views.helpers
 
+import uk.gov.dvla.vehicles.presentation.common.UnitSpec
 import uk.gov.dvla.vehicles.presentation.common.views.constraints.Required.RequiredField
 import uk.gov.dvla.vehicles.presentation.common.views.helpers.HtmlArgsExtensions.RichHtmlArgs
-import uk.gov.dvla.vehicles.presentation.common.{UnitSpec, WithApplication}
 
 final class HtmlArgsExtensionsSpec extends UnitSpec {
 
   "withMaxLength" should {
-    "return the same args when key 'maxLength' is already present" in new WithApplication {
+    "return the same args when key 'maxLength' is already present" in {
       val richHtmlArgs = new RichHtmlArgs(htmlArgsWithMaxLength)
       // Override validationOff to check the behaviour of the production code.
       val result = richHtmlArgs.withMaxLength
@@ -15,7 +15,7 @@ final class HtmlArgsExtensionsSpec extends UnitSpec {
       result should equal(htmlArgsWithMaxLength)
     }
 
-    "add key 'maxLength' with default value to args not present" in new WithApplication {
+    "add key 'maxLength' with default value when not present" in {
       val richHtmlArgs = new RichHtmlArgs(htmlArgsMinimal)
       // Override validationOff to check the behaviour of the production code.
       val result = richHtmlArgs.withMaxLength
@@ -26,7 +26,7 @@ final class HtmlArgsExtensionsSpec extends UnitSpec {
 
   "withoutAutoComplete" should {
 
-    "add key-value 'autocomplete' 'off' attribute when key is not present" in new WithApplication {
+    "add key-value 'autocomplete' 'off' attribute when key is not present" in {
       val richHtmlArgs = new RichHtmlArgs(htmlArgsMinimal)
 
       val result = richHtmlArgs.withoutAutoComplete
@@ -34,7 +34,7 @@ final class HtmlArgsExtensionsSpec extends UnitSpec {
       result should equal(htmlArgsWithAutoCompleteOff)
     }
 
-    "return the same args when key-value 'autocomplete' 'off' is present" in new WithApplication {
+    "return the same args when key-value 'autocomplete' 'off' is present" in {
       val richHtmlArgs = new RichHtmlArgs(htmlArgsWithAutoCompleteOff)
 
       val result = richHtmlArgs.withoutAutoComplete
@@ -42,7 +42,7 @@ final class HtmlArgsExtensionsSpec extends UnitSpec {
       result should equal(htmlArgsWithAutoCompleteOff)
     }
 
-    "replace key-value autocomplete 'on' with autocomplete 'off'" in new WithApplication {
+    "replace key-value autocomplete 'on' with autocomplete 'off'" in {
       val htmlArgsWithAutoCompleteOn: Map[Symbol, Any] = Map('title -> "test", 'autocomplete -> "on")
       val richHtmlArgs = new RichHtmlArgs(htmlArgsWithAutoCompleteOn)
 
@@ -198,6 +198,99 @@ final class HtmlArgsExtensionsSpec extends UnitSpec {
 
       val key = Symbol("aria-required")
       result should equal(Map('title -> "test", key -> true))
+    }
+  }
+
+  "valueElseTrue" should {
+    "add the key-value 'value' with default value 'true' when value is not present" in {
+      val richHtmlArgs = new RichHtmlArgs(htmlArgsMinimal)
+
+      val result = richHtmlArgs.valueElseTrue
+
+      val htmlArgsWithValueDefault = Map('title -> "test", 'value -> true)
+      result should equal(htmlArgsWithValueDefault)
+    }
+
+    "return the same when key 'value' is present" in {
+      val htmlArgsWithValue = Map('title -> "test", 'value -> "test-value")
+      val richHtmlArgs = new RichHtmlArgs(htmlArgsWithValue)
+
+      val result = richHtmlArgs.valueElseTrue
+
+      result should equal(htmlArgsWithValue)
+    }
+  }
+
+  "checkedWhenValueMatches" should {
+    "return the same when value not present in htmlArgs" in {
+      val fieldValue = Some("test-value")
+      val richHtmlArgs = new RichHtmlArgs(htmlArgsMinimal)
+
+      val result = richHtmlArgs.checkedWhenValueMatches(fieldValue)
+
+      result should equal(htmlArgsMinimal)
+    }
+
+    "return the same when field has a value doesn't match htmlArgs value" in {
+      val fieldValue = Some("test-value")
+      val htmlArgsWithDifferentValue = Map('title -> "test", 'value -> "different-test-value")
+      val richHtmlArgs = new RichHtmlArgs(htmlArgsWithDifferentValue)
+
+      val result = richHtmlArgs.checkedWhenValueMatches(fieldValue)
+
+      result should equal(htmlArgsWithDifferentValue)
+    }
+
+    "return the same when field and htmlArgs have no 'checked' value" in {
+      val fieldValue = None
+      val richHtmlArgs = new RichHtmlArgs(htmlArgsMinimal)
+
+      val result = richHtmlArgs.checkedWhenValueMatches(fieldValue)
+
+      result should equal(htmlArgsMinimal)
+    }
+
+    "return the same when field has no value" in {
+      val fieldValue = None
+      val htmlArgsWithValue = Map('title -> "test", 'value -> "test-value")
+      val richHtmlArgs = new RichHtmlArgs(htmlArgsWithValue)
+
+      val result = richHtmlArgs.checkedWhenValueMatches(fieldValue)
+
+      result should equal(htmlArgsWithValue)
+    }
+
+//    "add 'checked' when the field has no value (so defaults to 'true') and htmlArgs contains value 'true'" in {
+//      val fieldValue = None
+//      val htmlArgsWithValue = Map('title -> "test", 'value -> true)
+//      val richHtmlArgs = new RichHtmlArgs(htmlArgsWithValue)
+//
+//      val result = richHtmlArgs.checkedWhenValueMatches(fieldValue)
+//
+//      val htmlArgsWithChecked = Map('title -> "test", 'value -> true, 'checked -> "")
+//      result should equal(htmlArgsWithChecked)
+//    }
+
+    "add 'checked' when the field has the same value as the htmlArgs value" in {
+      val fieldValue = Some("test-value")
+      val htmlArgsWithSameValue = Map('title -> "test", 'value -> "test-value")
+      val richHtmlArgs = new RichHtmlArgs(htmlArgsWithSameValue)
+
+      val result = richHtmlArgs.checkedWhenValueMatches(fieldValue)
+
+      val htmlArgsWithChecked = Map('title -> "test", 'value -> "test-value", 'checked -> "")
+      result should equal(htmlArgsWithChecked)
+    }
+
+    "add 'checked' when the field has the same value as the htmlArgs value (specified as a boolean)" in {
+      val fieldValue = Some("true")
+      val htmlArgsWithSameValue = Map('title -> "test", 'value -> true)
+      val richHtmlArgs = new RichHtmlArgs(htmlArgsWithSameValue)
+
+      val result = richHtmlArgs.checkedWhenValueMatches(fieldValue)
+
+      val htmlArgsWithChecked = Map('title -> "test", 'value -> true, 'checked -> "")
+      result should equal(htmlArgsWithChecked)
     }
   }
 

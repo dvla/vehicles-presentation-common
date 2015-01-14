@@ -19,9 +19,12 @@ trait FeedbackBase extends Controller {
 
     implicit val implicitEmailConf = implicitly[EmailConfiguration](emailConfiguration)
 
+    //check if there are multiple emails for feedback
+    val feedbackEmail: Array[String] = emailConfiguration.feedbackEmail.email.split(",")
+
     val template: Contents = FeedbackMessageBuilder.buildWith(contents)
 
-    SEND email template withSubject "Feedback" to emailConfiguration.feedbackEmail.email send
+    SEND email template withSubject "Feedback" to feedbackEmail.toList send
 
   }
 

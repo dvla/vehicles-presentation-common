@@ -19,6 +19,8 @@ final class VehicleLookupServiceImpl @Inject()(ws: VehicleLookupWebService) exte
         s"was: ${resp.status}: ${resp.body}. Problem may come from either vehicle lookup micro-service or the VSS"
       )
     }.recover {
-      case NonFatal(e) => throw new RuntimeException("Vehicle lookup call failed for an unknown reason", e)
+      case NonFatal(e) =>
+        Logger.error(e.getStackTraceString)
+        throw new RuntimeException("Vehicle lookup call failed for an unknown reason", e)
     }
 }
