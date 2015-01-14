@@ -4,7 +4,7 @@ import java.security.SecureRandom
 import com.google.inject.Inject
 import org.apache.commons.codec.binary.Hex
 import play.api.mvc.Cookie
-import uk.gov.dvla.vehicles.presentation.common.ConfigProperties.getProperty
+import uk.gov.dvla.vehicles.presentation.common.ConfigProperties.{getProperty, getOptionalProperty}
 
 class EncryptedClientSideSessionFactory @Inject()()
                                                  (implicit cookieFlags: CookieFlags,
@@ -16,7 +16,7 @@ class EncryptedClientSideSessionFactory @Inject()()
    */
   private final val SessionSecretKeyLifetime = None
 //  private val secureCookies: Boolean = getProperty[Boolean]("secureCookies", default = true)
-  protected lazy val secureCookies: Boolean = getProperty[Boolean]("secureCookies")
+  protected lazy val secureCookies: Boolean = getOptionalProperty[Boolean]("secureCookies").getOrElse(true)
   protected lazy val sessionSecretKeySuffixKey: String = getProperty[String](SessionSecretKeySuffixKey)
 //private val sessionSecretKeySuffixKey: String =
 //    getProperty(SessionSecretKeySuffixKey, SessionSecretKeySuffixDefaultValue)
