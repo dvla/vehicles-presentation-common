@@ -1,5 +1,6 @@
 package uk.gov.dvla.vehicles.presentation.common.model
 
+import org.joda.time.DateTime
 import play.api.libs.json.Json
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CacheKey
 import uk.gov.dvla.vehicles.presentation.common.webserviceclients.vehicleandkeeperlookup.VehicleAndKeeperDetailsDto
@@ -13,7 +14,9 @@ final case class VehicleAndKeeperDetailsModel(registrationNumber: String,
                                               title: Option[String],
                                               firstName: Option[String],
                                               lastName: Option[String],
-                                              address: Option[AddressModel])
+                                              address: Option[AddressModel],
+                                              disposeFlag: Option[Boolean] = None,
+                                              keeperEndDate: Option[DateTime] = None)
 
 object VehicleAndKeeperDetailsModel {
 
@@ -38,7 +41,10 @@ object VehicleAndKeeperDetailsModel {
       title = vehicleAndKeeperDetailsDto.keeperTitle,
       firstName = vehicleAndKeeperDetailsDto.keeperFirstName,
       lastName = vehicleAndKeeperDetailsDto.keeperLastName,
-      address = Some(addressViewModel))
+      address = Some(addressViewModel),
+      disposeFlag = vehicleAndKeeperDetailsDto.disposeFlag,
+      keeperEndDate = vehicleAndKeeperDetailsDto.keeperEndDate
+    )
   }
 
   implicit val JsonFormat = Json.format[VehicleAndKeeperDetailsModel]
