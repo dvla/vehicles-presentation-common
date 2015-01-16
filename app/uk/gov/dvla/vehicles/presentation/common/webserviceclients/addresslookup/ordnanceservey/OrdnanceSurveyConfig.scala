@@ -1,10 +1,9 @@
 package uk.gov.dvla.vehicles.presentation.common.webserviceclients.config
 
-import uk.gov.dvla.vehicles.presentation.common.ConfigProperties.getProperty
+import uk.gov.dvla.vehicles.presentation.common.ConfigProperties.getOptionalProperty
 import scala.concurrent.duration.DurationInt
 
 class OrdnanceSurveyConfig {
-  lazy val baseUrl = getProperty[String]("ordnancesurvey.baseUrl")
-//  val requestTimeout = getProperty("ordnancesurvey.requestTimeout", 5.seconds.toMillis.toInt)
-  lazy val requestTimeout = getProperty[Int]("ordnancesurvey.requestTimeout")
+  lazy val baseUrl = getOptionalProperty[String]("ordnancesurvey.baseUrl").getOrElse("")
+  lazy val requestTimeout = getOptionalProperty[Int]("ordnancesurvey.requestTimeout").getOrElse(5.seconds.toMillis.toInt)
 }

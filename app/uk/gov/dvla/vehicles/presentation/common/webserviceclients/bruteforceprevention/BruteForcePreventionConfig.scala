@@ -1,6 +1,6 @@
 package uk.gov.dvla.vehicles.presentation.common.webserviceclients.bruteforceprevention
 
-import uk.gov.dvla.vehicles.presentation.common.ConfigProperties.getProperty
+import uk.gov.dvla.vehicles.presentation.common.ConfigProperties.{getProperty, getOptionalProperty}
 import scala.concurrent.duration.DurationInt
 
 class BruteForcePreventionConfig {
@@ -12,10 +12,10 @@ class BruteForcePreventionConfig {
 //  val maxAttemptsHeader: Int = getProperty("bruteForcePrevention.headers.maxAttempts", 3)
 //  val expiryHeader: String = getProperty("bruteForcePrevention.headers.expiry", "")
 
-  lazy val baseUrl: String = getProperty[String]("bruteForcePrevention.baseUrl")
-  lazy val requestTimeoutMillis: Int = getProperty[Int]("bruteForcePrevention.requestTimeout")
-  lazy val isEnabled: Boolean = getProperty[Boolean]("bruteForcePrevention.enabled")
-  lazy val nameHeader: String = getProperty[String]("bruteForcePrevention.headers.serviceName")
-  lazy val maxAttemptsHeader: Int = getProperty[Int]("bruteForcePrevention.headers.maxAttempts")
-  lazy val expiryHeader: String = getProperty[String]("bruteForcePrevention.headers.expiry")
+  lazy val baseUrl: String = getOptionalProperty[String]("bruteForcePrevention.baseUrl").getOrElse("")
+  lazy val requestTimeoutMillis: Int = getOptionalProperty[Int]("bruteForcePrevention.requestTimeout").getOrElse(10000)
+  lazy val isEnabled: Boolean = getOptionalProperty[Boolean]("bruteForcePrevention.enabled").getOrElse(false)
+  lazy val nameHeader: String = getOptionalProperty[String]("bruteForcePrevention.headers.serviceName").getOrElse("")
+  lazy val maxAttemptsHeader: Int = getOptionalProperty[Int]("bruteForcePrevention.headers.maxAttempts").getOrElse(3)
+  lazy val expiryHeader: String = getOptionalProperty[String]("bruteForcePrevention.headers.expiry").getOrElse("")
 }
