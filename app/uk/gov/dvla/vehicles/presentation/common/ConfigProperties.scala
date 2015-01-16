@@ -6,19 +6,27 @@ import play.api.{Logger, Play}
 object ConfigProperties {
 
   /**
-   * Returns a property or throws a Runtime error if this property doesn't exists.
+   * Returns a property or throws a Runtime error if this property doesn't exist.
    * As an improvement we could wrap this into a Try.
    * Runtime Exception should be thrown for all mandatory properties.
    */
   def getProperty[T:TypeTag](property: String): T =
     PropertyExtractor[T](property) match {
       case Some(s) => s
-      case None => {
-        Logger.error(s"property with name $property was not found. try adding this property to application.conf file")
-        throw new RuntimeException
-      }
+      case None => error(property)
     }
 
+  def getDurationProperty(property: String): Long = {
+    Play.current.configuration.getMilliseconds(property) match {
+      case Some(propValue) => propValue
+      case None => error(property)
+    }
+  }
+
+  private def error(property: String) = {
+    Logger.error(s"Property with name $property was not found. Try adding this property to application.conf file") // TODO not sure we need this line
+    throw new RuntimeException(s"Property with name $property was not found. Try adding this property to application.conf file")
+  }
 
   /**
    * Returns an optional property.
