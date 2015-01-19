@@ -5,13 +5,15 @@ import uk.gov.dvla.vehicles.presentation.common.services.{FeedbackMessageBuilder
 import uk.gov.dvla.vehicles.presentation.common.services.SEND.EmailConfiguration
 
 /**
- * Created by gerasimosarvanitis on 30/12/2014.
+ * Feedback base controller.
+ * Provides the sendFeedback method, that creates and send a feedback message.
+ * All Feedback Controllers should extends this method and call sendFeedback on submit.
  */
 trait FeedbackBase extends Controller {
 
   val emailConfiguration: EmailConfiguration
 
-  def sendFeedback(contents: String): Unit = {
+  def sendFeedback(contents: String, subject: String): Unit = {
 
     import scala.language.postfixOps
 
@@ -24,7 +26,7 @@ trait FeedbackBase extends Controller {
 
     val template: Contents = FeedbackMessageBuilder.buildWith(contents)
 
-    SEND email template withSubject "Feedback" to feedbackEmail.toList send
+    SEND email template withSubject subject to feedbackEmail.toList send
 
   }
 
