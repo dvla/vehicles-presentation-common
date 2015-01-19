@@ -1,7 +1,6 @@
 package uk.gov.dvla.vehicles.presentation.common.webserviceclients.bruteforceprevention
 
 import uk.gov.dvla.vehicles.presentation.common.ConfigProperties.{getProperty, getOptionalProperty}
-import scala.concurrent.duration.DurationInt
 
 class BruteForcePreventionConfig {
 
