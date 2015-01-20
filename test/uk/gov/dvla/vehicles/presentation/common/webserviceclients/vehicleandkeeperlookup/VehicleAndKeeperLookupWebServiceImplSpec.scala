@@ -3,13 +3,13 @@ package uk.gov.dvla.vehicles.presentation.common.webserviceclients.vehicleandkee
 import com.github.tomakehurst.wiremock.client.WireMock.{equalTo, postRequestedFor, urlEqualTo}
 import org.joda.time.DateTime
 import org.joda.time.format.ISODateTimeFormat
-import uk.gov.dvla.vehicles.presentation.common.ConfigProperties._
 import uk.gov.dvla.vehicles.presentation.common.WithApplication
 
 import play.api.libs.json.{JsString, JsValue, Writes, Json}
 import uk.gov.dvla.vehicles.presentation.common.UnitSpec
 import uk.gov.dvla.vehicles.presentation.common.testhelpers.WireMockFixture
 import uk.gov.dvla.vehicles.presentation.common.webserviceclients.HttpHeaders
+import uk.gov.dvla.vehicles.presentation.common.webserviceclients.common.{DmsWebEndUserDto, DmsWebHeaderDto}
 import uk.gov.dvla.vehicles.presentation.common.webserviceclients.config.VehicleAndKeeperLookupConfig
 
 final class VehicleAndKeeperLookupWebServiceImplSpec extends UnitSpec with WireMockFixture {
@@ -32,6 +32,7 @@ final class VehicleAndKeeperLookupWebServiceImplSpec extends UnitSpec with WireM
   private final val trackingId = "track-id-test"
 
   private val request = VehicleAndKeeperDetailsRequest(
+    dmsHeader = buildHeader,
     referenceNumber = "ref number",
     registrationNumber = "reg number",
     transactionTimestamp = new DateTime
@@ -47,6 +48,26 @@ final class VehicleAndKeeperLookupWebServiceImplSpec extends UnitSpec with WireM
 
   private implicit val vehicleAndKeeperDetailsFormat = Json.format[VehicleAndKeeperDetailsRequest]
 
+  private def buildHeader: DmsWebHeaderDto = {
+    DmsWebHeaderDto(conversationId = "",
+      originDateTime = new DateTime,
+      applicationCode = "TST",
+      channelCode = "TSTWeb",
+      contactId = 1,
+      eventFlag = true,
+      serviceTypeCode = "TST",
+      languageCode = "EN",
+      endUser = buildEndUser)
+  }
+
+  private def buildEndUser: DmsWebEndUserDto = {
+    DmsWebEndUserDto(endUserTeamCode = "TMC",
+      endUserTeamDesc = "Team",
+      endUserRole = "Role",
+      endUserId = "Id",
+      endUserIdDesc = "Id Desc",
+      endUserLongNameDesc = "Long name")
+  }
 }
 
 class TestVehicleAndKeeperLookupConfig(wireMockPort: Int) extends VehicleAndKeeperLookupConfig {
