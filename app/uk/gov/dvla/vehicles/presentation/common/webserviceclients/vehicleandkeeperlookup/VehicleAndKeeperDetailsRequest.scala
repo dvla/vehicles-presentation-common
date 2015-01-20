@@ -3,8 +3,10 @@ package uk.gov.dvla.vehicles.presentation.common.webserviceclients.vehicleandkee
 import org.joda.time.DateTime
 import org.joda.time.format.ISODateTimeFormat
 import play.api.libs.json.{JsString, JsValue, Writes, Json}
+import uk.gov.dvla.vehicles.presentation.common.webserviceclients.common.DmsWebHeaderDto
 
-final case class VehicleAndKeeperDetailsRequest(referenceNumber: String,
+final case class VehicleAndKeeperDetailsRequest(dmsHeader: DmsWebHeaderDto,
+                                                referenceNumber: String,
                                                 registrationNumber: String,
                                                 transactionTimestamp: DateTime)
 
