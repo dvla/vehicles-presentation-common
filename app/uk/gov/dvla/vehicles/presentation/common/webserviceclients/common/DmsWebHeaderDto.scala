@@ -12,7 +12,7 @@ final case class DmsWebHeaderDto (conversationId: String,
                                   eventFlag: Boolean,
                                   serviceTypeCode: String,
                                   languageCode: String,
-                                  endUser: DmsWebEndUserDto)
+                                  endUser: Option[DmsWebEndUserDto])
 
 object DmsWebHeaderDto {
 

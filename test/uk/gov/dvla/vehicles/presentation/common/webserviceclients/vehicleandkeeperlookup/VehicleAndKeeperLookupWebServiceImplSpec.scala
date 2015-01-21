@@ -57,16 +57,16 @@ final class VehicleAndKeeperLookupWebServiceImplSpec extends UnitSpec with WireM
       eventFlag = true,
       serviceTypeCode = "TST",
       languageCode = "EN",
-      endUser = buildEndUser)
+      endUser = None)
   }
 
-  private def buildEndUser: DmsWebEndUserDto = {
-    DmsWebEndUserDto(endUserTeamCode = "TMC",
+  private def buildEndUser: Option[DmsWebEndUserDto] = {
+    Some(DmsWebEndUserDto(endUserTeamCode = "TMC",
       endUserTeamDesc = "Team",
       endUserRole = "Role",
       endUserId = "Id",
       endUserIdDesc = "Id Desc",
-      endUserLongNameDesc = "Long name")
+      endUserLongNameDesc = "Long name"))
   }
 }
 
