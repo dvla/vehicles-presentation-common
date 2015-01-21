@@ -132,13 +132,21 @@
         }
         h1, h2, h3 {
             display: inline-block;
-            background: url($image-path + "icon-tick-green.gif") left 3px no-repeat;
-            padding-left:40px;
+            position: relative;
             @include bold-27;
             .ie7 &, .ie6 & {
                 display: block;
                 background: none;
                 padding-left:0;
+            }
+            &:before {
+                content: "";
+                display: inline-block;
+                margin-right: 0.3em;
+                background: url($image-path + "icon-tick-green.gif") left 3px no-repeat;
+                background-size: 100% 100%;
+                height: 24px;
+                width: 28px;
             }
             @media screen and (max-width: $device-medium) {
                 background-position: left top;
