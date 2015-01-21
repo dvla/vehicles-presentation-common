@@ -9,15 +9,18 @@ import scala.concurrent.Future
 import scala.util.Try
 import uk.gov.dvla.vehicles.presentation.common
 import common.UnitSpec
-import uk.gov.dvla.vehicles.presentation.common.webserviceclients.bruteforceprevention._
+import common.webserviceclients.bruteforceprevention.BruteForcePreventionService
+import common.webserviceclients.bruteforceprevention.BruteForcePreventionServiceImpl
+import common.webserviceclients.bruteforceprevention.BruteForcePreventionWebService
 import common.webserviceclients.fakes.brute_force_protection.FakeBruteForcePreventionWebServiceImpl
 import common.webserviceclients.fakes.brute_force_protection.FakeBruteForcePreventionWebServiceImpl.responseFirstAttempt
 import common.webserviceclients.fakes.brute_force_protection.FakeBruteForcePreventionWebServiceImpl.responseSecondAttempt
 import common.webserviceclients.fakes.brute_force_protection.FakeBruteForcePreventionWebServiceImpl.VrmThrows
-import common.webserviceclients.fakes.FakeVehicleLookupWebService.RegistrationNumberValid
 import common.webserviceclients.fakes.{FakeDateServiceImpl, FakeResponse}
 
-final class BruteForcePreventionServiceImplSpec extends UnitSpec {
+class BruteForcePreventionServiceImplSpec extends UnitSpec {
+  private final val RegistrationNumberValid = "AB12AWR"
+
   "isVrmLookupPermitted" should {
     "return true when response status is 200 OK" in {
       val service = bruteForceServiceImpl(permitted = true)
