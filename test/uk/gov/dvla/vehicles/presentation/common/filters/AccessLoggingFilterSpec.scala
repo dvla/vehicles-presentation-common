@@ -27,7 +27,7 @@ class AccessLoggingFilterSpec extends UnitSpec {
       val trackingIdCookie = Cookie(ClientSideSessionFactory.TrackingIdCookieName, "98765")
       val filterResult: Future[Result] = filter.apply(nextFilter)(request.withCookies(trackingIdCookie))
 
-      whenReady(filterResult) { result =>
+      whenReady(filterResult, timeout) { result =>
         val loggerInfo = logger.captureLogInfo()
         info("The log entry should look like 127.0.0.1 - - [dd/MMM/yyyy:hh:mm:ss +SSS] \"GET / HTTP/1.1\" 200 12345 \"98765\"")
         loggerInfo should startWith("127.0.0.1")
