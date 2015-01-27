@@ -40,20 +40,15 @@
         weight: bold;
         size: 25px;
     }
-    padding-bottom: 24px;
     @media screen and (min-width:$device-small) {
         @include heading-36;
         font-weight: bold;
         padding-bottom: 0;
     }
-    @media screen and (min-width:$device-medium) {
-        padding-bottom: 24px;
-    }
     .ie8 &,
     .ie7 & {
         @include heading-36;
         font-weight: bold;
-        padding-bottom: 24px;
     }
 }
 
