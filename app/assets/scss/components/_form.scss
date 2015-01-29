@@ -63,9 +63,10 @@
             width:100%;
         }
         // use to achieve small hint text when outside of an actual form element
-        em {
+        em,
+        span {
             font-size: 1.6rem;
-            font-style: none;
+            font-style: normal;
         }
     }
 
