@@ -63,20 +63,20 @@ class DateOfSaleIntegrationSpec extends UiSpec with TestHarness {
     }
 
     "Pass trough valid dates" in new WebBrowser {
-      def success(day: Int, month: Int, year: Int): Unit = {
+      def success(day: String, month: String, year: String): Unit = {
         DateOfSalePage.instance.navigate(day.toString, month.toString, year.toString)
         page.title should equal("Success")
       }
-      success(1, 2, 2003)
-      success(31, 12, 1934)
+      success("01", "02", "2003")
+      success("31", "12", "1934")
       val today = LocalDate.today
-      success(today.getDayOfMonth, today.getMonthOfYear, today.getYear)
+      success(today.toString("dd"), today.toString("MM"), today.toString("YYYY"))
     }
   }
 
   "Required date of birth" should {
     "Not allow any empty fields" in new WebBrowser {
-      DateOfSalePage.instance.navigate("1", "1", "1939", "", "", "")
+      DateOfSalePage.instance.navigate("01", "01", "1939", "", "", "")
       ErrorPanel.text should include(Messages("error.date.invalid"))
       ErrorPanel.numberOfErrors should equal(1)
     }
