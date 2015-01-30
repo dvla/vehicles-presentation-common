@@ -26,6 +26,8 @@ object Date {
         dayText <- data.get(s"$key.$DayId")
         monthText <- data.get(s"$key.$MonthId")
         yearText <- data.get(s"$key.$YearId")
+        dayFourDigits <- if (dayText.length == 2) Some(dayText) else None
+        monthFourDigits <- if (monthText.length == 2) Some(monthText) else None
         yearFourDigits <- if (yearText.length == 4) Some(yearText) else None
         day <- Try(dayText.toInt).toOption
         month <- Try(monthText.toInt).toOption
@@ -36,9 +38,9 @@ object Date {
     }
 
     def unbind(key: String, value: LocalDate) = Map(
-      s"$key.$DayId" -> value.getDayOfMonth.toString,
-      s"$key.$MonthId" -> value.getMonthOfYear.toString,
-      s"$key.$YearId" -> value.getYear.toString
+      s"$key.$DayId" -> value.toString("dd"),
+      s"$key.$MonthId" -> value.toString("MM"),
+      s"$key.$YearId" -> value.toString("YYYY")
     )
   }
 

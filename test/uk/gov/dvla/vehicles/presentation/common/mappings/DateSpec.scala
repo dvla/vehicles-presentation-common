@@ -22,15 +22,15 @@ class DateSpec extends UnitSpec {
 
   "Required date mapping" should {
     "Bind correctly when all the parameters are provided and are valid" in {
-      def validateBind(day: Int, month: Int, year: Int) = RequiredForm.bind(
+      def validateBind(day: String, month: String, year: Int) = RequiredForm.bind(
         Map("required.day" -> s"$day", "required.month" -> s"$month", "required.year" -> s"$year")
-      ).value should ===(Some(RequiredDateModel(new LocalDate(year, month, day))))
+      ).value should ===(Some(RequiredDateModel(new LocalDate(year, month.toInt, day.toInt))))
 
-      validateBind(1, 2, 1000)
-      validateBind(1, 2, 3419)
-      validateBind(1, 2, 1943)
-      validateBind(28, 2, 1944)
-      validateBind(29, 2, 2000)
+      validateBind("01", "02", 1000)
+      validateBind("01", "02", 3419)
+      validateBind("01", "02", 1943)
+      validateBind("28", "02", 1944)
+      validateBind("29", "02", 2000)
     }
 
     "Fail to bind when there are some errors in the values provided" in {
@@ -101,7 +101,7 @@ class DateSpec extends UnitSpec {
 
     "Bind correctly when all the parameters are provided" in {
       OptionalForm.bind(
-        Map("optional.day" -> "1", "optional.month" -> "2", "optional.year" -> "1934")
+        Map("optional.day" -> "01", "optional.month" -> "02", "optional.year" -> "1934")
       ).value should ===(Some(OptionalDateModel(Some(new LocalDate(1934, 2, 1)))))
     }
 
@@ -149,8 +149,8 @@ class DateSpec extends UnitSpec {
 
       val tomorrowPlusOne = LocalDate.tomorrow.plusDays(1)
       val form = notAfterForm.bind(Map(
-        "required.day" -> tomorrowPlusOne.getDayOfMonth.toString,
-        "required.month" -> tomorrowPlusOne.getMonthOfYear.toString,
+        "required.day" -> tomorrowPlusOne.toString("dd"),
+        "required.month" -> tomorrowPlusOne.toString("MM"),
         "required.year" -> tomorrowPlusOne.getYear.toString
       ))
       form.value should ===(None)
@@ -165,8 +165,8 @@ class DateSpec extends UnitSpec {
 
       val tomorrowPlusOne = LocalDate.tomorrow
       val form = notInTheFutureForm.bind(Map(
-        "required.day" -> tomorrowPlusOne.getDayOfMonth.toString,
-        "required.month" -> tomorrowPlusOne.getMonthOfYear.toString,
+        "required.day" -> tomorrowPlusOne.toString("dd"),
+        "required.month" -> tomorrowPlusOne.toString("MM"),
         "required.year" -> tomorrowPlusOne.getYear.toString
       ))
       form.value should ===(None)
@@ -180,8 +180,8 @@ class DateSpec extends UnitSpec {
 
       val tomorrowPlusOne = LocalDate.yesterday.minusDays(1)
       val form = notBeforeForm.bind(Map(
-        "required.day" -> tomorrowPlusOne.getDayOfMonth.toString,
-        "required.month" -> tomorrowPlusOne.getMonthOfYear.toString,
+        "required.day" -> tomorrowPlusOne.toString("dd"),
+        "required.month" -> tomorrowPlusOne.toString("MM"),
         "required.year" -> tomorrowPlusOne.getYear.toString
       ))
       form.value should ===(None)
@@ -196,8 +196,8 @@ class DateSpec extends UnitSpec {
 
       val tomorrowPlusOne = LocalDate.yesterday
       val form = notInThePastForm.bind(Map(
-        "required.day" -> tomorrowPlusOne.getDayOfMonth.toString,
-        "required.month" -> tomorrowPlusOne.getMonthOfYear.toString,
+        "required.day" -> tomorrowPlusOne.toString("dd"),
+        "required.month" -> tomorrowPlusOne.toString("MM"),
         "required.year" -> tomorrowPlusOne.getYear.toString
       ))
       form.value should ===(None)
@@ -215,8 +215,8 @@ class DateSpec extends UnitSpec {
       val tomorrow = LocalDate.tomorrow
       validateInvalidDate(
         dateOfBirthForm,
-        tomorrow.getDayOfMonth.toString,
-        tomorrow.getMonthOfYear.toString,
+        tomorrow.toString("dd"),
+        tomorrow.toString("MM"),
         tomorrow.getYear.toString,
         "error.dateOfBirth.inTheFuture"
       )
@@ -224,9 +224,9 @@ class DateSpec extends UnitSpec {
       val today = LocalDate.today
       validateValidDate(
         dateOfBirthForm,
-        today.getDayOfMonth,
-        today.getMonthOfYear,
-        today.getYear
+        today.toString("dd"),
+        today.toString("MM"),
+        today.toString("YYYY")
       )
     }
 
@@ -240,8 +240,8 @@ class DateSpec extends UnitSpec {
     "Date is no more then 110 years in the past" in {
       validateInvalidDate(
         dateOfBirthForm,
-        "1",
-        "1",
+        "01",
+        "01",
         LocalDate.today.minusYears(111).getYear.toString,
         "error.dateOfBirth.110yearsInThePast"
       )
@@ -281,7 +281,7 @@ class DateSpec extends UnitSpec {
     form1.errors should ===(Seq(FormError("required", message)))
   }
 
-  private def validateValidDate(form: Form[_], day: Int, month: Int, year: Int) = form.bind(
+  private def validateValidDate(form: Form[_], day: String, month: String, year: String) = form.bind(
     Map("required.day" -> s"$day", "required.month" -> s"$month", "required.year" -> s"$year")
-  ).value should ===(Some(RequiredDateModel(new LocalDate(year, month, day))))
+  ).value should ===(Some(RequiredDateModel(new LocalDate(year.toInt, month.toInt, day.toInt))))
 }
