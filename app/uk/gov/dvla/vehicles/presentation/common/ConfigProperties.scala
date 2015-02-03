@@ -1,27 +1,24 @@
 package uk.gov.dvla.vehicles.presentation.common
 
-import scala.reflect.runtime.universe.TypeTag
 import play.api.{Logger, Play}
 
 object ConfigProperties {
+  implicit val stringProp = (property: String) => Play.current.configuration.getString(property)
+  implicit val intProp = (property: String) => Play.current.configuration.getInt(property)
+  implicit val booleanProp = (property: String) => Play.current.configuration.getBoolean(property)
+  implicit val longProp = (property: String) => Play.current.configuration.getLong(property)
+  implicit val listStringProp = (property: String) => Play.current.configuration.getStringList(property)
 
   /**
    * Returns a property or throws a Runtime error if this property doesn't exist.
    * As an improvement we could wrap this into a Try.
    * Runtime Exception should be thrown for all mandatory properties.
    */
-  def getProperty[T:TypeTag](property: String): T =
-    PropertyExtractor[T](property) match {
-      case Some(s) => s
-      case None => error(property)
-    }
+  def getProperty[T](property: String)(implicit propertyGetter: String => Option[T]): T =
+    getOptionalProperty[T](property).getOrElse(error(property))
 
-  def getDurationProperty(property: String): Long = {
-    Play.current.configuration.getMilliseconds(property) match {
-      case Some(propValue) => propValue
-      case None => error(property)
-    }
-  }
+  def getDurationProperty(property: String): Long =
+    Play.current.configuration.getMilliseconds(property).getOrElse(error(property))
 
   private def error(property: String) = {
     Logger.error(s"Property with name $property was not found. Try adding this property to application.conf file") // TODO not sure we need this line
@@ -31,32 +28,8 @@ object ConfigProperties {
   /**
    * Returns an optional property.
    */
-  def getOptionalProperty[T: TypeTag](property: String): Option[T] =
-    PropertyExtractor[T](property)
-
-
-  /**
-   * This is a helper object that will extract the property based on the correct type. It uses reflection to do that, so
-   * type T should always be present.
-   *
-   * CODE:  The proper check should be:
-   *        case x if x.tpe == typeOf[...]
-   *        but this fails sometimes with no apparent reason. The solution was to force the check into the Strings. This
-   *        is the reason we do this check:
-   *        case x if x.tpe.toString == "..."
-   */
-  object PropertyExtractor {
-    import scala.reflect.runtime.universe._
-    def apply[T: TypeTag](property: String): Option[T] = typeTag[T] match {
-      case x if x.tpe.toString == "String" => Play.current.configuration.getString(property).map(_.asInstanceOf[T])
-      case x if x.tpe.toString == "Int" => Play.current.configuration.getInt(property).map(_.asInstanceOf[T])
-      case x if x.tpe.toString == "Boolean" => Play.current.configuration.getBoolean(property).map(_.asInstanceOf[T])
-      case x if x.tpe.toString == "Long" => Play.current.configuration.getLong(property).map(_.asInstanceOf[T])
-      case x if x.tpe.toString == "java.util.List[String]" =>
-        Play.current.configuration.getStringList(property).map(_.asInstanceOf[T])
-      case _ => Logger.error(s"type ${typeOf[T]} requested for property $property is not supported by the application"); None
-    }
-  }
+  def getOptionalProperty[T](property: String)(implicit propertyGetter: String => Option[T]): Option[T] =
+     propertyGetter(property)
 
   /**
    * helper method to map the java.util.List to a scala List.
@@ -67,5 +40,4 @@ object ConfigProperties {
     // so import this here and convert the list bellow to a scala list
     getOptionalProperty[java.util.List[String]](property).map(_.toList)
   }
-
 }

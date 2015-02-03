@@ -1,6 +1,6 @@
 package uk.gov.dvla.vehicles.presentation.common.webserviceclients.bruteforceprevention
 
-import uk.gov.dvla.vehicles.presentation.common.ConfigProperties.{getProperty, getOptionalProperty}
+import uk.gov.dvla.vehicles.presentation.common.ConfigProperties.{getOptionalProperty, stringProp, intProp, booleanProp}
 
 class BruteForcePreventionConfig {
 
