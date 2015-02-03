@@ -27,7 +27,5 @@ trait FeedbackBase extends Controller {
     val template: Contents = FeedbackMessageBuilder.buildWith(contents)
 
     SEND email template withSubject subject to feedbackEmail.toList send
-
   }
-
 }

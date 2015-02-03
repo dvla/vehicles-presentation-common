@@ -3,7 +3,6 @@ package uk.gov.dvla.vehicles.presentation.common.webserviceclients.acquire
 import org.joda.time.DateTime
 import org.joda.time.format.ISODateTimeFormat
 import play.api.libs.json.{JsString, JsValue, Writes, Json}
-import uk.gov.dvla.vehicles.presentation.common.ConfigProperties._
 import uk.gov.dvla.vehicles.presentation.common.{WithApplication, UnitSpec}
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.{ClearTextClientSideSessionFactory, NoCookieFlags}
 import uk.gov.dvla.vehicles.presentation.common.testhelpers.WireMockFixture
@@ -35,7 +34,7 @@ class AcquireWebServiceImplSpec extends UnitSpec with WireMockFixture {
 
   val titleType = TitleTypeDto(Some(1), None)
   val keeperDetails = KeeperDetailsDto(keeperTitle = titleType,
-    KeeperBusinessName = None,
+    keeperBusinessName = None,
     keeperForename = Some("forename"),
     keeperSurname = Some("surname"),
     keeperDateOfBirth = None,

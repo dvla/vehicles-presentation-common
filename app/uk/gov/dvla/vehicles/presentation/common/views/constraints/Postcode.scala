@@ -41,5 +41,4 @@ object Postcode {
       case _ => postcode
     }
   }
-
 }

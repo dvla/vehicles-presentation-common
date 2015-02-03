@@ -3,7 +3,6 @@ package uk.gov.dvla.vehicles.presentation.common.webserviceclients.addresslookup
 import javax.inject.Inject
 import play.api.Logger
 import play.api.i18n.Lang
-import play.api.Play.current
 import play.api.libs.ws.WSResponse
 import uk.gov.dvla.vehicles.presentation.common.LogFormats
 import uk.gov.dvla.vehicles.presentation.common.model.AddressModel

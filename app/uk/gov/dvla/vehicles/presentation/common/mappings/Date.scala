@@ -6,9 +6,9 @@ import play.api.data.Forms.{of, optional}
 import play.api.data.format.Formatter
 import play.api.data.validation.{Constraint, Invalid, Valid, ValidationError}
 import play.api.i18n.Messages
+import scala.util.Try
 import uk.gov.dvla.vehicles.presentation.common.services.DateService
 import uk.gov.dvla.vehicles.presentation.common.views.constraints.Required
-import scala.util.Try
 
 object Date {
   final val DayId = "day"

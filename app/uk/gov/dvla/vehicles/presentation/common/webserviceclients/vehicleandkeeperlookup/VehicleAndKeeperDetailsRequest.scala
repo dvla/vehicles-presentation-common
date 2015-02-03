@@ -21,5 +21,4 @@ object VehicleAndKeeperDetailsRequest {
   }
 
   implicit val JsonFormat = Json.format[VehicleAndKeeperDetailsRequest]
-
 }

@@ -2,7 +2,7 @@ package uk.gov.dvla.vehicles.presentation.common.webserviceclients.vehicleandkee
 
 import org.joda.time.DateTime
 import play.api.data.validation.ValidationError
-import play.api.libs.json._
+import play.api.libs.json.{JsNumber, JsResult, JsValue, Reads, JsSuccess, JsError, JsString, JsPath, Writes, Json}
 
 final case class VehicleAndKeeperDetailsDto(registrationNumber: String,
                                             vehicleMake: Option[String],

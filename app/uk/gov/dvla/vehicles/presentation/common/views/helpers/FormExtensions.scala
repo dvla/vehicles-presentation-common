@@ -4,7 +4,6 @@ import play.api.data.Forms.of
 import play.api.data.format.Formatter
 import play.api.data.validation.Constraints
 import play.api.data.{Form, FormError, Mapping}
-import uk.gov.dvla.vehicles.presentation.common.views.constraints.Required
 import uk.gov.dvla.vehicles.presentation.common.views.constraints.Required.RequiredField
 import scala.language.implicitConversions
 

@@ -2,16 +2,13 @@ package uk.gov.dvla.vehicles.presentation.common.controllers
 
 import java.net.URL
 
-import play.api.http.HeaderNames
 import play.api.libs.ws.WS
 import play.api.mvc.{Action, Controller}
 
 import scala.concurrent.{ExecutionContext, Future}
 import scala.io.Source.fromInputStream
-import uk.gov.dvla.vehicles.presentation.common.views
 import play.api.Play.current
 import ExecutionContext.Implicits.global
-import views.html.widgets.{version => versionWidget}
 import Future.sequence
 import scala.util.{Failure, Success, Try}
 import scala.util.control.NonFatal

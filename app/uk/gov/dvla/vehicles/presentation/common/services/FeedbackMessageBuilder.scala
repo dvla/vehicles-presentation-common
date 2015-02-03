@@ -55,7 +55,4 @@ object FeedbackMessageBuilder {
         |$contents
         |
       """.stripMargin
-
-
-
 }

@@ -82,11 +82,9 @@ object SEND {
         htmlEmail.setFrom(config.from.email, config.from.name)
 
         htmlEmail
-
       }
 
       def populateReceivers(email: Email)(htmlEmail: HtmlEmail) = {
-
         def populate(f: String => ApacheEmail)(lst: Option[List[String]]) = for {
           sendList <- lst
           address <- sendList
@@ -96,22 +94,19 @@ object SEND {
         populate(htmlEmail.addCc)(email.ccPeople)
 
         htmlEmail
-
       }
-      try {
-        Future {
+
+      try Future {
           populateReceivers(email)(createEmail(config)).
             setHtmlMsg(email.message.htmlMessage).
             setTextMsg(email.message.plainMessage).
             setSubject(email.subject).
             send()
-        }
       } catch {
-        case ex: EmailException => Logger.error(s"""Failed to send email for ${email.toPeople.mkString(" ")} reason was ${ex.getMessage}""")
+        case ex: EmailException =>
+          Logger.error(s"""Failed to send email for ${email.toPeople.mkString(" ")} reason was ${ex.getMessage}""")
       }
-
     }
-
   }
 
   /**
@@ -144,7 +139,4 @@ object SEND {
    * @return an instance if the email message.
    */
   def email(message: Contents) = new { def withSubject(subject: String) = Email(message, subject) }
-
 }
-
-

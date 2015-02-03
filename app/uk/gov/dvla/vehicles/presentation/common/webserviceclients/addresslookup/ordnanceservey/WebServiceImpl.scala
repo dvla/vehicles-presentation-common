@@ -58,5 +58,6 @@ final class WebServiceImpl @Inject()(config: OrdnanceSurveyConfig) extends Addre
 
   private def languageParam(implicit lang: Lang) = s"&languageCode=${lang.code.toUpperCase}"
 
-  private def showBusinessNameParam(showBusinessName: Option[Boolean]) = if(showBusinessName.isDefined) s"&showBusinessName=${showBusinessName.get}" else ""
+  private def showBusinessNameParam(showBusinessName: Option[Boolean]) =
+    if(showBusinessName.isDefined) s"&showBusinessName=${showBusinessName.get}" else ""
 }

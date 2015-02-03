@@ -6,9 +6,9 @@ import uk.gov.dvla.vehicles.presentation.common.services.DateService
 import uk.gov.dvla.vehicles.presentation.common.webserviceclients.bruteforceprevention.BruteForcePreventionResponseDto
 
 final case class BruteForcePreventionModel(permitted: Boolean,
-                                               attempts: Int,
-                                               maxAttempts: Int,
-                                               dateTimeISOChronology: String)
+                                           attempts: Int,
+                                           maxAttempts: Int,
+                                           dateTimeISOChronology: String)
 
 object BruteForcePreventionModel {
   implicit final val JsonFormat = Json.format[BruteForcePreventionModel]

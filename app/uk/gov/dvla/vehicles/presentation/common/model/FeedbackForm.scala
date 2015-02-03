@@ -11,6 +11,7 @@ import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CacheKey
 case class FeedbackForm(feedback: String)
 
 object FeedbackForm {
+
   object Form {
     final val feedback = "feedback"
 

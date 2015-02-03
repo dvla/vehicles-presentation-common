@@ -11,5 +11,4 @@ object LabelHelper {
   }
 
   val optionalFieldKey = Symbol("OptionalFieldKey")
-
 }

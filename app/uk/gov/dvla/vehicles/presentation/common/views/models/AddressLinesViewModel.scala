@@ -8,10 +8,10 @@ import common.clientsidesession.CacheKey
 import common.views.helpers.FormExtensions.{nonEmptyTextWithTransform, textWithTransform, trimNonWhiteListedChars}
 
 case class AddressLinesViewModel(buildingNameOrNumber: String,
-                             line2: Option[String] = None,
-                             line3: Option[String] = None,
-                             line4: Option[String] = None,
-                             postTown: String) {
+                                 line2: Option[String] = None,
+                                 line3: Option[String] = None,
+                                 line4: Option[String] = None,
+                                 postTown: String) {
 
   def toViewFormat: Seq[String] = Seq(
     Some(buildingNameOrNumber.toUpperCase),

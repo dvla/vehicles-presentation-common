@@ -2,11 +2,12 @@ package uk.gov.dvla.vehicles.presentation.common.model
 
 import org.joda.time.DateTime
 import play.api.libs.json.Json
-import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CacheKey
-import uk.gov.dvla.vehicles.presentation.common.webserviceclients.vehicleandkeeperlookup.VehicleAndKeeperDetailsDto
-import uk.gov.dvla.vehicles.presentation.common.views.constraints.Postcode._
-import uk.gov.dvla.vehicles.presentation.common.views.constraints.RegistrationNumber._
-import uk.gov.dvla.vehicles.presentation.common.views.models.{AddressAndPostcodeViewModel, AddressLinesViewModel}
+import uk.gov.dvla.vehicles.presentation.common
+import common.clientsidesession.CacheKey
+import common.webserviceclients.vehicleandkeeperlookup.VehicleAndKeeperDetailsDto
+import common.views.constraints.Postcode._
+import common.views.constraints.RegistrationNumber._
+import common.views.models.{AddressAndPostcodeViewModel, AddressLinesViewModel}
 
 final case class VehicleAndKeeperDetailsModel(registrationNumber: String,
                                               make: Option[String],
@@ -35,7 +36,8 @@ object VehicleAndKeeperDetailsModel {
       AddressModel.from(addressAndPostcodeModel, formatPostcode(vehicleAndKeeperDetailsDto.keeperPostcode.get))
     }
 
-    VehicleAndKeeperDetailsModel(registrationNumber = formatVrm(vehicleAndKeeperDetailsDto.registrationNumber),
+    VehicleAndKeeperDetailsModel(
+      registrationNumber = formatVrm(vehicleAndKeeperDetailsDto.registrationNumber),
       make = vehicleAndKeeperDetailsDto.vehicleMake,
       model = vehicleAndKeeperDetailsDto.vehicleModel,
       title = vehicleAndKeeperDetailsDto.keeperTitle,
