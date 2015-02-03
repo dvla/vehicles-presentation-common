@@ -22,19 +22,31 @@ object Date {
 
   def formatter(errorMessageKey: String = "error.date.invalid") = new Formatter[LocalDate] {
     def bind(key: String, data: Map[String, String]): Either[Seq[FormError], LocalDate] = {
-      val dateOfBirth: Option[LocalDate] = for {
+      val date: Option[LocalDate] = for {
         dayText <- data.get(s"$key.$DayId")
         monthText <- data.get(s"$key.$MonthId")
         yearText <- data.get(s"$key.$YearId")
-        dayFourDigits <- if (dayText.length == 2) Some(dayText) else None
-        monthFourDigits <- if (monthText.length == 2) Some(monthText) else None
-        yearFourDigits <- if (yearText.length == 4) Some(yearText) else None
-        day <- Try(dayText.toInt).toOption
-        month <- Try(monthText.toInt).toOption
-        year <- Try(yearText.toInt).toOption
-        dateOfBirth <- Try(new LocalDate(year, month, day)).toOption
-      } yield dateOfBirth
-      dateOfBirth.toRight(Seq[FormError](FormError(key, errorMessageKey)))
+        dayTwoDigits <- datePart(dayText, 2)
+        monthTwoDigits <- datePart(monthText, 2)
+        yearFourDigits <- datePart(yearText, 4)
+        day <- toInt(dayText)
+        month <- toInt(monthText)
+        year <- toInt(yearText)
+        date <- createDate(year, month, day)
+      } yield date
+      date.toRight(Seq[FormError](FormError(key, errorMessageKey)))
+    }
+
+    def datePart(datePartText: String, length: Int): Option[String] = {
+      if (datePartText.length == length) Some(datePartText) else None
+    }
+
+    def toInt(datePartText: String): Option[Int] = {
+      Try(datePartText.toInt).toOption
+    }
+
+    def createDate(year: Int, month: Int, day: Int): Option[LocalDate] = {
+      Try(new LocalDate(year, month, day)).toOption
     }
 
     def unbind(key: String, value: LocalDate) = Map(
