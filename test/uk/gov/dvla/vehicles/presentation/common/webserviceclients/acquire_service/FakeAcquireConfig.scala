@@ -1,6 +1,6 @@
 package uk.gov.dvla.vehicles.presentation.common.webserviceclients.acquire_service
 
-import uk.gov.dvla.vehicles.presentation.common.ConfigProperties._
+import uk.gov.dvla.vehicles.presentation.common.ConfigProperties.{getOptionalProperty, stringProp, intProp}
 import uk.gov.dvla.vehicles.presentation.common.webserviceclients.acquire.AcquireConfig
 import scala.concurrent.duration.DurationInt
 

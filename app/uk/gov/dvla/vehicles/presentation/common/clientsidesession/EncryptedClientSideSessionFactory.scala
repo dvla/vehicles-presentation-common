@@ -4,7 +4,8 @@ import java.security.SecureRandom
 import com.google.inject.Inject
 import org.apache.commons.codec.binary.Hex
 import play.api.mvc.Cookie
-import uk.gov.dvla.vehicles.presentation.common.ConfigProperties.{getProperty, getOptionalProperty}
+import uk.gov.dvla.vehicles.presentation.common
+import common.ConfigProperties.{getProperty, getOptionalProperty, stringProp, booleanProp}
 
 class EncryptedClientSideSessionFactory @Inject()()
                                                  (implicit cookieFlags: CookieFlags,

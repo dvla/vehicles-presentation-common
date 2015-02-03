@@ -10,9 +10,10 @@ import play.api.libs.concurrent.Execution.Implicits.defaultContext
 import play.api.libs.iteratee.{Enumerator, Iteratee, Traversable}
 import play.api.mvc.BodyParsers.parse.tolerantFormUrlEncoded
 import play.api.mvc._
-import uk.gov.dvla.vehicles.presentation.common.ConfigProperties.{getProperty, getOptionalProperty}
-import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicits.RichCookies
-import uk.gov.dvla.vehicles.presentation.common.clientsidesession.{AesEncryption, ClientSideSessionFactory}
+import uk.gov.dvla.vehicles.presentation.common
+import common.ConfigProperties.{getProperty, getOptionalProperty, stringProp, booleanProp}
+import common.clientsidesession.CookieImplicits.RichCookies
+import common.clientsidesession.{AesEncryption, ClientSideSessionFactory}
 import scala.util.Try
 
 class CsrfPreventionFilter @Inject()

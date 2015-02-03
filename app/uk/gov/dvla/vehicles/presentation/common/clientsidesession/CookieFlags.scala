@@ -2,9 +2,7 @@ package uk.gov.dvla.vehicles.presentation.common.clientsidesession
 
 import com.google.inject.Inject
 import play.api.mvc.Cookie
-import uk.gov.dvla.vehicles.presentation.common.ConfigProperties._
-
-import scala.concurrent.duration.DurationInt
+import uk.gov.dvla.vehicles.presentation.common.ConfigProperties.{getProperty, getOptionalProperty, intProp, booleanProp}
 
 trait CookieFlags {
 
