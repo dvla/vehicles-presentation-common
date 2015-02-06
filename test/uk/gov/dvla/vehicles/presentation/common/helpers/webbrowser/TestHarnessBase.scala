@@ -27,6 +27,9 @@ trait TestHarnessBase extends ProgressBar with GlobalCreator {
       }
   }
 
+  abstract class WebBrowserForSeleniumWithPhantomJs
+    extends WebBrowserForSelenium(webDriver = WebDriverFactory.webDriver(targetBrowser = "phantomjs", javascriptEnabled = true))
+
   abstract class WebBrowser(val app: FakeApplication = fakeAppWithTestGlobal,
                             val port: Int = testPort,
                             implicit protected val webDriver: WebDriver = WebDriverFactory.webDriver)
