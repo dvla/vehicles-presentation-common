@@ -1,6 +1,7 @@
 package uk.gov.dvla.vehicles.presentation.common.controllers
 
 import play.api.mvc.Controller
+import uk.gov.dvla.vehicles.presentation.common.model.FeedbackForm
 import uk.gov.dvla.vehicles.presentation.common.services.{FeedbackMessageBuilder, SEND}
 import uk.gov.dvla.vehicles.presentation.common.services.SEND.EmailConfiguration
 
@@ -13,7 +14,7 @@ trait FeedbackBase extends Controller {
 
   val emailConfiguration: EmailConfiguration
 
-  def sendFeedback(contents: String, subject: String): Unit = {
+  def sendFeedback(feedback: FeedbackForm, subject: String): Unit = {
 
     import scala.language.postfixOps
 
@@ -24,7 +25,7 @@ trait FeedbackBase extends Controller {
     //check if there are multiple emails for feedback
     val feedbackEmail: Array[String] = emailConfiguration.feedbackEmail.email.split(",")
 
-    val template: Contents = FeedbackMessageBuilder.buildWith(contents)
+    val template: Contents = FeedbackMessageBuilder.buildWith(feedback)
 
     SEND email template withSubject subject to feedbackEmail.toList send
   }
