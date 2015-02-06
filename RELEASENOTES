@@ -1,0 +1,21 @@
+======= 2.12.1 ======
+Time of release binaries creation:
+Weds Feb 04 11:03:48 UTC 2015
+
+User stories:
+a270b90        Code format tidy up
+304028c Global change - making all links (even without href) have cursor: pointer
+37ffd5b US2202 Refactored our date formatter
+268b4f9 US2177 Code tidy up of the way properties are read
+16b8f05 [common] Reverting fix for form-item spacing as it broke focus border
+f4c78b9        Reinstated bruteForceEnabled default true.
+dc792c4 US2205 Styling changes: make hint text none italic
+47b98ac US2213 Input spacing
+358c211 US2245 Main h1/h2 title spacing consistency
+f39c825 US2245 Minor alignment issue with form legend
+d1a10fc US2177 Changes to how we read and handle properties
+1872a3d US2184 Set post town length limit to 20 characters for all usages.
+ab810bd US2179 Removed all code related to the vehicle-lookup micro service
+1c0ecc5 US2215 Align green box with pdf box
+8a7a18f US2244 Make the end user dto an optional component of web header dto.
+9815cd9 US2233 Allow overriding of subject
