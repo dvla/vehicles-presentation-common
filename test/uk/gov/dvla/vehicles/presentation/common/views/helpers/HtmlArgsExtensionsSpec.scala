@@ -292,6 +292,22 @@ final class HtmlArgsExtensionsSpec extends UnitSpec {
       val htmlArgsWithChecked = Map('title -> "test", 'value -> true, 'checked -> "")
       result should equal(htmlArgsWithChecked)
     }
+
+    "withCanTabTo" should {
+      "return the same map when field has tabbing turned on" in {
+        val richHtmlArgs = new RichHtmlArgs(htmlArgsMinimal)
+        val result = richHtmlArgs.withCanTabTo(canTabTo = true)
+        result should equal(htmlArgsMinimal)
+      }
+
+      "add tabindex of -1 when tabbing is turned off" in {
+        val richHtmlArgs = new RichHtmlArgs(htmlArgsMinimal)
+        val result = richHtmlArgs.withCanTabTo(canTabTo = false)
+
+        val key = Symbol("tabindex")
+        result should equal(Map('title -> "test", key -> -1))
+      }
+    }
   }
 
   private def htmlArgsMinimal: Map[Symbol, Any] = Map('title -> "test")

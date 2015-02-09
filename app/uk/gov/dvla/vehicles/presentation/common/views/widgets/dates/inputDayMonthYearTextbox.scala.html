@@ -2,6 +2,7 @@
   args: Map[Symbol, Any],
   dateService: uk.gov.dvla.vehicles.presentation.common.services.DateService,
   showTodaysDateButton: Boolean = true,
+  canTabTo: Boolean = true,
   showTodaysDateButtonId: Option[String] = None,
   hintText: Option[String] = None)(implicit handler: views.html.helper.FieldConstructor, lang: Lang)
 
@@ -17,10 +18,10 @@
 <div class="todays-date js-only">
 
     @if( showTodaysDateButton) {
-    <button id="@TodaysDateId" type="button" class="button" onclick="AutoFillTodaysDate(@{dateService.today.day},
+    <button id="@TodaysDateId" @if(!canTabTo) {tabindex="-1"} type="button" class="button" onclick="AutoFillTodaysDate(@{dateService.today.day},
             @{dateService.today.month}, @{dateService.today.year}, '@{field.id}', '@{field.id}_day', '@{field.id}_month',
             '@{field.id}_year')">@Messages("use_todays_date.label")</button>
     }
 </div>
 
-@valtechDate(field, "", hintText)
+@valtechDate(field, "", hintText, canTabTo = canTabTo)
