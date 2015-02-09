@@ -24,7 +24,7 @@ abstract class BusinessKeeperDetailsBase @Inject()()
 
   protected def success(implicit request: Request[_]): Result
 
-  protected[k2kandacquire] val form = Form(
+  val form = Form(
     BusinessKeeperDetailsFormModel.Form.Mapping
   )
 
