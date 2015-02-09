@@ -26,7 +26,7 @@ lazy val root = project.in(file(".")).enablePlugins(PlayScala, SbtWeb)
 
 libraryDependencies ++= Seq(
   "org.seleniumhq.selenium" % "selenium-java" % "2.42.2" % "test" withSources() withJavadoc(),
-//  "com.github.detro" % "phantomjsdriver" % "1.2.0" % "test" withSources() withJavadoc(), // This version is PhantomJS 1.2.0 patched for working with Selenium 2.44.0. When the next version of phantomjsdriver is released it should be used instead of this.
+//  "com.github.detro" % "phantomjsdriver" % "1.2.0" % "test" withSources() withJavadoc(),
   "com.codeborne" % "phantomjsdriver" % "1.2.1" % "test" withSources() withJavadoc(),
   "org.mockito" % "mockito-all" % "1.9.5" % "test" withSources() withJavadoc(),
   "com.github.tomakehurst" % "wiremock" % "1.46" % "test" withSources() withJavadoc() exclude("log4j", "log4j"),
