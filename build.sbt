@@ -57,8 +57,7 @@ libraryDependencies ++= Seq(
   "org.apache.commons" % "commons-io" % "1.3.2" withSources() withJavadoc(),
   "org.apache.commons" % "commons-email" % "1.2" withSources() withJavadoc(),
   "com.github.tomakehurst" % "wiremock" % "1.46" % "test" withSources() withJavadoc() exclude("log4j", "log4j"),
-//  "com.github.detro" % "phantomjsdriver" % "1.2.0" % "test" withSources() withJavadoc()
-  "com.codeborne" % "phantomjsdriver" % "1.2.1" % "test" withSources() withJavadoc()
+  "com.github.detro" % "phantomjsdriver" % "1.2.0" % "test" withSources() withJavadoc()
 )
 
 instrumentSettings
