@@ -83,23 +83,23 @@ object WebDriverFactory {
   }
 
   private def phantomjsDriver(javascriptEnabled: Boolean) = {
-    val phantomLibrary: String = try {
-      getProperty[String]("webdriver.phantomjs.binary")
-    } catch {
-      case _:Throwable => s"test/resources/drivers/phantomjs-1.9.7_$driverSuffix"
-    }
-    systemProperties.setProperty(
-      "webdriver.phantomjs.binary",
-      phantomLibrary
-    )
+//    val phantomLibrary: String = try {
+//      getProperty[String]("webdriver.phantomjs.binary")
+//    } catch {
+//      case _:Throwable => s"test/resources/drivers/phantomjs-1.9.7_$driverSuffix"
+//    }
+//    systemProperties.setProperty(
+//      "webdriver.phantomjs.binary",
+//      phantomLibrary
+//    )
 
     val capabilities = new DesiredCapabilities
     capabilities.setJavascriptEnabled(javascriptEnabled)
     capabilities.setCapability("takesScreenshot", false)
-    capabilities.setCapability(
-      PhantomJSDriverService.PHANTOMJS_EXECUTABLE_PATH_PROPERTY,
-      systemProperties.getProperty("webdriver.phantomjs.binary")
-    )
+//    capabilities.setCapability(
+//      PhantomJSDriverService.PHANTOMJS_EXECUTABLE_PATH_PROPERTY,
+//      systemProperties.getProperty("webdriver.phantomjs.binary")
+//    )
     capabilities.setCapability(
       PhantomJSDriverService.PHANTOMJS_CLI_ARGS,
       Array("--ignore-ssl-errors=yes", "--web-security=false", "--ssl-protocol=any")
