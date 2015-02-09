@@ -14,14 +14,15 @@ class FeedbackFormController @Inject()(implicit clientSideSessionFactory: Client
     "submit" -> uk.gov.dvla.vehicles.presentation.common.controllers.routes.FeedbackFormController.submit()
   )
 
-  implicit val token: uk.gov.dvla.vehicles.presentation.common.filters.CsrfPreventionAction.CsrfPreventionToken = new CsrfPreventionToken("123")
+  implicit val token: uk.gov.dvla.vehicles.presentation.common.filters.CsrfPreventionAction.CsrfPreventionToken =
+    new CsrfPreventionToken("123")
 
   private[controllers] val form = Form(
     FeedbackForm.Form.Mapping
   )
 
   def present = Action { implicit request =>
-    Ok(views.html.feedbackFormView(form))
+    Ok(views.html.feedbackFormView(form.fill(new FeedbackForm("some feedback", Some("my name"), None))))
   }
 
   def submit = Action {
@@ -29,7 +30,8 @@ class FeedbackFormController @Inject()(implicit clientSideSessionFactory: Client
       form.bindFromRequest.fold(
         invalidForm => BadRequest(views.html.feedbackFormView(invalidForm)),
         validForm => {
-          val msg = s"Success - you entered value of ${validForm.feedback}"
+          val msg = s"Success - you entered value of ${validForm.feedback}, with name: ${validForm.name} and " +
+            s"email: ${validForm.email}"
           Ok(views.html.success(msg))
         }
       )

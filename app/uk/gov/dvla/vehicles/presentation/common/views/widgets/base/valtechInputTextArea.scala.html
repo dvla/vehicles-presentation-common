@@ -15,7 +15,6 @@
     <textarea
         id="@id"
         name="@name"
-        value="@value"
         @Html(htmlArgs.get('class).fold("")(classValue => s"""class="$classValue""""))
         @toHtmlArgs(
             htmlArgs.withMaxLength.
@@ -24,7 +23,7 @@
                     withTypeAttributeText.
                     withAriaRequired(field.constraints)
         )
-    ></textarea>
+    >@value</textarea>
 
     @hintTextSnippet(hintText, idOfRelatedInput = id)
 }

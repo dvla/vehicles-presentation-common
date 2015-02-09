@@ -186,6 +186,9 @@ common_feedback.message = Please enter your message
 common_feedback.label = This should be bold
 common_feedback.placeholder = placeholder
 common_feedback.submit_button = send feedback
+common_feedback.name = Name
+common_feedback.email = Email
+common_feedback.feedbackTitle = Please leave your name and email address in case we need to contact you
 
 
 # Cookie policy
