@@ -38,7 +38,7 @@ addCommandAlias("common-tests-run", ";project commonTests;run;project root")
 // Uncomment next line when released and before publishing to github. NOTE: bintray plugin doesn't work with SNAPSHOTS
 //bintrayPublishSettings
 
-BintrayCredentials.bintrayCredentialsTask
+//BintrayCredentials.bintrayCredentialsTask
 
 // Disable documentation generation to save time for the CI build process
 sources in doc in Compile := List()
@@ -63,7 +63,7 @@ instrumentSettings
 
 ScoverageKeys.excludedPackages := "<empty>;Reverse.*"
 
-CoverallsPlugin.coverallsSettings
+//CoverallsPlugin.coverallsSettings
 
 net.virtualvoid.sbt.graph.Plugin.graphSettings
 

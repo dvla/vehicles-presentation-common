@@ -22,3 +22,4 @@ class DevModule extends ScalaModule {
     bind[DateService].to[DateServiceImpl].asEagerSingleton()
   }
 }
+за
