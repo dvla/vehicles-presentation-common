@@ -86,14 +86,17 @@ object WebDriverFactory {
     val capabilities = new DesiredCapabilities
     capabilities.setJavascriptEnabled(javascriptEnabled)
     capabilities.setCapability("takesScreenshot", false)
+    // phantomjsdriver does not depend on PhantomJS you have installed on your machine. phantomjsdriver just uses
+    // executable file that it gets from "phantomjs.binary.path" capability.
+    // https://code.google.com/p/selenium/issues/detail?id=8088
+    capabilities.setCapability(
+      PhantomJSDriverService.PHANTOMJS_EXECUTABLE_PATH_PROPERTY,
+      systemProperties.getProperty("webdriver.phantomjs.binary")
+    )
     capabilities.setCapability(
       PhantomJSDriverService.PHANTOMJS_CLI_ARGS,
       Array("--ignore-ssl-errors=yes", "--web-security=false", "--ssl-protocol=any")
     )
-
-    // phantomjsdriver does not depend on PhantomJS you have installed on your machine. phantomjsdriver just uses
-    // executable file that it gets from "phantomjs.binary.path" capability.
-    // https://code.google.com/p/selenium/issues/detail?id=8088
 
     new PhantomJSDriver(capabilities)
   }
