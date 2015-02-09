@@ -83,36 +83,18 @@ object WebDriverFactory {
   }
 
   private def phantomjsDriver(javascriptEnabled: Boolean) = {
-//    val phantomLibrary: String = try {
-//      getProperty[String]("webdriver.phantomjs.binary")
-//    } catch {
-//      case _:Throwable => s"test/resources/drivers/phantomjs-1.9.7_$driverSuffix"
-//    }
-//    systemProperties.setProperty(
-//      "webdriver.phantomjs.binary",
-//      phantomLibrary
-//    )
-
     val capabilities = new DesiredCapabilities
     capabilities.setJavascriptEnabled(javascriptEnabled)
     capabilities.setCapability("takesScreenshot", false)
-    // phantomjsdriver does not depend on PhantomJS you have installed on your machine. phantomjsdriver just uses
-    // executable file that it gets from "phantomjs.binary.path" capability.
-    // https://code.google.com/p/selenium/issues/detail?id=8088
-    capabilities.setCapability(
-      PhantomJSDriverService.PHANTOMJS_EXECUTABLE_PATH_PROPERTY,
-      systemProperties.getProperty("webdriver.phantomjs.binary")
-    )
     capabilities.setCapability(
       PhantomJSDriverService.PHANTOMJS_CLI_ARGS,
       Array("--ignore-ssl-errors=yes", "--web-security=false", "--ssl-protocol=any")
     )
 
-    new PhantomJSDriver(capabilities)
-  }
+    // phantomjsdriver does not depend on PhantomJS you have installed on your machine. phantomjsdriver just uses
+    // executable file that it gets from "phantomjs.binary.path" capability.
+    // https://code.google.com/p/selenium/issues/detail?id=8088
 
-  private val driverSuffix: String = sys.props.get("os.name") match {
-    case Some(os) if os.contains("mac") => "macosx"
-    case _ => "linux64"
+    new PhantomJSDriver(capabilities)
   }
 }
