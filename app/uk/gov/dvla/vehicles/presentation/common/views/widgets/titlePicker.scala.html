@@ -19,13 +19,15 @@
             'items -> standardOptions.map(opt => (standardOptions.indexOf(opt) + 1).toString -> Messages(opt))
         )
     )
-    @listRadioGroup(
-        field = field(TitleRadioKey).copy(constraints = Seq(RequiredField -> Seq[Any]())),
-        args = Map(
-            '_label -> Messages("titlePicker.or"),
-            'items -> Seq(OtherTitleRadioValue.toString -> Messages("titlePicker.other"))
+    <div style="margin-top: -2.5em">
+        @listRadioGroup(
+            field = field(TitleRadioKey).copy(constraints = Seq(RequiredField -> Seq[Any]())),
+            args = Map(
+                '_label -> "",
+                'items -> Seq(OtherTitleRadioValue.toString -> Messages("titlePicker.other"))
+            )
         )
-    )
+    </div>
     @valtechInputText(
         field = field(TitleTextKey).copy(constraints = Seq(RequiredField -> Seq[Any]())),
         hintText = Some(Messages("titlePicker.textHint")),
