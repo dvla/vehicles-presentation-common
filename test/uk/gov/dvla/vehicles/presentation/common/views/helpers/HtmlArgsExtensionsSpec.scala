@@ -265,6 +265,19 @@ final class HtmlArgsExtensionsSpec extends UnitSpec {
     }
   }
 
+  "withoutNoOptionalLabel" should {
+    "return the same map when NO_OPTIONAL_LABEL not present in htmlArgs" in {
+      val richHtmlArgs = new RichHtmlArgs(htmlArgsMinimal)
+      val result = richHtmlArgs.withoutNoOptionalLabel
+      result should equal(htmlArgsMinimal)
+    }
+    "remove NO_OPTIONAL_LABEL from the map when present in htmlArgs" in {
+      val richHtmlArgs = new RichHtmlArgs(htmlArgsWithNoOptionalLabel)
+      val result = richHtmlArgs.withoutNoOptionalLabel
+      result should equal(htmlArgsMinimal)
+    }
+  }
+
   private def htmlArgsMinimal: Map[Symbol, Any] = Map('title -> "test")
 
   private def htmlArgsWithMaxLength: Map[Symbol, Any] = Map('title -> "test", 'maxLength -> 60)
@@ -278,4 +291,6 @@ final class HtmlArgsExtensionsSpec extends UnitSpec {
   private def htmlArgsWithTypeEmail = Map('title -> "test", 'typeEmail -> true)
 
   private def htmlArgsWithTypeAlphabeticalOnly = Map('title -> "test", 'alphabeticalOnly -> true)
+
+  private def htmlArgsWithNoOptionalLabel = Map('title -> "test", 'NO_OPTIONAL_LABEL -> true)
 }
