@@ -29,10 +29,11 @@ function onEventChangeDisplay(event, idOfClickable, idOfDisplayable, styleDispla
             });
         } else if (elementOfClickable.attachEvent) {
             /* attachEvent can only be used on older trident rendering engines ( IE5+ IE5-8*) */
-            elementOfClickable.attachEvent(event, function (e) {
+            elementOfClickable.attachEvent('on' + event, function (e) {
+
                 var elementOfDisplayable = document.getElementById(idOfDisplayable);
                 if (elementOfDisplayable) {
-                    console.log("onEventChangeDisplay attachEvent so on event " + event + " change: " + idOfDisplayable + " to display style: " + styleDisplay);
+                    console.log("onEventChangeDisplay attachEvent so on event " + 'on' + event + " change: " + idOfDisplayable + " to display style: " + styleDisplay);
                     elementOfDisplayable.style.display = styleDisplay;
                 } else {
                     console.error("element idOfDisplayable: " + idOfDisplayable + " not found on page");
