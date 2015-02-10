@@ -4,8 +4,8 @@ import org.joda.time.DateTime
 import play.api.libs.json.{Json, Writes}
 import play.api.mvc.Cookie
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.{ClearTextClientSideSession, NoCookieFlags}
-import uk.gov.dvla.vehicles.presentation.common.k2kandacquire.models.BusinessKeeperDetailsFormModel
-import uk.gov.dvla.vehicles.presentation.common.k2kandacquire.models.BusinessKeeperDetailsFormModel._
+import uk.gov.dvla.vehicles.presentation.common.model._
+import BusinessKeeperDetailsFormModel._
 import uk.gov.dvla.vehicles.presentation.common.model.VehicleAndKeeperDetailsModel._
 import uk.gov.dvla.vehicles.presentation.common.model._
 

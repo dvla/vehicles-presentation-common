@@ -3,8 +3,8 @@ package uk.gov.dvla.vehicles.presentation.common.controllers.k2kacquire
 import org.scalatest.mock.MockitoSugar
 import play.api.mvc.{Request, Result}
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClientSideSessionFactory
-import uk.gov.dvla.vehicles.presentation.common.k2kandacquire.controllers.BusinessKeeperDetailsBase
-import uk.gov.dvla.vehicles.presentation.common.k2kandacquire.models.BusinessKeeperDetailsViewModel
+import uk.gov.dvla.vehicles.presentation.common.controllers.BusinessKeeperDetailsBase
+import uk.gov.dvla.vehicles.presentation.common.model.BusinessKeeperDetailsViewModel
 
 import scala.collection.mutable.ArrayBuffer
 

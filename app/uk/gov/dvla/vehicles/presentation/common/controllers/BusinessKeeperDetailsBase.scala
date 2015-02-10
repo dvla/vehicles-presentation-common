@@ -1,17 +1,19 @@
-package uk.gov.dvla.vehicles.presentation.common.k2kandacquire.controllers
+package uk.gov.dvla.vehicles.presentation.common.controllers
 
 import com.google.inject.Inject
 import play.api.Logger
 import play.api.data.{Form, FormError}
 import play.api.mvc.{Action, Controller, Request, Result}
 import uk.gov.dvla.vehicles.presentation.common
-import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClientSideSessionFactory
-import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicits.{RichCookies, RichForm, RichResult}
-import uk.gov.dvla.vehicles.presentation.common.k2kandacquire.models.{NewKeeperChooseYourAddressFormModel, BusinessKeeperDetailsViewModel, BusinessKeeperDetailsFormModel}
+import common.clientsidesession.ClientSideSessionFactory
+import common.clientsidesession.CookieImplicits.{RichCookies, RichForm, RichResult}
+import common.model.BusinessKeeperDetailsViewModel
+import common.model.BusinessKeeperDetailsFormModel
+import common.model.NewKeeperChooseYourAddressFormModel
+import common.model.VehicleAndKeeperDetailsModel
 import NewKeeperChooseYourAddressFormModel._
-import uk.gov.dvla.vehicles.presentation.common.k2kandacquire.models.{BusinessKeeperDetailsViewModel, BusinessKeeperDetailsFormModel}
-import uk.gov.dvla.vehicles.presentation.common.model.VehicleAndKeeperDetailsModel
-import uk.gov.dvla.vehicles.presentation.common.views.helpers.FormExtensions.formBinding
+import common.model.BusinessKeeperDetailsViewModel
+import common.views.helpers.FormExtensions.formBinding
 
 abstract class BusinessKeeperDetailsBase @Inject()()
                     (implicit protected val clientSideSessionFactory: ClientSideSessionFactory) extends Controller {
@@ -43,7 +45,9 @@ abstract class BusinessKeeperDetailsBase @Inject()()
       invalidForm => {
         request.cookies.getModel[VehicleAndKeeperDetailsModel] match {
           case Some(vehicleAndKeeperDetails) =>
-            invalidFormResult(BusinessKeeperDetailsViewModel(formWithReplacedErrors(invalidForm), vehicleAndKeeperDetails))
+            invalidFormResult(
+              BusinessKeeperDetailsViewModel(formWithReplacedErrors(invalidForm), vehicleAndKeeperDetails)
+            )
           case None => redirectToSetupTradeDetails(CookieErrorMessage)
         }
       },

@@ -4,8 +4,9 @@ import play.api.data.Form
 import play.api.test.{FakeRequest, WithApplication}
 import uk.gov.dvla.vehicles.presentation.common.UnitSpec
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.{NoCookieFlags, ClearTextClientSideSessionFactory}
-import uk.gov.dvla.vehicles.presentation.common.k2kandacquire.models.BusinessKeeperDetailsFormModel.Form.{BusinessNameId, EmailId, FleetNumberId, PostcodeId}
-import uk.gov.dvla.vehicles.presentation.common.k2kandacquire.models.{NewKeeperChooseYourAddressFormModel, BusinessKeeperDetailsFormModel, BusinessKeeperDetailsViewModel}
+import uk.gov.dvla.vehicles.presentation.common.model.{NewKeeperChooseYourAddressFormModel, BusinessKeeperDetailsViewModel, BusinessKeeperDetailsFormModel}
+import BusinessKeeperDetailsFormModel.Form.{BusinessNameId, EmailId, FleetNumberId, PostcodeId}
+import uk.gov.dvla.vehicles.presentation.common.model.NewKeeperChooseYourAddressFormModel
 import uk.gov.dvla.vehicles.presentation.common.testhelpers.CookieFactoryForUnitSpecs._
 import uk.gov.dvla.vehicles.presentation.common.testhelpers.CookieHelper
 import scala.collection.mutable.ArrayBuffer

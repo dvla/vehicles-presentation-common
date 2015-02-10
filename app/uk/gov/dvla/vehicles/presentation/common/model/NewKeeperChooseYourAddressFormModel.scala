@@ -1,10 +1,10 @@
-package uk.gov.dvla.vehicles.presentation.common.k2kandacquire.models
+package uk.gov.dvla.vehicles.presentation.common.model
 
 import play.api.data.Forms.mapping
 import play.api.libs.json.Json
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CacheKey
-import uk.gov.dvla.vehicles.presentation.common.k2kandacquire._
-import uk.gov.dvla.vehicles.presentation.common.k2kandacquire.mappings.DropDown
+import uk.gov.dvla.vehicles.presentation.common.model.CommonCacheKeys.CacheKeyPrefix
+import uk.gov.dvla.vehicles.presentation.common.mappings.DropDown
 
 final case class NewKeeperChooseYourAddressFormModel(uprnSelected: String)
 

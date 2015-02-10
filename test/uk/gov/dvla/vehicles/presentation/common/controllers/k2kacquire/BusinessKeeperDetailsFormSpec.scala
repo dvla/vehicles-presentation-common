@@ -6,8 +6,9 @@ package uk.gov.dvla.vehicles.presentation.common.controllers.k2kacquire
 
 import play.api.mvc.{Result, Request}
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.{ClearTextClientSideSessionFactory, NoCookieFlags}
+import uk.gov.dvla.vehicles.presentation.common.model.BusinessKeeperDetailsFormModel
 import uk.gov.dvla.vehicles.presentation.common.{WithApplication, UnitSpec}
-import uk.gov.dvla.vehicles.presentation.common.k2kandacquire.models.BusinessKeeperDetailsFormModel.Form.{FleetNumberId, BusinessNameId, EmailId, PostcodeId}
+import BusinessKeeperDetailsFormModel.Form.{FleetNumberId, BusinessNameId, EmailId, PostcodeId}
 import uk.gov.dvla.vehicles.presentation.common.mappings.BusinessKeeperName
 
 class BusinessKeeperDetailsFormSpec extends UnitSpec {
