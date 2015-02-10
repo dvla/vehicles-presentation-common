@@ -1,4 +1,7 @@
-@(field: play.api.data.Field, labelText: String, hintText: Option[String] = None, canTabTo: Boolean = true, args: Map[Symbol, Any] = Map.empty)(implicit handler: views.html.helper.FieldConstructor, lang: Lang)
+@(field: play.api.data.Field, labelText: String, hintText: Option[String] = None,
+  canTabTo: Boolean = true, autofocus: Boolean = false,
+  args: Map[Symbol, Any] = Map.empty)(implicit handler: views.html.helper.FieldConstructor,
+  lang: Lang)
 
 @import uk.gov.dvla.vehicles.presentation.common.views
 @import play.api.templates.PlayMagic.toHtmlArgs
@@ -24,7 +27,7 @@
             'maxLength -> 2,
             'NO_OPTIONAL_LABEL -> true,
             'class -> "day"
-          ).withAriaDescribedby(hintText, id).withCanTabTo(canTabTo)
+          ).withAriaDescribedby(hintText, id).withCanTabTo(canTabTo).withAutofocus(autofocus = autofocus)
         )
         @valtechInputText(
           field(MonthId),
