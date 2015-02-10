@@ -18,9 +18,9 @@ abstract class BusinessKeeperDetailsBase @Inject()()
 
   protected def presentResult(model: BusinessKeeperDetailsViewModel)(implicit request: Request[_]): Result
 
-  protected def error1(model:BusinessKeeperDetailsViewModel)(implicit request: Request[_]): Result
+  protected def invalidFormResult(model:BusinessKeeperDetailsViewModel)(implicit request: Request[_]): Result
 
-  protected def error2(implicit request: Request[_]): Result
+  protected def missingVehicleDetails(implicit request: Request[_]): Result
 
   protected def success(implicit request: Request[_]): Result
 
@@ -32,8 +32,8 @@ abstract class BusinessKeeperDetailsBase @Inject()()
 
   def present = Action { implicit request =>
     request.cookies.getModel[VehicleAndKeeperDetailsModel] match {
-      case Some(vehicleAndKeeprDetails) =>
-        presentResult(BusinessKeeperDetailsViewModel(form.fill(),vehicleAndKeeprDetails))
+      case Some(vehicleAndKeeperDetails) =>
+        presentResult(BusinessKeeperDetailsViewModel(form.fill(), vehicleAndKeeperDetails))
       case _ => redirectToSetupTradeDetails(CookieErrorMessage)
     }
   }
@@ -43,12 +43,12 @@ abstract class BusinessKeeperDetailsBase @Inject()()
       invalidForm => {
         request.cookies.getModel[VehicleAndKeeperDetailsModel] match {
           case Some(vehicleAndKeeperDetails) =>
-            error1(BusinessKeeperDetailsViewModel(formWithReplacedErrors(invalidForm), vehicleAndKeeperDetails))
+            invalidFormResult(BusinessKeeperDetailsViewModel(formWithReplacedErrors(invalidForm), vehicleAndKeeperDetails))
           case None => redirectToSetupTradeDetails(CookieErrorMessage)
         }
       },
-      validForm => success
-       .withCookie(validForm)
+      validFormModel => success
+       .withCookie(validFormModel)
        .discardingCookie(NewKeeperChooseYourAddressCacheKey)
     )
   }
@@ -68,7 +68,7 @@ abstract class BusinessKeeperDetailsBase @Inject()()
 
   private def redirectToSetupTradeDetails(message:String)(implicit request: Request[_]) = {
     Logger.warn(message)
-    error2
+    missingVehicleDetails
   }
 
 }
