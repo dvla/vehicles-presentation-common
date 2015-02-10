@@ -1,21 +1,29 @@
-======= 2.12.1 ======
+======= 2.13 ======
 Time of release binaries creation:
-Weds Feb 04 11:03:48 UTC 2015
+Tue Feb 10 2015 11:50:47 GMT+0000 (GMT)
 
 User stories:
-a270b90        Code format tidy up
-304028c Global change - making all links (even without href) have cursor: pointer
-37ffd5b US2202 Refactored our date formatter
-268b4f9 US2177 Code tidy up of the way properties are read
-16b8f05 [common] Reverting fix for form-item spacing as it broke focus border
-f4c78b9        Reinstated bruteForceEnabled default true.
-dc792c4 US2205 Styling changes: make hint text none italic
-47b98ac US2213 Input spacing
-358c211 US2245 Main h1/h2 title spacing consistency
-f39c825 US2245 Minor alignment issue with form legend
-d1a10fc US2177 Changes to how we read and handle properties
-1872a3d US2184 Set post town length limit to 20 characters for all usages.
-ab810bd US2179 Removed all code related to the vehicle-lookup micro service
-1c0ecc5 US2215 Align green box with pdf box
-8a7a18f US2244 Make the end user dto an optional component of web header dto.
-9815cd9 US2233 Allow overriding of subject
+8d3e78d US2373: define phantom-js locally as putting it in presentation common is causing failures with k2k and acquire
+2b84c19 US1268 Changed the inputDayMonthYear widget autofocus code so that the attribute is only added to one of the internal controls
+2f9c91a US1268 Added support for autofocus to the inputDayMonthYear composite widget
+22116df Merge branch 'develop' of gitlab.preview-dvla.co.uk:dvla/vehicles-presentation-common into develop
+79936a8 US1268 Added the ability to prevent the user tabbing to the inputDayMonthYear composite widget
+1fa2bc5 US2200: Remove the word or from title options
+a7da709 Revert "US2373: phantom-js should not load an executable manually, instead rely on sbt to do it's job"
+480c736 Revert "US2373: set the executable path for phantom-js driver to be what sbt should be pulling in"
+a8743a9 Revert "US2373: trying a version of phantom-js that is supposed to be compatible with Selenium .44"
+ae7591c Revert "US2373: removed commented out code, use a fixed version of phantom-js temporarily until a new release fixes the bug with Selenium .44"
+1df4a11 Revert "US2373: brought back the selection of phantom-js binary as without it the code worked when packaged locally but not when round-tripped through to Nexus .jar"
+0bc7cf2 US2373: brought back the selection of phantom-js binary as without it the code worked when packaged locally but not when round-tripped through to Nexus .jar
+64fe0be US2373: removed commented out code, use a fixed version of phantom-js temporarily until a new release fixes the bug with Selenium .44
+6b41bed US2373: trying a version of phantom-js that is supposed to be compatible with Selenium .44
+e02e174 US2373: set the executable path for phantom-js driver to be what sbt should be pulling in
+780f6bf US2373: phantom-js should not load an executable manually, instead rely on sbt to do it's job
+0d9591f US2373: added phantom-js driver for fast web browser testing using javascript
+9c3c778 US2327: phantomjs driver will be one way of headless testing pages with javascript enabled
+e7adeee Merge branch 'develop' of gitlab.preview-dvla.co.uk:dvla/vehicles-presentation-common into develop
+20b4d46 US2340: Add email and name to feedback page
+1a97bf0 US2373: new email mechanism requires javascript's ability to show and hide an id when an event happens
+40d6c55 Added release notes for release 2.12.1
+7490955 US2363: Fix bug in today's date component
+3f8f4f6 New development version 2.13-SNAPSHOT

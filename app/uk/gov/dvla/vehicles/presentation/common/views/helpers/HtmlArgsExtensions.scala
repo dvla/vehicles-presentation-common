@@ -43,7 +43,13 @@ object HtmlArgsExtensions {
       }
       else htmlArgs
 
-    // Detects a type attriubte passed in using html args, replaces the arg.
+    def withCanTabTo(canTabTo: Boolean = true): Map[Symbol, Any] =
+      if (!canTabTo) htmlArgs + (Symbol("tabindex") -> -1) else htmlArgs
+
+    def withAutofocus(autofocus: Boolean = false): Map[Symbol, Any] =
+      if (autofocus) htmlArgs + (Symbol("autofocus") -> true) else htmlArgs
+
+    // Detects a type attribute passed in using html args, replaces the arg.
     def withTypeAttribute: Map[Symbol, Any] =
       if (htmlArgs.contains('typeTel)) withTypeAttributeTel
       else if (htmlArgs.contains('typeFleetNumber)) withTypeAttributeFleetNumber
