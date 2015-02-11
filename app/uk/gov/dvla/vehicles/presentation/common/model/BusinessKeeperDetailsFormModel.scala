@@ -3,7 +3,6 @@ package uk.gov.dvla.vehicles.presentation.common.model
 import play.api.data.Forms.{mapping, optional}
 import play.api.libs.json.Json
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CacheKey
-import uk.gov.dvla.vehicles.presentation.common.model.CommonCacheKeys.CacheKeyPrefix
 import uk.gov.dvla.vehicles.presentation.common.mappings.BusinessKeeperName.businessKeeperNameMapping
 import uk.gov.dvla.vehicles.presentation.common.mappings.Email.email
 import uk.gov.dvla.vehicles.presentation.common.mappings.FleetNumber.fleetNumberMapping
@@ -16,8 +15,11 @@ final case class BusinessKeeperDetailsFormModel(fleetNumber: Option[String],
 
 object BusinessKeeperDetailsFormModel {
   implicit val JsonFormat = Json.format[BusinessKeeperDetailsFormModel]
-  final val BusinessKeeperDetailsCacheKey = s"${CacheKeyPrefix}businessKeeperDetails"
-  implicit val Key = CacheKey[BusinessKeeperDetailsFormModel](BusinessKeeperDetailsCacheKey)
+
+  implicit def key(implicit prefix: CacheKeyPrefix) =
+    CacheKey[BusinessKeeperDetailsFormModel](businessKeeperDetailsCacheKey)
+
+  def businessKeeperDetailsCacheKey(implicit prefix: CacheKeyPrefix) = s"${prefix}businessKeeperDetails"
 
   object Form {
     final val FleetNumberId = "fleetNumber"

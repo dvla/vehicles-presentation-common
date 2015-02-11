@@ -57,9 +57,11 @@ object CookieFactoryForUnitSpecs {
     postcode = PostcodeValid
   )
 
-  def vehicleAndKeeperDetailsCookie(value: VehicleAndKeeperDetailsModel = defaultVehicleAndKeeperDetailsModel): Cookie =
+  def vehicleAndKeeperDetailsCookie(value: VehicleAndKeeperDetailsModel = defaultVehicleAndKeeperDetailsModel)
+                                   (implicit prefix: CacheKeyPrefix): Cookie =
     createCookie(VehicleAndKeeperLookupDetailsCacheKey, value)
 
-  def businessKeeperDetailsCookie(value: BusinessKeeperDetailsFormModel = defaultBusinessKeeperDetailsModel) : Cookie =
-    createCookie(BusinessKeeperDetailsCacheKey, value)
+  def businessKeeperDetailsCookie(value: BusinessKeeperDetailsFormModel = defaultBusinessKeeperDetailsModel)
+                                 (implicit prefix: CacheKeyPrefix): Cookie =
+    createCookie(businessKeeperDetailsCacheKey, value)
 }

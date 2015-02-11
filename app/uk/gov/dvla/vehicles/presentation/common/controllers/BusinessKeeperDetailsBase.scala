@@ -7,16 +7,13 @@ import play.api.mvc.{Action, Controller, Request, Result}
 import uk.gov.dvla.vehicles.presentation.common
 import common.clientsidesession.ClientSideSessionFactory
 import common.clientsidesession.CookieImplicits.{RichCookies, RichForm, RichResult}
-import common.model.BusinessKeeperDetailsViewModel
-import common.model.BusinessKeeperDetailsFormModel
-import common.model.NewKeeperChooseYourAddressFormModel
-import common.model.VehicleAndKeeperDetailsModel
+import uk.gov.dvla.vehicles.presentation.common.model._
 import NewKeeperChooseYourAddressFormModel._
-import common.model.BusinessKeeperDetailsViewModel
 import common.views.helpers.FormExtensions.formBinding
 
 abstract class BusinessKeeperDetailsBase @Inject()()
-                    (implicit protected val clientSideSessionFactory: ClientSideSessionFactory) extends Controller {
+                    (implicit protected val clientSideSessionFactory: ClientSideSessionFactory,
+                     prefix: CacheKeyPrefix) extends Controller {
 
   protected def presentResult(model: BusinessKeeperDetailsViewModel)(implicit request: Request[_]): Result
 
@@ -53,7 +50,7 @@ abstract class BusinessKeeperDetailsBase @Inject()()
       },
       validFormModel => success
        .withCookie(validFormModel)
-       .discardingCookie(NewKeeperChooseYourAddressCacheKey)
+       .discardingCookie(newKeeperChooseYourAddressCacheKey)
     )
   }
 

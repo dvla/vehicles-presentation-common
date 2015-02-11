@@ -4,7 +4,7 @@ import org.scalatest.mock.MockitoSugar
 import play.api.mvc.{Request, Result}
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClientSideSessionFactory
 import uk.gov.dvla.vehicles.presentation.common.controllers.BusinessKeeperDetailsBase
-import uk.gov.dvla.vehicles.presentation.common.model.BusinessKeeperDetailsViewModel
+import uk.gov.dvla.vehicles.presentation.common.model.{CacheKeyPrefix, BusinessKeeperDetailsViewModel}
 
 import scala.collection.mutable.ArrayBuffer
 
@@ -18,8 +18,8 @@ object BusinessKeeperDetailsTesting extends MockitoSugar {
   val invalidFormTestResult = BadRequest("invalidFormResult")
 }
 
-class BusinessKeeperDetailsTesting(implicit override val clientSideSessionFactory: ClientSideSessionFactory)
-  extends BusinessKeeperDetailsBase {
+class BusinessKeeperDetailsTesting(implicit override val clientSideSessionFactory: ClientSideSessionFactory,
+                                   prefix: CacheKeyPrefix) extends BusinessKeeperDetailsBase {
 
   import BusinessKeeperDetailsTesting._
 

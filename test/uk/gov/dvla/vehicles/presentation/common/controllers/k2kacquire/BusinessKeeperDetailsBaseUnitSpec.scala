@@ -4,9 +4,8 @@ import play.api.data.Form
 import play.api.test.{FakeRequest, WithApplication}
 import uk.gov.dvla.vehicles.presentation.common.UnitSpec
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.{NoCookieFlags, ClearTextClientSideSessionFactory}
-import uk.gov.dvla.vehicles.presentation.common.model.{NewKeeperChooseYourAddressFormModel, BusinessKeeperDetailsViewModel, BusinessKeeperDetailsFormModel}
+import uk.gov.dvla.vehicles.presentation.common.model._
 import BusinessKeeperDetailsFormModel.Form.{BusinessNameId, EmailId, FleetNumberId, PostcodeId}
-import uk.gov.dvla.vehicles.presentation.common.model.NewKeeperChooseYourAddressFormModel
 import uk.gov.dvla.vehicles.presentation.common.testhelpers.CookieFactoryForUnitSpecs._
 import uk.gov.dvla.vehicles.presentation.common.testhelpers.CookieHelper
 import scala.collection.mutable.ArrayBuffer
@@ -18,7 +17,7 @@ import scala.language.postfixOps
 
 import scala.collection.mutable
 
-class BusinessKeeperDetailsUnitSpec extends UnitSpec {
+class BusinessKeeperDetailsBaseUnitSpec extends UnitSpec {
   final val FleetNumberValid = "123456"
   final val BusinessNameValid = "Brand New Motors"
   final val EmailValid = "my@email.com"
@@ -27,6 +26,7 @@ class BusinessKeeperDetailsUnitSpec extends UnitSpec {
 
   implicit val cookieFlags = new NoCookieFlags()
   implicit val sideSessionFactory = new ClearTextClientSideSessionFactory()
+  implicit val cacheKeyPrefix = CacheKeyPrefix("testing-prefix")
 
   private def controller = new BusinessKeeperDetailsTesting()
 
@@ -89,14 +89,14 @@ class BusinessKeeperDetailsUnitSpec extends UnitSpec {
       val result = Await.result(businessKeeperDetails.submit(request), 5 seconds)
       result.body should equal(successTestResult.body)
       CookieHelper.verifyCookieHasBeenDiscarded(
-        NewKeeperChooseYourAddressFormModel.NewKeeperChooseYourAddressCacheKey,
+        NewKeeperChooseYourAddressFormModel.newKeeperChooseYourAddressCacheKey,
         result.cookies.values.toSeq
       )
 
       val defaultModel = defaultBusinessKeeperDetailsModel
 
-      (result.cookies - NewKeeperChooseYourAddressFormModel.NewKeeperChooseYourAddressCacheKey) should equal(Map(
-        BusinessKeeperDetailsFormModel.BusinessKeeperDetailsCacheKey -> businessKeeperDetailsCookie(
+      (result.cookies - NewKeeperChooseYourAddressFormModel.newKeeperChooseYourAddressCacheKey) should equal(Map(
+        BusinessKeeperDetailsFormModel.businessKeeperDetailsCacheKey -> businessKeeperDetailsCookie(
           defaultModel.copy(businessName = defaultModel.businessName.toUpperCase())
         )
       ))
