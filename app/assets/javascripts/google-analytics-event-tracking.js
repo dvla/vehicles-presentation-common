@@ -18,8 +18,8 @@ function track(inputId, event) {
             });
         } else if (element.attachEvent) {
             /* attachEvent can only be used on older trident rendering engines ( IE5+ IE5-8*) */
-            element.attachEvent(event, function (e) {
-                /*console.log("trackClick attachEvent send event: " + location.href + ", id: " + inputId + ", event " + event);*/
+            element.attachEvent('on' + event, function (e) {
+                /*console.log("trackClick attachEvent send event: " + location.href + ", id: " + inputId + ", event " + 'on' + event);*/
                 ga('send', 'event', location.href, inputId, event);
             });
         } else {

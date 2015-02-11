@@ -101,5 +101,9 @@ object HtmlArgsExtensions {
         case Some(value) if value == htmlArgs.getOrElse('value, true).toString => htmlArgs + ('checked -> "") // Either there's a fieldValue and it matches or there is no fieldValue so try to match against the default.
         case _ => htmlArgs
       }
+
+    def withoutNoOptionalLabel: Map[Symbol, Any] =
+      if (htmlArgs.contains('NO_OPTIONAL_LABEL)) htmlArgs - 'NO_OPTIONAL_LABEL // No change
+      else htmlArgs
   }
 }
