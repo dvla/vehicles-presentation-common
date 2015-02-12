@@ -19,7 +19,7 @@
             'items -> standardOptions.map(opt => (standardOptions.indexOf(opt) + 1).toString -> Messages(opt))
         )
     )
-    <div style="margin-top: -2.5em">
+    <div class="toggle-form-item">
         @listRadioGroup(
             field = field(TitleRadioKey).copy(constraints = Seq(RequiredField -> Seq[Any]())),
             args = Map(
