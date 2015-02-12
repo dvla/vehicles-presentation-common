@@ -212,15 +212,6 @@
         @media screen and (min-width: $device-small) {
             width:auto;
         }
-        /*.ie7 &,
-        .ie6 & {
-            display:inline-block;
-            float:none;
-            span.text {
-                display:inline-block;
-            }
-        }
-        */
 
         input {
             float:left;
@@ -409,4 +400,18 @@
             }
         }
     }
-}
+
+    .toggle-form-item {
+        // better would be to physically move the input field so the below "margin-top" isn't needed
+        margin-top: -5.5rem;
+        .form-item {
+            margin-bottom: 0;
+        }
+    }
+
+    .form-item-visible {
+        padding-left: 1rem;
+        border-left: 5px solid #005EA5;
+    }
+
+} // end #{$htmlNamespace}
