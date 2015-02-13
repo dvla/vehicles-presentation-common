@@ -47,7 +47,8 @@ object CookieFactoryForUnitSpecs {
     lastName = None,
     address = None,
     keeperEndDate = None,
-    disposeFlag = Some(false)
+    disposeFlag = Some(false),
+    suppressedV5Flag = None
   )
 
   val defaultBusinessKeeperDetailsModel = BusinessKeeperDetailsFormModel(
