@@ -8,6 +8,7 @@ object ConfigProperties {
   implicit val booleanProp = (property: String) => Play.current.configuration.getBoolean(property)
   implicit val longProp = (property: String) => Play.current.configuration.getLong(property)
   implicit val listStringProp = (property: String) => Play.current.configuration.getStringList(property)
+  implicit val millisecondProp = (property: String) => Play.current.configuration.getMilliseconds(property)
 
   /**
    * Returns a property or throws a Runtime error if this property doesn't exist.
