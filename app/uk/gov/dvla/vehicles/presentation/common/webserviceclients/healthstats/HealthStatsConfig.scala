@@ -1,6 +1,6 @@
 package uk.gov.dvla.vehicles.presentation.common.webserviceclients.healthstats
 
-import uk.gov.dvla.vehicles.presentation.common.ConfigProperties.{getOptionalProperty, intProp, millisecondProp}
+import uk.gov.dvla.vehicles.presentation.common.ConfigProperties.{getOptionalProperty, intProp, getOptionalDurationProperty}
 
 //trait HealthStatsConfig {
 //  val failuresRatioPercent: Int
@@ -18,14 +18,15 @@ import uk.gov.dvla.vehicles.presentation.common.ConfigProperties.{getOptionalPro
 class HealthStatsConfig {
   lazy val failuresRatioPercent = getOptionalProperty[Int]("healthStats.failuresRatioPercent").getOrElse(-1)
   lazy val failuresRatioPercentTimeFrame =
-    getOptionalProperty[Long]("healthStats.failuresRatioPercentTimeFrame").getOrElse(-1L)
+    getOptionalDurationProperty("healthStats.failuresRatioPercentTimeFrame").getOrElse(-1L)
 
   lazy val numberOfFailures = getOptionalProperty[Int]("healthStats.numberOfFailures").getOrElse(-1)
   lazy val numberOfFailuresTimeFrame =
-    getOptionalProperty[Long]("healthStats.numberOfFailuresTimeFrame").getOrElse(-1L)
+    getOptionalDurationProperty("healthStats.numberOfFailuresTimeFrame").getOrElse(-1L)
   
   lazy val numberOfRequests = getOptionalProperty[Int]("healthStats.numberOfRequests").getOrElse(-1)
-  lazy val numberOfRequestsTimeFrame = getOptionalProperty[Long]("healthStats.numberOfRequestsTimeFrame").getOrElse(-1L)
+  lazy val numberOfRequestsTimeFrame =
+    getOptionalDurationProperty("healthStats.numberOfRequestsTimeFrame").getOrElse(-1L)
   
   lazy val numberOfConsecutiveFailures =
     getOptionalProperty[Int]("healthStats.numberOfConsecutiveFailures").getOrElse(-1)
