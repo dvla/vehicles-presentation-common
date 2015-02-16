@@ -1,7 +1,7 @@
-======= 2.13.1 ======
+======= 2.13.3 ======
 Time of release binaries creation:
-Tue Feb 10 2015 16:57:07 GMT+0000 (GMT)
+Mon Feb 16 2015 14:46:20 GMT+0000 (GMT)
 
 User stories:
-388c998 RELEASE 2.13.1
-0443f73 DE310: Keeper's Email Input Box needs the letters 'on' infront of events when javascript is running on trident browsers e.g. <= IE9
+RELEASE 2.13.3
+DE321: uplift PR rules for title being capitalised and only present for certain PACT codes

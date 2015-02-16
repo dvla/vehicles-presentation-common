@@ -27,23 +27,38 @@ object VehicleAndKeeperDetailsModel {
 
     val addressViewModel = {
       val addressLineModel = AddressLinesViewModel(
-        vehicleAndKeeperDetailsDto.keeperAddressLine1.get,
+        vehicleAndKeeperDetailsDto.keeperAddressLine1.get, // TODO: we shouldn't be calling .get on an option without checking that it exists, otherwise if the field contained None it WILL throw at runtime. Better to wrap with a 'match'.
         vehicleAndKeeperDetailsDto.keeperAddressLine2,
         vehicleAndKeeperDetailsDto.keeperAddressLine3,
         vehicleAndKeeperDetailsDto.keeperAddressLine4,
-        vehicleAndKeeperDetailsDto.keeperPostTown.get
+        vehicleAndKeeperDetailsDto.keeperPostTown.get // TODO: we shouldn't be calling .get on an option without checking that it exists, otherwise if the field contained None it WILL throw at runtime. Better to wrap with a 'match'.
       )
       val addressAndPostcodeModel = AddressAndPostcodeViewModel(None, addressLineModel)
-      AddressModel.from(addressAndPostcodeModel, formatPostcode(vehicleAndKeeperDetailsDto.keeperPostcode.get))
+      AddressModel.from(addressAndPostcodeModel, formatPostcode(vehicleAndKeeperDetailsDto.keeperPostcode.get)) // TODO: we shouldn't be calling .get on an option without checking that it exists, otherwise if the field contained None it WILL throw at runtime. Better to wrap with a 'match'.
     }
 
     VehicleAndKeeperDetailsModel(
       registrationNumber = formatVrm(vehicleAndKeeperDetailsDto.registrationNumber),
       make = vehicleAndKeeperDetailsDto.vehicleMake,
       model = vehicleAndKeeperDetailsDto.vehicleModel,
-      title = vehicleAndKeeperDetailsDto.keeperTitle,
-      firstName = vehicleAndKeeperDetailsDto.keeperFirstName,
-      lastName = vehicleAndKeeperDetailsDto.keeperLastName,
+      title = {
+        vehicleAndKeeperDetailsDto.keeperTitle match {
+          case Some(keeperTitle) if keeperTitle.toUpperCase.startsWith("M") => Some(keeperTitle.toUpperCase)
+          case _ => None
+        }
+      },
+      firstName = {
+        vehicleAndKeeperDetailsDto.keeperFirstName match {
+          case Some(keeperFirstName) => Some(keeperFirstName.toUpperCase)
+          case _ => None
+        }
+      },
+      lastName = {
+        vehicleAndKeeperDetailsDto.keeperLastName match {
+          case Some(keeperLastName) => Some(keeperLastName.toUpperCase)
+          case _ => None
+        }
+      },
       address = Some(addressViewModel),
       disposeFlag = vehicleAndKeeperDetailsDto.disposeFlag,
       keeperEndDate = vehicleAndKeeperDetailsDto.keeperEndDate,
