@@ -39,18 +39,17 @@ object NewKeeperDetailsViewModel {
     (privateKeeperDetailsOpt, businessKeeperDetailsOpt) match {
       case (Some(privateKeeperDetails), _) =>
         Some(NewKeeperDetailsViewModel(
-          title = None, //Some(privateKeeperDetails.title),
+          title = Some(privateKeeperDetails.title),
           firstName = Some(privateKeeperDetails.firstName),
           lastName = Some(privateKeeperDetails.lastName),
-          dateOfBirth = None, //privateKeeperDetails.dateOfBirth, //TODO put me back
+          dateOfBirth = privateKeeperDetails.dateOfBirth,
           driverNumber = privateKeeperDetails.driverNumber,
           email = privateKeeperDetails.email,
           address = address,
           businessName = None,
           fleetNumber = None,
           isBusinessKeeper = false,
-//          displayName = s"${getTitle(privateKeeperDetails.title)} ${privateKeeperDetails.firstName} ${privateKeeperDetails.lastName}"
-          displayName = s"Mr ${privateKeeperDetails.firstName} ${privateKeeperDetails.lastName}"
+          displayName = s"${getTitle(privateKeeperDetails.title)} ${privateKeeperDetails.firstName} ${privateKeeperDetails.lastName}"
         ))
       case (_, Some(businessKeeperDetails))  =>
         Some(NewKeeperDetailsViewModel(

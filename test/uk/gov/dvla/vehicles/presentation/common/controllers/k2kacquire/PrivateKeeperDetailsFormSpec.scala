@@ -34,13 +34,13 @@ class PrivateKeeperDetailsFormSpec extends UnitSpec {
   "form" should {
     "accept if form is completed with all fields correctly" in new WithApplication {
       val model = formWithValidDefaults().get
-//      model.title should equal(TitleType(1, ""))
+      model.title should equal(TitleType(1, ""))
       model.firstName should equal(FirstNameValid)
       model.lastName should equal(LastNameValid)
-//      model.dateOfBirth should equal(Some(new LocalDate( TODO put me back
-//        YearDateOfBirthValid.toInt,
-//        MonthDateOfBirthValid.toInt,
-//        DayDateOfBirthValid.toInt)))
+      model.dateOfBirth should equal(Some(new LocalDate(
+        YearDateOfBirthValid.toInt,
+        MonthDateOfBirthValid.toInt,
+        DayDateOfBirthValid.toInt)))
       model.email should equal(Some(EmailValid))
       model.driverNumber should equal(Some(DriverNumberValid))
       model.postcode should equal(PostcodeValid)
@@ -53,10 +53,10 @@ class PrivateKeeperDetailsFormSpec extends UnitSpec {
         yearDateOfBirth = "",
         email = "",
         driverNumber = "").get
-//      model.title should equal(TitleType(1, ""))
+      model.title should equal(TitleType(1, ""))
       model.firstName should equal(FirstNameValid)
       model.lastName should equal(LastNameValid)
-//      model.dateOfBirth should equal(None) TODO put me back
+      model.dateOfBirth should equal(None)
       model.email should equal(None)
       model.driverNumber should equal(None)
       model.postcode should equal(PostcodeValid)
@@ -69,17 +69,17 @@ class PrivateKeeperDetailsFormSpec extends UnitSpec {
     }
   }
 
-//  "title" should {
-//    "reject if no selection is made" in new WithApplication {
-//      formWithValidDefaults(title = "").errors.flatMap(_.messages) should contain theSameElementsAs
-//        List("error.title.unknownOption")
-//    }
-//
-//    "accept if title is selected" in new WithApplication {
-//      val model = formWithValidDefaults(title = "2").get
-//      model.title should equal(TitleType(2, ""))
-//    }
-//  }
+  "title" should {
+    "reject if no selection is made" in new WithApplication {
+      formWithValidDefaults(title = "").errors.flatMap(_.messages) should contain theSameElementsAs
+        List("error.title.unknownOption")
+    }
+
+    "accept if title is selected" in new WithApplication {
+      val model = formWithValidDefaults(title = "2").get
+      model.title should equal(TitleType(2, ""))
+    }
+  }
 
   "email" should {
     "accept in valid format" in new WithApplication {
@@ -139,24 +139,24 @@ class PrivateKeeperDetailsFormSpec extends UnitSpec {
         List("error.validFirstName")
     }
 
-//    "accept if equal to max length" in new WithApplication {
-//      val maxFirstName = "a" * (FirstNameAndTitleMaxLength - 1)
-//      val formModel = validFormModel(title = "4", otherTitle = "x", firstName = maxFirstName)
-//      formModel.firstName should equal(maxFirstName)
-//      formModel.title should equal(TitleType(4, "x"))
-//    }
+    "accept if equal to max length" in new WithApplication {
+      val maxFirstName = "a" * (FirstNameAndTitleMaxLength - 1)
+      val formModel = validFormModel(title = "4", otherTitle = "x", firstName = maxFirstName)
+      formModel.firstName should equal(maxFirstName)
+      formModel.title should equal(TitleType(4, "x"))
+    }
 
-//    "don't accept if title plus first name is above the max" in new WithApplication {
-//      val title = "sometitle"
-//      val tooLongFirstName = "a" * (FirstNameAndTitleMaxLength - title.length + 1)
-//      formWithValidDefaults(title = "4", otherTitle = title, firstName = tooLongFirstName)
-//        .errors.flatMap(_.messages) should contain theSameElementsAs List("error.titlePlusFirstName.tooLong")
-//
-//      val longEnoughFirstName = "a" * (FirstNameAndTitleMaxLength - title.length)
-//      val formModel = validFormModel(title = "4", otherTitle = title, firstName = longEnoughFirstName)
-//      formModel.firstName should equal(longEnoughFirstName)
-//      formModel.title should equal(TitleType(4, title))
-//    }
+    "don't accept if title plus first name is above the max" in new WithApplication {
+      val title = "sometitle"
+      val tooLongFirstName = "a" * (FirstNameAndTitleMaxLength - title.length + 1)
+      formWithValidDefaults(title = "4", otherTitle = title, firstName = tooLongFirstName)
+        .errors.flatMap(_.messages) should contain theSameElementsAs List("error.titlePlusFirstName.tooLong")
+
+      val longEnoughFirstName = "a" * (FirstNameAndTitleMaxLength - title.length)
+      val formModel = validFormModel(title = "4", otherTitle = title, firstName = longEnoughFirstName)
+      formModel.firstName should equal(longEnoughFirstName)
+      formModel.title should equal(TitleType(4, title))
+    }
 
     "accept if equal to min length" in new WithApplication {
       val model = formWithValidDefaults(firstName = "a" * FirstNameMinLength).get
@@ -327,17 +327,17 @@ class PrivateKeeperDetailsFormSpec extends UnitSpec {
         List("error.dateOfBirth.invalid")
     }
 
-//    "accept if date of birth is entered correctly" in new WithApplication { //TODO put me back
-//      val model = formWithValidDefaults(
-//        dayDateOfBirth = DayDateOfBirthValid,
-//        monthDateOfBirth = MonthDateOfBirthValid,
-//        yearDateOfBirth = YearDateOfBirthValid).get
-//
-//      model.dateOfBirth should equal(Some(new LocalDate(
-//        YearDateOfBirthValid.toInt,
-//        MonthDateOfBirthValid.toInt,
-//        DayDateOfBirthValid.toInt)))
-//    }
+    "accept if date of birth is entered correctly" in new WithApplication {
+      val model = formWithValidDefaults(
+        dayDateOfBirth = DayDateOfBirthValid,
+        monthDateOfBirth = MonthDateOfBirthValid,
+        yearDateOfBirth = YearDateOfBirthValid).get
+
+      model.dateOfBirth should equal(Some(new LocalDate(
+        YearDateOfBirthValid.toInt,
+        MonthDateOfBirthValid.toInt,
+        DayDateOfBirthValid.toInt)))
+    }
   }
 
   "postcode" should {
