@@ -4,10 +4,8 @@ import org.scalatest.mock.MockitoSugar
 import play.api.mvc.{Request, Result}
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClientSideSessionFactory
 import uk.gov.dvla.vehicles.presentation.common.controllers.BusinessKeeperDetailsBase
-import uk.gov.dvla.vehicles.presentation.common.model.{CacheKeyPrefix, BusinessKeeperDetailsViewModel}
-
+import uk.gov.dvla.vehicles.presentation.common.model.{BusinessKeeperDetailsViewModel, CacheKeyPrefix}
 import scala.collection.mutable.ArrayBuffer
-
 
 object BusinessKeeperDetailsTesting extends MockitoSugar {
   import play.api.mvc.Results.{Ok, BadRequest}
@@ -39,10 +37,5 @@ class BusinessKeeperDetailsTesting(implicit override val clientSideSessionFactor
                                           (implicit request: Request[_]): Result = {
     invalidFormResultArgs.append(model)
     invalidFormTestResult
-  }
-
-  def clear(): Unit = {
-    presentResultArgs.clear()
-    invalidFormResultArgs.clear()
   }
 }

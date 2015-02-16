@@ -1,15 +1,11 @@
 package uk.gov.dvla.vehicles.presentation.common.controllers.k2kacquire
 
-//import _root_.pages.acquire.BusinessKeeperDetailsPage._
-//import composition.WithApplication
-//import controllers.BusinessKeeperDetails
-
-import play.api.mvc.{Result, Request}
-import uk.gov.dvla.vehicles.presentation.common.clientsidesession.{ClearTextClientSideSessionFactory, NoCookieFlags}
-import uk.gov.dvla.vehicles.presentation.common.model.{CacheKeyPrefix, BusinessKeeperDetailsFormModel}
-import uk.gov.dvla.vehicles.presentation.common.{WithApplication, UnitSpec}
-import BusinessKeeperDetailsFormModel.Form.{FleetNumberId, BusinessNameId, EmailId, PostcodeId}
-import uk.gov.dvla.vehicles.presentation.common.mappings.BusinessKeeperName
+import uk.gov.dvla.vehicles.presentation.common
+import common.clientsidesession.{ClearTextClientSideSessionFactory, NoCookieFlags}
+import common.mappings.BusinessKeeperName
+import common.model.CacheKeyPrefix
+import common.model.BusinessKeeperDetailsFormModel.Form.{FleetNumberId, BusinessNameId, EmailId, PostcodeId}
+import common.{UnitSpec, WithApplication}
 
 class BusinessKeeperDetailsFormSpec extends UnitSpec {
   implicit val cacheKeyPrefix = CacheKeyPrefix("testing-prefix")

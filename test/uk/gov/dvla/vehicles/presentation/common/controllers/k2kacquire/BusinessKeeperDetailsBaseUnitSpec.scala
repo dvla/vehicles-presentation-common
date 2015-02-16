@@ -2,20 +2,24 @@ package uk.gov.dvla.vehicles.presentation.common.controllers.k2kacquire
 
 import play.api.data.Form
 import play.api.test.{FakeRequest, WithApplication}
-import uk.gov.dvla.vehicles.presentation.common.UnitSpec
-import uk.gov.dvla.vehicles.presentation.common.clientsidesession.{NoCookieFlags, ClearTextClientSideSessionFactory}
-import uk.gov.dvla.vehicles.presentation.common.model._
-import BusinessKeeperDetailsFormModel.Form.{BusinessNameId, EmailId, FleetNumberId, PostcodeId}
-import uk.gov.dvla.vehicles.presentation.common.testhelpers.CookieFactoryForUnitSpecs._
-import uk.gov.dvla.vehicles.presentation.common.testhelpers.CookieHelper
 import scala.collection.mutable.ArrayBuffer
-import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicits.RichResult
 import scala.concurrent.Await
-import scala.concurrent.duration._
-
+import scala.concurrent.duration.DurationInt
 import scala.language.postfixOps
-
-import scala.collection.mutable
+import uk.gov.dvla.vehicles.presentation.common
+import common.clientsidesession.{NoCookieFlags, ClearTextClientSideSessionFactory}
+import common.clientsidesession.CookieImplicits.RichResult
+import common.model.BusinessKeeperDetailsFormModel
+import common.model.BusinessKeeperDetailsViewModel
+import common.model.BusinessKeeperDetailsFormModel.Form.{BusinessNameId, EmailId, FleetNumberId, PostcodeId}
+import common.model.CacheKeyPrefix
+import common.model.NewKeeperChooseYourAddressFormModel
+import common.testhelpers.CookieFactoryForUnitSpecs.businessKeeperDetailsCookie
+import common.testhelpers.CookieFactoryForUnitSpecs.defaultBusinessKeeperDetailsModel
+import common.testhelpers.CookieFactoryForUnitSpecs.defaultVehicleAndKeeperDetailsModel
+import common.testhelpers.CookieFactoryForUnitSpecs.vehicleAndKeeperDetailsCookie
+import common.testhelpers.CookieHelper
+import common.UnitSpec
 
 class BusinessKeeperDetailsBaseUnitSpec extends UnitSpec {
   final val FleetNumberValid = "123456"
@@ -97,7 +101,7 @@ class BusinessKeeperDetailsBaseUnitSpec extends UnitSpec {
 
       (result.cookies - NewKeeperChooseYourAddressFormModel.newKeeperChooseYourAddressCacheKey) should equal(Map(
         BusinessKeeperDetailsFormModel.businessKeeperDetailsCacheKey -> businessKeeperDetailsCookie(
-          defaultModel.copy(businessName = defaultModel.businessName.toUpperCase())
+          defaultModel.copy(businessName = defaultModel.businessName.toUpperCase)
         )
       ))
     }

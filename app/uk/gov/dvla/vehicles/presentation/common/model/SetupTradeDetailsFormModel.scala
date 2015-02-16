@@ -2,7 +2,6 @@ package uk.gov.dvla.vehicles.presentation.common.model
 
 import play.api.data.Forms.{mapping, optional}
 import play.api.libs.json.Json
-import uk.gov.dvla.vehicles.presentation.common
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CacheKey
 import uk.gov.dvla.vehicles.presentation.common.mappings.BusinessName.businessNameMapping
 import uk.gov.dvla.vehicles.presentation.common.mappings.Email.email
