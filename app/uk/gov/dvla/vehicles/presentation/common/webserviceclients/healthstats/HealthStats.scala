@@ -7,6 +7,8 @@ import uk.gov.dvla.vehicles.presentation.common.services.DateService
 import Math.max
 
 import scala.collection.mutable
+import scala.concurrent.Future
+import scala.concurrent.ExecutionContext.Implicits.global
 
 sealed trait HealthStatsEvent {
   val msName: String
@@ -18,6 +20,20 @@ case class HealthStatsSuccess(msName: String, time: Instant) extends HealthStats
 case class HealthStatsFailure(msName: String, time: Instant, t: Throwable) extends HealthStatsEvent
 
 case class NotHealthyStats(msName: String, details: String)
+
+object HealthStats {
+  def gatherStats[T](service: HealthStats, msName: String, time: Instant)
+                    (future: Future[T]): Future[T] = {
+    future.onSuccess {
+      case _ => service.success(HealthStatsSuccess(msName, time))
+    }
+    future.onFailure {
+      case e: Throwable =>
+        service.failure(HealthStatsFailure(msName, time, e))
+    }
+    future
+  }
+}
 
 class HealthStats @Inject()(config: HealthStatsConfig, dateService: DateService) {
   private type MsStats = mutable.ArrayBuffer[HealthStatsEvent]
@@ -94,13 +110,15 @@ class HealthStats @Inject()(config: HealthStatsConfig, dateService: DateService)
     }
 
 
-  private def hasRelativeFailures(msName: String, events: MsStats, relativeFailuresThreshold: Instant): Option[NotHealthyStats]  =
+  private def hasRelativeFailures(msName: String,
+                                  events: MsStats,
+                                  relativeFailuresThreshold: Instant): Option[NotHealthyStats]  =
     if (events.isEmpty || config.failuresRatioPercent < 0) None
     else events
       .dropWhile(_.time.isBefore(relativeFailuresThreshold))
       .foldLeft((0,0)) { case ((successCount, failureCount), event) =>
         if (event.isInstanceOf[HealthStatsFailure]) (successCount, failureCount + 1)
-          else (successCount + 1, failureCount)
+        else (successCount + 1, failureCount)
       } match {
         case (successCount, failureCount) =>
           val percentFailures = failureCount * 100 / max(1, successCount + failureCount)
