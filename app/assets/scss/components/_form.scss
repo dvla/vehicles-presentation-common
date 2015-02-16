@@ -384,6 +384,16 @@
         }
     }
 
+    // Form item with optional hidden field
+
+    .form-item { 
+        &.item-visible {
+            margin-top: -3rem;
+            padding-left: 1rem;
+            border-left: 5px solid #bfc1c3;
+        }
+    }
+
     .form-date {
         clear:both;
         .ie7 & {
@@ -399,19 +409,6 @@
                 float:left;
             }
         }
-    }
-
-    .toggle-form-item {
-        // better would be to physically move the input field so the below "margin-top" isn't needed
-        margin-top: -5.5rem;
-        .form-item {
-            margin-bottom: 0;
-        }
-    }
-
-    .form-item-visible {
-        padding-left: 1rem;
-        border-left: 5px solid #bfc1c3;
     }
 
 } // end #{$htmlNamespace}
