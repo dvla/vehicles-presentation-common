@@ -7,6 +7,8 @@ import uk.gov.dvla.vehicles.presentation.common.services.DateService
 import Math.max
 
 import scala.collection.mutable
+import scala.concurrent.Future
+import scala.concurrent.ExecutionContext.Implicits.global
 
 sealed trait HealthStatsEvent {
   val msName: String
@@ -26,6 +28,18 @@ class HealthStats @Inject()(config: HealthStatsConfig, dateService: DateService)
 
   private val events = new Stats()
   private val consecutiveFailCounts = new FailCounts()
+
+  def report[T](msName: String)
+               (future: Future[T]): Future[T] = {
+    future.onSuccess {
+      case _ => success(HealthStatsSuccess(msName, dateService.now))
+    }
+    future.onFailure {
+      case e: Throwable =>
+        failure(HealthStatsFailure(msName, dateService.now, e))
+    }
+    future
+  }
 
   def failure(failure: HealthStatsFailure): Unit = this.synchronized {
     if (config.numberOfConsecutiveFailures > 0)
@@ -65,8 +79,11 @@ class HealthStats @Inject()(config: HealthStatsConfig, dateService: DateService)
 
   private def hasConsecutive(events: Stats): Option[NotHealthyStats]  = {
     consecutiveFailCounts.foreach { case (msName, msFailures) =>
-      if (msFailures > config.numberOfConsecutiveFailures)
-        return Some(NotHealthyStats(msName, s"More then ${config.numberOfConsecutiveFailures} consecutive failures in $msName"))
+      if (msFailures >= config.numberOfConsecutiveFailures)
+        return Some(NotHealthyStats(
+          msName, s"The number of consecutive failures in $msName is $msFailures and " +
+            s"the fail threshold of ${config.numberOfConsecutiveFailures}"
+        ))
     }
     None
   }
@@ -94,13 +111,15 @@ class HealthStats @Inject()(config: HealthStatsConfig, dateService: DateService)
     }
 
 
-  private def hasRelativeFailures(msName: String, events: MsStats, relativeFailuresThreshold: Instant): Option[NotHealthyStats]  =
+  private def hasRelativeFailures(msName: String,
+                                  events: MsStats,
+                                  relativeFailuresThreshold: Instant): Option[NotHealthyStats]  =
     if (events.isEmpty || config.failuresRatioPercent < 0) None
     else events
       .dropWhile(_.time.isBefore(relativeFailuresThreshold))
       .foldLeft((0,0)) { case ((successCount, failureCount), event) =>
         if (event.isInstanceOf[HealthStatsFailure]) (successCount, failureCount + 1)
-          else (successCount + 1, failureCount)
+        else (successCount + 1, failureCount)
       } match {
         case (successCount, failureCount) =>
           val percentFailures = failureCount * 100 / max(1, successCount + failureCount)

@@ -1,9 +1,15 @@
 package uk.gov.dvla.vehicles.presentation.common.webserviceclients.brute_force_prevention
 
-import org.mockito.Mockito.when
-import org.mockito.Matchers.anyString
+import org.joda.time.Instant
+import org.mockito.Mockito.{when, verify}
+import org.mockito.Matchers.{anyString, any}
+import org.mockito.invocation.InvocationOnMock
+import org.mockito.stubbing.Answer
+import org.scalatest.concurrent.Eventually
 import play.api.http.Status.{FORBIDDEN, OK}
 import play.api.libs.ws.WSResponse
+import uk.gov.dvla.vehicles.presentation.common.services.DateService
+import uk.gov.dvla.vehicles.presentation.common.webserviceclients.healthstats.{HealthStatsFailure, HealthStatsSuccess, HealthStats}
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 import scala.util.Try
@@ -23,7 +29,7 @@ class BruteForcePreventionServiceImplSpec extends UnitSpec {
 
   "isVrmLookupPermitted" should {
     "return true when response status is 200 OK" in {
-      val service = bruteForceServiceImpl(permitted = true)
+      val (service, healthStatsMock, dateService) = bruteForceServiceImpl(permitted = true)
       whenReady(service.isVrmLookupPermitted(RegistrationNumberValid), timeout) {
         case viewModel =>
           viewModel.permitted should equal(true)
@@ -34,7 +40,7 @@ class BruteForcePreventionServiceImplSpec extends UnitSpec {
     }
 
     "return false when response status is not 200 OK" in {
-      val service = bruteForceServiceImpl(permitted = false)
+      val (service, _, _) = bruteForceServiceImpl(permitted = false)
       whenReady(service.isVrmLookupPermitted(RegistrationNumberValid)) {
         case viewModel =>
           viewModel.permitted should equal(false)
@@ -45,12 +51,14 @@ class BruteForcePreventionServiceImplSpec extends UnitSpec {
     }
 
     "fail future when webservice call throws exception" in {
-      val service = bruteForceServiceImpl(permitted = true)
+      val (service, healthStatsMock, dateService) = bruteForceServiceImpl(permitted = true)
       val result = service.isVrmLookupPermitted(VrmThrows)
 
       Try(
         whenReady(result){ r => fail("we expect whenReady to throw an exception") }
       ).isFailure should equal(true)
+
+      verify(healthStatsMock).report("bruteforce-prevention-microservice")(result)
     }
   }
 
@@ -61,14 +69,26 @@ class BruteForcePreventionServiceImplSpec extends UnitSpec {
         new FakeResponse(status = OK)
       })
 
+      val dateService = new FakeDateServiceImpl {
+        override def now = new Instant(3466)
+      }
+
+      val healthStatsMock = mock[HealthStats]
+      when(healthStatsMock.report(anyString)(any[Future[_]])).thenAnswer(new Answer[Future[_]] {
+        override def answer(invocation: InvocationOnMock): Future[_] = invocation.getArguments()(1).asInstanceOf[Future[_]]
+      })
+
       val service = new BruteForcePreventionServiceImpl(
         new TestBruteForcePreventionConfig,
         ws = bruteForcePreventionWebServiceMock,
-        dateService = new FakeDateServiceImpl
+        healthStatsMock,
+        dateService = dateService
       )
-      whenReady(service.reset("A1")) {
+      val result = service.reset("A1")
+      whenReady(result) {
         case httpCode: Int =>
           httpCode should equal(OK)
+          verify(healthStatsMock).report("bruteforce-prevention-microservice")(result)
       }
     }
 
@@ -76,23 +96,37 @@ class BruteForcePreventionServiceImplSpec extends UnitSpec {
       val bruteForcePreventionWebServiceMock: BruteForcePreventionWebService = mock[BruteForcePreventionWebService]
       when(bruteForcePreventionWebServiceMock.reset(anyString)).thenReturn(responseThrows)
 
+      val dateService = new FakeDateServiceImpl {
+        override def now = new Instant(3466)
+      }
+
+      val healthStatsMock = mock[HealthStats]
+      when(healthStatsMock.report(anyString)(any[Future[_]])).thenAnswer(new Answer[Future[_]] {
+        override def answer(invocation: InvocationOnMock): Future[_] = invocation.getArguments()(1).asInstanceOf[Future[_]]
+      })
+
       val service = new BruteForcePreventionServiceImpl(
         new TestBruteForcePreventionConfig,
         ws = bruteForcePreventionWebServiceMock,
-        dateService = new FakeDateServiceImpl
+        healthStatsMock,
+        dateService = dateService
       )
       val result = service.reset("A1")
+
+      result.eitherValue
       Try(
-        whenReady(result){ r => fail("we expect whenReady to throw an exception") }
+        whenReady(result) { r => fail("we expect whenReady to throw an exception") }
       ).isFailure should equal(true)
+      verify(healthStatsMock).report("bruteforce-prevention-microservice")(result)
     }
   }
 
+  private val responseThrowsException = new RuntimeException("This error is generated deliberately by a test")
   private def responseThrows: Future[WSResponse] = Future {
-    throw new RuntimeException("This error is generated deliberately by a test")
+    throw responseThrowsException
   }
 
-  private def bruteForceServiceImpl(permitted: Boolean): BruteForcePreventionService = {
+  private def bruteForceServiceImpl(permitted: Boolean): (BruteForcePreventionService, HealthStats, DateService) = {
     def bruteForcePreventionWebService: BruteForcePreventionWebService = {
       val status = if (permitted) OK else FORBIDDEN
       val bruteForcePreventionWebService: BruteForcePreventionWebService = mock[BruteForcePreventionWebService]
@@ -113,10 +147,19 @@ class BruteForcePreventionServiceImplSpec extends UnitSpec {
       bruteForcePreventionWebService
     }
 
-    new BruteForcePreventionServiceImpl(
+    val healthStatsMock = mock[HealthStats]
+    when(healthStatsMock.report(anyString)(any[Future[_]])).thenAnswer(new Answer[Future[_]] {
+      override def answer(invocation: InvocationOnMock): Future[_] = invocation.getArguments()(1).asInstanceOf[Future[_]]
+    })
+    val fakeDateService =  new FakeDateServiceImpl {
+      override def now = new Instant(987134)
+    }
+
+    (new BruteForcePreventionServiceImpl(
       new TestBruteForcePreventionConfig,
       ws = bruteForcePreventionWebService,
-      dateService = new FakeDateServiceImpl
-    )
+      healthStatsMock,
+      dateService = fakeDateService
+    ), healthStatsMock, fakeDateService)
   }
 }

@@ -7,10 +7,18 @@ import play.api.libs.ws.WSResponse
 import uk.gov.dvla.vehicles.presentation.common.LogFormats
 import uk.gov.dvla.vehicles.presentation.common.model.AddressModel
 import uk.gov.dvla.vehicles.presentation.common.webserviceclients.addresslookup.{AddressLookupService, AddressLookupWebService}
+import uk.gov.dvla.vehicles.presentation.common.webserviceclients.healthstats.HealthStats
 import scala.concurrent.Future
 import scala.concurrent.ExecutionContext.Implicits.global
 
-final class AddressLookupServiceImpl @Inject()(ws: AddressLookupWebService) extends AddressLookupService {
+
+object AddressLookupServiceImpl {
+  final val ServiceName = "os-address-lookup-microservice"
+}
+
+final class AddressLookupServiceImpl @Inject()(ws: AddressLookupWebService,
+                                               healthStats: HealthStats) extends AddressLookupService {
+  import AddressLookupServiceImpl.ServiceName
 
   override def fetchAddressesForPostcode(postcode: String, trackingId: String, showBusinessName: Option[Boolean] = None)
                                         (implicit lang: Lang): Future[Seq[(String, String)]] = {
@@ -29,17 +37,19 @@ final class AddressLookupServiceImpl @Inject()(ws: AddressLookupWebService) exte
           Seq.empty// Exception case and empty seq case are treated the same in the UI
       }
 
-    ws.callPostcodeWebService(postcode, trackingId, showBusinessName)(lang).map { resp =>
+    healthStats.report(ServiceName) {
+      ws.callPostcodeWebService(postcode, trackingId, showBusinessName)(lang).map { resp =>
         Logger.debug(s"Http response code from Ordnance Survey postcode lookup service was: ${resp.status}")
         if (resp.status == play.api.http.Status.OK) toDropDown(resp)
         else {
           Logger.error(s"Post code service returned abnormally '${resp.status}: ${resp.body}'")
           Seq.empty // The service returned http code other than 200 OK
         }
-    }.recover {
-      case e: Throwable =>
-        Logger.error(s"Ordnance Survey postcode lookup service error.", e)
-        Seq.empty // Exception case and empty seq case are treated the same in the UI
+      }.recover {
+        case e: Throwable =>
+          Logger.error(s"Ordnance Survey postcode lookup service error.", e)
+          Seq.empty // Exception case and empty seq case are treated the same in the UI
+      }
     }
   }
 
@@ -60,17 +70,19 @@ final class AddressLookupServiceImpl @Inject()(ws: AddressLookupWebService) exte
           None
       }
 
-    ws.callUprnWebService(uprn, trackingId).map { resp =>
+    healthStats.report(ServiceName) {
+      ws.callUprnWebService(uprn, trackingId).map { resp =>
         Logger.debug(s"Http response code from Ordnance Survey uprn lookup service was: ${resp.status}")
         if (resp.status == play.api.http.Status.OK) toViewModel(resp)
         else {
           Logger.error(s"Post code service returned abnormally '${resp.status}: ${resp.body}'")
           None
         }
-    }.recover {
-      case e: Throwable =>
-        Logger.error(s"Ordnance Survey postcode lookup service error", e)
-        None
+      }.recover {
+        case e: Throwable =>
+          Logger.error(s"Ordnance Survey postcode lookup service error", e)
+          None
+      }
     }
   }
 }
