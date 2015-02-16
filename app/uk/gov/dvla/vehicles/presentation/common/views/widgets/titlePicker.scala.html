@@ -16,18 +16,12 @@
         field = field(TitleRadioKey).copy(constraints = Seq(RequiredField -> Seq[Any]())),
         args = args ++ Map(
             '_label -> "",
-            'items -> standardOptions.map(opt => (standardOptions.indexOf(opt) + 1).toString -> Messages(opt))
-        )
+            'items -> (standardOptions.map(opt => 
+                (standardOptions.indexOf(opt) + 1).toString -> Messages(opt)
+            ) ++ Seq(OtherTitleRadioValue.toString -> Messages("titlePicker.other")))
+        )    
     )
-    <div class="toggle-form-item">
-        @listRadioGroup(
-            field = field(TitleRadioKey).copy(constraints = Seq(RequiredField -> Seq[Any]())),
-            args = Map(
-                '_label -> "",
-                'items -> Seq(OtherTitleRadioValue.toString -> Messages("titlePicker.other"))
-            )
-        )
-    </div>
+    
     @valtechInputText(
         field = field(TitleTextKey).copy(constraints = Seq(RequiredField -> Seq[Any]())),
         hintText = Some(Messages("titlePicker.textHint")),
