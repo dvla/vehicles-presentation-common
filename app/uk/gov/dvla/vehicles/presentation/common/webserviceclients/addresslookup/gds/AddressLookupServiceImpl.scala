@@ -8,10 +8,15 @@ import uk.gov.dvla.vehicles.presentation.common.model.AddressModel
 import uk.gov.dvla.vehicles.presentation.common.webserviceclients.addresslookup.{AddressLookupService, AddressLookupWebService}
 import uk.gov.dvla.vehicles.presentation.common.webserviceclients.addresslookup.gds.domain.Address
 import uk.gov.dvla.vehicles.presentation.common.webserviceclients.addresslookup.gds.domain.JsonFormats.addressFormat
+import uk.gov.dvla.vehicles.presentation.common.webserviceclients.healthstats.HealthStats
 import scala.concurrent.{ExecutionContext, Future}
 import ExecutionContext.Implicits.global
 
-final class AddressLookupServiceImpl @Inject()(ws: AddressLookupWebService)
+object AddressLookupServiceImpl {
+  final val ServiceName = "gds-address-lookup-microservice"
+}
+
+final class AddressLookupServiceImpl @Inject()(ws: AddressLookupWebService, healthStats: HealthStats)
   extends AddressLookupService {
 
   private def extractFromJson(resp: WSResponse): Seq[Address] =
@@ -37,18 +42,20 @@ final class AddressLookupServiceImpl @Inject()(ws: AddressLookupWebService)
       // Sort before translating to drop down format.
     }
 
-    ws.callPostcodeWebService(postcode, trackingId, showBusinessName).map {
-      resp =>
-        Logger.debug(s"Http response code from GDS postcode lookup service was: ${ resp.status }")
-        if (resp.status == play.api.http.Status.OK) toDropDown(resp)
-        else {
-          Logger.error(s"Post code service returned abnormally '${resp.status}: ${resp.body}'")
-          Seq.empty // The service returned http code other than 200 OK
-        }
-    }.recover {
-      case e: Throwable =>
-        Logger.error(s"GDS postcode lookup service error: $e")
-        Seq.empty
+    healthStats.report(AddressLookupServiceImpl.ServiceName) {
+      ws.callPostcodeWebService(postcode, trackingId, showBusinessName).map {
+        resp =>
+          Logger.debug(s"Http response code from GDS postcode lookup service was: ${resp.status}")
+          if (resp.status == play.api.http.Status.OK) toDropDown(resp)
+          else {
+            Logger.error(s"Post code service returned abnormally '${resp.status}: ${resp.body}'")
+            Seq.empty // The service returned http code other than 200 OK
+          }
+      }.recover {
+        case e: Throwable =>
+          Logger.error(s"GDS postcode lookup service error: $e")
+          Seq.empty
+      }
     }
   }
 
@@ -61,17 +68,19 @@ final class AddressLookupServiceImpl @Inject()(ws: AddressLookupWebService)
       // Translate to view model.
     }
 
-    ws.callUprnWebService(uprn, trackingId).map { resp =>
-        Logger.debug(s"Http response code from GDS postcode lookup service was: ${ resp.status }")
+    healthStats.report(AddressLookupServiceImpl.ServiceName) {
+      ws.callUprnWebService(uprn, trackingId).map { resp =>
+        Logger.debug(s"Http response code from GDS postcode lookup service was: ${resp.status}")
         if (resp.status == play.api.http.Status.OK) toViewModel(resp)
         else {
           Logger.error(s"UPRN service returned abnormally '${resp.status}: ${resp.body}'")
           None
         }
-    }.recover {
-      case e: Throwable =>
-        Logger.error(s"GDS uprn lookup service error: $e")
-        None
+      }.recover {
+        case e: Throwable =>
+          Logger.error(s"GDS uprn lookup service error: $e")
+          None
+      }
     }
   }
 }

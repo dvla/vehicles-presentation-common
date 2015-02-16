@@ -1,8 +1,10 @@
 package uk.gov.dvla.vehicles.presentation.common.model
 
 import play.api.libs.json.Json
-import uk.gov.dvla.vehicles.presentation.common.views.models.AddressAndPostcodeViewModel
+import uk.gov.dvla.vehicles.presentation.common.views.models.{AddressLinesViewModel, AddressAndPostcodeViewModel}
 import uk.gov.dvla.vehicles.presentation.common.views.constraints.Postcode
+
+import scala.collection.immutable.IndexedSeq
 
 /**
  * UPRN is optional because if user is manually entering the address they will not be allowed to enter a UPRN, it is
@@ -28,4 +30,11 @@ object AddressModel {
 
   def from(addressString: String): AddressModel =
     AddressModel(uprn = None, address = addressString.split(",") map (line => line.trim))
+  
+//  private def joinAddressesIfNeeded(addresses: Seq[String]): Seq[String] = addresses.toList match {
+//    case head :: second :: tail  if head.length <= AddressLinesViewModel.Form.BuildingNameOrNumberMinLength =>
+//      s"$head $second" :: tail
+//    case _ => addresses
+//  }
+
 }

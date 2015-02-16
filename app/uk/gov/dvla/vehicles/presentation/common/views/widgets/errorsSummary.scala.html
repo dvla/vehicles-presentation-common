@@ -9,7 +9,10 @@
             @for(error <- form.get.errors) {
                 <li>
                     <a href="#@error.key.replace(".", "_")">
-                        @Messages(error.key, error.args: _*) - @Messages(error.message, error.args: _*)
+                        @* messages.head will get the first message in the Seq. If there is only one message then
+                        it will just get that one. This mechanism allows us to send in different messages for
+                        the error summary vs what appears around the field. *@
+                        @Messages(error.key, error.args: _*) - @Messages(error.messages.head, error.args: _*)
                     </a>
                 </li>
             }

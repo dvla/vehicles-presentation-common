@@ -2,18 +2,25 @@ package uk.gov.dvla.vehicles.presentation.common.webserviceclients.bruteforcepre
 
 import javax.inject.Inject
 
+import org.joda.time.Instant
 import play.api.Logger
 import play.api.libs.json.Json
 import uk.gov.dvla.vehicles.presentation.common.model.BruteForcePreventionModel
 import uk.gov.dvla.vehicles.presentation.common.services.DateService
+import uk.gov.dvla.vehicles.presentation.common.webserviceclients.healthstats.{HealthStatsSuccess, HealthStatsFailure, HealthStats}
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
+object BruteForcePreventionServiceImpl {
+  final val ServiceName = "bruteforce-prevention-microservice"
+}
+
 final class BruteForcePreventionServiceImpl @Inject()(config: BruteForcePreventionConfig,
                                                       ws: BruteForcePreventionWebService,
+                                                      healthStats: HealthStats,
                                                       dateService: DateService) extends BruteForcePreventionService {
-
+  import BruteForcePreventionServiceImpl.ServiceName
   private val maxAttempts: Int = config.maxAttemptsHeader
 
   override def isVrmLookupPermitted(vrm: String): Future[BruteForcePreventionModel] =
@@ -51,7 +58,9 @@ final class BruteForcePreventionServiceImpl @Inject()(config: BruteForcePreventi
           Logger.error(s"Brute force prevention service throw exception: ${e.getStackTraceString}")
           returnedFuture.failure(e)
       }
-      returnedFuture.future
+      healthStats.report(ServiceName) {
+        returnedFuture.future
+      }
     }
     else Future {
       // This code is only reached when brute force prevention is disabled, which should only be when we are running
@@ -92,7 +101,9 @@ final class BruteForcePreventionServiceImpl @Inject()(config: BruteForcePreventi
       }.recover { case e: Throwable =>
         returnedFuture.failure(e)
       }
-      returnedFuture.future
+      healthStats.report(ServiceName) {
+        returnedFuture.future
+      }
     }
     else Future {
       play.api.http.Status.OK

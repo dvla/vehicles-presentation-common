@@ -20,6 +20,9 @@ object ConfigProperties {
   def getDurationProperty(property: String): Long =
     Play.current.configuration.getMilliseconds(property).getOrElse(error(property))
 
+  def getOptionalDurationProperty(property: String): Option[Long] =
+    Play.current.configuration.getMilliseconds(property)
+
   private def error(property: String) = {
     Logger.error(s"Property with name $property was not found. Try adding this property to application.conf file") // TODO not sure we need this line
     throw new RuntimeException(s"Property with name $property was not found. Try adding this property to application.conf file")

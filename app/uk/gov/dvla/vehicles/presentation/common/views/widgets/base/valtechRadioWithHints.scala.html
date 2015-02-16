@@ -29,8 +29,10 @@
             <span class="text">@{radio.message}</span>
         </label>
 
-        <div class="form-item">
-            <span class="form-hint">@{radio.hint}</span>
-        </div>
+        @if(!radio.hint.isEmpty) {
+            <div class="form-item">
+                <span class="form-hint">@{radio.hint}</span>
+            </div>
+        }
     }
 }
