@@ -21,20 +21,6 @@ case class HealthStatsFailure(msName: String, time: Instant, t: Throwable) exten
 
 case class NotHealthyStats(msName: String, details: String)
 
-object HealthStats {
-  def gatherStats[T](service: HealthStats, msName: String, time: Instant)
-                    (future: Future[T]): Future[T] = {
-    future.onSuccess {
-      case _ => service.success(HealthStatsSuccess(msName, time))
-    }
-    future.onFailure {
-      case e: Throwable =>
-        service.failure(HealthStatsFailure(msName, time, e))
-    }
-    future
-  }
-}
-
 class HealthStats @Inject()(config: HealthStatsConfig, dateService: DateService) {
   private type MsStats = mutable.ArrayBuffer[HealthStatsEvent]
   private type Stats = collection.mutable.HashMap[String, MsStats]
@@ -42,6 +28,18 @@ class HealthStats @Inject()(config: HealthStatsConfig, dateService: DateService)
 
   private val events = new Stats()
   private val consecutiveFailCounts = new FailCounts()
+
+  def report[T](msName: String)
+               (future: Future[T]): Future[T] = {
+    future.onSuccess {
+      case _ => success(HealthStatsSuccess(msName, dateService.now))
+    }
+    future.onFailure {
+      case e: Throwable =>
+        failure(HealthStatsFailure(msName, dateService.now, e))
+    }
+    future
+  }
 
   def failure(failure: HealthStatsFailure): Unit = this.synchronized {
     if (config.numberOfConsecutiveFailures > 0)
@@ -81,8 +79,11 @@ class HealthStats @Inject()(config: HealthStatsConfig, dateService: DateService)
 
   private def hasConsecutive(events: Stats): Option[NotHealthyStats]  = {
     consecutiveFailCounts.foreach { case (msName, msFailures) =>
-      if (msFailures > config.numberOfConsecutiveFailures)
-        return Some(NotHealthyStats(msName, s"More then ${config.numberOfConsecutiveFailures} consecutive failures in $msName"))
+      if (msFailures >= config.numberOfConsecutiveFailures)
+        return Some(NotHealthyStats(
+          msName, s"The number of consecutive failures in $msName is $msFailures and " +
+            s"the fail threshold of ${config.numberOfConsecutiveFailures}"
+        ))
     }
     None
   }

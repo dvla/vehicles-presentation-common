@@ -2,7 +2,9 @@ package uk.gov.dvla.vehicles.presentation.common.webserviceclients.brute_force_p
 
 import org.joda.time.Instant
 import org.mockito.Mockito.{when, verify}
-import org.mockito.Matchers.anyString
+import org.mockito.Matchers.{anyString, any}
+import org.mockito.invocation.InvocationOnMock
+import org.mockito.stubbing.Answer
 import org.scalatest.concurrent.Eventually
 import play.api.http.Status.{FORBIDDEN, OK}
 import play.api.libs.ws.WSResponse
@@ -34,7 +36,6 @@ class BruteForcePreventionServiceImplSpec extends UnitSpec {
           viewModel.attempts should equal(1)
           viewModel.maxAttempts should equal(3)
           viewModel.dateTimeISOChronology should startWith("1970-11-25T00:00:00.000")
-          verify(healthStatsMock).success(HealthStatsSuccess("bruteforce-prevention-microservice", dateService.now))
       }
     }
 
@@ -56,13 +57,8 @@ class BruteForcePreventionServiceImplSpec extends UnitSpec {
       Try(
         whenReady(result){ r => fail("we expect whenReady to throw an exception") }
       ).isFailure should equal(true)
-      Eventually.eventually {
-        verify(healthStatsMock).failure(HealthStatsFailure("" +
-          "bruteforce-prevention-microservice",
-          dateService.now,
-          responseThrowsException
-        ))
-      }
+
+      verify(healthStatsMock).report("bruteforce-prevention-microservice")(result)
     }
   }
 
@@ -78,16 +74,21 @@ class BruteForcePreventionServiceImplSpec extends UnitSpec {
       }
 
       val healthStatsMock = mock[HealthStats]
+      when(healthStatsMock.report(anyString)(any[Future[_]])).thenAnswer(new Answer[Future[_]] {
+        override def answer(invocation: InvocationOnMock): Future[_] = invocation.getArguments()(1).asInstanceOf[Future[_]]
+      })
+
       val service = new BruteForcePreventionServiceImpl(
         new TestBruteForcePreventionConfig,
         ws = bruteForcePreventionWebServiceMock,
         healthStatsMock,
         dateService = dateService
       )
-      whenReady(service.reset("A1")) {
+      val result = service.reset("A1")
+      whenReady(result) {
         case httpCode: Int =>
           httpCode should equal(OK)
-          verify(healthStatsMock).success(HealthStatsSuccess("bruteforce-prevention-microservice", dateService.now))
+          verify(healthStatsMock).report("bruteforce-prevention-microservice")(result)
       }
     }
 
@@ -100,6 +101,10 @@ class BruteForcePreventionServiceImplSpec extends UnitSpec {
       }
 
       val healthStatsMock = mock[HealthStats]
+      when(healthStatsMock.report(anyString)(any[Future[_]])).thenAnswer(new Answer[Future[_]] {
+        override def answer(invocation: InvocationOnMock): Future[_] = invocation.getArguments()(1).asInstanceOf[Future[_]]
+      })
+
       val service = new BruteForcePreventionServiceImpl(
         new TestBruteForcePreventionConfig,
         ws = bruteForcePreventionWebServiceMock,
@@ -112,13 +117,7 @@ class BruteForcePreventionServiceImplSpec extends UnitSpec {
       Try(
         whenReady(result) { r => fail("we expect whenReady to throw an exception") }
       ).isFailure should equal(true)
-      Eventually.eventually {
-        verify(healthStatsMock).failure(HealthStatsFailure("" +
-          "bruteforce-prevention-microservice",
-          dateService.now,
-          responseThrowsException
-        ))
-      }
+      verify(healthStatsMock).report("bruteforce-prevention-microservice")(result)
     }
   }
 
@@ -149,6 +148,9 @@ class BruteForcePreventionServiceImplSpec extends UnitSpec {
     }
 
     val healthStatsMock = mock[HealthStats]
+    when(healthStatsMock.report(anyString)(any[Future[_]])).thenAnswer(new Answer[Future[_]] {
+      override def answer(invocation: InvocationOnMock): Future[_] = invocation.getArguments()(1).asInstanceOf[Future[_]]
+    })
     val fakeDateService =  new FakeDateServiceImpl {
       override def now = new Instant(987134)
     }

@@ -2,8 +2,10 @@ package uk.gov.dvla.vehicles.presentation.common.webserviceclients.healthstats
 
 import org.joda.time.Instant
 import org.mockito.Mockito.when
+import org.scalatest.concurrent.Eventually
 import uk.gov.dvla.vehicles.presentation.common.UnitSpec
 import uk.gov.dvla.vehicles.presentation.common.services.DateService
+import scala.concurrent.Future
 import scala.concurrent.duration.{Duration, DAYS}
 
 class HealthStatsSpec extends UnitSpec {
@@ -36,7 +38,9 @@ class HealthStatsSpec extends UnitSpec {
       failure("testms", Long.MaxValue - 1000)
 
       when(dateService.now).thenReturn(new Instant(Long.MaxValue))
-      service.healthy should be(Some(NotHealthyStats("testms", "More then 4 consecutive failures in testms")))
+      service.healthy should be(Some(
+        NotHealthyStats("testms", "The number of consecutive failures in testms is 5 and the fail threshold of 4")
+      ))
     }
 
     "report not healthy if there are x consecutive failures for one ms and success only for other" in {
@@ -54,7 +58,21 @@ class HealthStatsSpec extends UnitSpec {
       failure("testms1", Long.MaxValue - 1000)
 
       when(dateService.now).thenReturn(new Instant(Long.MaxValue))
-      service.healthy should be(Some(NotHealthyStats("testms1", "More then 4 consecutive failures in testms1")))
+      service.healthy should be(Some(
+        NotHealthyStats("testms1", "The number of consecutive failures in testms1 is 5 and the fail threshold of 4")
+      ))
+    }
+
+    "report not healthy if the number of consecutive failures is equal to the configured value" in {
+      implicit val (dateService, config, service) = setup
+      when(config.numberOfConsecutiveFailures).thenReturn(1)
+
+      failure("testms1", 111)
+
+      when(dateService.now).thenReturn(new Instant(Long.MaxValue))
+      service.healthy should be(Some(
+        NotHealthyStats("testms1", "The number of consecutive failures in testms1 is 1 and the fail threshold of 1")
+      ))
     }
 
     "report healthy if there are x consecutive failures followed by a single success" in {
@@ -206,6 +224,39 @@ class HealthStatsSpec extends UnitSpec {
 
       when(dateService.now).thenReturn(new Instant(11000))
       service.healthy should be(None)
+    }
+  }
+
+  "report method" should {
+    "Report success or failure in case of successful of failing future" in {
+      implicit val (dateService, config, service) = setup
+      when(dateService.now).thenReturn(new Instant(1))
+      when(config.numberOfConsecutiveFailures).thenReturn(1)
+
+      val future = Future.successful("test-future-result")
+      val retFuture = service.report("test-service") (future)
+      retFuture should be theSameInstanceAs(future)
+
+      when(dateService.now).thenReturn(new Instant(10))
+      Eventually.eventually(service.healthy should be(None))
+
+      val e = new Exception()
+      when(dateService.now).thenReturn(new Instant(11))
+      service.report("test-service") (Future.failed(e))
+      when(dateService.now).thenReturn(new Instant(20))
+      Eventually.eventually(
+        service.healthy should be(Some(
+          NotHealthyStats(
+            "test-service",
+            "The number of consecutive failures in test-service is 1 and the fail threshold of 1")
+        ))
+      )
+
+      when(dateService.now).thenReturn(new Instant(31))
+      service.report("test-service") (future)
+
+      when(dateService.now).thenReturn(new Instant(40))
+      Eventually.eventually(service.healthy should be(None))
     }
   }
 
