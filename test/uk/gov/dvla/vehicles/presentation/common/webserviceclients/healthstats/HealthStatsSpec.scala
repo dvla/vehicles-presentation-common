@@ -39,7 +39,7 @@ class HealthStatsSpec extends UnitSpec {
 
       when(dateService.now).thenReturn(new Instant(Long.MaxValue))
       service.healthy should be(Some(
-        NotHealthyStats("testms", "The number of consecutive failures in testms is 5 and the fail threshold of 4")
+        NotHealthyStats("testms", "The number of consecutive failures in testms is 5 and the fail threshold is 4")
       ))
     }
 
@@ -59,7 +59,7 @@ class HealthStatsSpec extends UnitSpec {
 
       when(dateService.now).thenReturn(new Instant(Long.MaxValue))
       service.healthy should be(Some(
-        NotHealthyStats("testms1", "The number of consecutive failures in testms1 is 5 and the fail threshold of 4")
+        NotHealthyStats("testms1", "The number of consecutive failures in testms1 is 5 and the fail threshold is 4")
       ))
     }
 
@@ -71,7 +71,7 @@ class HealthStatsSpec extends UnitSpec {
 
       when(dateService.now).thenReturn(new Instant(Long.MaxValue))
       service.healthy should be(Some(
-        NotHealthyStats("testms1", "The number of consecutive failures in testms1 is 1 and the fail threshold of 1")
+        NotHealthyStats("testms1", "The number of consecutive failures in testms1 is 1 and the fail threshold is 1")
       ))
     }
 
@@ -104,7 +104,7 @@ class HealthStatsSpec extends UnitSpec {
       when(dateService.now).thenReturn(new Instant(10001))
       service.healthy should be(Some(NotHealthyStats(
         "test1",
-        "test1 has 100% for the last 100000ms This is more then configured threshold of 100% failures"
+        "test1 has 100% failures for the last 100000ms This is more then configured threshold of 100% failures"
       )))
 
       success("test1", 10004)
@@ -124,7 +124,7 @@ class HealthStatsSpec extends UnitSpec {
       when(dateService.now).thenReturn(new Instant(10001))
       service.healthy should be(Some(NotHealthyStats(
         "test1",
-        "test1 has 0% for the last 100000ms This is more then configured threshold of 0% failures"
+        "test1 has 0% failures for the last 100000ms This is more then configured threshold of 0% failures"
       )))
     }
 
@@ -141,7 +141,7 @@ class HealthStatsSpec extends UnitSpec {
       when(dateService.now).thenReturn(new Instant(10004))
       service.healthy should be(Some(NotHealthyStats(
         "test1",
-        "test1 has 50% for the last 100000ms This is more then configured threshold of 50% failures"
+        "test1 has 50% failures for the last 100000ms This is more then configured threshold of 50% failures"
       )))
 
       success("test1", 10005)
@@ -162,7 +162,7 @@ class HealthStatsSpec extends UnitSpec {
       when(dateService.now).thenReturn(new Instant(100000))
       service.healthy should be(Some(NotHealthyStats(
         "ms1",
-        "ms1 has 32% for the last 100000ms This is more then configured threshold of 26% failures"
+        "ms1 has 32% failures for the last 100000ms This is more then configured threshold of 26% failures"
       )))
 
       for (i <- 0 until 3000) success("ms1", 20000)
@@ -185,7 +185,7 @@ class HealthStatsSpec extends UnitSpec {
 
       when(dateService.now).thenReturn(new Instant(11000))
       service.healthy should be(Some(NotHealthyStats(
-        "ms1", "ms1 has 26% for the last 1000ms This is more then configured threshold of 26% failures"
+        "ms1", "ms1 has 26% failures for the last 1000ms This is more then configured threshold of 26% failures"
       )))
 
       success("ms1", 10101)
@@ -248,7 +248,7 @@ class HealthStatsSpec extends UnitSpec {
         service.healthy should be(Some(
           NotHealthyStats(
             "test-service",
-            "The number of consecutive failures in test-service is 1 and the fail threshold of 1")
+            "The number of consecutive failures in test-service is 1 and the fail threshold is 1")
         ))
       )
 
