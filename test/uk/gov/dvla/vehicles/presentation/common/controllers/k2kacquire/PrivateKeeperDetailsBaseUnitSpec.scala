@@ -2,14 +2,16 @@ package uk.gov.dvla.vehicles.presentation.common.controllers.k2kacquire
 
 import play.api.data.Form
 import play.api.test.{FakeRequest, WithApplication}
+import uk.gov.dvla.vehicles.presentation.common.testhelpers.CookieHelper
 import scala.collection.mutable.ArrayBuffer
 import scala.concurrent.Await
 import scala.concurrent.duration.DurationInt
 import scala.language.postfixOps
 import uk.gov.dvla.vehicles.presentation.common
+import common.clientsidesession.CookieImplicits.RichResult
 import common.clientsidesession.{NoCookieFlags, ClearTextClientSideSessionFactory}
 import common.mappings.TitlePickerString
-import common.model.{CacheKeyPrefix, PrivateKeeperDetailsFormModel}
+import common.model.{CacheKeyPrefix, PrivateKeeperDetailsFormModel, NewKeeperChooseYourAddressFormModel}
 import common.model.PrivateKeeperDetailsFormModel.Form.DateOfBirthId
 import common.model.PrivateKeeperDetailsFormModel.Form.DriverNumberId
 import common.model.PrivateKeeperDetailsFormModel.Form.EmailId
@@ -100,6 +102,11 @@ class PrivateKeeperDetailsBaseUnitSpec extends UnitSpec {
         .withCookies(vehicleAndKeeperDetailsCookie())
       val result = Await.result(privateKeeperDetails.submit(request), 5 seconds)
       result.body should equal(successTestResult.body)
+
+      CookieHelper.verifyCookieHasBeenDiscarded(
+        NewKeeperChooseYourAddressFormModel.newKeeperChooseYourAddressCacheKey,
+        result.cookies.values.toSeq
+      )
     }
 
     "redirect to setup trade details when no cookie is present with invalid submission" in new WithApplication {
