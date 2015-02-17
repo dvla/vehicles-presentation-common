@@ -1,5 +1,8 @@
 //main template - html, body, wrapper, prototype banner
 
+// set default color for elements which vary with phase
+$phase: $govuk-blue;
+
 @-ms-viewport {
     width: device-width;
 }
