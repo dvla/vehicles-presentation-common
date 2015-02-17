@@ -5,6 +5,7 @@ import org.joda.time.Instant
 import uk.gov.dvla.vehicles.presentation.common.services.DateService
 
 import Math.max
+import play.api.Logger
 
 import scala.collection.mutable
 import scala.concurrent.Future
@@ -42,6 +43,7 @@ class HealthStats @Inject()(config: HealthStatsConfig, dateService: DateService)
   }
 
   def failure(failure: HealthStatsFailure): Unit = this.synchronized {
+    Logger.debug(s"HealthStats recieved a failure event: $failure")
     if (config.numberOfConsecutiveFailures > 0)
       consecutiveFailCounts.put(failure.msName, consecutiveFailCounts.getOrElse(failure.msName, 0) + 1)
     events.put(
@@ -51,6 +53,7 @@ class HealthStats @Inject()(config: HealthStatsConfig, dateService: DateService)
   }
 
   def success(success: HealthStatsSuccess): Unit = this.synchronized {
+    Logger.debug(s"HealthStats recieved a success event: $success")
     if (config.numberOfConsecutiveFailures > 0)
       consecutiveFailCounts.put(success.msName, 0)
     events.put(
@@ -60,7 +63,7 @@ class HealthStats @Inject()(config: HealthStatsConfig, dateService: DateService)
   }
 
   def healthy: Option[NotHealthyStats] = this.synchronized {
-    try hasConsecutive(events) orElse {
+    val healthyStatus = try hasConsecutive(events) orElse {
       events.foreach { case (msName, eventsPerMs) =>
         if (config.numberOfRequests < 0) return None
         else if (config.numberOfRequests < requestRate(eventsPerMs, dateService.now, numberOfRequestsThreshold))
@@ -75,9 +78,12 @@ class HealthStats @Inject()(config: HealthStatsConfig, dateService: DateService)
       }
       None
     } finally events.transform((_, value) => value.dropWhile(_.time.isBefore(oldThreshold)))
+    Logger.debug(s"HealthStats recieved a healthy query. The answer is $healthyStatus")
+    healthyStatus
   }
 
   private def hasConsecutive(events: Stats): Option[NotHealthyStats]  = {
+    Logger.debug(s"HealthStats consecuteFailCounts: $consecutiveFailCounts allEvents: $events")
     consecutiveFailCounts.foreach { case (msName, msFailures) =>
       if (msFailures >= config.numberOfConsecutiveFailures)
         return Some(NotHealthyStats(
