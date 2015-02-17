@@ -46,20 +46,16 @@ class HealthStats @Inject()(config: HealthStatsConfig, dateService: DateService)
     Logger.debug(s"HealthStats recieved a failure event: $failure")
     if (config.numberOfConsecutiveFailures > 0)
       consecutiveFailCounts.put(failure.msName, consecutiveFailCounts.getOrElse(failure.msName, 0) + 1)
-    events.put(
-      failure.msName,
-      events.getOrElse(failure.msName, new MsStats()).:+(failure)
-    )
+    if (!events.contains(failure.msName)) events.put(failure.msName, new MsStats())
+    events.get(failure.msName).get.append(failure)
   }
 
   def success(success: HealthStatsSuccess): Unit = this.synchronized {
     Logger.debug(s"HealthStats recieved a success event: $success")
     if (config.numberOfConsecutiveFailures > 0)
       consecutiveFailCounts.put(success.msName, 0)
-    events.put(
-      success.msName,
-      events.getOrElse(success.msName, new MsStats()).:+(success)
-    )
+    if (!events.contains(success.msName)) events.put(success.msName, new MsStats())
+    events.get(success.msName).get.append(success)
   }
 
   def healthy: Option[NotHealthyStats] = this.synchronized {
@@ -88,7 +84,7 @@ class HealthStats @Inject()(config: HealthStatsConfig, dateService: DateService)
       if (msFailures >= config.numberOfConsecutiveFailures)
         return Some(NotHealthyStats(
           msName, s"The number of consecutive failures in $msName is $msFailures and " +
-            s"the fail threshold of ${config.numberOfConsecutiveFailures}"
+            s"the fail threshold is ${config.numberOfConsecutiveFailures}"
         ))
     }
     None
@@ -130,7 +126,7 @@ class HealthStats @Inject()(config: HealthStatsConfig, dateService: DateService)
         case (successCount, failureCount) =>
           val percentFailures = failureCount * 100 / max(1, successCount + failureCount)
             if( percentFailures >= config.failuresRatioPercent)
-              Some(NotHealthyStats(s"$msName", s"$msName has $percentFailures% " +
+              Some(NotHealthyStats(s"$msName", s"$msName has $percentFailures% failures " +
                 s"for the last ${config.failuresRatioPercentTimeFrame}ms " +
                 s"This is more then configured threshold of ${config.failuresRatioPercent}% failures" ))
             else None

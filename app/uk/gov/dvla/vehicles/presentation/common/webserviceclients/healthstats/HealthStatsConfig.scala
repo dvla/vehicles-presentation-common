@@ -2,19 +2,6 @@ package uk.gov.dvla.vehicles.presentation.common.webserviceclients.healthstats
 
 import uk.gov.dvla.vehicles.presentation.common.ConfigProperties.{getOptionalProperty, intProp, getOptionalDurationProperty}
 
-//trait HealthStatsConfig {
-//  val failuresRatioPercent: Int
-//  val failuresRatioPercentTimeFrame: Long
-//
-//  val numberOfFailures: Int
-//  val numberOfFailuresTimeFrame: Long
-//
-//  val numberOfRequests: Int
-//  val numberOfRequestsTimeFrame: Long
-//
-//  val numberOfConsecutiveFailures: Int
-//}
-
 class HealthStatsConfig {
   lazy val failuresRatioPercent = getOptionalProperty[Int]("healthStats.failuresRatioPercent").getOrElse(-1)
   lazy val failuresRatioPercentTimeFrame =
