@@ -36,7 +36,7 @@ addCommandAlias("all-tests-clean", ";clean;commonTests/clean;test;commonTests/te
 addCommandAlias("common-tests-run", ";project commonTests;run;project root")
 
 // Uncomment next line when released and before publishing to github. NOTE: bintray plugin doesn't work with SNAPSHOTS
-//bintrayPublishSettings
+bintrayPublishSettings
 
 //BintrayCredentials.bintrayCredentialsTask
 
