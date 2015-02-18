@@ -1,3 +1,14 @@
+======= 2.14 ======
+Time of release binaries creation:
+Wed Feb 18, 2015 11:30:30 AM GMT+0000 (GMT)
+
+User stories:
+f87c888 US2471: adding default phase color variable (govuk-blue) to common
+bf7b7df US2366: updating style for visible/active field
+a845d66 US2285: Added common controller for PrivateKeeperDetails
+02eb7e1 US2439: merge two lines in address model if the first one it too small
+070de85 US2454: address lookup services will report healthstats
+
 ======= 2.13.3 ======
 Time of release binaries creation:
 Mon Feb 16 2015 14:46:20 GMT+0000 (GMT)
