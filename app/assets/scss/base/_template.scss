@@ -1,4 +1,4 @@
-//main template - html, body, wrapper, prototype banner
+// Main template
 
 @-ms-viewport {
     width: device-width;
@@ -53,7 +53,8 @@ button {
     position: absolute;
     left: -9999em;
     &.focusable {
-        &:active, &:focus {
+        &:active, 
+        &:focus {
             clip: auto;
             height: auto;
             margin: 0;
