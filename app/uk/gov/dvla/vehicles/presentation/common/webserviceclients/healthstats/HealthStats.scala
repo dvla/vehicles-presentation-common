@@ -43,7 +43,6 @@ class HealthStats @Inject()(config: HealthStatsConfig, dateService: DateService)
   }
 
   def failure(failure: HealthStatsFailure): Unit = this.synchronized {
-    Logger.debug(s"HealthStats recieved a failure event: $failure")
     if (config.numberOfConsecutiveFailures > 0)
       consecutiveFailCounts.put(failure.msName, consecutiveFailCounts.getOrElse(failure.msName, 0) + 1)
     if (!events.contains(failure.msName)) events.put(failure.msName, new MsStats())
@@ -51,7 +50,6 @@ class HealthStats @Inject()(config: HealthStatsConfig, dateService: DateService)
   }
 
   def success(success: HealthStatsSuccess): Unit = this.synchronized {
-    Logger.debug(s"HealthStats recieved a success event: $success")
     if (config.numberOfConsecutiveFailures > 0)
       consecutiveFailCounts.put(success.msName, 0)
     if (!events.contains(success.msName)) events.put(success.msName, new MsStats())
