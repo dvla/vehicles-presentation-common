@@ -5,6 +5,6 @@ import scala.concurrent.duration.DurationInt
 
 class EmailServiceConfig {
   lazy val emailServiceMicroServiceBaseUrl: String =
-    getOptionalProperty[String]("emailServiceMicroServiceBaseUrl").getOrElse("")
+    getOptionalProperty[String]("emailServiceMicroServiceUrlBase").getOrElse("")
   lazy val requestTimeout = getOptionalProperty[Int]("emailService.ms.requesttimeout").getOrElse(5.seconds.toMillis.toInt)
 }
