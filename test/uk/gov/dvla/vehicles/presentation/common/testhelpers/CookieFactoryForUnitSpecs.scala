@@ -3,13 +3,18 @@ package uk.gov.dvla.vehicles.presentation.common.testhelpers
 import org.joda.time.LocalDate
 import play.api.libs.json.{Json, Writes}
 import play.api.mvc.Cookie
-import uk.gov.dvla.vehicles.presentation.common.clientsidesession.{ClearTextClientSideSession, NoCookieFlags}
-import uk.gov.dvla.vehicles.presentation.common.mappings.TitleType
-import uk.gov.dvla.vehicles.presentation.common.model._
-import BusinessKeeperDetailsFormModel._
-import PrivateKeeperDetailsFormModel.privateKeeperDetailsCacheKey
-import uk.gov.dvla.vehicles.presentation.common.model.VehicleAndKeeperDetailsModel._
-import uk.gov.dvla.vehicles.presentation.common.model._
+import uk.gov.dvla.vehicles.presentation.common
+import common.clientsidesession.{ClearTextClientSideSession, NoCookieFlags}
+import common.mappings.TitleType
+import common.model.BruteForcePreventionModel
+import common.model.BruteForcePreventionModel.BruteForcePreventionViewModelCacheKey
+import common.model.BusinessKeeperDetailsFormModel
+import common.model.BusinessKeeperDetailsFormModel.businessKeeperDetailsCacheKey
+import common.model.CacheKeyPrefix
+import common.model.PrivateKeeperDetailsFormModel
+import common.model.PrivateKeeperDetailsFormModel.privateKeeperDetailsCacheKey
+import common.model.VehicleAndKeeperDetailsModel
+import common.model.VehicleAndKeeperDetailsModel.VehicleAndKeeperLookupDetailsCacheKey
 
 object CookieFactoryForUnitSpecs {
   final val FleetNumberValid = "123456"
@@ -28,6 +33,13 @@ object CookieFactoryForUnitSpecs {
   final val VehicleMakeValid = "Alfa Romeo"
   final val VehicleModelValid = "Alfasud ti"
   private val session = new ClearTextClientSideSession(TrackingIdValue)
+
+  final val FirstNameValid = "fn"
+  final val LastNameValid = "TestLastName"
+  final val DriverNumberValid = "ABCD9711215EFLGH"
+  final val DayDateOfBirthValid = "24"
+  final val MonthDateOfBirthValid = "12"
+  final val YearDateOfBirthValid = "1920"
 
   def createCookie[A](key: String, value: A)(implicit tjs: Writes[A]): Cookie = {
     val json = Json.toJson(value).toString()
@@ -48,6 +60,10 @@ object CookieFactoryForUnitSpecs {
     suppressedV5Flag = None
   )
 
+  def vehicleAndKeeperDetailsCookie(value: VehicleAndKeeperDetailsModel = defaultVehicleAndKeeperDetailsModel)
+                                   (implicit prefix: CacheKeyPrefix): Cookie =
+    createCookie(VehicleAndKeeperLookupDetailsCacheKey, value)
+
   val defaultBusinessKeeperDetailsModel = BusinessKeeperDetailsFormModel(
     fleetNumber = Some(FleetNumberValid),
     businessName = BusinessNameValid,
@@ -55,12 +71,9 @@ object CookieFactoryForUnitSpecs {
     postcode = PostcodeValid
   )
 
-  final val FirstNameValid = "fn"
-  final val LastNameValid = "TestLastName"
-  final val DriverNumberValid = "ABCD9711215EFLGH"
-  final val DayDateOfBirthValid = "24"
-  final val MonthDateOfBirthValid = "12"
-  final val YearDateOfBirthValid = "1920"
+  def businessKeeperDetailsCookie(value: BusinessKeeperDetailsFormModel = defaultBusinessKeeperDetailsModel)
+                                 (implicit prefix: CacheKeyPrefix): Cookie =
+    createCookie(businessKeeperDetailsCacheKey, value)
 
   val defaultPrivateKeeperDetailsModel = PrivateKeeperDetailsFormModel(
     title = TitleType(1, ""),
@@ -78,15 +91,17 @@ object CookieFactoryForUnitSpecs {
     postcode = PostcodeValid
   )
 
-  def vehicleAndKeeperDetailsCookie(value: VehicleAndKeeperDetailsModel = defaultVehicleAndKeeperDetailsModel)
-                                   (implicit prefix: CacheKeyPrefix): Cookie =
-    createCookie(VehicleAndKeeperLookupDetailsCacheKey, value)
-
-  def businessKeeperDetailsCookie(value: BusinessKeeperDetailsFormModel = defaultBusinessKeeperDetailsModel)
-                                 (implicit prefix: CacheKeyPrefix): Cookie =
-    createCookie(businessKeeperDetailsCacheKey, value)
-
   def privateKeeperDetailsCookie(value: PrivateKeeperDetailsFormModel = defaultPrivateKeeperDetailsModel)
                                 (implicit prefix: CacheKeyPrefix): Cookie =
     createCookie(privateKeeperDetailsCacheKey, value)
+
+  val defaultBruteForcePreventionModel = BruteForcePreventionModel(
+    permitted = true,
+    attempts = 0,
+    maxAttempts = 3,
+    dateTimeISOChronology = org.joda.time.DateTime.now().toString
+  )
+
+  def bruteForcePreventionCookie(value: BruteForcePreventionModel = defaultBruteForcePreventionModel): Cookie =
+    createCookie(BruteForcePreventionViewModelCacheKey, value)
 }

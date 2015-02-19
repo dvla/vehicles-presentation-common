@@ -2,10 +2,10 @@ package uk.gov.dvla.vehicles.presentation.common.controllers.k2kacquire
 
 import org.scalatest.mock.MockitoSugar
 import play.api.data.Form
-import play.api.mvc.{Result, Request}
+import play.api.mvc.{Request, Result}
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClientSideSessionFactory
 import uk.gov.dvla.vehicles.presentation.common.controllers.SetUpTradeDetailsBase
-import uk.gov.dvla.vehicles.presentation.common.model.{SetupTradeDetailsFormModel, CacheKeyPrefix}
+import uk.gov.dvla.vehicles.presentation.common.model.{CacheKeyPrefix, SetupTradeDetailsFormModel}
 
 import scala.collection.mutable.ArrayBuffer
 
@@ -17,13 +17,11 @@ object SetUpTraderDetailsTesting extends MockitoSugar {
   val invalidFormTestResult = BadRequest("invalidFormResult")
 }
 
-
 class SetUpTraderDetailsTesting(implicit override val clientSideSessionFactory: ClientSideSessionFactory,
                                    prefix: CacheKeyPrefix) extends SetUpTradeDetailsBase {
 
   import SetUpTraderDetailsTesting._
-  
-  
+
   val presentResultArgs = ArrayBuffer[SetupTradeDetailsFormModel]()
   val invalidFormResultArgs = ArrayBuffer[SetupTradeDetailsFormModel]()
 
@@ -34,15 +32,9 @@ class SetUpTraderDetailsTesting(implicit override val clientSideSessionFactory: 
 
   override protected def success(implicit request: Request[_]): Result = successTestResult
   
-
   override protected def invalidFormResult(model: Form[SetupTradeDetailsFormModel])
                                           (implicit request: Request[_]): Result = {
     invalidFormResultArgs.append(model.get)
     invalidFormTestResult
-  }
-
-  def clear(): Unit = {
-    presentResultArgs.clear()
-    invalidFormResultArgs.clear()
   }
 }

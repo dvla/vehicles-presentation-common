@@ -3,11 +3,13 @@ package uk.gov.dvla.vehicles.presentation.common.controllers.k2kacquire
 import org.scalatest.mock.MockitoSugar
 import play.api.data.Form
 import play.api.mvc.{Request, Result}
+import scala.collection.mutable.ArrayBuffer
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClientSideSessionFactory
 import uk.gov.dvla.vehicles.presentation.common.controllers.PrivateKeeperDetailsBase
-import uk.gov.dvla.vehicles.presentation.common.model.{CacheKeyPrefix, PrivateKeeperDetailsFormModel, VehicleAndKeeperDetailsModel}
+import uk.gov.dvla.vehicles.presentation.common.model.CacheKeyPrefix
+import uk.gov.dvla.vehicles.presentation.common.model.PrivateKeeperDetailsFormModel
+import uk.gov.dvla.vehicles.presentation.common.model.VehicleAndKeeperDetailsModel
 import uk.gov.dvla.vehicles.presentation.common.services.DateService
-import scala.collection.mutable.ArrayBuffer
 
 object PrivateKeeperDetailsTesting extends MockitoSugar {
   import play.api.mvc.Results.{Ok, BadRequest}
@@ -42,9 +44,4 @@ class PrivateKeeperDetailsTesting(implicit override val clientSideSessionFactory
     invalidFormResultArgs.append((model, form))
     invalidFormTestResult
   }
-
-//  def clear(): Unit = {
-//    presentResultArgs.clear()
-//    invalidFormResultArgs.clear()
-//  }
 }
