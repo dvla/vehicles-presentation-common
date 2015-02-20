@@ -12,7 +12,7 @@ object VrmLockedTesting extends MockitoSugar {
 
   val presentTestResult = Ok("presentResult")
   val missingBruteForcePreventionCookieTestResult = Ok("missingBruteForcePreventionCookieResult")
-  val tryAgainTestResult = Ok("tryAgainResult")
+  val tryAnotherTestResult = Ok("tryAnotherResult")
   val exitTestResult = Ok("exitResult")
 }
 
@@ -32,7 +32,7 @@ class VrmLockedTesting(implicit override val clientSideSessionFactory: ClientSid
   protected def missingBruteForcePreventionCookie(implicit request: Request[_]): Result =
     missingBruteForcePreventionCookieTestResult
 
-  protected def tryAgainResult(implicit request: Request[_]): Result = tryAgainTestResult
+  protected def tryAnotherResult(implicit request: Request[_]): Result = tryAnotherTestResult
 
   protected def exitResult(implicit request: Request[_]): Result = exitTestResult
 }

@@ -15,7 +15,7 @@ abstract class VrmLockedBase @Inject()()(implicit protected val clientSideSessio
 
   protected def missingBruteForcePreventionCookie(implicit request: Request[_]): Result
 
-  protected def tryAgainResult(implicit request: Request[_]): Result
+  protected def tryAnotherResult(implicit request: Request[_]): Result
 
   protected def exitResult(implicit request: Request[_]): Result
 
@@ -30,8 +30,8 @@ abstract class VrmLockedBase @Inject()()(implicit protected val clientSideSessio
     }
   }
 
-  def tryAgain = Action { implicit request =>
-    tryAgainResult
+  def tryAnother = Action { implicit request =>
+    tryAnotherResult
   }
 
   def exit = Action { implicit request =>

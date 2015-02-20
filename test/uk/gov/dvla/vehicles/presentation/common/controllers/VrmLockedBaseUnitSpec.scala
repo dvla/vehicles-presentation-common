@@ -37,11 +37,11 @@ class VrmLockedBaseUnitSpec extends UnitSpec {
     }
   }
 
-  "tryAgain" should {
+  "tryAnother" should {
     "display the page" in new WithApplication {
       val vrmLocked = controller
-      val result = Await.result(vrmLocked.tryAgain(FakeRequest()), 5 seconds)
-      result should equal(tryAgainTestResult)
+      val result = Await.result(vrmLocked.tryAnother(FakeRequest()), 5 seconds)
+      result should equal(tryAnotherTestResult)
     }
   }
 
