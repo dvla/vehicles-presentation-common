@@ -12,8 +12,11 @@ final case class BruteForcePreventionModel(permitted: Boolean,
 
 object BruteForcePreventionModel {
   implicit final val JsonFormat = Json.format[BruteForcePreventionModel]
-  final val BruteForcePreventionViewModelCacheKey = "bruteForcePreventionViewModel"
-  implicit final val Key = CacheKey[BruteForcePreventionModel](BruteForcePreventionViewModelCacheKey)
+
+  implicit def key(implicit prefix: CacheKeyPrefix) =
+    CacheKey[BruteForcePreventionModel](value = bruteForcePreventionViewModelCacheKey)
+
+  def bruteForcePreventionViewModelCacheKey(implicit prefix: CacheKeyPrefix) = s"${prefix}bruteForcePreventionViewModel"
 
   def fromResponse(permitted: Boolean,
                    response: BruteForcePreventionResponseDto,

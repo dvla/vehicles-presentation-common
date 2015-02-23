@@ -7,7 +7,7 @@ import uk.gov.dvla.vehicles.presentation.common
 import common.clientsidesession.{ClearTextClientSideSession, NoCookieFlags}
 import common.mappings.TitleType
 import common.model.BruteForcePreventionModel
-import common.model.BruteForcePreventionModel.BruteForcePreventionViewModelCacheKey
+import common.model.BruteForcePreventionModel.bruteForcePreventionViewModelCacheKey
 import common.model.BusinessKeeperDetailsFormModel
 import common.model.BusinessKeeperDetailsFormModel.businessKeeperDetailsCacheKey
 import common.model.CacheKeyPrefix
@@ -102,6 +102,7 @@ object CookieFactoryForUnitSpecs {
     dateTimeISOChronology = org.joda.time.DateTime.now().toString
   )
 
-  def bruteForcePreventionCookie(value: BruteForcePreventionModel = defaultBruteForcePreventionModel): Cookie =
-    createCookie(BruteForcePreventionViewModelCacheKey, value)
+  def bruteForcePreventionCookie(value: BruteForcePreventionModel = defaultBruteForcePreventionModel)
+                                (implicit prefix: CacheKeyPrefix): Cookie =
+    createCookie(bruteForcePreventionViewModelCacheKey, value)
 }
