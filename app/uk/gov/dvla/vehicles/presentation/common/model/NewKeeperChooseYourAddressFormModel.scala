@@ -16,7 +16,7 @@ object NewKeeperChooseYourAddressFormModel {
   def newKeeperChooseYourAddressCacheKey(implicit prefix: CacheKeyPrefix) = s"${prefix}newKeeperChooseYourAddress"
 
   object Form {
-    final val AddressSelectId = "acquire_newKeeperChooseYourAddress_addressSelect"
+    final val AddressSelectId = "newKeeperChooseYourAddress_addressSelect"
     final val Mapping = mapping(
       AddressSelectId -> DropDown.addressDropDown
     )(NewKeeperChooseYourAddressFormModel.apply)(NewKeeperChooseYourAddressFormModel.unapply)
