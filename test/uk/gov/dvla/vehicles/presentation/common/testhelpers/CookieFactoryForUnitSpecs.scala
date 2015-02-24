@@ -1,19 +1,16 @@
 package uk.gov.dvla.vehicles.presentation.common.testhelpers
 
 import org.joda.time.LocalDate
+import play.api.data.Form
 import play.api.libs.json.{Json, Writes}
 import play.api.mvc.Cookie
 import uk.gov.dvla.vehicles.presentation.common
 import common.clientsidesession.{ClearTextClientSideSession, NoCookieFlags}
 import common.mappings.TitleType
-import common.model.BruteForcePreventionModel
+import uk.gov.dvla.vehicles.presentation.common.model._
 import common.model.BruteForcePreventionModel.bruteForcePreventionViewModelCacheKey
-import common.model.BusinessKeeperDetailsFormModel
 import common.model.BusinessKeeperDetailsFormModel.businessKeeperDetailsCacheKey
-import common.model.CacheKeyPrefix
-import common.model.PrivateKeeperDetailsFormModel
 import common.model.PrivateKeeperDetailsFormModel.privateKeeperDetailsCacheKey
-import common.model.VehicleAndKeeperDetailsModel
 import common.model.VehicleAndKeeperDetailsModel.VehicleAndKeeperLookupDetailsCacheKey
 
 object CookieFactoryForUnitSpecs {
@@ -105,4 +102,16 @@ object CookieFactoryForUnitSpecs {
   def bruteForcePreventionCookie(value: BruteForcePreventionModel = defaultBruteForcePreventionModel)
                                 (implicit prefix: CacheKeyPrefix): Cookie =
     createCookie(bruteForcePreventionViewModelCacheKey, value)
+  
+  val defaultKeeperChooseYourAddressViewModel = NewKeeperChooseYourAddressViewModel(
+    Form(NewKeeperChooseYourAddressFormModel.Form.Mapping).fill(NewKeeperChooseYourAddressFormModel(PostcodeValid)),
+    defaultVehicleAndKeeperDetailsModel
+  )
+
+  def newKeeperChooseYourAddress(uprnSelected: String = "0"): Cookie = {
+    val key = "newKeeperChooseYourAddress"
+    val value = NewKeeperChooseYourAddressFormModel(uprnSelected = uprnSelected)
+    createCookie(key, value)
+  }
+  
 }
