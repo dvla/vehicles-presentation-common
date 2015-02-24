@@ -87,7 +87,8 @@
 
 //playback item width for one column
 @mixin playback-list-item-base {
-    dt, dd {
+    dt, 
+    dd {
         @include copy-19;
         padding-top: 0;
         margin-bottom: 0;
