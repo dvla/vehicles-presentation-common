@@ -1,23 +1,21 @@
 package uk.gov.dvla.vehicles.presentation.common.controllers
 
 import org.scalatest.BeforeAndAfterEach
-import play.api.data.Form
 import play.api.http.HeaderNames
 import play.api.libs.json.DefaultWrites
-import play.api.mvc.{Results, Result, Request, Call}
+import play.api.mvc.{Results, Request, Call}
 import play.api.test.FakeRequest
-import uk.gov.dvla.vehicles.presentation.common.UnitSpec
-import uk.gov.dvla.vehicles.presentation.common.clientsidesession.{NoCookieFlags, CacheKey, ClearTextClientSideSessionFactory, ClientSideSessionFactory}
-import uk.gov.dvla.vehicles.presentation.common.controllers.VehicleLookupBase.LookupResult
-import uk.gov.dvla.vehicles.presentation.common.model.BruteForcePreventionModel
-import uk.gov.dvla.vehicles.presentation.common.webserviceclients.bruteforceprevention.BruteForcePreventionService
-import org.mockito.Mockito.{verify, when, never, reset}
-import scala.concurrent.duration._
-import scala.language.postfixOps
-import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicits.RichResult
-import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicits.RichCookies
-
+import scala.concurrent.duration.DurationInt
 import scala.concurrent.{Await, Future}
+import scala.language.postfixOps
+import uk.gov.dvla.vehicles.presentation.common
+import common.UnitSpec
+import common.clientsidesession.{CacheKey, ClearTextClientSideSessionFactory, NoCookieFlags}
+import common.clientsidesession.CookieImplicits.{RichCookies, RichResult}
+import common.controllers.VehicleLookupBase.LookupResult
+import common.model.{CacheKeyPrefix, BruteForcePreventionModel}
+import common.webserviceclients.bruteforceprevention.BruteForcePreventionService
+import org.mockito.Mockito.{verify, when, never, reset}
 
 class VehicleLookupBaseSpec extends UnitSpec with DefaultWrites with BeforeAndAfterEach {
   val mockBruteService = mock[BruteForcePreventionService]
@@ -34,6 +32,7 @@ class VehicleLookupBaseSpec extends UnitSpec with DefaultWrites with BeforeAndAf
 
   implicit val request = FakeRequest()
   implicit val Key = CacheKey[String]("cachekey")
+  implicit val cacheKeyPrefix = CacheKeyPrefix("testing-prefix")
   implicit val sessionFactory = new ClearTextClientSideSessionFactory()(new NoCookieFlags)
 
   override protected def beforeEach() = {

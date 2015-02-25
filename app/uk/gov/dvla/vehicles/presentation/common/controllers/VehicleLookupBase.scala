@@ -12,7 +12,7 @@ import common.clientsidesession.CookieImplicits.{RichCookies, RichResult}
 import common.clientsidesession.{CacheKey, ClientSideSessionFactory}
 import common.controllers.VehicleLookupBase.{LookupResult, VehicleFound, VehicleNotFound}
 import common.LogFormats
-import common.model.BruteForcePreventionModel
+import common.model.{BruteForcePreventionModel, CacheKeyPrefix}
 import common.webserviceclients.bruteforceprevention.BruteForcePreventionService
 
 trait VehicleLookupBase extends Controller {
@@ -27,7 +27,11 @@ trait VehicleLookupBase extends Controller {
   implicit val clientSideSessionFactory: ClientSideSessionFactory
 
   def bruteForceAndLookup(registrationNumber: String, referenceNumber: String, form: Form)
-                         (implicit request: Request[_], toJson: Writes[Form], cacheKey: CacheKey[Form]): Future[Result] =
+                         (implicit request: Request[_],
+                          toJson: Writes[Form],
+                          cacheKey: CacheKey[Form],
+                          prefix: CacheKeyPrefix
+                         ): Future[Result] =
     bruteForceService.isVrmLookupPermitted(registrationNumber).flatMap { bruteForcePreventionModel =>
       val resultFuture = if (bruteForcePreventionModel.permitted)
         lookupVehicle(registrationNumber, referenceNumber, bruteForcePreventionModel, form)

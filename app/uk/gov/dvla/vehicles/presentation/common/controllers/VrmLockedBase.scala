@@ -5,10 +5,12 @@ import play.api.Logger
 import play.api.mvc.{Action, Controller, Request, Result}
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClientSideSessionFactory
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicits.RichCookies
-import uk.gov.dvla.vehicles.presentation.common.model.BruteForcePreventionModel
+import uk.gov.dvla.vehicles.presentation.common.model.{CacheKeyPrefix, BruteForcePreventionModel}
 
-abstract class VrmLockedBase @Inject()()(implicit protected val clientSideSessionFactory: ClientSideSessionFactory
-                               ) extends Controller {
+abstract class VrmLockedBase @Inject()()
+                             (implicit protected val clientSideSessionFactory: ClientSideSessionFactory,
+                              prefix: CacheKeyPrefix
+                             ) extends Controller {
 
   protected def presentResult(model: BruteForcePreventionModel)
                              (implicit request: Request[_]): Result

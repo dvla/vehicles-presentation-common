@@ -1,3 +1,25 @@
+======= 2.15 ======
+Time of release binaries creation:
+Mon Feb 23 2015 11:56:58 GMT+0000 (GMT)
+
+User stories:
+22eae75 Merge branch 'develop' of gitlab.skyscape.preview-dvla.co.uk:dvla/vehicles-presentation-common into develop
+bd6fffd temp comment out of the health stats debug statements which are filling up the logs too quickly
+a28d344 Merge branch 'develop' of gitlab.preview-dvla.co.uk:dvla/vehicles-presentation-common into develop
+5d20c57 US2317 Changed common VrmLocked controller method from tryAgain to tryAnother
+80ef560 US2376 fix to the config name of the email micro service
+e4a98c8 US2376 addition of an email web service client for the email microservice
+f2b452e US2317 Added common VrmLocked controller. Also includes some general code tidy up
+ef70973 US2468 adding gap below blue bar
+e5805cc US2468 - add gap under blue bar on thankyou page
+f5d948d Merge branch 'master' into develop
+418dec5 Removed the logging from HealthStats as common is broken on travis and the logging is creating a file so big that it is missing the build error
+bc93612 Merge branch 'develop' of gitlab.preview-dvla.co.uk:dvla/vehicles-presentation-common into develop
+f27bcee Merge branch 'master' into develop
+47695ee RELEASENOTES 2.14
+a8ff351 US2454 remove the debug log from success and failure of HealthStats
+e9005f2 New development version 2.15-SNAPSHOT
+
 ======= 2.14 ======
 Time of release binaries creation:
 Wed Feb 18, 2015 11:30:30 AM GMT+0000 (GMT)

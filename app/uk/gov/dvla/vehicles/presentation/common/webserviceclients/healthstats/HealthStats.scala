@@ -72,12 +72,14 @@ class HealthStats @Inject()(config: HealthStatsConfig, dateService: DateService)
       }
       None
     } finally events.transform((_, value) => value.dropWhile(_.time.isBefore(oldThreshold)))
-    Logger.debug(s"HealthStats recieved a healthy query. The answer is $healthyStatus")
+    // temp comment out as logs are filling up too quickly
+//    Logger.debug(s"HealthStats received a healthy query. The answer is $healthyStatus")
     healthyStatus
   }
 
   private def hasConsecutive(events: Stats): Option[NotHealthyStats]  = {
-    Logger.debug(s"HealthStats consecuteFailCounts: $consecutiveFailCounts allEvents: $events")
+    // temp comment out as logs are filling up too quickly
+    //Logger.debug(s"HealthStats consecuteFailCounts: $consecutiveFailCounts allEvents: $events")
     consecutiveFailCounts.foreach { case (msName, msFailures) =>
       if (msFailures >= config.numberOfConsecutiveFailures)
         return Some(NotHealthyStats(

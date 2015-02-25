@@ -43,6 +43,12 @@ button {
     *overflow: visible;
 }
 
+// remove default image borders applied by browser
+img {
+    border: 0;
+    max-width: 100%;
+}
+
 //hidden, visually hidden elements - screen reader friendly
 .hidden {
     display: none;

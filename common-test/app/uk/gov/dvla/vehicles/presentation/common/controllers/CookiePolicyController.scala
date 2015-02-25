@@ -6,10 +6,6 @@ import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClientSideSess
 import uk.gov.dvla.vehicles.presentation.common.model.CookieReport
 import uk.gov.dvla.vehicles.presentation.common.views
 
-
-/**
- * Created by gerasimosarvanitis on 13/01/2015.
- */
 class CookiePolicyController @Inject()(implicit clientSideSessionFactory: ClientSideSessionFactory) extends Controller {
 
   private val cookies = Map(
@@ -32,5 +28,4 @@ class CookiePolicyController @Inject()(implicit clientSideSessionFactory: Client
   def present = Action { implicit request =>
     Ok(views.html.cookiesPolicyPage(cookies))
   }
-
 }
