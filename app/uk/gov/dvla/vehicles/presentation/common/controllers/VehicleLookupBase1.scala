@@ -3,19 +3,21 @@ package uk.gov.dvla.vehicles.presentation.common.controllers
 import org.joda.time.DateTime
 import play.api.Logger
 import play.api.libs.json.Writes
-import play.api.mvc._
-import uk.gov.dvla.vehicles.presentation.common.webserviceclients.common.DmsWebHeaderDto
-import uk.gov.dvla.vehicles.presentation.common.webserviceclients.vehicleandkeeperlookup.{VehicleAndKeeperDetailsDto, VehicleAndKeeperDetailsRequest, VehicleAndKeeperLookupService}
+import play.api.mvc.{Action, Controller, Result, Request}
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 import scala.util.{Failure, Success}
 import scala.util.control.NonFatal
 import uk.gov.dvla.vehicles.presentation.common
-import common.clientsidesession.CookieImplicits.{RichCookies, RichResult}
 import common.clientsidesession.{CacheKey, ClientSideSessionFactory}
-import common.controllers.VehicleLookupBase.{LookupResult, VehicleFound, VehicleNotFound}
+import common.clientsidesession.CookieImplicits.{RichCookies, RichResult}
 import common.LogFormats
-import uk.gov.dvla.vehicles.presentation.common.model.{CacheKeyPrefix, BruteForcePreventionModel}
+import common.model.{CacheKeyPrefix, BruteForcePreventionModel}
+import common.webserviceclients.common.DmsWebHeaderDto
+import common.webserviceclients.vehicleandkeeperlookup.VehicleAndKeeperDetailsDto
+import common.webserviceclients.vehicleandkeeperlookup.VehicleAndKeeperDetailsRequest
+import common.webserviceclients.vehicleandkeeperlookup.VehicleAndKeeperLookupService
+import common.controllers.VehicleLookupBase.{LookupResult, VehicleFound, VehicleNotFound}
 import common.webserviceclients.bruteforceprevention.BruteForcePreventionService
 
 trait VehicleLookupFormModelBase {

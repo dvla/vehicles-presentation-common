@@ -1,11 +1,6 @@
 package uk.gov.dvla.vehicles.presentation.common.models
 
-import play.api.data.Forms._
-
-/**
- * Created by gerasimosarvanitis on 06/01/2015.
-
- */
+import play.api.data.Forms.{mapping, nonEmptyText}
 
 case class ValtechInputTextAreaModel(inputText: String)
 
@@ -18,5 +13,4 @@ object ValtechInputTextAreaModel {
       InputTextId -> nonEmptyText(minLength = 2, maxLength = 1200)
     )(ValtechInputTextAreaModel.apply)(ValtechInputTextAreaModel.unapply)
   }
-
 }
