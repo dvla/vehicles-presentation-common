@@ -88,17 +88,12 @@ abstract class NewKeeperEnterAddressManuallyBase @Inject()()
     request.cookies.getModel[VehicleAndKeeperDetailsModel] match {
       case Some(vehicleAndKeeperDetails) =>
         presentResult(vehicleAndKeeperDetails, postcode, form.fill())
-//        Ok(new_keeper_enter_address_manually(
-//          NewKeeperEnterAddressManuallyViewModel(form.fill(), vehicleAndKeeperDetails),
-//          postcode
-//        ))
       case _ => error(VehicleDetailsNotInCacheMessage)
     }
   }
 
   private def error(message: String)(implicit request: Request[_]): Result = {
     Logger.warn(message)
-//    Redirect(routes.VehicleLookup.present())
     missingVehicleDetails
   }
 
@@ -108,10 +103,6 @@ abstract class NewKeeperEnterAddressManuallyBase @Inject()()
     request.cookies.getModel[VehicleAndKeeperDetailsModel] match {
       case Some(vehicleAndKeeperDetails) =>
         invalidFormResult(vehicleAndKeeperDetails, postcode, formWithReplacedErrors(invalidForm))
-//        BadRequest(new_keeper_enter_address_manually(
-//          NewKeeperEnterAddressManuallyViewModel(formWithReplacedErrors(invalidForm), vehicleAndKeeperDetails),
-//          postcode)
-//        )
       case _ => error(VehicleDetailsNotInCacheMessage)
     }
   }
@@ -123,12 +114,9 @@ abstract class NewKeeperEnterAddressManuallyBase @Inject()()
       postcode
     )) match {
       case Some(keeperDetails) => success
+        .discardingCookie(newKeeperChooseYourAddressCacheKey)
           .withCookie(validForm)
           .withCookie(keeperDetails)
-
-      //        Redirect(routes.VehicleTaxOrSorn.present()).
-//          withCookie(validForm).
-//          withCookie(keeperDetails)
       case _ => error("No new keeper details found in cache, redirecting to vehicle lookup")
     }
   }
