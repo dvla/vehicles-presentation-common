@@ -1,5 +1,7 @@
 package uk.gov.dvla.vehicles.presentation.common.webserviceclients.healthstats
 
+import java.io.{PrintWriter, Writer}
+
 import com.google.inject.Inject
 import org.joda.time.Instant
 import uk.gov.dvla.vehicles.presentation.common.services.DateService
@@ -77,6 +79,28 @@ class HealthStats @Inject()(config: HealthStatsConfig, dateService: DateService)
     healthyStatus
   }
 
+  def debug(out: PrintWriter): Unit = {
+    out.println("--------------- Request rate per MS -----------------")
+    out.println(s"Request rate threshold: ${config.numberOfRequests} per ${config.numberOfRequestsTimeFrame}ms")
+    events.foreach { case (msName, eventsPerMs) =>
+      val requestRateN = requestRate(eventsPerMs, dateService.now, numberOfRequestsThreshold)
+      out.println(s"Current requests rate: $msName - $requestRateN requests per ${config.numberOfRequestsTimeFrame}ms")
+    }
+
+    out.println("--------------- Consecutive Fail Counts -----------------")
+    consecutiveFailCounts.foreach{case (msName, count) => out.println(s"$msName: $count")}
+    out.println()
+
+    out.println("======================= Events ==========================")
+    out.println()
+    events.foreach { case (msName, msStats) =>
+      out.println(s"----------------------- $msName -------------------------")
+      for (stat <- msStats) out.println(stat)
+//      for (i <- 0 until msStats.length) out.println(msStats(i))
+    }
+
+  }
+
   private def hasConsecutive(events: Stats): Option[NotHealthyStats]  = {
     // temp comment out as logs are filling up too quickly
     //Logger.debug(s"HealthStats consecuteFailCounts: $consecutiveFailCounts allEvents: $events")
@@ -92,9 +116,7 @@ class HealthStats @Inject()(config: HealthStatsConfig, dateService: DateService)
 
   private def requestRate(events: MsStats, now: Instant, numberOfRequestsThreshold: Instant): Float =
     if (events.isEmpty || config.numberOfRequestsTimeFrame < 1) 0
-    else
-      events.dropWhile(_.time.isBefore(numberOfRequestsThreshold)).size * config.numberOfRequestsTimeFrame /
-      now.minus(events.head.time.getMillis).getMillis
+    else events.dropWhile(_.time.isBefore(numberOfRequestsThreshold)).size
 
   private def hasAbsoluteFailures(events: MsStats, numberOfFailuresThreshold: Instant): Option[NotHealthyStats]  =
     if (config.numberOfFailures < 0) None

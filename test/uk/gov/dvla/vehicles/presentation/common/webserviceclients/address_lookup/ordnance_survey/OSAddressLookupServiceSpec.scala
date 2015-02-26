@@ -1,5 +1,6 @@
 package uk.gov.dvla.vehicles.presentation.common.webserviceclients.address_lookup.ordnance_survey
 
+import org.joda.time.Instant
 import org.mockito.Matchers._
 import org.mockito.Mockito._
 import org.mockito.invocation.InvocationOnMock
@@ -8,7 +9,8 @@ import play.api.http.Status.{OK, NOT_FOUND}
 import play.api.libs.json.Json
 import play.api.libs.json.JsValue
 import play.api.libs.ws.WSResponse
-import uk.gov.dvla.vehicles.presentation.common.webserviceclients.healthstats.HealthStats
+import uk.gov.dvla.vehicles.presentation.common.services.{DateService, DateServiceImpl}
+import uk.gov.dvla.vehicles.presentation.common.webserviceclients.healthstats.{HealthStatsSuccess, HealthStatsFailure, HealthStats}
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 import uk.gov.dvla.vehicles.presentation.common
@@ -29,6 +31,8 @@ import common.webserviceclients.fakes.FakeResponse
 
 
 final class OSAddressLookupServiceSpec extends UnitSpec {
+  val dateService = mock[DateService]
+  when(dateService.now).thenReturn(new Instant(0))
 
   "fetchAddressesForPostcode" should {
     "return seq when response status is 200 OK and returns results" in {
@@ -44,7 +48,9 @@ final class OSAddressLookupServiceSpec extends UnitSpec {
           r.length should equal(postcodeToAddressResponseValid.addresses.length)
           r should equal(postcodeToAddressResponseValid.addresses.map(i => (i.uprn, i.address)))
       }
-      verify(healthStatsMock).report("os-address-lookup-microservice")(result)
+      verify(healthStatsMock).success(
+        new HealthStatsSuccess("os-address-lookup-microservice", dateService.now)
+      )
     }
 
     "return empty seq when response status is Ok but results is empty" in {
@@ -59,7 +65,9 @@ final class OSAddressLookupServiceSpec extends UnitSpec {
       whenReady(result, timeout) {
         _ shouldBe empty
       }
-      verify(healthStatsMock).report("os-address-lookup-microservice")(result)
+      verify(healthStatsMock).success(
+        new HealthStatsSuccess("os-address-lookup-microservice", dateService.now)
+      )
     }
 
     "return empty seq when response status is not 200 OK" in {
@@ -73,7 +81,9 @@ final class OSAddressLookupServiceSpec extends UnitSpec {
       whenReady(result, timeout) {
         _ shouldBe empty
       }
-      verify(healthStatsMock).report("os-address-lookup-microservice")(result)
+      verify(healthStatsMock).failure(
+        new HealthStatsFailure("os-address-lookup-microservice", dateService.now, any[Exception])
+      )
     }
 
     "return empty seq when response throws" in {
@@ -87,7 +97,9 @@ final class OSAddressLookupServiceSpec extends UnitSpec {
       whenReady(result, timeout) {
         _ shouldBe empty
       }
-      verify(healthStatsMock).report("os-address-lookup-microservice")(result)
+      verify(healthStatsMock).failure(
+        new HealthStatsFailure("os-address-lookup-microservice", dateService.now, responseThrowsException)
+      )
     }
 
     "return empty seq given invalid json" in {
@@ -102,7 +114,9 @@ final class OSAddressLookupServiceSpec extends UnitSpec {
       whenReady(result, timeout) {
         _ shouldBe empty
       }
-      verify(healthStatsMock).report("os-address-lookup-microservice")(result)
+      verify(healthStatsMock).success(
+        new HealthStatsSuccess("os-address-lookup-microservice", dateService.now)
+      )
     }
   }
 
@@ -121,7 +135,9 @@ final class OSAddressLookupServiceSpec extends UnitSpec {
           addressViewModel.address === uprnToAddressResponseValid.addressViewModel.get.address
         case _ => fail("Should have returned Some(AddressViewModel)")
       }
-      verify(healthStatsMock).report("os-address-lookup-microservice")(result)
+      verify(healthStatsMock).success(
+        new HealthStatsSuccess("os-address-lookup-microservice", dateService.now)
+      )
     }
 
     "return None when response status not 200 OK" in {
@@ -136,7 +152,9 @@ final class OSAddressLookupServiceSpec extends UnitSpec {
       whenReady(result, timeout) {
         _ should equal(None)
       }
-      verify(healthStatsMock).report("os-address-lookup-microservice")(result)
+      verify(healthStatsMock).failure(
+        new HealthStatsFailure("os-address-lookup-microservice", dateService.now, any[Exception])
+      )
     }
 
     "return none when response status is 200 OK but results is empty" in {
@@ -147,7 +165,9 @@ final class OSAddressLookupServiceSpec extends UnitSpec {
       whenReady(result, timeout) {
         _ should equal(None)
       }
-      verify(healthStatsMock).report("os-address-lookup-microservice")(result)
+      verify(healthStatsMock).success(
+        new HealthStatsSuccess("os-address-lookup-microservice", dateService.now)
+      )
     }
 
     "return none when web service throws an exception" in {
@@ -158,7 +178,9 @@ final class OSAddressLookupServiceSpec extends UnitSpec {
       whenReady(result) {
         _ should equal(None)
       }
-      verify(healthStatsMock).report("os-address-lookup-microservice")(result)
+      verify(healthStatsMock).failure(
+        new HealthStatsFailure("os-address-lookup-microservice", dateService.now, responseThrowsException)
+      )
     }
 
     "return empty seq given invalid json" in {
@@ -170,7 +192,9 @@ final class OSAddressLookupServiceSpec extends UnitSpec {
       whenReady(result, timeout) {
         _ shouldBe empty
       }
-      verify(healthStatsMock).report("os-address-lookup-microservice")(result)
+      verify(healthStatsMock).success(
+        new HealthStatsSuccess("os-address-lookup-microservice", dateService.now)
+      )
     }
   }
 
@@ -183,7 +207,7 @@ final class OSAddressLookupServiceSpec extends UnitSpec {
     // Using the real address lookup service but passing in a fake web service that returns the responses we specify.
     (new AddressLookupServiceImpl(
       new FakeAddressLookupWebServiceImpl(responseOfPostcodeWebService = response, responseOfUprnWebService = response),
-      healthStatsMock
+      dateService, healthStatsMock
     ), healthStatsMock)
   }
 
@@ -203,7 +227,9 @@ final class OSAddressLookupServiceSpec extends UnitSpec {
     response(statusCode, inputAsJson)
   }
 
+  val responseThrowsException = new RuntimeException("This error is generated deliberately by a test")
+
   private val responseThrows: Future[WSResponse] = Future {
-    throw new RuntimeException("This error is generated deliberately by a test")
+    throw responseThrowsException
   }
 }
