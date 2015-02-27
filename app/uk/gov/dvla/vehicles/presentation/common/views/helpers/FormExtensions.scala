@@ -18,7 +18,13 @@ object FormExtensions {
     private def replaceError(newError: FormError, matcher: FormError => Boolean): Form[T] = {
       val errorToReplace = form.errors.find(matcher)
       errorToReplace match {
-        case Some(n) => form.copy(errors = form.errors.filterNot(matcher)).withError(newError) // Replace the error we were looking for.
+        case Some(n) =>
+          val replacedErrors = form.errors.map{ oldError =>
+            if(matcher(oldError)) newError // It matches, so replace the old error with the new error.
+            else oldError // No match, so keep the old error.
+          }.distinct // Remove exact duplicates so that the same newError does not appear several times. This is using
+          // the case class equality so will exact match on all fields (not just what the match defined)
+          form.copy(errors = replacedErrors)
         case None => form
       }
     }

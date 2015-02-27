@@ -1,9 +1,15 @@
 package uk.gov.dvla.vehicles.presentation.common.views.helpers
 
-import play.api.data.Forms.{mapping, nonEmptyText, text}
-import play.api.data.{Form, FormError, Mapping}
+import play.api.data.Form
+import play.api.data.FormError
+import play.api.data.Forms.mapping
+import play.api.data.Forms.nonEmptyText
+import play.api.data.Forms.text
+import play.api.data.Mapping
 import uk.gov.dvla.vehicles.presentation.common.UnitSpec
-import uk.gov.dvla.vehicles.presentation.common.views.helpers.FormExtensions.{formBinding, textWithTransform, trimmedText}
+import uk.gov.dvla.vehicles.presentation.common.views.helpers.FormExtensions.formBinding
+import uk.gov.dvla.vehicles.presentation.common.views.helpers.FormExtensions.textWithTransform
+import uk.gov.dvla.vehicles.presentation.common.views.helpers.FormExtensions.trimmedText
 
 final class FormExtensionsSpec extends UnitSpec {
 
@@ -12,7 +18,8 @@ final class FormExtensionsSpec extends UnitSpec {
       val formWithMandatory = Form(
         mapping(
           "id1" -> text(),
-          "id2" -> nonEmptyText()
+          "id2" -> nonEmptyText(),
+          "id3" -> text()
         )(Model.apply)(Model.unapply)
       )
 
@@ -25,39 +32,159 @@ final class FormExtensionsSpec extends UnitSpec {
     }
   }
 
-  "replaceError" should {
-    "return an unchanged form when matching key and message are not found in errors list" in {
-      val form = createForm(errors = Seq(errorForId1)) // It has error for id1 but not id2 so there should be no change.
-      form.replaceError("id1", "error.shouldNotExist", newErrorForId2) should equal(form)
-    }
-
-    "return form with replaced error message when matching key and message are found in errors list" in {
-      val form = createForm(errors = Seq(errorForId1)) // It has error for id1 but not id2 so there should be no change.
-      val expectedForm = createForm(errors = Seq(newErrorForId2))
-      form.replaceError("id1", "error.anything", newErrorForId2) should equal(expectedForm)
-    }
-
+  "replaceError (key only)" should {
     "return an unchanged form when matching key is not found in errors list" in {
-      val form = createForm(errors = Seq(errorForId1)) // It has error for id1 but not id2 so there should be no change.
-      form.replaceError("id2", newErrorForId2) should equal(form)
+      val form = createForm(errors = Seq(originalError))
+      val idToReplace = errorIdNotInList
+
+      // It has 1 error but the id of the replacement is different so there should be no change.
+      val result = form.replaceError(idToReplace, replacementError)
+
+      result should equal(form)
     }
 
     "return form with replaced error message when matching key is found in errors list" in {
-      val form = createForm(errors = Seq(errorForId1)) // It has error for id2 so it should be detected and changed.
-      val expectedForm = createForm(errors = Seq(newErrorForId2))
-      form.replaceError("id1", newErrorForId2) should equal(expectedForm)
+      val form = createForm(errors = Seq(originalError))
+      val expectedForm = createForm(errors = Seq(replacementError))
+      val idToReplace = originalErrorId
+
+      // It has 1 error that matches this id so it should be detected and changed.
+      val result = form.replaceError(key = idToReplace, replacementError)
+
+      result should equal(expectedForm)
+    }
+
+    "return form with one replaced error message when matching key is found more than once in errors list" in {
+      val form = createForm(errors = Seq(originalError, originalError, originalError))
+      val expectedForm = createForm(errors = Seq(replacementError))
+      val idToReplace = originalErrorId
+
+      // It has errors that match this id so they should be detected and changed.
+      val result = form.replaceError(key = idToReplace, replacementError)
+
+      result should equal(expectedForm)
+    }
+
+    "return form with one replaced error message when matching key is found in list with different errors" in {
+      val form = createForm(errors = Seq(differentError1, originalError))
+      val expectedForm = createForm(errors = Seq(differentError1, replacementError))
+      val idToReplace = originalErrorId
+
+      // It has errors that match this id so they should be detected and changed.
+      val result = form.replaceError(key = idToReplace, replacementError)
+
+      result should equal(expectedForm)
+    }
+
+    "removes duplicates of the replaced error" in {
+      val form = createForm(errors = Seq(differentError1, originalError, originalError, differentError2))
+      val expectedForm = createForm(errors = Seq(differentError1, replacementError, differentError2))
+      val idToReplace = originalErrorId
+
+      // It has errors that match this id so they should be detected and replaced with just one error message
+      val result = form.replaceError(key = idToReplace, replacementError)
+
+      result should equal(expectedForm)
+    }
+
+    "preserve the order of the error messages when replacing" in {
+      val form = createForm(errors = Seq(differentError1, originalError, differentError2))
+      val expectedForm = createForm(errors = Seq(differentError1, replacementError, differentError2))
+      val idToReplace = originalErrorId
+
+      // It has errors that match this id so they should be detected and changed in-place without changing the order.
+      val result = form.replaceError(key = idToReplace, replacementError)
+
+      result should equal(expectedForm)
+    }
+  }
+
+  "replaceError (key and message)" should {
+    "return an unchanged form when matching key not found in errors list" in {
+      val form = createForm(errors = Seq(originalError))
+      val idToReplace = errorIdNotInList
+
+      // It has 1 error but the id of the replacement is different so there should be no change.
+      val result = form.replaceError(key = idToReplace, originalErrorMessage, replacementError)
+
+      result should equal(form)
+    }
+
+    "return an unchanged form when matching key is found but message is not found in errors list" in {
+      val form = createForm(errors = Seq(originalError))
+      val idToReplace = originalErrorId
+
+      // It has 1 error but the message of the replacement is different so there should be no change.
+      val result = form.replaceError(key = idToReplace, "error.different", replacementError)
+
+      result should equal(form)
+    }
+
+    "return form with replaced error message when matching key and message are found in errors list" in {
+      val form = createForm(errors = Seq(originalError))
+      val expectedForm = createForm(errors = Seq(replacementError))
+      val idToReplace = originalErrorId
+
+      // It has 1 error that matches this id so it should be detected and changed.
+      val result = form.replaceError(key = idToReplace, originalErrorMessage, replacementError)
+
+      result should equal(expectedForm)
+    }
+
+    "return form with one replaced error message when matching key and message is found more than once in errors list" in {
+      val form = createForm(errors = Seq(originalError, originalError, originalError))
+      val expectedForm = createForm(errors = Seq(replacementError))
+      val idToReplace = originalErrorId
+
+      // It has errors that match this id so they should be detected and changed.
+      val result = form.replaceError(key = idToReplace, originalErrorMessage, replacementError)
+
+      result should equal(expectedForm)
+    }
+
+    "return form with one replaced error message when matching key and message is found in list with different errors" in {
+      val form = createForm(errors = Seq(differentError1, originalError))
+      val expectedForm = createForm(errors = Seq(differentError1, replacementError))
+      val idToReplace = originalErrorId
+
+      // It has errors that match this id and message so they should be detected and changed.
+      val result = form.replaceError(key = idToReplace, originalErrorMessage, replacementError)
+
+      result should equal(expectedForm)
+    }
+
+    "removes duplicates of the replaced error" in {
+      val form = createForm(errors = Seq(differentError1, originalError, originalError, differentError2))
+      val expectedForm = createForm(errors = Seq(differentError1, replacementError, differentError2))
+      val idToReplace = originalErrorId
+
+      // It has errors that match this id and message so they should be detected and replaced with just one error message.
+      val result = form.replaceError(key = idToReplace, originalErrorMessage, replacementError)
+
+      result should equal(expectedForm)
+    }
+
+    "preserve the order of the error messages when replacing" in {
+      val form = createForm(errors = Seq(differentError1, originalError, differentError2))
+      val expectedForm = createForm(errors = Seq(differentError1, replacementError, differentError2))
+      val idToReplace = originalErrorId
+
+      // It has errors that match this id so they should be detected and changed in-place without changing the order.
+      val result = form.replaceError(key = idToReplace, originalErrorMessage, replacementError)
+
+      result should equal(expectedForm)
     }
   }
 
   "distinctErrors" should {
     "return an unchanged form when no duplicates present" in {
-      val form = createForm(errors = Seq(errorForId1))
+      val form = createForm(errors = Seq(originalError))
       form.distinctErrors should equal(form)
     }
 
     "return form with duplicates removed when duplicates are present" in {
-      val form = createForm(errors = Seq(errorForId1, errorForId1, errorForId1))
-      val expectedForm = createForm(errors = Seq(errorForId1))
+      val form = createForm(errors = Seq(originalError, originalError, originalError))
+      val expectedForm = createForm(errors = Seq(originalError))
       form.distinctErrors should equal(expectedForm)
     }
   }
@@ -141,15 +268,24 @@ final class FormExtensionsSpec extends UnitSpec {
     }
   }
 
-  private final case class Model(id1: String, id2: String)
+  private final case class Model(id1: String, id2: String, id3: String)
 
   private val formMappingWithoutMandatory: Mapping[Model] = mapping(
     "id1" -> text(),
-    "id2" -> text()
+    "id2" -> text(),
+    "id3" -> text()
   )(Model.apply)(Model.unapply)
-
-  private val errorForId1: FormError = FormError(key = "id1", message = "error.anything", args = Seq.empty)
-  private val newErrorForId2: FormError = FormError(key = "id2", message = "error.somethingElse", args = Seq.empty)
+  private val originalErrorId = "id1"
+  private val originalErrorMessage = "error.original"
+  private val errorIdNotInList = "id666"
+  private val originalError: FormError = FormError(key = originalErrorId, message = originalErrorMessage, args = Seq.empty)
+  private val differentError1: FormError = FormError(key = "id777", message = originalErrorMessage, args = Seq.empty)
+  private val differentError2: FormError = FormError(key = "id888", message = originalErrorMessage, args = Seq.empty)
+  // The id used in the replacement error can be either:
+  // 1) the same as the original error.
+  // 2) a different id in the case that you are swapping an error caused in a sub-component of a compound mapping
+  // with the root id of the compound.
+  private val replacementError: FormError = FormError(key = "id-same-or-replacement", message = "error.replacement", args = Seq.empty)
 
   private def createForm(errors: Seq[FormError] = Seq.empty) = new Form(
     mapping = formMappingWithoutMandatory,

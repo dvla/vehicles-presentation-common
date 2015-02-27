@@ -100,6 +100,7 @@ class HealthStatsSpec extends UnitSpec {
       when(config.failuresRatioPercentTimeFrame).thenReturn(100000)
 
       failure("test1", 10000)
+      failure("test1", 10000)
 
       when(dateService.now).thenReturn(new Instant(10001))
       service.healthy should be(Some(NotHealthyStats(
@@ -119,6 +120,7 @@ class HealthStatsSpec extends UnitSpec {
       when(config.failuresRatioPercent).thenReturn(0)
       when(config.failuresRatioPercentTimeFrame).thenReturn(100000)
 
+      success("test1", 10000)
       success("test1", 10000)
 
       when(dateService.now).thenReturn(new Instant(10001))
@@ -235,7 +237,7 @@ class HealthStatsSpec extends UnitSpec {
 
       val future = Future.successful("test-future-result")
       val retFuture = service.report("test-service") (future)
-      retFuture should be theSameInstanceAs(future)
+      retFuture should be theSameInstanceAs future
 
       when(dateService.now).thenReturn(new Instant(10))
       Eventually.eventually(service.healthy should be(None))

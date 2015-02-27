@@ -6,8 +6,9 @@ import play.api.i18n.Lang
 import play.api.libs.ws.WSResponse
 import uk.gov.dvla.vehicles.presentation.common.LogFormats
 import uk.gov.dvla.vehicles.presentation.common.model.AddressModel
+import uk.gov.dvla.vehicles.presentation.common.services.DateService
 import uk.gov.dvla.vehicles.presentation.common.webserviceclients.addresslookup.{AddressLookupService, AddressLookupWebService}
-import uk.gov.dvla.vehicles.presentation.common.webserviceclients.healthstats.HealthStats
+import uk.gov.dvla.vehicles.presentation.common.webserviceclients.healthstats.{HealthStatsFailure, HealthStatsSuccess, HealthStats}
 import scala.concurrent.Future
 import scala.concurrent.ExecutionContext.Implicits.global
 
@@ -17,6 +18,7 @@ object AddressLookupServiceImpl {
 }
 
 final class AddressLookupServiceImpl @Inject()(ws: AddressLookupWebService,
+                                               dateService: DateService,
                                                healthStats: HealthStats) extends AddressLookupService {
   import AddressLookupServiceImpl.ServiceName
 
@@ -37,19 +39,22 @@ final class AddressLookupServiceImpl @Inject()(ws: AddressLookupWebService,
           Seq.empty// Exception case and empty seq case are treated the same in the UI
       }
 
-    healthStats.report(ServiceName) {
-      ws.callPostcodeWebService(postcode, trackingId, showBusinessName)(lang).map { resp =>
-        Logger.debug(s"Http response code from Ordnance Survey postcode lookup service was: ${resp.status}")
-        if (resp.status == play.api.http.Status.OK) toDropDown(resp)
-        else {
-          Logger.error(s"Post code service returned abnormally '${resp.status}: ${resp.body}'")
-          Seq.empty // The service returned http code other than 200 OK
-        }
-      }.recover {
-        case e: Throwable =>
-          Logger.error(s"Ordnance Survey postcode lookup service error.", e)
-          Seq.empty // Exception case and empty seq case are treated the same in the UI
+    ws.callPostcodeWebService(postcode, trackingId, showBusinessName)(lang).map { resp =>
+      Logger.debug(s"Http response code from Ordnance Survey postcode lookup service was: ${resp.status}")
+      if (resp.status == play.api.http.Status.OK) {
+        healthStats.success(HealthStatsSuccess(ServiceName, dateService.now))
+        toDropDown(resp)
       }
+      else {
+        Logger.error(s"Post code service returned abnormally '${resp.status}: ${resp.body}'")
+        healthStats.failure(HealthStatsFailure(ServiceName, dateService.now, new Exception()))
+        Seq.empty // The service returned http code other than 200 OK
+      }
+    }.recover {
+      case e: Throwable =>
+        Logger.error(s"Ordnance Survey postcode lookup service error.", e)
+        healthStats.failure(HealthStatsFailure(ServiceName, dateService.now, e))
+        Seq.empty // Exception case and empty seq case are treated the same in the UI
     }
   }
 
@@ -70,19 +75,21 @@ final class AddressLookupServiceImpl @Inject()(ws: AddressLookupWebService,
           None
       }
 
-    healthStats.report(ServiceName) {
-      ws.callUprnWebService(uprn, trackingId).map { resp =>
-        Logger.debug(s"Http response code from Ordnance Survey uprn lookup service was: ${resp.status}")
-        if (resp.status == play.api.http.Status.OK) toViewModel(resp)
-        else {
-          Logger.error(s"Post code service returned abnormally '${resp.status}: ${resp.body}'")
-          None
-        }
-      }.recover {
-        case e: Throwable =>
-          Logger.error(s"Ordnance Survey postcode lookup service error", e)
-          None
+    ws.callUprnWebService(uprn, trackingId).map { resp =>
+      Logger.debug(s"Http response code from Ordnance Survey uprn lookup service was: ${resp.status}")
+      if (resp.status == play.api.http.Status.OK) {
+        healthStats.success(HealthStatsSuccess(ServiceName, dateService.now))
+        toViewModel(resp)
+      } else {
+        Logger.error(s"Post code service returned abnormally '${resp.status}: ${resp.body}'")
+        healthStats.failure(HealthStatsFailure(ServiceName, dateService.now, new Exception()))
+        None
       }
+    }.recover {
+      case e: Throwable =>
+        Logger.error(s"Ordnance Survey postcode lookup service error", e)
+        healthStats.failure(HealthStatsFailure(ServiceName, dateService.now, e))
+        None
     }
   }
 }
