@@ -25,6 +25,8 @@ case class HealthStatsFailure(msName: String, time: Instant, t: Throwable) exten
 case class NotHealthyStats(msName: String, details: String)
 
 class HealthStats @Inject()(config: HealthStatsConfig, dateService: DateService) {
+  Logger.debug("HealthStats service constructor")
+
   private type MsStats = mutable.ArrayBuffer[HealthStatsEvent]
   private type Stats = collection.mutable.HashMap[String, MsStats]
   private type FailCounts = collection.mutable.HashMap[String, Int]
@@ -74,9 +76,10 @@ class HealthStats @Inject()(config: HealthStatsConfig, dateService: DateService)
       }
       None
     } finally events.transform((_, value) => value.dropWhile(_.time.isBefore(oldThreshold)))
-    // temp comment out as logs are filling up too quickly
-//    Logger.debug(s"HealthStats received a healthy query. The answer is $healthyStatus")
-    healthyStatus
+    healthyStatus.map(notHealthy => {
+      Logger.debug(s"The service is not healthy because ${notHealthy.details}.")
+      notHealthy
+    })
   }
 
   def debug(out: PrintWriter): Unit = {
@@ -96,14 +99,11 @@ class HealthStats @Inject()(config: HealthStatsConfig, dateService: DateService)
     events.foreach { case (msName, msStats) =>
       out.println(s"----------------------- $msName -------------------------")
       for (stat <- msStats) out.println(stat)
-//      for (i <- 0 until msStats.length) out.println(msStats(i))
     }
 
   }
 
   private def hasConsecutive(events: Stats): Option[NotHealthyStats]  = {
-    // temp comment out as logs are filling up too quickly
-    //Logger.debug(s"HealthStats consecuteFailCounts: $consecutiveFailCounts allEvents: $events")
     consecutiveFailCounts.foreach { case (msName, msFailures) =>
       if (msFailures >= config.numberOfConsecutiveFailures)
         return Some(NotHealthyStats(
