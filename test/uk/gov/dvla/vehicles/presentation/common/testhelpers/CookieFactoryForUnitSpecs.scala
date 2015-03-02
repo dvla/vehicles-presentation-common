@@ -6,11 +6,20 @@ import play.api.libs.json.{Json, Writes}
 import play.api.mvc.Cookie
 import uk.gov.dvla.vehicles.presentation.common
 import common.clientsidesession.{ClearTextClientSideSession, NoCookieFlags}
+import common.controllers.VehicleLookupFormModel
+import common.controllers.VehicleLookupFormModel.VehicleLookupFormModelCacheKey
+import common.controllers.VehicleLookupFormModel.VehicleLookupResponseCodeCacheKey
 import common.mappings.TitleType
-import uk.gov.dvla.vehicles.presentation.common.model._
+import common.model.BruteForcePreventionModel
 import common.model.BruteForcePreventionModel.bruteForcePreventionViewModelCacheKey
+import common.model.BusinessKeeperDetailsFormModel
 import common.model.BusinessKeeperDetailsFormModel.businessKeeperDetailsCacheKey
+import common.model.CacheKeyPrefix
+import common.model.NewKeeperChooseYourAddressFormModel
+import common.model.NewKeeperChooseYourAddressViewModel
+import common.model.PrivateKeeperDetailsFormModel
 import common.model.PrivateKeeperDetailsFormModel.privateKeeperDetailsCacheKey
+import common.model.VehicleAndKeeperDetailsModel
 import common.model.VehicleAndKeeperDetailsModel.VehicleAndKeeperLookupDetailsCacheKey
 
 object CookieFactoryForUnitSpecs {
@@ -25,8 +34,9 @@ object CookieFactoryForUnitSpecs {
   final val KeeperEmail = "abc@def.com"
   final val SeenCookieTrue = "yes"
   final val ConsentTrue = "true"
-  final val VehicleLookupFailureResponseCode = "disposal_vehiclelookupfailure"
+  final val VehicleLookupFailureResponseCode = "disposal-vehiclelookupfailure"
   final val RegistrationNumberValid = "AB12AWR"
+  final val ReferenceNumberValid = "12345678910"
   final val VehicleMakeValid = "Alfa Romeo"
   final val VehicleModelValid = "Alfasud ti"
   private val session = new ClearTextClientSideSession(TrackingIdValue)
@@ -113,5 +123,17 @@ object CookieFactoryForUnitSpecs {
     val value = NewKeeperChooseYourAddressFormModel(uprnSelected = uprnSelected)
     createCookie(key, value)
   }
-  
+
+  def vehicleLookupResponseCode(responseCode: String = VehicleLookupFailureResponseCode): Cookie =
+    createCookie(VehicleLookupResponseCodeCacheKey, responseCode)
+
+  def vehicleLookupFormModel(referenceNumber: String = ReferenceNumberValid,
+                             registrationNumber: String = RegistrationNumberValid): Cookie = {
+    val key = VehicleLookupFormModelCacheKey
+    val value = VehicleLookupFormModel(
+      referenceNumber = referenceNumber,
+      registrationNumber = registrationNumber
+    )
+    createCookie(key, value)
+  }
 }
