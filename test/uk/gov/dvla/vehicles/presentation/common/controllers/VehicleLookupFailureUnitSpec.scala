@@ -78,7 +78,7 @@ class VehicleLookupFailureUnitSpec extends UnitSpec {
       val request = FakeRequest()
         .withCookies(vehicleLookupFormModel())
       val result = Await.result(vehicleLookupFailure.submit(request), 5 seconds)
-      result should equal(foundSubmitCookieDataTestResult)
+      result should equal(submitTestResult)
     }
 
     "handle when the cookie data is missing" in new WithApplication {

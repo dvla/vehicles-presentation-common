@@ -19,7 +19,7 @@ abstract class VehicleLookupFailureBase[FormModel <: VehicleLookupFormModelBase]
 
   protected def presentResult(model: FormModel, responseCode: String)(implicit request: Request[_]): Result
   protected def missingPresentCookieDataResult()(implicit request: Request[_]): Result
-  protected def foundSubmitCookieDataResult()(implicit request: Request[_]): Result
+  protected def submitResult()(implicit request: Request[_]): Result
   protected def missingSubmitCookieDataResult()(implicit request: Request[_]): Result
   protected val vehicleLookupResponseCodeCacheKey: String
 
@@ -46,7 +46,7 @@ abstract class VehicleLookupFailureBase[FormModel <: VehicleLookupFormModelBase]
     request.cookies.getModel[FormModel] match {
       case Some(vehicleLookUpFormModelDetails) =>
         Logger.debug("VehicleLookupFailure submit successfully found cookie data")
-        foundSubmitCookieDataResult()
+        submitResult()
       case _ =>
         Logger.debug("VehicleLookupFailure submit could not find all the cookie data. A redirection will now occur")
         missingSubmitCookieDataResult()

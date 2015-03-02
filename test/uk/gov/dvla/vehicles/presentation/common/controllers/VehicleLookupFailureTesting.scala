@@ -10,7 +10,7 @@ object VehicleLookupFailureTesting extends MockitoSugar {
 
   val presentTestResult = Ok("presentResult")
   val missingPresentCookieDataTestResult = Ok("missingPresentCookieResult")
-  val foundSubmitCookieDataTestResult = Ok("submitResult")
+  val submitTestResult = Ok("submitResult")
   val missingSubmitCookieDataTestResult = Ok("missingSubmitCookieResult")
   val vehicleLookupResponseCodeCacheKey = VehicleLookupFormModel.VehicleLookupResponseCodeCacheKey
 }
@@ -40,8 +40,8 @@ class VehicleLookupFailureTesting(implicit clientSideSessionFactory: ClientSideS
   protected override def missingPresentCookieDataResult()(implicit request: Request[_]): Result =
     missingPresentCookieDataTestResult
 
-  protected override def foundSubmitCookieDataResult()(implicit request: Request[_]): Result =
-    foundSubmitCookieDataTestResult
+  protected override def submitResult()(implicit request: Request[_]): Result =
+    submitTestResult
 
   protected override def missingSubmitCookieDataResult()(implicit request: Request[_]): Result =
     missingSubmitCookieDataTestResult
