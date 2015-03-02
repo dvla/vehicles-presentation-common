@@ -33,13 +33,7 @@ abstract class VehicleLookupFailureBase[FormModel <: VehicleLookupFormModelBase]
       case (Some(bruteForcePreventionResponse),
             Some(vehicleLookUpFormModelDetails),
             Some(vehicleLookupResponseCode)) =>
-        println(s"present - YAY all the cookie data found")
-        println(s"present - bruteForcePreventionResponse = $bruteForcePreventionResponse")
-        println(s"present - vehicleLookUpFormModelDetails = $vehicleLookUpFormModelDetails")
-        println(s"present - vehicleLookupResponseCode = $vehicleLookupResponseCode")
         val responseCode = vehicleLookupResponseCode.split("-").map(_.trim)
-        println(s"present - vehicleLookupResponseCookie: ${responseCode.last}")
-        println(s"present - discarding cookie $vehicleLookupResponseCodeCacheKey")
         presentResult(vehicleLookUpFormModelDetails, responseCode.last).
           discardingCookies(DiscardingCookie(name = vehicleLookupResponseCodeCacheKey))
       case _ =>
