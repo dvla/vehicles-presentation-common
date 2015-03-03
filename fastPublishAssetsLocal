@@ -11,10 +11,13 @@ cd ..
 ROOT=`pwd`
 VEHICLES_ONLINE_ROOT=$ROOT/vehicles-online
 VRM_RETENTION_ONLINE_ROOT=$ROOT/vrm-retention-online
+VRM_ASSIGN_ONLINE_ROOT=$ROOT/vrm-assign-online
 VEHICLES_ACQUIRE_ONLINE_ROOT=$ROOT/vehicles-acquire-online
 CHANGE_KEEPER_ONLINE=$ROOT/vehicles-change-keeper-online
 PRESENTATION_COMMON_ROOT=$ROOT/vehicles-presentation-common
 ASSETS_ROOT=$PRESENTATION_COMMON_ROOT/app/assets
+COMMON_TEST_ROOT=$PRESENTATION_COMMON_ROOT/common-test
+
 WEBJAR_DEST=/target/web/web-modules/main/webjars/lib/vehicles-presentation-common
 SASS_TO_TOUCH=/app/assets/screen.scss
 
@@ -45,15 +48,22 @@ function copy_assets {
         echo "${RED} not copying assets as source $ASSETS_ROOT doesn't exist!${NORMAL}"
     fi
 
-    touch $app_sass_to_touch
+    echo "" >> $app_sass_to_touch
+   # sleep 2 s
+   # TEMP_FILE="$app_sass_to_touch-temp-file"
+   # sed '$ d' $app_sass_to_touch > $TEMP_FILE
+   # mv $TEMP_FILE $app_sass_to_touch
 }
 
 function run_setup {
-    echo ""
+    CURRENT_TIME=$(date)
+    echo "run stup $CURRENT_TIME"
     copy_assets "1. Creating symbolic link for vehicles-online..." $VEHICLES_ONLINE_ROOT
     copy_assets "2. Creating symbolic link for vrm-retention-online..." $VRM_RETENTION_ONLINE_ROOT
-    copy_assets "3. Creating symbolic link for vehicles-acquire-online..." $VEHICLES_ACQUIRE_ONLINE_ROOT
-    copy_assets "4. Creating symbolic link for vehicles-change-keeper-online..." $CHANGE_KEEPER_ONLINE
+    copy_assets "3. Creating symbolic link for vrm-assign-online..." $VRM_ASSIGN_ONLINE_ROOT
+    copy_assets "4. Creating symbolic link for vehicles-acquire-online..." $VEHICLES_ACQUIRE_ONLINE_ROOT
+    copy_assets "5. Creating symbolic link for vehicles-change-keeper-online..." $CHANGE_KEEPER_ONLINE
+    copy_assets "6. Creating symbolic link for common-test..." $COMMON_TEST_ROOT
     echo ""
     echo "Monitoring changes in vehicles-presentation-common to reflect in *-online applications."
     echo "Press ctrl+c to stop..."
@@ -69,6 +79,25 @@ function on_source_change {
 export -f on_source_change
 
 
+trap ctrl_c INT
+
+function ctrl_c() {
+    echo "clean up on CTRL-C"
+    awk '/^$/ {nlstack=nlstack "\n";next;} {printf "%s",nlstack; nlstack=""; print;}' $VRM_ASSIGN_ONLINE_ROOT$SASS_TO_TOUCH > temp.txt
+       mv temp.txt $VRM_ASSIGN_ONLINE_ROOT$SASS_TO_TOUCH 
+    awk '/^$/ {nlstack=nlstack "\n";next;} {printf "%s",nlstack; nlstack=""; print;}' $VRM_RETENTION_ONLINE_ROOT$SASS_TO_TOUCH > temp.txt
+       mv temp.txt $VRM_RETENTION_ONLINE_ROOT$SASS_TO_TOUCH
+    awk '/^$/ {nlstack=nlstack "\n";next;} {printf "%s",nlstack; nlstack=""; print;}' $VEHICLES_ONLINE_ROOT$SASS_TO_TOUCH > temp.txt
+       mv temp.txt $VEHICLES_ONLINE_ROOT$SASS_TO_TOUCH
+    awk '/^$/ {nlstack=nlstack "\n";next;} {printf "%s",nlstack; nlstack=""; print;}' $VRM_ASSIGN_ONLINE_ROOT$SASS_TO_TOUCH > temp.txt
+       mv temp.txt $VEHICLES_ACQUIRE_ONLINE_ROOT$SASS_TO_TOUCH
+    awk '/^$/ {nlstack=nlstack "\n";next;} {printf "%s",nlstack; nlstack=""; print;}' $CHANGE_KEEPER_ONLINE$SASS_TO_TOUCH > temp.txt
+       mv temp.txt $CHANGE_KEEPER_ONLINE$SASS_TO_TOUCH
+    awk '/^$/ {nlstack=nlstack "\n";next;} {printf "%s",nlstack; nlstack=""; print;}' $COMMON_TEST_ROOT$SASS_TO_TOUCH > temp.txt
+       mv temp.txt $COMMON_TEST_ROOT$SASS_TO_TOUCH
+
+}
+
 run_setup
-fswatch -o $ASSETS_ROOT | on_source_change
+fswatch -o $ASSETS_ROOT -l 0.5 | on_source_change
 
