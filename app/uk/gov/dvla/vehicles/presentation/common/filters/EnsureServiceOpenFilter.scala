@@ -5,9 +5,9 @@ import org.joda.time.format.DateTimeFormat
 import org.joda.time.{DateTime, DateTimeZone}
 import play.api.mvc.{Filter, RequestHeader, Result, Results}
 import play.twirl.api.HtmlFormat
-import uk.gov.dvla.vehicles.presentation.common.filters.ServiceOpen.whitelist
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
+import uk.gov.dvla.vehicles.presentation.common.filters.ServiceOpen.whitelist
 
 trait EnsureServiceOpenFilter extends Filter {
 

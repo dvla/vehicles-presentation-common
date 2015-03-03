@@ -2,15 +2,14 @@ package uk.gov.dvla.vehicles.presentation.common.controllers
 
 import com.google.inject.Inject
 import play.api.data.{Form, FormError}
-import play.api.mvc.{Action, Result, Request, Controller}
+import play.api.mvc.{Action, Controller, Request, Result}
 import uk.gov.dvla.vehicles.presentation.common
-import common.model.BusinessKeeperDetailsFormModel.businessKeeperDetailsCacheKey
 import common.clientsidesession.ClientSideSessionFactory
 import common.clientsidesession.CookieImplicits.{RichForm, RichResult}
+import common.model.BusinessKeeperDetailsFormModel.businessKeeperDetailsCacheKey
 import common.model.{SetupTradeDetailsFormModel, CacheKeyPrefix}
 import common.model.SetupTradeDetailsFormModel.Form.{TraderEmailId, TraderNameId, TraderPostcodeId}
 import common.views.helpers.FormExtensions.formBinding
-
 
 abstract class SetUpTradeDetailsBase @Inject()()(implicit protected val clientSideSessionFactory: ClientSideSessionFactory,
                                              prefix: CacheKeyPrefix) extends Controller {
@@ -20,8 +19,7 @@ abstract class SetUpTradeDetailsBase @Inject()()(implicit protected val clientSi
   protected def invalidFormResult(model: Form[SetupTradeDetailsFormModel])(implicit request: Request[_]): Result
 
   protected def success(implicit request: Request[_]): Result
-  
-  
+
   val form = Form(
     SetupTradeDetailsFormModel.Form.Mapping
   )

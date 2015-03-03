@@ -2,15 +2,10 @@ package uk.gov.dvla.vehicles.presentation.common.services
 
 import uk.gov.dvla.vehicles.presentation.common.{WithApplication, UnitSpec}
 
-
-/**
- * Created by gerasimosarvanitis on 04/12/2014.
- */
 class SendSpec extends UnitSpec {
 
+  import scala.language.postfixOps
   import uk.gov.dvla.vehicles.presentation.common.services.SEND._
-
-import scala.language.postfixOps
 
   implicit val emailConfiguration = EmailConfiguration("port", 25, "username", "password",
                                     From("donotreplypronline@dvla.gsi.gov.uk", "DO-NOT-REPLY"),
@@ -89,5 +84,4 @@ import scala.language.postfixOps
       mailtoOps(email) shouldBe a [SEND.SmtpEmailOps]
     }
   }
-
 }

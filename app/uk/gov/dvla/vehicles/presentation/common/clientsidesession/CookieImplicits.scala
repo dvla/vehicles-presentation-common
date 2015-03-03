@@ -1,10 +1,10 @@
 package uk.gov.dvla.vehicles.presentation.common.clientsidesession
 
-import play.api.Logger
 import play.api.data.Form
 import play.api.http.HeaderNames
 import play.api.libs.json.{Json, Reads, Writes}
-import play.api.mvc._
+import play.api.Logger
+import play.api.mvc.{DiscardingCookie, Request, Result, Cookie, Cookies}
 
 /**
  * These are adapters that add cookie methods to a number of Play Framework classes.

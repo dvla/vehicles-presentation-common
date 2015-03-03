@@ -1,10 +1,13 @@
 package uk.gov.dvla.vehicles.presentation.common.controllers.k2kacquire
 
-import uk.gov.dvla.vehicles.presentation.common.mappings.BusinessName
-import uk.gov.dvla.vehicles.presentation.common.clientsidesession.{ClearTextClientSideSessionFactory, NoCookieFlags}
-import uk.gov.dvla.vehicles.presentation.common.model.{CacheKeyPrefix, BusinessKeeperDetailsFormModel}
-import uk.gov.dvla.vehicles.presentation.common.{WithApplication, UnitSpec}
-import uk.gov.dvla.vehicles.presentation.common.model.SetupTradeDetailsFormModel.Form._
+import uk.gov.dvla.vehicles.presentation.common
+import common.clientsidesession.{ClearTextClientSideSessionFactory, NoCookieFlags}
+import common.mappings.BusinessName
+import common.model.CacheKeyPrefix
+import common.model.SetupTradeDetailsFormModel.Form.TraderEmailId
+import common.model.SetupTradeDetailsFormModel.Form.TraderNameId
+import common.model.SetupTradeDetailsFormModel.Form.TraderPostcodeId
+import common.{UnitSpec, WithApplication}
 
 class SetupTradeDetailsFormSpec extends UnitSpec {
 

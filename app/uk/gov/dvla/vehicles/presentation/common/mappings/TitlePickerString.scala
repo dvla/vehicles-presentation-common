@@ -5,8 +5,8 @@ import play.api.data.Forms.of
 import play.api.data.format.Formatter
 import play.api.data.validation.{Constraint, Valid}
 import play.api.i18n.Messages
-import uk.gov.dvla.vehicles.presentation.common.views.constraints.Required
 import scala.util.Try
+import uk.gov.dvla.vehicles.presentation.common.views.constraints.Required
 
 object TitlePickerString {
   final val TitleRadioKey = "titleOption"

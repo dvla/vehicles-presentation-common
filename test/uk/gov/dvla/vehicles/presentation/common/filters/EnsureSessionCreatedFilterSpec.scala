@@ -7,11 +7,11 @@ import org.mockito.Mockito.{never, verify, when}
 import play.api.http.HeaderNames
 import play.api.mvc.{Cookie, Cookies, RequestHeader, Results, Result}
 import play.api.test.FakeRequest
-import uk.gov.dvla.vehicles.presentation.common.UnitSpec
-import uk.gov.dvla.vehicles.presentation.common.clientsidesession.{ClientSideSessionFactory, InvalidSessionException}
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 import scala.language.existentials
+import uk.gov.dvla.vehicles.presentation.common.UnitSpec
+import uk.gov.dvla.vehicles.presentation.common.clientsidesession.{ClientSideSessionFactory, InvalidSessionException}
 
 class EnsureSessionCreatedFilterSpec extends UnitSpec {
 

@@ -1,21 +1,21 @@
 package uk.gov.dvla.vehicles.presentation.common.filters
 
-import java.util.Date
 import com.google.inject.Guice
 import com.google.inject.name.Names
 import com.tzavellas.sse.guice.ScalaModule
+import java.util.Date
 import org.mockito.Mockito
-import play.api.LoggerLike
 import play.api.http.HeaderNames.CONTENT_LENGTH
+import play.api.LoggerLike
 import play.api.mvc.{AnyContentAsEmpty, Cookie, RequestHeader, Results, Result}
 import play.api.test.{FakeHeaders, FakeRequest}
-import uk.gov.dvla.vehicles.presentation.common.UnitSpec
-import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClientSideSessionFactory
-import uk.gov.dvla.vehicles.presentation.common.filters.AccessLoggingFilter.AccessLoggerName
-import uk.gov.dvla.vehicles.presentation.common.filters.AccessLoggingFilterSpec.testDate
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 import scala.language.existentials
+import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClientSideSessionFactory
+import uk.gov.dvla.vehicles.presentation.common.filters.AccessLoggingFilter.AccessLoggerName
+import uk.gov.dvla.vehicles.presentation.common.filters.AccessLoggingFilterSpec.testDate
+import uk.gov.dvla.vehicles.presentation.common.UnitSpec
 
 import uk.gov.dvla.vehicles.presentation.common.webserviceclients
 import webserviceclients.HttpHeaders.{XForwardedFor, XRealIp}

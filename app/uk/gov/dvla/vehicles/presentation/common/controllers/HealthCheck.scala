@@ -1,8 +1,7 @@
 package uk.gov.dvla.vehicles.presentation.common.controllers
 
-import java.io._
-
 import com.google.inject.Inject
+import java.io.{PrintWriter, StringWriter}
 import play.api.mvc.{Action, Controller}
 import uk.gov.dvla.vehicles.presentation.common.webserviceclients.healthstats.HealthStats
 

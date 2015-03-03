@@ -2,10 +2,10 @@ package uk.gov.dvla.vehicles.presentation.common.controllers
 
 import org.mockito.Mockito.when
 import play.api.test.FakeRequest
+import play.api.test.Helpers.{contentAsString, defaultAwaitTimeout}
 import play.mvc.Http.Status.{OK, INTERNAL_SERVER_ERROR}
 import uk.gov.dvla.vehicles.presentation.common.UnitSpec
 import uk.gov.dvla.vehicles.presentation.common.webserviceclients.healthstats.{NotHealthyStats, HealthStats}
-import play.api.test.Helpers.{contentAsString, defaultAwaitTimeout}
 
 class HealthCheckSpec extends UnitSpec {
 

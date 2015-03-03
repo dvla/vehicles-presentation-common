@@ -2,8 +2,8 @@ package uk.gov.dvla.vehicles.presentation.common.mappings
 
 import play.api.data.Mapping
 import uk.gov.dvla.vehicles.presentation.common.views
-import views.helpers.FormExtensions.nonEmptyTextWithTransform
 import uk.gov.dvla.vehicles.presentation.common.views.constraints.RegistrationNumber.validRegistrationNumber
+import views.helpers.FormExtensions.nonEmptyTextWithTransform
 
 object VehicleRegistrationNumber {
   final val MinLength = 2

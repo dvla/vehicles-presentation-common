@@ -3,8 +3,8 @@ package uk.gov.dvla.vehicles.presentation.common.controllers.k2kacquire
 import org.scalatest.mock.MockitoSugar
 import play.api.mvc.{Result, Request}
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClientSideSessionFactory
-import uk.gov.dvla.vehicles.presentation.common.controllers.{NewKeeperChooseYourAddressBase, BusinessKeeperDetailsBase}
-import uk.gov.dvla.vehicles.presentation.common.model.{NewKeeperChooseYourAddressViewModel, BusinessKeeperDetailsViewModel, CacheKeyPrefix}
+import uk.gov.dvla.vehicles.presentation.common.controllers.NewKeeperChooseYourAddressBase
+import uk.gov.dvla.vehicles.presentation.common.model.{CacheKeyPrefix, NewKeeperChooseYourAddressViewModel}
 import uk.gov.dvla.vehicles.presentation.common.webserviceclients.addresslookup.AddressLookupService
 
 import scala.collection.mutable.ArrayBuffer

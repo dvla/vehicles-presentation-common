@@ -1,20 +1,20 @@
 package uk.gov.dvla.vehicles.presentation.common.controllers
 
 import com.google.inject.Inject
-import play.Logger
-import play.api.mvc.{Result, Request, Action, Controller}
 import play.api.data.{Form, FormError}
+import play.api.mvc.{Action, Controller, Request, Result}
+import play.Logger
 import uk.gov.dvla.vehicles.presentation.common
 import common.clientsidesession.ClientSideSessionFactory
 import common.clientsidesession.CookieImplicits.{RichCookies, RichForm, RichResult}
 import common.model.CacheKeyPrefix
 import common.model.NewKeeperChooseYourAddressFormModel.newKeeperChooseYourAddressCacheKey
 import common.model.PrivateKeeperDetailsFormModel
-import common.model.VehicleAndKeeperDetailsModel
 import common.model.PrivateKeeperDetailsFormModel.Form.DriverNumberId
 import common.model.PrivateKeeperDetailsFormModel.Form.EmailId
 import common.model.PrivateKeeperDetailsFormModel.Form.LastNameId
 import common.model.PrivateKeeperDetailsFormModel.Form.PostcodeId
+import common.model.VehicleAndKeeperDetailsModel
 import common.services.DateService
 import common.views.helpers.FormExtensions.formBinding
 

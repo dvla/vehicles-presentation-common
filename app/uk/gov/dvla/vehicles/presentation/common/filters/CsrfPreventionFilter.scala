@@ -5,16 +5,16 @@ import org.apache.commons.codec.binary.Base64
 import play.api.http.ContentTypes.HTML
 import play.api.http.HeaderNames.REFERER
 import play.api.http.HttpVerbs.{GET, POST}
-import play.api.libs.Crypto
 import play.api.libs.concurrent.Execution.Implicits.defaultContext
+import play.api.libs.Crypto
 import play.api.libs.iteratee.{Enumerator, Iteratee, Traversable}
 import play.api.mvc.BodyParsers.parse.tolerantFormUrlEncoded
-import play.api.mvc._
-import uk.gov.dvla.vehicles.presentation.common
-import common.ConfigProperties.{getProperty, getOptionalProperty, stringProp, booleanProp}
-import common.clientsidesession.CookieImplicits.RichCookies
-import common.clientsidesession.{AesEncryption, ClientSideSessionFactory}
+import play.api.mvc.{EssentialAction, EssentialFilter, Headers, RequestHeader, Result}
 import scala.util.Try
+import uk.gov.dvla.vehicles.presentation.common
+import common.clientsidesession.{AesEncryption, ClientSideSessionFactory}
+import common.clientsidesession.CookieImplicits.RichCookies
+import common.ConfigProperties.{getProperty, getOptionalProperty, stringProp, booleanProp}
 
 class CsrfPreventionFilter @Inject()
 (implicit clientSideSessionFactory: ClientSideSessionFactory) extends EssentialFilter {

@@ -1,20 +1,19 @@
 package uk.gov.dvla.vehicles.presentation.common.filters
 
 import java.util.Locale
-
 import org.joda.time.format.DateTimeFormat
 import org.joda.time.{DateTime, DateTimeZone}
-import org.mockito.Mockito._
-import play.api.i18n.Messages
+import org.mockito.Mockito.when
 import play.api.mvc.{RequestHeader, Result, Results}
 import play.api.test.FakeRequest
-import play.api.test.Helpers._
+import play.api.test.Helpers.contentAsString
+import play.api.test.Helpers.defaultAwaitTimeout
 import play.twirl.api.{Html, HtmlFormat}
-import uk.gov.dvla.vehicles.presentation.common.{WithApplication, UnitSpec}
-import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClientSideSessionFactory
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 import scala.language.existentials
+import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClientSideSessionFactory
+import uk.gov.dvla.vehicles.presentation.common.{UnitSpec, WithApplication}
 
 class EnsureServiceOpenFilterSpec extends UnitSpec {
   private val hourMilllis = 60 * 60 * 1000

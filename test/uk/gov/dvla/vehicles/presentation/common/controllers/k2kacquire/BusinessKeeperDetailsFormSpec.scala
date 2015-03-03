@@ -3,8 +3,8 @@ package uk.gov.dvla.vehicles.presentation.common.controllers.k2kacquire
 import uk.gov.dvla.vehicles.presentation.common
 import common.clientsidesession.{ClearTextClientSideSessionFactory, NoCookieFlags}
 import common.mappings.BusinessKeeperName
-import common.model.CacheKeyPrefix
 import common.model.BusinessKeeperDetailsFormModel.Form.{FleetNumberId, BusinessNameId, EmailId, PostcodeId}
+import common.model.CacheKeyPrefix
 import common.{UnitSpec, WithApplication}
 
 class BusinessKeeperDetailsFormSpec extends UnitSpec {

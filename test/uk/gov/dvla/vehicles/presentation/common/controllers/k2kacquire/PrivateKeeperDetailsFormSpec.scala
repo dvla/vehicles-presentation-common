@@ -2,7 +2,8 @@ package uk.gov.dvla.vehicles.presentation.common.controllers.k2kacquire
 
 import org.joda.time.LocalDate
 import uk.gov.dvla.vehicles.presentation.common
-import uk.gov.dvla.vehicles.presentation.common.model.{CacheKeyPrefix, PrivateKeeperDetailsFormModel}
+import common.clientsidesession.{ClearTextClientSideSessionFactory, NoCookieFlags}
+import common.model.{CacheKeyPrefix, PrivateKeeperDetailsFormModel}
 import common.model.PrivateKeeperDetailsFormModel.Form.TitleId
 import common.model.PrivateKeeperDetailsFormModel.Form.EmailId
 import common.model.PrivateKeeperDetailsFormModel.Form.FirstNameId
@@ -16,9 +17,8 @@ import common.model.PrivateKeeperDetailsFormModel.Form.LastNameMinLength
 import common.model.PrivateKeeperDetailsFormModel.Form.DateOfBirthId
 import common.mappings.DayMonthYear.{YearId, MonthId, DayId}
 import common.mappings.{TitleType, TitlePickerString}
+import common.services.DateServiceImpl
 import common.{UnitSpec, WithApplication}
-import common.clientsidesession.{ClearTextClientSideSessionFactory, NoCookieFlags}
-import uk.gov.dvla.vehicles.presentation.common.services.DateServiceImpl
 
 class PrivateKeeperDetailsFormSpec extends UnitSpec {
 

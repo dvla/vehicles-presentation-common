@@ -5,8 +5,8 @@ import java.security.SecureRandom
 import javax.crypto.Cipher
 import javax.crypto.spec.{IvParameterSpec, SecretKeySpec}
 import org.apache.commons.codec.binary.Base64
-import play.api.Play
 import play.api.libs.Codecs
+import play.api.Play
 
 trait Encryption {
   def decrypt(cipherText: String): String

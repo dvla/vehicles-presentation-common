@@ -1,13 +1,13 @@
 package uk.gov.dvla.vehicles.presentation.common.controllers
 
-import play.api.Play
 import play.api.mvc.Cookie
+import play.api.Play
 import play.api.test.FakeRequest
 import play.api.test.Helpers.{LOCATION, HOST, NOT_FOUND, REFERER, SEE_OTHER}
 import uk.gov.dvla.vehicles.presentation.common
-import common.{WithApplication, UnitSpec}
 import common.controllers.AlternateLanguages.{withLanguage, CyId, EnId}
 import common.testhelpers.CookieHelper.fetchCookiesFromHeaders
+import common.{UnitSpec, WithApplication}
 
 final class AlternateLanguagesUnitSpec extends UnitSpec {
   val host = "testHost.com"

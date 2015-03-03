@@ -5,17 +5,27 @@ import javax.inject.Inject
 import play.api.Logger
 import play.api.data.{Form, FormError}
 import play.api.mvc.{Action, AnyContent, Controller, Request, Result}
+import scala.concurrent.ExecutionContext.Implicits.global
+import scala.concurrent.Future
 import uk.gov.dvla.vehicles.presentation.common
 import common.clientsidesession.ClientSideSessionFactory
 import common.clientsidesession.CookieImplicits.{RichCookies, RichForm, RichResult}
+import common.model.AddressModel
+import common.model.allowGoingToCompleteAndConfirmPageCacheKey
+import common.model.BusinessKeeperDetailsFormModel
+import common.model.CacheKeyPrefix
+import common.model.NewKeeperDetailsViewModel
+import common.model.NewKeeperChooseYourAddressFormModel
+import common.model.NewKeeperChooseYourAddressFormModel.Form.AddressSelectId
+import common.model.NewKeeperChooseYourAddressViewModel
 import common.model.NewKeeperDetailsViewModel.{createNewKeeper, getTitle}
-import uk.gov.dvla.vehicles.presentation.common.model._
-import common.model.NewKeeperChooseYourAddressFormModel.Form.{AddressSelectId}
+import common.model.newKeeperEnterAddressManuallyCacheKey
+import common.model.PrivateKeeperDetailsFormModel
+import common.model.VehicleAndKeeperDetailsModel
+import common.model.VmAddressModel
 import common.views.helpers.FormExtensions.formBinding
 import common.webserviceclients.addresslookup.AddressLookupService
 
-import scala.concurrent.ExecutionContext.Implicits.global
-import scala.concurrent.Future
 
 abstract class NewKeeperChooseYourAddressBase @Inject()(protected val addressLookupService: AddressLookupService)
                                           (implicit protected val clientSideSessionFactory: ClientSideSessionFactory,

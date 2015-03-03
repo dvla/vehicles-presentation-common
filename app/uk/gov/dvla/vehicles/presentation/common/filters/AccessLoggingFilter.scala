@@ -1,13 +1,13 @@
 package uk.gov.dvla.vehicles.presentation.common.filters
 
+import com.google.inject.Inject
+import com.google.inject.name.Named
 import java.net.URI
 import java.text.SimpleDateFormat
 import java.util.Date
-import com.google.inject.Inject
-import com.google.inject.name.Named
-import play.api.LoggerLike
 import play.api.http.HeaderNames.CONTENT_LENGTH
 import play.api.libs.concurrent.Execution.Implicits.defaultContext
+import play.api.LoggerLike
 import play.api.mvc.{Filter, RequestHeader, Result}
 import play.mvc.Http
 import scala.concurrent.Future

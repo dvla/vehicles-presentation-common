@@ -1,7 +1,7 @@
 package uk.gov.dvla.vehicles.presentation.common.filters
 
-import org.mockito.Mockito.{times, when}
 import org.mockito.{ArgumentCaptor, Mockito}
+import org.mockito.Mockito.{times, when}
 import org.scalatest.mock.MockitoSugar
 import org.slf4j.Logger
 import play.api.LoggerLike

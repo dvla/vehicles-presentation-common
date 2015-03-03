@@ -1,14 +1,19 @@
 package uk.gov.dvla.vehicles.presentation.common.controllers.k2kacquire
 
-import uk.gov.dvla.vehicles.presentation.common.clientsidesession.{ClearTextClientSideSessionFactory, NoCookieFlags}
-import uk.gov.dvla.vehicles.presentation.common.services.DateServiceImpl
-import uk.gov.dvla.vehicles.presentation.common.{WithApplication, UnitSpec}
-import uk.gov.dvla.vehicles.presentation.common.model.{CacheKeyPrefix, NewKeeperEnterAddressManuallyFormModel}
-import NewKeeperEnterAddressManuallyFormModel.Form.AddressAndPostcodeId
-import uk.gov.dvla.vehicles.presentation.common.views.models.AddressLinesViewModel
-import AddressLinesViewModel.Form.{AddressLinesId, BuildingNameOrNumberId, Line2Id, Line3Id, LineMaxLength, PostTownId}
+import uk.gov.dvla.vehicles.presentation.common
+import common.clientsidesession.{ClearTextClientSideSessionFactory, NoCookieFlags}
+import common.model.CacheKeyPrefix
+import common.model.NewKeeperEnterAddressManuallyFormModel.Form.AddressAndPostcodeId
+import common.services.DateServiceImpl
+import common.{UnitSpec, WithApplication}
+import common.views.models.AddressLinesViewModel.Form.AddressLinesId
+import common.views.models.AddressLinesViewModel.Form.BuildingNameOrNumberId
+import common.views.models.AddressLinesViewModel.Form.Line2Id
+import common.views.models.AddressLinesViewModel.Form.Line3Id
+import common.views.models.AddressLinesViewModel.Form.LineMaxLength
+import common.views.models.AddressLinesViewModel.Form.PostTownId
 
-final class NewKeeperEnterAddressManuallyFormSpec extends UnitSpec {
+class NewKeeperEnterAddressManuallyFormSpec extends UnitSpec {
 
   final val BuildingNameOrNumberValid = "123ABC"
   final val Line2Valid = "line2 stub"
