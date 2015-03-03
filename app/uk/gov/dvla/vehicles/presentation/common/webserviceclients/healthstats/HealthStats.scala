@@ -53,12 +53,16 @@ class HealthStats @Inject()(config: HealthStatsConfig, dateService: DateService)
     events.get(failure.msName).get.append(failure)
   }
 
+  def failure(msName: String, t: Throwable): Unit = failure(new HealthStatsFailure(msName, dateService.now, t))
+
   def success(success: HealthStatsSuccess): Unit = this.synchronized {
     if (config.numberOfConsecutiveFailures > 0)
       consecutiveFailCounts.put(success.msName, 0)
     if (!events.contains(success.msName)) events.put(success.msName, new MsStats())
     events.get(success.msName).get.append(success)
   }
+
+  def success(msName: String): Unit = success(new HealthStatsSuccess(msName, dateService.now))
 
   def healthy: Option[NotHealthyStats] = this.synchronized {
     val healthyStatus = try hasConsecutive(events) orElse {
