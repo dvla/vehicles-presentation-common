@@ -92,7 +92,6 @@ class VersionUnitSpec extends UnitSpec with BeforeAndAfterAll with WireMockFixtu
     }
 
     "fetch the version strings from not existing url" in new WithApplication {
-      sys.props - "http.proxy"
       val versionController = new Version("http://localh:36234/test", "http://localh:36234/test2")
       val versionString = contentAsString(versionController.version(FakeRequest()))
 
