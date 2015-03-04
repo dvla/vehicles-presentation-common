@@ -1,5 +1,4 @@
 import Common._
-import net.litola.SassPlugin
 
 name := "vehicles-presentation-common"
 
@@ -25,7 +24,7 @@ val root = project.in(file(".")).enablePlugins(PlayScala, SbtWeb)
 
 val commonTests = project.in(file(testProjectName))
   .dependsOn(root % "compile->test" )
-  .enablePlugins(PlayScala, SassPlugin, SbtWeb)
+  .enablePlugins(PlayScala, SbtWeb)
 
 addCommandAlias("all-tests", ";test;commonTests/test")
 

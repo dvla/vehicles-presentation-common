@@ -4,9 +4,13 @@ logLevel := Level.Warn
 // The Typesafe repository
 resolvers += "Typesafe repository" at "http://repo.typesafe.com/typesafe/releases/"
 
-addSbtPlugin("com.typesafe.play" % "sbt-plugin" % "2.3.3")
+resolvers += Resolver.url("GitHub repository", url("http://shaggyyeti.github.io/releases"))(Resolver.ivyStylePatterns)
+
+addSbtPlugin("com.typesafe.play" % "sbt-plugin" % "2.3.8")
 
 addSbtPlugin("com.typesafe.sbt" % "sbt-web" % "1.1.0")
+
+addSbtPlugin("default" % "sbt-sass" % "0.1.9")
 
 // Plugin for publishing scoverage results to coveralls
 addSbtPlugin("org.scoverage" %% "sbt-scoverage" % "0.99.10.2")
@@ -19,7 +23,5 @@ resolvers += Resolver.url(
     Resolver.ivyStylePatterns)
 
 addSbtPlugin("me.lessis" % "bintray-sbt" % "0.1.2")
-
-addSbtPlugin("net.litola" % "play-sass" % "0.4.0")
 
 addSbtPlugin("net.virtual-void" % "sbt-dependency-graph" % "0.7.4")
