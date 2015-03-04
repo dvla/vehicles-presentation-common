@@ -25,7 +25,6 @@ case class HealthStatsFailure(msName: String, time: Instant, t: Throwable) exten
 case class NotHealthyStats(msName: String, details: String)
 
 class HealthStats @Inject()(config: HealthStatsConfig, dateService: DateService) {
-  Logger.debug("HealthStats service constructor")
 
   private type MsStats = mutable.ArrayBuffer[HealthStatsEvent]
   private type Stats = collection.mutable.HashMap[String, MsStats]
