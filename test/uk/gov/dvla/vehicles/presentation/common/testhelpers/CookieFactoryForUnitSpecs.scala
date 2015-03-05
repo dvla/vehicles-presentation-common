@@ -63,6 +63,7 @@ object CookieFactoryForUnitSpecs {
     lastName = None,
     address = None,
     keeperEndDate = None,
+    keeperChangeDate = None,
     disposeFlag = Some(false),
     suppressedV5Flag = None
   )
