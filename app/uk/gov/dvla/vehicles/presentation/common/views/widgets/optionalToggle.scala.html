@@ -1,0 +1,37 @@
+@(field: play.api.data.Field,
+  title: String,
+  visibleLabel: String,
+  invisibleLable: String,
+  optionalField: => play.twirl.api.HtmlFormat.Appendable)(implicit handler: helper.FieldConstructor, lang: Lang)
+
+@import uk.gov.dvla.vehicles.presentation.common.mappings.OptionalToggle.{Yes, No}
+@import play.api.templates.PlayMagic.toHtmlArgs
+
+@helper.input(field) { (id, name, value, htmlArgs) =>
+
+<div class="expandable-optional">
+    <div class="form-item">
+        <fieldset>
+            <legend>@title</legend>
+            <div class="radio">
+                <div class="form-item">
+                    <label for="@field.id visible" class="form-radio selectable  @(if(field.value == Some(Yes)) "selected" else "")">
+                        <input class="option-visible" name="@field.name" value="@Yes" showerrors="false" type="radio"
+                               aria-required="true" @(if(field.value == Some(Yes)) "checked" else "")>
+                        <span class="text">@visibleLabel</span>
+                    </label>
+                    <label for="@field.id invisible" class="form-radio selectable  @(if(field.value == Some(No)) "selected" else "")">
+                        <input class="option-invisible" name="@field.name" value="@No" showerrors="false" type="radio"
+                               aria-required="true" @(if(field.value == Some(No)) "checked" else "")>
+                        <span class="text">@invisibleLable</span>
+                    </label>
+                </div>
+            </div>
+        </fieldset>
+    </div>
+
+    <div class="optional-field">
+        @optionalField
+    </div>
+</div>
+}
