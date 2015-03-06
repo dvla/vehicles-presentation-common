@@ -242,7 +242,15 @@
             padding: 11px 13px;
         }
     }
-
+    .title-radio-wrapper {
+      label.form-radio,
+      label.form-checkbox {
+        clear: none;
+        &:last-child {
+          clear: left;
+        }
+      }
+    }
     //form elements in a line
     .form-inline {
 

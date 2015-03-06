@@ -28,6 +28,11 @@
         max-width:990px;
         margin:0 auto;
         padding:0.5em 0;
+        .ie8 & {
+          a.logo {
+            width: 160px;
+          }
+        }
         .ie7 & {
             width:940px;
         }

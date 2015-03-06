@@ -18,6 +18,7 @@ final case class VehicleAndKeeperDetailsModel(registrationNumber: String,
                                               address: Option[AddressModel],
                                               disposeFlag: Option[Boolean],
                                               keeperEndDate: Option[DateTime],
+                                              keeperChangeDate: Option[DateTime],
                                               suppressedV5Flag: Option[Boolean])
 
 object VehicleAndKeeperDetailsModel {
@@ -62,6 +63,7 @@ object VehicleAndKeeperDetailsModel {
       address = Some(addressViewModel),
       disposeFlag = vehicleAndKeeperDetailsDto.disposeFlag,
       keeperEndDate = vehicleAndKeeperDetailsDto.keeperEndDate,
+      keeperChangeDate = vehicleAndKeeperDetailsDto.keeperChangeDate,
       suppressedV5Flag = vehicleAndKeeperDetailsDto.suppressedV5Flag
     )
   }

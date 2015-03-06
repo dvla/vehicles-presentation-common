@@ -12,6 +12,7 @@
 
 @input(field, args.toSeq:_*) { (id, name, value, htmlArgs) =>
   @valtechLabel(field, Map('_label -> Messages("titlePicker.label")) ++ args)
+    <div class="title-radio-wrapper">
     @listRadioGroup(
         field = field(TitleRadioKey).copy(constraints = Seq(RequiredField -> Seq[Any]())),
         args = args ++ Map(
@@ -21,7 +22,7 @@
             ) ++ Seq(OtherTitleRadioValue.toString -> Messages("titlePicker.other")))
         )    
     )
-    
+    </div>
     @valtechInputText(
         field = field(TitleTextKey).copy(constraints = Seq(RequiredField -> Seq[Any]())),
         hintText = Some(Messages("titlePicker.textHint")),

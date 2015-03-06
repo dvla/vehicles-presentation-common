@@ -18,6 +18,7 @@ final case class VehicleAndKeeperDetailsDto(registrationNumber: String,
                                             keeperPostcode: Option[String],
                                             disposeFlag: Option[Boolean],
                                             keeperEndDate: Option[DateTime],
+                                            keeperChangeDate: Option[DateTime],
                                             suppressedV5Flag: Option[Boolean])
 
 object VehicleAndKeeperDetailsDto {
