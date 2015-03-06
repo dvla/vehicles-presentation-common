@@ -4,10 +4,7 @@
   invisibleLable: String,
   optionalField: => play.twirl.api.HtmlFormat.Appendable)(implicit handler: helper.FieldConstructor, lang: Lang)
 
-@import uk.gov.dvla.vehicles.presentation.common.mappings.OptionalToggle.{Yes, No}
-@import play.api.templates.PlayMagic.toHtmlArgs
-
-@helper.input(field) { (id, name, value, htmlArgs) =>
+@import uk.gov.dvla.vehicles.presentation.common.mappings.OptionalToggle.{Visible, Invisible}
 
 <div class="expandable-optional">
     <div class="form-item">
@@ -15,14 +12,14 @@
             <legend>@title</legend>
             <div class="radio">
                 <div class="form-item">
-                    <label for="@field.id visible" class="form-radio selectable  @(if(field.value == Some(Yes)) "selected" else "")">
-                        <input class="option-visible" name="@field.name" value="@Yes" showerrors="false" type="radio"
-                               aria-required="true" @(if(field.value == Some(Yes)) "checked" else "")>
+                    <label for="@field.id visible" class="form-radio selectable">
+                        <input class="option-visible" name="@field.name" value="@Visible" showerrors="false" type="radio"
+                               aria-required="true" @(if(field.value == Some(Visible)) "checked" else "")>
                         <span class="text">@visibleLabel</span>
                     </label>
-                    <label for="@field.id invisible" class="form-radio selectable  @(if(field.value == Some(No)) "selected" else "")">
-                        <input class="option-invisible" name="@field.name" value="@No" showerrors="false" type="radio"
-                               aria-required="true" @(if(field.value == Some(No)) "checked" else "")>
+                    <label for="@field.id invisible" class="form-radio selectable">
+                        <input class="option-invisible" name="@field.name" value="@Invisible" showerrors="false" type="radio"
+                               aria-required="true" @(if(field.value == Some(Invisible)) "checked" else "")>
                         <span class="text">@invisibleLable</span>
                     </label>
                 </div>
@@ -34,4 +31,3 @@
         @optionalField
     </div>
 </div>
-}

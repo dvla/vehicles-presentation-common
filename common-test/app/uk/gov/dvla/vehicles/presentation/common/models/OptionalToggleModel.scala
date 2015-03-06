@@ -19,9 +19,9 @@ object OptionalToggleModel {
     final val OptionalDateId = "optional-date"
 
     final val Mapping = mapping(
-      OptionalStringId -> optional(OptionalStringOptionId, nonEmptyText(0, 10)),
-      OptionalIntId -> optional(OptionalIntOptionId, number(0, 10)),
-      OptionalDateId -> optional(OptionalDateOptionId, Date.dateMapping)
+      OptionalStringOptionId -> optional(nonEmptyText(0, 10).withPrefix(OptionalStringId)),
+      OptionalIntOptionId -> optional(number(0, 10).withPrefix(OptionalIntId)),
+      OptionalDateOptionId -> optional(Date.dateMapping.withPrefix(OptionalDateId ))
     )(OptionalToggleModel.apply)(OptionalToggleModel.unapply)
   }
 }

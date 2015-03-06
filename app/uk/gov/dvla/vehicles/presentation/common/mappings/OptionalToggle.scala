@@ -5,24 +5,24 @@ import play.api.data.{FormError, Mapping}
 import play.api.data.format.Formatter
 
 object OptionalToggle {
-  final val Yes = "yes"
-  final val No = "no"
+  final val Visible = "visible"
+  final val Invisible = "invisible"
 
-  def formatter[T](optionKey: String, fieldMapping: Mapping[T]) = new Formatter[Option[T]] {
+  def formatter[T](fieldMapping: =>Mapping[T]) = new Formatter[Option[T]] {
     type R = Either[Seq[FormError], Option[T]]
 
     override def bind(key: String, data: Map[String, String]): R =
-      data.get(optionKey) match {
-        case Some(Yes) => fieldMapping.bind(data).right.map(Some(_))
-        case Some(No) => Right(None)
+      data.get(key) match {
+        case Some(Visible) => fieldMapping.bind(data).right.map(Some(_))
+        case Some(Invisible) => Right(None)
         case _ =>  Left(Seq[FormError](FormError(s"radio-button-for-key$key-was-not-set", "")))
       }
 
     def unbind(key: String, value: Option[T]) = Map(
-      optionKey -> {if (value.isDefined) Yes else No}
+      key -> {if (value.isDefined) Visible else Invisible}
     ) ++ value.fold(Map[String, String]())(fieldMapping.unbind(_))
   }
 
-  def optional[T](optionKey: String, fieldMapping: Mapping[T]) : Mapping[Option[T]] =
-    of[Option[T]](formatter[T](optionKey, fieldMapping))
+  def optional[T](fieldMapping: Mapping[T]) : Mapping[Option[T]] =
+    of[Option[T]](formatter[T](fieldMapping))
 }
