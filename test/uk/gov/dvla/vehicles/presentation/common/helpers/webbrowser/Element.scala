@@ -21,7 +21,7 @@
 package uk.gov.dvla.vehicles.presentation.common.helpers.webbrowser
 
 import org.openqa.selenium.support.ui.Select
-import org.openqa.selenium.{By, WebDriver, WebElement}
+import org.openqa.selenium.{SearchContext, By, WebDriver, WebElement}
 
 import scala.collection.JavaConverters._
 
@@ -68,6 +68,12 @@ final class TextField(val underlying: WebElement) extends Element {
   }
 
   def clear() { underlying.clear() }
+}
+
+object TextField {
+  def apply(element: WebElement) = new TextField(element)
+
+  def apply(element: Element) = new TextField(element.underlying)
 }
 
 final class TextArea(val underlying: WebElement) extends Element {
@@ -176,7 +182,7 @@ final class RadioButton(val underlying: WebElement) extends Element {
   def value: String = underlying.getAttribute("value")
 }
 
-final class RadioButtonGroup(groupName: String, driver: WebDriver) {
+final class RadioButtonGroup(groupName: String, driver: SearchContext) {
 
   private def groupElements = driver.findElements(By.name(groupName)).asScala.toList.filter(Helper.isRadioButton(_))
 

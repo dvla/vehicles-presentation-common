@@ -25,7 +25,7 @@ import java.util.Date
 import java.util.concurrent.TimeUnit
 
 import org.openqa.selenium.support.ui.Select
-import org.openqa.selenium.{Alert, By, Cookie, JavascriptExecutor, OutputType, TakesScreenshot, WebDriver, WebElement}
+import org.openqa.selenium._
 
 import scala.collection.JavaConverters.{asScalaBufferConverter, asScalaSetConverter}
 import scala.language.implicitConversions
@@ -190,7 +190,7 @@ trait WebBrowserDSL {
 
     val queryString: String
 
-    def element(implicit driver: WebDriver): Element = {
+    def element(implicit driver: SearchContext): Element = {
       try {
         createTypedElement(driver.findElement(by))
       }
@@ -200,7 +200,7 @@ trait WebBrowserDSL {
       }
     }
 
-    def findElement(implicit driver: WebDriver): Option[Element] =
+    def findElement(implicit driver: SearchContext): Option[Element] =
       try {
         Some(createTypedElement(driver.findElement(by)))
       }
@@ -208,10 +208,10 @@ trait WebBrowserDSL {
         case e: org.openqa.selenium.NoSuchElementException => None
       }
 
-    def findAllElements(implicit driver: WebDriver): Iterator[Element] =
+    def findAllElements(implicit driver: SearchContext): Iterator[Element] =
       driver.findElements(by).asScala.toIterator.map { e => createTypedElement(e) }
 
-    def webElement(implicit driver: WebDriver): WebElement = {
+    def webElement(implicit driver: SearchContext): WebElement = {
       try {
         driver.findElement(by)
       }
@@ -258,9 +258,9 @@ trait WebBrowserDSL {
 
   // XXX
 
-  def find(query: Query)(implicit driver: WebDriver): Option[Element] = query.findElement
+  def find(query: Query)(implicit driver: SearchContext): Option[Element] = query.findElement
 
-  def find(queryString: String)(implicit driver: WebDriver): Option[Element] =
+  def find(queryString: String)(implicit driver: SearchContext): Option[Element] =
     new IdQuery(queryString).findElement match {
       case Some(element) => Some(element)
       case None => new NameQuery(queryString).findElement match {
@@ -269,9 +269,9 @@ trait WebBrowserDSL {
       }
     }
 
-  def findAll(query: Query)(implicit driver: WebDriver): Iterator[Element] = query.findAllElements
+  def findAll(query: Query)(implicit driver: SearchContext): Iterator[Element] = query.findAllElements
 
-  def findAll(queryString: String)(implicit driver: WebDriver): Iterator[Element] = {
+  def findAll(queryString: String)(implicit driver: SearchContext): Iterator[Element] = {
     val byIdItr = new IdQuery(queryString).findAllElements
     if (byIdItr.hasNext)
       byIdItr
@@ -279,7 +279,7 @@ trait WebBrowserDSL {
       new NameQuery(queryString).findAllElements
   }
 
-  private def tryQueries[T](queryString: String)(f: Query => T)(implicit driver: WebDriver): T = {
+  private def tryQueries[T](queryString: String)(f: Query => T)(implicit driver: SearchContext): T = {
     try {
       f(IdQuery(queryString))
     }
@@ -288,106 +288,106 @@ trait WebBrowserDSL {
     }
   }
 
-  def textField(query: Query)(implicit driver: WebDriver): TextField = new TextField(query.webElement)
+  def textField(query: Query)(implicit driver: SearchContext): TextField = new TextField(query.webElement)
 
-  def textField(queryString: String)(implicit driver: WebDriver): TextField =
+  def textField(queryString: String)(implicit driver: SearchContext): TextField =
     tryQueries(queryString)(q => new TextField(q.webElement))
 
-  def textArea(query: Query)(implicit driver: WebDriver) = new TextArea(query.webElement)
+  def textArea(query: Query)(implicit driver: SearchContext) = new TextArea(query.webElement)
 
-  def textArea(queryString: String)(implicit driver: WebDriver): TextArea =
+  def textArea(queryString: String)(implicit driver: SearchContext): TextArea =
     tryQueries(queryString)(q => new TextArea(q.webElement))
 
-  def pwdField(query: Query)(implicit driver: WebDriver): PasswordField = new PasswordField(query.webElement)
+  def pwdField(query: Query)(implicit driver: SearchContext): PasswordField = new PasswordField(query.webElement)
 
-  def pwdField(queryString: String)(implicit driver: WebDriver): PasswordField =
+  def pwdField(queryString: String)(implicit driver: SearchContext): PasswordField =
     tryQueries(queryString)(q => new PasswordField(q.webElement))
 
-  def emailField(query: Query)(implicit driver: WebDriver): EmailField = new EmailField(query.webElement)
+  def emailField(query: Query)(implicit driver: SearchContext): EmailField = new EmailField(query.webElement)
 
-  def emailField(queryString: String)(implicit driver: WebDriver): EmailField =
+  def emailField(queryString: String)(implicit driver: SearchContext): EmailField =
     tryQueries(queryString)(q => new EmailField(q.webElement))
 
-  def colorField(query: Query)(implicit driver: WebDriver): ColorField = new ColorField(query.webElement)
+  def colorField(query: Query)(implicit driver: SearchContext): ColorField = new ColorField(query.webElement)
 
-  def colorField(queryString: String)(implicit driver: WebDriver): ColorField =
+  def colorField(queryString: String)(implicit driver: SearchContext): ColorField =
     tryQueries(queryString)(q => new ColorField(q.webElement))
 
-  def dateField(query: Query)(implicit driver: WebDriver): DateField = new DateField(query.webElement)
+  def dateField(query: Query)(implicit driver: SearchContext): DateField = new DateField(query.webElement)
 
-  def dateField(queryString: String)(implicit driver: WebDriver): DateField =
+  def dateField(queryString: String)(implicit driver: SearchContext): DateField =
     tryQueries(queryString)(q => new DateField(q.webElement))
 
-  def dateTimeField(query: Query)(implicit driver: WebDriver): DateTimeField = new DateTimeField(query.webElement)
+  def dateTimeField(query: Query)(implicit driver: SearchContext): DateTimeField = new DateTimeField(query.webElement)
 
-  def dateTimeField(queryString: String)(implicit driver: WebDriver): DateTimeField =
+  def dateTimeField(queryString: String)(implicit driver: SearchContext): DateTimeField =
     tryQueries(queryString)(q => new DateTimeField(q.webElement))
 
-  def dateTimeLocalField(query: Query)(implicit driver: WebDriver): DateTimeLocalField = new DateTimeLocalField(query.webElement)
+  def dateTimeLocalField(query: Query)(implicit driver: SearchContext): DateTimeLocalField = new DateTimeLocalField(query.webElement)
 
-  def dateTimeLocalField(queryString: String)(implicit driver: WebDriver): DateTimeLocalField =
+  def dateTimeLocalField(queryString: String)(implicit driver: SearchContext): DateTimeLocalField =
     tryQueries(queryString)(q => new DateTimeLocalField(q.webElement))
 
-  def monthField(query: Query)(implicit driver: WebDriver): MonthField = new MonthField(query.webElement)
+  def monthField(query: Query)(implicit driver: SearchContext): MonthField = new MonthField(query.webElement)
 
-  def monthField(queryString: String)(implicit driver: WebDriver): MonthField =
+  def monthField(queryString: String)(implicit driver: SearchContext): MonthField =
     tryQueries(queryString)(q => new MonthField(q.webElement))
 
-  def numberField(query: Query)(implicit driver: WebDriver): NumberField = new NumberField(query.webElement)
+  def numberField(query: Query)(implicit driver: SearchContext): NumberField = new NumberField(query.webElement)
 
-  def numberField(queryString: String)(implicit driver: WebDriver): NumberField =
+  def numberField(queryString: String)(implicit driver: SearchContext): NumberField =
     tryQueries(queryString)(q => new NumberField(q.webElement))
 
-  def rangeField(query: Query)(implicit driver: WebDriver): RangeField = new RangeField(query.webElement)
+  def rangeField(query: Query)(implicit driver: SearchContext): RangeField = new RangeField(query.webElement)
 
-  def rangeField(queryString: String)(implicit driver: WebDriver): RangeField =
+  def rangeField(queryString: String)(implicit driver: SearchContext): RangeField =
     tryQueries(queryString)(q => new RangeField(q.webElement))
 
-  def searchField(query: Query)(implicit driver: WebDriver): SearchField = new SearchField(query.webElement)
+  def searchField(query: Query)(implicit driver: SearchContext): SearchField = new SearchField(query.webElement)
 
-  def searchField(queryString: String)(implicit driver: WebDriver): SearchField =
+  def searchField(queryString: String)(implicit driver: SearchContext): SearchField =
     tryQueries(queryString)(q => new SearchField(q.webElement))
 
-  def telField(query: Query)(implicit driver: WebDriver): TelField = new TelField(query.webElement)
+  def telField(query: Query)(implicit driver: SearchContext): TelField = new TelField(query.webElement)
 
-  def telField(queryString: String)(implicit driver: WebDriver): TelField =
+  def telField(queryString: String)(implicit driver: SearchContext): TelField =
     tryQueries(queryString)(q => new TelField(q.webElement))
 
-  def timeField(query: Query)(implicit driver: WebDriver): TimeField = new TimeField(query.webElement)
+  def timeField(query: Query)(implicit driver: SearchContext): TimeField = new TimeField(query.webElement)
 
-  def timeField(queryString: String)(implicit driver: WebDriver): TimeField =
+  def timeField(queryString: String)(implicit driver: SearchContext): TimeField =
     tryQueries(queryString)(q => new TimeField(q.webElement))
 
-  def urlField(query: Query)(implicit driver: WebDriver): UrlField = new UrlField(query.webElement)
+  def urlField(query: Query)(implicit driver: SearchContext): UrlField = new UrlField(query.webElement)
 
-  def urlField(queryString: String)(implicit driver: WebDriver): UrlField =
+  def urlField(queryString: String)(implicit driver: SearchContext): UrlField =
     tryQueries(queryString)(q => new UrlField(q.webElement))
 
-  def weekField(query: Query)(implicit driver: WebDriver): WeekField = new WeekField(query.webElement)
+  def weekField(query: Query)(implicit driver: SearchContext): WeekField = new WeekField(query.webElement)
 
-  def weekField(queryString: String)(implicit driver: WebDriver): WeekField =
+  def weekField(queryString: String)(implicit driver: SearchContext): WeekField =
     tryQueries(queryString)(q => new WeekField(q.webElement))
 
-  def radioButtonGroup(groupName: String)(implicit driver: WebDriver) = new RadioButtonGroup(groupName, driver)
+  def radioButtonGroup(groupName: String)(implicit driver: SearchContext) = new RadioButtonGroup(groupName, driver)
 
-  def radioButton(query: Query)(implicit driver: WebDriver) = new RadioButton(query.webElement)
+  def radioButton(query: Query)(implicit driver: SearchContext) = new RadioButton(query.webElement)
 
-  def radioButton(queryString: String)(implicit driver: WebDriver): RadioButton =
+  def radioButton(queryString: String)(implicit driver: SearchContext): RadioButton =
     tryQueries(queryString)(q => new RadioButton(q.webElement))
 
-  def checkbox(query: Query)(implicit driver: WebDriver) = new Checkbox(query.webElement)
+  def checkbox(query: Query)(implicit driver: SearchContext) = new Checkbox(query.webElement)
 
-  def checkbox(queryString: String)(implicit driver: WebDriver): Checkbox =
+  def checkbox(queryString: String)(implicit driver: SearchContext): Checkbox =
     tryQueries(queryString)(q => new Checkbox(q.webElement))
 
-  def singleSel(query: Query)(implicit driver: WebDriver) = new SingleSel(query.webElement)
+  def singleSel(query: Query)(implicit driver: SearchContext) = new SingleSel(query.webElement)
 
-  def singleSel(queryString: String)(implicit driver: WebDriver): SingleSel =
+  def singleSel(queryString: String)(implicit driver: SearchContext): SingleSel =
     tryQueries(queryString)(q => new SingleSel(q.webElement))
 
-  def multiSel(query: Query)(implicit driver: WebDriver) = new MultiSel(query.webElement)
+  def multiSel(query: Query)(implicit driver: SearchContext) = new MultiSel(query.webElement)
 
-  def multiSel(queryString: String)(implicit driver: WebDriver): MultiSel =
+  def multiSel(queryString: String)(implicit driver: SearchContext): MultiSel =
     tryQueries(queryString)(q => new MultiSel(q.webElement))
 
   object click {
@@ -395,11 +395,11 @@ trait WebBrowserDSL {
       element.click()
     }
 
-    def on(query: Query)(implicit driver: WebDriver) {
+    def on(query: Query)(implicit driver: SearchContext) {
       query.webElement.click()
     }
 
-    def on(queryString: String)(implicit driver: WebDriver) {
+    def on(queryString: String)(implicit driver: SearchContext) {
       // stack depth is not correct if just call the button("...") directly.
       val target = tryQueries(queryString)(q => q.webElement)
       on(target)
@@ -456,7 +456,7 @@ trait WebBrowserDSL {
 
   def frame(element: Element) = new FrameElementTarget(element)
 
-  def frame(query: Query)(implicit driver: WebDriver) = new FrameWebElementTarget(query.webElement)
+  def frame(query: Query)(implicit driver: SearchContext) = new FrameWebElementTarget(query.webElement)
 
   def window(nameOrHandle: String) = new WindowTarget(nameOrHandle)
 
