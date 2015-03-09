@@ -32,7 +32,8 @@ final class EmailServiceWebServiceImplSpec extends UnitSpec with WireMockFixture
     htmlMessage = "htmlMessage",
     from = From("from@email.com","from"),
     subject = "subject",
-    emailAddress = "to@email.com"
+    toReceivers = Option(List("to@email.com")),
+    ccReceivers = None
   )
 
   private implicit val emailServiceSendRequestWrites = Json.writes[EmailServiceSendRequest]
