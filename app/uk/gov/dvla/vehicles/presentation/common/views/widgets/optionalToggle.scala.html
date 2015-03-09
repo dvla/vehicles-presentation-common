@@ -4,11 +4,11 @@
   invisibleLable: String,
   optionalField: => play.twirl.api.HtmlFormat.Appendable)(implicit handler: helper.FieldConstructor, lang: Lang)
 
-@import uk.gov.dvla.vehicles.presentation.common.mappings.OptionalToggle.{Visible, Invisible}
+@import uk.gov.dvla.vehicles.presentation.common.mappings.OptionalToggle.{Visible, Invisible, OptionFieldSuffix}
 @import _root_.views.html.helper.input
 
 @input(field) { (id, name, value, htmlArgs) =>
-<div class="expandable-optional">
+<div class="expandable-optional" id="@id">
     <div class="form-item">
         <fieldset>
             <legend>@title</legend>
@@ -16,12 +16,12 @@
                 <div class="form-item">
                     <label for="@id visible" class="form-radio selectable">
                         <input class="option-visible" name="@name" value="@Visible" showerrors="false" type="radio"
-                               aria-required="true" @(if(value == Some(Visible)) "checked" else "")>
+                               aria-required="true" @(if(value == Some(Visible)) "checked" else "") id="@(s"${id}_$Visible") ">
                         <span class="text">@visibleLabel</span>
                     </label>
                     <label for="@id invisible" class="form-radio selectable">
                         <input class="option-invisible" name="@name" value="@Invisible" showerrors="false" type="radio"
-                               aria-required="true" @(if(value == Some(Invisible)) "checked" else "")>
+                               aria-required="true" @(if(value == Some(Invisible)) "checked" else "") id="@(s"${id}_$Invisible") >
                         <span class="text">@invisibleLable</span>
                     </label>
                 </div>
@@ -29,7 +29,7 @@
         </fieldset>
     </div>
 
-    <div class="optional-field">
+    <div class="optional-field" id="@(s"${id}${OptionFieldSuffix}")">
         @optionalField
     </div>
 </div>

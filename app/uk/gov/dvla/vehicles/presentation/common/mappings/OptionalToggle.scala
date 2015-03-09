@@ -7,6 +7,7 @@ import play.api.data.format.Formatter
 object OptionalToggle {
   final val Visible = "visible"
   final val Invisible = "invisible"
+  final val OptionFieldSuffix = "-option-field"
 
   def formatter[T](fieldMapping: Mapping[T]) = new Formatter[Option[T]] {
     type R = Either[Seq[FormError], Option[T]]
