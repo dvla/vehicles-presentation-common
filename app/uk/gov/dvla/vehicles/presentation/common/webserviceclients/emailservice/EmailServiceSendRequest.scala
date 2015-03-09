@@ -8,7 +8,8 @@ case class EmailServiceSendRequest(plainTextMessage: String,
                                    attachment: Option[Attachment] = None,
                                    from: From,
                                    subject: String,
-                                   emailAddress: String)
+                                   toReceivers: Option[List[String]],
+                                   ccReceivers: Option[List[String]])
 
 object EmailServiceSendRequest {
   implicit val emailServiceSendRequestWrites = Json.writes[EmailServiceSendRequest]
