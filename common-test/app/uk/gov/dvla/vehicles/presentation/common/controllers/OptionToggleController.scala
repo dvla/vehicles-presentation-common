@@ -21,15 +21,8 @@ class OptionToggleController @Inject()(implicit clientSideSessionFactory: Client
     implicit request => {
       form.bindFromRequest.fold(
         invalidForm => BadRequest(views.html.optionToggle(invalidForm)),
-        validForm => {
-          Ok(views.html.success("Works fire for the time being"))
-//          validForm.mileage match {
-//            case Some(mileage) =>
-//              val msg = s"Success - you entered a mileage of $mileage"
-//            case _ =>
-//              val msg = s"Success - you entered a mileage of NOT ENTERED"
-//              Ok(views.html.success(msg))
-//          }
+        validModel => {
+          Ok(views.html.success(s"I got text: ${validModel.text} num:${validModel.num} date:${validModel.date}"))
         }
       )
     }

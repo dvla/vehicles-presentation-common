@@ -5,7 +5,6 @@ import play.api.data.Forms._
 import uk.gov.dvla.vehicles.presentation.common.mappings.Date
 import uk.gov.dvla.vehicles.presentation.common.mappings.OptionalToggle.optional
 
-
 case class OptionalToggleModel(text: Option[String], num: Option[Int], date: Option[LocalDate])
 
 object OptionalToggleModel {

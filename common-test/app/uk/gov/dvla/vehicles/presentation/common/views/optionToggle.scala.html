@@ -11,7 +11,7 @@
 @import views.html.helper.form
 
 @main(
-  title = "OptionToggle",
+  title = "Option Toggle",
   currentForm = Some(playForm)
 ) {
   @form(action = controllers.routes.OptionToggleController.submit) {
@@ -27,7 +27,8 @@
         args =  Map(
           '_label -> "String",
           '_showConstraints -> false,
-          'autofocus -> true
+          'autofocus -> true,
+          'NO_OPTIONAL_LABEL -> false
         )
       )
     )
@@ -43,7 +44,8 @@
         args =  Map(
           '_label -> "Int",
           '_showConstraints -> false,
-          'autofocus -> true
+          'autofocus -> true,
+          'NO_OPTIONAL_LABEL -> true
         )
       )
     )
@@ -56,7 +58,10 @@
       valtechDate(
         playForm(OptionalDateId),
         "Enter a date",
-        hintText = Some("Optional Date")
+        hintText = Some("Optional Date"),
+        args =  Map(
+          'NO_OPTIONAL_LABEL -> true
+        )
       )
     )
     <div class="form-steps">

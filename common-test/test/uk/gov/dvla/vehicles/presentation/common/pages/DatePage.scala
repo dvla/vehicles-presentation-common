@@ -5,9 +5,9 @@ import uk.gov.dvla.vehicles.presentation.common.models
 
 import helpers.webbrowser.{Element, Page, WebBrowserDSL, WebDriverFactory, _}
 import models.DateModel.Form.{OptionalDateId, DateId}
-import org.openqa.selenium.WebDriver
+import org.openqa.selenium.{SearchContext, WebDriver}
 
-class DatePage(implicit driver: WebDriver) extends Page with WebBrowserDSL {
+class DatePage(implicit driver: SearchContext) extends Page with WebBrowserDSL {
 
   final val address = "/date"
   override val url: String = WebDriverFactory.testUrl + address.substring(1)
@@ -17,7 +17,7 @@ class DatePage(implicit driver: WebDriver) extends Page with WebBrowserDSL {
 
   lazy val required: DateWidget = DateWidget(DateId)
 
-  def submit(implicit driver: WebDriver): Element = find(id("submit")).get
+  def submit(implicit driver: SearchContext): Element = find(id("submit")).get
 
   def navigate(day: String = "3", month: String = "4", year: String = "2014",
                day1: String = "30", month1: String = "12", year1: String = "1970")
@@ -37,11 +37,11 @@ class DatePage(implicit driver: WebDriver) extends Page with WebBrowserDSL {
 }
 
 object DatePage {
-  def instance(implicit driver: WebDriver) = new DatePage
+  def instance(implicit driver: SearchContext) = new DatePage
 }
 
 
-class DateWidget(idStr: String)(implicit driver: WebDriver) extends WebBrowserDSL {
+class DateWidget(idStr: String)(implicit driver: SearchContext) extends WebBrowserDSL {
   def label: String = ???
 
   def hint: String = ???
@@ -51,8 +51,10 @@ class DateWidget(idStr: String)(implicit driver: WebDriver) extends WebBrowserDS
   lazy val month: TelField = telField(id(s"${idStr}_month"))
 
   lazy val year: TelField = telField(id(s"${idStr}_year"))
+
+  def isDisplayed: Boolean = day.isDisplayed && month.isDisplayed && year.isDisplayed
 }
 
 object DateWidget {
-  def apply(idStr: String)(implicit driver: WebDriver): DateWidget = new DateWidget(idStr)
+  def apply(idStr: String)(implicit driver: SearchContext): DateWidget = new DateWidget(idStr)
 }
