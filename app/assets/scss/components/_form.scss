@@ -410,13 +410,18 @@
             padding-left: 1rem;
             border-left: 5px solid #bfc1c3;
         }
-        &.panel-indent {
-          border-left: 4px solid $grey-2;
-          padding: 10px 0 10px 15px;
-          margin: 30px 15px 45px 0;
-        }
     }
 
+  .panel-indent-wrapper {
+    .form-item{
+      margin: 0 0 0.5em 0;
+    }
+    .panel-indent {
+      border-left: 4px solid $grey-2;
+      padding: 10px 0 10px 15px;
+      margin: 30px 15px 45px 0;
+    }
+  }
     .form-date {
         clear:both;
         .ie7 & {
