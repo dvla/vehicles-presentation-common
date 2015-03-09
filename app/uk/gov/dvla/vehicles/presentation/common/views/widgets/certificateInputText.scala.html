@@ -1,0 +1,64 @@
+@(field: play.api.data.Field,
+  hintText: Option[String] = None,
+  args: Map[Symbol, Any] = Map.empty)(implicit handler: helper.FieldConstructor, lang: Lang)
+
+@import uk.gov.dvla.vehicles.presentation.common.views
+@import views.constraints.Required.RequiredField
+@import play.api.templates.PlayMagic.toHtmlArgs
+@import views.helpers.HtmlArgsExtensions.RichHtmlArgs
+@import views.html.widgets.base.valtechLabel
+@import _root_.views.html.helper.input
+@import views.html.widgets.base.hintTextSnippet
+
+@input(field, args.toSeq:_*) { (id, name, value, htmlArgs) =>
+    @valtechLabel(field, args)
+
+        <input
+            id="@id"
+            name="@name"
+            value="@value"
+
+            @************************
+            End accessibility section
+            ************************@
+
+            @toHtmlArgs(
+                htmlArgs.withMaxLength.
+                        withoutAutoComplete.
+                        withAriaDescribedby(hintText, id).
+                        withTypeAttribute.withAriaInvalid(field.hasErrors).
+                        withAriaRequired(field.constraints)
+            )
+        >
+
+        @hintTextSnippet(hintText, idOfRelatedInput = id)
+
+  <script type="text/javascript">
+  function check(evt, id) {
+
+      var value = id.value;
+
+      var theEvent = evt || window.event;
+      if ( theEvent == null || theEvent == undefined) {
+          return;
+      }
+
+      var key = theEvent.keyCode || theEvent.which;
+
+      // Don't validate the input if below arrow, delete and backspace keys were pressed
+      if(key == 37 || key == 39 || key == 8 || key == 9 || key == 46) { // Left / Right , Backspace, Tab, Delete keys
+        return;
+      }
+
+      key = String.fromCharCode( key );
+      var regex = /[0-9|/]/;
+
+      if( !regex.test(key)) {
+        theEvent.returnValue = false;
+
+        if(theEvent.preventDefault)
+            theEvent.preventDefault();
+      }
+  }
+  </script>
+}
