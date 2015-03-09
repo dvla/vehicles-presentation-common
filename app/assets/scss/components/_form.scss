@@ -242,6 +242,8 @@
             padding: 11px 13px;
         }
     }
+
+    // Title radio selector
     .title-radio-wrapper {
       label.form-radio,
       label.form-checkbox {
@@ -251,6 +253,14 @@
         }
       }
     }
+
+    // Title radio selector old IE layour hack
+    .ie8 &, .ie7 &{
+      .title-radio-wrapper {
+        width: 330px;
+      }
+    }
+
     //form elements in a line
     .form-inline {
 
