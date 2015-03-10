@@ -1,11 +1,9 @@
 package uk.gov.dvla.vehicles.presentation.common.views
 
 import org.openqa.selenium.SearchContext
-import play.api.i18n.Messages
 import uk.gov.dvla.vehicles.presentation.common.composition.TestHarness
 import uk.gov.dvla.vehicles.presentation.common.helpers.UiSpec
 import uk.gov.dvla.vehicles.presentation.common.mappings.OptionalToggle
-import uk.gov.dvla.vehicles.presentation.common.models.OptionalToggleModel
 import uk.gov.dvla.vehicles.presentation.common.pages.{ErrorPanel, OptionTogglePage}
 
 class OptionToggleIntegrationSpec extends UiSpec with TestHarness {
