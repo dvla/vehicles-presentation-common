@@ -3,6 +3,8 @@ package uk.gov.dvla.vehicles.presentation.common.webserviceclients.vehicleandkee
 import com.github.tomakehurst.wiremock.client.WireMock.{equalTo, postRequestedFor, urlEqualTo}
 import org.joda.time.DateTime
 import org.joda.time.format.ISODateTimeFormat
+import org.scalatest.concurrent.PatienceConfiguration.Timeout
+import org.scalatest.time.{Seconds, Span}
 import uk.gov.dvla.vehicles.presentation.common.WithApplication
 
 import play.api.libs.json.{JsString, JsValue, Writes, Json}
@@ -25,9 +27,26 @@ final class VehicleAndKeeperLookupWebServiceImplSpec extends UnitSpec with WireM
           withRequestBody(equalTo(Json.toJson(request).toString())))
       }
     }
+
+    "timeout when the endpoint is slow to respond" in new WithApplication {
+      val requestTimeout: Int = 1
+      val requestTimeoutMillis: Int = requestTimeout * 1000
+      val futureTimeout = Timeout(Span(requestTimeout * 4, Seconds))
+
+      import com.github.tomakehurst.wiremock.client.WireMock.{post, urlEqualTo, aResponse}
+      wireMock.register(post(urlEqualTo("/vehicleandkeeper/lookup/v1")).
+        willReturn(aResponse().
+        withFixedDelay(requestTimeoutMillis * 2)))
+
+      val resultFuture = lookupService.invoke(request, trackingId)
+      whenReady(resultFuture.failed, timeout) { e =>
+        e shouldBe a [java.util.concurrent.TimeoutException]
+      }
+    }
   }
 
-  private val lookupService = new VehicleAndKeeperLookupWebServiceImpl(new TestVehicleAndKeeperLookupConfig(wireMockPort))
+  private val lookupService = new VehicleAndKeeperLookupWebServiceImpl(
+    new TestVehicleAndKeeperLookupConfig(wireMockPort))
 
   private final val trackingId = "track-id-test"
 
@@ -72,4 +91,5 @@ final class VehicleAndKeeperLookupWebServiceImplSpec extends UnitSpec with WireM
 
 class TestVehicleAndKeeperLookupConfig(wireMockPort: Int) extends VehicleAndKeeperLookupConfig {
   override lazy val vehicleAndKeeperLookupMicroServiceBaseUrl = s"http://localhost:$wireMockPort"
+  override lazy val requestTimeout: Int = 500
 }
