@@ -6,6 +6,7 @@ import common.clientsidesession.{ClearTextClientSideSessionFactory, NoCookieFlag
 import common.model.{CacheKeyPrefix, PrivateKeeperDetailsFormModel}
 import common.model.PrivateKeeperDetailsFormModel.Form.TitleId
 import common.model.PrivateKeeperDetailsFormModel.Form.EmailId
+import common.model.PrivateKeeperDetailsFormModel.Form.EmailOptionId
 import common.model.PrivateKeeperDetailsFormModel.Form.FirstNameId
 import common.model.PrivateKeeperDetailsFormModel.Form.FirstNameAndTitleMaxLength
 import common.model.PrivateKeeperDetailsFormModel.Form.FirstNameMinLength
@@ -16,7 +17,7 @@ import common.model.PrivateKeeperDetailsFormModel.Form.LastNameMaxLength
 import common.model.PrivateKeeperDetailsFormModel.Form.LastNameMinLength
 import common.model.PrivateKeeperDetailsFormModel.Form.DateOfBirthId
 import common.mappings.DayMonthYear.{YearId, MonthId, DayId}
-import common.mappings.{TitleType, TitlePickerString}
+import uk.gov.dvla.vehicles.presentation.common.mappings.{OptionalToggle, TitleType, TitlePickerString}
 import common.services.DateServiceImpl
 import common.{UnitSpec, WithApplication}
 
@@ -51,7 +52,7 @@ class PrivateKeeperDetailsFormSpec extends UnitSpec {
         dayDateOfBirth = "",
         monthDateOfBirth = "",
         yearDateOfBirth = "",
-        email = "",
+        email = None,
         driverNumber = "").get
       model.title should equal(TitleType(1, ""))
       model.firstName should equal(FirstNameValid)
@@ -63,7 +64,7 @@ class PrivateKeeperDetailsFormSpec extends UnitSpec {
     }
 
     "reject if form has no fields completed" in new WithApplication {
-      formWithValidDefaults(title = "", firstName = "", lastName = "", email = "").
+      formWithValidDefaults(title = "", firstName = "", lastName = "", email = None).
         errors.flatMap(_.messages) should contain theSameElementsAs
         List("error.title.unknownOption", "error.validFirstName", "error.minLength", "error.required", "error.validLastName")
     }
@@ -83,27 +84,27 @@ class PrivateKeeperDetailsFormSpec extends UnitSpec {
 
   "email" should {
     "accept in valid format" in new WithApplication {
-      val model = formWithValidDefaults(email = EmailValid).get
+      val model = formWithValidDefaults().get
       model.email should equal(Some(EmailValid))
     }
 
     "accept with no entry" in new WithApplication {
-      val model = formWithValidDefaults(email = "").get
+      val model = formWithValidDefaults(email = None).get
       model.email should equal(None)
     }
 
     "reject if incorrect format" in new WithApplication {
-      formWithValidDefaults(email = "no_at_symbol.com").errors.flatMap(_.messages) should contain theSameElementsAs
+      formWithValidDefaults(email = Some("no_at_symbol.com")).errors.flatMap(_.messages) should contain theSameElementsAs
         List("error.email")
     }
 
     "reject if less than min length" in new WithApplication {
-      formWithValidDefaults(email = "no").errors.flatMap(_.messages) should contain theSameElementsAs
+      formWithValidDefaults(email = Some("no")).errors.flatMap(_.messages) should contain theSameElementsAs
         List("error.email")
     }
 
     "reject if greater than max length" in new WithApplication {
-      formWithValidDefaults(email = "n@" + ("a" * 248) + ".com").errors.flatMap(_.messages) should contain theSameElementsAs
+      formWithValidDefaults(email = Some("n@" + ("a" * 248) + ".com")).errors.flatMap(_.messages) should contain theSameElementsAs
         List("error.email")
     }
   }
@@ -379,7 +380,7 @@ class PrivateKeeperDetailsFormSpec extends UnitSpec {
                                  dayDateOfBirth: String = DayDateOfBirthValid,
                                  monthDateOfBirth: String = MonthDateOfBirthValid,
                                  yearDateOfBirth: String = YearDateOfBirthValid,
-                                 email: String = EmailValid,
+                                 email: Option[String] = Some(EmailValid),
                                  driverNumber: String = DriverNumberValid,
                                  postcode: String = PostcodeValid): PrivateKeeperDetailsFormModel =
     formWithValidDefaults(
@@ -405,7 +406,7 @@ class PrivateKeeperDetailsFormSpec extends UnitSpec {
                                     dayDateOfBirth: String = DayDateOfBirthValid,
                                     monthDateOfBirth: String = MonthDateOfBirthValid,
                                     yearDateOfBirth: String = YearDateOfBirthValid,
-                                    email: String = EmailValid,
+                                    email: Option[String] = Some(EmailValid),
                                     driverNumber: String = DriverNumberValid,
                                     postcode: String = PostcodeValid) = {
 
@@ -414,20 +415,20 @@ class PrivateKeeperDetailsFormSpec extends UnitSpec {
     implicit val cacheKeyPrefix = CacheKeyPrefix("testing-prefix")
     implicit val DateService = new DateServiceImpl()
 
-    new PrivateKeeperDetailsTesting()
-          .form.bind(
-            Map(
-              s"$TitleId.${TitlePickerString.TitleRadioKey}" -> title,
-              s"$TitleId.${TitlePickerString.TitleTextKey}" -> otherTitle,
-              FirstNameId -> firstName,
-              LastNameId -> lastName,
-              s"$DateOfBirthId.$DayId" -> dayDateOfBirth,
-              s"$DateOfBirthId.$MonthId" -> monthDateOfBirth,
-              s"$DateOfBirthId.$YearId" -> yearDateOfBirth,
-              EmailId -> email,
-              DriverNumberId -> driverNumber,
-              PostcodeId -> postcode
-            )
-          )
+    new PrivateKeeperDetailsTesting().form.bind(
+      Map(
+        s"$TitleId.${TitlePickerString.TitleRadioKey}" -> title,
+        s"$TitleId.${TitlePickerString.TitleTextKey}" -> otherTitle,
+        FirstNameId -> firstName,
+        LastNameId -> lastName,
+        s"$DateOfBirthId.$DayId" -> dayDateOfBirth,
+        s"$DateOfBirthId.$MonthId" -> monthDateOfBirth,
+        s"$DateOfBirthId.$YearId" -> yearDateOfBirth,
+        DriverNumberId -> driverNumber,
+        PostcodeId -> postcode
+      ) ++ email.fold(Map(EmailOptionId -> OptionalToggle.Invisible)) { e =>
+        Map(EmailOptionId -> OptionalToggle.Visible, EmailId -> e )
       }
+    )
+  }
 }

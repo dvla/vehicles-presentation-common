@@ -10,11 +10,12 @@ import scala.language.postfixOps
 import uk.gov.dvla.vehicles.presentation.common
 import common.clientsidesession.CookieImplicits.RichResult
 import common.clientsidesession.{NoCookieFlags, ClearTextClientSideSessionFactory}
-import common.mappings.TitlePickerString
+import uk.gov.dvla.vehicles.presentation.common.mappings.{OptionalToggle, TitlePickerString}
 import common.model.{CacheKeyPrefix, PrivateKeeperDetailsFormModel, NewKeeperChooseYourAddressFormModel}
 import common.model.PrivateKeeperDetailsFormModel.Form.DateOfBirthId
 import common.model.PrivateKeeperDetailsFormModel.Form.DriverNumberId
 import common.model.PrivateKeeperDetailsFormModel.Form.EmailId
+import common.model.PrivateKeeperDetailsFormModel.Form.EmailOptionId
 import common.model.PrivateKeeperDetailsFormModel.Form.FirstNameId
 import common.model.PrivateKeeperDetailsFormModel.Form.LastNameId
 import common.model.PrivateKeeperDetailsFormModel.Form.PostcodeId
@@ -153,16 +154,17 @@ class PrivateKeeperDetailsBaseUnitSpec extends UnitSpec {
     val day: String = model.dateOfBirth.map(_.getDayOfMonth.toString).getOrElse("")
     val month: String = model.dateOfBirth.map(_.getMonthOfYear.toString).getOrElse("")
     val year: String = model.dateOfBirth.map(_.getYear.toString).getOrElse("")
-    FakeRequest().withFormUrlEncodedBody(
+    FakeRequest().withFormUrlEncodedBody(Seq(
       s"$TitleId.${TitlePickerString.TitleRadioKey}" -> model.title.titleType.toString,
       FirstNameId -> model.firstName,
       LastNameId -> model.lastName,
       s"$DateOfBirthId.day" -> day,
       s"$DateOfBirthId.month" -> month,
       s"$DateOfBirthId.year" -> year,
-      EmailId -> model.email.getOrElse(""),
       DriverNumberId -> model.driverNumber.getOrElse(""),
       PostcodeId -> model.postcode
-    )
+    ) ++ model.email.fold(Seq(EmailOptionId -> OptionalToggle.Invisible)){ email =>
+      Seq(EmailOptionId -> OptionalToggle.Visible, EmailId -> model.email.getOrElse("") )
+    }:_*)
   }
 }

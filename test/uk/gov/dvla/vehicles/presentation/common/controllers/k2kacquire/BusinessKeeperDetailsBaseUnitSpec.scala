@@ -2,6 +2,7 @@ package uk.gov.dvla.vehicles.presentation.common.controllers.k2kacquire
 
 import play.api.data.Form
 import play.api.test.{FakeRequest, WithApplication}
+import uk.gov.dvla.vehicles.presentation.common.mappings.OptionalToggle
 import scala.collection.mutable.ArrayBuffer
 import scala.concurrent.Await
 import scala.concurrent.duration.DurationInt
@@ -11,7 +12,7 @@ import common.clientsidesession.{NoCookieFlags, ClearTextClientSideSessionFactor
 import common.clientsidesession.CookieImplicits.RichResult
 import common.model.BusinessKeeperDetailsFormModel
 import common.model.BusinessKeeperDetailsViewModel
-import common.model.BusinessKeeperDetailsFormModel.Form.{BusinessNameId, EmailId, FleetNumberId, PostcodeId}
+import common.model.BusinessKeeperDetailsFormModel.Form.{BusinessNameId, EmailId, EmailOptionId, FleetNumberId, PostcodeId}
 import common.model.CacheKeyPrefix
 import common.model.NewKeeperChooseYourAddressFormModel
 import common.testhelpers.CookieFactoryForUnitSpecs.businessKeeperDetailsCookie
@@ -149,11 +150,13 @@ class BusinessKeeperDetailsBaseUnitSpec extends UnitSpec {
   }
 
   private def buildRequest(model: BusinessKeeperDetailsFormModel = defaultBusinessKeeperDetailsModel) = {
-    FakeRequest().withFormUrlEncodedBody(
+    val params = Seq(
       FleetNumberId -> model.fleetNumber.getOrElse(""),
       BusinessNameId -> model.businessName,
-      EmailId -> model.email.getOrElse(""),
       PostcodeId -> model.postcode
-    )
+    ) ++ model.email.fold(Seq(EmailOptionId -> OptionalToggle.Invisible)){ email =>
+      Seq(EmailOptionId -> OptionalToggle.Visible, EmailId -> model.email.getOrElse("") )
+    }
+    FakeRequest().withFormUrlEncodedBody(params:_*)
   }
 }

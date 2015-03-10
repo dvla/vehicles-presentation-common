@@ -2,8 +2,8 @@ package uk.gov.dvla.vehicles.presentation.common.controllers.k2kacquire
 
 import uk.gov.dvla.vehicles.presentation.common
 import common.clientsidesession.{ClearTextClientSideSessionFactory, NoCookieFlags}
-import common.mappings.BusinessKeeperName
-import common.model.BusinessKeeperDetailsFormModel.Form.{FleetNumberId, BusinessNameId, EmailId, PostcodeId}
+import uk.gov.dvla.vehicles.presentation.common.mappings.{OptionalToggle, BusinessKeeperName}
+import common.model.BusinessKeeperDetailsFormModel.Form.{FleetNumberId, BusinessNameId, EmailId, EmailOptionId, PostcodeId}
 import common.model.CacheKeyPrefix
 import common.{UnitSpec, WithApplication}
 
@@ -27,7 +27,7 @@ class BusinessKeeperDetailsFormSpec extends UnitSpec {
     "accept if form is completed with mandatory fields only" in new WithApplication {
       val model = formWithValidDefaults(
         fleetNumber = "",
-        email = ""
+        email = None
       ).get
       model.fleetNumber should equal(None)
       model.businessName should equal(BusinessNameValid.toUpperCase)
@@ -35,7 +35,7 @@ class BusinessKeeperDetailsFormSpec extends UnitSpec {
     }
 
     "reject if form has no fields completed" in new WithApplication {
-      formWithValidDefaults(fleetNumber = "", businessName = "", email = "").
+      formWithValidDefaults(fleetNumber = "", businessName = "", email = None).
         errors.flatMap(_.messages) should contain theSameElementsAs
         List("error.minLength", "error.required", "error.validBusinessKeeperName")
     }
@@ -101,19 +101,19 @@ class BusinessKeeperDetailsFormSpec extends UnitSpec {
 
   private def formWithValidDefaults(fleetNumber: String = FleetNumberValid,
                                     businessName: String = BusinessNameValid,
-                                    email: String = EmailValid,
+                                    email: Option[String] = Some(EmailValid),
                                     postcode: String = PostcodeValid) = {
     implicit val cookieFlags = new NoCookieFlags()
     implicit val sideSessionFactory = new ClearTextClientSideSessionFactory()
 
-    new BusinessKeeperDetailsTesting()
-      .form.bind(
-        Map(
-          FleetNumberId -> fleetNumber,
-          BusinessNameId -> businessName,
-          EmailId -> email,
-          PostcodeId -> postcode
-        )
-      )
+    new BusinessKeeperDetailsTesting().form.bind(
+      Map(
+        FleetNumberId -> fleetNumber,
+        BusinessNameId -> businessName,
+        PostcodeId -> postcode
+      ) ++ email.fold(Map(EmailOptionId -> OptionalToggle.Invisible)) { e =>
+        Map(EmailOptionId -> OptionalToggle.Visible, EmailId -> e )
+      }
+    )
   }
 }
