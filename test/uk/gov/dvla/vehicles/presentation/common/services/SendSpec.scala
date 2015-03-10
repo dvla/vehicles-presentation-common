@@ -1,5 +1,6 @@
 package uk.gov.dvla.vehicles.presentation.common.services
 
+import uk.gov.dvla.vehicles.presentation.common.webserviceclients.emailservice.From
 import uk.gov.dvla.vehicles.presentation.common.{WithApplication, UnitSpec}
 
 class SendSpec extends UnitSpec {

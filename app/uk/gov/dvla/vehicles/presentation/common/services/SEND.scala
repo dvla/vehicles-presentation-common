@@ -1,9 +1,10 @@
 package uk.gov.dvla.vehicles.presentation.common.services
 
-import org.apache.commons.mail.{Email => ApacheEmail, EmailException, HtmlEmail}
 import play.api.Logger
+import uk.gov.dvla.vehicles.presentation.common.webserviceclients.emailservice.From
+import webserviceclients.emailservice.{EmailService, EmailServiceSendRequest}
 
-import scala.concurrent.{ExecutionContext, Future}
+import scala.concurrent.{ExecutionContext}
 import ExecutionContext.Implicits.global
 
 
@@ -21,7 +22,6 @@ import ExecutionContext.Implicits.global
 object SEND {
   import scala.language.{implicitConversions, postfixOps, reflectiveCalls}
 
-  case class From(email: String, name: String)
   case class EmailConfiguration(host: String, port: Int, username: String, password: String,
                                 from: From, feedbackEmail: From, whiteList: Option[List[String]])
 
@@ -48,12 +48,12 @@ object SEND {
 
   /** Generic trait to represent the Email Service */
   sealed trait EmailOps {
-    def send(implicit config: EmailConfiguration): Unit
+    def send(trackingId: String)(implicit config: EmailConfiguration, emailService: EmailService): Unit
   }
 
   /** A dummy email service, to send the white listed emails. */
   case class WhiteListEmailOps(email: Email) extends EmailOps {
-    def send(implicit config: EmailConfiguration) = {
+    def send(trackingId: String)(implicit config: EmailConfiguration, emailService: EmailService) = {
       val message = s"""Got email with contents: (${email.subject} - ${email.message} ) to be sent to ${email.toPeople.mkString(" ")}
          ||with cc (${email.ccPeople.mkString(" ")}) and configuration: ${config.port} ${config.username} from email
          |${config.from.email}. Receiver was in whitelist""".stripMargin
@@ -63,48 +63,32 @@ object SEND {
   }
   /** A no-ops email service that denotes an error in the email */
   object NoEmailOps extends EmailOps {
-    def send(implicit config: EmailConfiguration) = Logger.info("The email is incomplete. you cannot send that")
+    def send(trackingId: String)(implicit config: EmailConfiguration, emailService: EmailService) =
+      Logger.info("The email is incomplete. you cannot send that")
 
   }
 
   /** An smtp email service. Currently implemented using the Apache commons email library */
   case class SmtpEmailOps(email: Email) extends EmailOps{
 
-    def send(implicit config: EmailConfiguration) = {
+    def send(trackingId: String)(implicit config: EmailConfiguration, emailService: EmailService) = {
 
-      def createEmail(config: EmailConfiguration): HtmlEmail = {
-        val htmlEmail = new HtmlEmail
-        //configure server
-        htmlEmail.setHostName(config.host)
-        htmlEmail.setSmtpPort(config.port)
-        htmlEmail.setAuthentication(config.username, config.password)
+      val from = From(config.from.email, config.from.name)
 
-        htmlEmail.setFrom(config.from.email, config.from.name)
+      val emailRequest: EmailServiceSendRequest = EmailServiceSendRequest(
+        plainTextMessage = email.message.plainMessage,
+        htmlMessage = email.message.htmlMessage,
+        attachment = None,
+        from = from,
+        subject = email.subject,
+        toReceivers = email.toPeople,
+        ccReceivers = email.ccPeople
+      )
 
-        htmlEmail
-      }
-
-      def populateReceivers(email: Email)(htmlEmail: HtmlEmail) = {
-        def populate(f: String => ApacheEmail)(lst: Option[List[String]]) = for {
-          sendList <- lst
-          address <- sendList
-        } f(address)
-
-        populate(htmlEmail.addTo)(email.toPeople)
-        populate(htmlEmail.addCc)(email.ccPeople)
-
-        htmlEmail
-      }
-
-      try Future {
-          populateReceivers(email)(createEmail(config)).
-            setHtmlMsg(email.message.htmlMessage).
-            setTextMsg(email.message.plainMessage).
-            setSubject(email.subject).
-            send()
-      } catch {
-        case ex: EmailException =>
-          Logger.error(s"""Failed to send email for ${email.toPeople.mkString(" ")} reason was ${ex.getMessage}""")
+      emailService.invoke(emailRequest, trackingId).onFailure {
+        case fail => Logger.error(
+          s"""Failed to send email for ${email.toPeople.mkString(" ")}
+             |reason was ${fail.getMessage}""".stripMargin)
       }
     }
   }
