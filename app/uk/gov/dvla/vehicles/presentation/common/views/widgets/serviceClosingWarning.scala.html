@@ -1,0 +1,24 @@
+@(closingHour: Int, closingWarnPeriodMins: Int)(implicit lang: Lang)
+
+@if(org.joda.time.DateTime.now.isAfter(
+    new org.joda.time.DateTime(
+        org.joda.time.DateTime.now().getYear,
+        org.joda.time.DateTime.now().getMonthOfYear,
+        org.joda.time.DateTime.now().getDayOfMonth,
+        if (closingHour > 0) closingHour - 1 else closingHour, 59).minus(closingWarnPeriodMins * 60 * 1000)
+) && org.joda.time.DateTime.now.isBefore(
+    new org.joda.time.DateTime(
+        org.joda.time.DateTime.now().getYear,
+        org.joda.time.DateTime.now().getMonthOfYear,
+        org.joda.time.DateTime.now().getDayOfMonth,
+        if (closingHour > 0) closingHour - 1 else closingHour, 59, 59)
+)) {
+    <div class="serviceClosingWarning">
+        <p>
+            @Messages("global.serviceCloseWarning",
+                org.joda.time.DateTime.now.toString(org.joda.time.format.DateTimeFormat.forPattern("HH:mm:ss")),
+                closingHour
+            )
+        </p>
+    </div>
+}
