@@ -4,6 +4,7 @@ import play.api.mvc.Controller
 import uk.gov.dvla.vehicles.presentation.common.model.FeedbackForm
 import uk.gov.dvla.vehicles.presentation.common.services.{FeedbackMessageBuilder, SEND}
 import uk.gov.dvla.vehicles.presentation.common.services.SEND.EmailConfiguration
+import webserviceclients.emailservice.EmailService
 
 /**
  * Feedback base controller.
@@ -13,20 +14,23 @@ import uk.gov.dvla.vehicles.presentation.common.services.SEND.EmailConfiguration
 trait FeedbackBase extends Controller {
 
   val emailConfiguration: EmailConfiguration
+  val emailService: EmailService
 
-  def sendFeedback(feedback: FeedbackForm, subject: String): Unit = {
+  def sendFeedback(feedback: FeedbackForm, subject: String, trackingId: String): Unit = {
 
     import scala.language.postfixOps
 
     import SEND._ // Keep this local so that we don't pollute rest of the class with unnecessary imports.
 
     implicit val implicitEmailConf = implicitly[EmailConfiguration](emailConfiguration)
+    implicit val implicitEmailService = implicitly[EmailService](emailService)
+
 
     //check if there are multiple emails for feedback
     val feedbackEmail: Array[String] = emailConfiguration.feedbackEmail.email.split(",")
 
     val template: Contents = FeedbackMessageBuilder.buildWith(feedback)
 
-    SEND email template withSubject subject to feedbackEmail.toList send
+    SEND email template withSubject subject to feedbackEmail.toList send trackingId
   }
 }
