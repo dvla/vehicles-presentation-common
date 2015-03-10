@@ -6,6 +6,7 @@ import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CacheKey
 import uk.gov.dvla.vehicles.presentation.common.mappings.BusinessKeeperName.businessKeeperNameMapping
 import uk.gov.dvla.vehicles.presentation.common.mappings.Email.email
 import uk.gov.dvla.vehicles.presentation.common.mappings.FleetNumber.fleetNumberMapping
+import uk.gov.dvla.vehicles.presentation.common.mappings.OptionalToggle
 import uk.gov.dvla.vehicles.presentation.common.mappings.Postcode.postcode
 
 final case class BusinessKeeperDetailsFormModel(fleetNumber: Option[String],
@@ -25,12 +26,13 @@ object BusinessKeeperDetailsFormModel {
     final val FleetNumberId = "fleetNumber"
     final val BusinessNameId = "businessName"
     final val EmailId = "businesskeeper_email"
+    final val EmailOptionId = "businesskeeper_option_email"
     final val PostcodeId = "businesskeeper_postcode"
 
     final val Mapping = mapping(
       FleetNumberId -> fleetNumberMapping,
       BusinessNameId -> businessKeeperNameMapping,
-      EmailId -> optional(email),
+      EmailOptionId -> OptionalToggle.optional(email.withPrefix(EmailId)),
       PostcodeId -> postcode
     )(BusinessKeeperDetailsFormModel.apply)(BusinessKeeperDetailsFormModel.unapply)
   }

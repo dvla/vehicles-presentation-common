@@ -13,7 +13,7 @@ import common.mappings.Date.optionalDateOfBirth
 import common.mappings.DriverNumber.driverNumber
 import common.mappings.Email.email
 import common.mappings.Postcode.postcode
-import common.mappings.{TitleType, TitlePickerString}
+import uk.gov.dvla.vehicles.presentation.common.mappings.{OptionalToggle, TitleType, TitlePickerString}
 import common.views.helpers.FormExtensions.nonEmptyTextWithTransform
 import common.services.DateService
 
@@ -42,6 +42,7 @@ object PrivateKeeperDetailsFormModel {
     final val LastNameId = "privatekeeper_lastname"
     final val DateOfBirthId = "privatekeeper_dateofbirth"
     final val EmailId = "privatekeeper_email"
+    final val EmailOptionId = "privatekeeper_option_email"
     final val DriverNumberId = "privatekeeper_drivernumber"
     final val PostcodeId = "privatekeeper_postcode"
     final val ConsentId = "consent"
@@ -68,7 +69,7 @@ object PrivateKeeperDetailsFormModel {
       FirstNameId -> firstNameMapping,
       LastNameId -> lastNameMapping,
       DateOfBirthId -> optionalDateOfBirth,
-      EmailId -> optional(email),
+      EmailOptionId -> OptionalToggle.optional(email.withPrefix(EmailId)),
       DriverNumberId -> optional(driverNumber),
       PostcodeId -> postcode
     )(PrivateKeeperDetailsFormModel.apply)(PrivateKeeperDetailsFormModel.unapply)
