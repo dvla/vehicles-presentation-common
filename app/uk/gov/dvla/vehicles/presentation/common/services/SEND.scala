@@ -89,7 +89,6 @@ object SEND {
         case fail => Logger.error(
           s"""Failed to send email for ${email.toPeople.mkString(" ")}
              |reason was ${fail.getMessage}""".stripMargin)
-          fail.printStackTrace
       }
     }
   }
