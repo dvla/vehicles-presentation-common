@@ -1,22 +1,22 @@
-@(closingHour: Int, closingWarnPeriodMins: Int)(implicit lang: Lang)
+@(closingHour: Int, closingWarnPeriodMins: Int, dateService: uk.gov.dvla.vehicles.presentation.common.services.DateService)(implicit lang: Lang)
 
-@if(org.joda.time.DateTime.now.isAfter(
+@if(dateService.now.isAfter(
     new org.joda.time.DateTime(
-        org.joda.time.DateTime.now().getYear,
-        org.joda.time.DateTime.now().getMonthOfYear,
-        org.joda.time.DateTime.now().getDayOfMonth,
+        dateService.now.toDateTime.getYear,
+        dateService.now.toDateTime.getMonthOfYear,
+        dateService.now.toDateTime.getDayOfMonth,
         if (closingHour > 0) closingHour - 1 else closingHour, 59).minus(closingWarnPeriodMins * 60 * 1000)
-) && org.joda.time.DateTime.now.isBefore(
+) && dateService.now.isBefore(
     new org.joda.time.DateTime(
-        org.joda.time.DateTime.now().getYear,
-        org.joda.time.DateTime.now().getMonthOfYear,
-        org.joda.time.DateTime.now().getDayOfMonth,
+        dateService.now.toDateTime.getYear,
+        dateService.now.toDateTime.getMonthOfYear,
+        dateService.now.toDateTime.getDayOfMonth,
         if (closingHour > 0) closingHour - 1 else closingHour, 59, 59)
 )) {
     <div class="serviceClosingWarning">
         <p>
             @Messages("global.serviceCloseWarning",
-                org.joda.time.DateTime.now.toString(org.joda.time.format.DateTimeFormat.forPattern("HH:mm:ss")),
+                dateService.now.toString(org.joda.time.format.DateTimeFormat.forPattern("HH:mm:ss")),
                 closingHour
             )
         </p>
