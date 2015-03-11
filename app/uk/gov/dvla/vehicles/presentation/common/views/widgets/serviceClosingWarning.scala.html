@@ -1,18 +1,19 @@
 @(closingHour: Int, closingWarnPeriodMins: Int, dateService: uk.gov.dvla.vehicles.presentation.common.services.DateService)(implicit lang: Lang)
 
-@if(dateService.now.isAfter(
-    new org.joda.time.DateTime(
-        dateService.now.toDateTime.getYear,
-        dateService.now.toDateTime.getMonthOfYear,
-        dateService.now.toDateTime.getDayOfMonth,
-        if (closingHour > 0) closingHour - 1 else closingHour, 59).minus(closingWarnPeriodMins * 60 * 1000)
-) && dateService.now.isBefore(
-    new org.joda.time.DateTime(
-        dateService.now.toDateTime.getYear,
-        dateService.now.toDateTime.getMonthOfYear,
-        dateService.now.toDateTime.getDayOfMonth,
-        if (closingHour > 0) closingHour - 1 else closingHour, 59, 59)
-)) {
+@if(
+ Some((closingHour, new org.joda.time.DateTime(
+    dateService.now.toDateTime.getYear,
+    dateService.now.toDateTime.getMonthOfYear,
+    dateService.now.toDateTime.getDayOfMonth,
+    if (closingHour == 24) 0 else closingHour,
+    0
+  ))).map { case (closingHour, closingTime) =>
+    val closingT = if (closingHour == 24) closingTime.plusDays(1) else closingTime
+    val warningTime = closingT.minusMinutes(closingWarnPeriodMins)
+    val currentTime = dateService.now
+    currentTime.isAfter(warningTime) && currentTime.isBefore(closingT)
+  }.get
+        ) {
     <div class="serviceClosingWarning">
         <p>
             @Messages("global.serviceCloseWarning",
