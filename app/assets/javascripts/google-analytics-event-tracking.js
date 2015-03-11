@@ -13,7 +13,7 @@ function track(inputId, event) {
         if (element.addEventListener) {
             /* addEventListener is a W3 standard that is implemented in the majority of other browsers (FF, Webkit, Opera, IE9+) */
             element.addEventListener(event, function (e) {
-                console.log("trackClick addEventListener send event: " + location.href + ", id: " + inputId + ", event " + event);
+                /*console.log("trackClick addEventListener send event: " + location.href + ", id: " + inputId + ", event " + event);*/
                 ga('send', 'event', location.href, inputId, event);
             });
         } else if (element.attachEvent) {
@@ -23,11 +23,11 @@ function track(inputId, event) {
                 ga('send', 'event', location.href, inputId, event);
             });
         } else {
-            console.error("element does not support addEventListener or attachEvent");
+            /*console.error("element does not support addEventListener or attachEvent");*/
             return false;
         }
     } else {
-        console.error("element id: " + inputId + " not found on page");
+        /*console.error("element id: " + inputId + " not found on page");*/
         return false;
     }
 }
@@ -39,7 +39,7 @@ function track(inputId, event) {
 */
 function trackClick(ids) {
     for (var i = 0; i < ids.length; i++) {
-        console.log("attach 'click' listener to: " + ids[i]);
+        /*console.log("attach 'click' listener to: " + ids[i]);*/
         track(ids[i], 'click');
     }
 }
@@ -52,7 +52,7 @@ function trackClick(ids) {
 */
 function trackChange(ids) {
     for (var i = 0; i < ids.length; i++) {
-        console.log("attach 'change' listener to: " + ids[i]);
+        /*console.log("attach 'change' listener to: " + ids[i]);*/
         track(ids[i], 'change');
     }
 }
