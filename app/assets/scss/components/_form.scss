@@ -243,6 +243,35 @@
         }
     }
 
+    // Expandable radio option widget
+    .expandable-optional {
+      legend {
+        margin-bottom: 10px;
+      }
+      .radio {
+        label {
+          float: left;
+          clear: right;
+        }
+      }
+      @media screen and (max-width: $device-medium) {
+        .radio {
+          label {
+            width: auto;
+          }
+        }
+      }
+      .form-item {
+        margin: 0;
+      }
+      .panel-indent-wrapper{
+        .panel-indent {
+          margin-top: 0px;
+        }
+      }
+    }
+    // enf of Expandable radio option widget
+
     // Title radio selector
     .title-radio-wrapper {
       label.form-radio,
