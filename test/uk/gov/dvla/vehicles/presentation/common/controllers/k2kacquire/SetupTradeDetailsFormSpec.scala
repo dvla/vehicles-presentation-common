@@ -2,9 +2,10 @@ package uk.gov.dvla.vehicles.presentation.common.controllers.k2kacquire
 
 import uk.gov.dvla.vehicles.presentation.common
 import common.clientsidesession.{ClearTextClientSideSessionFactory, NoCookieFlags}
-import common.mappings.BusinessName
+import uk.gov.dvla.vehicles.presentation.common.mappings.{OptionalToggle, BusinessName}
 import common.model.CacheKeyPrefix
 import common.model.SetupTradeDetailsFormModel.Form.TraderEmailId
+import common.model.SetupTradeDetailsFormModel.Form.TraderEmailOptionId
 import common.model.SetupTradeDetailsFormModel.Form.TraderNameId
 import common.model.SetupTradeDetailsFormModel.Form.TraderPostcodeId
 import common.{UnitSpec, WithApplication}
@@ -23,7 +24,7 @@ class SetupTradeDetailsFormSpec extends UnitSpec {
       val model = formWithValidDefaults(
         traderBusinessName = TraderBusinessNameValid,
         traderPostcode = PostcodeValid,
-        traderEmail = TraderEmailValid).get
+        traderEmail = Some(TraderEmailValid)).get
       model.traderBusinessName should equal(TraderBusinessNameValid.toUpperCase)
       model.traderPostcode should equal(PostcodeValid)
       model.traderEmail should equal(Some(TraderEmailValid))
@@ -105,7 +106,7 @@ class SetupTradeDetailsFormSpec extends UnitSpec {
   }
 
   private def formWithValidDefaults(traderBusinessName: String = TraderBusinessNameValid,
-                                    traderPostcode: String = PostcodeValid, traderEmail: String = "") = {
+                                    traderPostcode: String = PostcodeValid, traderEmail: Option[String] = None) = {
 
     implicit val cookieFlags = new NoCookieFlags()
     implicit val sideSessionFactory = new ClearTextClientSideSessionFactory()
@@ -114,9 +115,10 @@ class SetupTradeDetailsFormSpec extends UnitSpec {
       .form.bind(
         Map(
           TraderNameId -> traderBusinessName,
-          TraderPostcodeId -> traderPostcode,
-          TraderEmailId -> traderEmail
-        )
+          TraderPostcodeId -> traderPostcode
+        ) ++ traderEmail.fold(Map(TraderEmailOptionId -> OptionalToggle.Invisible)) { email =>
+          Map(TraderEmailOptionId -> OptionalToggle.Visible, TraderEmailId -> email)
+        }
       )
   }
 }
