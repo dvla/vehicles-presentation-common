@@ -12,7 +12,12 @@ import common.clientsidesession.{NoCookieFlags, ClearTextClientSideSessionFactor
 import common.clientsidesession.CookieImplicits.RichResult
 import common.model.BusinessKeeperDetailsFormModel
 import common.model.BusinessKeeperDetailsViewModel
-import common.model.BusinessKeeperDetailsFormModel.Form.{BusinessNameId, EmailId, EmailOptionId, FleetNumberId, PostcodeId}
+import common.model.BusinessKeeperDetailsFormModel.Form.BusinessNameId
+import common.model.BusinessKeeperDetailsFormModel.Form.EmailId
+import common.model.BusinessKeeperDetailsFormModel.Form.EmailOptionId
+import common.model.BusinessKeeperDetailsFormModel.Form.FleetNumberId
+import common.model.BusinessKeeperDetailsFormModel.Form.FleetNumberOptionId
+import common.model.BusinessKeeperDetailsFormModel.Form.PostcodeId
 import common.model.CacheKeyPrefix
 import common.model.NewKeeperChooseYourAddressFormModel
 import common.testhelpers.CookieFactoryForUnitSpecs.businessKeeperDetailsCookie
@@ -151,11 +156,12 @@ class BusinessKeeperDetailsBaseUnitSpec extends UnitSpec {
 
   private def buildRequest(model: BusinessKeeperDetailsFormModel = defaultBusinessKeeperDetailsModel) = {
     val params = Seq(
-      FleetNumberId -> model.fleetNumber.getOrElse(""),
       BusinessNameId -> model.businessName,
       PostcodeId -> model.postcode
     ) ++ model.email.fold(Seq(EmailOptionId -> OptionalToggle.Invisible)){ email =>
-      Seq(EmailOptionId -> OptionalToggle.Visible, EmailId -> model.email.getOrElse("") )
+      Seq(EmailOptionId -> OptionalToggle.Visible, EmailId -> email )
+    } ++ model.fleetNumber.fold(Seq(FleetNumberOptionId -> OptionalToggle.Invisible)){ fleetNumber =>
+      Seq(FleetNumberOptionId -> OptionalToggle.Visible, FleetNumberId -> fleetNumber )
     }
     FakeRequest().withFormUrlEncodedBody(params:_*)
   }

@@ -24,13 +24,14 @@ object BusinessKeeperDetailsFormModel {
 
   object Form {
     final val FleetNumberId = "fleetNumber"
+    final val FleetNumberOptionId = "fleetNumberOption"
     final val BusinessNameId = "businessName"
     final val EmailId = "businesskeeper_email"
     final val EmailOptionId = "businesskeeper_option_email"
     final val PostcodeId = "businesskeeper_postcode"
 
     final val Mapping = mapping(
-      FleetNumberId -> fleetNumberMapping,
+      FleetNumberOptionId -> OptionalToggle.optional(fleetNumberMapping.withPrefix(FleetNumberId)),
       BusinessNameId -> businessKeeperNameMapping,
       EmailOptionId -> OptionalToggle.optional(email.withPrefix(EmailId)),
       PostcodeId -> postcode
