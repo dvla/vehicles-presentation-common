@@ -21,10 +21,10 @@ function onEventChangeDisplay(event, idOfClickable, idOfDisplayable, styleDispla
 
                 var elementOfDisplayable = document.getElementById(idOfDisplayable);
                 if (elementOfDisplayable) {
-                    console.log("onEventChangeDisplay addEventListener so on event " + event + " change: " + idOfDisplayable + " to display style: " + styleDisplay);
+                    /*console.log("onEventChangeDisplay addEventListener so on event " + event + " change: " + idOfDisplayable + " to display style: " + styleDisplay);*/
                     elementOfDisplayable.style.display = styleDisplay;
                 } else {
-                    console.error("element idOfDisplayable: " + idOfDisplayable + " not found on page");
+                    /*console.error("element idOfDisplayable: " + idOfDisplayable + " not found on page");*/
                 }
             });
         } else if (elementOfClickable.attachEvent) {
@@ -33,18 +33,18 @@ function onEventChangeDisplay(event, idOfClickable, idOfDisplayable, styleDispla
 
                 var elementOfDisplayable = document.getElementById(idOfDisplayable);
                 if (elementOfDisplayable) {
-                    console.log("onEventChangeDisplay attachEvent so on event " + 'on' + event + " change: " + idOfDisplayable + " to display style: " + styleDisplay);
+                    /*console.log("onEventChangeDisplay attachEvent so on event " + 'on' + event + " change: " + idOfDisplayable + " to display style: " + styleDisplay);*/
                     elementOfDisplayable.style.display = styleDisplay;
                 } else {
-                    console.error("element idOfDisplayable: " + idOfDisplayable + " not found on page");
+                    /*console.error("element idOfDisplayable: " + idOfDisplayable + " not found on page");*/
                 }
             });
         } else {
-            console.error("element does not support addEventListener or attachEvent");
+            /*console.error("element does not support addEventListener or attachEvent");*/
             return false;
         }
     } else {
-        console.error("elementOfClickable id: " + idOfClickable + " not found on page");
+        /*console.error("elementOfClickable id: " + idOfClickable + " not found on page");*/
         return false;
     }
 }

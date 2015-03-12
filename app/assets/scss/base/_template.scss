@@ -139,6 +139,12 @@ img {
         li {
             margin-bottom:1em;
         }
+        .ie7 & {
+          li {
+            position: relative;
+            vertical-align: middle;
+          }
+        }
     }
 
     dd {

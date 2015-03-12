@@ -1,3 +1,53 @@
+======= 2.17 ======
+Time of release binaries creation:
+Thur Mar 12 2015 09:22:00
+4fa9d13 Merge branch 'DE393' of /home/git/repositories/dvla/vehicles-presentation-common into develop
+bf28548 DE393: legacy IE and IE9 hates when 'console' is in javascript
+3193f56 Merge branch 'develop' of gitlab.preview-dvla.co.uk:dvla/vehicles-presentation-common into develop
+51a9aca US2576 making the trader email option toggle
+d439ce3 DE393 - IE7 bugs
+c6b6cf6 US2629 unit tests for the service closing warning
+497986a Merge branch 'develop' of gitlab.preview-dvla.co.uk:dvla/vehicles-presentation-common into develop
+c163637 Improving layout for expandable optional widget
+73ecc45 US2629 Changed the service closing warn widget to use the date service
+096c8e3 US2523 fix tests related to changes in the form models
+cb93f4b Merge branch 'develop' of gitlab.preview-dvla.co.uk:dvla/vehicles-presentation-common into develop
+6663426 US2523 add the option fields to private and business keeper forms
+7ac283d US2629 Added a widget that warns the user that the service will be closing shortly
+021a1b3 US2212: Make use of the vehicle and keeper lookup timeout config.
+765f654 Merge branch 'develop' of gitlab.skyscape.preview-dvla.co.uk:dvla/vehicles-presentation-common into develop
+34092a0 Merge branch 'develop' of gitlab.preview-dvla.co.uk:dvla/vehicles-presentation-common into develop
+ac145c2 US2523 the id's of the radio buttons doesn't contain spaces any more
+1f58897 US2643: remove stacktrace
+73421e9 Merge branch 'US2643' into develop
+f72f1d6 US2632 Check for the presence of the keeper postcode when converting an address dto to a view model
+e15a51f US2643: changed email client to use the microservice
+46eeb85 US2523 - improving style/layout hidden field
+ba1712c Merge branch 'develop' into US2456
+c1ff2d4 US2456 - fixing padding right hand coloumn on success page
+057cb33 Merge branch 'US2643' of /home/git/repositories/dvla/vehicles-presentation-common into develop
+fcab84c fixed conflicts
+06e62ca US2643: remove unwanted file
+d697948 Merge branch 'US2575' into develop
+7ccc044 Merge branch 'develop' of gitlab.preview-dvla.co.uk:dvla/vehicles-presentation-common into develop
+806b334 Merge branch 'develop' of gitlab.preview-dvla.co.uk:dvla/vehicles-presentation-common into US2575
+80b29c7 US2575 integration tests for the OptionToggle
+5a5a897 US2577 - hack layout IE7/IE8
+0945891 US2643: make email recipients a list and add cc
+c9c26b2 Common style for modal/site-overlay and IE's hacks
+0fb01d1 US2575 implement tests for the option toggle mapping
+b148888 US2575 the first working version for the optional widget
+469f4dc Merge branch 'develop' of gitlab.preview-dvla.co.uk:dvla/vehicles-presentation-common into develop
+db60a2a US2575 add the optional widget and integration tests backbone
+494b7f9 US2470: Added keeperChangeDate to vehicleAndKeeperLookup.
+6c479c4 US2577 - Improving layout Title Radio input
+0cfe61e DE345 - Reduce width a tag on IE8
+3b9bd57 DE345 - bugfix
+7308559 Upgrade scala to 2.10.4
+f85871e Upgrade to play 2.3.8 and latest sbt-web plugins
+0bc637a New development version 2.17-SNAPSHOT
+
+
 ======= 2.15 ======
 Time of release binaries creation:
 Mon Feb 23 2015 11:56:58 GMT+0000 (GMT)
