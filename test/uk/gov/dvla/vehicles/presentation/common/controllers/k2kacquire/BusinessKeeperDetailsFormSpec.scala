@@ -3,7 +3,7 @@ package uk.gov.dvla.vehicles.presentation.common.controllers.k2kacquire
 import uk.gov.dvla.vehicles.presentation.common
 import common.clientsidesession.{ClearTextClientSideSessionFactory, NoCookieFlags}
 import uk.gov.dvla.vehicles.presentation.common.mappings.{OptionalToggle, BusinessKeeperName}
-import common.model.BusinessKeeperDetailsFormModel.Form.{FleetNumberId, BusinessNameId, EmailId, EmailOptionId, PostcodeId}
+import uk.gov.dvla.vehicles.presentation.common.model.BusinessKeeperDetailsFormModel.Form._
 import common.model.CacheKeyPrefix
 import common.{UnitSpec, WithApplication}
 
@@ -26,7 +26,7 @@ class BusinessKeeperDetailsFormSpec extends UnitSpec {
 
     "accept if form is completed with mandatory fields only" in new WithApplication {
       val model = formWithValidDefaults(
-        fleetNumber = "",
+        fleetNumber = None,
         email = None
       ).get
       model.fleetNumber should equal(None)
@@ -35,7 +35,7 @@ class BusinessKeeperDetailsFormSpec extends UnitSpec {
     }
 
     "reject if form has no fields completed" in new WithApplication {
-      formWithValidDefaults(fleetNumber = "", businessName = "", email = None).
+      formWithValidDefaults(fleetNumber = None, businessName = "", email = None).
         errors.flatMap(_.messages) should contain theSameElementsAs
         List("error.minLength", "error.required", "error.validBusinessKeeperName")
     }
@@ -97,9 +97,7 @@ class BusinessKeeperDetailsFormSpec extends UnitSpec {
     }
   }
 
-
-
-  private def formWithValidDefaults(fleetNumber: String = FleetNumberValid,
+  private def formWithValidDefaults(fleetNumber: Option[String] = Some(FleetNumberValid),
                                     businessName: String = BusinessNameValid,
                                     email: Option[String] = Some(EmailValid),
                                     postcode: String = PostcodeValid) = {
@@ -108,11 +106,12 @@ class BusinessKeeperDetailsFormSpec extends UnitSpec {
 
     new BusinessKeeperDetailsTesting().form.bind(
       Map(
-        FleetNumberId -> fleetNumber,
         BusinessNameId -> businessName,
         PostcodeId -> postcode
       ) ++ email.fold(Map(EmailOptionId -> OptionalToggle.Invisible)) { e =>
         Map(EmailOptionId -> OptionalToggle.Visible, EmailId -> e )
+      } ++ fleetNumber.fold(Seq(FleetNumberOptionId -> OptionalToggle.Invisible)){ fleetNumber =>
+        Seq(FleetNumberOptionId -> OptionalToggle.Visible, FleetNumberId -> fleetNumber )
       }
     )
   }
