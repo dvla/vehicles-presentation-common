@@ -211,6 +211,7 @@
         }
         .ie7 & {
           width: 100%;
+          float: none;
         }
         @media screen and (min-width: $device-small) {
             width:auto;
@@ -255,6 +256,10 @@
         label {
           float: left;
           clear: right;
+          .ie7 & {
+            width: 100%;
+            float: none;
+          }
         }
       }
       @media screen and (max-width: $device-medium) {
@@ -287,12 +292,22 @@
     }
 
     // Title radio selector old IE layour hack
-    .ie8 &, .ie7 &{
+    .ie8 & {
       .title-radio-wrapper {
         width: 330px;
       }
     }
 
+    .ie7 & {
+      .title-radio-wrapper {
+        width: 450px;
+        .form-radio {
+          display:block;
+          float: left;
+          width: 100px;
+        }
+      }
+    }
     //form elements in a line
     .form-inline {
 
