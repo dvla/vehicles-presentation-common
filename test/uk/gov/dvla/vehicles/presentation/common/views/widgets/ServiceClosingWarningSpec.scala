@@ -1,15 +1,15 @@
 package uk.gov.dvla.vehicles.presentation.common.views.widgets
 
-import org.joda.time.{DateTime, Instant}
-import play.api.i18n.Lang
+import org.joda.time.Instant
 import org.mockito.Mockito.when
-import uk.gov.dvla.vehicles.presentation.common.UnitSpec
-import uk.gov.dvla.vehicles.presentation.common.services.DateService
-import uk.gov.dvla.vehicles.presentation.common.views.html.widgets.serviceClosingWarning
+import play.api.i18n.Lang
 import scala.language.postfixOps
-import scala.concurrent.duration._
+import scala.concurrent.duration.DurationInt
+import uk.gov.dvla.vehicles.presentation.common.services.DateService
+import uk.gov.dvla.vehicles.presentation.common.UnitSpec
+import uk.gov.dvla.vehicles.presentation.common.views.html.widgets.serviceClosingWarning
 
-class ServiceWarningClosingSpec extends UnitSpec {
+class ServiceClosingWarningSpec extends UnitSpec {
   "Show x minutes before closing" in {
     val dateService = mock[DateService]
     when(dateService.now).thenReturn(minutesAfter0(10))

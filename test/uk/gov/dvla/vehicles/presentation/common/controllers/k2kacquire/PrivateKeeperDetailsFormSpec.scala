@@ -3,21 +3,21 @@ package uk.gov.dvla.vehicles.presentation.common.controllers.k2kacquire
 import org.joda.time.LocalDate
 import uk.gov.dvla.vehicles.presentation.common
 import common.clientsidesession.{ClearTextClientSideSessionFactory, NoCookieFlags}
+import common.mappings.DayMonthYear.{YearId, MonthId, DayId}
+import common.mappings.{OptionalToggle, TitleType, TitlePickerString}
 import common.model.{CacheKeyPrefix, PrivateKeeperDetailsFormModel}
-import common.model.PrivateKeeperDetailsFormModel.Form.TitleId
+import common.model.PrivateKeeperDetailsFormModel.Form.DateOfBirthId
+import common.model.PrivateKeeperDetailsFormModel.Form.DriverNumberId
 import common.model.PrivateKeeperDetailsFormModel.Form.EmailId
 import common.model.PrivateKeeperDetailsFormModel.Form.EmailOptionId
 import common.model.PrivateKeeperDetailsFormModel.Form.FirstNameId
 import common.model.PrivateKeeperDetailsFormModel.Form.FirstNameAndTitleMaxLength
 import common.model.PrivateKeeperDetailsFormModel.Form.FirstNameMinLength
-import common.model.PrivateKeeperDetailsFormModel.Form.DriverNumberId
 import common.model.PrivateKeeperDetailsFormModel.Form.PostcodeId
 import common.model.PrivateKeeperDetailsFormModel.Form.LastNameId
 import common.model.PrivateKeeperDetailsFormModel.Form.LastNameMaxLength
 import common.model.PrivateKeeperDetailsFormModel.Form.LastNameMinLength
-import common.model.PrivateKeeperDetailsFormModel.Form.DateOfBirthId
-import common.mappings.DayMonthYear.{YearId, MonthId, DayId}
-import uk.gov.dvla.vehicles.presentation.common.mappings.{OptionalToggle, TitleType, TitlePickerString}
+import common.model.PrivateKeeperDetailsFormModel.Form.TitleId
 import common.services.DateServiceImpl
 import common.{UnitSpec, WithApplication}
 
@@ -31,6 +31,10 @@ class PrivateKeeperDetailsFormSpec extends UnitSpec {
   final val MonthDateOfBirthValid = "12"
   final val PostcodeValid = "QQ99QQ"
   final val YearDateOfBirthValid = "1920"
+  final val MrTitleType = "1"
+  final val MrsTitleType = "2"
+  final val MissTitleType = "3"
+  final val OtherTitleType = "4"
 
   "form" should {
     "accept if form is completed with all fields correctly" in new WithApplication {
@@ -71,14 +75,69 @@ class PrivateKeeperDetailsFormSpec extends UnitSpec {
   }
 
   "title" should {
+    "accept if Mr title is selected" in new WithApplication {
+      val model = formWithValidDefaults(title = MrTitleType).get
+      model.title should equal(TitleType(MrTitleType.toInt, ""))
+    }
+
+    "accept if Mrs title is selected" in new WithApplication {
+      val model = formWithValidDefaults(title = MrsTitleType).get
+      model.title should equal(TitleType(MrsTitleType.toInt, ""))
+    }
+
+    "accept if Miss title is selected" in new WithApplication {
+      val model = formWithValidDefaults(title = MissTitleType).get
+      model.title should equal(TitleType(MissTitleType.toInt, ""))
+    }
+
+    "accept if other title is selected and the other title contains allowed special character (hyphen)" in new WithApplication {
+      val otherTitle = "MY-TITLE"
+      val model = formWithValidDefaults(title = OtherTitleType, otherTitle = otherTitle).get
+      model.title should equal(TitleType(OtherTitleType.toInt, otherTitle))
+    }
+
+    "accept if other title is selected and the other title contains allowed special character (full stop)" in new WithApplication {
+      val otherTitle = "MY.TITLE"
+      val model = formWithValidDefaults(title = OtherTitleType, otherTitle = otherTitle).get
+      model.title should equal(TitleType(OtherTitleType.toInt, otherTitle))
+    }
+
+    "accept if other title is selected and the other title contains allowed special character (apostrophe)" in new WithApplication {
+      val otherTitle = "MY'TITLE"
+      val model = formWithValidDefaults(title = OtherTitleType, otherTitle = otherTitle).get
+      model.title should equal(TitleType(OtherTitleType.toInt, otherTitle))
+    }
+
+    "accept if other title is selected and the other title contains allowed special character (space)" in new WithApplication {
+      val otherTitle = "MY TITLE"
+      val model = formWithValidDefaults(title = OtherTitleType, otherTitle = otherTitle).get
+      model.title should equal(TitleType(OtherTitleType.toInt, otherTitle))
+    }
+
     "reject if no selection is made" in new WithApplication {
       formWithValidDefaults(title = "").errors.flatMap(_.messages) should contain theSameElementsAs
         List("error.title.unknownOption")
     }
 
-    "accept if title is selected" in new WithApplication {
-      val model = formWithValidDefaults(title = "2").get
-      model.title should equal(TitleType(2, ""))
+    "reject if other title is selected and the other title text is empty" in new WithApplication {
+      formWithValidDefaults(title = OtherTitleType, otherTitle = "").errors.flatMap(_.messages) should contain theSameElementsAs
+        List("error.title.missing")
+    }
+
+    "reject if other title is selected and the other title text exceeds the max" in new WithApplication {
+      formWithValidDefaults(title = OtherTitleType, otherTitle = "A" * TitlePickerString.MaxOtherTitleLength + 1).errors
+        .flatMap(_.messages) should contain theSameElementsAs
+          List("error.title.tooLong")
+    }
+
+    "reject if other title is selected and the other title contains numbers" in new WithApplication {
+      formWithValidDefaults(title = OtherTitleType, otherTitle = "AAA1").errors.flatMap(_.messages) should contain theSameElementsAs
+        List("error.title.illegalCharacters")
+    }
+
+    "reject if other title is selected and the other title contains illegal special character (dollar)" in new WithApplication {
+      formWithValidDefaults(title = OtherTitleType, otherTitle = "AAA$").errors.flatMap(_.messages) should contain theSameElementsAs
+        List("error.title.illegalCharacters")
     }
   }
 
@@ -120,23 +179,33 @@ class PrivateKeeperDetailsFormSpec extends UnitSpec {
         List("error.titlePlusFirstName.tooLong")
     }
 
-    "reject if denied special characters are present $" in new WithApplication {
+    "reject if denied special characters are present (dollar)" in new WithApplication {
       formWithValidDefaults(firstName = FirstNameValid + "$").errors.flatMap(_.messages) should contain theSameElementsAs
         List("error.validFirstName")
     }
 
-    "reject if denied special characters are present +" in new WithApplication {
+    "reject if denied special characters are present (plus)" in new WithApplication {
       formWithValidDefaults(firstName = FirstNameValid + "+").errors.flatMap(_.messages) should contain theSameElementsAs
         List("error.validFirstName")
     }
 
-    "reject if denied special characters are present ^" in new WithApplication {
+    "reject if denied special characters are present (caret)" in new WithApplication {
       formWithValidDefaults(firstName = FirstNameValid + "^").errors.flatMap(_.messages) should contain theSameElementsAs
         List("error.validFirstName")
     }
 
-    "reject if denied special characters are present *" in new WithApplication {
+    "reject if denied special characters are present (star)" in new WithApplication {
       formWithValidDefaults(firstName = FirstNameValid + "*").errors.flatMap(_.messages) should contain theSameElementsAs
+        List("error.validFirstName")
+    }
+
+    "reject if denied special characters are present (comma)" in new WithApplication {
+      formWithValidDefaults(firstName = FirstNameValid + ",").errors.flatMap(_.messages) should contain theSameElementsAs
+        List("error.validFirstName")
+    }
+
+    "reject if denied special characters are present (double quotes)" in new WithApplication {
+      formWithValidDefaults(firstName = FirstNameValid + "\"").errors.flatMap(_.messages) should contain theSameElementsAs
         List("error.validFirstName")
     }
 
@@ -169,27 +238,17 @@ class PrivateKeeperDetailsFormSpec extends UnitSpec {
       model.firstName should equal(FirstNameValid)
     }
 
-    "accept allowed special characters ." in new WithApplication {
+    "accept allowed special characters (full stop)" in new WithApplication {
       val model = formWithValidDefaults(firstName = FirstNameValid + ".").get
       model.firstName should equal(FirstNameValid + ".")
     }
 
-    "accept allowed special characters ," in new WithApplication {
-      val model = formWithValidDefaults(firstName = FirstNameValid + ",").get
-      model.firstName should equal( FirstNameValid + ",")
-    }
-
-    "accept allowed special characters -" in new WithApplication {
+    "accept allowed special characters (hyphen)" in new WithApplication {
       val model = formWithValidDefaults(firstName = FirstNameValid + "'").get
       model.firstName should equal(FirstNameValid + "'")
     }
 
-    "accept allowed special characters \"" in new WithApplication {
-      val model = formWithValidDefaults(firstName = FirstNameValid + "'").get
-      model.firstName should equal(FirstNameValid + "'")
-    }
-
-    "accept allowed special characters '" in new WithApplication {
+    "accept allowed special characters (apostrophe)" in new WithApplication {
       val model = formWithValidDefaults(firstName = FirstNameValid + "'").get
       model.firstName should equal(FirstNameValid + "'")
     }
@@ -211,23 +270,28 @@ class PrivateKeeperDetailsFormSpec extends UnitSpec {
         List("error.maxLength")
     }
 
-    "reject if denied special characters are present $" in new WithApplication {
+    "reject if denied special characters are present (dollar)" in new WithApplication {
       formWithValidDefaults(lastName = LastNameValid + "$").errors.flatMap(_.messages) should contain theSameElementsAs
         List("error.validLastName")
     }
 
-    "reject if denied special characters are present +" in new WithApplication {
+    "reject if denied special characters are present (plus)" in new WithApplication {
       formWithValidDefaults(lastName = LastNameValid + "+").errors.flatMap(_.messages) should contain theSameElementsAs
         List("error.validLastName")
     }
 
-    "reject if denied special characters are present ^" in new WithApplication {
+    "reject if denied special characters are present (caret)" in new WithApplication {
       formWithValidDefaults(lastName = LastNameValid + "^").errors.flatMap(_.messages) should contain theSameElementsAs
         List("error.validLastName")
     }
 
-    "reject if denied special characters are present *" in new WithApplication {
+    "reject if denied special characters are present (star)" in new WithApplication {
       formWithValidDefaults(lastName = LastNameValid + "*").errors.flatMap(_.messages) should contain theSameElementsAs
+        List("error.validLastName")
+    }
+
+    "reject if denied special characters are present (comma)" in new WithApplication {
+      formWithValidDefaults(lastName = LastNameValid + ",").errors.flatMap(_.messages) should contain theSameElementsAs
         List("error.validLastName")
     }
 
@@ -246,27 +310,22 @@ class PrivateKeeperDetailsFormSpec extends UnitSpec {
       model.lastName should equal(LastNameValid)
     }
 
-    "accept allowed special characters ." in new WithApplication {
+    "accept allowed special characters (full stop)" in new WithApplication {
       val model = formWithValidDefaults(lastName = LastNameValid + ".").get
       model.lastName should equal(LastNameValid + ".")
     }
 
-    "accept allowed special characters ," in new WithApplication {
-      val model = formWithValidDefaults(lastName = LastNameValid + ",").get
-      model.lastName should equal( LastNameValid + ",")
-    }
-
-    "accept allowed special characters -" in new WithApplication {
+    "accept allowed special characters (hyphen)" in new WithApplication {
       val model = formWithValidDefaults(lastName = LastNameValid + "'").get
       model.lastName should equal(LastNameValid + "'")
     }
 
-    "accept allowed special characters \"" in new WithApplication {
+    "accept allowed special characters (double quotes)" in new WithApplication {
       val model = formWithValidDefaults(lastName = LastNameValid + "'").get
       model.lastName should equal(LastNameValid + "'")
     }
 
-    "accept allowed special characters '" in new WithApplication {
+    "accept allowed special characters (apostrophe)" in new WithApplication {
       val model = formWithValidDefaults(lastName = LastNameValid + "'").get
       model.lastName should equal(LastNameValid + "'")
     }

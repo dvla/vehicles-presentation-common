@@ -34,7 +34,8 @@ object PrivateKeeperDetailsFormModel {
 
   def privateKeeperDetailsCacheKey(implicit prefix: CacheKeyPrefix) = s"${prefix}privateKeeperDetails"
 
-  private val NameRegEx = """^[a-zA-Z0-9\s\-\"\,\.\']{1,}$""".r
+//  private val NameRegEx = """^[a-zA-Z0-9\s\-\"\,\.\']{1,}$""".r
+  private val NameRegEx = """^[a-zA-Z\s\-\.\']{1,}$""".r
 
   object Form {
     final val TitleId = "privatekeeper_title"

@@ -29,10 +29,8 @@ object TitlePickerString {
             case Some(emptyTitle) if emptyTitle.isEmpty =>
               constructError(key, "error.title.missing")
             case Some(title) =>
-              if (title.filterNot(ch => Character.isAlphabetic(ch) || Character.isWhitespace(ch)).isEmpty &&
-                !title.isEmpty) {
-                constructSuccess(OtherTitleRadioValue, title)
-              }
+              val regEx = """^[a-zA-Z\s\-\.\']{1,}$""".r
+              if (regEx.pattern.matcher(title).matches()) constructSuccess(OtherTitleRadioValue, title)
               else constructError(key, "error.title.illegalCharacters")
             case None => constructError(key, "error.title.missing")
           }
@@ -48,7 +46,6 @@ object TitlePickerString {
      */
     private def removeWhiteSpacesFromMiddle(text: String): String =
         text.split(" ").filter("" != _).mkString(" ")
-
 
     private def constructError(key: String, errorKey: String) : R =
       Left(Seq[FormError](FormError(key, errorKey)))
