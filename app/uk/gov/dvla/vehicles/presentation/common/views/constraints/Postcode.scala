@@ -38,7 +38,7 @@ object Postcode {
       case AA099AA(p) => p.substring(0, 2) + p.substring(3, 4) + SpaceCharDelimiter + p.substring(4, 7)
       case AA999AA(p) => p.substring(0, 4) + SpaceCharDelimiter + p.substring(4, 7)
       case AA9A9AA(p) => p.substring(0, 4) + SpaceCharDelimiter + p.substring(4, 7)
-      case _ => postcode
+      case _ => postcode.replaceAll("\\*", " ") // partial postcodes include asterisks so replace with spaces
     }
   }
 }
