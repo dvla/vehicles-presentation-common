@@ -92,6 +92,6 @@ class EncryptedClientSideSessionFactory @Inject()()
 object EncryptedClientSideSessionFactory {
   private final val SessionSecretKeySuffixKey = "application.sessionSecretKeySuffixKey"
   private final val SessionSecretKeySuffixDefaultValue = "FE291934-66BD-4500-B27F-517C7D77F26B"
+  private final val TrackingIdCookieMaxAgeKey = "application.TrackingIdCookieMaxAge"
   private final val SessionCookieMaxAgeKey = "application.sessionCookieMaxAge"
-  private final val TrackingIdCookieMaxAgeKey = "applicationtTrackingIdCookieMaxAge"
 }
