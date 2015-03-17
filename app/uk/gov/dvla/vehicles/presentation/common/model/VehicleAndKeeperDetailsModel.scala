@@ -71,6 +71,22 @@ object VehicleAndKeeperDetailsModel {
     )
   }
 
+  def from(registrationNumber: String) = {
+    VehicleAndKeeperDetailsModel(
+      registrationNumber = registrationNumber,
+      make = None,
+      model = None,
+      title = None,
+      firstName = None,
+      lastName = None,
+      address = None,
+      disposeFlag = None,
+      keeperEndDate = None,
+      keeperChangeDate = None,
+      suppressedV5Flag = None
+    )
+  }
+
   implicit val JsonFormat = Json.format[VehicleAndKeeperDetailsModel]
   // TODO : put this cache key definition somewhere sensible
   final val VehicleAndKeeperLookupDetailsCacheKey = "vehicle-and-keeper-lookup-details"
