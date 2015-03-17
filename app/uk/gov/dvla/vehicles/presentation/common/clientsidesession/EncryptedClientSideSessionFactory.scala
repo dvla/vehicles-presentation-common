@@ -5,7 +5,7 @@ import java.security.SecureRandom
 import org.apache.commons.codec.binary.Hex
 import play.api.mvc.Cookie
 import uk.gov.dvla.vehicles.presentation.common
-import common.ConfigProperties.{getProperty, getOptionalProperty, stringProp, booleanProp}
+import common.ConfigProperties.{getProperty, getOptionalProperty, stringProp, booleanProp, intProp}
 
 class EncryptedClientSideSessionFactory @Inject()()
                                                  (implicit cookieFlags: CookieFlags,
@@ -15,7 +15,8 @@ class EncryptedClientSideSessionFactory @Inject()()
   /**
    * Session secret key must not expire before any other cookie that relies on it.
    */
-  private final val SessionSecretKeyLifetime = None
+  private lazy val TrackingIdCookieMaxAge: Option[Int] = getOptionalProperty[Int](TrackingIdCookieMaxAgeKey)
+  private lazy val SessionCookieMaxAge: Option[Int] = getOptionalProperty[Int](SessionCookieMaxAgeKey)
 //  private val secureCookies: Boolean = getProperty[Boolean]("secureCookies", default = true)
   protected lazy val secureCookies: Boolean = getOptionalProperty[Boolean]("secureCookies").getOrElse(true)
   protected lazy val sessionSecretKeySuffixKey: String = getProperty[String](SessionSecretKeySuffixKey)
@@ -35,14 +36,14 @@ class EncryptedClientSideSessionFactory @Inject()()
           name = ClientSideSessionFactory.TrackingIdCookieName,
           value = prefixValue,
           secure = secureCookies,
-          maxAge = SessionSecretKeyLifetime
+          maxAge = TrackingIdCookieMaxAge
         )
 
         val sessionSecretKeySuffixCookie = Cookie(
           name = createSessionSecretKeySuffixCookieName,
           value = suffixValue,
           secure = secureCookies,
-          maxAge = SessionSecretKeyLifetime
+          maxAge = SessionCookieMaxAge
         )
 
         Some(Seq(trackingIdCookie, sessionSecretKeySuffixCookie))
@@ -91,4 +92,6 @@ class EncryptedClientSideSessionFactory @Inject()()
 object EncryptedClientSideSessionFactory {
   private final val SessionSecretKeySuffixKey = "application.sessionSecretKeySuffixKey"
   private final val SessionSecretKeySuffixDefaultValue = "FE291934-66BD-4500-B27F-517C7D77F26B"
+  private final val SessionCookieMaxAgeKey = "application.sessionCookieMaxAge"
+  private final val TrackingIdCookieMaxAgeKey = "applicationtTrackingIdCookieMaxAge"
 }
