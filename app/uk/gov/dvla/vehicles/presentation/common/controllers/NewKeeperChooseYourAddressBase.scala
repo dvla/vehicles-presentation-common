@@ -210,7 +210,7 @@ abstract class NewKeeperChooseYourAddressBase @Inject()(protected val addressLoo
   }
 
   private def error(message: String)(implicit request: Request[_]): Result = {
-    Logger.warn(message)
+    Logger.warn(s"$message - trackingId: ${request.cookies.trackingId()} ")
     vehicleLookupRedirect
 //    Redirect(routes.VehicleLookup.present())
   }

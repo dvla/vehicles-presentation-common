@@ -35,24 +35,26 @@ final class AddressLookupServiceImpl @Inject()(ws: AddressLookupWebService,
         case None =>
           // Handle no results
           val postcodeToLog = LogFormats.anonymize(postcode)
-          Logger.debug(s"No results returned for postcode: $postcodeToLog")
+          Logger.debug(s"No results returned for postcode: $postcodeToLog - trackingId: $trackingId")
           Seq.empty// Exception case and empty seq case are treated the same in the UI
       }
 
     ws.callPostcodeWebService(postcode, trackingId, showBusinessName)(lang).map { resp =>
-      Logger.debug(s"Http response code from Ordnance Survey postcode lookup service was: ${resp.status}")
+      Logger.debug(s"Http response code from Ordnance Survey postcode lookup " +
+        s"service was: ${resp.status} - trackingId: $trackingId")
       if (resp.status == play.api.http.Status.OK) {
         healthStats.success(HealthStatsSuccess(ServiceName, dateService.now))
         toDropDown(resp)
       }
       else {
-        Logger.error(s"Post code service returned abnormally '${resp.status}: ${resp.body}'")
+        Logger.error(s"Post code service returned abnormally " +
+          s"'${resp.status}: ${resp.body}' - trackingId: $trackingId")
         healthStats.failure(HealthStatsFailure(ServiceName, dateService.now, new Exception()))
         Seq.empty // The service returned http code other than 200 OK
       }
     }.recover {
       case e: Throwable =>
-        Logger.error(s"Ordnance Survey postcode lookup service error.", e)
+        Logger.error(s"Ordnance Survey postcode lookup service error. - trackingId: $trackingId", e)
         healthStats.failure(HealthStatsFailure(ServiceName, dateService.now, e))
         Seq.empty // Exception case and empty seq case are treated the same in the UI
     }
@@ -71,23 +73,26 @@ final class AddressLookupServiceImpl @Inject()(ws: AddressLookupWebService,
         case Some(deserialized) => deserialized.addressViewModel
         case None =>
           val uprnToLog = LogFormats.anonymize(uprn)
-          Logger.error(s"Could not deserialize response of web service for submitted UPRN: $uprnToLog")
+          Logger.error(s"Could not deserialize response of web service for " +
+            s"submitted UPRN: $uprnToLog - trackingId: $trackingId")
           None
       }
 
     ws.callUprnWebService(uprn, trackingId).map { resp =>
-      Logger.debug(s"Http response code from Ordnance Survey uprn lookup service was: ${resp.status}")
+      Logger.debug(s"Http response code from Ordnance Survey uprn lookup " +
+        s"service was: ${resp.status} - trackingId: $trackingId")
       if (resp.status == play.api.http.Status.OK) {
         healthStats.success(HealthStatsSuccess(ServiceName, dateService.now))
         toViewModel(resp)
       } else {
-        Logger.error(s"Post code service returned abnormally '${resp.status}: ${resp.body}'")
+        Logger.error(s"Post code service returned abnormally " +
+          s"'${resp.status}: ${resp.body}' - trackingId: $trackingId")
         healthStats.failure(HealthStatsFailure(ServiceName, dateService.now, new Exception()))
         None
       }
     }.recover {
       case e: Throwable =>
-        Logger.error(s"Ordnance Survey postcode lookup service error", e)
+        Logger.error(s"Ordnance Survey postcode lookup service error - trackingId: $trackingId", e)
         healthStats.failure(HealthStatsFailure(ServiceName, dateService.now, e))
         None
     }

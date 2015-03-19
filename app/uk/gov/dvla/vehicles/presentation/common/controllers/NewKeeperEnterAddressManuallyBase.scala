@@ -93,7 +93,7 @@ abstract class NewKeeperEnterAddressManuallyBase @Inject()()
   }
 
   private def error(message: String)(implicit request: Request[_]): Result = {
-    Logger.warn(message)
+    Logger.warn(s"$message - trackingId: ${request.cookies.trackingId()}")
     missingVehicleDetails
   }
 
