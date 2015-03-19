@@ -10,6 +10,9 @@ final case class TraderDetailsModel(traderName: String, traderAddress: AddressMo
  */
 object TraderDetailsModel {
   implicit val JsonFormat = Json.format[TraderDetailsModel]
-  final val TraderDetailsCacheKey = "traderDetails"
-  implicit val Key = CacheKey[TraderDetailsModel](value = TraderDetailsCacheKey)
+
+  implicit def key(implicit prefix: CacheKeyPrefix): CacheKey[TraderDetailsModel] =
+    CacheKey[TraderDetailsModel](value = traderDetailsCacheKey)
+
+  def traderDetailsCacheKey(implicit prefix: CacheKeyPrefix) = s"${prefix}traderDetails"
 }

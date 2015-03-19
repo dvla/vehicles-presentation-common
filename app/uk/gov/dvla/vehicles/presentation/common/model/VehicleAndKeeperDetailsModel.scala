@@ -88,7 +88,6 @@ object VehicleAndKeeperDetailsModel {
   }
 
   implicit val JsonFormat = Json.format[VehicleAndKeeperDetailsModel]
-  // TODO : put this cache key definition somewhere sensible
   final val VehicleAndKeeperLookupDetailsCacheKey = "vehicle-and-keeper-lookup-details"
   implicit val Key = CacheKey[VehicleAndKeeperDetailsModel](VehicleAndKeeperLookupDetailsCacheKey)
 }
