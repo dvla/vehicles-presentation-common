@@ -42,7 +42,7 @@ class CsrfPreventionAction(next: EssentialAction)
     if (preventionEnabled) {
       if (requestHeader.method == POST) {
         // TODO remove debris around reading the whitelist from config.
-        if (requestHeader.contentType.get == "application/x-www-form-urlencoded") checkBody(requestHeader, next)
+        if (requestHeader.contentType.exists(_ == "application/x-www-form-urlencoded" )) checkBody(requestHeader, next)
         else throw new CsrfPreventionException(new Throwable("POST contentType was not urlencoded"))
       } else if (requestHeader.method == GET && requestHeader.accepts(HTML)) {
         next(requestWithNewToken(requestHeader))
