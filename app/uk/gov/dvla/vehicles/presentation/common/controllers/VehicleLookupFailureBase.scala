@@ -38,7 +38,7 @@ abstract class VehicleLookupFailureBase[FormModel <: VehicleLookupFormModelBase]
           discardingCookies(DiscardingCookie(name = vehicleLookupResponseCodeCacheKey))
       case _ =>
         Logger.debug(s"VehicleLookupFailure present could not find all the cookie data. " +
-          s"A redirection will now occur with tracking id: ${request.cookies.trackingId()}")
+          s"A redirection will now occur - trackingId: ${request.cookies.trackingId()}")
         missingPresentCookieDataResult()
     }
   }
@@ -47,11 +47,11 @@ abstract class VehicleLookupFailureBase[FormModel <: VehicleLookupFormModelBase]
     request.cookies.getModel[FormModel] match {
       case Some(vehicleLookUpFormModelDetails) =>
         Logger.debug(s"VehicleLookupFailure submit successfully found " +
-          s"cookie data with tracking id: ${request.cookies.trackingId()}")
+          s"cookie data - trackingId: ${request.cookies.trackingId()}")
         submitResult()
       case _ =>
         Logger.debug(s"VehicleLookupFailure submit could not find all the cookie data. " +
-          s"A redirection will now occur with tracking id: ${request.cookies.trackingId()}")
+          s"A redirection will now occur - trackingId: ${request.cookies.trackingId()}")
         missingSubmitCookieDataResult()
     }
   }

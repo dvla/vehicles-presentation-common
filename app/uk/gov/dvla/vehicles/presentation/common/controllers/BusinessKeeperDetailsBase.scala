@@ -69,7 +69,7 @@ abstract class BusinessKeeperDetailsBase @Inject()()
 
   private def redirectToSetupTradeDetails(message:String)(implicit request: Request[_]) = {
     val trackingId = request.cookies.trackingId()
-    Logger.warn(s"$message with tracking id: ${request.cookies.trackingId()}")
+    Logger.warn(s"$message - trackingId: ${request.cookies.trackingId()}")
     missingVehicleDetails
   }
 

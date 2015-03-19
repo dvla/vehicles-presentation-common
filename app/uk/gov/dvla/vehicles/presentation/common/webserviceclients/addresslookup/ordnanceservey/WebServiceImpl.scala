@@ -27,7 +27,7 @@ final class WebServiceImpl @Inject()(config: OrdnanceSurveyConfig) extends Addre
     val postcodeToLog = LogFormats.anonymize(postcode)
 
     Logger.debug(s"Calling ordnance-survey postcode lookup micro-service " +
-      s"with $postcodeToLog with tracking id: $trackingId") // $endPoint...")
+      s"with $postcodeToLog - trackingId: $trackingId") // $endPoint...")
     WS.url(endPoint).
       withHeaders(HttpHeaders.TrackingId -> trackingId).
       withRequestTimeout(requestTimeout). // Timeout is in milliseconds
@@ -43,7 +43,7 @@ final class WebServiceImpl @Inject()(config: OrdnanceSurveyConfig) extends Addre
 
     val uprnToLog = LogFormats.anonymize(uprn)
 
-    Logger.debug(s"Calling ordnance-survey uprn lookup micro-service with $uprnToLog with tracking id: $trackingId")
+    Logger.debug(s"Calling ordnance-survey uprn lookup micro-service with $uprnToLog - trackingId: $trackingId")
     WS.url(endPoint).
       withHeaders(HttpHeaders.TrackingId -> trackingId).
       withRequestTimeout(requestTimeout). // Timeout is in milliseconds

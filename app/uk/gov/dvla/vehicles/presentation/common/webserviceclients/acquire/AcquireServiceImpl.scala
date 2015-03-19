@@ -22,12 +22,12 @@ final class AcquireServiceImpl @Inject()(config: AcquireConfig,
     }
 
     Logger.debug("Calling acquire vehicle micro-service with " +
-      s"$refNo $vrm $postcode ${cmd.keeperConsent} ${cmd.keeperConsent} ${cmd.mileage} with tracking id: $trackingId")
+      s"$refNo $vrm $postcode ${cmd.keeperConsent} ${cmd.keeperConsent} ${cmd.mileage} - trackingId: $trackingId")
 
     healthStats.report("acquire-fulfil-microservice") {
       ws.callAcquireService(cmd, trackingId).map { resp =>
         Logger.debug(s"Http response code from acquire vehicle micro-service " +
-          s"was: ${resp.status} with tracking id: $trackingId")
+          s"was: ${resp.status} - trackingId: $trackingId")
 
         if (resp.status == OK) (resp.status, resp.json.asOpt[AcquireResponseDto])
         else (resp.status, None)

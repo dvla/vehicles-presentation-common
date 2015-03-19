@@ -24,11 +24,11 @@ abstract class VrmLockedBase @Inject()()
   def present = Action { implicit request =>
     request.cookies.getModel[BruteForcePreventionModel] match {
       case Some(viewModel) =>
-        Logger.debug(s"VrmLocked - Displaying the vrm locked error page with tracking id: ${request.cookies.trackingId()}")
+        Logger.debug(s"VrmLocked - Displaying the vrm locked error page - trackingId: ${request.cookies.trackingId()}")
         presentResult(viewModel)
       case None =>
         Logger.debug(s"VrmLocked - Can't find cookie for BruteForcePreventionViewModel " +
-          s"with tracking id: ${request.cookies.trackingId()}")
+          s"- trackingId: ${request.cookies.trackingId()}")
         missingBruteForcePreventionCookie
     }
   }

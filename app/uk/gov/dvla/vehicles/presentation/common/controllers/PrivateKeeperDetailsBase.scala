@@ -75,7 +75,7 @@ abstract class PrivateKeeperDetailsBase @Inject()()
   }
 
   private def redirectToSetupTradeDetails(message:String)(implicit request: Request[_]) = {
-    Logger.warn(s"$message with tracking id: ${request.cookies.trackingId()}")
+    Logger.warn(s"$message - trackingId: ${request.cookies.trackingId()}")
     missingVehicleDetails
   }
 }

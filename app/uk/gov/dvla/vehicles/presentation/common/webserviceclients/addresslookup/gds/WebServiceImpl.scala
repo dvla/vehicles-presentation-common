@@ -21,7 +21,7 @@ final class WebServiceImpl @Inject()(config: GDSAddressLookupConfig) extends Add
   override def callPostcodeWebService(postcode: String, trackingId: String, showBusinessName: Option[Boolean])
                                      (implicit lang: Lang): Future[WSResponse] = {
     val endPoint = s"$baseUrl/addresses?postcode=${ postcodeWithNoSpaces(postcode) }"
-    Logger.debug(s"Calling GDS postcode lookup service on $endPoint... with tracking id: $trackingId")
+    Logger.debug(s"Calling GDS postcode lookup service on $endPoint... - trackingId: $trackingId")
     WS.url(endPoint).
       withHeaders("AUTHORIZATION" -> authorisation).
       withHeaders(HttpHeaders.TrackingId -> trackingId).
@@ -32,7 +32,7 @@ final class WebServiceImpl @Inject()(config: GDSAddressLookupConfig) extends Add
   override def callUprnWebService(uprn: String, trackingId: String)
                                  (implicit lang: Lang): Future[WSResponse] = {
     val endPoint = s"$baseUrl/uprn?uprn=$uprn"
-    Logger.debug(s"Calling GDS uprn lookup service on $endPoint... with tracking id: $trackingId")
+    Logger.debug(s"Calling GDS uprn lookup service on $endPoint... - trackingId: $trackingId")
     WS.url(endPoint).
       withHeaders("AUTHORIZATION" -> authorisation).
       withHeaders(HttpHeaders.TrackingId -> trackingId).
