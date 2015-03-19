@@ -39,7 +39,7 @@ final class BruteForcePreventionServiceImpl @Inject()(config: BruteForcePreventi
               )
               returnedFuture.success(resultModel)
             case _ =>
-              Logger.error(s"Brute force prevention service returned invalid Json: ${resp.json}")
+              Logger.error(s"Brute force prevention service returned invalid Json: ${resp.json} ")
               returnedFuture.failure(new Exception("TODO"))
           }
         }

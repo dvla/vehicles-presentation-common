@@ -15,7 +15,7 @@ final class VehicleAndKeeperLookupServiceImpl @Inject()(ws: VehicleAndKeeperLook
   override def invoke(cmd: VehicleAndKeeperDetailsRequest,
                       trackingId: String): Future[VehicleAndKeeperDetailsResponse] =
     ws.invoke(cmd, trackingId).map { resp =>
-      Logger.debug(s"Vehicle and keeper lookup service returned ${resp.status} code")
+      Logger.debug(s"Vehicle and keeper lookup service returned ${resp.status} code with tracking id: $trackingId")
       if (resp.status == Status.OK) {
         val response = resp.json.as[VehicleAndKeeperDetailsResponse]
 
@@ -29,7 +29,8 @@ final class VehicleAndKeeperLookupServiceImpl @Inject()(ws: VehicleAndKeeperLook
       } else {
         val e =  new RuntimeException(
           s"Vehicle and keeper lookup web service call http status not OK, it " +
-          s"was: '${resp.status} body: ${resp.body}'. Problem may come from either vehicle and keeper lookup micro-service or the VPDS"
+          s"was: '${resp.status} body: ${resp.body}'. Problem may come from either vehicle and keeper " +
+            s"lookup micro-service or the VPDS with tracking id: $trackingId"
         )
         healthStats.failure(ServiceName, e)
         throw e
@@ -37,7 +38,8 @@ final class VehicleAndKeeperLookupServiceImpl @Inject()(ws: VehicleAndKeeperLook
     }.recover {
       case NonFatal(e) =>
         healthStats.failure(ServiceName, e)
-        throw new RuntimeException("Vehicle and keeper lookup call failed for an unknown reason", e)
+        throw new RuntimeException("Vehicle and keeper lookup call failed for an unknown " +
+          "reason with tracking id: $trackingId", e)
     }
 }
 

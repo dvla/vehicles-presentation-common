@@ -72,7 +72,7 @@ abstract class VehicleLookupBase[FormModel <: VehicleLookupFormModelBase]
         lookupVehicle(formModel.registrationNumber, formModel.referenceNumber, bruteForcePreventionModel, formModel)
       else Future.successful {
         val anonRegistrationNumber = LogFormats.anonymize(formModel.registrationNumber)
-        Logger.warn(s"BruteForceService locked out vrm: $anonRegistrationNumber")
+        Logger.warn(s"BruteForceService locked out vrm: $anonRegistrationNumber with tracking id: ${request.cookies.trackingId()}")
         vrmLocked(bruteForcePreventionModel, formModel)
       }
 
@@ -84,7 +84,7 @@ abstract class VehicleLookupBase[FormModel <: VehicleLookupFormModelBase]
       case exception: Throwable =>
         Logger.error(
           s"Exception thrown by BruteForceService so for safety we won't let anyone through. " +
-            s"Exception:\n${exception.getMessage}\n${exception.getStackTraceString}"
+            s"Exception:\n${exception.getMessage}\n${exception.getStackTraceString} with tracking id: ${request.cookies.trackingId()}"
         )
         microServiceError(exception, formModel)
     } map (_.withCookie(formModel))
@@ -98,7 +98,7 @@ abstract class VehicleLookupBase[FormModel <: VehicleLookupFormModelBase]
       Logger.debug(s"VehicleAndKeeperLookup encountered a problem with request" +
         s" ${LogFormats.anonymize(referenceNumber)}" +
         s" ${LogFormats.anonymize(registrationNumber)}," +
-        s" redirect to VehicleAndKeeperLookupFailure")
+        s" redirect to VehicleAndKeeperLookupFailure with tracking id: ${request.cookies.trackingId()}")
       vehicleLookupFailure(responseCode, formModel).withCookie(responseCodeCacheKey, responseCode.split(" - ").last)
     }
 
@@ -106,8 +106,10 @@ abstract class VehicleLookupBase[FormModel <: VehicleLookupFormModelBase]
       case VehicleNotFound(responseCode) => notFound(responseCode)
       case VehicleFound(result) =>
         bruteForceService.reset(registrationNumber).onComplete {
-          case Success(httpCode) => Logger.debug(s"Brute force reset was called - it returned httpCode: $httpCode")
-          case Failure(t) => Logger.error(s"Brute force reset failed: ${t.getStackTraceString}")
+          case Success(httpCode) => Logger.debug(s"Brute force reset was called - it returned httpCode: $httpCode " +
+            s"with tracking id: ${request.cookies.trackingId()}")
+          case Failure(t) => Logger.error(s"Brute force reset failed: ${t.getStackTraceString} " +
+            s"with tracking id: ${request.cookies.trackingId()}")
         }
         result
     } recover {

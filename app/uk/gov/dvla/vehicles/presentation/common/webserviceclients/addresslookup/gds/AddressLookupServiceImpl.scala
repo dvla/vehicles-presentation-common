@@ -45,10 +45,12 @@ final class AddressLookupServiceImpl @Inject()(ws: AddressLookupWebService, heal
     healthStats.report(AddressLookupServiceImpl.ServiceName) {
       ws.callPostcodeWebService(postcode, trackingId, showBusinessName).map {
         resp =>
-          Logger.debug(s"Http response code from GDS postcode lookup service was: ${resp.status}")
+          Logger.debug(s"Http response code from GDS postcode lookup service " +
+            s"was: ${resp.status} with tracking id: $trackingId")
           if (resp.status == play.api.http.Status.OK) toDropDown(resp)
           else {
-            Logger.error(s"Post code service returned abnormally '${resp.status}: ${resp.body}'")
+            Logger.error(s"Post code service returned abnormally " +
+              s"'${resp.status}: ${resp.body}' with tracking id: $trackingId")
             Seq.empty // The service returned http code other than 200 OK
           }
       }.recover {
@@ -73,12 +75,13 @@ final class AddressLookupServiceImpl @Inject()(ws: AddressLookupWebService, heal
         Logger.debug(s"Http response code from GDS postcode lookup service was: ${resp.status}")
         if (resp.status == play.api.http.Status.OK) toViewModel(resp)
         else {
-          Logger.error(s"UPRN service returned abnormally '${resp.status}: ${resp.body}'")
+          Logger.error(s"UPRN service returned abnormally " +
+            s"'${resp.status}: ${resp.body}' with tracking id: $trackingId")
           None
         }
       }.recover {
         case e: Throwable =>
-          Logger.error(s"GDS uprn lookup service error: $e")
+          Logger.error(s"GDS uprn lookup service error: $e with tracking id: $trackingId")
           None
       }
     }
