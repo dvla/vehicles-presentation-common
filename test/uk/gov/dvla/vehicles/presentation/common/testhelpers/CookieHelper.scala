@@ -8,22 +8,18 @@ object CookieHelper {
    def fetchCookiesFromHeaders(result: Result): Seq[Cookie] =
      result.header.headers.get(SET_COOKIE).toSeq.flatMap(Cookies.decode)
 
-   def verifyCookieHasBeenDiscarded(cookieName: String, cookies: Seq[Cookie]) = {
+   def verifyCookieHasBeenDiscarded(cookieName: String, cookies: Seq[Cookie]) =
      // A discarded cookie is identified by a negative maxAge
-     val cookie = cookies.find(_.name == cookieName)
-     cookie.get.maxAge match {
+     cookies.find(_.name == cookieName).map(_.maxAge match {
        case Some(maxAge) if maxAge < 0 => // Success
-       case Some(maxAge) => fail(s"maxAge should be negative but was $maxAge")
-       case _ => fail("should be some maxAge")
-     }
-   }
+       case Some(maxAge) => fail(s"maxAge for cookie $cookieName should be negative but was $maxAge")
+       case _ => fail(s"cookie $cookieName has not been discarded. There is no max age set for that cookie.")
+     }) orElse fail(s"cookie $cookieName has not been discarded. There is no cookies with such name.")
 
-  def verifyCookieHasNotBeenDiscarded(cookieName: String, cookies: Seq[Cookie]) = {
+  def verifyCookieHasNotBeenDiscarded(cookieName: String, cookies: Seq[Cookie]) =
     // A discarded cookie is identified by a negative maxAge
-    val cookie = cookies.find(_.name == cookieName)
-    cookie.get.maxAge match {
+    cookies.find(_.name == cookieName).map(_.maxAge match {
       case Some(maxAge) => fail("Should be no maxAge for a cookie that has not been discarded")
       case None => //Success
-    }
-  }
+    })
  }
