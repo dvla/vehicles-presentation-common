@@ -76,7 +76,13 @@
         &.disabled {
             opacity: 0.4;
         }
-     
+
+        // Loading style is enabled by js on #submit click event
+        &.loading-action {
+          width: 100px;
+          text-align:left;
+          padding-left: 15px;
+        }
     }
 
     //secondary button (usually grey)
