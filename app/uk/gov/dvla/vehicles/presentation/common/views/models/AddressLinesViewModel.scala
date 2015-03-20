@@ -49,6 +49,6 @@ object AddressLinesViewModel {
       PostTownId -> nonEmptyTextWithTransform(fieldTransform)(minLength = PostTownMinLength, maxLength = postTownMaxLength)
     )(AddressLinesViewModel.apply)(AddressLinesViewModel.unapply)
 
-    private def fieldTransform(s: String) = trimNonWhiteListedChars("""[A-Za-z0-9]""")(s.toUpperCase)
+    private def fieldTransform(s: String) = s.trim.toUpperCase //trimNonWhiteListedChars("""[A-Za-z0-9]""")(s.toUpperCase)
   }
 }
