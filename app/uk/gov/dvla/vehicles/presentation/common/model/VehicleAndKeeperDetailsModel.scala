@@ -88,6 +88,11 @@ object VehicleAndKeeperDetailsModel {
   }
 
   implicit val JsonFormat = Json.format[VehicleAndKeeperDetailsModel]
-  final val VehicleAndKeeperLookupDetailsCacheKey = "vehicle-and-keeper-lookup-details"
-  implicit val Key = CacheKey[VehicleAndKeeperDetailsModel](VehicleAndKeeperLookupDetailsCacheKey)
+
+  implicit def key(implicit prefix: CacheKeyPrefix): CacheKey[VehicleAndKeeperDetailsModel] =
+    CacheKey[VehicleAndKeeperDetailsModel](value = vehicleAndKeeperLookupDetailsCacheKey)
+
+  def vehicleAndKeeperLookupDetailsCacheKey(implicit prefix: CacheKeyPrefix) =
+    s"${prefix}vehicle-and-keeper-lookup-details"
+
 }

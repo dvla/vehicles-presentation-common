@@ -20,7 +20,7 @@ import common.model.NewKeeperChooseYourAddressViewModel
 import common.model.PrivateKeeperDetailsFormModel
 import common.model.PrivateKeeperDetailsFormModel.privateKeeperDetailsCacheKey
 import common.model.VehicleAndKeeperDetailsModel
-import common.model.VehicleAndKeeperDetailsModel.VehicleAndKeeperLookupDetailsCacheKey
+import common.model.VehicleAndKeeperDetailsModel.vehicleAndKeeperLookupDetailsCacheKey
 
 object CookieFactoryForUnitSpecs {
   final val FleetNumberValid = "123456"
@@ -70,7 +70,7 @@ object CookieFactoryForUnitSpecs {
 
   def vehicleAndKeeperDetailsCookie(value: VehicleAndKeeperDetailsModel = defaultVehicleAndKeeperDetailsModel)
                                    (implicit prefix: CacheKeyPrefix): Cookie =
-    createCookie(VehicleAndKeeperLookupDetailsCacheKey, value)
+    createCookie(vehicleAndKeeperLookupDetailsCacheKey, value)
 
   val defaultBusinessKeeperDetailsModel = BusinessKeeperDetailsFormModel(
     fleetNumber = Some(FleetNumberValid),

@@ -28,6 +28,4 @@ object FeedbackForm {
   }
 
   implicit val JsonFormat = Json.format[FeedbackForm]
-  final val FeedbackCacheKey = "feedbackCacheKey"
-  implicit val Key = CacheKey[FeedbackForm](value = FeedbackCacheKey)
 }
