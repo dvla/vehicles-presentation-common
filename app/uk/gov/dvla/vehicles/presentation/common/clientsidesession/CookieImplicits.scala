@@ -65,6 +65,17 @@ object CookieImplicits {
                       clientSideSessionFactory: ClientSideSessionFactory): Result =
       (inner /: cookies)(_.withCookie(_))
 
+    def withCookie[A](modelOpt: Option[A])(implicit
+                                toJson: Writes[A],
+                                cacheKey: CacheKey[A],
+                                request: Request[_],
+                                clientSideSessionFactory: ClientSideSessionFactory): Result = {
+      modelOpt.fold(inner) { model =>
+        val json = Json.toJson(model).toString()
+        withCookie(cacheKey.value, json)
+      }
+    }
+    
     def withCookie[A](model: A)(implicit
                                 toJson: Writes[A],
                                 cacheKey: CacheKey[A],
@@ -73,6 +84,13 @@ object CookieImplicits {
       val json = Json.toJson(model).toString()
       withCookie(cacheKey.value, json)
     }
+
+    def withCookie(cookieOpt: Option[CookieKeyValue])
+                  (implicit request: Request[_],
+                   clientSideSessionFactory: ClientSideSessionFactory): Result =
+      // If Some cookie, add it to the result
+      // else return the original result
+      cookieOpt.fold(inner)(withCookie)
 
     def withCookie(cookie: CookieKeyValue)
                   (implicit request: Request[_],
