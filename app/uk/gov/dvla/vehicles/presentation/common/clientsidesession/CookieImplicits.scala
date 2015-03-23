@@ -1,10 +1,16 @@
 package uk.gov.dvla.vehicles.presentation.common.clientsidesession
 
+import play.api.Logger
 import play.api.data.Form
 import play.api.http.HeaderNames
-import play.api.libs.json.{Json, Reads, Writes}
-import play.api.Logger
-import play.api.mvc.{DiscardingCookie, Request, Result, Cookie, Cookies}
+import play.api.libs.json.Json
+import play.api.libs.json.Reads
+import play.api.libs.json.Writes
+import play.api.mvc.Cookie
+import play.api.mvc.Cookies
+import play.api.mvc.DiscardingCookie
+import play.api.mvc.Request
+import play.api.mvc.Result
 
 /**
  * These are adapters that add cookie methods to a number of Play Framework classes.
@@ -65,6 +71,13 @@ object CookieImplicits {
                       clientSideSessionFactory: ClientSideSessionFactory): Result =
       (inner /: cookies)(_.withCookie(_))
 
+    def withCookie[A](modelOpt: Option[A])(implicit
+                                           toJson: Writes[A],
+                                           cacheKey: CacheKey[A],
+                                           request: Request[_],
+                                           clientSideSessionFactory: ClientSideSessionFactory): Result =
+      modelOpt.fold(inner)(withCookie(_))
+
     def withCookie[A](model: A)(implicit
                                 toJson: Writes[A],
                                 cacheKey: CacheKey[A],
@@ -73,6 +86,13 @@ object CookieImplicits {
       val json = Json.toJson(model).toString()
       withCookie(cacheKey.value, json)
     }
+
+    def withCookie(cookieOpt: Option[CookieKeyValue])
+                  (implicit request: Request[_],
+                   clientSideSessionFactory: ClientSideSessionFactory): Result =
+      // If Some cookie, add it to the result
+      // else return the original result
+      cookieOpt.fold(inner)(withCookie)
 
     def withCookie(cookie: CookieKeyValue)
                   (implicit request: Request[_],
@@ -118,4 +138,5 @@ object CookieImplicits {
         case _ => f // No cookie found so return a blank form.
       }
   }
+
 }
