@@ -36,14 +36,22 @@
   <script type="text/javascript">
   function check(evt, id) {
 
-      var value = id.value;
+    var value = id.value;
 
-      var theEvent = evt || window.event;
-      if ( theEvent == null || theEvent == undefined) {
-          return;
-      }
+    var theEvent = evt || window.event;
+    if ( theEvent == null || theEvent == undefined) {
+      return;
+    }
 
-      var key = theEvent.keyCode || theEvent.which;
+    var key = theEvent.keyCode || theEvent.which;
+
+    // Don't validate the input if below arrow, delete and backspace keys were pressed
+    if(key == 37 || key == 39 || key == 8 || key == 9 || key == 46) { // Left / Right , Backspace, Tab, Delete keys
+    return;
+    }
+
+
+  var key = theEvent.keyCode || theEvent.which;
 
       key = String.fromCharCode( key );
       var regex = /[0-9|/]/;
