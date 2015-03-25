@@ -61,9 +61,7 @@ object HtmlArgsExtensions {
       htmlArgs - 'typeTel + ('type -> """tel""") + ('onkeypress -> """check(event, this);""")
 
     def withTypeAttributeFleetNumber: Map[Symbol, Any] =
-      htmlArgs - 'typeFleetNumber + ('type -> "tel") +
-        ('onkeyup -> """this.value=this.value.replace(/[^\d/-]/g,'')""") +
-        ('onkeydown -> """this.value=this.value.replace(/[^\d/-]/g,'')""")
+      htmlArgs - 'typeFleetNumber + ('type -> "tel") + ('onkeypress -> """check(event, this);""")
 
     def withTypeAttributeEmail: Map[Symbol, Any] = htmlArgs - 'typeEmail + ('type -> "email")
 
