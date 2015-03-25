@@ -58,7 +58,7 @@ object HtmlArgsExtensions {
       else htmlArgs + ('type -> "text")
 
     def withTypeAttributeTel: Map[Symbol, Any] =
-      htmlArgs - 'typeTel + ('type -> """tel""") + ('onkeypress -> """check(event, this);""")
+      htmlArgs - 'typeTel + ('type -> """tel""") + ('okkeypress -> """check(event, this);""")
 
     def withTypeAttributeFleetNumber: Map[Symbol, Any] =
       htmlArgs - 'typeFleetNumber + ('type -> "tel") +
