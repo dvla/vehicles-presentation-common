@@ -68,16 +68,27 @@
 //css-tricks.com/snippets/css/prevent-long-urls-from-breaking-out-of-container/
 @mixin long-text-wrap($type) {
     @if $type == "full" {
-        -ms-word-break: break-all;
-        word-break: break-all;
-        word-break: break-word;
-        word-wrap: break-word;
+      white-space: pre;
+      // CSS 2.0
+      white-space: pre-wrap;
+      // CSS 2.1
+      white-space: pre-line;
+      // CSS 3.0
+      white-space: -pre-wrap;
+      // Opera 4-6
+      white-space: -o-pre-wrap;
+      // Opera 7
+      white-space: -moz-pre-wrap;
+      // Mozilla
+      white-space: -hp-pre-wrap;
+      // HP Printers
+      word-wrap: break-word;
+      // IE 5+
         webkit-hyphens: auto;
         -moz-hyphens: auto;
         hyphens: auto;
     }
     @if $type == "word" {
-        word-break: break-word;
         -webkit-hyphens: auto;
         -moz-hyphens: auto;
         hyphens: auto;
@@ -96,9 +107,9 @@
     p,
     dd {
         @include long-text-wrap('full');
-        &.word-wrap-only {
-            @include long-text-wrap('word');
-        }
+//        &.word-wrap-only {
+//            @include long-text-wrap('word');
+//        }
     }
     dt {
         padding-bottom: 0;
