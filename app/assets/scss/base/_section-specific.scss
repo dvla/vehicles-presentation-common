@@ -93,7 +93,7 @@
     .reg-number {
         display: inline-block;
         vertical-align: top;
-        width: 135px;
+        width: auto;
         text-align: center;
         line-height: 1.25;
         font-weight: bold;
@@ -103,12 +103,18 @@
         background-color: $yellow-75;
         border: solid 1px $grey-9;
         border-radius: 5px;
+        .ie7 & {
+          width: 170px;
+        }
     }
 
     .playback .reg-number {
-        width: 135px;
-        padding: 0.4em 0.5em 0.3em 0.5em;
+        width: auto;
+        padding:6px 10px 10px 10px;
         margin-bottom: 10px;
+        .ie7 & {
+          width: 170px;
+        }
     }
 
     .alert-complete .reg-number {
