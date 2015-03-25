@@ -10,18 +10,20 @@ import play.api.libs.concurrent.Execution.Implicits.defaultContext
 import play.api.LoggerLike
 import play.api.mvc.{Filter, RequestHeader, Result}
 import play.mvc.Http
+import uk.gov.dvla.vehicles.presentation.common.ConfigProperties._
 import scala.concurrent.Future
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClientSideSessionFactory
 
 class AccessLoggingFilter @Inject()(clfEntryBuilder: ClfEntryBuilder,
-                                    @Named("AccessLogger") accessLogger: LoggerLike) extends Filter {
+                                    @Named("AccessLogger") accessLogger: LoggerLike,
+                                    config: AccessLoggingConfig) extends Filter {
 
   override def apply(filter: (RequestHeader) => Future[Result])
                     (requestHeader: RequestHeader): Future[Result] = {
     val requestTimestamp = new Date()
     filter(requestHeader).map {result =>
       val requestPath = new URI(requestHeader.uri).getPath
-      if (!AccessLoggingFilter.NonLoggingUrls.contains(requestPath))
+      if (!AccessLoggingFilter.NonLoggingUrls.map(config.contextPath + _).contains(requestPath))
         accessLogger.info(clfEntryBuilder.clfEntry(requestTimestamp, requestHeader, result))
       result.header.headers.get(Http.HeaderNames.CONTENT_TYPE).fold(result) { contentType =>
         if (contentType.startsWith("text/html"))
@@ -57,6 +59,14 @@ class ClfEntryBuilder {
 
     s"""$ipAddress - - $date "$method $uri $protocol" $responseCode $responseLength "$trackingId" """
   }
+}
+
+trait AccessLoggingConfig {
+  val contextPath: String
+}
+
+class DefaultAccessLoggingConfig extends AccessLoggingConfig {
+  override val contextPath: String = getOptionalProperty[String]("application.context").getOrElse("")
 }
 
 object AccessLoggingFilter {

@@ -97,6 +97,13 @@ class AccessLoggingFilterSpec extends UnitSpec {
       }
   }
 
+  "not log request to /healthcheck if context path is set" in setUp(cp = "/test-application") {
+    case SetUp(filter, request, sessionFactory, nextFilter, logger) =>
+      whenReady(filter.apply(nextFilter)(FakeRequest("GET", "http://localhost/test-application/healthcheck"))) { result =>
+        Mockito.verifyNoMoreInteractions(logger.logger)
+      }
+  }
+
   "not log request to /healthcheck with request parameters" in setUp() {
     case SetUp(filter, request, sessionFactory, nextFilter, logger) =>
 
@@ -129,7 +136,7 @@ class AccessLoggingFilterSpec extends UnitSpec {
                            nextFilter: MockFilter,
                            logger: MockLogger)
 
-  private def setUp(ipAddress: String = "127.0.0.1")(test: SetUp => Any) {
+  private def setUp(ipAddress: String = "127.0.0.1", cp: String = "")(test: SetUp => Any) {
     val sessionFactory = mock[ClientSideSessionFactory]
     val accessLogger = new MockLogger
 
@@ -146,6 +153,9 @@ class AccessLoggingFilterSpec extends UnitSpec {
     val injector = Guice.createInjector(new ScalaModule {
       override def configure(): Unit = {
         bind[ClfEntryBuilder].toInstance(new TestClfEntryBuilder())
+        bind[AccessLoggingConfig].toInstance(new AccessLoggingConfig {
+          override val contextPath: String = cp
+        })
         bind[LoggerLike].annotatedWith(Names.named(AccessLoggerName)).toInstance(accessLogger)
       }
     })
