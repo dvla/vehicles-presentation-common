@@ -22,8 +22,7 @@ import ExecutionContext.Implicits.global
 object SEND {
   import scala.language.{implicitConversions, postfixOps, reflectiveCalls}
 
-  case class EmailConfiguration(host: String, port: Int, username: String, password: String,
-                                from: From, feedbackEmail: From, whiteList: Option[List[String]])
+  case class EmailConfiguration(from: From, feedbackEmail: From, whiteList: Option[List[String]])
 
   case class Contents(htmlMessage: String, plainMessage: String)
 
@@ -55,7 +54,7 @@ object SEND {
   case class WhiteListEmailOps(email: Email) extends EmailOps {
     def send(trackingId: String)(implicit config: EmailConfiguration, emailService: EmailService) = {
       val message = s"""Got email with contents: (${email.subject} - ${email.message} ) to be sent to ${email.toPeople.mkString(" ")}
-         ||with cc (${email.ccPeople.mkString(" ")}) and configuration: ${config.port} ${config.username} from email
+         ||with cc (${email.ccPeople.mkString(" ")})
          |${config.from.email}. Receiver was in whitelist""".stripMargin
 
       Logger.info(message)
