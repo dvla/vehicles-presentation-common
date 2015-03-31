@@ -8,7 +8,7 @@ class SendSpec extends UnitSpec {
   import scala.language.postfixOps
   import uk.gov.dvla.vehicles.presentation.common.services.SEND._
 
-  implicit val emailConfiguration = EmailConfiguration("port", 25, "username", "password",
+  implicit val emailConfiguration = EmailConfiguration(
                                     From("donotreplypronline@dvla.gsi.gov.uk", "DO-NOT-REPLY"),
                                     From("some@feedback", "dummy Feedback email"),
                                     Some(List("@valtech.co.uk","@dvla.gsi.gov.uk","@digital.dvla.gov.uk")))
