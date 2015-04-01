@@ -24,8 +24,8 @@ object FeedbackMessageBuilder {
 
     val htmlContents = form.feedback.map {
       case ch if ch == '\n' => "<br />"
-      case ch if ch == '<' => "&lt;"
-      case ch if ch == '>' => "&gt;"
+      case ch if ch == '<' => ""
+      case ch if ch == '>' => ""
       case ch => ch
     }.mkString
 
