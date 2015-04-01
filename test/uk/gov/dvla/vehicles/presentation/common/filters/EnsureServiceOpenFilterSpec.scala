@@ -71,7 +71,7 @@ class EnsureServiceOpenFilterSpec extends UnitSpec {
   "The out of hours message contains the hours from the config" in new WithApplication {
     val requestHeader = mock[RequestHeader]
     when(requestHeader.path).thenReturn("some-test-path")
-    val next = (request:RequestHeader) => Future.successful[Result](throw new Exception("Should not come here"))
+    val next = (request:RequestHeader) => Future.successful[Result](fail("Should not come here"))
     val dateTime = new DateTime()
     setUpOutOfHours((setup: SetUp) => {
       val result = setup.filter.apply(next)(requestHeader)
@@ -136,7 +136,7 @@ class EnsureServiceOpenFilterSpec extends UnitSpec {
   }
 
   private def setUpOutOfHours(test: SetUp => Any, dateTime: DateTime): Unit =
-    if (dateTime.getMillisOfDay / hourMilllis > 12) setUp(test, 0, 1)
+    if (dateTime.getMillisOfDay / hourMilllis >= 12) setUp(test, 0, 1)
     else setUp(test, 13, 14)
 
   private def setUpOutOfHours(test: SetUp => Any,
