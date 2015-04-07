@@ -75,6 +75,20 @@ img {
     display:none !important;
 }
 
+.hint-image-wrap {
+    p {
+        -webkit-tap-highlight-color: rgba(0,0,0,0.3);
+        color: #2e3191;
+        cursor: pointer;
+        font-weight: 500 !important;
+        font-size: 1.5rem !important;
+        display: inline-block;
+        margin: 0 0 2.5em 0 !important;
+        -webkit-font-smoothing: antialiased;
+        text-decoration: underline;
+    }
+}
+
 //main content/app wrapper
 #main {
     background:$white;
