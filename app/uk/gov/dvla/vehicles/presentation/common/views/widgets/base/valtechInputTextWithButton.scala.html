@@ -1,4 +1,5 @@
 @(field: play.api.data.Field,
+        buttonId: String,
         buttonType: String = "submit",
         buttonName: String = "send-email",
         buttonClass: String = "button button-not-implemented button-inline",
@@ -33,7 +34,7 @@ value="@value"
     )
 >
 
-<button type=@buttonType name="@buttonName" class="@buttonClass" aria-disabled="@buttonAriaDisabled" disabled>
+<button id=@buttonId type=@buttonType name="@buttonName" class="@buttonClass" aria-disabled="@buttonAriaDisabled" disabled>
     @if(buttonText.isDefined) {@Html(buttonText.get)} else {
         @labelOrId(field.id, args)
     }
