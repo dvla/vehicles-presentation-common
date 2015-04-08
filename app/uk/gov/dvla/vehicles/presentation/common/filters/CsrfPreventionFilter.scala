@@ -133,16 +133,16 @@ object CsrfPreventionAction {
 
 //  // TODO : Trap the missing token exception differently?
   implicit def getToken(implicit request: RequestHeader,
-                        clientSideSessionFactory: ClientSideSessionFactory): CsrfPreventionToken = CsrfPreventionToken("")
-//    Try {
-//      CsrfPreventionToken(
-//        Crypto.signToken(
-//          aesEncryption.encrypt(
-//            buildTokenWithUri(request.cookies.trackingId(), request.uri)
-//          )
-//        )
-//      )
-//    }.getOrElse(CsrfPreventionToken(""))
+                        clientSideSessionFactory: ClientSideSessionFactory): CsrfPreventionToken =
+    Try {
+      CsrfPreventionToken(
+        Crypto.signToken(
+          aesEncryption.encrypt(
+            buildTokenWithUri(request.cookies.trackingId(), request.uri)
+          )
+        )
+      )
+    }.getOrElse(CsrfPreventionToken(""))
 
   private def buildTokenWithReferer(trackingId: String, requestHeaders: Headers) = {
     trackingId + Delimiter + requestHeaders.get(REFERER).getOrElse("INVALID")
