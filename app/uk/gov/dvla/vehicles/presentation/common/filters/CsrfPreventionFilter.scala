@@ -2,14 +2,15 @@ package uk.gov.dvla.vehicles.presentation.common.filters
 
 import com.google.inject.Inject
 import org.apache.commons.codec.binary.Base64
+import play.api.Logger
 import play.api.http.ContentTypes.HTML
 import play.api.http.HeaderNames.REFERER
 import play.api.http.HttpVerbs.{GET, POST}
 import play.api.libs.concurrent.Execution.Implicits.defaultContext
 import play.api.libs.Crypto
-import play.api.libs.iteratee.{Enumerator, Iteratee, Traversable}
+import play.api.libs.iteratee.{Done, Enumerator, Iteratee, Traversable}
 import play.api.mvc.BodyParsers.parse.tolerantFormUrlEncoded
-import play.api.mvc.{EssentialAction, EssentialFilter, Headers, RequestHeader, Result}
+import play.api.mvc._
 import scala.util.Try
 import uk.gov.dvla.vehicles.presentation.common
 import common.clientsidesession.{AesEncryption, ClientSideSessionFactory}
@@ -22,7 +23,7 @@ class CsrfPreventionFilter @Inject()
   def apply(next: EssentialAction): EssentialAction = new CsrfPreventionAction(next)
 }
 
-final case class CsrfPreventionException(nestedException: Throwable) extends Exception(nestedException: Throwable)
+//final case class CsrfPreventionException(nestedException: Throwable) extends Exception(nestedException: Throwable)
 
 /**
  * This class is based upon the Play's v2.2 CSRF protection. It has been stripped of code not relevant to this project, and
@@ -43,7 +44,7 @@ class CsrfPreventionAction(next: EssentialAction)
       if (requestHeader.method == POST) {
         // TODO remove debris around reading the whitelist from config.
         if (requestHeader.contentType.exists(_ == "application/x-www-form-urlencoded" )) checkBody(requestHeader, next)
-        else throw new CsrfPreventionException(new Throwable("POST contentType was not urlencoded"))
+        else error("POST contentType was not urlencoded")
       } else if (requestHeader.method == GET && requestHeader.accepts(HTML)) {
         next(requestWithNewToken(requestHeader))
       } else next(requestHeader)
@@ -67,7 +68,7 @@ class CsrfPreventionAction(next: EssentialAction)
         if (isValidTokenInPostBody(parseResult, requestHeader) || isValidTokenInPostUrl(requestHeader))
           Iteratee.flatten(Enumerator(bytes) |>> next(requestHeader))
         else
-          throw new CsrfPreventionException(new Throwable("No valid token found in form body or cookies"))
+          error("No valid token found in form body or cookies")
       })
     }
   }
@@ -78,10 +79,10 @@ class CsrfPreventionAction(next: EssentialAction)
       simpleResult => false, // valid token not found
       body => (for {// valid token found
         values <- identity(body).get(TokenName)
-        token <- values.headOption
+        tokenOpt <- values.headOption
+        token <- Crypto.extractSignedToken(tokenOpt)
       } yield {
-        val decryptedExtractedSignedToken = aesEncryption.decrypt(Crypto.extractSignedToken(token).getOrElse(
-          throw new CsrfPreventionException(new Throwable("Invalid or no token found in form body"))))
+        val decryptedExtractedSignedToken = aesEncryption.decrypt(token)
         val splitDecryptedExtractedSignedToken = split(decryptedExtractedSignedToken)
         val headerToken = buildTokenWithReferer(
           requestHeader.cookies.trackingId(),
@@ -94,22 +95,29 @@ class CsrfPreventionAction(next: EssentialAction)
       }).getOrElse(false)
     )
 
-  private def isValidTokenInPostUrl(requestHeader: RequestHeader) = {
-    val (trackingIdFromUrl, refererFromUrl) = {
+  private def isValidTokenInPostUrl(requestHeader: RequestHeader): Boolean = {
+    val result = {
       val tokenEncryptedAndUriEncoded = requestHeader.path.split("/").last // Split the path based on "/" character, if there is a token it will be at the end
       val tokenEncrypted = new String(Base64.decodeBase64(tokenEncryptedAndUriEncoded))
-      val signedToken = Crypto.extractSignedToken(tokenEncrypted).getOrElse(
-        throw new CsrfPreventionException(new Throwable("Invalid or no token found in POST url")))
-      val decryptedExtractedSignedToken = aesEncryption.decrypt(signedToken)
-      split(decryptedExtractedSignedToken)
+
+      Crypto.extractSignedToken(tokenEncrypted).
+        map( signedToken => aesEncryption.decrypt(signedToken)).
+        map(decryptedExtractedSignedToken => split(decryptedExtractedSignedToken))
+
     }
 
     val trackingIdFromCookie = requestHeader.cookies.trackingId()
-    val refererFromCookie = requestHeader.cookies.getString(REFERER).getOrElse(
-        throw new CsrfPreventionException(new Throwable("No REFERER found in cookies"))
-      )
+    val refererFromCookie = requestHeader.cookies.getString(REFERER)
 
-    (trackingIdFromUrl == trackingIdFromCookie) && refererFromCookie.contains(refererFromUrl)
+    result.exists{
+      case (trackingIdFromUrl, refererFromUrl) =>
+        trackingIdFromUrl == trackingIdFromCookie && refererFromCookie.exists(_.contains(refererFromUrl))
+    }
+  }
+
+  private def error(message: String): Iteratee[Array[Byte], Result] = {
+    Logger.error(s"CsrfPreventionException: $message")
+    Done(Results.BadRequest)
   }
 }
 
@@ -123,18 +131,18 @@ object CsrfPreventionAction {
 
   case class CsrfPreventionToken(value: String)
 
-  // TODO : Trap the missing token exception differently?
+//  // TODO : Trap the missing token exception differently?
   implicit def getToken(implicit request: RequestHeader,
-                        clientSideSessionFactory: ClientSideSessionFactory): CsrfPreventionToken =
-    Try {
-      CsrfPreventionToken(
-        Crypto.signToken(
-          aesEncryption.encrypt(
-            buildTokenWithUri(request.cookies.trackingId(), request.uri)
-          )
-        )
-      )
-    }.getOrElse(throw new CsrfPreventionException(new Throwable("No CSRF token found")))
+                        clientSideSessionFactory: ClientSideSessionFactory): CsrfPreventionToken = CsrfPreventionToken("")
+//    Try {
+//      CsrfPreventionToken(
+//        Crypto.signToken(
+//          aesEncryption.encrypt(
+//            buildTokenWithUri(request.cookies.trackingId(), request.uri)
+//          )
+//        )
+//      )
+//    }.getOrElse(CsrfPreventionToken(""))
 
   private def buildTokenWithReferer(trackingId: String, requestHeaders: Headers) = {
     trackingId + Delimiter + requestHeaders.get(REFERER).getOrElse("INVALID")
