@@ -44,7 +44,7 @@ class CsrfPreventionAction(next: EssentialAction)
       if (requestHeader.method == POST) {
         // TODO remove debris around reading the whitelist from config.
         if (requestHeader.contentType.exists(_ == "application/x-www-form-urlencoded" )) checkBody(requestHeader, next)
-        else error("POST contentType was not urlencoded")
+        else error("POST contentType was not urlencoded")(requestHeader)
       } else if (requestHeader.method == GET && requestHeader.accepts(HTML)) {
         next(requestWithNewToken(requestHeader))
       } else next(requestHeader)
@@ -68,7 +68,7 @@ class CsrfPreventionAction(next: EssentialAction)
         if (isValidTokenInPostBody(parseResult, requestHeader) || isValidTokenInPostUrl(requestHeader))
           Iteratee.flatten(Enumerator(bytes) |>> next(requestHeader))
         else
-          error("No valid token found in form body or cookies")
+          error("No valid token found in form body or cookies")(requestHeader)
       })
     }
   }
@@ -115,8 +115,10 @@ class CsrfPreventionAction(next: EssentialAction)
     }
   }
 
-  private def error(message: String): Iteratee[Array[Byte], Result] = {
-    Logger.error(s"CsrfPreventionException: $message")
+  private def error(message: String)(requestHeader: RequestHeader): Iteratee[Array[Byte], Result] = {
+    val remoteAddress = requestHeader.remoteAddress
+    val path = requestHeader.path
+    Logger.error(s"CsrfPreventionException remote address: $remoteAddress path: $path, message: $message")
     Done(Results.BadRequest)
   }
 }
