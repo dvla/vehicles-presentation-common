@@ -1,7 +1,7 @@
 package uk.gov.dvla.vehicles.presentation.common.controllers.k2kacquire
 
 import play.api.data.Form
-import play.api.test.{FakeRequest, WithApplication}
+import play.api.test.{FakeRequest}
 import uk.gov.dvla.vehicles.presentation.common.mappings.OptionalToggle
 import scala.collection.mutable.ArrayBuffer
 import scala.concurrent.Await
@@ -25,7 +25,7 @@ import common.testhelpers.CookieFactoryForUnitSpecs.defaultBusinessKeeperDetails
 import common.testhelpers.CookieFactoryForUnitSpecs.defaultVehicleAndKeeperDetailsModel
 import common.testhelpers.CookieFactoryForUnitSpecs.vehicleAndKeeperDetailsCookie
 import common.testhelpers.CookieHelper
-import common.UnitSpec
+import uk.gov.dvla.vehicles.presentation.common.{WithApplication, UnitSpec}
 
 class BusinessKeeperDetailsBaseUnitSpec extends UnitSpec {
   final val FleetNumberValid = "123456"

@@ -1,7 +1,8 @@
 package uk.gov.dvla.vehicles.presentation.common.clientsidesession
 
 import play.api.mvc.Cookie
-import play.api.test.{FakeApplication, WithApplication}
+import play.api.test.{FakeApplication}
+import uk.gov.dvla.vehicles.presentation.common.{WithApplication, UnitSpec}
 import uk.gov.dvla.vehicles.presentation.common.testhelpers.LightFakeApplication
 import uk.gov.dvla.vehicles.presentation.common.{SimpleTestGlobal, UnitSpec}
 import scala.concurrent.duration.DurationInt

@@ -43,7 +43,7 @@ object WebDriverFactory {
     lazy val implicitlyWait = try {
       getProperty[Int]("browser.implicitlyWait")
     } catch {
-      case _:Throwable => 200
+      case _:Throwable => 100
     }
 //    val implicitlyWait = getProperty("browser.implicitlyWait", 5000)
     selectedDriver.manage().timeouts().implicitlyWait(implicitlyWait, TimeUnit.MILLISECONDS)
