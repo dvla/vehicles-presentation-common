@@ -1,17 +1,15 @@
 package uk.gov.dvla.vehicles.presentation.common.helpers.webbrowser
 
 import play.api.test.FakeApplication
+import uk.gov.dvla.vehicles.presentation.common.testhelpers.LightFakeApplication
 
 trait ProgressBar {
   self: GlobalCreator =>
 
-  val fakeApplicationWithProgressBarFalse = FakeApplication(
-    withGlobal = Some(global),
-    additionalConfiguration = Map("progressBar.enabled" -> "false"))
+  val fakeApplicationWithProgressBarFalse = LightFakeApplication.create(global, Map("progressBar.enabled" -> "false"))
 
-  val fakeApplicationWithProgressBarTrue = FakeApplication(
-    withGlobal = Some(global),
-    additionalConfiguration = Map("progressBar.enabled" -> "true"))
+  val fakeApplicationWithProgressBarTrue = LightFakeApplication.create(global, Map("progressBar.enabled" -> "true"))
+
 }
 
 object ProgressBar {
