@@ -1,7 +1,9 @@
 package uk.gov.dvla.vehicles.presentation.common.clientsidesession
 
 import play.api.mvc.Cookie
-import play.api.test.{FakeApplication, WithApplication}
+import play.api.test.{FakeApplication}
+import uk.gov.dvla.vehicles.presentation.common.{WithApplication, UnitSpec}
+import uk.gov.dvla.vehicles.presentation.common.testhelpers.LightFakeApplication
 import uk.gov.dvla.vehicles.presentation.common.{SimpleTestGlobal, UnitSpec}
 import scala.concurrent.duration.DurationInt
 
@@ -22,7 +24,5 @@ final class CookieFlagsSpec extends UnitSpec {
 
   private final val TenMinutesInSeconds = 10.minutes.toSeconds.toInt
 
-  private val fakeAppWithCookieConfig = FakeApplication(
-    withGlobal = Some(SimpleTestGlobal),
-    additionalConfiguration = Map("secureCookies" -> true, "application.cookieMaxAge" -> TenMinutesInSeconds))
+  private val fakeAppWithCookieConfig = LightFakeApplication(SimpleTestGlobal, Map("secureCookies" -> true, "application.cookieMaxAge" -> TenMinutesInSeconds) )
 }

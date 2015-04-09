@@ -1,7 +1,8 @@
 package uk.gov.dvla.vehicles.presentation.common.controllers.k2kacquire
 
 import play.api.data.Form
-import play.api.test.{FakeRequest, WithApplication}
+import play.api.test.{FakeRequest}
+import uk.gov.dvla.vehicles.presentation.common.{WithApplication, UnitSpec}
 import uk.gov.dvla.vehicles.presentation.common.testhelpers.CookieHelper
 import scala.collection.mutable.ArrayBuffer
 import scala.concurrent.Await
