@@ -6,6 +6,7 @@ import org.specs2.mutable.Around
 import org.specs2.specification.Scope
 import play.api.GlobalSettings
 import play.api.test.{FakeApplication, TestServer, _}
+import uk.gov.dvla.vehicles.presentation.common.testhelpers.LightFakeApplication
 
 
 // NOTE: Do *not* put any initialisation code in the class below, otherwise delayedInit() gets invoked twice
@@ -30,7 +31,7 @@ trait TestHarnessBase extends ProgressBar with GlobalCreator {
   abstract class WebBrowser(val app: FakeApplication = fakeAppWithTestGlobal,
                             val port: Int = testPort,
                             implicit protected val webDriver: WebDriver = WebDriverFactory.webDriver)
-      extends Around with Scope with WebBrowserDSL {
+    extends Around with Scope with WebBrowserDSL {
 
     override def around[T: AsResult](t: => T): Result =
       TestConfiguration.configureTestUrl(port) {
@@ -40,6 +41,7 @@ trait TestHarnessBase extends ProgressBar with GlobalCreator {
   }
 
   abstract class ProgressBarTrue extends WebBrowser(app = fakeApplicationWithProgressBarTrue)
+
   abstract class ProgressBarFalse extends WebBrowser(app = fakeApplicationWithProgressBarFalse)
 
   abstract class WebBrowserWithJs extends WebBrowser(
@@ -48,9 +50,10 @@ trait TestHarnessBase extends ProgressBar with GlobalCreator {
 
   object WebBrowser {
 
-    private[TestHarnessBase] lazy val fakeAppWithTestGlobal: FakeApplication = FakeApplication(withGlobal = Some(global))
+    private[TestHarnessBase] lazy val fakeAppWithTestGlobal: FakeApplication = LightFakeApplication(global)
     private[TestHarnessBase] lazy val testPort: Int = TestConfiguration.testPort
   }
+
 }
 
 trait GlobalCreator {

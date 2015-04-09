@@ -1,6 +1,7 @@
 package uk.gov.dvla.vehicles.presentation.common.clientsidesession
 
 import play.api.test.FakeApplication
+import uk.gov.dvla.vehicles.presentation.common.testhelpers.LightFakeApplication
 import uk.gov.dvla.vehicles.presentation.common.{SimpleTestGlobal, WithApplication, UnitSpec}
 
 final class EncryptedClientSideSessionSpec extends UnitSpec {
@@ -48,9 +49,8 @@ final class EncryptedClientSideSessionSpec extends UnitSpec {
   implicit val noHashing = new NoHashGenerator with CookieNameHashGenerator
   implicit val sha1Hashing = new Sha1HashGenerator with CookieNameHashGenerator
 
-  private val fakeAppWithConfig = FakeApplication(
-    withGlobal = Some(SimpleTestGlobal),
-    additionalConfiguration = Map(
+  private val fakeAppWithConfig = LightFakeApplication(SimpleTestGlobal,
+    Map(
       "application.secret256Bit" -> "MnPSvGpiEF5OJRG3xLAnsfmdMTLr6wpmJmZLv2RB9Vo=",
       "application.crypto.aes.transformation" -> "AES/CBC/PKCS5Padding"
     ))

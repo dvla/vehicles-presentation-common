@@ -15,7 +15,7 @@ object VmAddressModel {
 
   private def joinAddressesIfNeeded(addresses: Seq[String]): Seq[String] = addresses.toList match {
     case head :: second :: tail  if head.length <= AddressLinesViewModel.Form.BuildingNameOrNumberMinLength =>
-      s"$head $second" :: tail
+      joinAddressesIfNeeded(s"$head $second" :: tail)
     case _ => addresses
   }
 
