@@ -50,7 +50,7 @@ trait TestHarnessBase extends ProgressBar with GlobalCreator {
 
   object WebBrowser {
 
-    private[TestHarnessBase] lazy val fakeAppWithTestGlobal: FakeApplication = LightFakeApplication.create(global)
+    private[TestHarnessBase] lazy val fakeAppWithTestGlobal: FakeApplication = LightFakeApplication(global)
     private[TestHarnessBase] lazy val testPort: Int = TestConfiguration.testPort
   }
 

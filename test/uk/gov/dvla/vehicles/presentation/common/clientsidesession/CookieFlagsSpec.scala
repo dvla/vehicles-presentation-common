@@ -24,5 +24,5 @@ final class CookieFlagsSpec extends UnitSpec {
 
   private final val TenMinutesInSeconds = 10.minutes.toSeconds.toInt
 
-  private val fakeAppWithCookieConfig = LightFakeApplication.create(SimpleTestGlobal, Map("secureCookies" -> true, "application.cookieMaxAge" -> TenMinutesInSeconds) )
+  private val fakeAppWithCookieConfig = LightFakeApplication(SimpleTestGlobal, Map("secureCookies" -> true, "application.cookieMaxAge" -> TenMinutesInSeconds) )
 }

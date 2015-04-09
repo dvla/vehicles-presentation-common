@@ -9,7 +9,7 @@ import uk.gov.dvla.vehicles.presentation.common.testhelpers.LightFakeApplication
 
 abstract class WithDefaultApplication extends Around with Scope with GlobalCreator {
 
-  private implicit def implicitApp: FakeApplication = LightFakeApplication.create(global)
+  private implicit def implicitApp: FakeApplication = LightFakeApplication(global)
 
   override def around[T: AsResult](t: => T): Result = configureTestUrl() {
     Helpers.running(implicitApp)(AsResult.effectively(t))

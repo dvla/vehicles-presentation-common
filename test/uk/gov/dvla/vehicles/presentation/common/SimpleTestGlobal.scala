@@ -10,5 +10,5 @@ abstract class WithApplication(app: FakeApplication = WithApplication.fakeAppWit
   extends play.api.test.WithApplication(app = app)
 
 object WithApplication {
-  private lazy val fakeAppWithTestGlobal: FakeApplication = LightFakeApplication.create(SimpleTestGlobal)
+  private lazy val fakeAppWithTestGlobal: FakeApplication = LightFakeApplication(SimpleTestGlobal)
 }
