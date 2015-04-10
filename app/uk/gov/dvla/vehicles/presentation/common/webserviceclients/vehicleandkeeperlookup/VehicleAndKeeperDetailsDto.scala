@@ -1,6 +1,6 @@
 package uk.gov.dvla.vehicles.presentation.common.webserviceclients.vehicleandkeeperlookup
 
-import org.joda.time.DateTime
+import org.joda.time.{DateTimeZone, DateTime}
 import play.api.data.validation.ValidationError
 import play.api.libs.json.{JsNumber, JsResult, JsValue, Reads, JsSuccess, JsError, JsString, JsPath, Writes, Json}
 
@@ -22,15 +22,16 @@ final case class VehicleAndKeeperDetailsDto(registrationNumber: String,
                                             suppressedV5Flag: Option[Boolean])
 
 object VehicleAndKeeperDetailsDto {
+  private final val dtz = DateTimeZone.forID("Europe/London")
 
   implicit val jodaDateReads: Reads[org.joda.time.DateTime] = new Reads[org.joda.time.DateTime] {
-    private val df = org.joda.time.format.ISODateTimeFormat.dateTime()
+    private val df = org.joda.time.format.ISODateTimeFormat.dateTime().withZone(dtz)
 
     private def parseDate(input: String): Option[DateTime] =
       scala.util.control.Exception.allCatch[DateTime] opt (DateTime.parse(input, df))
 
     def reads(json: JsValue): JsResult[DateTime] = json match {
-      case JsNumber(d) => JsSuccess(new DateTime(d.toLong))
+      case JsNumber(d) => JsSuccess(new DateTime(d.toLong, dtz))
       case JsString(s) => parseDate(s) match {
         case Some(d) => JsSuccess(d)
         case None => JsError(Seq(JsPath() -> Seq(ValidationError("validate.error.expected.date.isoformat", "ISO8601"))))
