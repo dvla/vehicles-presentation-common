@@ -1,25 +1,27 @@
 @(closingHour: Int, closingWarnPeriodMins: Int, dateService: uk.gov.dvla.vehicles.presentation.common.services.DateService)(implicit lang: Lang)
 
+@import org.joda.time.{DateTimeZone, DateTime}
+
 @if(
- Some((closingHour, new org.joda.time.DateTime(
-    dateService.now.toDateTime.getYear,
-    dateService.now.toDateTime.getMonthOfYear,
-    dateService.now.toDateTime.getDayOfMonth,
-    if (closingHour == 24) 0 else closingHour,
-    0
-  ))).map { case (closingHour, closingTime) =>
-    val closingT = if (closingHour == 24) closingTime.plusDays(1) else closingTime
-    val warningTime = closingT.minusMinutes(closingWarnPeriodMins)
-    val currentTime = dateService.now
-    currentTime.isAfter(warningTime) && currentTime.isBefore(closingT)
-  }.get
-        ) {
+    Some((closingHour, new org.joda.time.DateTime(
+        dateService.now.toDateTime.getYear,
+        dateService.now.toDateTime.getMonthOfYear,
+        dateService.now.toDateTime.getDayOfMonth,
+        if(closingHour == 24) 0 else closingHour,
+        0, DateTimeZone.forID("Europe/London")
+    ))).map { case (closingHour, closingTime) =>
+        val closingT = if(closingHour == 24) closingTime.plusDays(1) else closingTime
+        val warningTime = closingT.minusMinutes(closingWarnPeriodMins)
+        val currentTime = new DateTime(dateService.now, DateTimeZone.forID("Europe/London"))
+        currentTime.isAfter(warningTime) && currentTime.isBefore(closingT)
+    }.get
+) {
     <div class="serviceClosingWarning">
         <p>
-            @Messages("global.serviceCloseWarning",
-                dateService.now.toString(org.joda.time.format.DateTimeFormat.forPattern("HH:mm")),
-                closingHour
-            )
+        @Messages("global.serviceCloseWarning",
+            dateService.now.toString(org.joda.time.format.DateTimeFormat.forPattern("HH:mm")),
+            closingHour
+        )
         </p>
     </div>
 }
