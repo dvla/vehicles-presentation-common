@@ -1,6 +1,7 @@
 package uk.gov.dvla.vehicles.presentation.common.controllers
 
-import play.api.test.{FakeRequest, WithApplication}
+import play.api.test.{FakeRequest}
+import uk.gov.dvla.vehicles.presentation.common.{WithApplication, UnitSpec}
 import scala.concurrent.Await
 import scala.concurrent.duration.DurationInt
 import scala.language.postfixOps

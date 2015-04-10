@@ -30,7 +30,7 @@ final class VehicleAndKeeperLookupServiceImpl @Inject()(ws: VehicleAndKeeperLook
         val e =  new RuntimeException(
           s"Vehicle and keeper lookup web service call http status not OK, it " +
           s"was: '${resp.status} body: ${resp.body}'. Problem may come from either vehicle and keeper " +
-            s"lookup micro-service or the VPDS - trackingId: $trackingId"
+          s"lookup micro-service or the VPDS - trackingId: $trackingId"
         )
         healthStats.failure(ServiceName, e)
         throw e
@@ -39,7 +39,7 @@ final class VehicleAndKeeperLookupServiceImpl @Inject()(ws: VehicleAndKeeperLook
       case NonFatal(e) =>
         healthStats.failure(ServiceName, e)
         throw new RuntimeException("Vehicle and keeper lookup call failed for an unknown " +
-          "reason - trackingId: $trackingId", e)
+          s"reason - trackingId: $trackingId", e)
     }
 }
 
