@@ -1,6 +1,6 @@
 package uk.gov.dvla.vehicles.presentation.common.views.widgets
 
-import org.joda.time.Instant
+import org.joda.time.{DateTimeZone, Instant}
 import org.mockito.Mockito.when
 import play.api.i18n.Lang
 import scala.language.postfixOps
@@ -46,6 +46,6 @@ class ServiceClosingWarningSpec extends UnitSpec {
   }
 
   private def minutesAfter0(minutes: Long): Instant = {
-    new org.joda.time.DateTime(0, 1, 1, 0, 0).plusMinutes(minutes.toInt).toInstant
+    new org.joda.time.DateTime(0, 1, 1, 0, 0, DateTimeZone.forID("Europe/London")).plusMinutes(minutes.toInt).toInstant
   }
 }
