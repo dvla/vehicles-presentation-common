@@ -1,5 +1,5 @@
 
-define(['jquery'], function($) {
+define(['jquery', 'global-helpers', 'header-footer-only'], function($) {
     var disableSubmitOnClick = function() {
         $(':submit').on('click', function(e) {
             var runTimes;
@@ -170,7 +170,7 @@ define(['jquery'], function($) {
         $('.expandable-optional .option-visible:checked').click();
     }
 
-    var areCookiesEnabled = function(){
+    var areCookiesEnabled = function() {
         var cookieEnabled = (navigator.cookieEnabled) ? true : false;
 
         if (typeof navigator.cookieEnabled == "undefined" && !cookieEnabled)
@@ -179,6 +179,24 @@ define(['jquery'], function($) {
             cookieEnabled = (document.cookie.indexOf("testcookie") != -1) ? true : false;
         }
         return (cookieEnabled);
+    }
+
+    var formCheckedSelection = function() {
+        var label = $('label.form-radio.selectable, label.form-checkbox.selectable');
+
+        label.each(function() {
+            var input = $(this).children('input:radio, input:checkbox');
+            input.on('change', function() {
+                if(input.is(':checked')) {
+                    $('label').removeClass('selected');
+                    $(this).parent('label').addClass('selected');
+                    input.parent(label).addClass('selected');
+                }
+                if(!input.is(':checked')) {
+                    input.parent(label).removeClass('selected');
+                }
+            });
+        });
     }
 
     return {
@@ -192,17 +210,19 @@ define(['jquery'], function($) {
         enableSmoothScroll: enableSmoothScroll,
         feedbackFormCharacterCountdown: feedbackFormCharacterCountdown,
         enableOptionToggle: enableOptionToggle,
+        formCheckedSelection: formCheckedSelection,
         initAll: function() {
             $(function() {
-                ie10htmlPatch()
-                disableSubmitOnClick()
-                autoTabForDate()
-                imageHintToggles()
-                disableClickOnDisabledButtons()
-                printButton()
-                enableSmoothScroll()
-                feedbackFormCharacterCountdown()
-                enableOptionToggle()
+                ie10htmlPatch();
+                disableSubmitOnClick();
+                autoTabForDate();
+                imageHintToggles();
+                disableClickOnDisabledButtons();
+                printButton();
+                enableSmoothScroll();
+                feedbackFormCharacterCountdown();
+                enableOptionToggle();
+                formCheckedSelection();
 
                 if ($('#feedback-open').length) {
                     openFeedback('feedback-open', 'click');
@@ -224,5 +244,5 @@ define(['jquery'], function($) {
                 });
             });
         }
-    }
+    };
 });
