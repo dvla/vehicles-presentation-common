@@ -21,6 +21,7 @@ licenses += ("MIT", url("http://opensource.org/licenses/MIT"))
 crossScalaVersions := Seq("2.10.3", "2.11.4")
 
 val root = project.in(file(".")).enablePlugins(PlayScala, SbtWeb)
+  .settings(moduleName in Assets := "vehicles-presentation-common")
 
 val commonTests = project.in(file(testProjectName))
   .dependsOn(root % "compile->test" )
@@ -56,7 +57,10 @@ libraryDependencies ++= Seq(
   "org.apache.commons" % "commons-io" % "1.3.2" withSources() withJavadoc(),
   "org.apache.commons" % "commons-email" % "1.2" withSources() withJavadoc(),
   "com.github.tomakehurst" % "wiremock" % "1.46" % "test" withSources() withJavadoc() exclude("log4j", "log4j"),
-  "com.github.detro" % "phantomjsdriver" % "1.2.0" % "test" withSources() withJavadoc()
+  "com.github.detro" % "phantomjsdriver" % "1.2.0" % "test" withSources() withJavadoc(),
+  "org.webjars" %% "webjars-play" % "2.3.0-2",
+  "org.webjars" % "jquery" % "1.9.1",
+  "org.webjars" % "jquery-migrate" % "1.2.1"
 )
 
 instrumentSettings

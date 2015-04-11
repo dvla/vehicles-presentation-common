@@ -157,6 +157,19 @@ define(['jquery'], function($) {
         }
     }
 
+    var enableOptionToggle = function() {
+        $('.optional-field').hide();
+
+        $('.expandable-optional .option-visible').on('click', function() {
+            $(this).closest('.expandable-optional').find('.optional-field').show(100);
+        });
+        $('.expandable-optional .option-invisible').on('click', function() {
+            $(this).closest('.expandable-optional').find('.optional-field').hide(100);
+        });
+
+        $('.expandable-optional .option-visible:checked').click();
+    }
+
     var areCookiesEnabled = function(){
         var cookieEnabled = (navigator.cookieEnabled) ? true : false;
 
@@ -178,6 +191,7 @@ define(['jquery'], function($) {
         printButton: printButton,
         enableSmoothScroll: enableSmoothScroll,
         feedbackFormCharacterCountdown: feedbackFormCharacterCountdown,
+        enableOptionToggle: enableOptionToggle,
         initAll: function() {
             $(function() {
                 ie10htmlPatch()
@@ -188,6 +202,7 @@ define(['jquery'], function($) {
                 printButton()
                 enableSmoothScroll()
                 feedbackFormCharacterCountdown()
+                enableOptionToggle()
 
                 if ($('#feedback-open').length) {
                     openFeedback('feedback-open', 'click');

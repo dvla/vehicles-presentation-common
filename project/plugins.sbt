@@ -24,4 +24,6 @@ resolvers += Resolver.url(
 
 addSbtPlugin("me.lessis" % "bintray-sbt" % "0.1.2")
 
+addSbtPlugin("com.typesafe.sbt" % "sbt-rjs" % "1.0.7")
+
 addSbtPlugin("net.virtual-void" % "sbt-dependency-graph" % "0.7.4")
