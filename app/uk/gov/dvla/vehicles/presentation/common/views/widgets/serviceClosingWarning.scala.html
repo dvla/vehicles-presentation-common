@@ -19,7 +19,7 @@
     <div class="serviceClosingWarning">
         <p>
         @Messages("global.serviceCloseWarning",
-            dateService.now.toString(org.joda.time.format.DateTimeFormat.forPattern("HH:mm")),
+            new DateTime(dateService.now, DateTimeZone.forID("Europe/London")).toString(org.joda.time.format.DateTimeFormat.forPattern("HH:mm")),
             closingHour
         )
         </p>
