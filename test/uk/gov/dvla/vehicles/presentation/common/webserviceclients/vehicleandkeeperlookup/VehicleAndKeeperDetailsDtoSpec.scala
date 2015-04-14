@@ -1,7 +1,6 @@
 package uk.gov.dvla.vehicles.presentation.common.webserviceclients.vehicleandkeeperlookup
 
 import java.util.TimeZone
-
 import org.joda.time.{DateTime, DateTimeZone}
 import play.api.libs.json.{JsString, JsSuccess, JsNumber}
 import uk.gov.dvla.vehicles.presentation.common.UnitSpec
@@ -23,6 +22,16 @@ class VehicleAndKeeperDetailsDtoSpec extends UnitSpec {
         VehicleAndKeeperDetailsDto.jodaDateReads.reads(JsString(someDate)) should equal(
           JsSuccess(new DateTime(someDate, DateTimeZone.forID("Europe/London")))
         )
+      }
+    }
+
+    "Writes" should {
+      "print the datetime in the correct timezone" in {
+        timeZoneFixture {
+          VehicleAndKeeperDetailsDto.jodaDateWrites.writes(new DateTime("2015-04-01T00:00:00+01:00")) should equal(
+            JsString("2015-04-01T00:00:00.000+01:00")
+          )
+        }
       }
     }
   }
