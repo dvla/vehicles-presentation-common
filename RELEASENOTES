@@ -1,3 +1,17 @@
+======= 2.20 ======
+Time of release binaries creation:
+Wed Apr 12 2015 10:40:00
+
+8f88f51 DE418 fix the date time JSON reads for vehicle-and-keeper-lookup client
+743373f US2857: remove stacktrace from CSFR filter
+a6dc284 US2859 add a js lib for the submit button
+708a918 US2860 fix to optional text value in valtechTextWithButton widget
+92241d1 US2860 added a button text attribute to the valtechInputTextWithButton widget
+3aa7bfb US2796
+7f1a0a9 DE439: restore a message that Ed removed
+f044f43 DE441: better way to escape characters
+
+
 ======= 2.17 ======
 Time of release binaries creation:
 Thur Mar 12 2015 09:22:00
