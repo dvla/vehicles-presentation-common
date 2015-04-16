@@ -1,0 +1,21 @@
+@(include: Boolean, test: String)
+
+@if(include) {
+<link rel="stylesheet" href="//code.jquery.com/qunit/qunit-1.18.0.css">
+<!--<script src="@routes.WebJarAssets.at(WebJarAssets.locate("require.min.js"))">-->
+<script>
+require.config({
+    paths: {
+        'jquery' : '../lib/jquery/jquery',
+        "qunit": "//code.jquery.com/qunit/qunit-1.18.0"
+    },
+    shim: {
+         "qunit": ["jquery"]
+    }
+});
+</script>
+<script src="@routes.Assets.at(test)"></script>
+<div id="qunit"></div>
+<div id="qunit-fixture"></div>
+}
+
