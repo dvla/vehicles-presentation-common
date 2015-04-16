@@ -13,6 +13,8 @@ GET     /                               @uk.gov.dvla.vehicles.presentation.commo
 
 GET     /webjars/*file                    controllers.WebJarAssets.at(file)
 
+#GET     /tests/*file                   controllers.Assets.at(path="/assets/javascripts/tests", file:Asset)
+
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file                   controllers.Assets.at(path="/public", file)
 
@@ -69,6 +71,7 @@ GET     /version                        @uk.gov.dvla.vehicles.presentation.commo
 GET     /feedback-form                  @uk.gov.dvla.vehicles.presentation.common.controllers.FeedbackFormController.present
 POST    /feedback-form                  @uk.gov.dvla.vehicles.presentation.common.controllers.FeedbackFormController.submit
 
+GET     /jstest/option-toggle           @uk.gov.dvla.vehicles.presentation.common.controllers.OptionToggleController.jsTest
 GET     /option-toggle                  @uk.gov.dvla.vehicles.presentation.common.controllers.OptionToggleController.present
 POST    /option-toggle                  @uk.gov.dvla.vehicles.presentation.common.controllers.OptionToggleController.submit
 
