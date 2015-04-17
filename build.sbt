@@ -58,6 +58,7 @@ libraryDependencies ++= Seq(
   "org.apache.commons" % "commons-email" % "1.2" withSources() withJavadoc(),
   "com.github.tomakehurst" % "wiremock" % "1.46" % "test" withSources() withJavadoc() exclude("log4j", "log4j"),
   "com.github.detro" % "phantomjsdriver" % "1.2.0" % "test" withSources() withJavadoc(),
+  "net.htmlparser.jericho" % "jericho-html" % "3.3" withSources() withJavadoc(),
   "org.webjars" %% "webjars-play" % "2.3.0-2",
   "org.webjars" % "jquery" % "1.9.1",
   "org.webjars" % "jquery-migrate" % "1.2.1"

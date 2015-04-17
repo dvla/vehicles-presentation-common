@@ -16,7 +16,9 @@ import org.openqa.selenium.phantomjs.PhantomJSDriver
 object WebDriverFactory {
   private val systemProperties = System.getProperties
 
-  def browserType = sys.props.getOrElse("browser.type", "htmlunit")
+  def browserType = browserTypeDefault()
+
+  def browserTypeDefault(default: String = "htmlunit") = sys.props.getOrElse("browser.type", default)
 
   def webDriver: WebDriver = {
     val targetBrowser = browserType
@@ -56,6 +58,8 @@ object WebDriverFactory {
 
   def testUrl: String = TestConfiguration.testUrl
 
+  def defaultBrowserPhantomJs: WebDriver = webDriver(browserTypeDefault("phantomjs"), true)
+
   private def chromeDriver = {
     val webDriverProperty: String = try {
       getProperty[String]("webdriver.chrome.driver")
@@ -83,23 +87,10 @@ object WebDriverFactory {
   }
 
   private def phantomjsDriver(javascriptEnabled: Boolean) = {
-    val phantomLibrary: String = try {
-      getProperty[String]("webdriver.phantomjs.binary")
-    } catch {
-      case _:Throwable => s"test/resources/drivers/phantomjs-1.9.7_$driverSuffix"
-    }
-    systemProperties.setProperty(
-      "webdriver.phantomjs.binary",
-      phantomLibrary
-    )
 
     val capabilities = new DesiredCapabilities
     capabilities.setJavascriptEnabled(javascriptEnabled)
     capabilities.setCapability("takesScreenshot", false)
-    capabilities.setCapability(
-      PhantomJSDriverService.PHANTOMJS_EXECUTABLE_PATH_PROPERTY,
-      systemProperties.getProperty("webdriver.phantomjs.binary")
-    )
     capabilities.setCapability(
       PhantomJSDriverService.PHANTOMJS_CLI_ARGS,
       Array("--ignore-ssl-errors=yes", "--web-security=false", "--ssl-protocol=any")

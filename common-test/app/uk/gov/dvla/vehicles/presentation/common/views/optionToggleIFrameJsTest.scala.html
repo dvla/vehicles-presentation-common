@@ -1,0 +1,75 @@
+@(playForm: Form[uk.gov.dvla.vehicles.presentation.common.models.OptionalToggleModel],
+  includeQunitCode: Boolean = false)(implicit lang: Lang)
+
+@import uk.gov.dvla.vehicles.presentation.common
+@import common.views.helpers.BaseTemplate.fieldConstructor
+@import uk.gov.dvla.vehicles.presentation.common.models
+@import uk.gov.dvla.vehicles.presentation.common.controllers
+@import common.views.html.widgets.optionalToggle
+@import common.views.html.widgets.base.valtechInputText
+@import common.views.html.widgets.dates.valtechDate
+@import models.OptionalToggleModel.Form._
+@import views.html.helper.form
+@import uk.gov.dvla.vehicles.presentation.common.views
+
+@main(
+  title = "Option Toggle",
+  currentForm = Some(playForm)
+) {
+  @form(action = controllers.routes.OptionToggleController.submit) {
+
+    @optionalToggle(
+      playForm(OptionalStringOptionId),
+      "Do you want to enter a string?",
+      "Yes",
+      "No",
+      valtechInputText(
+        playForm(OptionalStringId),
+        hintText = Some("This is an optional text"),
+        args =  Map(
+          '_label -> "String",
+          '_showConstraints -> false,
+          'autofocus -> true,
+          'NO_OPTIONAL_LABEL -> false
+        )
+      )
+    )
+
+    @optionalToggle(
+      playForm(OptionalIntOptionId),
+      "Do you want to enter an Int?",
+      "Yes",
+      "No",
+      valtechInputText(
+        playForm(OptionalIntId),
+        hintText = Some("Optional Int"),
+        args =  Map(
+          '_label -> "Int",
+          '_showConstraints -> false,
+          'autofocus -> true,
+          'NO_OPTIONAL_LABEL -> true
+        )
+      )
+    )
+
+    @optionalToggle(
+      playForm(OptionalDateOptionId),
+      "Do you want to enter a Date?",
+      "Yes",
+      "No",
+      valtechDate(
+        playForm(OptionalDateId),
+        "Enter a date",
+        hintText = Some("Optional Date"),
+        args =  Map(
+          'NO_OPTIONAL_LABEL -> true
+        )
+      )
+    )
+    <div class="form-steps">
+      <button id="submit" type="submit" name="action" class="button" aria-label="Next button">Submit</button>
+    </div>
+  }
+}
+
+@views.html.qunit(includeQunitCode, "javascripts/tests/optionToggleTest.js")
