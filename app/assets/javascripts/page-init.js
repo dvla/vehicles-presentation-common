@@ -197,6 +197,37 @@ console.log("v-p-c disable submit");
         });
     };
 
+    var hideEmailOnOther = function(radioOtherId, emailId) {
+        if (!radioOtherId.length || !emailId.length) {
+            return;
+        }
+console.log("common hideEmailOnOther called")
+        var animDuration = 200; // 200 ms for the duration
+
+        var checkStateOfRadio = function(radioOtherId, emailId) {
+            if(!$(radioOtherId).attr('checked')) {
+                $(emailId).parent().hide(animDuration).removeClass('item-visible');
+                $(emailId).val('');
+            } else {
+                $(emailId).parent().show(animDuration).addClass('item-visible');
+            }
+        };
+
+        checkStateOfRadio(radioOtherId, emailId);
+
+        $("input:radio" ).click(function() {
+            checkStateOfRadio(radioOtherId, emailId);
+        });
+    };
+
+    var imageHintToggles = function() {
+        $('.hint-image-wrap > .panel-indent-wrapper').hide();
+
+        $('.hint-image-wrap > p').on('click', function() {
+            $(this).siblings().toggle();
+        });
+    };
+
     return {
         disableSubmitOnClick: disableSubmitOnClick,
         ie10htmlPatch: ie10htmlPatch,
@@ -209,6 +240,8 @@ console.log("v-p-c disable submit");
         feedbackFormCharacterCountdown: feedbackFormCharacterCountdown,
         enableOptionToggle: enableOptionToggle,
         formCheckedSelection: formCheckedSelection,
+        hideEmailOnOther: hideEmailOnOther, // Do not call this from initAll because only some exemplars need it
+        imageHintToggles: imageHintToggles, // Do not call this from initAll because only some exemplars need it
         initAll: function() {
             $(function() {
                 ie10htmlPatch();
