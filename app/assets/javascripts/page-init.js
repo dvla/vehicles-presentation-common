@@ -1,15 +1,13 @@
-
 define(['jquery', 'global-helpers', 'header-footer-only'], function($) {
     var disableSubmitOnClick = function() {
         $(':submit').on('click', function(e) {
-            var runTimes;
-
+console.log("v-p-c disable submit");
             if ( $(this).hasClass("disabled") ) {
                 return false;
             }
 
             $(this).html('Loading').addClass('loading-action disabled');
-            runTimes = 0;
+            var runTimes = 0;
             setInterval(function() {
                 if ( runTimes < 3 ){
                     $(':submit').append('.');
@@ -20,7 +18,7 @@ define(['jquery', 'global-helpers', 'header-footer-only'], function($) {
                 }
             }, 1000);
         });
-    }
+    };
 
     var openFeedback = function(inputId, event) {
         var element = document.getElementById(inputId);
@@ -49,14 +47,14 @@ define(['jquery', 'global-helpers', 'header-footer-only'], function($) {
             console.error("element id: " + inputId + " not found on page");
             return false;
         }
-    }
+    };
 
     var ie10htmlPatch = function() {
         var IE10 = (navigator.userAgent.match(/(MSIE 10.0)/g) ? true : false);
         if (IE10) {
             $('html').addClass('ie10');
         }
-    }
+    };
 
     var autoTabForDate = function() {
         // Auto-tab for date format forms and document ref number input
@@ -88,7 +86,7 @@ define(['jquery', 'global-helpers', 'header-footer-only'], function($) {
                 }
             });
         });
-    }
+    };
 
     var imageHintToggles = function() {
         // Images hints toogles
@@ -98,20 +96,20 @@ define(['jquery', 'global-helpers', 'header-footer-only'], function($) {
         $('.hint-image-wrap > p').on('click', function() {
             $(this).siblings().toggle();
         });
-    }
+    };
 
     var disableClickOnDisabledButtons = function() {
         $('.button-not-implemented').click(function() {
             return false;
         });
-    }
+    };
 
     var printButton = function() {
         $('.print-button').click(function() {
             window.print();
             return false;
         });
-    }
+    };
 
     var enableSmoothScroll = function() {
         $('a[href^="#"]').bind('click.smoothscroll', function (e) {
@@ -124,7 +122,7 @@ define(['jquery', 'global-helpers', 'header-footer-only'], function($) {
                 window.location.hash = target;
             });
         });
-    }
+    };
 
     var feedbackFormCharacterCountdown = function() {
         if ($("#feedback-form textarea").length > 0) {
@@ -145,7 +143,7 @@ define(['jquery', 'global-helpers', 'header-footer-only'], function($) {
                                 this.value = this.value.substr(0, len);
                                 return false;
                             }
-                        }
+                        };
                         txts[i].onkeyup = func;
                         txts[i].onblur = func;
                     }
@@ -155,7 +153,7 @@ define(['jquery', 'global-helpers', 'header-footer-only'], function($) {
                 $('#feedback-form textarea').keyup(updateCountdown);
             });
         }
-    }
+    };
 
     var enableOptionToggle = function() {
         $('.optional-field').hide();
@@ -168,7 +166,7 @@ define(['jquery', 'global-helpers', 'header-footer-only'], function($) {
         });
 
         $('.expandable-optional .option-visible:checked').click();
-    }
+    };
 
     var areCookiesEnabled = function() {
         var cookieEnabled = (navigator.cookieEnabled) ? true : false;
@@ -179,7 +177,7 @@ define(['jquery', 'global-helpers', 'header-footer-only'], function($) {
             cookieEnabled = (document.cookie.indexOf("testcookie") != -1) ? true : false;
         }
         return (cookieEnabled);
-    }
+    };
 
     var formCheckedSelection = function() {
         var label = $('label.form-radio.selectable, label.form-checkbox.selectable');
@@ -197,7 +195,7 @@ define(['jquery', 'global-helpers', 'header-footer-only'], function($) {
                 }
             });
         });
-    }
+    };
 
     return {
         disableSubmitOnClick: disableSubmitOnClick,
