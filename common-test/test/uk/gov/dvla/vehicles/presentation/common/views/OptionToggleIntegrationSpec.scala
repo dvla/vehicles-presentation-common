@@ -102,7 +102,7 @@ class OptionToggleIntegrationSpec extends UiSpec with TestHarness {
     }
   }
 
-  "javascript prototype" should {
+  "javascript prototype" ignore {
 
     "qunit tests should pass" in new WebBrowser(webDriver = WebDriverFactory.defaultBrowserPhantomJs) {
       go to OptionTogglePage.jsTestUrl
