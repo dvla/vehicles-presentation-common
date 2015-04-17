@@ -202,7 +202,7 @@ console.log("v-p-c disable submit");
             return;
         }
 console.log("common hideEmailOnOther called")
-        var animDuration = 200; // 200 ms for the duration
+        var animDuration = 0; // Set to zero as it was causing the control to lose focus (
 
         var checkStateOfRadio = function(radioOtherId, emailId) {
             if(!$(radioOtherId).attr('checked')) {
