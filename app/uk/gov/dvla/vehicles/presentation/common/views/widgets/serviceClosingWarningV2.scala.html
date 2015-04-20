@@ -5,6 +5,38 @@
 @import org.joda.time.Period
 @import org.joda.time.format.PeriodFormatterBuilder
 
+@LondonTimeZone = @{DateTimeZone.forID("Europe/London")}
+
+@periodFormatter = @{
+    new PeriodFormatterBuilder().
+    printZeroAlways().
+    minimumPrintedDigits(2).
+    appendHours().
+    appendSeparator(":").
+    appendMinutes().
+    appendSeparator(".").
+    appendSeconds().
+    toFormatter
+}
+
+@currentTimeInLondon = @{dateService.now.toDateTime(LondonTimeZone)}
+
+@closingTimeInLondonToday(closingHour: Int, currentTime: DateTime) = @{
+    val closingTimeToday = currentTime.
+    withHourOfDay(if (closingHour == 24) 0 else closingHour).
+    withMinuteOfHour(0).
+    withSecondOfMinute(0).
+    withZone(LondonTimeZone)
+    if (closingHour == 24) closingTimeToday.plusDays(1) else closingTimeToday
+}
+
+@timeUntilClosed(closingHour: Int) = @{
+    val currentTime = currentTimeInLondon // The time is always moving forward, so measure it once and store in an immutable object.
+    val closingTimeToday = closingTimeInLondonToday(closingHour, currentTime)
+    val period = new Period(currentTime, closingTimeToday)
+    period.toString(periodFormatter) // HH:mm.ss
+}
+
 @if(
     Some((closingHour, new org.joda.time.DateTime(
         dateService.now.toDateTime.getYear,
@@ -37,40 +69,12 @@
         @* 5 min warning *@
         <div class="serviceClosingWarning">
             <p>
-            @{
-                val LondonTimeZone = DateTimeZone.forID("Europe/London")
-                val periodFormatter = new PeriodFormatterBuilder().
-                        printZeroAlways().
-                        minimumPrintedDigits(2).
-                        appendHours().
-                        appendSeparator(":").
-                        appendMinutes().
-                        appendSeparator(".").
-                        appendSeconds().
-                        toFormatter
-                def currentTimeInLondon = dateService.now.toDateTime(LondonTimeZone)
-                def closingTimeInLondonToday(closingHour: Int, currentTime: DateTime): DateTime = {
-                    val closingTimeToday = currentTime.
-                            withHourOfDay(if (closingHour == 24) 0 else closingHour).
-                            withMinuteOfHour(0).
-                            withSecondOfMinute(0).
-                            withZone(LondonTimeZone)
-                    if (closingHour == 24) closingTimeToday.plusDays(1) else closingTimeToday
-                }
-                def timeUntilClosed(closingHour: Int): String = {
-                    val currentTime = currentTimeInLondon // The time is always moving forward, so measure it once and store in an immutable object.
-                    val closingTimeToday = closingTimeInLondonToday(closingHour, currentTime)
-                    val period = new Period(currentTime, closingTimeToday)
-                    period.toString(periodFormatter) // HH:mm.ss
-                }
-
-                Messages(
+                @Messages(
                     "global.serviceCloseWarning.fiveMinutes",
                     openingHour,
                     closingHour,
                     timeUntilClosed(closingHour)
                 )
-            }
             </p>
         </div>
     } else {
