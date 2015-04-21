@@ -1,8 +1,12 @@
 package uk.gov.dvla.vehicles.presentation.common.views
 
-import org.openqa.selenium.SearchContext
+import org.openqa.selenium.support.ui.{WebDriverWait, ExpectedConditions}
+import org.openqa.selenium.{By, WebDriver, SearchContext}
+import org.scalatest.concurrent.Eventually.{eventually, timeout}
+import org.scalatest.time.{Span, Seconds}
 import uk.gov.dvla.vehicles.presentation.common.composition.TestHarness
 import uk.gov.dvla.vehicles.presentation.common.helpers.UiSpec
+import uk.gov.dvla.vehicles.presentation.common.helpers.webbrowser.WebDriverFactory
 import uk.gov.dvla.vehicles.presentation.common.mappings.OptionalToggle
 import uk.gov.dvla.vehicles.presentation.common.pages.{ErrorPanel, OptionTogglePage}
 
@@ -30,6 +34,17 @@ class OptionToggleIntegrationSpec extends UiSpec with TestHarness {
       dateComponent.day.text should equal("")
       dateComponent.month.text should equal("")
       dateComponent.year.text should equal("")
+    }
+
+    "show working option toggle" in new WebBrowser(webDriver = WebDriverFactory.defaultBrowserPhantomJs) {
+      go to OptionTogglePage
+      page.title should equal(OptionTogglePage.title)
+
+      OptionTogglePage.textRadio.assetComponentInvisible
+      OptionTogglePage.textRadio.radio.value = "visible"
+      OptionTogglePage.textRadio.assetComponentVisible
+      OptionTogglePage.textRadio.radio.value = "invisible"
+      OptionTogglePage.textRadio.assetComponentInvisible
     }
   }
 
@@ -96,6 +111,30 @@ class OptionToggleIntegrationSpec extends UiSpec with TestHarness {
       page.text should include("Some(2012-12-12)")
 
     }
+  }
+
+  "javascript prototype" should {
+    "qunit tests should pass" in new WebBrowser(webDriver = WebDriverFactory.defaultBrowserPhantomJs) {
+      go to OptionTogglePage.jsTestUrl
+      assertJsTestPass
+    }
+
+  }
+
+  private def assertJsTestPass(implicit driver: WebDriver): Unit = {
+
+    val qunitDiv = eventually(timeout(Span(3, Seconds))){
+      val qunitDiv = driver.findElement(By.id("qunit"))
+      qunitDiv.findElement(By.cssSelector("h2.qunit-fail, h2.qunit-pass"))
+    }
+
+    val qunitTestresult = driver.findElement(By.id("qunit-testresult"))
+    info(qunitTestresult.getText.lines.map("    " + _).mkString("\n"))
+    val qunitTests = driver.findElement(By.id("qunit-tests"))
+    info(qunitTests.getText.lines.map("    " + _).mkString("\n"))
+
+    if (qunitDiv.findElement(By.id("qunit-banner")).getAttribute("class").contains("qunit-fail"))
+      fail()
   }
 
   private def verifyErrors(errors: String*)(implicit driver: SearchContext): Unit = {
