@@ -123,7 +123,7 @@ class OptionToggleIntegrationSpec extends UiSpec with TestHarness {
 
   private def assertJsTestPass(implicit driver: WebDriver): Unit = {
 
-    val qunitDiv = eventually(timeout(Span(3, Seconds))){
+    val qunitDiv = eventually(timeout(Span(10, Seconds))){
       val qunitDiv = driver.findElement(By.id("qunit"))
       qunitDiv.findElement(By.cssSelector("h2.qunit-fail, h2.qunit-pass"))
     }
