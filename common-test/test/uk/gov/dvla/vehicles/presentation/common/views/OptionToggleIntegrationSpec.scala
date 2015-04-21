@@ -35,6 +35,17 @@ class OptionToggleIntegrationSpec extends UiSpec with TestHarness {
       dateComponent.month.text should equal("")
       dateComponent.year.text should equal("")
     }
+
+    "show working option toggle" in new WebBrowser(webDriver = WebDriverFactory.defaultBrowserPhantomJs) {
+      go to OptionTogglePage
+      page.title should equal(OptionTogglePage.title)
+
+      OptionTogglePage.textRadio.assetComponentInvisible
+      OptionTogglePage.textRadio.radio.value = "visible"
+      OptionTogglePage.textRadio.assetComponentVisible
+      OptionTogglePage.textRadio.radio.value = "invisible"
+      OptionTogglePage.textRadio.assetComponentInvisible
+    }
   }
 
   "submit" should {
@@ -102,23 +113,12 @@ class OptionToggleIntegrationSpec extends UiSpec with TestHarness {
     }
   }
 
-  "javascript prototype" ignore {
-
+  "javascript prototype" should {
     "qunit tests should pass" in new WebBrowser(webDriver = WebDriverFactory.defaultBrowserPhantomJs) {
       go to OptionTogglePage.jsTestUrl
       assertJsTestPass
     }
 
-    "qunit webdriver equivalent" in new WebBrowser(webDriver = WebDriverFactory.defaultBrowserPhantomJs) {
-      go to OptionTogglePage
-      page.title should equal(OptionTogglePage.title)
-
-      OptionTogglePage.textRadio.assetComponentInvisible
-      OptionTogglePage.textRadio.radio.value = "visible"
-      OptionTogglePage.textRadio.assetComponentVisible
-      OptionTogglePage.textRadio.radio.value = "invisible"
-      OptionTogglePage.textRadio.assetComponentInvisible
-    }
   }
 
   private def assertJsTestPass(implicit driver: WebDriver): Unit = {
