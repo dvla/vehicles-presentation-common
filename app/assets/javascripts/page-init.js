@@ -115,10 +115,10 @@ define(['jquery', 'global-helpers', 'header-footer-only'], function($) {
             function updateCountdown() {
                 // 500 is the max message length
                 var remaining = 500 - $('#feedback-form textarea').val().length;
-                $('.character-countdown').text(remaining + ' characters remaining.');
+                $('.character-countdown').text(remaining);
             }
             $(document).ready(function($) {
-                // IE 9- maxlenght on input textarea
+                // IE 9- maxlength on input textarea
                 var txts = document.getElementsByTagName('TEXTAREA')
                 for(var i = 0, l = txts.length; i < l; i++) {
                     if(/^[0-9]+$/.test(txts[i].getAttribute("maxlength"))) {
