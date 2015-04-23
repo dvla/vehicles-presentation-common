@@ -47,13 +47,18 @@
 
     // Don't validate the input if below arrow, delete and backspace keys were pressed
     if(key == 37 || key == 39 || key == 8 || key == 9 || key == 46) { // Left / Right , Backspace, Tab, Delete keys
-        if ( String.fromCharCode( key ) != "%") {
+        if ( String.fromCharCode( key ) != "%" && String.fromCharCode( key ) != "."
+            && String.fromCharCode( key ) != "'" ) {
             return ;
         }
     }
 
     var keyStr = String.fromCharCode( key );
-    var regex = /[0-9|/]/;
+    var regex = /[0-9]/;
+
+    console.log(keyStr);
+    console.log(regex.test(keyStr));
+
 
     if( !regex.test(keyStr)) {
         theEvent.returnValue = false;
