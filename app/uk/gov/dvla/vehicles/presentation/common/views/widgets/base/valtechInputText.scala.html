@@ -34,9 +34,7 @@
         @hintTextSnippet(hintText, idOfRelatedInput = id)
 
   <script type="text/javascript">
-  function check(evt, id) {
-
-    var value = id.value;
+  function check(evt, id, regex) {
 
     var theEvent = evt || window.event;
     if ( theEvent == null || theEvent == undefined) {
@@ -49,16 +47,11 @@
     if(key == 37 || key == 39 || key == 8 || key == 9 || key == 46) { // Left / Right , Backspace, Tab, Delete keys
         if ( String.fromCharCode( key ) != "%" && String.fromCharCode( key ) != "."
             && String.fromCharCode( key ) != "'" ) {
-            return ;
+            return;
         }
     }
 
     var keyStr = String.fromCharCode( key );
-    var regex = /[0-9]/;
-
-    console.log(keyStr);
-    console.log(regex.test(keyStr));
-
 
     if( !regex.test(keyStr)) {
         theEvent.returnValue = false;
