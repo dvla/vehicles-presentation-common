@@ -1,4 +1,4 @@
-define(['jquery', 'global-helpers', 'header-footer-only'], function($) {
+define(['jquery', 'global-helpers', 'header-footer-only', 'address-picker'], function($, gh, hfo, addressLookup) {
 
     var disableSubmitOnClick = function() {
         $(':submit').on('click', function() {
@@ -255,6 +255,7 @@ define(['jquery', 'global-helpers', 'header-footer-only'], function($) {
                     $(this).addClass("disabled");
                     return true;
                 });
+                addressLookup.enableAddressLookup()
             });
         }
     };

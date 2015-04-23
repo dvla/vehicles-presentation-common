@@ -2,13 +2,13 @@ package uk.gov.dvla.vehicles.presentation.common.mappings
 
 import play.api.data.FormError
 import uk.gov.dvla.vehicles.presentation.common.UnitSpec
-import uk.gov.dvla.vehicles.presentation.common.model.AddressPickerModel
+import uk.gov.dvla.vehicles.presentation.common.model.Address
 import AddressPicker.{AddressLine1Id, AddressLine2Id,AddressLine3Id, PostTownId, PostcodeId, CountyId}
 import uk.gov.dvla.vehicles.presentation.common.views.constraints
 
 class AddressPickerSpec extends UnitSpec {
   private val formatter = AddressPicker.formatter()
-  val fullModel = AddressPickerModel(
+  val fullModel = Address(
     "address line 1",
     Some("address line 2"),
     Some("address line 3"),
@@ -77,7 +77,7 @@ class AddressPickerSpec extends UnitSpec {
     }
 
     "catch illegal characters in address lines and post town" in {
-      val illegalChars = AddressPickerModel(
+      val illegalChars = Address(
         "address line *&^*&^%$^ 1",
         Some("@#^&*$address line 2"),
         Some("address line 3 |||(*&(*"),

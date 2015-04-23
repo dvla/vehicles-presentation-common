@@ -1,8 +1,9 @@
 package uk.gov.dvla.vehicles.presentation.common.mappings
 
 import play.api.data.FormError
+import play.api.data.Forms._
 import play.api.data.format.Formatter
-import uk.gov.dvla.vehicles.presentation.common.model.AddressPickerModel
+import uk.gov.dvla.vehicles.presentation.common.model.Address
 
 object AddressPicker {
   private final val AddressLinesFormat = """^[a-zA-Z0-9][A-Za-z0-9\s\-\,\.\/\\]*$""".r.pattern
@@ -15,8 +16,8 @@ object AddressPicker {
   final val CountyId = "county"
   final val PostcodeId = "post-code"
 
-  def formatter() = new Formatter[AddressPickerModel] {
-    override def bind(key: String, data: Map[String, String]): Either[Seq[FormError], AddressPickerModel] = {
+  def formatter() = new Formatter[Address] {
+    override def bind(key: String, data: Map[String, String]): Either[Seq[FormError], Address] = {
       val filterEmpty = data.filterNot{case (_, v) => v.isEmpty}
       val line1 = filterEmpty.get(s"$key.$AddressLine1Id")
       val line2 = filterEmpty.get(s"$key.$AddressLine2Id")
@@ -26,22 +27,6 @@ object AddressPicker {
       val postCode = filterEmpty.get(s"$key.$PostcodeId")
 
       type SFE = Seq[FormError]
-
-
-//      Seq[OFE](
-//        postTown.fold[OFE](Some(FormError(s"$key.$PostTownId", "error.address.postTown"))) { postTown =>
-//          if (PostTownFormat.matcher(postTown).matches()) None
-//          else Some(FormError(s"$key.$PostTownId", "error.postTown.characterInvalid"))
-//        },
-//
-//      ).flatten ++ postCode.fold[SFE](Seq(FormError(s"$key.$PostcodeId", "error.address.postCode"))) { postCode =>
-//        Postcode.postcode.withPrefix(s"$key.$PostcodeId").bind(Map(s"$key.$PostcodeId" -> postCode)) match {
-//          case Left(errors) => errors
-//          case Right(result) => Nil
-//        }
-//      }
-
-
 
       val errors = line1.fold[SFE](Seq(FormError(s"$key.$AddressLine1Id", "error.address.addressLine1"))) { line =>
         val addressLineLengthErr =
@@ -66,7 +51,7 @@ object AddressPicker {
       }
 
       if (!errors.isEmpty) Left(errors)
-      else Right(AddressPickerModel(
+      else Right(Address(
         line1.get,
         line2,
         line3,
@@ -76,7 +61,7 @@ object AddressPicker {
       ))
     }
 
-    override def unbind(key: String, value: AddressPickerModel): Map[String, String] = Map(
+    override def unbind(key: String, value: Address): Map[String, String] = Map(
       s"$key.$AddressLine1Id" -> value.streetAddress1,
       s"$key.$PostTownId" -> value.postTown,
       s"$key.$PostcodeId" -> value.postCode
@@ -88,4 +73,6 @@ object AddressPicker {
 
     private def toMap(opt: Option[String], key: String) = opt.fold(Map[String, String]())(value => Map(key -> value))
   }
+
+  val mapAddress = of[Address](AddressPicker.formatter())
 }
