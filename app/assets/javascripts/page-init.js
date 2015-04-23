@@ -1,4 +1,6 @@
-define(['jquery', 'global-helpers', 'header-footer-only', 'address-picker'], function($, gh, hfo, addressLookup) {
+define(function(require) {
+    var $ = require('jquery'),
+        addressLookup = require('address-picker');
 
     var disableSubmitOnClick = function() {
         $(':submit').on('click', function() {
