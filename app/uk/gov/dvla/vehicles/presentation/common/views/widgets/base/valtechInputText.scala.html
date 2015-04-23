@@ -34,7 +34,7 @@
         @hintTextSnippet(hintText, idOfRelatedInput = id)
 
   <script type="text/javascript">
-  function check(evt, id) {
+  function check(evt, id, regex) {
 
     var value = id.value;
 
@@ -53,7 +53,6 @@
     }
 
     var keyStr = String.fromCharCode( key );
-    var regex = /[0-9|/]/;
 
     if( !regex.test(keyStr)) {
         theEvent.returnValue = false;
