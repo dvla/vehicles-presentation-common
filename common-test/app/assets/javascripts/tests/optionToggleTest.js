@@ -11,11 +11,11 @@ require(["jquery", "qunit"], function($, qunit){
 
         stringOptionDiv.find(".option-visible").click();
 
-        stringOptionDiv.find(".optional-field").promise().done(function() {
+        stringOptionDiv.find(".optional-field").promise().always(function() {
             ok($(this).is(":visible"));
 
             stringOptionDiv.find(".option-invisible").click();
-            stringOptionDiv.find(".optional-field").promise().done(function() {
+            stringOptionDiv.find(".optional-field").promise().always(function() {
                 ok(!$(this).is(":visible"));
                 done();
             });
