@@ -20,6 +20,49 @@ console.log("v-p-c disable submit");
         });
     };
 
+    var closingWarning = function() {
+        var d = new Date(),
+            h = d.getHours(),
+            m = d.getMinutes(),
+            s = d.getSeconds(),
+            closingWaring = $('.serviceClosingWarning'),
+            closingHour = 17,
+            closingMinute = 59,
+            closingMinuteFinalWarning = 55,
+            closingMinuteStart = 45,
+            minLeft,
+            secLeft;
+
+        if ((h == closingHour) && (m >= closingMinuteStart) && (h == closingHour) && (m <= closingMinute)) {
+
+            setInterval(function () {
+                var dClosing = new Date();
+
+                var mClosing = dClosing.getMinutes();
+
+                var sClosing = dClosing.getSeconds();
+                minLeft = closingMinute - mClosing;
+                secLeft = 60 - sClosing;
+
+                $('.js-minutes-left').html(minLeft);
+                $('.js-seconds-left').html(secLeft - 1);
+
+                if ((h == closingHour) && (mClosing >= closingMinuteFinalWarning)) {
+                    closingWaring.removeClass('closing-warning');
+                    closingWaring.addClass('final-closing-warning');
+                }
+
+            }, 1000);
+
+            $('.serviceClosingWarning p').html('This service is available from 08:00 to 18:00, you have <span class="js-minutes-left">15</span>:<span class="js-seconds-left">00</span> to complete this service.');
+
+        } else {
+            closingWaring.removeClass('closing-warning');
+            closingWaring.addClass('final-closing-warning');
+            closingWaring.html('Service now closed.  Service is available 08:00 to 18:00 Monday to Saturday.');
+
+        }
+    }
     var openFeedback = function(inputId, event) {
         var element = document.getElementById(inputId);
         if (element) {
@@ -230,6 +273,7 @@ console.log("common hideEmailOnOther called")
 
     return {
         disableSubmitOnClick: disableSubmitOnClick,
+        closingWarning: closingWarning,
         ie10htmlPatch: ie10htmlPatch,
         openFeedback: openFeedback,
         autoTabForDate: autoTabForDate,
@@ -246,6 +290,7 @@ console.log("common hideEmailOnOther called")
             $(function() {
                 ie10htmlPatch();
                 disableSubmitOnClick();
+                closingWarning();
                 autoTabForDate();
                 imageHintToggles();
                 disableClickOnDisabledButtons();
