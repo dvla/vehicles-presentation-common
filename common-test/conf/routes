@@ -75,4 +75,7 @@ GET     /jstest/option-toggle           @uk.gov.dvla.vehicles.presentation.commo
 GET     /option-toggle                  @uk.gov.dvla.vehicles.presentation.common.controllers.OptionToggleController.present
 POST    /option-toggle                  @uk.gov.dvla.vehicles.presentation.common.controllers.OptionToggleController.submit
 
+GET     /address-picker                 @uk.gov.dvla.vehicles.presentation.common.controllers.AddressPicker.present
+POST    /address-picker                 @uk.gov.dvla.vehicles.presentation.common.controllers.AddressPicker.submit
+
 GET     /cookie-policy                  @uk.gov.dvla.vehicles.presentation.common.controllers.CookiePolicyController.present

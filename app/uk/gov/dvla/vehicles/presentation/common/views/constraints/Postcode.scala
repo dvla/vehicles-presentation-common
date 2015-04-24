@@ -4,18 +4,20 @@ import play.api.data.validation.Constraint
 import play.api.data.validation.Constraints.pattern
 
 object Postcode {
+  val regex =
+    """^
+      |(?i)(GIR 0AA)|
+      |((([A-Z][0-9][0-9]?)|
+      |(([A-Z][A-HJ-Y][0-9][0-9]?)|
+      |(([A-Z][0-9][A-Z])|
+      |([A-Z][A-HJ-Y][0-9]?[A-Z]))))[ ]?[0-9][A-Z]{2})
+      |$""".stripMargin.replace("\n", "").r
 
   def validPostcode: Constraint[String] = pattern(
-    regex =
-      """^
-        |(?i)(GIR 0AA)|
-        |((([A-Z][0-9][0-9]?)|
-        |(([A-Z][A-HJ-Y][0-9][0-9]?)|
-        |(([A-Z][0-9][A-Z])|
-        |([A-Z][A-HJ-Y][0-9]?[A-Z]))))[ ]?[0-9][A-Z]{2})
-        |$""".stripMargin.replace("\n", "").r,
+    regex = regex,
     name = "constraint.restricted.validPostcode",
-    error = "error.restricted.validPostcode")
+    error = "error.restricted.validPostcode"
+  )
 
   // TODO I think this should move out of the constraint as it is not a constraint, it re-formats for viewing. It could live in a model but we don't yet have a model for postcode
   def formatPostcode(postcode: String): String = {

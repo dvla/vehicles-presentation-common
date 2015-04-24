@@ -55,13 +55,14 @@ object HtmlArgsExtensions {
       else if (htmlArgs.contains('typeFleetNumber)) withTypeAttributeFleetNumber
       else if (htmlArgs.contains('typeEmail)) withTypeAttributeEmail
       else if (htmlArgs.contains('alphabeticalOnly)) withTypeAttributeAlphabeticalOnly
+      else if (htmlArgs.contains('alphaNumericOnly)) withTypeAttributeAlphaNumericOnly
       else htmlArgs + ('type -> "text")
 
     def withTypeAttributeTel: Map[Symbol, Any] =
-      htmlArgs - 'typeTel + ('type -> """tel""") + ('onkeypress -> """check(event, this);""")
+      htmlArgs - 'typeTel + ('type -> """tel""") + ('onkeypress -> """check(event, this, /[0-9|/]/ );""")
 
     def withTypeAttributeFleetNumber: Map[Symbol, Any] =
-      htmlArgs - 'typeFleetNumber + ('type -> "tel") + ('onkeypress -> """check(event, this);""")
+      htmlArgs - 'typeFleetNumber + ('type -> "tel") + ('onkeypress -> """check(event, this, /[0-9|/]/);""")
 
     def withTypeAttributeEmail: Map[Symbol, Any] = htmlArgs - 'typeEmail + ('type -> "email")
 
@@ -69,6 +70,9 @@ object HtmlArgsExtensions {
       htmlArgs - 'alphabeticalOnly + ('type -> "text") +
         ('onkeyup -> """this.value=this.value.replace(/[^a-zA-Z]/g,'')""") +
         ('onkeydown -> """this.value=this.value.replace(/[^a-zA-Z]/g,'')""")
+
+    def withTypeAttributeAlphaNumericOnly: Map[Symbol, Any] =
+      htmlArgs - 'alphaNumericOnly + ('type -> "text") + ('onkeypress -> """check(event, this, /[a-zA-Z0-9|/]/ );""")
 
     def withTypeAttributeText: Map[Symbol, Any] = htmlArgs + ('type -> "text")
 

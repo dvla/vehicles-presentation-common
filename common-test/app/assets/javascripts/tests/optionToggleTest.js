@@ -1,19 +1,29 @@
 require(["jquery", "qunit"], function($, qunit){
+
     qunit.test( "Hide option toggles on load", function( assert ) {
-        ok(!$('.optional-field').is(':visible'), "Did not hide the invisible elements");
+        ok(!$('.optional-field').is(':visible'), "Did not hide the invisible elements on load");
     });
 
     qunit.test( "Show/hide option on clicking yes/no", function( assert ) {
-        $("#optional-string-option_visible").click();
-        ok($('#optional-string-option-option-field').is(':visible'), "Did not show the option on clicking yes");
-        $("#optional-string-option_invisible").click();
-        ok($('#optional-string-option-option-field').is(':visible'), "Did not hide the option on clicking no");
-        ok(false)
+        var done = assert.async();
+
+        var stringOptionDiv = $("#optional-string-option")
+
+        stringOptionDiv.find(".option-visible").click();
+
+        stringOptionDiv.find(".optional-field").promise().always(function() {
+            ok($(this).is(":visible"));
+
+            stringOptionDiv.find(".option-invisible").click();
+            stringOptionDiv.find(".optional-field").promise().always(function() {
+                ok(!$(this).is(":visible"));
+                done();
+            });
+        });
     });
 
     $(function(){
         qunit.load();
         qunit.start();
     });
-
 });

@@ -119,7 +119,7 @@ class CsrfPreventionAction(next: EssentialAction)
     val remoteAddress = requestHeader.remoteAddress
     val path = requestHeader.path
     Logger.error(s"CsrfPreventionException remote address: $remoteAddress path: $path, message: $message")
-    Done(Results.BadRequest)
+    Done(Results.Forbidden)
   }
 }
 

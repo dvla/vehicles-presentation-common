@@ -1,11 +1,12 @@
-define(['jquery', 'global-helpers', 'header-footer-only'], function($) {
+define(function(require) {
+    var $ = require('jquery'),
+        addressLookup = require('address-picker');
+
     var disableSubmitOnClick = function() {
-        $(':submit').on('click', function(e) {
-console.log("v-p-c disable submit");
+        $(':submit').on('click', function() {
             if ( $(this).hasClass("disabled") ) {
                 return false;
             }
-
             $(this).html('Loading').addClass('loading-action disabled');
             var runTimes = 0;
             setInterval(function() {
@@ -92,16 +93,13 @@ console.log("v-p-c disable submit");
         }
     };
 
-    var ie10htmlPatch = function() {
-        var IE10 = (navigator.userAgent.match(/(MSIE 10.0)/g) ? true : false);
-        if (IE10) {
-            $('html').addClass('ie10');
-        }
-    };
-
-    var autoTabForDate = function() {
+    var autoTabForInputs = function() {
         // Auto-tab for date format forms and document ref number input
 
+        var hasFocus = $('.form-date input, #documentReferenceNumber').prop("autofocus");
+        if (hasFocus) {
+            $('.form-date input, #documentReferenceNumber').focus();
+        }
         $('.form-date input, #documentReferenceNumber').one('focus', function() {
             var nextInput, focusMaxLength, currentLength;
             // Getting next field
@@ -128,16 +126,6 @@ console.log("v-p-c disable submit");
                     }
                 }
             });
-        });
-    };
-
-    var imageHintToggles = function() {
-        // Images hints toogles
-
-        $('.hint-image-wrap > .panel-indent-wrapper').hide();
-
-        $('.hint-image-wrap > p').on('click', function() {
-            $(this).siblings().toggle();
         });
     };
 
@@ -172,10 +160,10 @@ console.log("v-p-c disable submit");
             function updateCountdown() {
                 // 500 is the max message length
                 var remaining = 500 - $('#feedback-form textarea').val().length;
-                $('.character-countdown').text(remaining + ' characters remaining.');
+                $('.character-countdown').text(remaining);
             }
             $(document).ready(function($) {
-                // IE 9- maxlenght on input textarea
+                // IE 9- maxlength on input textarea
                 var txts = document.getElementsByTagName('TEXTAREA')
                 for(var i = 0, l = txts.length; i < l; i++) {
                     if(/^[0-9]+$/.test(txts[i].getAttribute("maxlength"))) {
@@ -211,6 +199,7 @@ console.log("v-p-c disable submit");
         $('.expandable-optional .option-visible:checked').click();
     };
 
+    // TODO: remove it if unused
     var areCookiesEnabled = function() {
         var cookieEnabled = (navigator.cookieEnabled) ? true : false;
 
@@ -244,15 +233,13 @@ console.log("v-p-c disable submit");
         if (!radioOtherId.length || !emailId.length) {
             return;
         }
-console.log("common hideEmailOnOther called")
-        var animDuration = 0; // Set to zero as it was causing the control to lose focus (
 
         var checkStateOfRadio = function(radioOtherId, emailId) {
             if(!$(radioOtherId).attr('checked')) {
-                $(emailId).parent().hide(animDuration).removeClass('item-visible');
+                $(emailId).parent().hide().removeClass('item-visible');
                 $(emailId).val('');
             } else {
-                $(emailId).parent().show(animDuration).addClass('item-visible');
+                $(emailId).parent().show().addClass('item-visible');
             }
         };
 
@@ -274,9 +261,8 @@ console.log("common hideEmailOnOther called")
     return {
         disableSubmitOnClick: disableSubmitOnClick,
         closingWarning: closingWarning,
-        ie10htmlPatch: ie10htmlPatch,
         openFeedback: openFeedback,
-        autoTabForDate: autoTabForDate,
+        autoTabForInputs: autoTabForInputs,
         imageHintToggles: imageHintToggles,
         disableClickOnDisabledButtons: disableClickOnDisabledButtons,
         printButton: printButton,
@@ -285,13 +271,11 @@ console.log("common hideEmailOnOther called")
         enableOptionToggle: enableOptionToggle,
         formCheckedSelection: formCheckedSelection,
         hideEmailOnOther: hideEmailOnOther, // Do not call this from initAll because only some exemplars need it
-        imageHintToggles: imageHintToggles, // Do not call this from initAll because only some exemplars need it
         initAll: function() {
             $(function() {
-                ie10htmlPatch();
                 disableSubmitOnClick();
                 closingWarning();
-                autoTabForDate();
+                autoTabForInputs();
                 imageHintToggles();
                 disableClickOnDisabledButtons();
                 printButton();
@@ -318,6 +302,7 @@ console.log("common hideEmailOnOther called")
                     $(this).addClass("disabled");
                     return true;
                 });
+                addressLookup.enableAddressLookup()
             });
         }
     };
