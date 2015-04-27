@@ -110,13 +110,15 @@ img {
     padding: 8px 15px;
     box-sizing: border-box;
       span {
-          width: 15px;
+          width: 30px;
           display: inline-block;
-          text-align: center;
           &.js-seconds-left {
               margin-right: 10px;
           }
       }
+    &.serviceClosed {
+        display: none;
+    }
   }
   &.closing-warning{
     background: $govuk-blue;

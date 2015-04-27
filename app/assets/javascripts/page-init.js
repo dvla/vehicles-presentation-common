@@ -25,51 +25,49 @@ define(function(require) {
         var d = new Date(),
             h = d.getHours(),
             m = d.getMinutes(),
-            s = d.getSeconds(),
             closingWaring = $('.serviceClosingWarning'),
+            // closingHour is picked up by data-closing-time attribute which will be the same as configuration file
+            //closingHour = $('body').attr('data-closing-time'),
             closingHour = 17,
+            // Last minute available is 59
             closingMinute = 59,
-            closingMinuteFinalWarning = 55,
+            // Warning will start at HH:45
             closingMinuteStart = 45,
-            minLeft,
-            secLeft;
-
+            // Final warning will start at HH:55
+            closingMinuteFinalWarning = 55,
+            minLeft, secLeft, dClosing, mClosing, sClosing;
         if ((h == closingHour) && (m >= closingMinuteStart) && (h == closingHour) && (m <= closingMinute)) {
-
             var refreshTimer = setInterval(function () {
-                var dClosing = new Date();
-
-                var mClosing = dClosing.getMinutes();
-
-                var sClosing = dClosing.getSeconds();
+                dClosing = new Date();
+                mClosing = dClosing.getMinutes();
+                sClosing = dClosing.getSeconds();
                 minLeft = closingMinute - mClosing;
                 secLeft = 60 - sClosing;
-
+                function pad(d) {
+                    return (d < 10) ? '0' + d.toString() : d.toString();
+                }
+                minLeft = pad(minLeft);
+                secLeft = pad(secLeft - 1);
                 $('.js-minutes-left').html(minLeft);
-                $('.js-seconds-left').html(secLeft - 1);
-
+                $('.js-seconds-left').html(secLeft);
                 if ((h == closingHour) && (mClosing >= closingMinuteFinalWarning) && (mClosing <= closingMinute)) {
                     closingWaring.removeClass('closing-warning');
                     closingWaring.addClass('final-closing-warning');
                     if ((h == closingHour) && (mClosing == closingMinute) && (sClosing >= 57)) {
                         closingWaring.removeClass('closing-warning');
                         closingWaring.addClass('final-closing-warning');
-                        $('.serviceClosingWarning p').html('Service now closed. Service is available 08:00 to 18:00 Monday to Saturday.');
+                        $('.serviceClosed').show();
                         clearInterval(refreshTimer);
                     }
                 }
-
             }, 1000);
-
-            $('.serviceClosingWarning p').html('This service is available from 08:00 to 18:00, you have <span class="js-minutes-left">15</span>:<span class="js-seconds-left">00</span> to complete this service.');
-
         } else {
             closingWaring.removeClass('closing-warning');
             closingWaring.addClass('final-closing-warning');
-            $('.serviceClosingWarning p').html('Service now closed. Service is available 08:00 to 18:00 Monday to Saturday.');
-
+            $('.serviceClosed').show();
         }
-    }
+    };
+
     var openFeedback = function(inputId, event) {
         var element = document.getElementById(inputId);
         if (element) {
