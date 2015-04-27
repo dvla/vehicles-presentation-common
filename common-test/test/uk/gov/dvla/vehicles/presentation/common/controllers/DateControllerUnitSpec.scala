@@ -14,7 +14,7 @@ import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClearTextClien
 
 
 class DateControllerUnitSpec extends UnitSpec {
-  private val dateOfBirthController = {
+  private def dateOfBirthController = {
     injector.getInstance(classOf[DateController])
   }
 

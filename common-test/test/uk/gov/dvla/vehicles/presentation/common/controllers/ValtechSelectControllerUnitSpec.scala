@@ -42,7 +42,7 @@ final class ValtechSelectControllerUnitSpec extends UnitSpec {
 
   private def expectedOptionSelected(option: String) = s"""<option value="$option" selected>"""
 
-  private val valtechSelectController = injector.getInstance(classOf[ValtechSelectController])
+  private def valtechSelectController = injector.getInstance(classOf[ValtechSelectController])
 
   private lazy val present = {
     val request = FakeRequest()

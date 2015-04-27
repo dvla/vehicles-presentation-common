@@ -4,6 +4,9 @@ import com.tzavellas.sse.guice.ScalaModule
 import uk.gov.dvla.vehicles.presentation.common
 import common.clientsidesession.{NoCookieFlags, CookieFlags, ClearTextClientSideSessionFactory, ClientSideSessionFactory}
 import uk.gov.dvla.vehicles.presentation.common.services.{DateServiceImpl, DateService}
+import uk.gov.dvla.vehicles.presentation.common.webserviceclients.addresslookup.{AddressLookupWebService, AddressLookupService}
+import uk.gov.dvla.vehicles.presentation.common.webserviceclients.addresslookup.ordnanceservey.{WebServiceImpl, AddressLookupServiceImpl}
+import uk.gov.dvla.vehicles.presentation.common.webserviceclients.healthstats.HealthStats
 
 /**
  * Provides implementations of traits
@@ -20,5 +23,9 @@ class DevModule extends ScalaModule {
     bind[ClientSideSessionFactory].to[ClearTextClientSideSessionFactory].asEagerSingleton()
     bind[CookieFlags].to[NoCookieFlags].asEagerSingleton()
     bind[DateService].to[DateServiceImpl].asEagerSingleton()
+    bind[HealthStats].asEagerSingleton()
+    bind[AddressLookupService].to[AddressLookupServiceImpl].asEagerSingleton()
+    bind[AddressLookupWebService].to[WebServiceImpl].asEagerSingleton()
+
   }
 }
