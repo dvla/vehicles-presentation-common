@@ -10,31 +10,22 @@ The message changes when the time is less than 5 minutes. In this case the time 
 be updated when the page is refreshed.
 *@
 @ServiceClosingWarningV2.warning(closingHour, closingWarnPeriodMins).map { timeRemaining =>
+    <div class="serviceClosingWarning
     @if(timeRemaining <= "00:05.00") {
-        @* 5 min warning *@
-        <div class="serviceClosingWarning">
-            <p>@Messages(
-                "global.serviceCloseWarning.fiveMinutes",
-                openingHour,
-                closingHour
-            ) <span class="js-minutes-left">@{timeRemaining.dropWhile(_ != ':').drop(1).takeWhile(_ != '.')}</span>:
-                <span class="js-seconds-left">@{timeRemaining.dropWhile(_ != '.').drop(1)}</span>@Messages("global.serviceCloseWarning.fiveMinutes.p2")</p>
-        </div>
-    } else {
-        @if(timeRemaining <= s"00:${"%02d".format(closingWarnPeriodMins)}.00") {
-            @* Normal service closing message *@
-            <div class="serviceClosingWarning closing-warning">
-                <p>
-                @Messages("global.serviceCloseWarning",
-                    new DateTime(dateService.now, DateTimeZone.forID("Europe/London")).toString(org.joda.time.format.DateTimeFormat.forPattern("HH:mm")),
-                    closingHour
-                )
-                </p>
-            </div>
-        } else {
-            @* No service closing message *@
-        }
-    }
+    } else { closing-warning }">
+        <p class="serviceClosing">@Messages(
+            "global.serviceCloseWarning",
+            openingHour,
+            closingHour
+        )
+            <span class="js-minutes-left">@{
+                timeRemaining.dropWhile(_ != ':').drop(1).takeWhile(_ != '.')
+            }</span>:
+            <span class="js-seconds-left">@{
+                timeRemaining.dropWhile(_ != '.').drop(1)
+            }</span>
+            @Messages("global.serviceCloseWarning.p2")
+        </p>
+        <p class="serviceClosed"> @Messages("global.serviceClosed", openingHour, closingHour)</p>
+    </div>
 }
-
-    Service now closed. Service is available 08:00 to 18:00 Monday to Saturday.
