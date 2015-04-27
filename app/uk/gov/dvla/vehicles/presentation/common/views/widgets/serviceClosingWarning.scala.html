@@ -16,7 +16,7 @@
         currentTime.isAfter(warningTime) && currentTime.isBefore(closingT)
     }.get
 ) {
-    <div class="serviceClosingWarning">
+    <div class="serviceClosingWarning closing-warning">
         <p>
         @Messages("global.serviceCloseWarning",
             new DateTime(dateService.now, DateTimeZone.forID("Europe/London")).toString(org.joda.time.format.DateTimeFormat.forPattern("HH:mm")),

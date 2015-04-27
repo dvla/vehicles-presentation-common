@@ -24,7 +24,7 @@ be updated when the page is refreshed.
         </div>
     } else {
         @* Normal service closing message *@
-        <div class="serviceClosingWarning">
+        <div class="serviceClosingWarning closing-warning">
             <p>
             @Messages("global.serviceCloseWarning",
                 new DateTime(dateService.now, DateTimeZone.forID("Europe/London")).toString(org.joda.time.format.DateTimeFormat.forPattern("HH:mm")),

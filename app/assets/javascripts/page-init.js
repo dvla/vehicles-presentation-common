@@ -36,7 +36,7 @@ define(function(require) {
 
         if ((h == closingHour) && (m >= closingMinuteStart) && (h == closingHour) && (m <= closingMinute)) {
 
-            setInterval(function () {
+            var refreshTimer = setInterval(function () {
                 var dClosing = new Date();
 
                 var mClosing = dClosing.getMinutes();
@@ -48,9 +48,15 @@ define(function(require) {
                 $('.js-minutes-left').html(minLeft);
                 $('.js-seconds-left').html(secLeft - 1);
 
-                if ((h == closingHour) && (mClosing >= closingMinuteFinalWarning)) {
+                if ((h == closingHour) && (mClosing >= closingMinuteFinalWarning) && (mClosing <= closingMinute)) {
                     closingWaring.removeClass('closing-warning');
                     closingWaring.addClass('final-closing-warning');
+                    if ((h == closingHour) && (mClosing == closingMinute) && (sClosing >= 57)) {
+                        closingWaring.removeClass('closing-warning');
+                        closingWaring.addClass('final-closing-warning');
+                        $('.serviceClosingWarning p').html('Service now closed. Service is available 08:00 to 18:00 Monday to Saturday.');
+                        clearInterval(refreshTimer);
+                    }
                 }
 
             }, 1000);
@@ -60,7 +66,7 @@ define(function(require) {
         } else {
             closingWaring.removeClass('closing-warning');
             closingWaring.addClass('final-closing-warning');
-            closingWaring.html('Service now closed.  Service is available 08:00 to 18:00 Monday to Saturday.');
+            $('.serviceClosingWarning p').html('Service now closed. Service is available 08:00 to 18:00 Monday to Saturday.');
 
         }
     }

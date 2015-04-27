@@ -100,7 +100,6 @@ img {
 
 .serviceClosingWarning {
   width: 100%;
-  background: $govuk-blue;
 
   p {
     color: $white;
@@ -110,6 +109,24 @@ img {
     max-width: 980px;
     padding: 8px 15px;
     box-sizing: border-box;
+      span {
+          width: 15px;
+          display: inline-block;
+          text-align: center;
+          &.js-seconds-left {
+              margin-right: 10px;
+          }
+      }
+  }
+  &.closing-warning{
+    background: $govuk-blue;
+  }
+
+  &.final-closing-warning {
+    background: $yellow;
+      p {
+        color: $black-1;
+      }
   }
 }
 .app {
@@ -241,11 +258,3 @@ img {
 
 }
 
-.closing-warning{
-    background: $govuk-blue;
-}
-
-.final-closing-warning {
-    background: $yellow;
-    color: $black-1;
-}
