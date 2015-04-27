@@ -18,7 +18,7 @@ final class ValtechRadioControllerUnitSpec extends UnitSpec {
       }
     }
 
-    "display correct radio button pre-selected when cookie contains private keeper" in new WithApplication {
+    "display correct radio button pre-selected when cookie contains private keeper" in new WithTestApplication {
       val request = FakeRequest().
         withCookies(CookieFactoryForUnitSpecs.valtechRadio())
       val result = valtechRadioController.present(request)
@@ -26,7 +26,7 @@ final class ValtechRadioControllerUnitSpec extends UnitSpec {
       content should include(expectedRadioButtonSelected(KeeperType_Private))
     }
 
-    "display correct radio button pre-selected when cookie contains business keeper" in new WithApplication {
+    "display correct radio button pre-selected when cookie contains business keeper" in new WithTestApplication {
       val request = FakeRequest().
         withCookies(CookieFactoryForUnitSpecs.valtechRadio(keeperType = KeeperType_Business))
       val result = valtechRadioController.present(request)
@@ -37,7 +37,7 @@ final class ValtechRadioControllerUnitSpec extends UnitSpec {
 
   private def expectedRadioButtonSelected(radioButton: String) = s"""value="$radioButton" checked"""
 
-  private val valtechRadioController = injector.getInstance(classOf[ValtechRadioController])
+  private def valtechRadioController = injector.getInstance(classOf[ValtechRadioController])
 
   private lazy val present = {
     val request = FakeRequest()

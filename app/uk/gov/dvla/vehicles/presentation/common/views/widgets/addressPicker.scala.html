@@ -6,7 +6,7 @@
 
 @input(field) { (id, name, value, htmlArgs) =>
 <!-- Address Lookup Wrapper -->
-<div class="address-lookup-wrapper">
+<div id="@id" class="address-lookup-wrapper">
 
     <!-- Lookup Input Wrapper - ONLY JS -->
     <div class="postcode-lookup-container form-item no-js-hidden">
@@ -39,18 +39,24 @@
     <div class="address-manual-inputs-wrapper">
 
         <!-- Street Inputs -->
-        @helper.input(field(AddressLine1Id)) { (id, name, value, args) =>
+
         <div class="form-item">
             <div class="left-col">
                 <label for="address-street">Street</label>
             </div>
             <div class="right-col">
-                <input id="addressLines-1" name="addressLines[0]" placeholder="Street name and number" value="" maxlength="58" autocomplete="off" type="text" aria-required="true">
-                <input id="addressLines-2" name="addressLines[1]"  value="" maxlength="58" autocomplete="off" type="text" aria-required="fals">
-                <input id="addressLines-3" name="addressLines[2]"  value="" maxlength="58" autocomplete="off" type="text" aria-required="false">
+                @helper.input(field(AddressLine1Id)) { (id, name, value, args) =>
+                <input id="addressLines-1" name="@name" value="@value" placeholder="Street name and number"  maxlength="58" autocomplete="off" type="text" aria-required="true">
+                }
+                @helper.input(field(AddressLine2Id)) { (id, name, value, args) =>
+                <input id="addressLines-2" name="@name"  value="@value" maxlength="58" autocomplete="off" type="text" aria-required="fals">
+                }
+                @helper.input(field(AddressLine3Id)) { (id, name, value, args) =>
+                <input id="addressLines-3" name="@name"  value="@value" maxlength="58" autocomplete="off" type="text" aria-required="false">
+                }
             </div>
         </div>
-        }
+
         <!-- end of Street Inputs -->
 
         <!-- Town Input -->
@@ -60,7 +66,7 @@
                 <label for="address-town">Town/City</label>
             </div>
             <div class="right-col">
-                <input id="address-town" name="address-town" placeholder="Town or City" value="" maxlength="58" autocomplete="off" type="text" aria-required="true">
+                <input id="address-town" name="@name" placeholder="Town or City" value="@value" maxlength="58" autocomplete="off" type="text" aria-required="true">
             </div>
         </div>
         }
@@ -73,7 +79,7 @@
                 <label for="address-county">County</label>
             </div>
             <div class="right-col">
-                <input id="address-county" name="address-county" placeholder="County" value="" maxlength="58" autocomplete="off" type="text" aria-required="false">
+                <input id="address-county" name="@name" placeholder="County" value="@value" maxlength="58" autocomplete="off" type="text" aria-required="false">
             </div>
         </div>
         }
@@ -86,7 +92,7 @@
                 <label for="address-postcode">Postcode</label>
             </div>
             <div class="right-col">
-                <input id="address-postcode" name="address-postcode" placeholder="Postcode" value="" maxlength="58" autocomplete="off" type="text" aria-required="true">
+                <input id="address-postcode" name="@name" placeholder="Postcode" value="@value" maxlength="58" autocomplete="off" type="text" aria-required="true">
             </div>
         </div>
         }

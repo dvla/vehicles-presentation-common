@@ -30,7 +30,7 @@ define(['jquery'], function($) {
         };
         // AJAX GET
         var getAddresses = function (postcode) {
-            url = '/setup-business-details/postcode/' + postcode;
+            url = '/address-lookup/postcode/' + postcode;
             addressesList.html('<option value="">Please select</option>');
             $.ajax({
                 type: "GET",
