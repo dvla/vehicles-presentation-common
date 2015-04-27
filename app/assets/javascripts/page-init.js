@@ -56,6 +56,7 @@ define(function(require) {
                     if ((h == closingHour) && (mClosing == closingMinute) && (sClosing >= 57)) {
                         closingWaring.removeClass('closing-warning');
                         closingWaring.addClass('final-closing-warning');
+                        $('.serviceClosing').hide();
                         $('.serviceClosed').show();
                         clearInterval(refreshTimer);
                     }
@@ -64,6 +65,7 @@ define(function(require) {
         } else {
             closingWaring.removeClass('closing-warning');
             closingWaring.addClass('final-closing-warning');
+            $('.serviceClosing').hide();
             $('.serviceClosed').show();
         }
     };
