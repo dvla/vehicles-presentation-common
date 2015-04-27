@@ -27,8 +27,7 @@ define(function(require) {
             m = d.getMinutes(),
             closingWaring = $('.serviceClosingWarning'),
             // closingHour is picked up by data-closing-time attribute which will be the same as configuration file
-            //closingHour = $('body').attr('data-closing-time'),
-            closingHour = 17,
+            closingHour = $('body').attr('data-closing-time'),
             // Last minute available is 59
             closingMinute = 59,
             // Warning will start at HH:45
@@ -36,6 +35,13 @@ define(function(require) {
             // Final warning will start at HH:55
             closingMinuteFinalWarning = 55,
             minLeft, secLeft, dClosing, mClosing, sClosing;
+
+        // If data-closing-time attribute is not numeric or empty initialise the variable to 17 hour
+        if ((closingHour) && ($.isNumeric(closingHour))) {
+            closingHour = closingHour - 1;
+        } else {
+            closingHour = 17;
+        }
         if ((h == closingHour) && (m >= closingMinuteStart) && (h == closingHour) && (m <= closingMinute)) {
             var refreshTimer = setInterval(function () {
                 dClosing = new Date();
@@ -53,7 +59,7 @@ define(function(require) {
                 if ((h == closingHour) && (mClosing >= closingMinuteFinalWarning) && (mClosing <= closingMinute)) {
                     closingWaring.removeClass('closing-warning');
                     closingWaring.addClass('final-closing-warning');
-                    if ((h == closingHour) && (mClosing == closingMinute) && (sClosing >= 57)) {
+                    if ((h == closingHour) && (mClosing == closingMinute) && (sClosing >= closingMinute)) {
                         closingWaring.removeClass('closing-warning');
                         closingWaring.addClass('final-closing-warning');
                         $('.serviceClosing').hide();

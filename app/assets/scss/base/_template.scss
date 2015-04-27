@@ -112,9 +112,6 @@ img {
       span {
           width: 30px;
           display: inline-block;
-          &.js-seconds-left {
-              margin-right: 10px;
-          }
       }
     &.serviceClosed {
         display: none;

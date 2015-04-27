@@ -12,6 +12,7 @@ be updated when the page is refreshed.
 @ServiceClosingWarningV2.warning(closingHour, closingWarnPeriodMins).map { timeRemaining =>
     <div class="serviceClosingWarning
     @if(timeRemaining <= "00:05.00") {
+        final-closing-warning
     } else { closing-warning }">
         <p class="serviceClosing">@Messages(
             "global.serviceCloseWarning",
@@ -20,8 +21,7 @@ be updated when the page is refreshed.
         )
             <span class="js-minutes-left">@{
                 timeRemaining.dropWhile(_ != ':').drop(1).takeWhile(_ != '.')
-            }</span>:
-            <span class="js-seconds-left">@{
+            }</span>:<span class="js-seconds-left">@{
                 timeRemaining.dropWhile(_ != '.').drop(1)
             }</span>
             @Messages("global.serviceCloseWarning.p2")
