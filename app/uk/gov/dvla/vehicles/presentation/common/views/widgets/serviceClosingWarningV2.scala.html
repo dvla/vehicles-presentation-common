@@ -13,13 +13,11 @@ be updated when the page is refreshed.
     @if(timeRemaining <= "00:05.00") {
         @* 5 min warning *@
         <div class="serviceClosingWarning">
-            <p>
-            @Messages(
+            <p>@Messages(
                 "global.serviceCloseWarning.fiveMinutes",
                 openingHour,
                 closingHour
-            )<span class="js-minutes-left">timeRemaining</span>@Messages("global.serviceCloseWarning.fiveMinutes.p2")
-            </p>
+            ) <span class="js-minutes-left">@{timeRemaining.dropWhile(_ != ':').drop(1).takeWhile(_ != '.')}</span>:<span class="js-seconds-left">@{timeRemaining.dropWhile(_ != '.').drop(1)}</span>@Messages("global.serviceCloseWarning.fiveMinutes.p2")</p>
         </div>
     } else {
         @if(timeRemaining <= s"00:${"%02d".format(closingWarnPeriodMins)}.00") {
