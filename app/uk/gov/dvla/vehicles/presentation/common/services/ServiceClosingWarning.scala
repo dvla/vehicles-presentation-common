@@ -6,7 +6,7 @@ import org.joda.time.Instant
 import org.joda.time.Period
 import org.joda.time.format.PeriodFormatterBuilder
 
-object ServiceClosingWarningV2 {
+object ServiceClosingWarning {
 
   private val LondonTimeZone = DateTimeZone.forID("Europe/London")
   private val periodFormatter = new PeriodFormatterBuilder().
