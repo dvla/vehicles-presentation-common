@@ -2,12 +2,12 @@ package uk.gov.dvla.vehicles.presentation.common.views
 
 import org.scalatest.AppendedClues
 import play.api.i18n.Messages
-import play.api.libs.json.{Json, JsString}
+import play.api.libs.json.Json
 import uk.gov.dvla.vehicles.presentation.common.composition.TestHarness
 import uk.gov.dvla.vehicles.presentation.common.helpers.UiSpec
 import uk.gov.dvla.vehicles.presentation.common.model.Address
 import uk.gov.dvla.vehicles.presentation.common.models.AddressPickerModel
-import uk.gov.dvla.vehicles.presentation.common.pages.{ErrorPanel, AddressPickerPage, DatePage}
+import uk.gov.dvla.vehicles.presentation.common.pages.{ErrorPanel, AddressPickerPage}
 
 class AddressPickerSpec extends UiSpec with TestHarness with AppendedClues {
   "Address picker widget" should {
@@ -24,8 +24,8 @@ class AddressPickerSpec extends UiSpec with TestHarness with AppendedClues {
       widget.addressLine2.value should equal("")
       widget.addressLine3.value should equal("")
       widget.town.value should equal("")
-      widget.county.value should equal("")
       widget.postcode.value should equal("")
+      widget.remember.isSelected should equal(false)
     }
 
     "validate required element" in new WebBrowser {
@@ -33,7 +33,6 @@ class AddressPickerSpec extends UiSpec with TestHarness with AppendedClues {
       val widget = AddressPickerPage.addressPickerDriver
       widget.addressLine2.value = "address 2"
       widget.addressLine3.value = "address 3"
-      widget.county.value = "county"
 
       click on AddressPickerPage.submit
       page.title should equal(AddressPickerPage.title)
@@ -49,7 +48,6 @@ class AddressPickerSpec extends UiSpec with TestHarness with AppendedClues {
       widget.addressLine2.value = "address 2"
       widget.addressLine3.value = "address 3"
       widget.town.value = "town"
-      widget.county.value = "county"
       widget.postcode.value = "" //leave one missing to see if the others are there after submit
 
       click on AddressPickerPage.submit
@@ -59,7 +57,6 @@ class AddressPickerSpec extends UiSpec with TestHarness with AppendedClues {
       widget.addressLine2.value should equal("address 2")
       widget.addressLine3.value should equal("address 3")
       widget.town.value should equal("town")
-      widget.county.value should equal("county")
       widget.postcode.value should equal("")
     }
 
@@ -69,8 +66,8 @@ class AddressPickerSpec extends UiSpec with TestHarness with AppendedClues {
         Some("address line 2"),
         Some("address line 3"),
         "Post town",
-        Some("Orange county"),
-        "N19 3NN"
+        "N19 3NN",
+        remember = true
       )
       go to AddressPickerPage
       val widget = AddressPickerPage.addressPickerDriver
@@ -78,15 +75,15 @@ class AddressPickerSpec extends UiSpec with TestHarness with AppendedClues {
       widget.addressLine2.value = model.streetAddress2.get
       widget.addressLine3.value = model.streetAddress3.get
       widget.town.value = model.postTown
-      widget.county.value = model.county.get
       widget.postcode.value = model.postCode
+      widget.remember.select()
       click on AddressPickerPage.submit
-      page.title should equal("Success") withClue(s"Errors: ${ErrorPanel.text}")
+      page.title should equal("Success") withClue s"Errors: ${ErrorPanel.text}"
       val addressCookie = webDriver.manage().getCookieNamed(AddressPickerModel.Key.value)
-      println("addressCookie: " + addressCookie)
-//      println("val json = Json.parse(jsonString)" + Json.parse(addressCookie)\ "address1")
-//      println("addressCookie:" + AddressPickerModel.JsonFormat.reads(Json.parse(addressCookie)))
-//      AddressPickerModel.JsonFormat.reads(Json.parse(addressCookie)).map(a => a.address1 should equal(model)) orElse(fail("############"))
+      val json = addressCookie.getValue.replace("\\\"", "\"")
+      println("addressCookie: " + json)
+      AddressPickerModel.JsonFormat.reads(Json.parse(json.substring(1, json.length - 1)))
+        .map(a => a.address1 should equal(model)) orElse(fail("Did not have a AddressPickerModel in the response"))
     }
   }
 }
