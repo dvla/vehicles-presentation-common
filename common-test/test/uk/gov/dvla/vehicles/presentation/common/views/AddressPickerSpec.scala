@@ -69,8 +69,8 @@ class AddressPickerSpec extends UiSpec with TestHarness with AppendedClues {
         Some("address line 2"),
         Some("address line 3"),
         "Post town",
-        Some("Orange county"),
-        "N19 3NN"
+        "N19 3NN",
+        true
       )
       go to AddressPickerPage
       val widget = AddressPickerPage.addressPickerDriver
@@ -78,7 +78,6 @@ class AddressPickerSpec extends UiSpec with TestHarness with AppendedClues {
       widget.addressLine2.value = model.streetAddress2.get
       widget.addressLine3.value = model.streetAddress3.get
       widget.town.value = model.postTown
-      widget.county.value = model.county.get
       widget.postcode.value = model.postCode
       click on AddressPickerPage.submit
       page.title should equal("Success") withClue(s"Errors: ${ErrorPanel.text}")

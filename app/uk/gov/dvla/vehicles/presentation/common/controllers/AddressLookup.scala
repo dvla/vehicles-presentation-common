@@ -15,10 +15,10 @@ class AddressLookup @Inject()(addressLookup: AddressLookupService)
 //    val session = clientSideSessionFactory.getSession(request.cookies)
     implicit val writes = Json.format[Address]
     Future.successful(Ok(Json.toJson(Seq(
-      Address("a1", Some("a2"), Some("a3"), "a4", Some("a-county"), postCode),
-      Address("b1", Some("b2"), Some("b3"), "b4", Some("b-county"), postCode),
-      Address("c1", Some("c2"), Some("c3"), "c4", Some("c-county"), postCode),
-      Address("d1", Some("d2"), Some("d3"), "d4", Some("d-county"), postCode)
+      Address("a1", Some("a2"), Some("a3"), "a4", postCode, true),
+      Address("b1", Some("b2"), Some("b3"), "b4", postCode, true),
+      Address("c1", Some("c2"), Some("c3"), "c4", postCode, false),
+      Address("d1", Some("d2"), Some("d3"), "d4", postCode, false)
     ))))
 //    addressLookup.fetchAddressesForPostcode(postCode, session.trackingId)
 //      .map(a => Ok(""))

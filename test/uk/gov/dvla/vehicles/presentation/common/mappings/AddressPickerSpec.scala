@@ -3,7 +3,7 @@ package uk.gov.dvla.vehicles.presentation.common.mappings
 import play.api.data.FormError
 import uk.gov.dvla.vehicles.presentation.common.UnitSpec
 import uk.gov.dvla.vehicles.presentation.common.model.Address
-import AddressPicker.{AddressLine1Id, AddressLine2Id,AddressLine3Id, PostTownId, PostcodeId, CountyId}
+import AddressPicker.{AddressLine1Id, AddressLine2Id,AddressLine3Id, PostTownId, PostcodeId, RememberId}
 import uk.gov.dvla.vehicles.presentation.common.views.constraints
 
 class AddressPickerSpec extends UnitSpec {
@@ -13,10 +13,10 @@ class AddressPickerSpec extends UnitSpec {
     Some("address line 2"),
     Some("address line 3"),
     "Post town",
-    Some("Orange county"),
-    "N19 3NN"
+    "N19 3NN",
+    remember = true
   )
-  val missingOptional = fullModel.copy(streetAddress2 = None, streetAddress3 = None, county = None)
+  val missingOptional = fullModel.copy(streetAddress2 = None, streetAddress3 = None, remember = false)
 
 
   "formatter unbing" should {
@@ -26,8 +26,8 @@ class AddressPickerSpec extends UnitSpec {
         s"datePicker1.$AddressLine2Id" -> fullModel.streetAddress2.get,
         s"datePicker1.$AddressLine3Id" -> fullModel.streetAddress3.get,
         s"datePicker1.$PostTownId" -> fullModel.postTown,
-        s"datePicker1.$CountyId" -> fullModel.county.get,
-        s"datePicker1.$PostcodeId" -> fullModel.postCode
+        s"datePicker1.$PostcodeId" -> fullModel.postCode,
+        s"datePicker1.$RememberId" ->  "on"
       ))
     }
 
@@ -47,8 +47,8 @@ class AddressPickerSpec extends UnitSpec {
         s"datePicker1.$AddressLine2Id" -> fullModel.streetAddress2.get,
         s"datePicker1.$AddressLine3Id" -> fullModel.streetAddress3.get,
         s"datePicker1.$PostTownId" -> fullModel.postTown,
-        s"datePicker1.$CountyId" -> fullModel.county.get,
-        s"datePicker1.$PostcodeId" -> fullModel.postCode
+        s"datePicker1.$PostcodeId" -> fullModel.postCode,
+        s"datePicker1.$RememberId" ->  "on"
       )) should equal (Right(fullModel))
 
       formatter.bind("datePicker2", formatter.unbind("datePicker2", fullModel)) should equal(Right(fullModel))
@@ -82,8 +82,8 @@ class AddressPickerSpec extends UnitSpec {
         Some("@#^&*$address line 2"),
         Some("address line 3 |||(*&(*"),
         "Post town(&(*&(",
-        Some("Orange county"),
-        "1@#*^"
+        "1@#*^",
+        remember = false
       )
       formatter.bind("dp", formatter.unbind("dp", illegalChars)) should equal(
         Left(Seq(

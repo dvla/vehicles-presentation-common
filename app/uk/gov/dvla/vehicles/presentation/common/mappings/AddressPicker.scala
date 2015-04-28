@@ -13,8 +13,8 @@ object AddressPicker {
   final val AddressLine2Id = "address-line-2"
   final val AddressLine3Id = "address-line-3"
   final val PostTownId = "post-town"
-  final val CountyId = "county"
   final val PostcodeId = "post-code"
+  final val RememberId = "remember-details"
 
   def formatter() = new Formatter[Address] {
     override def bind(key: String, data: Map[String, String]): Either[Seq[FormError], Address] = {
@@ -23,8 +23,8 @@ object AddressPicker {
       val line2 = filterEmpty.get(s"$key.$AddressLine2Id")
       val line3 = filterEmpty.get(s"$key.$AddressLine3Id")
       val postTown = filterEmpty.get(s"$key.$PostTownId")
-      val county = filterEmpty.get(s"$key.$CountyId")
       val postCode = filterEmpty.get(s"$key.$PostcodeId")
+      val rememberDetails = filterEmpty.get(s"$key.$RememberId")
 
       type SFE = Seq[FormError]
 
@@ -56,8 +56,8 @@ object AddressPicker {
         line2,
         line3,
         postTown.get,
-        county,
-        postCode.get.toUpperCase()
+        postCode.get.toUpperCase(),
+        rememberDetails.isDefined
       ))
     }
 
@@ -68,7 +68,8 @@ object AddressPicker {
     ) ++
       toMap(value.streetAddress2, s"$key.$AddressLine2Id") ++
       toMap(value.streetAddress3, s"$key.$AddressLine3Id") ++
-      toMap(value.county, s"$key.$CountyId")
+      toMap(if(value.remember) Some("on") else None, s"$key.$RememberId")
+
 
 
     private def toMap(opt: Option[String], key: String) = opt.fold(Map[String, String]())(value => Map(key -> value))

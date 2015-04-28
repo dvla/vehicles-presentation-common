@@ -2,7 +2,7 @@
 
 @import _root_.views.html.helper.input
 @import uk.gov.dvla.vehicles.presentation.common.mappings
-@import mappings.AddressPicker.{AddressLine1Id, AddressLine2Id, AddressLine3Id, PostTownId, CountyId, PostcodeId}
+@import mappings.AddressPicker.{AddressLine1Id, AddressLine2Id, AddressLine3Id, PostTownId, PostcodeId}
 
 @input(field) { (id, name, value, htmlArgs) =>
 <!-- Address Lookup Wrapper -->
@@ -71,19 +71,6 @@
         </div>
         }
         <!-- end of Town Input -->
-
-        <!-- County Input -->
-        @helper.input(field(CountyId)) { (id, name, value, args) =>
-        <div class="form-item">
-            <div class="left-col">
-                <label for="address-county">County</label>
-            </div>
-            <div class="right-col">
-                <input id="address-county" name="@name" placeholder="County" value="@value" maxlength="58" autocomplete="off" type="text" aria-required="false">
-            </div>
-        </div>
-        }
-        <!-- end of County Input -->
 
         <!-- Postcode Input -->
         @helper.input(field(PostcodeId)) { (id, name, value, args) =>
