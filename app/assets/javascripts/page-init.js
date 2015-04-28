@@ -3,7 +3,11 @@ define(function(require) {
         addressLookup = require('address-picker');
 
     var disableSubmitOnClick = function() {
-        $(':submit').on('click', function() {
+        var pleaseWaitOverlay = $('.please-wait-overlay'),
+            closeWaitOverlay  = $('.please-wait-overlay a');
+
+        $(':submit').on('click', function(e) {
+            //e.preventDefault();
             if ( $(this).hasClass("disabled") ) {
                 return false;
             }
@@ -18,6 +22,13 @@ define(function(require) {
                     $(':submit').html('Loading');
                 }
             }, 1000);
+            setTimeout(function() {
+                pleaseWaitOverlay.toggle();
+            }, 5000);
+        });
+        closeWaitOverlay.on('click', function(e) {
+            e.preventDefault();
+            pleaseWaitOverlay.toggle();
         });
     };
 
