@@ -1,8 +1,9 @@
 @(field: play.api.data.Field)(implicit handler: helper.FieldConstructor, lang: Lang)
 
 @import _root_.views.html.helper.input
-@import uk.gov.dvla.vehicles.presentation.common.mappings
-@import mappings.AddressPicker.{AddressLine1Id, AddressLine2Id, AddressLine3Id, PostTownId, PostcodeId}
+@import uk.gov.dvla.vehicles.presentation.common
+@import common.mappings.AddressPicker.{AddressLine1Id, AddressLine2Id, AddressLine3Id, PostTownId, PostcodeId, RememberId}
+@import common.views.html.widgets.base.valtechDeclareCheck
 
 @input(field) { (id, name, value, htmlArgs) =>
 <!-- Address Lookup Wrapper -->
@@ -46,13 +47,13 @@
             </div>
             <div class="right-col">
                 @helper.input(field(AddressLine1Id)) { (id, name, value, args) =>
-                <input id="addressLines-1" name="@name" value="@value" placeholder="Street name and number"  maxlength="58" autocomplete="off" type="text" aria-required="true">
+                <input id="@id" name="@name" value="@value" placeholder="Street name and number"  maxlength="58" autocomplete="off" type="text" aria-required="true">
                 }
                 @helper.input(field(AddressLine2Id)) { (id, name, value, args) =>
-                <input id="addressLines-2" name="@name"  value="@value" maxlength="58" autocomplete="off" type="text" aria-required="fals">
+                <input id="@id" name="@name"  value="@value" maxlength="58" autocomplete="off" type="text" aria-required="fals">
                 }
                 @helper.input(field(AddressLine3Id)) { (id, name, value, args) =>
-                <input id="addressLines-3" name="@name"  value="@value" maxlength="58" autocomplete="off" type="text" aria-required="false">
+                <input id="@id" name="@name"  value="@value" maxlength="58" autocomplete="off" type="text" aria-required="false">
                 }
             </div>
         </div>
@@ -66,7 +67,7 @@
                 <label for="address-town">Town/City</label>
             </div>
             <div class="right-col">
-                <input id="address-town" name="@name" placeholder="Town or City" value="@value" maxlength="58" autocomplete="off" type="text" aria-required="true">
+                <input id="@id" name="@name" placeholder="Town or City" value="@value" maxlength="58" autocomplete="off" type="text" aria-required="true">
             </div>
         </div>
         }
@@ -79,7 +80,7 @@
                 <label for="address-postcode">Postcode</label>
             </div>
             <div class="right-col">
-                <input id="address-postcode" name="@name" placeholder="Postcode" value="@value" maxlength="58" autocomplete="off" type="text" aria-required="true">
+                <input id="@id" name="@name" placeholder="Postcode" value="@value" maxlength="58" autocomplete="off" type="text" aria-required="true">
             </div>
         </div>
         }
@@ -91,10 +92,19 @@
 
             </div>
             <div class="right-col">
+                @valtechDeclareCheck(
+                    field(RememberId),
+                    args =  Map('_label -> "Remember these details",
+                        '_showConstraints -> false,
+                        'NO_OPTIONAL_LABEL -> true
+                    )
+                )
+                <!--helper.input(field(RememberId)) { (id, name, value, args) =>
                 <label class="form-checkbox selectable">
-                    <input id="remindAddressDetails" name="remindAddressDetails" value="true" type="checkbox" aria-required="true">
+                    <input id="remindAddressDetails" name="@name" value="@value" type="checkbox" aria-required="true">
                     Remember these details
                 </label>
+                }-->
                 <!-- Clear Form Call To Action - ONLY JS -->
                 <a class="address-reset-form no-js-hidden" href="#addressLines-1">Change my details</a>
                 <!-- end of Clear Form Call To Action-->

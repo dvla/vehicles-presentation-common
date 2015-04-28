@@ -70,8 +70,6 @@ object AddressPicker {
       toMap(value.streetAddress3, s"$key.$AddressLine3Id") ++
       toMap(if(value.remember) Some("on") else None, s"$key.$RememberId")
 
-
-
     private def toMap(opt: Option[String], key: String) = opt.fold(Map[String, String]())(value => Map(key -> value))
   }
 
