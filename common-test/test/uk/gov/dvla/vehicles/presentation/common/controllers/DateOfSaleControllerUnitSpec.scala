@@ -13,7 +13,7 @@ import uk.gov.dvla.vehicles.presentation.common.models.DateModel.Key
 
 
 class DateOfSaleControllerUnitSpec extends UnitSpec {
-  private val dateOfSaleController = {
+  private def dateOfSaleController = {
     injector.getInstance(classOf[DateOfSaleController])
   }
 

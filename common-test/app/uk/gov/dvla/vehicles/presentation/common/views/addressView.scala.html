@@ -1,0 +1,26 @@
+@(playForm: Form[uk.gov.dvla.vehicles.presentation.common.models.AddressPickerModel],
+  includeQunitCode: Boolean = false)(implicit lang: Lang)
+
+@import uk.gov.dvla.vehicles.presentation.common
+@import common.views.helpers.BaseTemplate.fieldConstructor
+@import uk.gov.dvla.vehicles.presentation.common.models
+@import uk.gov.dvla.vehicles.presentation.common.controllers
+@import common.views.html.widgets.addressPicker
+@import models.AddressPickerModel.Form.{datePicker1Id, datePicker2Id}
+@import views.html.helper.form
+@import uk.gov.dvla.vehicles.presentation.common.views
+
+@main(
+  title = "Address Picker",
+  currentForm = Some(playForm)
+) {
+  @form(action = controllers.routes.AddressPicker.submit) {
+    @addressPicker(playForm(datePicker1Id))
+
+    <div class="form-steps">
+        <button id="submit" type="submit" name="action" class="button" aria-label="Next button">Submit</button>
+    </div>
+  }
+}
+
+@views.html.qunit(includeQunitCode, "javascripts/tests/addressPickerTest.js")

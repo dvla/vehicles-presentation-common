@@ -1,0 +1,122 @@
+@(field: play.api.data.Field)(implicit handler: helper.FieldConstructor, lang: Lang)
+
+@import _root_.views.html.helper.input
+@import uk.gov.dvla.vehicles.presentation.common.mappings
+@import mappings.AddressPicker.{AddressLine1Id, AddressLine2Id, AddressLine3Id, PostTownId, CountyId, PostcodeId}
+
+@input(field) { (id, name, value, htmlArgs) =>
+<!-- Address Lookup Wrapper -->
+<div id="@id" class="address-lookup-wrapper">
+
+    <!-- Lookup Input Wrapper - ONLY JS -->
+    <div class="postcode-lookup-container form-item no-js-hidden">
+        <div class="left-col">
+            <label class="no-js-hidden" for="address-postcode-lookup">Postcode</label>
+        </div>
+        <div class="right-col">
+            <input class="no-js-hidden" id="address-postcode-lookup" name="address-postcode-lookup" placeholder="Postcode" value="" maxlength="58" autocomplete="off" type="text" aria-required="true">
+            <div class="address-find-wrapper">
+                <button id="address-find" type="button" name="action" class="button button-secondary no-js-hidden">Find UK address</button>
+                <a class="address-manual-toggle no-js-hidden" href="#addressLines-1">Enter address manually</a>
+            </div>
+        </div>
+    </div>
+    <!-- end of Lookup Input Wrapper -->
+
+    <!-- Lookup Input Wrapper - ONLY JS -->
+    <div class="address-list-wrapper">
+        <div class="form-item no-js-hidden">
+            <label for="address-list">Pick an address</label>
+            <select id="address-list" name="address-list" type="text" aria-required="true">
+                <option value="">Please select</option>
+            </select>
+        </div>
+    </div>
+    <!-- end of Lookup Input Wrapper-->
+
+    <!-- Address Form Wrapper -  JS ON/OFF -->
+    <!-- TODO: data-address-status needs to be generated via back-end fails in order to display the form if validation fails -->
+    <div class="address-manual-inputs-wrapper">
+
+        <!-- Street Inputs -->
+
+        <div class="form-item">
+            <div class="left-col">
+                <label for="address-street">Street</label>
+            </div>
+            <div class="right-col">
+                @helper.input(field(AddressLine1Id)) { (id, name, value, args) =>
+                <input id="addressLines-1" name="@name" value="@value" placeholder="Street name and number"  maxlength="58" autocomplete="off" type="text" aria-required="true">
+                }
+                @helper.input(field(AddressLine2Id)) { (id, name, value, args) =>
+                <input id="addressLines-2" name="@name"  value="@value" maxlength="58" autocomplete="off" type="text" aria-required="fals">
+                }
+                @helper.input(field(AddressLine3Id)) { (id, name, value, args) =>
+                <input id="addressLines-3" name="@name"  value="@value" maxlength="58" autocomplete="off" type="text" aria-required="false">
+                }
+            </div>
+        </div>
+
+        <!-- end of Street Inputs -->
+
+        <!-- Town Input -->
+        @helper.input(field(PostTownId)) { (id, name, value, args) =>
+        <div class="form-item">
+            <div class="left-col">
+                <label for="address-town">Town/City</label>
+            </div>
+            <div class="right-col">
+                <input id="address-town" name="@name" placeholder="Town or City" value="@value" maxlength="58" autocomplete="off" type="text" aria-required="true">
+            </div>
+        </div>
+        }
+        <!-- end of Town Input -->
+
+        <!-- County Input -->
+        @helper.input(field(CountyId)) { (id, name, value, args) =>
+        <div class="form-item">
+            <div class="left-col">
+                <label for="address-county">County</label>
+            </div>
+            <div class="right-col">
+                <input id="address-county" name="@name" placeholder="County" value="@value" maxlength="58" autocomplete="off" type="text" aria-required="false">
+            </div>
+        </div>
+        }
+        <!-- end of County Input -->
+
+        <!-- Postcode Input -->
+        @helper.input(field(PostcodeId)) { (id, name, value, args) =>
+        <div class="form-item">
+            <div class="left-col">
+                <label for="address-postcode">Postcode</label>
+            </div>
+            <div class="right-col">
+                <input id="address-postcode" name="@name" placeholder="Postcode" value="@value" maxlength="58" autocomplete="off" type="text" aria-required="true">
+            </div>
+        </div>
+        }
+        <!-- end of Postcode Input -->
+
+        <!-- Remember Details Input -->
+        <div class="form-item">
+            <div class="left-col">
+
+            </div>
+            <div class="right-col">
+                <label class="form-checkbox selectable">
+                    <input id="remindAddressDetails" name="remindAddressDetails" value="true" type="checkbox" aria-required="true">
+                    Remember these details
+                </label>
+                <!-- Clear Form Call To Action - ONLY JS -->
+                <a class="address-reset-form no-js-hidden" href="#addressLines-1">Change my details</a>
+                <!-- end of Clear Form Call To Action-->
+            </div>
+        </div>
+        <!-- end of  Remember Details Input -->
+    </div>
+    <!-- end of Address Form Wrapper-->
+
+</div>
+<!-- end of Address Lookup Wrapper -->
+}
