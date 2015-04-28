@@ -6,6 +6,7 @@ import play.api.data.Form
 import uk.gov.dvla.vehicles.presentation.common.models
 import uk.gov.dvla.vehicles.presentation.common.views
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClientSideSessionFactory
+import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicits.RichForm
 import models.EmailModel
 
 
@@ -16,7 +17,7 @@ class EmailController @Inject()(implicit clientSideSessionFactory: ClientSideSes
   )
 
   def present = Action { implicit request =>
-    Ok(views.html.emailView(form))
+    Ok(views.html.emailView(form.fill()))
   }
 
   def submit = Action {

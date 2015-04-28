@@ -1,8 +1,10 @@
 package uk.gov.dvla.vehicles.presentation.common.controllers
 
-import uk.gov.dvla.vehicles.presentation.common.composition.WithTestApplication
-import uk.gov.dvla.vehicles.presentation.common.helpers.UnitSpec
-import uk.gov.dvla.vehicles.presentation.common.models
+import uk.gov.dvla.vehicles.presentation.common
+import common.composition.WithTestApplication
+import common.helpers.UnitSpec
+import common.mappings.Email.{EmailId => EmailEnterId, EmailVerifyId}
+import common.models
 
 import models.EmailModel.Form.EmailId
 
@@ -43,7 +45,10 @@ final class EmailFormSpec extends UnitSpec {
 
     injector.getInstance(classOf[EmailController])
       .form.bind(
-        Map(EmailId -> email)
+        Map(
+          s"$EmailId.$EmailEnterId" -> email,
+          s"$EmailId.$EmailVerifyId" -> email
+        )
       )
   }
 }

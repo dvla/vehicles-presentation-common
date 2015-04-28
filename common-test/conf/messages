@@ -112,7 +112,8 @@ keeperType = Keeper type
 email.pageTitle = Email capture
 email.name = Email capture
 email.hint = e.g. test@test.com
-email.label = Email
+email.label = Email address
+email.verify.label = Confirm email address
 email.button = Submit
 error.restricted.validEmail = Email must be in valid format, e.g. AB1 2BA or AB12BA
 

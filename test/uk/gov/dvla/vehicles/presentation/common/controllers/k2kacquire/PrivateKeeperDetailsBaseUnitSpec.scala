@@ -17,6 +17,7 @@ import common.model.PrivateKeeperDetailsFormModel.Form.DateOfBirthId
 import common.model.PrivateKeeperDetailsFormModel.Form.DriverNumberId
 import common.model.PrivateKeeperDetailsFormModel.Form.EmailId
 import common.model.PrivateKeeperDetailsFormModel.Form.EmailOptionId
+import uk.gov.dvla.vehicles.presentation.common.mappings.Email.{EmailId => EmailEnterId, EmailVerifyId}
 import common.model.PrivateKeeperDetailsFormModel.Form.FirstNameId
 import common.model.PrivateKeeperDetailsFormModel.Form.LastNameId
 import common.model.PrivateKeeperDetailsFormModel.Form.PostcodeId
@@ -165,7 +166,11 @@ class PrivateKeeperDetailsBaseUnitSpec extends UnitSpec {
       DriverNumberId -> model.driverNumber.getOrElse(""),
       PostcodeId -> model.postcode
     ) ++ model.email.fold(Seq(EmailOptionId -> OptionalToggle.Invisible)){ email =>
-      Seq(EmailOptionId -> OptionalToggle.Visible, EmailId -> model.email.getOrElse("") )
+      Seq(
+        EmailOptionId -> OptionalToggle.Visible,
+        s"$EmailId.$EmailEnterId" -> model.email.getOrElse(""),
+        s"$EmailId.$EmailVerifyId" -> model.email.getOrElse("")
+      )
     }:_*)
   }
 }

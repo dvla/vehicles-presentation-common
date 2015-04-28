@@ -1,7 +1,7 @@
 package uk.gov.dvla.vehicles.presentation.common.controllers.k2kacquire
 
 import play.api.data.Form
-import play.api.test.{FakeRequest}
+import play.api.test.FakeRequest
 import uk.gov.dvla.vehicles.presentation.common.mappings.OptionalToggle
 import scala.collection.mutable.ArrayBuffer
 import scala.concurrent.Await
@@ -10,6 +10,7 @@ import scala.language.postfixOps
 import uk.gov.dvla.vehicles.presentation.common
 import common.clientsidesession.{NoCookieFlags, ClearTextClientSideSessionFactory}
 import common.clientsidesession.CookieImplicits.RichResult
+import common.mappings.Email.{EmailId => EmailEnterId, EmailVerifyId}
 import common.model.BusinessKeeperDetailsFormModel
 import common.model.BusinessKeeperDetailsViewModel
 import common.model.BusinessKeeperDetailsFormModel.Form.BusinessNameId
@@ -26,6 +27,7 @@ import common.testhelpers.CookieFactoryForUnitSpecs.defaultVehicleAndKeeperDetai
 import common.testhelpers.CookieFactoryForUnitSpecs.vehicleAndKeeperDetailsCookie
 import common.testhelpers.CookieHelper
 import uk.gov.dvla.vehicles.presentation.common.{WithApplication, UnitSpec}
+
 
 class BusinessKeeperDetailsBaseUnitSpec extends UnitSpec {
   final val FleetNumberValid = "123456"
@@ -159,7 +161,11 @@ class BusinessKeeperDetailsBaseUnitSpec extends UnitSpec {
       BusinessNameId -> model.businessName,
       PostcodeId -> model.postcode
     ) ++ model.email.fold(Seq(EmailOptionId -> OptionalToggle.Invisible)){ email =>
-      Seq(EmailOptionId -> OptionalToggle.Visible, EmailId -> email )
+      Seq(
+        EmailOptionId -> OptionalToggle.Visible,
+        s"$EmailId.$EmailEnterId" -> model.email.getOrElse(""),
+        s"$EmailId.$EmailVerifyId" -> model.email.getOrElse("")
+      )
     } ++ model.fleetNumber.fold(Seq(FleetNumberOptionId -> OptionalToggle.Invisible)){ fleetNumber =>
       Seq(FleetNumberOptionId -> OptionalToggle.Visible, FleetNumberId -> fleetNumber )
     }

@@ -4,6 +4,7 @@ import uk.gov.dvla.vehicles.presentation.common
 import common.clientsidesession.{ClearTextClientSideSessionFactory, NoCookieFlags}
 import uk.gov.dvla.vehicles.presentation.common.mappings.{OptionalToggle, BusinessName}
 import common.model.CacheKeyPrefix
+import common.mappings.Email.{EmailId => EmailEnterId, EmailVerifyId}
 import common.model.SetupTradeDetailsFormModel.Form.TraderEmailId
 import common.model.SetupTradeDetailsFormModel.Form.TraderEmailOptionId
 import common.model.SetupTradeDetailsFormModel.Form.TraderNameId
@@ -117,7 +118,11 @@ class SetupTradeDetailsFormSpec extends UnitSpec {
           TraderNameId -> traderBusinessName,
           TraderPostcodeId -> traderPostcode
         ) ++ traderEmail.fold(Map(TraderEmailOptionId -> OptionalToggle.Invisible)) { email =>
-          Map(TraderEmailOptionId -> OptionalToggle.Visible, TraderEmailId -> email)
+          Map(
+            TraderEmailOptionId -> OptionalToggle.Visible,
+            s"$TraderEmailId.$EmailEnterId" -> email,
+            s"$TraderEmailId.$EmailVerifyId" -> email
+          )
         }
       )
   }

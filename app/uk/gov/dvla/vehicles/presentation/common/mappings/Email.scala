@@ -33,7 +33,5 @@ object Email {
     )
   }
 
-  def email: Mapping[String] = of[String] verifying emailAddress
-
-  def email1: Mapping[String] = of[String](formatter()) verifying emailAddress
+  def email: Mapping[String] = of[String](formatter()) verifying emailAddress
 }

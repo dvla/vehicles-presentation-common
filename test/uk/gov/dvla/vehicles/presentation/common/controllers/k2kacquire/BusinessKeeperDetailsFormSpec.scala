@@ -2,8 +2,12 @@ package uk.gov.dvla.vehicles.presentation.common.controllers.k2kacquire
 
 import uk.gov.dvla.vehicles.presentation.common
 import common.clientsidesession.{ClearTextClientSideSessionFactory, NoCookieFlags}
-import uk.gov.dvla.vehicles.presentation.common.mappings.{OptionalToggle, BusinessKeeperName}
-import uk.gov.dvla.vehicles.presentation.common.model.BusinessKeeperDetailsFormModel.Form._
+import common.mappings.{OptionalToggle, BusinessKeeperName}
+import common.model.BusinessKeeperDetailsFormModel.Form.EmailId
+import common.model.BusinessKeeperDetailsFormModel.Form.EmailOptionId
+import common.model.BusinessKeeperDetailsFormModel.Form.PostcodeId
+import common.model.BusinessKeeperDetailsFormModel.Form._
+import common.mappings.Email.{EmailId => EmailEnterId, EmailVerifyId}
 import common.model.CacheKeyPrefix
 import common.{UnitSpec, WithApplication}
 
@@ -109,7 +113,11 @@ class BusinessKeeperDetailsFormSpec extends UnitSpec {
         BusinessNameId -> businessName,
         PostcodeId -> postcode
       ) ++ email.fold(Map(EmailOptionId -> OptionalToggle.Invisible)) { e =>
-        Map(EmailOptionId -> OptionalToggle.Visible, EmailId -> e )
+        Map(
+          EmailOptionId -> OptionalToggle.Visible,
+          s"$EmailId.$EmailEnterId" -> e,
+          s"$EmailId.$EmailVerifyId" -> e
+        )
       } ++ fleetNumber.fold(Seq(FleetNumberOptionId -> OptionalToggle.Invisible)){ fleetNumber =>
         Seq(FleetNumberOptionId -> OptionalToggle.Visible, FleetNumberId -> fleetNumber )
       }

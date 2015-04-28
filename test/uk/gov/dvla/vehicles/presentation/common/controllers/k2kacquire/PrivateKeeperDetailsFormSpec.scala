@@ -3,6 +3,7 @@ package uk.gov.dvla.vehicles.presentation.common.controllers.k2kacquire
 import org.joda.time.LocalDate
 import uk.gov.dvla.vehicles.presentation.common
 import common.clientsidesession.{ClearTextClientSideSessionFactory, NoCookieFlags}
+import common.mappings.Email.{EmailId => EmailEnterId, EmailVerifyId}
 import common.mappings.DayMonthYear.{YearId, MonthId, DayId}
 import common.mappings.{OptionalToggle, TitleType, TitlePickerString}
 import common.model.{CacheKeyPrefix, PrivateKeeperDetailsFormModel}
@@ -20,6 +21,7 @@ import common.model.PrivateKeeperDetailsFormModel.Form.LastNameMinLength
 import common.model.PrivateKeeperDetailsFormModel.Form.TitleId
 import common.services.DateServiceImpl
 import common.{UnitSpec, WithApplication}
+import uk.gov.dvla.vehicles.presentation.common.model.SetupTradeDetailsFormModel.Form._
 
 class PrivateKeeperDetailsFormSpec extends UnitSpec {
 
@@ -486,7 +488,11 @@ class PrivateKeeperDetailsFormSpec extends UnitSpec {
         DriverNumberId -> driverNumber,
         PostcodeId -> postcode
       ) ++ email.fold(Map(EmailOptionId -> OptionalToggle.Invisible)) { e =>
-        Map(EmailOptionId -> OptionalToggle.Visible, EmailId -> e )
+        Map(
+          EmailOptionId -> OptionalToggle.Visible,
+          s"$EmailId.$EmailEnterId" -> e,
+          s"$EmailId.$EmailVerifyId" -> e
+        )
       }
     )
   }
