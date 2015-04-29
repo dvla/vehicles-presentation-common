@@ -4,6 +4,7 @@ import play.api.data.Forms.of
 import play.api.data.{FormError, Mapping}
 import play.api.data.format.Formatter
 import uk.gov.dvla.vehicles.presentation.common.views.constraints.Email.emailAddress
+import play.api.data.format.Formats._
 
 object Email {
   final val EmailId = "email"
@@ -34,5 +35,7 @@ object Email {
     )
   }
 
-  def email: Mapping[String] = of[String](formatter()) verifying emailAddress
+  def email: Mapping[String] = of[String] verifying emailAddress
+
+  def emailConfirm: Mapping[String] = of[String](formatter()) verifying emailAddress
 }
