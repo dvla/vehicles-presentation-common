@@ -3,6 +3,7 @@ package uk.gov.dvla.vehicles.presentation.common.controllers
 import play.api.libs.json.Writes
 import play.api.Logger
 import play.api.mvc.{Action, Controller, Result, Request}
+import uk.gov.dvla.vehicles.presentation.common.webserviceclients.vehicleandkeeperlookup.VehicleAndKeeperLookupErrorMessage
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 import scala.util.{Failure, Success}
@@ -47,7 +48,7 @@ abstract class VehicleLookupBase[FormModel <: VehicleLookupFormModelBase]
   def presentResult(implicit request: Request[_]): Result
   def microServiceError(t: Throwable, formModel: FormModel)(implicit request: Request[_]): Result
   def invalidFormResult(invalidForm: play.api.data.Form[FormModel])(implicit request: Request[_]): Future[Result]
-  def vehicleLookupFailure(responseCode: String, formModel: FormModel)(implicit request: Request[_]): Result
+  def vehicleLookupFailure(responseCode: VehicleAndKeeperLookupErrorMessage, formModel: FormModel)(implicit request: Request[_]): Result
   def vehicleFoundResult(vehicleAndKeeperDetailsDto: VehicleAndKeeperDetailsDto,
                          validFormModel: FormModel)(implicit request: Request[_]): Result
   def vrmLocked(bruteForcePreventionModel: BruteForcePreventionModel, formModel: FormModel)
@@ -94,12 +95,12 @@ abstract class VehicleLookupBase[FormModel <: VehicleLookupFormModelBase]
                             bruteForcePreventionModel: BruteForcePreventionModel,
                             formModel: FormModel)
                            (implicit request: Request[_]): Future[Result] = {
-    def notFound(responseCode: String): Result = {
+    def notFound(responseCode: VehicleAndKeeperLookupErrorMessage): Result = {
       Logger.debug(s"VehicleAndKeeperLookup encountered a problem with request" +
         s" ${LogFormats.anonymize(referenceNumber)}" +
         s" ${LogFormats.anonymize(registrationNumber)}," +
         s" redirect to VehicleAndKeeperLookupFailure - trackingId: ${request.cookies.trackingId()}")
-      vehicleLookupFailure(responseCode, formModel).withCookie(responseCodeCacheKey, responseCode.split(" - ").last)
+      vehicleLookupFailure(responseCode, formModel).withCookie(responseCodeCacheKey, responseCode.message)
     }
 
     callLookupService(request.cookies.trackingId(), formModel).map {
@@ -129,7 +130,7 @@ abstract class VehicleLookupBase[FormModel <: VehicleLookupFormModelBase]
     vehicleLookupService.invoke(vehicleAndKeeperDetailsRequest, trackingId) map { response =>
       response.responseCode match {
         case Some(error) =>
-          VehicleNotFound(s"${error.code} - ${error.message}")
+          VehicleNotFound(error)
         case None =>
           response.vehicleAndKeeperDetailsDto match {
             case Some(dto) => VehicleFound(vehicleFoundResult(dto, formModel))
@@ -163,7 +164,7 @@ abstract class VehicleLookupBase[FormModel <: VehicleLookupFormModelBase]
 object VehicleLookupBase {
   sealed trait LookupResult
 
-  final case class VehicleNotFound(responseCode: String) extends LookupResult
+  final case class VehicleNotFound(responseCode: VehicleAndKeeperLookupErrorMessage) extends LookupResult
 
   final case class VehicleFound(result: Result) extends LookupResult
 }
