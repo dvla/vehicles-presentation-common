@@ -1,7 +1,9 @@
 package uk.gov.dvla.vehicles.presentation.common.views
 
+import org.openqa.selenium.Keys
 import play.api.i18n.Messages
 import uk.gov.dvla.vehicles.presentation.common.composition.TestHarness
+import uk.gov.dvla.vehicles.presentation.common.helpers.webbrowser.WebDriverFactory
 import uk.gov.dvla.vehicles.presentation.common.pages
 
 import uk.gov.dvla.vehicles.presentation.common.helpers.UiSpec
@@ -32,6 +34,17 @@ class EmailIntegrationSpec extends UiSpec with TestHarness {
       click on EmailPage.submit
       ErrorPanel.text should include(Messages("error.email.not.match"))
       ErrorPanel.numberOfErrors should equal(1)
+    }
+
+    "prevent copy paste in the confirm field" in new WebBrowser(webDriver = WebDriverFactory.defaultBrowserPhantomJs) {
+      go to EmailPage
+      EmailPage.businessEmail enter "abc@xyz.com"
+      EmailPage.businessEmail.underlying.sendKeys(Keys.LEFT_CONTROL + "a")
+      EmailPage.businessEmail.underlying.sendKeys(Keys.LEFT_CONTROL + "c")
+      click on EmailPage.businessEmailVerify
+      EmailPage.businessEmailVerify.value = "old value"
+      EmailPage.businessEmailVerify.underlying.sendKeys(Keys.LEFT_CONTROL + "v")
+      EmailPage.businessEmailVerify.value should equal("old value")
     }
   }
 }

@@ -281,6 +281,12 @@ define(function(require) {
         });
     };
 
+    var preventPasteOnEmailConfirm = function() {
+        $('.js-email-confirm').bind("paste",function(e) {
+            e.preventDefault();
+        });
+    };
+
     return {
         disableSubmitOnClick: disableSubmitOnClick,
         closingWarning: closingWarning,
@@ -294,6 +300,7 @@ define(function(require) {
         enableOptionToggle: enableOptionToggle,
         formCheckedSelection: formCheckedSelection,
         hideEmailOnOther: hideEmailOnOther, // Do not call this from initAll because only some exemplars need it
+        preventPasteOnEmailConfirm: preventPasteOnEmailConfirm,
         initAll: function() {
             $(function() {
                 disableSubmitOnClick();
@@ -306,6 +313,7 @@ define(function(require) {
                 feedbackFormCharacterCountdown();
                 enableOptionToggle();
                 formCheckedSelection();
+                preventPasteOnEmailConfirm();
 
                 if ($('#feedback-open').length) {
                     openFeedback('feedback-open', 'click');
