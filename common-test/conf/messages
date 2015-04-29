@@ -116,6 +116,9 @@ email.label = Email address
 email.verify.label = Confirm email address
 email.button = Submit
 error.restricted.validEmail = Email must be in valid format, e.g. AB1 2BA or AB12BA
+error.email = Email address is required
+error.email.confirm.required = Please confirm the email address
+error.email.not.match = The email addresses did not match
 
 #business name mapping/constraint
 businessName.pageTitle = Business name

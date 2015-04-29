@@ -1,7 +1,5 @@
 package uk.gov.dvla.vehicles.presentation.common.mappings
 
-import org.joda.time.LocalDate
-import play.api.data.format.Formats.stringFormat
 import play.api.data.Forms.of
 import play.api.data.{FormError, Mapping}
 import play.api.data.format.Formatter
@@ -23,6 +21,9 @@ object Email {
     override def bind(key: String, data: Map[String, String]): Either[Seq[FormError], String] =
       (data.get(s"$key.${Email.EmailId}"), data.get(s"$key.${Email.EmailVerifyId}")) match {
         case (None, None) => Left(Seq(FormError(key, "error.email")))
+        case (_, None) => Left(Seq(FormError(key, "error.email.confirm.required")))
+        case (_, Some(emailConfirm)) if emailConfirm.trim.isEmpty =>
+          Left(Seq(FormError(key, "error.email.confirm.required")))
         case (Some(email), Some(emailConfirm)) if email == emailConfirm => Right(email)
         case _ =>  Left(Seq(FormError(key, "error.email.not.match")))
       }

@@ -27,10 +27,24 @@ class EmailSpec extends UnitSpec {
       )) should equal(Left(Seq(FormError(s"email1", "error.email.not.match"))))
     }
 
+    "generate error for empty email confirm field" in {
+      formatter.bind("email1", Map(
+        s"email1.${Email.EmailId}" -> "abc@xyz.com",
+        s"email1.${Email.EmailVerifyId}" -> ""
+      )) should equal(Left(Seq(FormError(s"email1", "error.email.confirm.required"))))
+    }
+
+    "generate error for email confirm field blak spaces only" in {
+      formatter.bind("email1", Map(
+        s"email1.${Email.EmailId}" -> "abc@xyz.com",
+        s"email1.${Email.EmailVerifyId}" -> "\t   \n"
+      )) should equal(Left(Seq(FormError(s"email1", "error.email.confirm.required"))))
+    }
+
     "generate error for missing email confirm field" in {
       formatter.bind("email1", Map(
         s"email1.${Email.EmailId}" -> "xyz@abc.com"
-      )) should equal(Left(Seq(FormError(s"email1", "error.email.not.match"))))
+      )) should equal(Left(Seq(FormError(s"email1", "error.email.confirm.required"))))
     }
 
     "generate error for missing both email fields" in {
