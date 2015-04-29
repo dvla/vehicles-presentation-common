@@ -3,7 +3,11 @@ define(function(require) {
         addressLookup = require('address-picker');
 
     var disableSubmitOnClick = function() {
-        $(':submit').on('click', function() {
+        var pleaseWaitOverlay = $('.please-wait-overlay'),
+            closeWaitOverlay  = $('.please-wait-overlay a');
+
+        $(':submit').on('click', function(e) {
+            //e.preventDefault();
             if ( $(this).hasClass("disabled") ) {
                 return false;
             }
@@ -18,7 +22,69 @@ define(function(require) {
                     $(':submit').html('Loading');
                 }
             }, 1000);
+            setTimeout(function() {
+                pleaseWaitOverlay.toggle();
+            }, 5000);
         });
+        closeWaitOverlay.on('click', function(e) {
+            e.preventDefault();
+            pleaseWaitOverlay.toggle();
+        });
+    };
+
+    var closingWarning = function() {
+        var d = new Date(),
+            h = d.getHours(),
+            m = d.getMinutes(),
+            closingWaring = $('.serviceClosingWarning'),
+            // closingHour is picked up by data-closing-time attribute which will be the same as configuration file
+            closingHour = $('body').attr('data-closing-time'),
+            // Last minute available is 59
+            closingMinute = 59,
+            // Warning will start at HH:45
+            closingMinuteStart = 45,
+            // Final warning will start at HH:55
+            closingMinuteFinalWarning = 55,
+            minLeft, secLeft, dClosing, mClosing, sClosing;
+
+        // If data-closing-time attribute is not numeric or empty initialise the variable to 17 hour
+        if ((closingHour) && ($.isNumeric(closingHour))) {
+            closingHour = closingHour - 1;
+        } else {
+            closingHour = 17;
+        }
+        if ((h == closingHour) && (m >= closingMinuteStart) && (h == closingHour) && (m <= closingMinute)) {
+            var refreshTimer = setInterval(function () {
+                dClosing = new Date();
+                mClosing = dClosing.getMinutes();
+                sClosing = dClosing.getSeconds();
+                minLeft = closingMinute - mClosing;
+                secLeft = 60 - sClosing;
+                function pad(d) {
+                    return (d < 10) ? '0' + d.toString() : d.toString();
+                }
+                minLeft = pad(minLeft);
+                secLeft = pad(secLeft - 1);
+                $('.js-minutes-left').html(minLeft);
+                $('.js-seconds-left').html(secLeft);
+                if ((h == closingHour) && (mClosing >= closingMinuteFinalWarning) && (mClosing <= closingMinute)) {
+                    closingWaring.removeClass('closing-warning');
+                    closingWaring.addClass('final-closing-warning');
+                    if ((h == closingHour) && (mClosing == closingMinute) && (sClosing >= closingMinute)) {
+                        closingWaring.removeClass('closing-warning');
+                        closingWaring.addClass('final-closing-warning');
+                        $('.serviceClosing').hide();
+                        $('.serviceClosed').show();
+                        clearInterval(refreshTimer);
+                    }
+                }
+            }, 1000);
+        } else {
+            closingWaring.removeClass('closing-warning');
+            closingWaring.addClass('final-closing-warning');
+            $('.serviceClosing').hide();
+            $('.serviceClosed').show();
+        }
     };
 
     var openFeedback = function(inputId, event) {
@@ -217,6 +283,7 @@ define(function(require) {
 
     return {
         disableSubmitOnClick: disableSubmitOnClick,
+        closingWarning: closingWarning,
         openFeedback: openFeedback,
         autoTabForInputs: autoTabForInputs,
         imageHintToggles: imageHintToggles,
@@ -230,6 +297,7 @@ define(function(require) {
         initAll: function() {
             $(function() {
                 disableSubmitOnClick();
+                closingWarning();
                 autoTabForInputs();
                 imageHintToggles();
                 disableClickOnDisabledButtons();
