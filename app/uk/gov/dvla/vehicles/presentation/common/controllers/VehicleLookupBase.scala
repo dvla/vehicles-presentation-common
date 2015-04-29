@@ -128,8 +128,8 @@ abstract class VehicleLookupBase[FormModel <: VehicleLookupFormModelBase]
 
     vehicleLookupService.invoke(vehicleAndKeeperDetailsRequest, trackingId) map { response =>
       response.responseCode match {
-        case Some(responseCode) =>
-          VehicleNotFound(responseCode)
+        case Some(error) =>
+          VehicleNotFound(s"${error.code} - ${error.message}")
         case None =>
           response.vehicleAndKeeperDetailsDto match {
             case Some(dto) => VehicleFound(vehicleFoundResult(dto, formModel))
