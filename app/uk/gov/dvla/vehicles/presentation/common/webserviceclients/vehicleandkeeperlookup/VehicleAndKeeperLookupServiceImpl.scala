@@ -21,7 +21,7 @@ final class VehicleAndKeeperLookupServiceImpl @Inject()(ws: VehicleAndKeeperLook
 
         // Horrible workaround to overcome the sophisticated way the errors are returned
         response.responseCode match {
-          case Some(error) if error.code.startsWith("VMPR2") || error.message.startsWith("VMPR3") =>
+          case Some(error) if error.code.startsWith("VMPR2") || error.code.startsWith("VMPR3") =>
             healthStats.failure(ServiceName, new Exception(s"${error.code} - ${error.message}"))
           case _ => healthStats.success(ServiceName)
         }
