@@ -13,13 +13,13 @@ import uk.gov.dvla.vehicles.presentation.common.views.html.widgets.serviceClosin
  * This passes locally but fails on jenkins. we need to find out why.
  */
 class ServiceClosingWarningSpec extends UnitSpec {
-//  "Show x minutes before closing" in {
+  "Show x minutes before closing" in {
 //    val dateService = mock[DateService]
-//    when(dateService.now).thenReturn(minutesAfter0(10))
-//    val result = ServiceClosingWarning.warning(1,51, dateService.now.toDateTime)
-//    result should be (Some("00:50.00"))
-//
-//  }
+//    when(dateService.now).thenReturn(minutesAfter0(10)) // 00:10
+    val result = ServiceClosingWarning.warning(1,51, minutesAfter0(10)) // 01:00
+    result should be (Some("00:50.00"))
+
+  }
 //
 //  "Not show after closing time" in {
 //    val dateService = mock[DateService]
@@ -49,7 +49,7 @@ class ServiceClosingWarningSpec extends UnitSpec {
 //    result should be (None)
 //  }
 //
-//  private def minutesAfter0(minutes: Long): Instant = {
-//    new org.joda.time.DateTime(0, 1, 1, 0, 0, DateTimeZone.forID("Europe/London")).plusMinutes(minutes.toInt).toInstant
-//  }
+  private def minutesAfter0(minutes: Long) = {
+    new org.joda.time.DateTime(0, 1, 1, 0, 0, DateTimeZone.forID("Europe/London")).plusMinutes(minutes.toInt)
+  }
 }
