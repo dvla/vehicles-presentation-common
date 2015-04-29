@@ -10,11 +10,12 @@ import common.model.SetupTradeDetailsFormModel.Form.TraderEmailOptionId
 import common.model.SetupTradeDetailsFormModel.Form.TraderNameId
 import common.model.SetupTradeDetailsFormModel.Form.TraderPostcodeId
 import common.{UnitSpec, WithApplication}
+import uk.gov.dvla.vehicles.presentation.common.model.BusinessKeeperDetailsFormModel.Form._
 
 class SetupTradeDetailsFormSpec extends UnitSpec {
 
   implicit val cacheKeyPrefix = CacheKeyPrefix("testing-prefix")
-  
+
   final val TraderBusinessNameValid = "example trader name"
   final val PostcodeWithoutAddresses = "xx99xx"
   final val PostcodeValid = "QQ99QQ"
@@ -111,7 +112,7 @@ class SetupTradeDetailsFormSpec extends UnitSpec {
 
     implicit val cookieFlags = new NoCookieFlags()
     implicit val sideSessionFactory = new ClearTextClientSideSessionFactory()
-    
+
     new SetUpTraderDetailsTesting()
       .form.bind(
         Map(
@@ -120,8 +121,9 @@ class SetupTradeDetailsFormSpec extends UnitSpec {
         ) ++ traderEmail.fold(Map(TraderEmailOptionId -> OptionalToggle.Invisible)) { email =>
           Map(
             TraderEmailOptionId -> OptionalToggle.Visible,
-            s"$TraderEmailId.$EmailEnterId" -> email,
-            s"$TraderEmailId.$EmailVerifyId" -> email
+//            s"$TraderEmailId.$EmailEnterId" -> email,
+//            s"$TraderEmailId.$EmailVerifyId" -> email
+            TraderEmailId -> email
           )
         }
       )

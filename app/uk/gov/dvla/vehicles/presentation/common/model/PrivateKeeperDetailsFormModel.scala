@@ -11,7 +11,7 @@ import uk.gov.dvla.vehicles.presentation.common
 import common.clientsidesession.CacheKey
 import common.mappings.Date.optionalDateOfBirth
 import common.mappings.DriverNumber.driverNumber
-import common.mappings.Email.emailConfirm
+import common.mappings.Email.email
 import common.mappings.Postcode.postcode
 import uk.gov.dvla.vehicles.presentation.common.mappings.{OptionalToggle, TitleType, TitlePickerString}
 import common.views.helpers.FormExtensions.nonEmptyTextWithTransform
@@ -70,7 +70,7 @@ object PrivateKeeperDetailsFormModel {
       FirstNameId -> firstNameMapping,
       LastNameId -> lastNameMapping,
       DateOfBirthId -> optionalDateOfBirth,
-      EmailOptionId -> OptionalToggle.optional(emailConfirm.withPrefix(EmailId)),
+      EmailOptionId -> OptionalToggle.optional(email.withPrefix(EmailId)),
       DriverNumberId -> optional(driverNumber),
       PostcodeId -> postcode
     )(PrivateKeeperDetailsFormModel.apply)(PrivateKeeperDetailsFormModel.unapply)

@@ -104,7 +104,7 @@ class PrivateKeeperDetailsBaseUnitSpec extends UnitSpec {
       val request = buildRequest()
         .withCookies(vehicleAndKeeperDetailsCookie())
       val result = Await.result(privateKeeperDetails.submit(request), 5 seconds)
-      result.body should equal(successTestResult.body)
+      result.body.toString should equal(successTestResult.body.toString)
 
       CookieHelper.verifyCookieHasBeenDiscarded(
         NewKeeperChooseYourAddressFormModel.newKeeperChooseYourAddressCacheKey,
@@ -168,8 +168,9 @@ class PrivateKeeperDetailsBaseUnitSpec extends UnitSpec {
     ) ++ model.email.fold(Seq(EmailOptionId -> OptionalToggle.Invisible)){ email =>
       Seq(
         EmailOptionId -> OptionalToggle.Visible,
-        s"$EmailId.$EmailEnterId" -> model.email.getOrElse(""),
-        s"$EmailId.$EmailVerifyId" -> model.email.getOrElse("")
+//        s"$EmailId.$EmailEnterId" -> model.email.getOrElse(""),
+//        s"$EmailId.$EmailVerifyId" -> model.email.getOrElse(""),
+        EmailId -> model.email.getOrElse("")
       )
     }:_*)
   }

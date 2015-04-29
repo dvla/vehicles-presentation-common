@@ -115,8 +115,9 @@ class BusinessKeeperDetailsFormSpec extends UnitSpec {
       ) ++ email.fold(Map(EmailOptionId -> OptionalToggle.Invisible)) { e =>
         Map(
           EmailOptionId -> OptionalToggle.Visible,
-          s"$EmailId.$EmailEnterId" -> e,
-          s"$EmailId.$EmailVerifyId" -> e
+//          s"$EmailId.$EmailEnterId" -> e,
+//          s"$EmailId.$EmailVerifyId" -> e
+          EmailId -> e
         )
       } ++ fleetNumber.fold(Seq(FleetNumberOptionId -> OptionalToggle.Invisible)){ fleetNumber =>
         Seq(FleetNumberOptionId -> OptionalToggle.Visible, FleetNumberId -> fleetNumber )

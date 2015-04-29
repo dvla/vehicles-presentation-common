@@ -4,7 +4,7 @@ import play.api.data.Forms.{mapping, optional}
 import play.api.libs.json.Json
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CacheKey
 import uk.gov.dvla.vehicles.presentation.common.mappings.BusinessKeeperName.businessKeeperNameMapping
-import uk.gov.dvla.vehicles.presentation.common.mappings.Email.emailConfirm
+import uk.gov.dvla.vehicles.presentation.common.mappings.Email.email
 import uk.gov.dvla.vehicles.presentation.common.mappings.FleetNumber.fleetNumberMapping
 import uk.gov.dvla.vehicles.presentation.common.mappings.OptionalToggle
 import uk.gov.dvla.vehicles.presentation.common.mappings.Postcode.postcode
@@ -33,7 +33,7 @@ object BusinessKeeperDetailsFormModel {
     final val Mapping = mapping(
       FleetNumberOptionId -> OptionalToggle.optional(fleetNumberMapping.withPrefix(FleetNumberId)),
       BusinessNameId -> businessKeeperNameMapping,
-      EmailOptionId -> OptionalToggle.optional(emailConfirm.withPrefix(EmailId)),
+      EmailOptionId -> OptionalToggle.optional(email.withPrefix(EmailId)),
       PostcodeId -> postcode
     )(BusinessKeeperDetailsFormModel.apply)(BusinessKeeperDetailsFormModel.unapply)
   }
