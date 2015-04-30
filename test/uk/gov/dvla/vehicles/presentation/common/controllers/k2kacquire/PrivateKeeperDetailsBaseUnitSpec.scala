@@ -168,9 +168,8 @@ class PrivateKeeperDetailsBaseUnitSpec extends UnitSpec {
     ) ++ model.email.fold(Seq(EmailOptionId -> OptionalToggle.Invisible)){ email =>
       Seq(
         EmailOptionId -> OptionalToggle.Visible,
-//        s"$EmailId.$EmailEnterId" -> model.email.getOrElse(""),
-//        s"$EmailId.$EmailVerifyId" -> model.email.getOrElse(""),
-        EmailId -> model.email.getOrElse("")
+        s"$EmailId.$EmailEnterId" -> model.email.getOrElse(""),
+        s"$EmailId.$EmailVerifyId" -> model.email.getOrElse("")
       )
     }:_*)
   }

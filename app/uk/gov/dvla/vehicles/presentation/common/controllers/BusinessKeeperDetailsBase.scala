@@ -59,12 +59,9 @@ abstract class BusinessKeeperDetailsBase @Inject()()
       BusinessKeeperDetailsFormModel.Form.BusinessNameId,
       FormError(key = BusinessKeeperDetailsFormModel.Form.BusinessNameId,message = "error.validBusinessKeeperName")
     ).replaceError(
-        BusinessKeeperDetailsFormModel.Form.EmailId,
-        FormError(key = BusinessKeeperDetailsFormModel.Form.EmailId,message = "error.email")
-      ).replaceError(
-        BusinessKeeperDetailsFormModel.Form.PostcodeId,
-        FormError(key = BusinessKeeperDetailsFormModel.Form.PostcodeId,message = "error.restricted.validPostcode")
-      ).distinctErrors
+      BusinessKeeperDetailsFormModel.Form.PostcodeId,
+      FormError(key = BusinessKeeperDetailsFormModel.Form.PostcodeId,message = "error.restricted.validPostcode")
+    ).distinctErrors
   }
 
   private def redirectToSetupTradeDetails(message:String)(implicit request: Request[_]) = {

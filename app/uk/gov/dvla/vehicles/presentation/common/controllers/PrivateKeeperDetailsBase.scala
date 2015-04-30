@@ -62,17 +62,14 @@ abstract class PrivateKeeperDetailsBase @Inject()()
     }
   }
 
-  private def formWithReplacedErrors(form: Form[PrivateKeeperDetailsFormModel]): Form[PrivateKeeperDetailsFormModel] = {
+  private def formWithReplacedErrors(form: Form[PrivateKeeperDetailsFormModel]): Form[PrivateKeeperDetailsFormModel] =
     form.replaceError(
       LastNameId, FormError(key = LastNameId,message = "error.validLastName", args = Seq.empty)
     ).replaceError(
-        DriverNumberId, FormError(key = DriverNumberId, message = "error.validDriverNumber", args = Seq.empty)
-      ).replaceError(
-        EmailId, FormError(key = EmailId, message = "error.email", args = Seq.empty)
-      ).replaceError(
-        PostcodeId, FormError(key = PostcodeId, message = "error.restricted.validPostcode", args = Seq.empty)
-      ).distinctErrors
-  }
+      DriverNumberId, FormError(key = DriverNumberId, message = "error.validDriverNumber", args = Seq.empty)
+    ).replaceError(
+      PostcodeId, FormError(key = PostcodeId, message = "error.restricted.validPostcode", args = Seq.empty)
+    ).distinctErrors
 
   private def redirectToSetupTradeDetails(message:String)(implicit request: Request[_]) = {
     Logger.warn(s"$message - trackingId: ${request.cookies.trackingId()}")
