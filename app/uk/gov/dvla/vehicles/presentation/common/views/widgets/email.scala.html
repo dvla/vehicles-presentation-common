@@ -15,11 +15,11 @@
         field(EmailId),
         hintText = hintText,
         args =  Map(
-            '_label -> Messages("email.label"),
+            '_label -> labelText,
             '_showConstraints -> false,
             'NO_OPTIONAL_LABEL -> true,
             'typeEmail -> true
-        )
+        ) ++ args
     )
 
     @valtechInputText(

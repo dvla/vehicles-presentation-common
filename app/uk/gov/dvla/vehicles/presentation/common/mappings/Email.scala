@@ -22,6 +22,7 @@ object Email {
     override def bind(key: String, data: Map[String, String]): Either[Seq[FormError], String] =
       (data.get(s"$key.${Email.EmailId}"), data.get(s"$key.${Email.EmailVerifyId}")) match {
         case (None, None) => Left(Seq(FormError(key, "error.email")))
+        case (Some(""), _) => Left(Seq(FormError(key, "error.email")))
         case (_, None) => Left(Seq(FormError(key, "error.email.confirm.required")))
         case (_, Some(emailConfirm)) if emailConfirm.trim.isEmpty =>
           Left(Seq(FormError(key, "error.email.confirm.required")))
@@ -30,8 +31,8 @@ object Email {
       }
 
     override def unbind(key: String, value: String): Map[String, String] = Map(
-      Email.EmailId -> value,
-      Email.EmailVerifyId -> value
+      s"$key.${Email.EmailId}" -> value,
+      s"$key.${Email.EmailVerifyId}" -> value
     )
   }
 
