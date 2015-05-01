@@ -27,6 +27,19 @@ class EmailIntegrationSpec extends UiSpec with TestHarness {
       ErrorPanel.numberOfErrors should equal(1)
     }
 
+    "submit an invalid email and then submit a valid email" in new WebBrowser {
+      go to EmailPage
+      EmailPage.businessEmail enter "abc"
+      EmailPage.businessEmailVerify enter "abc"
+      click on EmailPage.submit
+      ErrorPanel.text should include(Messages("error.email"))
+      ErrorPanel.numberOfErrors should equal(1)
+      EmailPage.businessEmail enter "abc@xyz.com"
+      EmailPage.businessEmailVerify enter "abc@xyz.com"
+      click on EmailPage.submit
+      webDriver.getPageSource should include("success - you entered an email Some(abc@xyz.com)")
+    }
+
     "detect two different email addresses" in new WebBrowser {
       go to EmailPage
       EmailPage.businessEmail enter "abc@xyz.com"

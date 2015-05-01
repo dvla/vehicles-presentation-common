@@ -15,7 +15,7 @@ abstract class SetUpTradeDetailsBase @Inject()()(implicit protected val clientSi
                                              prefix: CacheKeyPrefix) extends Controller {
 
   protected def presentResult(model: Form[SetupTradeDetailsFormModel])(implicit request: Request[_]): Result
-  
+
   protected def invalidFormResult(model: Form[SetupTradeDetailsFormModel])(implicit request: Request[_]): Result
 
   protected def success(implicit request: Request[_]): Result
@@ -40,9 +40,7 @@ abstract class SetUpTradeDetailsBase @Inject()()(implicit protected val clientSi
     form.replaceError(
       TraderNameId, FormError(key = TraderNameId, message = "error.validBusinessName", args = Seq.empty)
     ).replaceError(
-        TraderEmailId,FormError(key = TraderEmailId, message = "error.email", args = Seq.empty)
-      ).replaceError(
-        TraderPostcodeId, FormError(key = TraderPostcodeId, message = "error.restricted.validPostcode", args = Seq.empty)
-      ).distinctErrors
+      TraderPostcodeId, FormError(key = TraderPostcodeId, message = "error.restricted.validPostcode", args = Seq.empty)
+    ).distinctErrors
   }
 }

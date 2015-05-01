@@ -121,9 +121,8 @@ class SetupTradeDetailsFormSpec extends UnitSpec {
         ) ++ traderEmail.fold(Map(TraderEmailOptionId -> OptionalToggle.Invisible)) { email =>
           Map(
             TraderEmailOptionId -> OptionalToggle.Visible,
-//            s"$TraderEmailId.$EmailEnterId" -> email,
-//            s"$TraderEmailId.$EmailVerifyId" -> email
-            TraderEmailId -> email
+            s"$TraderEmailId.$EmailEnterId" -> email,
+            s"$TraderEmailId.$EmailVerifyId" -> email
           )
         }
       )
