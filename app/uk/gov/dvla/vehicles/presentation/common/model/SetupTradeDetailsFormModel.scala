@@ -4,7 +4,7 @@ import play.api.data.Forms.mapping
 import play.api.libs.json.Json
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CacheKey
 import uk.gov.dvla.vehicles.presentation.common.mappings.BusinessName.businessNameMapping
-import uk.gov.dvla.vehicles.presentation.common.mappings.Email.email
+import uk.gov.dvla.vehicles.presentation.common.mappings.Email.emailConfirm
 import uk.gov.dvla.vehicles.presentation.common.mappings.OptionalToggle
 import uk.gov.dvla.vehicles.presentation.common.mappings.Postcode.postcode
 
@@ -29,7 +29,7 @@ object SetupTradeDetailsFormModel {
     final val Mapping = mapping(
       TraderNameId -> businessNameMapping,
       TraderPostcodeId -> postcode,
-      TraderEmailOptionId -> OptionalToggle.optional(email.withPrefix(TraderEmailId))
+      TraderEmailOptionId -> OptionalToggle.optional(emailConfirm.withPrefix(TraderEmailId))
     )(SetupTradeDetailsFormModel.apply)(SetupTradeDetailsFormModel.unapply)
   }
 }

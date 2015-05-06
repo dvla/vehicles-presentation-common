@@ -79,11 +79,6 @@ define(function(require) {
                     }
                 }
             }, 1000);
-        } else {
-            closingWaring.removeClass('closing-warning');
-            closingWaring.addClass('final-closing-warning');
-            $('.serviceClosing').hide();
-            $('.serviceClosed').show();
         }
     };
 

@@ -24,7 +24,7 @@ class EmailController @Inject()(implicit clientSideSessionFactory: ClientSideSes
     implicit request => {
       form.bindFromRequest.fold(
         formWithErrors => BadRequest(views.html.emailView(formWithErrors)),
-        f => Ok(views.html.success(s"success - you entered an email of ${f.email}"))
+        f => Ok(views.html.success(s"success - you entered an email ${f.email}"))
       )
     }
   }

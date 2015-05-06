@@ -1,3 +1,86 @@
+======= 2.21.1 ======
+Time of release binaries creation:
+Wed May 6 2015 09:25:00
+
+eadd026 fixing warning
+
+
+======= 2.21 ======
+Time of release binaries creation:
+Tue May 5 2015 15:25:00
+
+0759348 US2802: restore ServiceClosingWarning tests to working order
+fb4df5e US3045 use confirmation for the email for the trader
+cb603bc US3045 Use email confirmation for the private and business keeper details
+ef7215e US3045 add few more validation cases for the email confirmation
+e6c647a US3045 disable paste on the email confirm field
+0d4032e Merge branch 'develop' of gitlab.preview-dvla.co.uk:dvla/vehicles-presentation-common into develop
+c5de7a0 US3045 use the old email mapping so the code can be pushed
+5147bff Fixing test to pass on Jenkins
+045ca43 Merge branch 'DE442' of /home/git/repositories/dvla/vehicles-presentation-common into develop
+5cfc756 Test fails only on jenkins
+e56f870 US3045 get back the old mapping in order to enable pushing to git
+fbdd9e7 Merge branch 'develop' of gitlab.preview-dvla.co.uk:dvla/vehicles-presentation-common into develop
+527a37d US3045 add messages for the email address
+4cdfae0 Merge branch 'US2802-in-widget' of /home/git/repositories/dvla/vehicles-presentation-common into develop
+43e8763 Merge branch 'US2798' of /home/git/repositories/dvla/vehicles-presentation-common into develop
+8dd23ac US3045 extends the integration tests for the email widget
+a5eee2d US3045 add a email widget and tests
+bbf84e0 US2798: moved html into a widget
+890f93f berge branch 'develop' into US2798
+1d4d93c US2798 - common JS and css
+aa82e2d US3045 add a new mapping for the confirming email
+25511a0 US2860 add tests for the remember field and removal of the county field
+6e0e3fb Merge branch 'develop' into DE442
+007e4f9 US2802: clean up unused code and add some tests
+f6378e4 US2860 remove the county and add remember to the address model
+003b234 US2802 - Validate data-closing-attribute
+90937db US2802: WIP
+0e8331b US2802 -  amends on js
+0e20fa0 US2802 - WIP
+610264d Merge branch 'develop' into US2802-in-widget
+d642799 US2802: minutes and seconds are two separate spans. This works for the non-javascript mode
+d4d494b US2802: differentiate between when the warning and when nothing should be displayed
+a7e6c63 US2802 - improving JS
+127dff1 US2860 first version of the address pciker widget
+55b6861 Fix merge develop branch
+617d27d fixing class
+8919fe5 US2802 - js
+ea531b3 Ignore a failing js test
+5b88604 US2860 using promise.always instead of promise.done in qunit tests
+59a817b US2860 using promise.always instead of promise.done in qunit tests
+f1b304d Merge branch 'develop' of gitlab.preview-dvla.co.uk:dvla/vehicles-presentation-common into develop
+8190ab2 DE455: Reduce the length at which address lines are merged from 5 to 4.
+264787d US2860 remove two unused js files
+7173f56 US2860 use a single require.js configuration file
+e4ef6fa US2860 add the scafolding for the address picker widget and testing
+0f58edb Merge branch 'develop' of gitlab.preview-dvla.co.uk:dvla/vehicles-presentation-common into develop
+a0162d3 US2860 add a formatter for the DatePicker widget
+c973379 DE442: pattern match on invalid characters
+c0a5f9d DE442: allow only numeric characters
+3fb4cd9 DE360: Provide a mechanism to exclude non alpha-numeric characters in input.
+4ed2aa9 US3020 removed the hard coded text from the feedback countdown so we can internationalise it
+5c2a0d0 commonised the trackingId
+12e3bc8 Merge branch 'develop' of gitlab.preview-dvla.co.uk:dvla/vehicles-presentation-common into develop
+93bbcc5 US2889 increase the js tests runner timeout to 10s
+e8ae84d Merge branch 'develop' of gitlab.preview-dvla.co.uk:dvla/vehicles-presentation-common into develop
+52adbb3 US2889 - js tidy up and bugfix
+2382b4f US2889 enable the phantomjs by default tests
+7427f15 Merge branch 'develop' of gitlab.preview-dvla.co.uk:dvla/vehicles-presentation-common into develop
+a50a7b5 US2802: follow Makis suggestion of using a companion object rather than IoC
+6df626c US2802: re-usable funcs for calculating service closing warnings
+6c466d4 DE452: change error code to Forbidden
+33ef500 US2802: code for service closing warning is in the widget
+7399d48 US2889 set the animation duration to 0 in hideEmailOther as it was causing the focus to be lost on the first control in acquire vehicle-tax-or-sorn page
+7c30187 US2889 moved the js that is common to both acquire and k2k into the common project
+f7fdb9f US2859 Disable the phantomjs default browser tests as missing on jenkins
+ca78fb5 Merge branch 'develop' of gitlab.preview-dvla.co.uk:dvla/vehicles-presentation-common into develop
+7b11002 US2859 improve the qunit test runner and implement a set of js tests in pure webdriver
+4f40970 Merge branch 'develop' of gitlab.preview-dvla.co.uk:dvla/vehicles-presentation-common into develop
+9ed1b76 US2889 javascript changes around making the functions in global-helpers global and other tidy up
+7b56f96 US2859 the first qunit test for option toggle
+db60f9c New development version 2.21-SNAPSHOT
+
 ======= 2.20 ======
 Time of release binaries creation:
 Wed Apr 12 2015 10:40:00

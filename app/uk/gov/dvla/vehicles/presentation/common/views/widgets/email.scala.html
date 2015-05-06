@@ -15,11 +15,10 @@
         field(EmailId),
         hintText = hintText,
         args =  Map(
-            '_label -> Messages("email.label"),
+            '_label -> labelText,
             '_showConstraints -> false,
-            'NO_OPTIONAL_LABEL -> true,
-            'typeEmail -> true
-        )
+            'NO_OPTIONAL_LABEL -> true
+        ) ++ args
     )
 
     @valtechInputText(
@@ -28,9 +27,7 @@
             '_label -> Messages("email.verify.label"),
             '_showConstraints -> false,
             'NO_OPTIONAL_LABEL -> true,
-            'typeEmail -> true,
             'class -> "js-email-confirm"
         )
     )
-
 }

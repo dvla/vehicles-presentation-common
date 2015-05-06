@@ -16,9 +16,9 @@ object EmailPage extends Page with WebBrowserDSL {
   final override val title: String = "Email capture"
   val emailValid = "test@test.com"
 
-  def businessEmail(implicit driver: WebDriver): EmailField = emailField(id(s"${EmailId}_$EmailEnterId"))
+  def businessEmail(implicit driver: WebDriver): TextField = textField(id(s"${EmailId}_$EmailEnterId"))
 
-  def businessEmailVerify(implicit driver: WebDriver): EmailField = emailField(id(s"${EmailId}_$EmailVerifyId"))
+  def businessEmailVerify(implicit driver: WebDriver): TextField = textField(id(s"${EmailId}_$EmailVerifyId"))
 
   def submit(implicit driver: WebDriver): Element = find(id("submit")).get
 
