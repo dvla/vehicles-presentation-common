@@ -7,20 +7,22 @@ import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClientSideSess
 import uk.gov.dvla.vehicles.presentation.common.model.Address
 import uk.gov.dvla.vehicles.presentation.common.webserviceclients.addresslookup.AddressLookupService
 import scala.concurrent.ExecutionContext.Implicits.global
-import scala.concurrent.Future
+import scala.util.control.NonFatal
 
 class AddressLookup @Inject()(addressLookup: AddressLookupService)
                              (implicit clientSideSessionFactory: ClientSideSessionFactory) extends Controller {
   def byPostcode(postCode: String) = Action.async { request =>
-//    val session = clientSideSessionFactory.getSession(request.cookies)
+    val session = clientSideSessionFactory.getSession(request.cookies)
     implicit val writes = Json.format[Address]
-    Future.successful(Ok(Json.toJson(Seq(
-      Address("a1", Some("a2"), Some("a3"), "a4", postCode, true),
-      Address("b1", Some("b2"), Some("b3"), "b4", postCode, true),
-      Address("c1", Some("c2"), Some("c3"), "c4", postCode, false),
-      Address("d1", Some("d2"), Some("d3"), "d4", postCode, false)
-    ))))
-//    addressLookup.fetchAddressesForPostcode(postCode, session.trackingId)
-//      .map(a => Ok(""))
+    addressLookup.fetchAddressesForPostcode(postCode, session.trackingId).map { addressLines =>
+      val addresses = addressLines.map { case (postCode, encoded) =>
+        val addressElements = encoded.split(",").map(_.trim)
+        val addressLines = addressElements.dropRight(2)
+        Address(addressLines.mkString(", "), None, None, addressElements.takeRight(2).head, postCode, false)
+      }
+      Ok(Json.toJson(addresses))
+    } recover {
+      case NonFatal(e) => InternalServerError(e.getMessage)
+    }
   }
 }
