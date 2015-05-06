@@ -91,7 +91,7 @@ class VersionUnitSpec extends UnitSpec with BeforeAndAfterAll with WireMockFixtu
       versionString should include("version2-body")
     }
 
-    "fetch the version strings from not existing url" ignore new WithApplication {
+    "fetch the version strings from not existing url" in new WithApplication {
       val versionController = new Version("http://localh:36234/test", "http://localh:36234/test2")
       val versionString = contentAsString(versionController.version(FakeRequest()))
 
