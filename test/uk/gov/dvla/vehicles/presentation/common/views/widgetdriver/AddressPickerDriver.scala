@@ -1,5 +1,6 @@
 package uk.gov.dvla.vehicles.presentation.common.views.widgetdriver
 
+import org.openqa.selenium.support.ui.{ExpectedConditions, WebDriverWait}
 import org.openqa.selenium.{By, WebDriver}
 import uk.gov.dvla.vehicles.presentation.common.views.widgetdriver.Wait.elementHasAnyText
 import uk.gov.dvla.vehicles.presentation.common.helpers.webbrowser.{SingleSel, Element, WebBrowserDSL, TextField, Checkbox}
@@ -54,4 +55,8 @@ class AddressPickerDriver(id: String)  extends WebBrowserDSL {
 
   def remember(implicit driver: WebDriver): Checkbox =
     checkbox(id(s"${id}_${RememberId}"))(driver.findElement(By.id(id)))
+
+  def assertAddressListVisible(implicit driver: WebDriver): Unit = {
+    Wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(".address-list-wrapper")))
+  }
 }

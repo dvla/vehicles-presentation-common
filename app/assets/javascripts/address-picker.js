@@ -12,13 +12,14 @@ define(['jquery'], function($) {
         var initAddressLookup = function () {
             // if backend returns with an error, on document ready the form will be displayed
             $('.no-js-hidden').show();
+            $('.address-list-wrapper, .address-manual-inputs-wrapper').hide();
             if (addressLookupStatus == '') {
                 $('.address-list-wrapper, .address-manual-inputs-wrapper').hide();
             }
         };
         // Manual Input Mode
         var manualAddressMode = function () {
-            $('#addressLines-1').focus();
+            $('#address-picker-1_address-line-1').focus();
             addressToggle.hide();
             $('.address-manual-inputs-wrapper').show();
             $('.address-list-wrapper, #address-postcode-lookup, #address-find').hide();
@@ -42,8 +43,9 @@ define(['jquery'], function($) {
                             address = "";
                         // Assigning addresses object to a global scope
                         addresses = data;
+                        console.log(addresses)
                         for (var i = 0; i < len; i++) {
-                            address = "<option value='" + i + "'>" + data[i].street + "," + data[i].town + "," + data[i].county + "," + data[i].postcode + "</option>";
+                            address = "<option value='" + i + "'>" + data[i].streetAddress1 + "," + data[i].postTown + "," + data[i].postCode + "</option>";
                             if (address != "") {
                                 addressesList.append(address);
                             }
@@ -62,10 +64,9 @@ define(['jquery'], function($) {
         // Populate Form
         var updateAddressForm = function (address) {
             var selected_address = addressesList.children(":selected").val();
-            $('#addressLines-1').val(addresses[selected_address].street);
-            $('#address-town').val(addresses[selected_address].town);
-            $('#address-county').val(addresses[selected_address].county);
-            $('#address-postcode').val(addresses[selected_address].postcode);
+            $('#address-picker-1_address-line-1').val(addresses[selected_address].streetAddress1);
+            $('#address-picker-1_post-town').val(addresses[selected_address].postTown);
+            $('#address-picker-1_post-code').val(addresses[selected_address].postCode);
         };
         // Reset Form
         var clearAddressForm = function () {
@@ -84,7 +85,6 @@ define(['jquery'], function($) {
             e.preventDefault();
             $('#address-postcode-lookup').val('').focus();
             initAddressLookup();
-            // TODO: reset cookies
         });
 
         /* TODO: if cookies have already an address -> display form prefilled  */

@@ -10,17 +10,22 @@
 @import views.html.helper.form
 @import uk.gov.dvla.vehicles.presentation.common.views
 
-@main(
-  title = "Address Picker",
-  currentForm = Some(playForm)
-) {
-  @form(action = controllers.routes.AddressPicker.submit) {
-    @addressPicker(playForm(datePicker1Id))
+    @main(
+      title = "Address Picker",
+      currentForm = Some(playForm)
+    ) {
 
-    <div class="form-steps">
-        <button id="submit" type="submit" name="action" class="button" aria-label="Next button">Submit</button>
+  <div class="two-col clearfix">
+    <div class="second-col">
+      @form(action = controllers.routes.AddressPicker.submit) {
+        @addressPicker(playForm(datePicker1Id))
+
+        <div class="form-steps">
+            <button id="submit" type="submit" name="action" class="button" aria-label="Next button">Submit</button>
+        </div>
+      }
     </div>
-  }
-}
+  </div>
+    }
 
 @views.html.qunit(includeQunitCode, "javascripts/tests/addressPickerTest.js")

@@ -5,13 +5,14 @@ import play.api.i18n.Messages
 import play.api.libs.json.Json
 import uk.gov.dvla.vehicles.presentation.common.composition.TestHarness
 import uk.gov.dvla.vehicles.presentation.common.helpers.UiSpec
+import uk.gov.dvla.vehicles.presentation.common.helpers.webbrowser.WebDriverFactory
 import uk.gov.dvla.vehicles.presentation.common.model.Address
 import uk.gov.dvla.vehicles.presentation.common.models.AddressPickerModel
 import uk.gov.dvla.vehicles.presentation.common.pages.{ErrorPanel, AddressPickerPage}
 
 class AddressPickerSpec extends UiSpec with TestHarness with AppendedClues {
   "Address picker widget" should {
-    "Show all the expected fields" in new WebBrowser {
+    "Show all the expected fields" in new WebBrowser(webDriver = WebDriverFactory.defaultBrowserPhantomJs) {
       go to AddressPickerPage
       page.title should equal(AddressPickerPage.title)
 
