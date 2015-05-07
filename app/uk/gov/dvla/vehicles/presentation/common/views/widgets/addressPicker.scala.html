@@ -1,4 +1,4 @@
-@(field: play.api.data.Field)(implicit handler: helper.FieldConstructor, lang: Lang)
+@(field: play.api.data.Field, errorFlag: String = "")(implicit handler: helper.FieldConstructor, lang: Lang)
 
 @import _root_.views.html.helper.input
 @import uk.gov.dvla.vehicles.presentation.common
@@ -28,7 +28,7 @@
     <div class="address-list-wrapper">
         <div class="form-item no-js-hidden">
             <label for="address-list">Pick an address</label>
-            <select id="address-list" name="address-list" type="text" aria-required="true">
+            <select id="address-list" name="address-list" type="text" aria-required="true" data-ajax="false">
                 <option value="">Please select</option>
             </select>
         </div>
@@ -37,18 +37,19 @@
 
     <!-- Address Form Wrapper -  JS ON/OFF -->
     <!-- TODO: data-address-status needs to be generated via back-end fails in order to display the form if validation fails -->
-    <div class="address-manual-inputs-wrapper">
+    <div class="address-manual-inputs-wrapper" data-address-status="@errorFlag">
 
         <!-- Street Inputs -->
 
+        @helper.input(field(AddressLine1Id)) { (id, name, value, args) =>
         <div class="form-item">
             <div class="left-col">
                 <label for="address-street">Street</label>
             </div>
+
             <div class="right-col">
-                @helper.input(field(AddressLine1Id)) { (id, name, value, args) =>
                 <input id="@id" name="@name" value="@value" placeholder="Street name and number"  maxlength="58" autocomplete="off" type="text" aria-required="true">
-                }
+
                 @helper.input(field(AddressLine2Id)) { (id, name, value, args) =>
                 <input id="@id" name="@name"  value="@value" maxlength="58" autocomplete="off" type="text" aria-required="fals">
                 }
@@ -57,6 +58,7 @@
                 }
             </div>
         </div>
+        }
 
         <!-- end of Street Inputs -->
 

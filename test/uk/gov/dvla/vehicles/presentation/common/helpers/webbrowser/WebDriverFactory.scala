@@ -12,6 +12,7 @@ import org.openqa.selenium.safari.SafariDriver
 import uk.gov.dvla.vehicles.presentation.common.ConfigProperties._
 import org.openqa.selenium.phantomjs.PhantomJSDriverService
 import org.openqa.selenium.phantomjs.PhantomJSDriver
+import uk.gov.dvla.vehicles.presentation.common.views.widgetdriver.Wait
 
 object WebDriverFactory {
   private val systemProperties = System.getProperties
@@ -49,6 +50,9 @@ object WebDriverFactory {
     }
 //    val implicitlyWait = getProperty("browser.implicitlyWait", 5000)
     selectedDriver.manage().timeouts().implicitlyWait(implicitlyWait, TimeUnit.MILLISECONDS)
+    selectedDriver.manage().window().setSize(new org.openqa.selenium.Dimension(1200, 800))
+    Wait.until(Wait.windowSizeGraterThen(1199, 799))(selectedDriver)
+
     selectedDriver
   }
 
@@ -59,6 +63,8 @@ object WebDriverFactory {
   def testUrl: String = TestConfiguration.testUrl
 
   def defaultBrowserPhantomJs: WebDriver = webDriver(browserTypeDefault("phantomjs"), true)
+
+  def defaultBrowserPhantomJsNoJs: WebDriver = webDriver(browserTypeDefault("phantomjs"), false)
 
   private def chromeDriver = {
     val webDriverProperty: String = try {

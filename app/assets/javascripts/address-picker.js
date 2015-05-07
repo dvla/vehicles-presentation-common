@@ -1,6 +1,6 @@
 
 define(['jquery'], function($) {
-
+    console.log("#####################################################")
    // Address Lookup
     var enableAddressLookup = function() {
         // Quick Access Variables Declaration
@@ -12,7 +12,6 @@ define(['jquery'], function($) {
         var initAddressLookup = function () {
             // if backend returns with an error, on document ready the form will be displayed
             $('.no-js-hidden').show();
-            $('.address-list-wrapper, .address-manual-inputs-wrapper').hide();
             if (addressLookupStatus == '') {
                 $('.address-list-wrapper, .address-manual-inputs-wrapper').hide();
             }
@@ -43,7 +42,7 @@ define(['jquery'], function($) {
                             address = "";
                         // Assigning addresses object to a global scope
                         addresses = data;
-                        console.log(addresses)
+                        console.log("####################################addresses: " + addresses)
                         for (var i = 0; i < len; i++) {
                             address = "<option value='" + i + "'>" + data[i].streetAddress1 + "," + data[i].postTown + "," + data[i].postCode + "</option>";
                             if (address != "") {
@@ -51,11 +50,13 @@ define(['jquery'], function($) {
                             }
                         }
                         showAddresses();
+                        addressesList.attr('data-ajax', true);
                         //TODO: if postcode not found -> notify user to enter it manually
                     }
                     addressesList.focus();
                 },
                 error: function (data) {
+                    console.log("Error message: " + data.responseText);
                     // TODO: add an error class to the input
                 }
             });
