@@ -56,7 +56,4 @@ class AddressPickerDriver(id: String)  extends WebBrowserDSL {
   def remember(implicit driver: WebDriver): Checkbox =
     checkbox(id(s"${id}_${RememberId}"))(driver.findElement(By.id(id)))
 
-  def assertAddressListVisible(implicit driver: WebDriver): Unit = {
-    Wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(".address-list-wrapper")))
-  }
 }
