@@ -44,7 +44,7 @@ define(['jquery'], function($) {
                         addresses = data;
                         console.log("####################################addresses: " + addresses)
                         for (var i = 0; i < len; i++) {
-                            address = "<option value='" + i + "'>" + data[i].streetAddress1 + "," + data[i].postTown + "," + data[i].postCode + "</option>";
+                            address = "<option value='" + i + "'>" + data[i].streetAddress1 + "," + data[i].streetAddress2 + "," + data[i].streetAddress3 + "," + data[i].postTown + "," + data[i].postCode + "</option>";
                             if (address != "") {
                                 addressesList.append(address);
                             }
@@ -66,6 +66,8 @@ define(['jquery'], function($) {
         var updateAddressForm = function (address) {
             var selected_address = addressesList.children(":selected").val();
             $('#address-picker-1_address-line-1').val(addresses[selected_address].streetAddress1);
+            $('#address-picker-1_address-line-2').val(addresses[selected_address].streetAddress2);
+            $('#address-picker-1_address-line-3').val(addresses[selected_address].streetAddress3);
             $('#address-picker-1_post-town').val(addresses[selected_address].postTown);
             $('#address-picker-1_post-code').val(addresses[selected_address].postCode);
         };
