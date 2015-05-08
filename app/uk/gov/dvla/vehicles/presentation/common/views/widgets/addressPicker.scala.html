@@ -12,11 +12,13 @@
     <!-- Lookup Input Wrapper - ONLY JS -->
     <div class="postcode-lookup-container form-item no-js-hidden">
         <div class="left-col">
+            <!-- TODO: replace messages with variables -->
             <label class="no-js-hidden" for="address-postcode-lookup">Postcode</label>
         </div>
         <div class="right-col">
             <input class="no-js-hidden" id="address-postcode-lookup" name="address-postcode-lookup" placeholder="Postcode" value="" maxlength="58" autocomplete="off" type="text" aria-required="true">
             <div class="address-find-wrapper">
+                    <!-- TODO: replace messages with variables -->
                 <button id="address-find" type="button" name="action" class="button button-secondary no-js-hidden">Find UK address</button>
                 <a class="address-manual-toggle no-js-hidden" href="#address-picker-1_address-line-1">Enter address manually</a>
             </div>
@@ -27,6 +29,7 @@
     <!-- Lookup Input Wrapper - ONLY JS -->
     <div class="address-list-wrapper">
         <div class="form-item no-js-hidden">
+            <!-- TODO: replace messages with variables -->
             <label for="address-list">Pick an address</label>
             <select id="address-list" name="address-list" type="text" aria-required="true" data-ajax="false">
                 <option value="">Please select</option>
@@ -34,7 +37,8 @@
         </div>
     </div>
     <!-- end of Lookup Input Wrapper-->
-    <p class="ajax-error missing-postcode">Postcode not found, please try again or enter the address manually</p>
+    <!-- TODO: replace messages with variables -->
+    <p class="ajax-error missing-postcode">Postcode not found</p>
     <p class="ajax-error server-message">Error from the server: <span></span></p>
 
     <!-- Address Form Wrapper -  JS ON/OFF -->
@@ -46,6 +50,7 @@
         @helper.input(field(AddressLine1Id)) { (id, name, value, args) =>
         <div class="form-item">
             <div class="left-col">
+                <!-- TODO: replace messages with variables -->
                 <label for="address-street">Street</label>
             </div>
 
@@ -68,6 +73,7 @@
         @helper.input(field(PostTownId)) { (id, name, value, args) =>
         <div class="form-item">
             <div class="left-col">
+                <!-- TODO: replace messages with variables -->
                 <label for="address-town">Town/City</label>
             </div>
             <div class="right-col">
@@ -110,6 +116,7 @@
                 </label>
                 }-->
                 <!-- Clear Form Call To Action - ONLY JS -->
+                <!-- TODO: replace messages with variables -->
                 <a class="address-reset-form no-js-hidden" href="#address-postcode-lookup">Change my details</a>
                 <!-- end of Clear Form Call To Action-->
             </div>

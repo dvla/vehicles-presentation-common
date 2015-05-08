@@ -1,18 +1,28 @@
-
 define(['jquery'], function($) {
    // Address Lookup
     var enableAddressLookup = function() {
         // Quick Access Variables Declaration
         var addresses = [],
-            addressesList = $("#address-list"),
+            // Address inputs
+            addressPostCodeLookup = $('#address-postcode-lookup'),
             addressToggle = $('.address-manual-toggle'),
-            addressLookupStatus = $('.address-manual-inputs-wrapper').attr('data-address-status');
+            addressManualInput = $('.address-manual-inputs-wrapper'),
+            addressLookupStatus = addressManualInput.attr('data-address-status'),
+            addressFind = $('#address-find'),
+            // Addresses list
+            addressListWrapper = $('.address-list-wrapper'),
+            addressesList = $("#address-list"),
+            // Errors
+            postCodeError = $('.missing-postcode'),
+            serverMessage = $('.server-message');
+
         // Initialization
         var initAddressLookup = function () {
             // if backend returns with an error, on document ready the form will be displayed
             $('.no-js-hidden').show();
             if (addressLookupStatus == '') {
-                $('.address-list-wrapper, .address-manual-inputs-wrapper').hide();
+                addressListWrapper.hide();
+                addressManualInput.hide();
             }
         };
         // Manual Input Mode
@@ -20,35 +30,35 @@ define(['jquery'], function($) {
             hideAjaxErrors();
             $('#address-picker-1_address-line-1').focus();
             addressToggle.hide();
-            $('.address-manual-inputs-wrapper').show();
-            $('.address-list-wrapper, #address-postcode-lookup, #address-find').hide();
+            addressManualInput.show();
+            addressListWrapper.hide();
+            addressPostCodeLookup.hide();
+            addressFind.hide();
             $("label[for='address-postcode-lookup']").hide();
         };
         // Populate Addresses List
         var showAddresses = function () {
-            $('.address-list-wrapper').show();
+            addressListWrapper.show();
         };
         // Hides AJAX errors
         var hideAjaxErrors = function () {
-            $('.server-message').hide();
-            $('.missing-postcode').hide();
+            serverMessage.hide();
+            postCodeError.hide();
         };
         // AJAX GET
         var getAddresses = function (postcode) {
             url = '/address-lookup/postcode/' + postcode;
             addressesList.html('<option value="">Please select</option>');
-
+            var data = [];
             $.ajax({
                 type: "GET",
                 url: url,
                 cache: false,
                 success: function (data) {
                     if (data.length) {
-                        var len = data.length,
-                            address = "";
-                        // Assigning addresses object to a global scope
                         addresses = data;
-                        for (var i = 0; i < len; i++) {
+                        var address = "";
+                        for (var i = 0; i < data.length; i++) {
                             address = "<option value='" + i + "'>" + data[i].streetAddress1 + "," + data[i].streetAddress2 + "," + data[i].streetAddress3 + "," + data[i].postTown + "," + data[i].postCode + "</option>";
                             if (address != "") {
                                 addressesList.append(address);
@@ -60,17 +70,18 @@ define(['jquery'], function($) {
 
                     } else {
                         hideAjaxErrors();
-                        $('.missing-postcode').show();
-                        $('.address-list-wrapper').hide();
-                        $('.address-manual-inputs-wrapper').hide();
+                        postCodeError.show();
+                        addressListWrapper.hide();
+                        addressManualInput.hide();
                     }
                     addressesList.focus();
                 },
                 error: function (data) {
                     hideAjaxErrors();
-                    $('.address-list-wrapper').hide();
-                    $('.address-manual-inputs-wrapper').hide();
-                    $('.server-message').show();
+                    addressesList.attr('data-ajax', false);
+                    addressListWrapper.hide();
+                    addressManualInput.hide();
+                    serverMessage.show();
                     $('.server-message span').html(data.responseText);
                 }
             });
@@ -101,34 +112,30 @@ define(['jquery'], function($) {
         // Reset Input Click Event
         $('.address-reset-form').on('click', function (e) {
             e.preventDefault();
-            $('#address-postcode-lookup').val('').focus();
+            addressPostCodeLookup.val('').focus();
             initAddressLookup();
         });
-
         // Find Address Click Event
-        $('#address-find').on('click', function (e) {
+        addressFind.on('click', function (e) {
             e.preventDefault();
-            var postcode = $('#address-postcode-lookup').val();
+            var postcode = addressPostCodeLookup.val();
             if (postcode) {
-                $('.ajax-error-message').hide();
+                hideAjaxErrors();
                 clearAddressForm();
                 getAddresses(postcode);
             } else {
-                $('#address-postcode-lookup').focus();
+                addressPostCodeLookup.focus();
             }
         });
         // Select Address Change Event
         addressesList.on('change', function () {
             var address = $(this).children(":selected").val();
             updateAddressForm(address);
-            $('.address-manual-inputs-wrapper').show();
+            addressManualInput.show();
         });
         initAddressLookup();
     };
-
     return {
         enableAddressLookup: enableAddressLookup
     }
-//    addressLookup();
-    // end of Address Lookup
 });
