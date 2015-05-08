@@ -12,7 +12,7 @@ final class VehicleAndKeeperLookupServiceImpl @Inject()(ws: VehicleAndKeeperLook
   extends VehicleAndKeeperLookupService {
   import VehicleAndKeeperLookupServiceImpl.ServiceName
 
-  override def invoke(cmd: VehicleAndKeeperDetailsRequest,
+  override def invoke(cmd: VehicleAndKeeperLookupRequest,
                       trackingId: String): Future[VehicleAndKeeperLookupResponse] =
     ws.invoke(cmd, trackingId).map { resp =>
       Logger.debug(s"Vehicle and keeper lookup service returned ${resp.status} code - trackingId: $trackingId")

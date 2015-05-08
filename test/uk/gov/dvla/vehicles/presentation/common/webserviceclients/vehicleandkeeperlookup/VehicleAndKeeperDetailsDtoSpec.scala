@@ -10,7 +10,7 @@ class VehicleAndKeeperDetailsDtoSpec extends UnitSpec {
     "convert numbers to dates in the correct time zone" in {
       timeZoneFixture {
         val someLong = new DateTime("2015-04-01T00:00:00+01:00").getMillis
-        VehicleAndKeeperDetailsDto.jodaDateReads.reads(JsNumber(someLong)) should equal(
+        VehicleAndKeeperLookupDetailsDto.jodaDateReads.reads(JsNumber(someLong)) should equal(
           JsSuccess(new DateTime(someLong, DateTimeZone.forID("Europe/London")))
         )
       }
@@ -19,7 +19,7 @@ class VehicleAndKeeperDetailsDtoSpec extends UnitSpec {
     "convert strings to dates in the correct time zone" in {
       timeZoneFixture {
         val someDate = new DateTime("2015-04-01T00:00:00+01:00").toString
-        VehicleAndKeeperDetailsDto.jodaDateReads.reads(JsString(someDate)) should equal(
+        VehicleAndKeeperLookupDetailsDto.jodaDateReads.reads(JsString(someDate)) should equal(
           JsSuccess(new DateTime(someDate, DateTimeZone.forID("Europe/London")))
         )
       }
@@ -28,7 +28,7 @@ class VehicleAndKeeperDetailsDtoSpec extends UnitSpec {
     "Writes" should {
       "print the datetime in the correct timezone" in {
         timeZoneFixture {
-          VehicleAndKeeperDetailsDto.jodaDateWrites.writes(new DateTime("2015-04-01T00:00:00+01:00")) should equal(
+          VehicleAndKeeperLookupDetailsDto.jodaDateWrites.writes(new DateTime("2015-04-01T00:00:00+01:00")) should equal(
             JsString("2015-04-01T00:00:00.000+01:00")
           )
         }

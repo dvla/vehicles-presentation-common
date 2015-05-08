@@ -5,7 +5,7 @@ import play.api.libs.json.Json
 case class VehicleAndKeeperLookupErrorMessage(code: String, message: String)
 
 case class VehicleAndKeeperLookupResponse(responseCode: Option[VehicleAndKeeperLookupErrorMessage],
-                                            vehicleAndKeeperDetailsDto: Option[VehicleAndKeeperDetailsDto])
+                                          vehicleAndKeeperDetailsDto: Option[VehicleAndKeeperLookupDetailsDto])
 
 object VehicleAndKeeperLookupResponse {
 

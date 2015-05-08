@@ -5,16 +5,14 @@ import org.joda.time.DateTime
 import org.joda.time.format.ISODateTimeFormat
 import org.scalatest.concurrent.PatienceConfiguration.Timeout
 import org.scalatest.time.{Seconds, Span}
-import uk.gov.dvla.vehicles.presentation.common.WithApplication
-
 import play.api.libs.json.{JsString, JsValue, Writes, Json}
+import uk.gov.dvla.vehicles.presentation.common.WithApplication
 import uk.gov.dvla.vehicles.presentation.common.UnitSpec
 import uk.gov.dvla.vehicles.presentation.common.testhelpers.WireMockFixture
 import uk.gov.dvla.vehicles.presentation.common.webserviceclients.HttpHeaders
 import uk.gov.dvla.vehicles.presentation.common.webserviceclients.common.{DmsWebEndUserDto, DmsWebHeaderDto}
-import uk.gov.dvla.vehicles.presentation.common.webserviceclients.config.VehicleAndKeeperLookupConfig
 
-final class VehicleAndKeeperLookupWebServiceImplSpec extends UnitSpec with WireMockFixture {
+class VehicleAndKeeperLookupWebServiceImplSpec extends UnitSpec with WireMockFixture {
 
   "callVehicleAndKeeperLookupService" should {
 
@@ -50,7 +48,7 @@ final class VehicleAndKeeperLookupWebServiceImplSpec extends UnitSpec with WireM
 
   private final val trackingId = "track-id-test"
 
-  private val request = VehicleAndKeeperDetailsRequest(
+  private val request = VehicleAndKeeperLookupRequest(
     dmsHeader = buildHeader,
     referenceNumber = "ref number",
     registrationNumber = "reg number",
@@ -65,7 +63,7 @@ final class VehicleAndKeeperLookupWebServiceImplSpec extends UnitSpec with WireM
     }
   }
 
-  private implicit val vehicleAndKeeperDetailsFormat = Json.format[VehicleAndKeeperDetailsRequest]
+  private implicit val vehicleAndKeeperDetailsFormat = Json.format[VehicleAndKeeperLookupRequest]
 
   private def buildHeader: DmsWebHeaderDto = {
     DmsWebHeaderDto(conversationId = "",

@@ -5,12 +5,12 @@ import org.joda.time.format.ISODateTimeFormat
 import play.api.libs.json.{JsString, JsValue, Writes, Json}
 import uk.gov.dvla.vehicles.presentation.common.webserviceclients.common.DmsWebHeaderDto
 
-final case class VehicleAndKeeperDetailsRequest(dmsHeader: DmsWebHeaderDto,
+final case class VehicleAndKeeperLookupRequest(dmsHeader: DmsWebHeaderDto,
                                                 referenceNumber: String,
                                                 registrationNumber: String,
                                                 transactionTimestamp: DateTime)
 
-object VehicleAndKeeperDetailsRequest {
+object VehicleAndKeeperLookupRequest {
 
   // Handles this type of formatted string 2014-03-04T00:00:00.000Z
   implicit val jodaISODateWrites: Writes[DateTime] = new Writes[DateTime] {
@@ -20,5 +20,5 @@ object VehicleAndKeeperDetailsRequest {
     }
   }
 
-  implicit val JsonFormat = Json.format[VehicleAndKeeperDetailsRequest]
+  implicit val JsonFormat = Json.format[VehicleAndKeeperLookupRequest]
 }

@@ -7,7 +7,6 @@ import play.api.libs.json.Json
 import play.api.libs.ws.{WS, WSResponse}
 import uk.gov.dvla.vehicles.presentation.common.LogFormats
 import uk.gov.dvla.vehicles.presentation.common.webserviceclients.HttpHeaders
-import uk.gov.dvla.vehicles.presentation.common.webserviceclients.config.VehicleAndKeeperLookupConfig
 import scala.concurrent.Future
 
 final class VehicleAndKeeperLookupWebServiceImpl @Inject()(config: VehicleAndKeeperLookupConfig)
@@ -18,7 +17,7 @@ final class VehicleAndKeeperLookupWebServiceImpl @Inject()(config: VehicleAndKee
 
   private val requestTimeout: Int = config.requestTimeout
 
-  override def invoke(request: VehicleAndKeeperDetailsRequest, trackingId: String): Future[WSResponse] = {
+  override def invoke(request: VehicleAndKeeperLookupRequest, trackingId: String): Future[WSResponse] = {
     val vrm = LogFormats.anonymize(request.registrationNumber)
     val refNo = LogFormats.anonymize(request.referenceNumber)
 
