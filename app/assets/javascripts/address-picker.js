@@ -1,6 +1,5 @@
 
 define(['jquery'], function($) {
-    console.log("#####################################################")
    // Address Lookup
     var enableAddressLookup = function() {
         // Quick Access Variables Declaration
@@ -18,6 +17,7 @@ define(['jquery'], function($) {
         };
         // Manual Input Mode
         var manualAddressMode = function () {
+            hideAjaxErrors();
             $('#address-picker-1_address-line-1').focus();
             addressToggle.hide();
             $('.address-manual-inputs-wrapper').show();
@@ -26,23 +26,28 @@ define(['jquery'], function($) {
         };
         // Populate Addresses List
         var showAddresses = function () {
-            $('.address-list-wrapper, .address-manual-inputs-wrapper').show();
+            $('.address-list-wrapper').show();
+        };
+        // Hides AJAX errors
+        var hideAjaxErrors = function () {
+            $('.server-message').hide();
+            $('.missing-postcode').hide();
         };
         // AJAX GET
         var getAddresses = function (postcode) {
             url = '/address-lookup/postcode/' + postcode;
             addressesList.html('<option value="">Please select</option>');
+
             $.ajax({
                 type: "GET",
                 url: url,
                 cache: false,
                 success: function (data) {
-                    if (data) {
+                    if (data.length) {
                         var len = data.length,
                             address = "";
                         // Assigning addresses object to a global scope
                         addresses = data;
-                        console.log("####################################addresses: " + addresses)
                         for (var i = 0; i < len; i++) {
                             address = "<option value='" + i + "'>" + data[i].streetAddress1 + "," + data[i].streetAddress2 + "," + data[i].streetAddress3 + "," + data[i].postTown + "," + data[i].postCode + "</option>";
                             if (address != "") {
@@ -50,14 +55,23 @@ define(['jquery'], function($) {
                             }
                         }
                         showAddresses();
+                        hideAjaxErrors();
                         addressesList.attr('data-ajax', true);
-                        //TODO: if postcode not found -> notify user to enter it manually
+
+                    } else {
+                        hideAjaxErrors();
+                        $('.missing-postcode').show();
+                        $('.address-list-wrapper').hide();
+                        $('.address-manual-inputs-wrapper').hide();
                     }
                     addressesList.focus();
                 },
                 error: function (data) {
-                    console.log("Error message: " + data.responseText);
-                    // TODO: add an error class to the input
+                    hideAjaxErrors();
+                    $('.address-list-wrapper').hide();
+                    $('.address-manual-inputs-wrapper').hide();
+                    $('.server-message').show();
+                    $('.server-message span').html(data.responseText);
                 }
             });
 
@@ -73,6 +87,7 @@ define(['jquery'], function($) {
         };
         // Reset Form
         var clearAddressForm = function () {
+            hideAjaxErrors();
             $('.address-manual-inputs-wrapper input').each(function () {
                 $(this).val('');
             });
@@ -90,13 +105,12 @@ define(['jquery'], function($) {
             initAddressLookup();
         });
 
-        /* TODO: if cookies have already an address -> display form prefilled  */
-
         // Find Address Click Event
         $('#address-find').on('click', function (e) {
             e.preventDefault();
             var postcode = $('#address-postcode-lookup').val();
             if (postcode) {
+                $('.ajax-error-message').hide();
                 clearAddressForm();
                 getAddresses(postcode);
             } else {
@@ -107,6 +121,7 @@ define(['jquery'], function($) {
         addressesList.on('change', function () {
             var address = $(this).children(":selected").val();
             updateAddressForm(address);
+            $('.address-manual-inputs-wrapper').show();
         });
         initAddressLookup();
     };

@@ -18,7 +18,7 @@
             <input class="no-js-hidden" id="address-postcode-lookup" name="address-postcode-lookup" placeholder="Postcode" value="" maxlength="58" autocomplete="off" type="text" aria-required="true">
             <div class="address-find-wrapper">
                 <button id="address-find" type="button" name="action" class="button button-secondary no-js-hidden">Find UK address</button>
-                <a class="address-manual-toggle no-js-hidden" href="#addressLines-1">Enter address manually</a>
+                <a class="address-manual-toggle no-js-hidden" href="#address-picker-1_address-line-1">Enter address manually</a>
             </div>
         </div>
     </div>
@@ -34,6 +34,8 @@
         </div>
     </div>
     <!-- end of Lookup Input Wrapper-->
+    <p class="ajax-error missing-postcode">Postcode not found, please try again or enter the address manually</p>
+    <p class="ajax-error server-message">Error from the server: <span></span></p>
 
     <!-- Address Form Wrapper -  JS ON/OFF -->
     <!-- TODO: data-address-status needs to be generated via back-end fails in order to display the form if validation fails -->
@@ -108,7 +110,7 @@
                 </label>
                 }-->
                 <!-- Clear Form Call To Action - ONLY JS -->
-                <a class="address-reset-form no-js-hidden" href="#addressLines-1">Change my details</a>
+                <a class="address-reset-form no-js-hidden" href="#address-postcode-lookup">Change my details</a>
                 <!-- end of Clear Form Call To Action-->
             </div>
         </div>

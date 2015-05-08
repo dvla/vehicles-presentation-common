@@ -293,6 +293,10 @@ img {
         float: left;
         margin-bottom: 30px;
 
+        .ajax-error {
+            color: $red;
+            display: none;
+        }
         .left-col {
             .ie7 & {
                 width: 100%;

@@ -14,9 +14,12 @@ class AddressLookup @Inject()(addressLookup: AddressLookupService)
                              (implicit clientSideSessionFactory: ClientSideSessionFactory) extends Controller {
   def byPostcode(postCode: String) = Action.async { request =>
 //    val session = clientSideSessionFactory.getSession(request.cookies)
-    if (postCode == "123") Future.successful{InternalServerError("Some error message")}
+    implicit val writes = Json.format[Address]
+    if (postCode == "123")
+      Future.successful{InternalServerError("Some error message")}
+    else if (postCode == "456")
+      Future.successful(Ok(Json.toJson(Seq[Address]())))
     else {
-      implicit val writes = Json.format[Address]
       Future.successful(Ok(Json.toJson(Seq(
         Address("a1", Some("a2"), Some("a3"), "a4", postCode, true),
         Address("b1", Some("b2"), Some("b3"), "b4", postCode, true),
@@ -24,6 +27,7 @@ class AddressLookup @Inject()(addressLookup: AddressLookupService)
         Address("d1", Some("d2"), Some("d3"), "d4", postCode, false)
       ))))
     }
+
 //    addressLookup.fetchAddressesForPostcode(postCode, session.trackingId)
 //      .map(a => Ok(""))
   }
