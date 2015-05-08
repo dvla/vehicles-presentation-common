@@ -10,6 +10,7 @@ import common.clientsidesession.{ClientSideSession, ClientSideSessionFactory}
 import common.webserviceclients.addresslookup.AddressLookupService
 import org.mockito.Mockito.stub
 import org.mockito.Matchers.any
+//import uk.gov.dvla.vehicles.presentation.common.controllers.AddressLookup.AddressDTO
 import scala.language.postfixOps
 import scala.concurrent.duration.DurationInt
 import play.api.test.Helpers.{contentAsString, defaultAwaitTimeout, OK, INTERNAL_SERVER_ERROR}
@@ -31,9 +32,17 @@ class AddressLookupSpec extends UnitSpec {
 
     "return a list of addresses as 200 json" in {
       test200(Seq(
-        (postCode, "a, b, c, London, W3W 5NT", Address("a, b, c", None, None, "London", postCode, false)),
-        (postCode, "x, y, z, Chester, W4W 6NT", Address("x, y, z", None, None, "Chester", postCode, false)))
+        (postCode, "a, b, c, London, W3W 5NT", AddressDTO("", "a, b, c", None, None, "London", postCode)),
+        (postCode, "x, y, z, Chester, W4W 6NT", AddressDTO("", "x, y, z", None, None, "Chester", postCode)))
       )
+
+
+      "return a list of addresses as 200 json" in {
+        test200(Seq(
+          (postCode, "a, b, c, London, W3W 5NT", AddressDTO("", "a, b, c", None, None, "London", postCode)),
+          (postCode, "x, y, z, Chester, W4W 6NT", AddressDTO("", "x, y, z", None, None, "Chester", postCode)))
+        )
+      }
     }
 
     "return 500 with message if service returns unsuccessfully future" in {
@@ -50,7 +59,7 @@ class AddressLookupSpec extends UnitSpec {
       contentAsString(fr) should equal(exc.getMessage)
     }
 
-    def test200(addresses: Seq[(String, String, Address)]) = {
+    def test200(addresses: Seq[(String, String, AddressDTO)]) = {
       stub(lookupService.fetchAddressesForPostcode(postCode, trackingId)).toReturn(
         Future.successful(addresses.map{case (postCode, addressLine, _)=> (postCode, addressLine)})
       )
