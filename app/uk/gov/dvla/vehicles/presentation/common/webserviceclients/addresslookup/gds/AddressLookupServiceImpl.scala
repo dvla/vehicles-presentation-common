@@ -5,6 +5,7 @@ import play.api.Logger
 import play.api.i18n.Lang
 import play.api.libs.ws.WSResponse
 import uk.gov.dvla.vehicles.presentation.common.model.AddressModel
+import uk.gov.dvla.vehicles.presentation.common.webserviceclients.addresslookup.ordnanceservey.AddressDto
 import uk.gov.dvla.vehicles.presentation.common.webserviceclients.addresslookup.{AddressLookupService, AddressLookupWebService}
 import uk.gov.dvla.vehicles.presentation.common.webserviceclients.addresslookup.gds.domain.Address
 import uk.gov.dvla.vehicles.presentation.common.webserviceclients.addresslookup.gds.domain.JsonFormats.addressFormat
@@ -83,6 +84,32 @@ final class AddressLookupServiceImpl @Inject()(ws: AddressLookupWebService, heal
         case e: Throwable =>
           Logger.error(s"GDS uprn lookup service error: $e - trackingId: $trackingId")
           None
+      }
+    }
+  }
+
+  def addresses(postcode: String, trackingId: String)
+               (implicit lang: Lang): Future[Seq[AddressDto]] = {
+    healthStats.report(AddressLookupServiceImpl.ServiceName) {
+      ws.callAddresses(postcode, trackingId).map { resp =>
+          Logger.debug(s"Http response code from GDS addresses lookup service " +
+            s"was: ${resp.status} - trackingId: $trackingId")
+          if (resp.status == play.api.http.Status.OK)
+            try resp.json.as[Seq[AddressDto]]
+            catch {
+              case e: Throwable =>
+                Logger.error(s"GDS postcode lookup service error: $e - trackingId: $trackingId")
+                Seq.empty //  return empty seq given invalid json
+            }
+          else {
+            Logger.error(s"Post code service returned abnormally " +
+              s"'${resp.status}: ${resp.body}' - trackingId: $trackingId")
+            Seq.empty // The service returned http code other than 200 OK
+          }
+      }.recover {
+        case e: Throwable =>
+          Logger.error(s"GDS postcode lookup service error: $e - trackingId: $trackingId")
+          Seq.empty
       }
     }
   }

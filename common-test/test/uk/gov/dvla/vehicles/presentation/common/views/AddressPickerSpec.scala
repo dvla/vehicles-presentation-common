@@ -33,31 +33,7 @@ class AddressPickerSpec extends UiSpec with TestHarness with AppendedClues {
       widget.remember.isSelected should equal(false)
     }
 
-    "Lookup a vehicles with ajax call" in new WebBrowser(webDriver = WebDriverFactory.defaultBrowserPhantomJs) {
-      go to AddressPickerPage
-      page.title should equal(AddressPickerPage.title)
-
-      val widget = AddressPickerPage.addressPickerDriver
-      widget.assertLookupInputVisible
-      widget.assertAddressInputsInvisible
-
-      widget.search("ABCD")
-
-      println("OPTIONS:" + widget.addressSelect.getOptions.map(_.getAttribute("value")).mkString("\n"))
-
-      widget.addressSelect.getOptions should not be empty
-
-      widget.addressSelect.value = "0"
-
-      widget.addressLine1.value should equal("a1")
-      widget.addressLine2.value should equal("")
-      widget.addressLine3.value should equal("")
-
-      widget.town.value should equal("a4")
-      widget.postcode.value should equal("ABCD")
-    }
-
-    "" in new WebBrowser(webDriver = WebDriverFactory.defaultBrowserPhantomJs) {
+    "Lookup a vehicles with ajax call" ignore new WebBrowser(webDriver = WebDriverFactory.defaultBrowserPhantomJs) {
       go to AddressPickerPage
       page.title should equal(AddressPickerPage.title)
 

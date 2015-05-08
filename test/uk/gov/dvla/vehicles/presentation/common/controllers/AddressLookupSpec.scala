@@ -5,12 +5,13 @@ import play.api.mvc.Cookie
 import play.api.test.FakeRequest
 import uk.gov.dvla.vehicles.presentation.common
 import common.model.Address
-import common.{WithApplication, UnitSpec}
+import common.UnitSpec
 import common.clientsidesession.{ClientSideSession, ClientSideSessionFactory}
 import common.webserviceclients.addresslookup.AddressLookupService
 import org.mockito.Mockito.stub
 import org.mockito.Matchers.any
-//import uk.gov.dvla.vehicles.presentation.common.controllers.AddressLookup.AddressDTO
+import uk.gov.dvla.vehicles.presentation.common.webserviceclients.addresslookup.ordnanceservey.AddressDto
+
 import scala.language.postfixOps
 import scala.concurrent.duration.DurationInt
 import play.api.test.Helpers.{contentAsString, defaultAwaitTimeout, OK, INTERNAL_SERVER_ERROR}
@@ -32,22 +33,14 @@ class AddressLookupSpec extends UnitSpec {
 
     "return a list of addresses as 200 json" in {
       test200(Seq(
-        (postCode, "a, b, c, London, W3W 5NT", AddressDTO("", "a, b, c", None, None, "London", postCode)),
-        (postCode, "x, y, z, Chester, W4W 6NT", AddressDTO("", "x, y, z", None, None, "Chester", postCode)))
+        AddressDto(s"a, b, c, London, $postCode", None, "a, b, c", None, None, "London", postCode),
+        AddressDto(s"", Some("business"), "x, y, z, Chester, $postCode", None, None, "Chester", postCode))
       )
-
-
-      "return a list of addresses as 200 json" in {
-        test200(Seq(
-          (postCode, "a, b, c, London, W3W 5NT", AddressDTO("", "a, b, c", None, None, "London", postCode)),
-          (postCode, "x, y, z, Chester, W4W 6NT", AddressDTO("", "x, y, z", None, None, "Chester", postCode)))
-        )
-      }
     }
 
     "return 500 with message if service returns unsuccessfully future" in {
       val exc = new Exception("Some message in the exception")
-      stub(lookupService.fetchAddressesForPostcode(postCode, trackingId)).toReturn(
+      stub(lookupService.addresses(postCode, trackingId)).toReturn(
         Future.failed(exc)
       )
 
@@ -59,9 +52,9 @@ class AddressLookupSpec extends UnitSpec {
       contentAsString(fr) should equal(exc.getMessage)
     }
 
-    def test200(addresses: Seq[(String, String, AddressDTO)]) = {
-      stub(lookupService.fetchAddressesForPostcode(postCode, trackingId)).toReturn(
-        Future.successful(addresses.map{case (postCode, addressLine, _)=> (postCode, addressLine)})
+    def test200(addresses: Seq[AddressDto]) = {
+      stub(lookupService.addresses(postCode, trackingId)).toReturn(
+        Future.successful(addresses)
       )
 
       val fr = new AddressLookup(lookupService)(sessionFactory).byPostcode(postCode)(request)
@@ -69,10 +62,10 @@ class AddressLookupSpec extends UnitSpec {
       response.status should equal(OK)
       response.headers.get("content-type").get should equal("application/json; charset=utf-8")
 
-      implicit val JsonFormat = Json.format[Address]
-      Json.fromJson[Array[Address]](Json.parse(contentAsString(fr))).asEither match {
+      implicit val JsonFormat = Json.format[AddressDto]
+      Json.fromJson[Array[AddressDto]](Json.parse(contentAsString(fr))).asEither match {
         case Left(errors) => fail(errors.mkString(", "))
-        case Right(model) => model should equal(addresses.map{case (_, _, address)=> address}.toArray)
+        case Right(model) => model should equal(addresses.toArray)
       }
     }
   }

@@ -97,4 +97,32 @@ final class AddressLookupServiceImpl @Inject()(ws: AddressLookupWebService,
         None
     }
   }
+
+  def addresses(postcode: String, trackingId: String)
+               (implicit lang: Lang): Future[Seq[AddressDto]] = {
+    ws.callAddresses(postcode, trackingId)(lang).map { resp =>
+      Logger.debug(s"Http response code from Ordnance Survey postcode lookup " +
+        s"service was: ${resp.status} - trackingId: $trackingId")
+      if (resp.status == play.api.http.Status.OK) {
+        healthStats.success(HealthStatsSuccess(ServiceName, dateService.now))
+        try resp.json.as[Seq[AddressDto]]
+        catch {
+          case e: Throwable =>
+            Logger.error(s"GDS postcode lookup service error: $e - trackingId: $trackingId")
+            Seq.empty //  return empty seq given invalid json
+        }
+      }
+      else {
+        Logger.error(s"Post code service returned abnormally " +
+          s"'${resp.status}: ${resp.body}' - trackingId: $trackingId")
+        healthStats.failure(HealthStatsFailure(ServiceName, dateService.now, new Exception()))
+        Seq.empty // The service returned http code other than 200 OK
+      }
+    }.recover {
+      case e: Throwable =>
+        Logger.error(s"Ordnance Survey postcode lookup service error. - trackingId: $trackingId", e)
+        healthStats.failure(HealthStatsFailure(ServiceName, dateService.now, e))
+        Seq.empty // Exception case and empty seq case are treated the same in the UI
+    }
+  }
 }

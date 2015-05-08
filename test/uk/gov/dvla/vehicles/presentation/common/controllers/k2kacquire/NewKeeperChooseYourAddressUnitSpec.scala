@@ -13,6 +13,7 @@ import common.testhelpers.CookieFactoryForUnitSpecs.{PostcodeValid, defaultKeepe
 import common.{WithApplication, UnitSpec}
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.{ClearTextClientSideSessionFactory, NoCookieFlags}
 import uk.gov.dvla.vehicles.presentation.common.testhelpers.CookieFactoryForUnitSpecs
+import uk.gov.dvla.vehicles.presentation.common.webserviceclients.addresslookup.ordnanceservey.AddressDto
 import scala.concurrent.duration.DurationInt
 import uk.gov.dvla.vehicles.presentation.common.controllers.k2kacquire.PrivateKeeperDetailsTesting.presentTestResult
 import uk.gov.dvla.vehicles.presentation.common.model.{AddressModel, CacheKeyPrefix}
@@ -37,6 +38,8 @@ final class NewKeeperChooseYourAddressUnitSpec extends UnitSpec {
 
     override def fetchAddressForUprn(uprn: String, trackingId: String)(implicit lang: Lang) =
       Future(Some(AddressModel(None, Seq("not an address"))))
+
+    override def addresses(postcode: String, trackingId: String)(implicit lang: Lang): Future[Seq[AddressDto]] = ???
   }
 
   private def controller = new NewKeeperChooseYourAddressBaseTesting(AddressService)

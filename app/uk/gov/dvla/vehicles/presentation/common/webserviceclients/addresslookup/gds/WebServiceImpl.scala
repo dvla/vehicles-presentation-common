@@ -39,4 +39,6 @@ final class WebServiceImpl @Inject()(config: GDSAddressLookupConfig) extends Add
       withRequestTimeout(requestTimeout). // Timeout is in milliseconds
       get()
   }
+
+  override def callAddresses(postcode: String, trackingId: String)(implicit lang: Lang): Future[WSResponse] = ???
 }
