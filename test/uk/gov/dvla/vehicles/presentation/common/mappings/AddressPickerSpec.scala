@@ -19,7 +19,7 @@ class AddressPickerSpec extends UnitSpec {
   val missingOptional = fullModel.copy(streetAddress2 = None, streetAddress3 = None, remember = false)
 
 
-  "formatter unbing" should {
+  "formatter unbind" should {
     "generate the right data from all fields" in {
       formatter.unbind("datePicker1", fullModel) should equal(Map(
         s"datePicker1.$AddressLine1Id" -> fullModel.streetAddress1,

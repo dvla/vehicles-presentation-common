@@ -9,7 +9,7 @@ import uk.gov.dvla.vehicles.presentation.common.helpers.webbrowser.WebDriverFact
 import uk.gov.dvla.vehicles.presentation.common.model.Address
 import uk.gov.dvla.vehicles.presentation.common.models.AddressPickerModel
 import uk.gov.dvla.vehicles.presentation.common.pages.{ErrorPanel, AddressPickerPage}
-import scala.collection.JavaConversions._
+import scala.collection.JavaConversions.asScalaBuffer
 
 class AddressPickerSpec extends UiSpec with TestHarness with AppendedClues {
   "Address picker widget" should {
