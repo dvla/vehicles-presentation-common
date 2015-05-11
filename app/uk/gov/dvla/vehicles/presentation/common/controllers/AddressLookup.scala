@@ -15,7 +15,7 @@ class AddressLookup @Inject()(addressLookup: AddressLookupService)
 
   def byPostcode(postCode: String) = Action.async { request =>
     val session = clientSideSessionFactory.getSession(request.cookies)
-//    implicit val writes = Json.format[AddressDTO]
+    //    implicit val writes = Json.format[AddressDTO]
     addressLookup.addresses(postCode, session.trackingId).map { addressLines =>
       Ok(Json.toJson(addressLines))
     } recover {
@@ -23,4 +23,3 @@ class AddressLookup @Inject()(addressLookup: AddressLookupService)
     }
   }
 }
-
