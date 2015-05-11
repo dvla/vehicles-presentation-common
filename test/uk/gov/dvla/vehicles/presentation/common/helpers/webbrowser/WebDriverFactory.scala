@@ -51,7 +51,7 @@ object WebDriverFactory {
 //    val implicitlyWait = getProperty("browser.implicitlyWait", 5000)
     selectedDriver.manage().timeouts().implicitlyWait(implicitlyWait, TimeUnit.MILLISECONDS)
     selectedDriver.manage().window().setSize(new org.openqa.selenium.Dimension(1200, 800))
-    Wait.until(Wait.windowSizeGraterThen(1199, 799))(selectedDriver)
+    Wait.until(Wait.windowSizeGreaterThan(1199, 799))(selectedDriver)
 
     selectedDriver
   }

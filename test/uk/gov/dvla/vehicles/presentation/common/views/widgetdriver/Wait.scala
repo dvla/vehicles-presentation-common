@@ -19,7 +19,7 @@ object Wait extends WebBrowserDSL {
     }
   }
 
-  def windowSizeGraterThen(x: Int, y: Int): ExpectedCondition[Boolean] = {
+  def windowSizeGreaterThan(x: Int, y: Int): ExpectedCondition[Boolean] = {
     new ExpectedCondition[Boolean]() {
       override def apply(driver: WebDriver): Boolean = {
         val size = driver.manage().window().getSize
