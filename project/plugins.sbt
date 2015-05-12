@@ -6,7 +6,7 @@ resolvers += "Typesafe repository" at "http://repo.typesafe.com/typesafe/release
 
 resolvers += Resolver.url("GitHub repository", url("http://shaggyyeti.github.io/releases"))(Resolver.ivyStylePatterns)
 
-addSbtPlugin("com.typesafe.play" % "sbt-plugin" % "2.3.9")
+addSbtPlugin("com.typesafe.play" % "sbt-plugin" % "2.3.8")
 
 addSbtPlugin("com.typesafe.sbt" % "sbt-web" % "1.1.0")
 
