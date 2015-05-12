@@ -8,6 +8,8 @@ import org.scalatest.AppendedClues
 
 class WebBrowserDriver extends EventFiringWebDriver(WebDriverFactory.webDriver)
 
+class PhantomJsDefaultDriver extends EventFiringWebDriver(WebDriverFactory.defaultBrowserPhantomJs)
+
 class WebBrowserFirefoxDriver extends EventFiringWebDriver(WebDriverFactory.webDriver(targetBrowser = "firefox", javascriptEnabled = true))
 
 trait WithClue extends AppendedClues {
