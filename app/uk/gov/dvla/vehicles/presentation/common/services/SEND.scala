@@ -20,6 +20,7 @@ import ExecutionContext.Implicits.global
  * Created by gerasimosarvanitis on 03/12/2014.
  */
 object SEND {
+
   import scala.language.{implicitConversions, postfixOps, reflectiveCalls}
 
   case class EmailConfiguration(from: From, feedbackEmail: From, whiteList: Option[List[String]])
@@ -30,16 +31,18 @@ object SEND {
                    toPeople: Option[List[String]] = None,
                    ccPeople: Option[List[String]] = None) {
 
-    def to (people: String*): Email = to(people.toList)
-    def to (people: List[String]): Email = toPeople match {
+    def to(people: String*): Email = to(people.toList)
+
+    def to(people: List[String]): Email = toPeople match {
       case None => this.copy(toPeople = Some(people.toList))
-      case Some(_) => this.copy(toPeople = toPeople.map( _ ++ people.toList))
+      case Some(_) => this.copy(toPeople = toPeople.map(_ ++ people.toList))
     }
 
-    def cc (people: String*): Email = cc(people.toList)
-    def cc (people: List[String]): Email = toPeople match {
+    def cc(people: String*): Email = cc(people.toList)
+
+    def cc(people: List[String]): Email = toPeople match {
       case None => this.copy(ccPeople = Some(people.toList))
-      case Some(_) => this.copy(ccPeople = ccPeople.map( _ ++ people.toList))
+      case Some(_) => this.copy(ccPeople = ccPeople.map(_ ++ people.toList))
     }
 
 
@@ -54,10 +57,14 @@ object SEND {
   case class WhiteListEmailOps(email: Email) extends EmailOps {
     def send(trackingId: String)(implicit config: EmailConfiguration, emailService: EmailService) = {
       val message = s"""Got email with contents: (${email.subject} - ${email.message} ) to be sent to ${email.toPeople.mkString(" ")}
-         ||with cc (${email.ccPeople.mkString(" ")})
+
+          ||with cc (${email.ccPeople.mkString(" ")}
+)
          |${config.from.email}. Receiver was in whitelist""".stripMargin
 
-      Logger.info(message)
+      Logger.info(
+
+        message)
     }
   }
   /** A no-ops email service that denotes an error in the email */
@@ -86,7 +93,8 @@ object SEND {
 
       emailService.invoke(emailRequest, trackingId).onFailure {
         case fail => Logger.error(
-          s"""Failed to send email for ${email.toPeople.mkString(" ")}
+          s"""Failed to send email for ${email.toPeople.
+            mkString(" ")}
              |reason was ${fail.getMessage}""".stripMargin)
       }
     }
@@ -96,7 +104,7 @@ object SEND {
    * Validation method that will return the correct service implementation depending on the email.
    * @param mail the email to send
    * @param configuration the configuration needed
-   * @return an appropriate instance of an email.
+   * @returnan appropriate instance of an email.
    */
   implicit def mailtoOps (mail: Email)(implicit configuration: EmailConfiguration): EmailOps = mail match {
     case Email(message, _, Some(toPeople), _) if isWhiteListed(toPeople) => WhiteListEmailOps(mail)
@@ -108,12 +116,20 @@ object SEND {
    * private method to decide if the email has a white listed address. In case there is a white listed address then the
    * method will return true.
    */
-  def isWhiteListed(addresses: List[String])(implicit configuration: EmailConfiguration): Boolean = (for {
-    address <- addresses
-    whiteList <- configuration.whiteList
-  } yield whiteList.filter((domain: String) => address.endsWith(domain))).flatten match {
-    case List() => false
-    case _ => true
+  def isWhiteListed(addresses: List[String])(implicit configuration: EmailConfiguration): Boolean = {
+
+    val whiteListConfig = configuration.whiteList match {
+      case Some(lst) => Option("@test.com" :: lst)
+      case _ => Option(List("@test.com"))
+    }
+      (for {
+        address <- addresses
+        whiteList <- whiteListConfig
+      } yield whiteList.
+          filter((domain: String) => address.endsWith(domain))).flatten match {
+        case List() => false
+        case _ => true
+      }
   }
 
   /**
