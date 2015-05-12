@@ -331,6 +331,9 @@ select {
 }
 
 //hide specific elements/sections
+.please-wait-overlay,
+.please-wait-overlay h2,
+.serviceClosingWarning,
 .prototype,
 .print-message,
 .footer .footer-meta-inner,
