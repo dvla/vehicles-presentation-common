@@ -214,6 +214,7 @@ define(function(require) {
             }
         });
         $('.js-has-tooltip').on('click', function() {
+            $('.js-tooltip').hide();
             var tooltip = $(this).attr('data-tooltip');
             $('.js-tooltip[data-tooltip="' + tooltip +'"]').addClass('js-tooltip-style');
             $('.js-tooltip[data-tooltip="' + tooltip +'"]').toggle();
