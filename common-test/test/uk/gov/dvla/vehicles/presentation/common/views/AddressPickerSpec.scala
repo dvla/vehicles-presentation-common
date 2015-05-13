@@ -80,9 +80,9 @@ class AddressPickerSpec extends UiSpec with TestHarness with AppendedClues {
       click on AddressPickerPage.submit
       page.title should equal("Success") withClue s"Errors: ${ErrorPanel.text}"
       val addressCookie = webDriver.manage().getCookieNamed(AddressPickerModel.Key.value)
-      val json = addressCookie.getValue.replace("\\\"", "\"")
+      val json = addressCookie.getValue
       println("addressCookie: " + json)
-      AddressPickerModel.JsonFormat.reads(Json.parse(json.substring(1, json.length - 1)))
+      AddressPickerModel.JsonFormat.reads(Json.parse(json))
         .map(a => a.address1 should equal(model)) orElse(fail("Did not have a AddressPickerModel in the response"))
     }
   }

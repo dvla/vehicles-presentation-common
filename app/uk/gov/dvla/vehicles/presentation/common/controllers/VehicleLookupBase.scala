@@ -3,6 +3,7 @@ package uk.gov.dvla.vehicles.presentation.common.controllers
 import play.api.libs.json.Writes
 import play.api.Logger
 import play.api.mvc.{Action, Controller, Result, Request}
+import uk.gov.dvla.vehicles.presentation.common.webserviceclients.vehicleandkeeperlookup.VehicleAndKeeperLookupErrorMessage
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 import scala.util.{Failure, Success}
@@ -15,8 +16,8 @@ import common.LogFormats
 import common.model.{CacheKeyPrefix, BruteForcePreventionModel}
 import common.services.DateService
 import common.webserviceclients.common.DmsWebHeaderDto
-import common.webserviceclients.vehicleandkeeperlookup.VehicleAndKeeperDetailsDto
-import common.webserviceclients.vehicleandkeeperlookup.VehicleAndKeeperDetailsRequest
+import common.webserviceclients.vehicleandkeeperlookup.VehicleAndKeeperLookupDetailsDto
+import common.webserviceclients.vehicleandkeeperlookup.VehicleAndKeeperLookupRequest
 import common.webserviceclients.vehicleandkeeperlookup.VehicleAndKeeperLookupService
 import common.webserviceclients.bruteforceprevention.BruteForcePreventionService
 
@@ -47,8 +48,8 @@ abstract class VehicleLookupBase[FormModel <: VehicleLookupFormModelBase]
   def presentResult(implicit request: Request[_]): Result
   def microServiceError(t: Throwable, formModel: FormModel)(implicit request: Request[_]): Result
   def invalidFormResult(invalidForm: play.api.data.Form[FormModel])(implicit request: Request[_]): Future[Result]
-  def vehicleLookupFailure(responseCode: String, formModel: FormModel)(implicit request: Request[_]): Result
-  def vehicleFoundResult(vehicleAndKeeperDetailsDto: VehicleAndKeeperDetailsDto,
+  def vehicleLookupFailure(responseCode: VehicleAndKeeperLookupErrorMessage, formModel: FormModel)(implicit request: Request[_]): Result
+  def vehicleFoundResult(vehicleAndKeeperDetailsDto: VehicleAndKeeperLookupDetailsDto,
                          validFormModel: FormModel)(implicit request: Request[_]): Result
   def vrmLocked(bruteForcePreventionModel: BruteForcePreventionModel, formModel: FormModel)
                (implicit request: Request[_]): Result
@@ -94,12 +95,12 @@ abstract class VehicleLookupBase[FormModel <: VehicleLookupFormModelBase]
                             bruteForcePreventionModel: BruteForcePreventionModel,
                             formModel: FormModel)
                            (implicit request: Request[_]): Future[Result] = {
-    def notFound(responseCode: String): Result = {
+    def notFound(responseCode: VehicleAndKeeperLookupErrorMessage): Result = {
       Logger.debug(s"VehicleAndKeeperLookup encountered a problem with request" +
         s" ${LogFormats.anonymize(referenceNumber)}" +
         s" ${LogFormats.anonymize(registrationNumber)}," +
         s" redirect to VehicleAndKeeperLookupFailure - trackingId: ${request.cookies.trackingId()}")
-      vehicleLookupFailure(responseCode, formModel).withCookie(responseCodeCacheKey, responseCode.split(" - ").last)
+      vehicleLookupFailure(responseCode, formModel).withCookie(responseCodeCacheKey, responseCode.message)
     }
 
     callLookupService(request.cookies.trackingId(), formModel).map {
@@ -119,7 +120,7 @@ abstract class VehicleLookupBase[FormModel <: VehicleLookupFormModelBase]
 
   protected def callLookupService(trackingId: String, formModel: FormModel)
                                  (implicit request: Request[_]): Future[LookupResult] = {
-    val vehicleAndKeeperDetailsRequest = VehicleAndKeeperDetailsRequest(
+    val vehicleAndKeeperDetailsRequest = VehicleAndKeeperLookupRequest(
       dmsHeader = buildHeader(trackingId),
       referenceNumber = formModel.referenceNumber,
       registrationNumber = formModel.registrationNumber,
@@ -128,8 +129,8 @@ abstract class VehicleLookupBase[FormModel <: VehicleLookupFormModelBase]
 
     vehicleLookupService.invoke(vehicleAndKeeperDetailsRequest, trackingId) map { response =>
       response.responseCode match {
-        case Some(responseCode) =>
-          VehicleNotFound(responseCode)
+        case Some(error) =>
+          VehicleNotFound(error)
         case None =>
           response.vehicleAndKeeperDetailsDto match {
             case Some(dto) => VehicleFound(vehicleFoundResult(dto, formModel))
@@ -163,7 +164,7 @@ abstract class VehicleLookupBase[FormModel <: VehicleLookupFormModelBase]
 object VehicleLookupBase {
   sealed trait LookupResult
 
-  final case class VehicleNotFound(responseCode: String) extends LookupResult
+  final case class VehicleNotFound(responseCode: VehicleAndKeeperLookupErrorMessage) extends LookupResult
 
   final case class VehicleFound(result: Result) extends LookupResult
 }

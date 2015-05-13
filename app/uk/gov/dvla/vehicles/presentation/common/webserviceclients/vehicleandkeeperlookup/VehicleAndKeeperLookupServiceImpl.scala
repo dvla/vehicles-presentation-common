@@ -12,17 +12,17 @@ final class VehicleAndKeeperLookupServiceImpl @Inject()(ws: VehicleAndKeeperLook
   extends VehicleAndKeeperLookupService {
   import VehicleAndKeeperLookupServiceImpl.ServiceName
 
-  override def invoke(cmd: VehicleAndKeeperDetailsRequest,
-                      trackingId: String): Future[VehicleAndKeeperDetailsResponse] =
+  override def invoke(cmd: VehicleAndKeeperLookupRequest,
+                      trackingId: String): Future[VehicleAndKeeperLookupResponse] =
     ws.invoke(cmd, trackingId).map { resp =>
       Logger.debug(s"Vehicle and keeper lookup service returned ${resp.status} code - trackingId: $trackingId")
       if (resp.status == Status.OK) {
-        val response = resp.json.as[VehicleAndKeeperDetailsResponse]
+        val response = resp.json.as[VehicleAndKeeperLookupResponse]
 
         // Horrible workaround to overcome the sophisticated way the errors are returned
         response.responseCode match {
-          case Some(errorCode) if (errorCode.startsWith("VMPR2 -") || errorCode.startsWith("VMPR3 -")) =>
-            healthStats.failure(ServiceName, new Exception(errorCode))
+          case Some(error) if error.code.startsWith("VMPR2") || error.code.startsWith("VMPR3") =>
+            healthStats.failure(ServiceName, new Exception(s"${error.code} - ${error.message}"))
           case _ => healthStats.success(ServiceName)
         }
         response

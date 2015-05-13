@@ -1,4 +1,4 @@
-package uk.gov.dvla.vehicles.presentation.common.webserviceclients.config
+package uk.gov.dvla.vehicles.presentation.common.webserviceclients.addresslookup.ordnanceservey
 
 import uk.gov.dvla.vehicles.presentation.common.ConfigProperties.{getOptionalProperty, stringProp, intProp}
 import scala.concurrent.duration.DurationInt
