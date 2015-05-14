@@ -5,17 +5,22 @@ import play.api.i18n.Messages
 import play.api.libs.json.Json
 import uk.gov.dvla.vehicles.presentation.common.composition.TestHarness
 import uk.gov.dvla.vehicles.presentation.common.helpers.UiSpec
+import uk.gov.dvla.vehicles.presentation.common.helpers.webbrowser.WebDriverFactory
 import uk.gov.dvla.vehicles.presentation.common.model.Address
 import uk.gov.dvla.vehicles.presentation.common.models.AddressPickerModel
 import uk.gov.dvla.vehicles.presentation.common.pages.{ErrorPanel, AddressPickerPage}
+import scala.collection.JavaConversions.asScalaBuffer
 
 class AddressPickerSpec extends UiSpec with TestHarness with AppendedClues {
   "Address picker widget" should {
-    "Show all the expected fields" in new WebBrowser {
+    "Show all the expected fields" in new WebBrowser(webDriver = WebDriverFactory.defaultBrowserPhantomJs) {
       go to AddressPickerPage
       page.title should equal(AddressPickerPage.title)
 
       val widget = AddressPickerPage.addressPickerDriver
+      widget.assertLookupInputVisible
+      widget.assertAddressInputsInvisible
+
       widget.postCodeSearch.value should equal("")
       widget.searchButton
       widget.enterManuallyLink
@@ -26,6 +31,40 @@ class AddressPickerSpec extends UiSpec with TestHarness with AppendedClues {
       widget.town.value should equal("")
       widget.postcode.value should equal("")
       widget.remember.isSelected should equal(false)
+    }
+
+    "Lookup a vehicles with ajax call" ignore new WebBrowser(webDriver = WebDriverFactory.defaultBrowserPhantomJs) {
+      go to AddressPickerPage
+      page.title should equal(AddressPickerPage.title)
+
+      val widget = AddressPickerPage.addressPickerDriver
+      widget.assertLookupInputVisible
+      widget.assertAddressInputsInvisible
+
+      widget.search("ABCD")
+
+      println("OPTIONS:" + widget.addressSelect.getOptions.map(_.getAttribute("value")).mkString("\n"))
+
+      widget.addressSelect.getOptions should not be empty
+
+      widget.addressSelect.value = "0"
+
+      widget.addressLine1.value should equal("a1")
+      widget.addressLine2.value should equal("")
+      widget.addressLine3.value should equal("")
+
+      widget.town.value should equal("a4")
+      widget.postcode.value should equal("ABCD")
+    }
+
+    "show manual input only with javascritp disabled" ignore new WebBrowser(webDriver = WebDriverFactory.defaultBrowserPhantomJsNoJs){
+      go to AddressPickerPage
+      page.title should equal(AddressPickerPage.title)
+
+      val widget = AddressPickerPage.addressPickerDriver
+
+      widget.assertLookupInputVisible
+      widget.assertAddressInputsVisible
     }
 
     "validate required element" in new WebBrowser {

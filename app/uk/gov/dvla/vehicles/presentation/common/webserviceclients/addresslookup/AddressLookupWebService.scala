@@ -10,6 +10,9 @@ trait AddressLookupWebService {
   def callPostcodeWebService(postcode: String, trackingId: String, showBusinessName: Option[Boolean] = None)
                             (implicit lang: Lang): Future[WSResponse]
 
+  def callAddresses(postcode: String, trackingId: String)
+                            (implicit lang: Lang): Future[WSResponse]
+
   def callUprnWebService(uprn: String, trackingId: String)
                         (implicit lang: Lang): Future[WSResponse]
 }

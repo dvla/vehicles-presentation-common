@@ -318,3 +318,154 @@ img {
 
 }
 
+#{$htmlNamespace} {
+
+    .address-lookup-wrapper {
+        width: 100%;
+        float: left;
+        margin-bottom: 30px;
+
+        .ajax-error {
+            color: $red;
+            display: none;
+        }
+        .left-col {
+            .ie7 & {
+                width: 100%;
+            }
+            width: 30%;
+            float: left;
+            min-height: 1px;
+        }
+        .right-col {
+            .ie7 & {
+                width: 100%;
+            }
+            width: 70%;
+            float: left;
+            span {
+                width: 100%;
+                color: $purple-2;
+                cursor: pointer;
+                display: block;
+                text-decoration: underline;
+                text-align: left;
+            }
+        }
+        .form-item {
+            &.validation {
+                padding: .7em;
+                float: left;
+                margin-left: 0;
+                width: 100%;
+            }
+            box-sizing: border-box;
+            padding: 0;
+            margin-bottom: 20px;
+            input {
+                margin-bottom: 10px;
+                width: 100%;
+                text-transform: uppercase;
+                box-sizing: border-box;
+            }
+            ::-webkit-input-placeholder {
+                /* WebKit browsers */
+                text-transform: none;
+            }
+            :-moz-placeholder {
+                /* Mozilla Firefox 4 to 18 */
+                text-transform: none;
+            }
+            ::-moz-placeholder {
+                /* Mozilla Firefox 19+ */
+                text-transform: none;
+            }
+            :-ms-input-placeholder {
+                /* Internet Explorer 10+ */
+                text-transform: none;
+            }
+            #address-postcode-lookup {
+                width: 130px;
+                float: left;
+                .ie7 & {
+                    width: 100%;
+                }
+            }
+            select {
+                width: 100%;
+            }
+            .address-reset-form {
+                width: 100%;
+                float: left;
+            }
+            .form-checkbox {
+                input {
+                    width: auto;
+                }
+            }
+
+        }
+        .address-find-wrapper {
+            .ie7 & {
+                width: 100%;
+                float: none;
+            }
+            width: 250px;
+            float: right;
+            margin-left: 10px;
+            button {
+                margin: 0 0 10px 0;
+                display: inline-block;
+                width: 100%;
+            }
+            span {
+                width: 100%;
+                color: $purple-2;
+                cursor: pointer;
+                display: block;
+                text-align: center;
+                text-decoration: underline;
+            }
+        }
+    }
+    @media screen and (max-width: 960px) {
+        .address-lookup-wrapper {
+            .left-col, .right-col {
+                width: 100%;
+            }
+            .form-item {
+                input, select {
+                    width: 100%;
+                    max-width: 100%;
+                    float: none;
+                }
+                #address-postcode-lookup {
+                    width: 130px;
+                    float: left;
+                }
+                .address-find-wrapper {
+                    width: 70%;
+                    float: none;
+                    margin-left: 0;
+                    button {
+                        margin: 10px 0;
+                        float: left;
+                        width: auto;
+                        clear: both;
+                    }
+                    a {
+                        width: 100%;
+                        display: inline-block;
+                        text-align: left;
+                    }
+                }
+            }
+        }
+    }
+    .no-js-hidden {
+        display: none;
+    }
+    #address-find {
+        height: 45px;
+    }
+}

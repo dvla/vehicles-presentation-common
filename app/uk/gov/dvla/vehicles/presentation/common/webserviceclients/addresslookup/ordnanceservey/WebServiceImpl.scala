@@ -33,6 +33,23 @@ final class WebServiceImpl @Inject()(config: OrdnanceSurveyConfig) extends Addre
       get()
   }
 
+  def callAddresses(postcode: String, trackingId: String)
+                   (implicit lang: Lang): Future[WSResponse] = {
+    val endPoint = s"$baseUrl/addresses?" +
+      postcodeParam(postcode) +
+      languageParam +
+      trackingIdParam(trackingId)
+
+    val postcodeToLog = LogFormats.anonymize(postcode)
+
+    Logger.debug(s"Calling ordnance-survey addresses lookup micro-service " +
+      s"with $postcodeToLog - trackingId: $trackingId") // $endPoint...")
+    WS.url(endPoint).
+      withHeaders(HttpHeaders.TrackingId -> trackingId).
+      withRequestTimeout(requestTimeout). // Timeout is in milliseconds
+      get()
+  }
+
   override def callUprnWebService(uprn: String, trackingId: String)
                                  (implicit lang: Lang): Future[WSResponse] = {
     val endPoint = s"$baseUrl/uprn-to-address?" +
