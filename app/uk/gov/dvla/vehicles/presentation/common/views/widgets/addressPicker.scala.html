@@ -18,7 +18,7 @@
             <input class="no-js-hidden" id="address-postcode-lookup" name="address-postcode-lookup" placeholder="@Messages("address.picker.common.postcode")" value="" maxlength="58" autocomplete="off" type="text" aria-required="true">
             <div class="address-find-wrapper">
                 <button id="address-find" type="button" name="action" class="button button-secondary no-js-hidden">@Messages("address.picker.common.findAddress")</button>
-                <a class="address-manual-toggle no-js-hidden" href="#addressLines-1">@Messages("address.picker.common.manualAddress")</a>
+                <span class="address-manual-toggle no-js-hidden">@Messages("address.picker.common.manualAddress")</span>
             </div>
         </div>
     </div>
@@ -28,8 +28,7 @@
     <div class="address-list-wrapper">
         <div class="form-item no-js-hidden">
             <label for="address-list">@Messages("address.picker.common.pickAddress")</label>
-            <select id="address-list" name="address-list" type="text" aria-required="true">
-                <option value="">@Messages("address.picker.common.pleaseSelect")</option>
+            <select id="address-list" name="address-list" type="text" aria-required="true" data-select-hint="@Messages("address.picker.common.pleaseSelect")">
             </select>
         </div>
     </div>
@@ -38,18 +37,18 @@
     <p class="ajax-error server-message">@Messages("address.picker.common.serverError")<span></span></p>
 
     <!-- Address Form Wrapper -  JS ON/OFF -->
-    <div class="address-manual-inputs-wrapper">
+    <div class="address-manual-inputs-wrapper"  data-address-status="@errorFlag">
 
         <!-- Street Inputs -->
-
+        @helper.input(field(AddressLine1Id)) { (id, name, value, args) =>
         <div class="form-item">
             <div class="left-col">
                 <label for="address-street">@Messages("address.picker.common.street")</label>
             </div>
             <div class="right-col">
-                @helper.input(field(AddressLine1Id)) { (id, name, value, args) =>
+
                 <input id="@id" name="@name" value="@value" placeholder="@Messages("address.picker.common.streetNameNumber")"  maxlength="58" autocomplete="off" type="text" aria-required="true">
-                }
+
                 @helper.input(field(AddressLine2Id)) { (id, name, value, args) =>
                 <input id="@id" name="@name"  value="@value" maxlength="58" autocomplete="off" type="text" aria-required="fals">
                 }
@@ -58,7 +57,7 @@
                 }
             </div>
         </div>
-
+        }
         <!-- end of Street Inputs -->
 
         <!-- Town Input -->
@@ -101,7 +100,7 @@
                     )
                 )
                 <!-- Clear Form Call To Action - ONLY JS -->
-                <a class="address-reset-form no-js-hidden" href="#addressLines-1">@Messages("address.picker.common.changeDetails")</a>
+                <span class="address-reset-form no-js-hidden" href="#address-postcode-lookup">@Messages("address.picker.common.changeDetails")</span>
                 <!-- end of Clear Form Call To Action-->
             </div>
         </div>

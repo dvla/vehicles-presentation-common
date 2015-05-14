@@ -61,7 +61,7 @@ define(['jquery'], function($) {
             addressListWrapper.hide();
             addressManualInput.hide();
             serverMessage.show();
-            $('.server-message span').html(data.responseText);
+            $('.server-message span').html(' ' + data.responseText);
         };
 
         // AJAX postcode not existing
@@ -77,6 +77,7 @@ define(['jquery'], function($) {
         var postcodeFoundAjax = function(data) {
             addressFind.prop("disabled", false);
             addresses = data;
+            //addressesList.html('<option value="">Please select</option>');
             var address = "";
             for (var i = 0; i < data.length; i++) {
                 address = "<option value='" + i + "'>" + data[i].addressLine + "</option>";
