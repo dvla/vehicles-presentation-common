@@ -204,6 +204,24 @@ define(function(require) {
         }
     };
 
+    var tooltipToggle = function() {
+        $('.js-tooltip').hide();
+        $('.js-has-tooltip').addClass('enabled');
+        $(document).mouseup(function (e) {
+            var tooltipContainer = $(".js-tooltip");
+            if ( !tooltipContainer.is(e.target) && tooltipContainer.has(e.target).length === 0 && (!$('.js-has-tooltip').is(e.target)) )  {
+                tooltipContainer.hide();
+            }
+        });
+        $('.js-has-tooltip').on('click', function() {
+            $('.js-tooltip').hide();
+            var tooltip = $(this).attr('data-tooltip');
+            $('.js-tooltip[data-tooltip="' + tooltip +'"]').addClass('js-tooltip-style');
+            $('.js-tooltip[data-tooltip="' + tooltip +'"]').toggle();
+
+        });
+    };
+
     var enableOptionToggle = function() {
         $('.optional-field').hide();
 
@@ -290,6 +308,7 @@ define(function(require) {
         imageHintToggles: imageHintToggles,
         disableClickOnDisabledButtons: disableClickOnDisabledButtons,
         printButton: printButton,
+        tooltipToggle: tooltipToggle,
         enableSmoothScroll: enableSmoothScroll,
         feedbackFormCharacterCountdown: feedbackFormCharacterCountdown,
         enableOptionToggle: enableOptionToggle,
@@ -304,6 +323,7 @@ define(function(require) {
                 imageHintToggles();
                 disableClickOnDisabledButtons();
                 printButton();
+                tooltipToggle();
                 enableSmoothScroll();
                 feedbackFormCharacterCountdown();
                 enableOptionToggle();

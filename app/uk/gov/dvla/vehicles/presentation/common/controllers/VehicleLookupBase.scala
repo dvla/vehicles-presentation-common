@@ -16,8 +16,8 @@ import common.LogFormats
 import common.model.{CacheKeyPrefix, BruteForcePreventionModel}
 import common.services.DateService
 import common.webserviceclients.common.DmsWebHeaderDto
-import common.webserviceclients.vehicleandkeeperlookup.VehicleAndKeeperDetailsDto
-import common.webserviceclients.vehicleandkeeperlookup.VehicleAndKeeperDetailsRequest
+import common.webserviceclients.vehicleandkeeperlookup.VehicleAndKeeperLookupDetailsDto
+import common.webserviceclients.vehicleandkeeperlookup.VehicleAndKeeperLookupRequest
 import common.webserviceclients.vehicleandkeeperlookup.VehicleAndKeeperLookupService
 import common.webserviceclients.bruteforceprevention.BruteForcePreventionService
 
@@ -49,7 +49,7 @@ abstract class VehicleLookupBase[FormModel <: VehicleLookupFormModelBase]
   def microServiceError(t: Throwable, formModel: FormModel)(implicit request: Request[_]): Result
   def invalidFormResult(invalidForm: play.api.data.Form[FormModel])(implicit request: Request[_]): Future[Result]
   def vehicleLookupFailure(responseCode: VehicleAndKeeperLookupErrorMessage, formModel: FormModel)(implicit request: Request[_]): Result
-  def vehicleFoundResult(vehicleAndKeeperDetailsDto: VehicleAndKeeperDetailsDto,
+  def vehicleFoundResult(vehicleAndKeeperDetailsDto: VehicleAndKeeperLookupDetailsDto,
                          validFormModel: FormModel)(implicit request: Request[_]): Result
   def vrmLocked(bruteForcePreventionModel: BruteForcePreventionModel, formModel: FormModel)
                (implicit request: Request[_]): Result
@@ -120,7 +120,7 @@ abstract class VehicleLookupBase[FormModel <: VehicleLookupFormModelBase]
 
   protected def callLookupService(trackingId: String, formModel: FormModel)
                                  (implicit request: Request[_]): Future[LookupResult] = {
-    val vehicleAndKeeperDetailsRequest = VehicleAndKeeperDetailsRequest(
+    val vehicleAndKeeperDetailsRequest = VehicleAndKeeperLookupRequest(
       dmsHeader = buildHeader(trackingId),
       referenceNumber = formModel.referenceNumber,
       registrationNumber = formModel.registrationNumber,

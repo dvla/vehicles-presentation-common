@@ -4,7 +4,7 @@ import org.joda.time.DateTime
 import play.api.libs.json.Json
 import uk.gov.dvla.vehicles.presentation.common
 import common.clientsidesession.CacheKey
-import common.webserviceclients.vehicleandkeeperlookup.VehicleAndKeeperDetailsDto
+import common.webserviceclients.vehicleandkeeperlookup.VehicleAndKeeperLookupDetailsDto
 import common.views.constraints.Postcode._
 import common.views.constraints.RegistrationNumber._
 import common.views.models.{AddressAndPostcodeViewModel, AddressLinesViewModel}
@@ -24,7 +24,7 @@ final case class VehicleAndKeeperDetailsModel(registrationNumber: String,
 object VehicleAndKeeperDetailsModel {
 
   // Create a VehicleAndKeeperDetailsDto from the given replacementVRM. We do this in order get the data out of the response from micro-service call
-  def from(vehicleAndKeeperDetailsDto: VehicleAndKeeperDetailsDto) = {
+  def from(vehicleAndKeeperDetailsDto: VehicleAndKeeperLookupDetailsDto) = {
 
     val addressViewModel = {
       val addressLineModel = AddressLinesViewModel(

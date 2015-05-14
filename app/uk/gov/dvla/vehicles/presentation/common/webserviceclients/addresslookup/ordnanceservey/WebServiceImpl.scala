@@ -5,12 +5,11 @@ import play.api.Logger
 import play.api.i18n.Lang
 import play.api.libs.ws.{WSResponse, WS}
 import play.api.Play.current
+import scala.concurrent.Future
 import uk.gov.dvla.vehicles.presentation.common.LogFormats
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClientSideSessionFactory
 import uk.gov.dvla.vehicles.presentation.common.webserviceclients.HttpHeaders
 import uk.gov.dvla.vehicles.presentation.common.webserviceclients.addresslookup.AddressLookupWebService
-import uk.gov.dvla.vehicles.presentation.common.webserviceclients.config.OrdnanceSurveyConfig
-import scala.concurrent.Future
 
 final class WebServiceImpl @Inject()(config: OrdnanceSurveyConfig) extends AddressLookupWebService {
   private val baseUrl: String = config.baseUrl

@@ -52,6 +52,10 @@ trait TestHarnessBase extends ProgressBar with GlobalCreator {
     webDriver = WebDriverFactory.webDriver(javascriptEnabled = false)
   )
 
+  abstract class PhantomJsByDefault extends WebBrowser(
+    webDriver = WebDriverFactory.defaultBrowserPhantomJs
+  )
+
   object WebBrowser {
 
     private[TestHarnessBase] lazy val fakeAppWithTestGlobal: FakeApplication = LightFakeApplication(global)

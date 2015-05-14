@@ -6,7 +6,7 @@ import play.Logger
 import play.api.data.validation.ValidationError
 import play.api.libs.json.{JsNumber, JsResult, JsValue, Reads, JsSuccess, JsError, JsString, JsPath, Writes, Json}
 
-final case class VehicleAndKeeperDetailsDto(registrationNumber: String,
+final case class VehicleAndKeeperLookupDetailsDto(registrationNumber: String,
                                             vehicleMake: Option[String],
                                             vehicleModel: Option[String],
                                             keeperTitle: Option[String],
@@ -23,7 +23,7 @@ final case class VehicleAndKeeperDetailsDto(registrationNumber: String,
                                             keeperChangeDate: Option[DateTime],
                                             suppressedV5Flag: Option[Boolean])
 
-object VehicleAndKeeperDetailsDto {
+object VehicleAndKeeperLookupDetailsDto {
   private final val dtz = DateTimeZone.forID("Europe/London")
 
   implicit val jodaDateReads: Reads[org.joda.time.DateTime] = new Reads[org.joda.time.DateTime] {
@@ -31,7 +31,7 @@ object VehicleAndKeeperDetailsDto {
 
     private def parseDate(input: String): Option[DateTime] = {
       Logger.info(s"DE418 parsing date $input into ${DateTime.parse(input, df)}")
-      scala.util.control.Exception.allCatch[DateTime] opt (DateTime.parse(input, df))
+      scala.util.control.Exception.allCatch[DateTime] opt DateTime.parse(input, df)
     }
 
     def reads(json: JsValue): JsResult[DateTime] = json match {
@@ -58,5 +58,5 @@ object VehicleAndKeeperDetailsDto {
     }
   }
 
-  implicit val JsonFormat = Json.format[VehicleAndKeeperDetailsDto]
+  implicit val JsonFormat = Json.format[VehicleAndKeeperLookupDetailsDto]
 }

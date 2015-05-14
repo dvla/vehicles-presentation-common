@@ -5,5 +5,5 @@ import scala.concurrent.Future
 
 trait VehicleAndKeeperLookupWebService {
 
-  def invoke(request: VehicleAndKeeperDetailsRequest, trackingId: String): Future[WSResponse]
+  def invoke(request: VehicleAndKeeperLookupRequest, trackingId: String): Future[WSResponse]
 }

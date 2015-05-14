@@ -108,7 +108,7 @@ final class AddressLookupServiceImpl @Inject()(ws: AddressLookupWebService,
         try resp.json.as[Seq[AddressDto]]
         catch {
           case e: Throwable =>
-            Logger.error(s"GDS postcode lookup service error: $e - trackingId: $trackingId")
+            Logger.error(s"Ordnance Survey postcode lookup service error: $e - trackingId: $trackingId", e)
             Seq.empty //  return empty seq given invalid json
         }
       }

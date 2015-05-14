@@ -4,5 +4,5 @@ import scala.concurrent.Future
 
 trait VehicleAndKeeperLookupService {
 
-  def invoke(cmd: VehicleAndKeeperDetailsRequest, trackingId: String): Future[VehicleAndKeeperLookupResponseV2]
+  def invoke(cmd: VehicleAndKeeperLookupRequest, trackingId: String): Future[VehicleAndKeeperLookupResponse]
 }

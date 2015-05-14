@@ -284,6 +284,38 @@ img {
         }
     }
 
+    .js-has-tooltip {
+        display: none;
+        color: $govuk-blue;
+        border: 1px solid $govuk-blue;
+        -webkit-border-radius: 50%;
+        -moz-border-radius: 50%;
+        border-radius: 50%;
+        width: 25px;
+        text-align: center;
+        margin-left: 5px;
+        cursor: pointer;
+        &.enabled {
+            display: inline-block;
+        }
+    }
+
+    .js-tooltip {
+        background: $white;
+        z-index: 9999;
+        margin: 10px 0;
+        &.js-tooltip-style {
+            p {
+                color: $govuk-blue;
+                text-align: left;
+            }
+            margin: 0;
+            padding: 16px 32px;
+            position: absolute;
+            border: 1px solid $govuk-blue;
+        }
+    }
+
 }
 
 #{$htmlNamespace} {

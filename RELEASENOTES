@@ -1,9 +1,18 @@
+======= 2.22 ======
+Time of release binaries creation:
+Wed May 13 2015 09:31:12
+
+US3153 Upgrade to play 2.3.9 after webapps have been upgraded
+US3011 Common JS and SASS for tooltip
+US2580 Removed VehicleAndKeeperDetailsResponse, renamed VehicleAndKeeperDetailsDto -> VehicleAndKeeperLookupDetailsDto and VehicleAndKeeperDetailsRequest -> VehicleAndKeeperLookupRequest and also corrected the incorrect packages for OrdnanceSurveyConfig and VehicleAndKeeperLookupConfig
+US2860 The rest service for populating the address
+US3018 Styling success playback
+
 ======= 2.21.1 ======
 Time of release binaries creation:
 Wed May 6 2015 09:25:00
 
 eadd026 fixing warning
-
 
 ======= 2.21 ======
 Time of release binaries creation:
