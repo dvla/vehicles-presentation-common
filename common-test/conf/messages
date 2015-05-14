@@ -249,3 +249,16 @@ cookie-policy.expires.30min = 30 minutes
 cookie-policy.expires.inactivity = After 15 minutes of inactivity or when you close your browser
 cookie-policy.expires.close = When you close your browser
 
+address.picker.common.postcode = Postcode
+address.picker.common.findAddress = Find UK address
+address.picker.common.manualAddress = Enter address manually
+address.picker.common.pickAddress = Pick an address
+address.picker.common.pleaseSelect = Please select
+address.picker.common.street = Street
+address.picker.common.streetNameNumber = Street name and number
+address.picker.common.townCity = Town/City
+address.picker.common.townOrCity = Town or City
+address.picker.common.changeDetails = Change my details
+address.picker.common.rememberDetails = Remember these details
+address.picker.common.postCodeNotFound = Postcode not found
+address.picker.common.serverError = Error from the server:

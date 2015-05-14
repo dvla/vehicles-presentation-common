@@ -343,6 +343,14 @@ img {
             }
             width: 70%;
             float: left;
+            span {
+                width: 100%;
+                color: $purple-2;
+                cursor: pointer;
+                display: block;
+                text-decoration: underline;
+                text-align: left;
+            }
         }
         .form-item {
             &.validation {
@@ -410,10 +418,13 @@ img {
                 display: inline-block;
                 width: 100%;
             }
-            a {
+            span {
                 width: 100%;
+                color: $purple-2;
+                cursor: pointer;
                 display: block;
                 text-align: center;
+                text-decoration: underline;
             }
         }
     }
@@ -449,7 +460,6 @@ img {
                     }
                 }
             }
-
         }
     }
     .no-js-hidden {

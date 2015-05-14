@@ -12,15 +12,13 @@
     <!-- Lookup Input Wrapper - ONLY JS -->
     <div class="postcode-lookup-container form-item no-js-hidden">
         <div class="left-col">
-            <!-- TODO: replace messages with variables -->
-            <label class="no-js-hidden" for="address-postcode-lookup">Postcode</label>
+            <label class="no-js-hidden" for="address-postcode-lookup">@Messages("address.picker.common.postcode")</label>
         </div>
         <div class="right-col">
-            <input class="no-js-hidden" id="address-postcode-lookup" name="address-postcode-lookup" placeholder="Postcode" value="" maxlength="58" autocomplete="off" type="text" aria-required="true">
+            <input class="no-js-hidden" id="address-postcode-lookup" name="address-postcode-lookup" placeholder="@Messages("address.picker.common.postcode")" value="" maxlength="58" autocomplete="off" type="text" aria-required="true">
             <div class="address-find-wrapper">
-                    <!-- TODO: replace messages with variables -->
-                <button id="address-find" type="button" name="action" class="button button-secondary no-js-hidden">Find UK address</button>
-                <a class="address-manual-toggle no-js-hidden" href="#address-picker-1_address-line-1">Enter address manually</a>
+                <button id="address-find" type="button" name="action" class="button button-secondary no-js-hidden">@Messages("address.picker.common.findAddress")</button>
+                <span class="address-manual-toggle no-js-hidden">@Messages("address.picker.common.manualAddress")</span>
             </div>
         </div>
     </div>
@@ -29,33 +27,27 @@
     <!-- Lookup Input Wrapper - ONLY JS -->
     <div class="address-list-wrapper">
         <div class="form-item no-js-hidden">
-            <!-- TODO: replace messages with variables -->
-            <label for="address-list">Pick an address</label>
-            <select id="address-list" name="address-list" type="text" aria-required="true" data-select-hint="Please select an address...">
-
+            <label for="address-list">@Messages("address.picker.common.pickAddress")</label>
+            <select id="address-list" name="address-list" type="text" aria-required="true" data-select-hint="@Messages("address.picker.common.pleaseSelect")">
             </select>
         </div>
     </div>
     <!-- end of Lookup Input Wrapper-->
-    <!-- TODO: replace messages with variables -->
-    <p class="ajax-error missing-postcode">Postcode not found</p>
-    <p class="ajax-error server-message">Error from the server: <span></span></p>
+    <p class="ajax-error missing-postcode">@Messages("address.picker.common.postCodeNotFound")</p>
+    <p class="ajax-error server-message">@Messages("address.picker.common.serverError")<span></span></p>
 
     <!-- Address Form Wrapper -  JS ON/OFF -->
-    <!-- TODO: data-address-status needs to be generated via back-end fails in order to display the form if validation fails -->
-    <div class="address-manual-inputs-wrapper" data-address-status="@errorFlag">
+    <div class="address-manual-inputs-wrapper"  data-address-status="@errorFlag">
 
         <!-- Street Inputs -->
-
         @helper.input(field(AddressLine1Id)) { (id, name, value, args) =>
         <div class="form-item">
             <div class="left-col">
-                <!-- TODO: replace messages with variables -->
-                <label for="address-street">Street</label>
+                <label for="address-street">@Messages("address.picker.common.street")</label>
             </div>
-
             <div class="right-col">
-                <input id="@id" name="@name" value="@value" placeholder="Street name and number"  maxlength="58" autocomplete="off" type="text" aria-required="true">
+
+                <input id="@id" name="@name" value="@value" placeholder="@Messages("address.picker.common.streetNameNumber")"  maxlength="58" autocomplete="off" type="text" aria-required="true">
 
                 @helper.input(field(AddressLine2Id)) { (id, name, value, args) =>
                 <input id="@id" name="@name"  value="@value" maxlength="58" autocomplete="off" type="text" aria-required="fals">
@@ -66,18 +58,16 @@
             </div>
         </div>
         }
-
         <!-- end of Street Inputs -->
 
         <!-- Town Input -->
         @helper.input(field(PostTownId)) { (id, name, value, args) =>
         <div class="form-item">
             <div class="left-col">
-                <!-- TODO: replace messages with variables -->
-                <label for="address-town">Town/City</label>
+                <label for="address-town">@Messages("address.picker.common.townCity")</label>
             </div>
             <div class="right-col">
-                <input id="@id" name="@name" placeholder="Town or City" value="@value" maxlength="58" autocomplete="off" type="text" aria-required="true">
+                <input id="@id" name="@name" placeholder="@Messages("address.picker.common.townOrCity")" value="@value" maxlength="58" autocomplete="off" type="text" aria-required="true">
             </div>
         </div>
         }
@@ -87,10 +77,10 @@
         @helper.input(field(PostcodeId)) { (id, name, value, args) =>
         <div class="form-item">
             <div class="left-col">
-                <label for="address-postcode">Postcode</label>
+                <label for="address-postcode">@Messages("address.picker.common.postcode")</label>
             </div>
             <div class="right-col">
-                <input id="@id" name="@name" placeholder="Postcode" value="@value" maxlength="58" autocomplete="off" type="text" aria-required="true">
+                <input id="@id" name="@name" placeholder="@Messages("address.picker.common.postcode")" value="@value" maxlength="58" autocomplete="off" type="text" aria-required="true">
             </div>
         </div>
         }
@@ -104,20 +94,13 @@
             <div class="right-col">
                 @valtechDeclareCheck(
                     field(RememberId),
-                    args =  Map('_label -> "Remember these details",
+                    args =  Map('_label -> Messages("address.picker.common.rememberDetails"),
                         '_showConstraints -> false,
                         'NO_OPTIONAL_LABEL -> true
                     )
                 )
-                <!--helper.input(field(RememberId)) { (id, name, value, args) =>
-                <label class="form-checkbox selectable">
-                    <input id="remindAddressDetails" name="@name" value="@value" type="checkbox" aria-required="true">
-                    Remember these details
-                </label>
-                }-->
                 <!-- Clear Form Call To Action - ONLY JS -->
-                <!-- TODO: replace messages with variables -->
-                <a class="address-reset-form no-js-hidden" href="#address-postcode-lookup">Change my details</a>
+                <span class="address-reset-form no-js-hidden" href="#address-postcode-lookup">@Messages("address.picker.common.changeDetails")</span>
                 <!-- end of Clear Form Call To Action-->
             </div>
         </div>
