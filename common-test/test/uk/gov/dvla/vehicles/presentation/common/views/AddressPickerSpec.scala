@@ -8,7 +8,7 @@ import uk.gov.dvla.vehicles.presentation.common.helpers.UiSpec
 import uk.gov.dvla.vehicles.presentation.common.helpers.webbrowser.WebDriverFactory
 import uk.gov.dvla.vehicles.presentation.common.model.Address
 import uk.gov.dvla.vehicles.presentation.common.models.AddressPickerModel
-import uk.gov.dvla.vehicles.presentation.common.pages.{ErrorPanel, AddressPickerPage}
+import uk.gov.dvla.vehicles.presentation.common.pages.{OptionTogglePage, ErrorPanel, AddressPickerPage}
 import scala.collection.JavaConversions.asScalaBuffer
 
 class AddressPickerSpec extends UiSpec with TestHarness with AppendedClues {
@@ -33,7 +33,34 @@ class AddressPickerSpec extends UiSpec with TestHarness with AppendedClues {
       widget.remember.isSelected should equal(false)
     }
 
-    "Lookup a vehicles with ajax call" ignore new WebBrowser(webDriver = WebDriverFactory.defaultBrowserPhantomJs) {
+    "Lookup container is visible, Dropdown select is invisible and Manual address elements are invisible on load" in
+      new WebBrowser(webDriver = WebDriverFactory.defaultBrowserPhantomJs) {
+        go to AddressPickerPage
+        page.title should equal(AddressPickerPage.title)
+
+        val widget = AddressPickerPage.addressPickerDriver
+        widget.assertLookupInputVisible
+        widget.assertAddressInputsInvisible
+        widget.assertAddressListInvisible
+    }
+
+    "working manual address entry" in new WebBrowser(webDriver = WebDriverFactory.defaultBrowserPhantomJs) {
+      go to AddressPickerPage
+      page.title should equal(AddressPickerPage.title)
+
+      val widget = AddressPickerPage.addressPickerDriver
+      widget.assertLookupInputVisible
+
+      click on widget.enterAddressManuallyLink
+
+      widget.assertLookupInputInvisible
+      widget.assertAddressListInvisible
+      widget.assertAddressInputsVisible
+      widget.assertServerErrorInvisible
+      widget.assertMissingPostcodeInvisible
+    }
+
+    "Lookup an address with ajax call" in new WebBrowser(webDriver = WebDriverFactory.defaultBrowserPhantomJs) {
       go to AddressPickerPage
       page.title should equal(AddressPickerPage.title)
 
@@ -43,6 +70,12 @@ class AddressPickerSpec extends UiSpec with TestHarness with AppendedClues {
 
       widget.search("ABCD")
 
+      widget.assertLookupInputVisible
+      widget.assertAddressListVisible
+      widget.assertAddressInputsInvisible
+      widget.assertServerErrorInvisible
+      widget.assertMissingPostcodeInvisible
+
       println("OPTIONS:" + widget.addressSelect.getOptions.map(_.getAttribute("value")).mkString("\n"))
 
       widget.addressSelect.getOptions should not be empty
@@ -50,14 +83,29 @@ class AddressPickerSpec extends UiSpec with TestHarness with AppendedClues {
       widget.addressSelect.value = "0"
 
       widget.addressLine1.value should equal("a1")
-      widget.addressLine2.value should equal("")
-      widget.addressLine3.value should equal("")
+      widget.addressLine2.value should equal("a2")
+      widget.addressLine3.value should equal("a3")
 
       widget.town.value should equal("a4")
       widget.postcode.value should equal("ABCD")
+
+      widget.addressSelect.value = "default"
+      widget.addressLine1.value should equal("")
+      widget.addressLine2.value should equal("")
+      widget.addressLine3.value should equal("")
+
+      widget.town.value should equal("")
+      widget.postcode.value should equal("")
+
+      click on widget.changeMyDetailsLink
+      widget.assertLookupInputVisible
+      widget.assertAddressInputsInvisible
+      widget.assertAddressListInvisible
+      widget.assertServerErrorInvisible
+      widget.assertMissingPostcodeInvisible
     }
 
-    "show manual input only with javascritp disabled" ignore new WebBrowser(webDriver = WebDriverFactory.defaultBrowserPhantomJsNoJs){
+    "show manual input only with javascript disabled" ignore new WebBrowser(webDriver = WebDriverFactory.defaultBrowserPhantomJsNoJs){
       go to AddressPickerPage
       page.title should equal(AddressPickerPage.title)
 
@@ -65,6 +113,40 @@ class AddressPickerSpec extends UiSpec with TestHarness with AppendedClues {
 
       widget.assertLookupInputVisible
       widget.assertAddressInputsVisible
+      widget.assertServerErrorInvisible
+      widget.assertMissingPostcodeInvisible
+    }
+
+    "show server error message" in new WebBrowser(webDriver = WebDriverFactory.defaultBrowserPhantomJsNoJs){
+      go to AddressPickerPage
+      page.title should equal(AddressPickerPage.title)
+
+      val widget = AddressPickerPage.addressPickerDriver
+      widget.assertLookupInputVisible
+
+      widget.postCodeSearch.value = "123" // 123 is a special postcode that will make the server return 500
+      click on widget.searchButton
+      widget.assertLookupInputVisible
+      widget.assertAddressInputsInvisible
+      widget.assertAddressListInvisible
+      widget.assertServerErrorVisible
+      widget.assertMissingPostcodeInvisible
+    }
+
+    "show server postcode not found message" in new WebBrowser(webDriver = WebDriverFactory.defaultBrowserPhantomJsNoJs){
+      go to AddressPickerPage
+      page.title should equal(AddressPickerPage.title)
+
+      val widget = AddressPickerPage.addressPickerDriver
+      widget.assertLookupInputVisible
+
+      widget.postCodeSearch.value = "456" // 456 is a special postcode that will make the server return 500
+      click on widget.searchButton
+      widget.assertLookupInputVisible
+      widget.assertAddressInputsInvisible
+      widget.assertAddressListInvisible
+      widget.assertServerErrorInvisible
+      widget.assertMissingPostcodeVisible
     }
 
     "validate required element" in new WebBrowser {
@@ -123,6 +205,13 @@ class AddressPickerSpec extends UiSpec with TestHarness with AppendedClues {
       println("addressCookie: " + json)
       AddressPickerModel.JsonFormat.reads(Json.parse(json))
         .map(a => a.address1 should equal(model)) orElse(fail("Did not have a AddressPickerModel in the response"))
+    }
+
+    "run qunit tests" ignore {
+      "qunit tests should pass" in new WebBrowser(webDriver = WebDriverFactory.defaultBrowserPhantomJs) {
+        go to AddressPickerPage.jsTestUrl
+        assertJsTestPass
+      }
     }
   }
 }

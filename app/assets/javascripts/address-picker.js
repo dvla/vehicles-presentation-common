@@ -5,6 +5,7 @@ define(['jquery'], function($) {
         var addresses = [],
             // Address inputs
             addressPostCodeLookup = $('#address-postcode-lookup'),
+            postCodeLookupContainer = $('.postcode-lookup-container'),
             addressToggle         = $('.address-manual-toggle'),
             addressManualInput    = $('.address-manual-inputs-wrapper'),
             addressLookupStatus   = addressManualInput.attr('data-address-status'),
@@ -33,13 +34,11 @@ define(['jquery'], function($) {
         // Manual Input Mode
         var manualAddressMode = function () {
             hideAjaxErrors();
-            $('#address-picker-1_address-line-1').focus();
+            $('.address-street-first').focus();
             addressToggle.hide();
             addressManualInput.show();
             addressListWrapper.hide();
-            addressPostCodeLookup.hide();
-            addressFind.hide();
-            $("label[for='address-postcode-lookup']").hide();
+            postCodeLookupContainer.hide();
         };
 
         // Populate Addresses List
@@ -96,20 +95,17 @@ define(['jquery'], function($) {
             $.ajax({
                 type: "GET",
                 url: url,
-                cache: false,
-                success: function (data) {
-                    if (data.length) {
-                        postcodeFoundAjax(data);
-                    } else {
-                        postcodeNotFoundAjax();
-                    }
-                    addressesList.focus();
-                },
-                error: function (data) {
-                    errorAjax(data);
+                cache: false
+            }).done(function (data) {
+                if (data.length) {
+                    postcodeFoundAjax(data);
+                } else {
+                    postcodeNotFoundAjax();
                 }
+                addressesList.focus();
+            }).fail(function (data) {
+                errorAjax(data);
             });
-
         };
 
         // Populate Form

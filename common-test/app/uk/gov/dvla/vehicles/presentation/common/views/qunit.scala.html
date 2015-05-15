@@ -6,11 +6,12 @@
 <script>
 require.config({
     paths: {
-        'jquery' : '../lib/jquery/jquery',
-        "qunit": "//code.jquery.com/qunit/qunit-1.18.0"
+        'jquery': '../lib/jquery/jquery',
+        'qunit': '//code.jquery.com/qunit/qunit-1.18.0',
+        'wait': 'tests/helpers/wait'
     },
     shim: {
-         "qunit": ["jquery"]
+         'qunit': ['jquery']
     }
 });
 </script>

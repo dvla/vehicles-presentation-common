@@ -15,6 +15,10 @@ class AddressPicker @Inject()(implicit clientSideSessionFactory: ClientSideSessi
     Ok(views.html.addressView(form.fill()))
   }
 
+  def jsTest = Action { implicit request =>
+    Ok(views.html.addressView(form.fill(), includeQunitCode = true))
+  }
+
   def submit = Action { implicit request =>
     form.bindFromRequest.fold(
       invalidForm => BadRequest(views.html.addressView(invalidForm, "invalid")),

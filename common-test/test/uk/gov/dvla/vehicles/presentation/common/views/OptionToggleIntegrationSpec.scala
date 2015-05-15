@@ -118,24 +118,9 @@ class OptionToggleIntegrationSpec extends UiSpec with TestHarness {
       go to OptionTogglePage.jsTestUrl
       assertJsTestPass
     }
-
   }
 
-  private def assertJsTestPass(implicit driver: WebDriver): Unit = {
 
-    val qunitDiv = eventually(timeout(Span(10, Seconds))){
-      val qunitDiv = driver.findElement(By.id("qunit"))
-      qunitDiv.findElement(By.cssSelector("h2.qunit-fail, h2.qunit-pass"))
-    }
-
-    val qunitTestresult = driver.findElement(By.id("qunit-testresult"))
-    info(qunitTestresult.getText.lines.map("    " + _).mkString("\n"))
-    val qunitTests = driver.findElement(By.id("qunit-tests"))
-    info(qunitTests.getText.lines.map("    " + _).mkString("\n"))
-
-    if (qunitDiv.findElement(By.id("qunit-banner")).getAttribute("class").contains("qunit-fail"))
-      fail()
-  }
 
   private def verifyErrors(errors: String*)(implicit driver: SearchContext): Unit = {
     val errorsStr = ErrorPanel.text

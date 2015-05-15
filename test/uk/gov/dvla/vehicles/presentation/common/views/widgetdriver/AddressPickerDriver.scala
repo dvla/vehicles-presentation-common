@@ -59,22 +59,55 @@ class AddressPickerDriver(id: String)  extends WebBrowserDSL {
     checkbox(id(s"${id}_${RememberId}"))(driver.findElement(By.id(id)))
 
   def assertAddressInputsVisible(implicit driver: WebDriver): Unit = {
-    Wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(".address-list-wrapper")))
-    Wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(".address-manual-inputs-wrapper")))
+    Wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(s"#$id .address-manual-inputs-wrapper")))
   }
 
   def assertAddressInputsInvisible(implicit driver: WebDriver): Unit = {
-    Wait.until(ExpectedConditions.invisibilityOfElementLocated(By.cssSelector(".address-list-wrapper")))
-    Wait.until(ExpectedConditions.invisibilityOfElementLocated(By.cssSelector(".address-manual-inputs-wrapper")))
+    Wait.until(ExpectedConditions.invisibilityOfElementLocated(By.cssSelector(s"#$id .address-manual-inputs-wrapper")))
+  }
+
+  def assertAddressListVisible(implicit driver: WebDriver): Unit = {
+    Wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(s"#$id .address-list-wrapper")))
+  }
+
+  def assertAddressListInvisible(implicit driver: WebDriver): Unit = {
+    Wait.until(ExpectedConditions.invisibilityOfElementLocated(By.cssSelector(s"#$id .address-list-wrapper")))
   }
 
   def assertLookupInputVisible(implicit driver: WebDriver): Unit = {
-    Wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(".postcode-lookup-container")))
+    Wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(s"#$id .postcode-lookup-container")))
+  }
+
+  def assertServerErrorVisible(implicit driver: WebDriver): Unit = {
+    Wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(s"#$id .server-message")))
+  }
+
+  def assertServerErrorInvisible(implicit driver: WebDriver): Unit = {
+    Wait.until(ExpectedConditions.invisibilityOfElementLocated(By.cssSelector(s"#$id .server-message")))
+  }
+
+  def assertMissingPostcodeVisible(implicit driver: WebDriver): Unit = {
+    Wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(s"#$id .missing-postcode")))
+  }
+
+  def assertMissingPostcodeInvisible(implicit driver: WebDriver): Unit = {
+    Wait.until(ExpectedConditions.invisibilityOfElementLocated(By.cssSelector(s"#$id .missing-postcode")))
   }
 
   def assertLookupInputInvisible(implicit driver: WebDriver): Unit = {
-    Wait.until(ExpectedConditions.invisibilityOfElementLocated(By.cssSelector(".postcode-lookup-container")))
+    Wait.until(ExpectedConditions.invisibilityOfElementLocated(By.cssSelector(s"#$id .postcode-lookup-container")))
   }
+
+  def enterAddressManuallyLink(implicit driver: WebDriver): Element =
+    find(cssSelector(s"#$id .address-manual-toggle")) getOrElse(
+      throw new Exception(s"Unable to find element with id css selector (#$id .address-manual-toggle)")
+    )
+
+  def changeMyDetailsLink(implicit driver: WebDriver): Element =
+    find(cssSelector(s"#$id .address-reset-form")) getOrElse(
+      throw new Exception(s"Unable to find element with css selector (#$id .address-reset-form)")
+    )
+
 
   private def selectPopulated: ExpectedCondition[Boolean] = {
     new ExpectedCondition[Boolean]() {

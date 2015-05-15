@@ -1,8 +1,10 @@
 package uk.gov.dvla.vehicles.presentation.common.helpers.webbrowser
 
+import java.util
 import java.util.concurrent.TimeUnit
 
-import org.openqa.selenium.WebDriver
+import org.openqa.selenium.WebDriver.{Options, TargetLocator, Navigation}
+import org.openqa.selenium.{WebElement, By, WebDriver}
 import org.openqa.selenium.chrome.ChromeDriver
 import org.openqa.selenium.firefox.{FirefoxDriver, FirefoxProfile}
 import org.openqa.selenium.htmlunit.HtmlUnitDriver
@@ -62,7 +64,7 @@ object WebDriverFactory {
 
   def testUrl: String = TestConfiguration.testUrl
 
-  def defaultBrowserPhantomJs: WebDriver = webDriver(browserTypeDefault("phantomjs"), true)
+  val defaultBrowserPhantomJs: WebDriver = new WebDriverProxy(webDriver(browserTypeDefault("phantomjs"), true))
 
   def defaultBrowserPhantomJsNoJs: WebDriver = webDriver(browserTypeDefault("phantomjs"), false)
 
@@ -108,5 +110,33 @@ object WebDriverFactory {
   private val driverSuffix: String = sys.props.get("os.name") match {
     case Some(os) if os.contains("mac") => "macosx"
     case _ => "linux64"
+  }
+
+  private class WebDriverProxy(driver: WebDriver) extends WebDriver {
+    override def getPageSource: String = driver.getPageSource
+
+    override def findElements(by: By): util.List[WebElement] = driver.findElements(by)
+
+    override def getWindowHandle: String = driver.getWindowHandle
+
+    override def get(url: String): Unit = driver.get(url)
+
+    override def manage(): Options = driver.manage()
+
+    override def getWindowHandles: util.Set[String] = driver.getWindowHandles
+
+    override def switchTo(): TargetLocator = driver.switchTo()
+
+    override def close(): Unit = driver.manage().deleteAllCookies()
+
+    override def quit(): Unit = driver.manage().deleteAllCookies()
+
+    override def getCurrentUrl: String = driver.getCurrentUrl
+
+    override def navigate(): Navigation = driver.navigate()
+
+    override def getTitle: String = driver.getTitle
+
+    override def findElement(by: By): WebElement = driver.findElement(by)
   }
 }
