@@ -116,11 +116,16 @@ define(['jquery'], function($) {
         // Populate Form
         var updateAddressForm = function (address) {
             var selected_address = addressesList.children(":selected").val();
-            $('#address-picker-1_address-line-1').val(addresses[selected_address].streetAddress1);
-            $('#address-picker-1_address-line-2').val(addresses[selected_address].streetAddress2);
-            $('#address-picker-1_address-line-3').val(addresses[selected_address].streetAddress3);
-            $('#address-picker-1_post-town').val(addresses[selected_address].postTown);
-            $('#address-picker-1_post-code').val(addresses[selected_address].postCode);
+            var addressFirst = $('.address-street-first').attr('data-form');
+            $('#' + addressFirst).val(addresses[selected_address].streetAddress1);
+            var addressSecond = $('.address-street-second').attr('data-form');
+            $('#' + addressSecond).val(addresses[selected_address].streetAddress2);
+            var addressThird = $('.address-street-third').attr('data-form');
+            $('#' + addressThird).val(addresses[selected_address].streetAddress3);
+            var addressTown = $('.address-town').attr('data-form');
+            $('#' + addressTown).val(addresses[selected_address].postTown);
+            var addressPostcode = $('.address-postcode').attr('data-form');
+            $('#' + addressPostcode).val(addresses[selected_address].postCode);
         };
 
         // Reset Form
