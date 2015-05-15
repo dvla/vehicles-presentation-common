@@ -77,7 +77,6 @@ define(['jquery'], function($) {
         var postcodeFoundAjax = function(data) {
             addressFind.prop("disabled", false);
             addresses = data;
-            //addressesList.html('<option value="">Please select</option>');
             var address = "";
             for (var i = 0; i < data.length; i++) {
                 address = "<option value='" + i + "'>" + data[i].addressLine + "</option>";
@@ -93,7 +92,7 @@ define(['jquery'], function($) {
         // AJAX GET
         var getAddresses = function (postcode) {
             url = urlApi + postcode;
-            addressesList.html('<option>' + addressesListHint + '</option>');
+            addressesList.html('<option value="default">' + addressesListHint + '</option>');
             $.ajax({
                 type: "GET",
                 url: url,
@@ -115,17 +114,25 @@ define(['jquery'], function($) {
 
         // Populate Form
         var updateAddressForm = function (address) {
-            var selected_address = addressesList.children(":selected").val();
-            var addressFirst = $('.address-street-first').attr('data-form');
-            $('#' + addressFirst).val(addresses[selected_address].streetAddress1);
-            var addressSecond = $('.address-street-second').attr('data-form');
-            $('#' + addressSecond).val(addresses[selected_address].streetAddress2);
-            var addressThird = $('.address-street-third').attr('data-form');
-            $('#' + addressThird).val(addresses[selected_address].streetAddress3);
-            var addressTown = $('.address-town').attr('data-form');
-            $('#' + addressTown).val(addresses[selected_address].postTown);
-            var addressPostcode = $('.address-postcode').attr('data-form');
-            $('#' + addressPostcode).val(addresses[selected_address].postCode);
+            var selected_address = addressesList.children(":selected").val(),
+                addressFirst = $('.address-street-first').attr('data-form'),
+                addressSecond = $('.address-street-second').attr('data-form'),
+                addressThird = $('.address-street-third').attr('data-form'),
+                addressTown = $('.address-town').attr('data-form'),
+                addressPostcode = $('.address-postcode').attr('data-form');
+            if (selected_address == "default") {
+                $('#' + addressFirst).val("");
+                $('#' + addressSecond).val("");
+                $('#' + addressThird).val("");
+                $('#' + addressTown).val("");
+                $('#' + addressPostcode).val("");
+            } else {
+                $('#' + addressFirst).val(addresses[selected_address].streetAddress1);
+                $('#' + addressSecond).val(addresses[selected_address].streetAddress2);
+                $('#' + addressThird).val(addresses[selected_address].streetAddress3);
+                $('#' + addressTown).val(addresses[selected_address].postTown);
+                $('#' + addressPostcode).val(addresses[selected_address].postCode);
+            }
         };
 
         // Reset Form
