@@ -39,7 +39,7 @@ object AddressAndPostcodeViewModel {
     private def validAddressLines: Constraint[AddressLinesViewModel] = Constraint[AddressLinesViewModel](RequiredField) {
       case input: AddressLinesViewModel =>
         // Regex states string must contain at least one number or letter, can also include punctuation.
-        val addressLinesFormat = """^[a-zA-Z0-9][A-Za-z0-9\s\-\,\.\/\\]*$""".r
+        val addressLinesFormat = """^[a-zA-Z0-9][A-Za-z0-9\s\-\,\.\'\/\\]*$""".r
 
         // TODO FIX THIS CODE WHICH DOESN'T DO WHAT YOU MIGHT EXPECT
 
