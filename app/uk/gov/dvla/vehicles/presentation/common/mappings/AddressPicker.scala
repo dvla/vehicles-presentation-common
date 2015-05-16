@@ -15,6 +15,8 @@ object AddressPicker {
   final val PostTownId = "post-town"
   final val PostcodeId = "post-code"
   final val RememberId = "remember-details"
+  final val ShowSearchFields = "show-search-fields"
+  final val ShowAddressFields = "show-address-fields"
 
   def formatter() = new Formatter[Address] {
     override def bind(key: String, data: Map[String, String]): Either[Seq[FormError], Address] = {

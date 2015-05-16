@@ -13,13 +13,13 @@ import scala.collection.JavaConversions.asScalaBuffer
 
 class AddressPickerSpec extends UiSpec with TestHarness with AppendedClues {
   "Address picker widget" should {
-    "Show all the expected fields" in new WebBrowser(webDriver = WebDriverFactory.defaultBrowserPhantomJs) {
+    "Show all the expected fields" in new PhantomJsByDefault {
       go to AddressPickerPage
       page.title should equal(AddressPickerPage.title)
 
       val widget = AddressPickerPage.addressPickerDriver
-      widget.assertLookupInputVisible
-      widget.assertAddressInputsInvisible
+      widget.assertLookupInputVisible()
+      widget.assertAddressInputsInvisible()
 
       widget.postCodeSearch.value should equal("")
       widget.searchButton
@@ -34,47 +34,72 @@ class AddressPickerSpec extends UiSpec with TestHarness with AppendedClues {
     }
 
     "Lookup container is visible, Dropdown select is invisible and Manual address elements are invisible on load" in
-      new WebBrowser(webDriver = WebDriverFactory.defaultBrowserPhantomJs) {
+      new PhantomJsByDefault {
         go to AddressPickerPage
         page.title should equal(AddressPickerPage.title)
 
         val widget = AddressPickerPage.addressPickerDriver
-        widget.assertLookupInputVisible
-        widget.assertAddressInputsInvisible
-        widget.assertAddressListInvisible
+        widget.assertLookupInputVisible()
+        widget.assertAddressInputsInvisible()
+        widget.assertAddressListInvisible()
     }
 
-    "working manual address entry" in new WebBrowser(webDriver = WebDriverFactory.defaultBrowserPhantomJs) {
+    "working manual address entry" in new PhantomJsByDefault {
       go to AddressPickerPage
       page.title should equal(AddressPickerPage.title)
 
       val widget = AddressPickerPage.addressPickerDriver
-      widget.assertLookupInputVisible
+      widget.assertLookupInputVisible()
 
       click on widget.enterAddressManuallyLink
 
-      widget.assertLookupInputInvisible
-      widget.assertAddressListInvisible
-      widget.assertAddressInputsVisible
-      widget.assertServerErrorInvisible
-      widget.assertMissingPostcodeInvisible
+      widget.assertLookupInputInvisible()
+      widget.assertAddressListInvisible()
+      widget.assertAddressInputsVisible()
+      widget.assertServerErrorInvisible()
+      widget.assertMissingPostcodeInvisible()
     }
 
-    "Lookup an address with ajax call" in new WebBrowser(webDriver = WebDriverFactory.defaultBrowserPhantomJs) {
+    "Keep Lookup container and Dropdown select invisible on resubmit for manual lookup" in new PhantomJsByDefault {
       go to AddressPickerPage
       page.title should equal(AddressPickerPage.title)
 
       val widget = AddressPickerPage.addressPickerDriver
-      widget.assertLookupInputVisible
-      widget.assertAddressInputsInvisible
+      widget.assertLookupInputVisible()
+
+      click on widget.enterAddressManuallyLink
+
+      widget.addressLine2.value = "address 2"
+      widget.addressLine3.value = "address 3"
+
+      click on AddressPickerPage.submit
+
+      widget.assertAddressInputsVisible()
+      widget.assertLookupInputInvisible()
+//      widget.assertAddressListInvisible()
+      widget.assertServerErrorInvisible()
+      widget.assertMissingPostcodeInvisible()
+    }
+
+//    "Disable the submit until postcode is entered" in {
+//      fail()
+//    }
+
+    "Lookup an address with ajax call" in new PhantomJsByDefault {
+      go to AddressPickerPage
+      page.title should equal(AddressPickerPage.title)
+
+      val widget = AddressPickerPage.addressPickerDriver
+      widget.assertLookupInputVisible()
+      widget.assertAddressInputsInvisible()
 
       widget.search("ABCD")
 
-      widget.assertLookupInputVisible
-      widget.assertAddressListVisible
-      widget.assertAddressInputsInvisible
-      widget.assertServerErrorInvisible
-      widget.assertMissingPostcodeInvisible
+      widget.assertLookupInputVisible()
+      widget.assertAddressListVisible()
+      widget.assertAddressInputsInvisible()
+      widget.assertServerErrorInvisible()
+      widget.assertMissingPostcodeInvisible()
 
       println("OPTIONS:" + widget.addressSelect.getOptions.map(_.getAttribute("value")).mkString("\n"))
 
@@ -98,68 +123,82 @@ class AddressPickerSpec extends UiSpec with TestHarness with AppendedClues {
       widget.postcode.value should equal("")
 
       click on widget.changeMyDetailsLink
-      widget.assertLookupInputVisible
-      widget.assertAddressInputsInvisible
-      widget.assertAddressListInvisible
-      widget.assertServerErrorInvisible
-      widget.assertMissingPostcodeInvisible
+      widget.assertLookupInputVisible()
+      widget.assertAddressInputsInvisible()
+      widget.assertAddressListInvisible()
+      widget.assertServerErrorInvisible()
+      widget.assertMissingPostcodeInvisible()
     }
 
-    "show manual input only with javascript disabled" ignore new WebBrowser(webDriver = WebDriverFactory.defaultBrowserPhantomJsNoJs){
+    "show manual input only with javascript disabled" ignore new PhantomJsByDefault {
       go to AddressPickerPage
       page.title should equal(AddressPickerPage.title)
 
       val widget = AddressPickerPage.addressPickerDriver
 
-      widget.assertLookupInputVisible
-      widget.assertAddressInputsVisible
-      widget.assertServerErrorInvisible
-      widget.assertMissingPostcodeInvisible
+      widget.assertLookupInputVisible()
+      widget.assertAddressInputsVisible()
+      widget.assertServerErrorInvisible()
+      widget.assertMissingPostcodeInvisible()
     }
 
-    "show server error message" in new WebBrowser(webDriver = WebDriverFactory.defaultBrowserPhantomJsNoJs){
+    "show server error message" in new PhantomJsByDefault {
       go to AddressPickerPage
       page.title should equal(AddressPickerPage.title)
 
       val widget = AddressPickerPage.addressPickerDriver
-      widget.assertLookupInputVisible
+      widget.assertLookupInputVisible()
 
       widget.postCodeSearch.value = "123" // 123 is a special postcode that will make the server return 500
       click on widget.searchButton
-      widget.assertLookupInputVisible
-      widget.assertAddressInputsInvisible
-      widget.assertAddressListInvisible
-      widget.assertServerErrorVisible
-      widget.assertMissingPostcodeInvisible
+      widget.assertLookupInputVisible()
+      widget.assertAddressInputsInvisible()
+      widget.assertAddressListInvisible()
+      widget.assertServerErrorVisible()
+      widget.assertMissingPostcodeInvisible()
     }
 
-    "show server postcode not found message" in new WebBrowser(webDriver = WebDriverFactory.defaultBrowserPhantomJsNoJs){
+    "show server postcode not found message" in new PhantomJsByDefault {
       go to AddressPickerPage
       page.title should equal(AddressPickerPage.title)
 
       val widget = AddressPickerPage.addressPickerDriver
-      widget.assertLookupInputVisible
+      widget.assertLookupInputVisible()
 
       widget.postCodeSearch.value = "456" // 456 is a special postcode that will make the server return 500
       click on widget.searchButton
-      widget.assertLookupInputVisible
-      widget.assertAddressInputsInvisible
-      widget.assertAddressListInvisible
-      widget.assertServerErrorInvisible
-      widget.assertMissingPostcodeVisible
+      widget.assertLookupInputVisible()
+      widget.assertAddressInputsInvisible()
+      widget.assertAddressListInvisible()
+      widget.assertServerErrorInvisible()
+      widget.assertMissingPostcodeVisible()
     }
 
-    "validate required element" in new WebBrowser {
+    "validate required elements" in new PhantomJsByDefault {
       go to AddressPickerPage
       val widget = AddressPickerPage.addressPickerDriver
+      widget.assertLookupInputVisible()
+
+      widget.search("AA11AA")
+      widget.addressSelect.value = "1"
+      widget.addressLine1.value = ""
       widget.addressLine2.value = "address 2"
       widget.addressLine3.value = "address 3"
+      widget.assertLookupInputVisible()
+      widget.assertAddressListVisible()
+      widget.assertAddressInputsVisible()
+      widget.assertServerErrorInvisible()
+      widget.assertMissingPostcodeInvisible()
 
       click on AddressPickerPage.submit
       page.title should equal(AddressPickerPage.title)
       ErrorPanel.text should include(Messages("error.address.addressLine1"))
-      ErrorPanel.text should include(Messages("error.address.postTown"))
-      ErrorPanel.text should include(Messages("error.address.postCode"))
+
+      widget.assertLookupInputVisible()
+      widget.assertAddressListVisible()
+      widget.assertAddressInputsVisible()
+      widget.assertServerErrorInvisible()
+      widget.assertMissingPostcodeInvisible()
     }
 
     "preserve the submitted values" in new WebBrowser {

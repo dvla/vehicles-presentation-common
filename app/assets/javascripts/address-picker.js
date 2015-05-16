@@ -8,7 +8,10 @@ define(['jquery'], function($) {
             postCodeLookupContainer = $('.postcode-lookup-container'),
             addressToggle         = $('.address-manual-toggle'),
             addressManualInput    = $('.address-manual-inputs-wrapper'),
-            addressLookupStatus   = addressManualInput.attr('data-address-status'),
+            showAddressField      = $('.js-hidden-show-address-fields'),
+            showSearchField      = $('.js-hidden-show-search-fields'),
+            showAddress           = showAddressField.attr('value') === "true",
+            showSearch            = showSearchField.attr('value') != "false",
             addressFind           = $('#address-find'),
             // AJAX api URL
             urlApi                = "/address-lookup/postcode/",
@@ -24,8 +27,10 @@ define(['jquery'], function($) {
         // Initialization
         var initAddressLookup = function () {
             // if backend returns with an error, on document ready the form will be displayed
-            $('.no-js-hidden').show();
-            if (addressLookupStatus == '') {
+            if(showSearch) {
+                $('.no-js-hidden').show();
+            }
+            if (!showAddress) {
                 addressListWrapper.hide();
                 addressManualInput.hide();
             }
@@ -33,6 +38,8 @@ define(['jquery'], function($) {
 
         // Manual Input Mode
         var manualAddressMode = function () {
+            showSearchField.attr("value", "false");
+            showAddressField.attr("value", "true");
             hideAjaxErrors();
             $('.address-street-first').focus();
             addressToggle.hide();
@@ -150,6 +157,10 @@ define(['jquery'], function($) {
         $('.address-reset-form').on('click', function (e) {
             e.preventDefault();
             addressPostCodeLookup.val('').focus();
+            showSearchField.attr("value", "true");
+            showAddressField.attr("value", "false");
+            showSearch = true;
+            showAddress = false;
             initAddressLookup();
         });
 
@@ -182,6 +193,10 @@ define(['jquery'], function($) {
             var address = $(this).children(":selected").val();
             updateAddressForm(address);
             addressManualInput.show();
+            showSearchField.attr("value", "true");
+            showAddressField.attr("value", "true");
+            showSearch = true;
+            showAddress = true;
         });
 
         initAddressLookup();

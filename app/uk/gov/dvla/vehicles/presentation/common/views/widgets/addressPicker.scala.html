@@ -2,13 +2,18 @@
 
 @import _root_.views.html.helper.input
 @import uk.gov.dvla.vehicles.presentation.common
-@import common.mappings.AddressPicker.{AddressLine1Id, AddressLine2Id, AddressLine3Id, PostTownId, PostcodeId, RememberId}
+@import common.mappings.AddressPicker.{AddressLine1Id, AddressLine2Id, AddressLine3Id, PostTownId, PostcodeId, RememberId, ShowAddressFields, ShowSearchFields}
 @import common.views.html.widgets.base.valtechDeclareCheck
 
 @input(field) { (id, name, value, htmlArgs) =>
 <!-- Address Lookup Wrapper -->
 <div id="@id" class="address-lookup-wrapper">
-
+    @helper.input(field(ShowAddressFields)) { (id, name, value, args) =>
+    <input id="@id" type="hidden" name="@name" value="@value" class="js-hidden-show-address-fields"/>
+    }
+    @helper.input(field(ShowSearchFields)) { (id, name, value, args) =>
+    <input id="@id" type="hidden" name="@name" value="@value" class="js-hidden-show-search-fields"/>
+    }
     <!-- Lookup Input Wrapper - ONLY JS -->
     <div class="postcode-lookup-container form-item no-js-hidden">
         <div class="left-col">

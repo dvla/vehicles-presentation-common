@@ -21,7 +21,7 @@ class AddressPicker @Inject()(implicit clientSideSessionFactory: ClientSideSessi
 
   def submit = Action { implicit request =>
     form.bindFromRequest.fold(
-      invalidForm => BadRequest(views.html.addressView(invalidForm, "invalid")),
+      invalidForm => BadRequest(views.html.addressView(invalidForm)),
       validModel => {
         Ok(views.html.success(s"Success. A valid model has been submitted. $validModel")).withCookie(validModel)
       }
