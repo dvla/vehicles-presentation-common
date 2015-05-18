@@ -1,19 +1,33 @@
-@(field: play.api.data.Field, errorFlag: String = "")(implicit handler: helper.FieldConstructor, lang: Lang)
+@(field: play.api.data.Field)(implicit handler: helper.FieldConstructor, lang: Lang)
 
 @import _root_.views.html.helper.input
 @import uk.gov.dvla.vehicles.presentation.common
-@import common.mappings.AddressPicker.{AddressLine1Id, AddressLine2Id, AddressLine3Id, PostTownId, PostcodeId, RememberId, ShowAddressFields, ShowSearchFields}
+@import common.mappings.AddressPicker.AddressLine1Id
+@import common.mappings.AddressPicker.AddressLine2Id
+@import common.mappings.AddressPicker.AddressLine3Id
+@import common.mappings.AddressPicker.PostTownId
+@import common.mappings.AddressPicker.PostcodeId
+@import common.mappings.AddressPicker.RememberId
+@import common.mappings.AddressPicker.ShowSearchFields
+@import common.mappings.AddressPicker.ShowAddressSelect
+@import common.mappings.AddressPicker.ShowAddressFields
+
 @import common.views.html.widgets.base.valtechDeclareCheck
 
 @input(field) { (id, name, value, htmlArgs) =>
 <!-- Address Lookup Wrapper -->
 <div id="@id" class="address-lookup-wrapper">
-    @helper.input(field(ShowAddressFields)) { (id, name, value, args) =>
-    <input id="@id" type="hidden" name="@name" value="@value" class="js-hidden-show-address-fields"/>
-    }
     @helper.input(field(ShowSearchFields)) { (id, name, value, args) =>
     <input id="@id" type="hidden" name="@name" value="@value" class="js-hidden-show-search-fields"/>
     }
+    @helper.input(field(ShowAddressFields)) { (id, name, value, args) =>
+    <input id="@id" type="hidden" name="@name" value="@value" class="js-hidden-show-address-select"/>
+    }
+    @helper.input(field(ShowAddressSelect)) { (id, name, value, args) =>
+    <input id="@id" type="hidden" name="@name" value="@value" class="js-hidden-show-address-fields"/>
+    }
+
+
     <!-- Lookup Input Wrapper - ONLY JS -->
     <div class="postcode-lookup-container form-item no-js-hidden">
         <div class="left-col">
@@ -37,12 +51,13 @@
             </select>
         </div>
     </div>
+
     <!-- end of Lookup Input Wrapper-->
     <p class="ajax-error missing-postcode">@Messages("address.picker.common.postCodeNotFound")</p>
     <p class="ajax-error server-message">@Messages("address.picker.common.serverError")<span></span></p>
 
     <!-- Address Form Wrapper -  JS ON/OFF -->
-    <div class="address-manual-inputs-wrapper"  data-address-status="@errorFlag">
+    <div class="address-manual-inputs-wrapper">
 
         <!-- Street Inputs -->
         @helper.input(field(AddressLine1Id)) { (id, name, value, args) =>

@@ -81,9 +81,9 @@ class AddressPickerSpec extends UiSpec with TestHarness with AppendedClues {
       widget.assertMissingPostcodeInvisible()
     }
 
-//    "Disable the submit until postcode is entered" in {
-//      fail()
-//    }
+    "Validate the address code only if missing " in {
+      fail()
+    }
 
     "Lookup an address with ajax call" in new PhantomJsByDefault {
       go to AddressPickerPage

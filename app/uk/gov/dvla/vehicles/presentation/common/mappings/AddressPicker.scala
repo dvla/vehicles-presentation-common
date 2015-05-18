@@ -16,6 +16,7 @@ object AddressPicker {
   final val PostcodeId = "post-code"
   final val RememberId = "remember-details"
   final val ShowSearchFields = "show-search-fields"
+  final val ShowAddressSelect = "show-address-select"
   final val ShowAddressFields = "show-address-fields"
 
   def formatter() = new Formatter[Address] {

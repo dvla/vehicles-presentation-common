@@ -8,10 +8,12 @@ define(['jquery'], function($) {
             postCodeLookupContainer = $('.postcode-lookup-container'),
             addressToggle         = $('.address-manual-toggle'),
             addressManualInput    = $('.address-manual-inputs-wrapper'),
+            showSearchField       = $('.js-hidden-show-search-fields'),
+            showAddressSelect     = $('.js-hidden-show-address-select'),
             showAddressField      = $('.js-hidden-show-address-fields'),
-            showSearchField      = $('.js-hidden-show-search-fields'),
-            showAddress           = showAddressField.attr('value') === "true",
             showSearch            = showSearchField.attr('value') != "false",
+            showSelect            = showAddressSelect.attr('value') === "true",
+            showAddress           = showAddressField.attr('value') === "true",
             addressFind           = $('#address-find'),
             // AJAX api URL
             urlApi                = "/address-lookup/postcode/",
@@ -24,33 +26,63 @@ define(['jquery'], function($) {
             postCodeError         = $('.missing-postcode'),
             serverMessage         = $('.server-message');
 
+        var showPostCodeLookupContainer = function(show) {
+            if (show) {
+                showSearchField.attr("value", "true");
+                postCodeLookupContainer.show();
+            } else {
+                showSearchField.attr("value", "false");
+                postCodeLookupContainer.hide();
+            }
+            showSearch = show;
+        }
+
+        var showAddressListWrapper = function(show) {
+            if (show) {
+                showAddressSelect.attr("value", "true");
+                addressListWrapper.show();
+            } else {
+                showAddressSelect.attr("value", "false");
+                addressListWrapper.hide();
+            }
+            showSelect = show;
+        }
+
+        var showAddressManualInput = function(show) {
+            if (show) {
+                showAddressField.attr("value", "true");
+                addressManualInput.show();
+            } else {
+                showAddressField.attr("value", "false");
+                addressManualInput.hide();
+            }
+            showAddress = show;
+        }
+
         // Initialization
         var initAddressLookup = function () {
             // if backend returns with an error, on document ready the form will be displayed
+            showPostCodeLookupContainer(showSearch);
+            showAddressListWrapper(showSelect);
+            showAddressManualInput(showAddress);
             if(showSearch) {
                 $('.no-js-hidden').show();
-            }
-            if (!showAddress) {
-                addressListWrapper.hide();
-                addressManualInput.hide();
             }
         };
 
         // Manual Input Mode
         var manualAddressMode = function () {
-            showSearchField.attr("value", "false");
-            showAddressField.attr("value", "true");
             hideAjaxErrors();
             $('.address-street-first').focus();
             addressToggle.hide();
-            addressManualInput.show();
-            addressListWrapper.hide();
-            postCodeLookupContainer.hide();
+            showPostCodeLookupContainer(false);
+            showAddressListWrapper(false);
+            showAddressManualInput(true);
         };
 
         // Populate Addresses List
         var showAddresses = function () {
-            addressListWrapper.show();
+            showAddressListWrapper(true);
         };
 
         // Hides AJAX errors
@@ -64,8 +96,8 @@ define(['jquery'], function($) {
             hideAjaxErrors();
             addressFind.prop("disabled", false);
             addressesList.attr('data-ajax', false);
-            addressListWrapper.hide();
-            addressManualInput.hide();
+            showAddressListWrapper(false);
+            showAddressManualInput(false);
             serverMessage.show();
             $('.server-message span').html(' ' + data.responseText);
         };
@@ -75,8 +107,8 @@ define(['jquery'], function($) {
             hideAjaxErrors();
             addressFind.prop("disabled", false);
             postCodeError.show();
-            addressListWrapper.hide();
-            addressManualInput.hide();
+            showAddressListWrapper(false);
+            showAddressManualInput(false);
         };
 
         // AJAX postcode success
@@ -157,10 +189,9 @@ define(['jquery'], function($) {
         $('.address-reset-form').on('click', function (e) {
             e.preventDefault();
             addressPostCodeLookup.val('').focus();
-            showSearchField.attr("value", "true");
-            showAddressField.attr("value", "false");
-            showSearch = true;
-            showAddress = false;
+            showPostCodeLookupContainer(true);
+            showAddressListWrapper(false);
+            showAddressManualInput(false);
             initAddressLookup();
         });
 
@@ -192,11 +223,8 @@ define(['jquery'], function($) {
         addressesList.on('change', function () {
             var address = $(this).children(":selected").val();
             updateAddressForm(address);
+            showAddressManualInput(true);
             addressManualInput.show();
-            showSearchField.attr("value", "true");
-            showAddressField.attr("value", "true");
-            showSearch = true;
-            showAddress = true;
         });
 
         initAddressLookup();
