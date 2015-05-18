@@ -5,10 +5,12 @@ import play.api.data.Form
 import play.api.mvc.{Action, Controller}
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClientSideSessionFactory
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicits.RichForm
+import uk.gov.dvla.vehicles.presentation.common.webserviceclients.addresslookup.AddressLookupService
 import uk.gov.dvla.vehicles.presentation.common.{views, models}
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicits.RichResult
 
-class AddressPicker @Inject()(implicit clientSideSessionFactory: ClientSideSessionFactory) extends Controller {
+class AddressPicker @Inject()(implicit clientSideSessionFactory: ClientSideSessionFactory,
+                              addressLookup: AddressLookupService) extends Controller {
   private[controllers] val form = Form(models.AddressPickerModel.Form.Mapping)
 
   def present = Action { implicit request =>

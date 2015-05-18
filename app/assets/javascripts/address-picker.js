@@ -4,7 +4,7 @@ define(['jquery'], function($) {
         // Quick Access Variables Declaration
         var addresses = [],
             // Address inputs
-            addressPostCodeLookup = $('#address-postcode-lookup'),
+            addressPostCodeLookup = $('.js-address-postcode-lookup'),
             postCodeLookupContainer = $('.postcode-lookup-container'),
             addressToggle         = $('.address-manual-toggle'),
             addressManualInput    = $('.address-manual-inputs-wrapper'),
@@ -19,7 +19,7 @@ define(['jquery'], function($) {
             urlApi                = "/address-lookup/postcode/",
             // Addresses list
             addressListWrapper    = $('.address-list-wrapper'),
-            addressesList         = $("#address-list"),
+            addressesList         = $(".js-address-list"),
             addressesListHint     = addressesList.attr("data-select-hint"),
 
             // Errors

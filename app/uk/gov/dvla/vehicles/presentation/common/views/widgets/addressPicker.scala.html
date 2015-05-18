@@ -1,7 +1,10 @@
 @(field: play.api.data.Field)(implicit handler: helper.FieldConstructor, lang: Lang)
 
 @import _root_.views.html.helper.input
+@import _root_.views.html.helper.select
 @import uk.gov.dvla.vehicles.presentation.common
+@import common.mappings.AddressPicker.SearchByPostcodeField
+@import common.mappings.AddressPicker.AddressListSelect
 @import common.mappings.AddressPicker.AddressLine1Id
 @import common.mappings.AddressPicker.AddressLine2Id
 @import common.mappings.AddressPicker.AddressLine3Id
@@ -20,35 +23,40 @@
     @helper.input(field(ShowSearchFields)) { (id, name, value, args) =>
     <input id="@id" type="hidden" name="@name" value="@value" class="js-hidden-show-search-fields"/>
     }
-    @helper.input(field(ShowAddressFields)) { (id, name, value, args) =>
-    <input id="@id" type="hidden" name="@name" value="@value" class="js-hidden-show-address-select"/>
-    }
     @helper.input(field(ShowAddressSelect)) { (id, name, value, args) =>
+    <input id="@id" type="hidden" name="@name" value="false" class="js-hidden-show-address-select"/>
+    }
+    @helper.input(field(ShowAddressFields)) { (id, name, value, args) =>
     <input id="@id" type="hidden" name="@name" value="@value" class="js-hidden-show-address-fields"/>
     }
 
 
     <!-- Lookup Input Wrapper - ONLY JS -->
+    @helper.input(field(SearchByPostcodeField)) { (id, name, value, args) =>
     <div class="postcode-lookup-container form-item no-js-hidden">
         <div class="left-col">
             <label class="no-js-hidden" for="address-postcode-lookup">@Messages("address.picker.common.postcode")</label>
         </div>
         <div class="right-col">
-            <input class="no-js-hidden" id="address-postcode-lookup" name="address-postcode-lookup" placeholder="@Messages("address.picker.common.postcode")" value="" maxlength="58" autocomplete="off" type="text" aria-required="true">
+            <input class="no-js-hidden js-address-postcode-lookup" id="@id" name="@name" placeholder="@Messages("address.picker.common.postcode")" value="@value" maxlength="58" autocomplete="off" type="text" aria-required="true">
             <div class="address-find-wrapper">
                 <button id="address-find" type="button" name="action" class="button button-secondary no-js-hidden">@Messages("address.picker.common.findAddress")</button>
                 <span class="address-manual-toggle no-js-hidden">@Messages("address.picker.common.manualAddress")</span>
             </div>
         </div>
     </div>
+    }
     <!-- end of Lookup Input Wrapper -->
 
     <!-- Lookup Input Wrapper - ONLY JS -->
     <div class="address-list-wrapper">
         <div class="form-item no-js-hidden">
             <label for="address-list">@Messages("address.picker.common.pickAddress")</label>
-            <select id="address-list" name="address-list" type="text" aria-required="true" data-select-hint="@Messages("address.picker.common.pleaseSelect")">
-            </select>
+            @select(field(AddressListSelect), Nil,
+              'class -> "js-address-list",
+              Symbol("aria-required") -> "true",
+              Symbol("data-select-hint") -> Messages("address.picker.common.pleaseSelect").toString
+            )
         </div>
     </div>
 
@@ -70,7 +78,7 @@
                 <input id="@id" name="@name" value="@value" class="address-street-first" data-form="@id" placeholder="@Messages("address.picker.common.streetNameNumber")"  maxlength="58" autocomplete="off" type="text" aria-required="true">
 
                 @helper.input(field(AddressLine2Id)) { (id, name, value, args) =>
-                <input id="@id" name="@name" class="address-street-second" data-form="@id"  value="@value" maxlength="58" autocomplete="off" type="text" aria-required="fals">
+                <input id="@id" name="@name" class="address-street-second" data-form="@id"  value="@value" maxlength="58" autocomplete="off" type="text" aria-required="false">
                 }
                 @helper.input(field(AddressLine3Id)) { (id, name, value, args) =>
                 <input id="@id" name="@name"  class="address-street-third" data-form="@id" value="@value" maxlength="58" autocomplete="off" type="text" aria-required="false">

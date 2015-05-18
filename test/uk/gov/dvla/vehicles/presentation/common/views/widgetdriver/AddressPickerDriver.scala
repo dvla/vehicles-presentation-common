@@ -13,7 +13,7 @@ class AddressPickerDriver(id: String)  extends WebBrowserDSL {
   private implicit val timeout = 3
 
   def postCodeSearch(implicit driver: WebDriver): TextField =
-    textField(id("address-postcode-lookup"))(driver.findElement(By.id(id)))
+    textField(cssSelector(".js-address-postcode-lookup"))(driver.findElement(By.id(id)))
 
   def searchButton(implicit driver: WebDriver): Element =
     find(id("address-find"))(driver.findElement(By.id(id)))
@@ -26,7 +26,7 @@ class AddressPickerDriver(id: String)  extends WebBrowserDSL {
   def search(postcode: String)(implicit driver: WebDriver): Unit = {
     postCodeSearch.value = postcode
     click on searchButton
-    Thread.sleep(1000)
+//    Thread.sleep(1000)
     Wait.until(selectPopulated)
   }
 
@@ -36,7 +36,7 @@ class AddressPickerDriver(id: String)  extends WebBrowserDSL {
   }
 
   def addressSelect(implicit driver: WebDriver): SingleSel =
-    singleSel(id("address-list"))(driver.findElement(By.id(id)))
+    singleSel(cssSelector(".js-address-list"))(driver.findElement(By.id(id)))
 
   def selectAddress(value: String)(implicit driver: WebDriver): Unit = {
     addressSelect.value = value
@@ -114,8 +114,8 @@ class AddressPickerDriver(id: String)  extends WebBrowserDSL {
   private def selectPopulated: ExpectedCondition[Boolean] = {
     new ExpectedCondition[Boolean]() {
       override def apply(driver: WebDriver): Boolean = {
-        println("data-ajax:" + driver.findElement(By.id("address-list")).getAttribute("data-ajax"))
-        try driver.findElement(By.id("address-list")).getAttribute("data-ajax") == "true"
+        println("data-ajax:" + driver.findElement(By.cssSelector(".js-address-list")).getAttribute("data-ajax"))
+        try driver.findElement(By.cssSelector(".js-address-list")).getAttribute("data-ajax") == "true"
         catch {
           case e: Throwable =>
             println(e)

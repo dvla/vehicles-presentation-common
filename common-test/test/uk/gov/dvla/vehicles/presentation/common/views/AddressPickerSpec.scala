@@ -6,7 +6,7 @@ import play.api.libs.json.Json
 import uk.gov.dvla.vehicles.presentation.common.composition.TestHarness
 import uk.gov.dvla.vehicles.presentation.common.helpers.UiSpec
 import uk.gov.dvla.vehicles.presentation.common.helpers.webbrowser.WebDriverFactory
-import uk.gov.dvla.vehicles.presentation.common.model.Address
+import uk.gov.dvla.vehicles.presentation.common.model.{SearchFields, Address}
 import uk.gov.dvla.vehicles.presentation.common.models.AddressPickerModel
 import uk.gov.dvla.vehicles.presentation.common.pages.{OptionTogglePage, ErrorPanel, AddressPickerPage}
 import scala.collection.JavaConversions.asScalaBuffer
@@ -76,13 +76,23 @@ class AddressPickerSpec extends UiSpec with TestHarness with AppendedClues {
 
       widget.assertAddressInputsVisible()
       widget.assertLookupInputInvisible()
-//      widget.assertAddressListInvisible()
+      widget.assertAddressListInvisible()
       widget.assertServerErrorInvisible()
       widget.assertMissingPostcodeInvisible()
     }
 
-    "Validate the address code only if missing " in {
-      fail()
+    "Validate the address code only if missing " in new PhantomJsByDefault {
+      go to AddressPickerPage
+      page.title should equal(AddressPickerPage.title)
+
+      val widget = AddressPickerPage.addressPickerDriver
+      widget.assertLookupInputVisible()
+      widget.postCodeSearch.value = "AAAAAAA"
+      click on AddressPickerPage.submit
+      val errors = ErrorPanel.text.lines.filter(_ != "Please check the form").toSeq
+      errors should have size(1)
+      errors.head should include(Messages("address-picker-1.address-postcode-lookup"))
+
     }
 
     "Lookup an address with ajax call" in new PhantomJsByDefault {
@@ -195,15 +205,18 @@ class AddressPickerSpec extends UiSpec with TestHarness with AppendedClues {
       ErrorPanel.text should include(Messages("error.address.addressLine1"))
 
       widget.assertLookupInputVisible()
-      widget.assertAddressListVisible()
+      widget.assertAddressListInvisible()
       widget.assertAddressInputsVisible()
       widget.assertServerErrorInvisible()
       widget.assertMissingPostcodeInvisible()
     }
 
-    "preserve the submitted values" in new WebBrowser {
+    "preserve the submitted values" in new PhantomJsByDefault {
       go to AddressPickerPage
       val widget = AddressPickerPage.addressPickerDriver
+      widget.assertLookupInputVisible()
+      widget.search("AA11AA")
+      widget.addressSelect.value = "1"
       widget.addressLine1.value = "address 1"
       widget.addressLine2.value = "address 2"
       widget.addressLine3.value = "address 3"
@@ -220,17 +233,20 @@ class AddressPickerSpec extends UiSpec with TestHarness with AppendedClues {
       widget.postcode.value should equal("")
     }
 
-    "submit when required are present" in new WebBrowser {
+    "submit when required are present" in new PhantomJsByDefault {
       val model = Address(
+        SearchFields(true, true, true, Some("AA11AA"), Some("1"), false),
         "address line 1",
         Some("address line 2"),
         Some("address line 3"),
         "Post town",
-        "N19 3NN",
-        remember = true
+        "N19 3NN"
       )
       go to AddressPickerPage
       val widget = AddressPickerPage.addressPickerDriver
+      widget.assertLookupInputVisible()
+      widget.search("AA11AA")
+      widget.addressSelect.value = "1"
       widget.addressLine1.value = model.streetAddress1
       widget.addressLine2.value = model.streetAddress2.get
       widget.addressLine3.value = model.streetAddress3.get
