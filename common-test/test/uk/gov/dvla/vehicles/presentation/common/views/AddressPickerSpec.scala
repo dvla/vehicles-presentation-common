@@ -6,9 +6,9 @@ import play.api.libs.json.Json
 import uk.gov.dvla.vehicles.presentation.common.composition.TestHarness
 import uk.gov.dvla.vehicles.presentation.common.helpers.UiSpec
 import uk.gov.dvla.vehicles.presentation.common.helpers.webbrowser.WebDriverFactory
-import uk.gov.dvla.vehicles.presentation.common.model.{SearchFields, Address}
+import uk.gov.dvla.vehicles.presentation.common.model.Address
 import uk.gov.dvla.vehicles.presentation.common.models.AddressPickerModel
-import uk.gov.dvla.vehicles.presentation.common.pages.{OptionTogglePage, ErrorPanel, AddressPickerPage}
+import uk.gov.dvla.vehicles.presentation.common.pages.{ErrorPanel, AddressPickerPage}
 import scala.collection.JavaConversions.asScalaBuffer
 
 class AddressPickerSpec extends UiSpec with TestHarness with AppendedClues {
@@ -235,12 +235,12 @@ class AddressPickerSpec extends UiSpec with TestHarness with AppendedClues {
 
     "submit when required are present" in new PhantomJsByDefault {
       val model = Address(
-        SearchFields(true, true, true, Some("AA11AA"), Some("1"), false),
         "address line 1",
         Some("address line 2"),
         Some("address line 3"),
         "Post town",
-        "N19 3NN"
+        "N19 3NN",
+        remember = false
       )
       go to AddressPickerPage
       val widget = AddressPickerPage.addressPickerDriver
