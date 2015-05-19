@@ -6,7 +6,7 @@ import play.api.libs.json.Json
 import uk.gov.dvla.vehicles.presentation.common.composition.TestHarness
 import uk.gov.dvla.vehicles.presentation.common.helpers.UiSpec
 import uk.gov.dvla.vehicles.presentation.common.helpers.webbrowser.WebDriverFactory
-import uk.gov.dvla.vehicles.presentation.common.model.Address
+import uk.gov.dvla.vehicles.presentation.common.model.{SearchFields, Address}
 import uk.gov.dvla.vehicles.presentation.common.models.AddressPickerModel
 import uk.gov.dvla.vehicles.presentation.common.pages.{ErrorPanel, AddressPickerPage}
 import scala.collection.JavaConversions.asScalaBuffer
@@ -235,12 +235,12 @@ class AddressPickerSpec extends UiSpec with TestHarness with AppendedClues {
 
     "submit when required are present" in new PhantomJsByDefault {
       val model = Address(
+        SearchFields(true, true, true, Some("AA11AA"), Some("1"), true),
         "address line 1",
         Some("address line 2"),
         Some("address line 3"),
         "Post town",
-        "N19 3NN",
-        remember = false
+        "N19 3NN"
       )
       go to AddressPickerPage
       val widget = AddressPickerPage.addressPickerDriver
@@ -262,11 +262,66 @@ class AddressPickerSpec extends UiSpec with TestHarness with AppendedClues {
         .map(a => a.address1 should equal(model)) orElse(fail("Did not have a AddressPickerModel in the response"))
     }
 
+//    "load model from the cookies and preserve show the view as it was" in new PhantomJsByDefault {
+//
+//      val model = Address(
+//        SearchFields(true, false, true, Some("AA11AA"), Some("1"), true),
+//        "address line 1",
+//        Some("address line 2"),
+//        Some("address line 3"),
+//        "Post town",
+//        "N19 3NN"
+//      )
+//
+//      withCookie(model)
+//      go to AddressPickerPage
+//      val widget = AddressPickerPage.addressPickerDriver
+//      widget.assertLookupInputVisible()
+//      widget.assertAddressListInvisible()
+//      widget.assertAddressInputsVisible()
+//      widget.postCodeSearch should equal(model.searchFields.postCode)
+//      widget.addressLine1.value should equal(model.streetAddress1)
+//      widget.addressLine2.value should equal(model.streetAddress2)
+//      widget.addressLine3.value should equal(model.streetAddress3)
+//      widget.town.value should equal(model.postTown)
+//      widget.postcode.value should equal(model.postCode)
+//    }
+//
+//    "should hide the search inputs if cookie specifies so" in new PhantomJsByDefault {
+//      val model = Address(
+//        SearchFields(false, false, true, Some("AA11AA"), Some("1"), true),
+//        "address line 1",
+//        Some("address line 2"),
+//        Some("address line 3"),
+//        "Post town",
+//        "N19 3NN"
+//      )
+//
+//      withCookie(model)
+//      go to AddressPickerPage
+//      val widget = AddressPickerPage.addressPickerDriver
+//      widget.assertLookupInputInvisible()
+//      widget.assertAddressListInvisible()
+//      widget.assertAddressInputsVisible()
+//      widget.addressLine1.value should equal(model.streetAddress1)
+//      widget.addressLine2.value should equal(model.streetAddress2)
+//      widget.addressLine3.value should equal(model.streetAddress3)
+//      widget.town.value should equal(model.postTown)
+//      widget.postcode.value should equal(model.postCode)
+//    }
+
     "run qunit tests" ignore {
       "qunit tests should pass" in new WebBrowser(webDriver = WebDriverFactory.defaultBrowserPhantomJs) {
         go to AddressPickerPage.jsTestUrl
         assertJsTestPass
       }
     }
+
+//    def withCookie[A](model: A)(implicit webDriver: WebDriver): Unit = {
+//      import AddressPickerModel.{Key, SearchFieldsJsonFormat, AddressJsonFormat, JsonFormat}
+//      val json = Json.toJson(model).toString()
+//      webDriver.manage().addCookie(new Cookie(Key.value, json))
+//    }
+
   }
 }
