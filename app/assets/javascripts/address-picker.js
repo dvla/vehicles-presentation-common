@@ -173,7 +173,7 @@ define(['jquery'], function($) {
         // Reset Form
         var clearAddressForm = function () {
             hideAjaxErrors();
-            $('.address-manual-inputs-wrapper input').each(function () {
+            $('.address-manual-inputs-wrapper input[type!="checkbox"]').each(function () {
                 $(this).val('');
             });
         };

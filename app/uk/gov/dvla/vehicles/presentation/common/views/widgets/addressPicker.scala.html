@@ -122,9 +122,11 @@
             <div class="right-col">
                 @valtechDeclareCheck(
                     field(RememberId),
-                    args =  Map('_label -> Messages("address.picker.common.rememberDetails"),
+                    args =  Map(
+                        '_label -> Messages("address.picker.common.rememberDetails"),
                         '_showConstraints -> false,
-                        'NO_OPTIONAL_LABEL -> true
+                        'NO_OPTIONAL_LABEL -> true,
+                        'value -> field(RememberId).value.getOrElse(true)
                     )
                 )
                 <!-- Clear Form Call To Action - ONLY JS -->
