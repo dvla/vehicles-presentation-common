@@ -1,5 +1,6 @@
 package uk.gov.dvla.vehicles.presentation.common.controllers
 
+import org.joda.time.DateTime
 import play.api.libs.json.Writes
 import play.api.Logger
 import play.api.mvc.{Action, Controller, Result, Request}
@@ -12,7 +13,7 @@ import uk.gov.dvla.vehicles.presentation.common
 import common.clientsidesession.{CacheKey, ClientSideSessionFactory}
 import common.clientsidesession.CookieImplicits.{RichCookies, RichResult}
 import common.controllers.VehicleLookupBase.{LookupResult, VehicleFound, VehicleNotFound}
-import common.LogFormats
+import uk.gov.dvla.vehicles.presentation.common.LogFormats.{anonymize, logMessage, optionNone}
 import common.model.{CacheKeyPrefix, BruteForcePreventionModel}
 import common.services.DateService
 import common.webserviceclients.common.DmsWebHeaderDto
@@ -72,7 +73,7 @@ abstract class VehicleLookupBase[FormModel <: VehicleLookupFormModelBase]
       val resultFuture = if (bruteForcePreventionModel.permitted)
         lookupVehicle(formModel.registrationNumber, formModel.referenceNumber, bruteForcePreventionModel, formModel)
       else Future.successful {
-        val anonRegistrationNumber = LogFormats.anonymize(formModel.registrationNumber)
+        val anonRegistrationNumber = anonymize(formModel.registrationNumber)
         Logger.warn(s"BruteForceService locked out vrm: $anonRegistrationNumber - trackingId: ${request.cookies.trackingId()}")
         vrmLocked(bruteForcePreventionModel, formModel)
       }
@@ -97,8 +98,8 @@ abstract class VehicleLookupBase[FormModel <: VehicleLookupFormModelBase]
                            (implicit request: Request[_]): Future[Result] = {
     def notFound(responseCode: VehicleAndKeeperLookupErrorMessage): Result = {
       Logger.debug(s"VehicleAndKeeperLookup encountered a problem with request" +
-        s" ${LogFormats.anonymize(referenceNumber)}" +
-        s" ${LogFormats.anonymize(registrationNumber)}," +
+        s" ${anonymize(referenceNumber)}" +
+        s" ${anonymize(registrationNumber)}," +
         s" redirect to VehicleAndKeeperLookupFailure - trackingId: ${request.cookies.trackingId()}")
       vehicleLookupFailure(responseCode, formModel).withCookie(responseCodeCacheKey, responseCode.message)
     }
@@ -114,7 +115,7 @@ abstract class VehicleLookupBase[FormModel <: VehicleLookupFormModelBase]
         }
         result
     } recover {
-      case NonFatal(e) => microServiceErrorResult("Lookup web service call failed.", e, formModel)
+      case NonFatal(e) => microServiceErrorResult("Lookup web service call failed.", e, formModel.)
     }
   }
 
@@ -124,8 +125,21 @@ abstract class VehicleLookupBase[FormModel <: VehicleLookupFormModelBase]
       dmsHeader = buildHeader(trackingId),
       referenceNumber = formModel.referenceNumber,
       registrationNumber = formModel.registrationNumber,
-      transactionTimestamp =dateService.now.toDateTime
+      transactionTimestamp = dateService.now.toDateTime
     )
+
+    Logger.debug(logMessage("Vehicle lookup web service request", request.cookies.trackingId(),
+    Seq(vehicleAndKeeperDetailsRequest.dmsHeader.applicationCode,
+    vehicleAndKeeperDetailsRequest.dmsHeader.channelCode,
+    vehicleAndKeeperDetailsRequest.dmsHeader.contactId.toString,
+    vehicleAndKeeperDetailsRequest.dmsHeader.conversationId,
+    vehicleAndKeeperDetailsRequest.dmsHeader.eventFlag.toString,
+    vehicleAndKeeperDetailsRequest.dmsHeader.languageCode,
+    vehicleAndKeeperDetailsRequest.dmsHeader.originDateTime.toString(),
+    vehicleAndKeeperDetailsRequest.dmsHeader.serviceTypeCode,
+    anonymize(vehicleAndKeeperDetailsRequest.referenceNumber),
+    anonymize(vehicleAndKeeperDetailsRequest.registrationNumber),
+    vehicleAndKeeperDetailsRequest.transactionTimestamp.toString())))
 
     vehicleLookupService.invoke(vehicleAndKeeperDetailsRequest, trackingId) map { response =>
       response.responseCode match {
@@ -133,7 +147,26 @@ abstract class VehicleLookupBase[FormModel <: VehicleLookupFormModelBase]
           VehicleNotFound(error)
         case None =>
           response.vehicleAndKeeperDetailsDto match {
-            case Some(dto) => VehicleFound(vehicleFoundResult(dto, formModel))
+            case Some(dto) => {
+              Logger.debug(logMessage("Vehicle lookup web service response", request.cookies.trackingId(),
+                Seq(anonymize(dto.registrationNumber),
+                  dto.vehicleMake.getOrElse(optionNone),
+                  dto.vehicleModel.getOrElse(optionNone),
+                  dto.keeperTitle.getOrElse(optionNone),
+                  anonymize(dto.keeperFirstName),
+                  anonymize(dto.keeperLastName),
+                  anonymize(dto.keeperAddressLine1),
+                  anonymize(dto.keeperAddressLine2),
+                  anonymize(dto.keeperAddressLine3),
+                  anonymize(dto.keeperAddressLine4),
+                  anonymize(dto.keeperPostTown),
+                  anonymize(dto.keeperPostcode),
+                  dto.disposeFlag.getOrElse(optionNone).toString,
+                  dto.keeperEndDate.getOrElse(optionNone).toString,
+                  dto.keeperChangeDate.getOrElse(optionNone).toString,
+                  dto.suppressedV5Flag.getOrElse(optionNone).toString)))
+              VehicleFound(vehicleFoundResult(dto, formModel))
+            }
             case None => throw new RuntimeException("No vehicleDetailsDto found")
           }
       }

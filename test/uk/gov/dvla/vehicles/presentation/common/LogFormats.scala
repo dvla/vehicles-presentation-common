@@ -3,9 +3,9 @@ package uk.gov.dvla.vehicles.presentation.common
 class LogFormatsUnitSpec extends UnitSpec {
 
   "Anonymize" should {
-    "empty string should return nothing" in {
-      val inputString = ""
-      LogFormats.anonymize(inputString) should equal("")
+    "empty string should return null" in {
+      val inputString: String = null
+      LogFormats.anonymize(inputString) should equal("null")
     }
 
     "string of greater than 8 characters should return 4 characters and the rest stars" in {
