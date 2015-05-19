@@ -112,36 +112,27 @@ define(function(require) {
     };
 
     var autoTabForInputs = function() {
-        // Auto-tab for date format forms and document ref number input
 
-        var hasFocus = $('.form-date input, #documentReferenceNumber').prop("autofocus");
+        // Auto-tab for date format forms and document ref number input
+        var autoTabsInputs = $('.form-date input, #documentReferenceNumber');
+        // Initialise all inputs
+        var hasFocus = autoTabsInputs.prop("autofocus");
         if (hasFocus) {
-            $('.form-date input, #documentReferenceNumber').focus();
+            autoTabsInputs.focus();
         }
-        $('.form-date input, #documentReferenceNumber').one('focus', function() {
+        // Focus event
+        autoTabsInputs.on('focus', function() {
             var nextInput, focusMaxLength, currentLength;
-            // Getting next field
             nextInput = $(':input:eq(' + ($(':input').index(this) + 1) + ')');
-            // Getting focus max length
             focusMaxLength = $(this).attr('maxlength');
-            // On keyup function
-            $(this).on('keyup', function(e) {
-                // Getting keycode from event
-                keyCode = e.keyCode || e.which;
-                // If back-tab (shift+tab)
-                if ((keyCode == 9) && (e.shiftKey)){
-                    // browse backwards through the form and empty input content
-                    $(':input:eq(' + ($(':input').index(this)) + ')').focus().val('');
+            // Check length & flag for already filled input
+            $(this).on('keyup', function() {
+                var currentFilledAttribute = $(this).attr('data-filled');
+                currentLength = $(this).val().length;
+                if ((focusMaxLength == currentLength) && (currentFilledAttribute !== "true")) {
+                    $(this).attr('data-filled', true);
+                    nextInput.focus();
                     return false;
-                }
-                // check if limit has been reached and move to next input
-                else
-                {
-                    currentLength = $(this).val().length;
-                    if (focusMaxLength == currentLength){
-                        nextInput.focus();
-                        return false;
-                    }
                 }
             });
         });
