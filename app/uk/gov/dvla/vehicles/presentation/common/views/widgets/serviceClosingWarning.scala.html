@@ -19,11 +19,13 @@ the service is closed, it will change the message to global.serviceClosed.
             openingHour,
             closingHour
         )
-            <span class="js-minutes-left">@{
-                timeRemaining.dropWhile(_ != ':').drop(1).takeWhile(_ != '.')
-            }</span>:<span class="js-seconds-left">@{
-                timeRemaining.dropWhile(_ != '.').drop(1)
-            }</span>
+            <span class="count-down-wrapper">
+                <span class="js-minutes-left">@{
+                    timeRemaining.dropWhile(_ != ':').drop(1).takeWhile(_ != '.')
+                }</span>:<span class="js-seconds-left">@{
+                    timeRemaining.dropWhile(_ != '.').drop(1)
+                }</span>
+            </span>
             @Messages("global.serviceCloseWarning.p2")
         </p>
         <p class="serviceClosed"> @Messages("global.serviceClosed", openingHour, closingHour)</p>

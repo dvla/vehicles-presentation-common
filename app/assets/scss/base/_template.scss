@@ -138,10 +138,10 @@ img {
     max-width: 980px;
     padding: 8px 15px;
     box-sizing: border-box;
-      span {
-          width: 30px;
-          display: inline-block;
-      }
+    .count-down-wrapper {
+        width: 70px;
+        display: inline-block;
+    }
     &.serviceClosed {
         display: none;
     }
