@@ -64,7 +64,7 @@ object WebDriverFactory {
 
   def testUrl: String = TestConfiguration.testUrl
 
-  val defaultBrowserPhantomJs: WebDriver = new WebDriverProxy(webDriver(browserTypeDefault("phantomjs"), true))
+  lazy val defaultBrowserPhantomJs: WebDriver = new WebDriverProxy(webDriver(browserTypeDefault("phantomjs"), true))
 
   def defaultBrowserPhantomJsNoJs: WebDriver = webDriver(browserTypeDefault("phantomjs"), false)
 

@@ -1,8 +1,9 @@
 package uk.gov.dvla.vehicles.presentation.common.views
 
+import org.openqa.selenium.{WebDriver, Cookie}
 import org.scalatest.AppendedClues
 import play.api.i18n.Messages
-import play.api.libs.json.Json
+import play.api.libs.json.{Writes, Json}
 import uk.gov.dvla.vehicles.presentation.common.composition.TestHarness
 import uk.gov.dvla.vehicles.presentation.common.helpers.UiSpec
 import uk.gov.dvla.vehicles.presentation.common.helpers.webbrowser.WebDriverFactory
@@ -13,7 +14,7 @@ import scala.collection.JavaConversions.asScalaBuffer
 
 class AddressPickerSpec extends UiSpec with TestHarness with AppendedClues {
   "Address picker widget" should {
-    "Show all the expected fields" in new PhantomJsByDefault {
+    "Show all the expected fields" in new WebBrowserWithJs {
       go to AddressPickerPage
       page.title should equal(AddressPickerPage.title)
 
@@ -34,7 +35,7 @@ class AddressPickerSpec extends UiSpec with TestHarness with AppendedClues {
     }
 
     "Lookup container is visible, Dropdown select is invisible and Manual address elements are invisible on load" in
-      new PhantomJsByDefault {
+      new WebBrowserWithJs {
         go to AddressPickerPage
         page.title should equal(AddressPickerPage.title)
 
@@ -44,7 +45,7 @@ class AddressPickerSpec extends UiSpec with TestHarness with AppendedClues {
         widget.assertAddressListInvisible()
     }
 
-    "working manual address entry" in new PhantomJsByDefault {
+    "working manual address entry" in new WebBrowserWithJs {
       go to AddressPickerPage
       page.title should equal(AddressPickerPage.title)
 
@@ -60,7 +61,7 @@ class AddressPickerSpec extends UiSpec with TestHarness with AppendedClues {
       widget.assertMissingPostcodeInvisible()
     }
 
-    "Keep Lookup container and Dropdown select invisible on resubmit for manual lookup" in new PhantomJsByDefault {
+    "Keep Lookup container and Dropdown select invisible on resubmit for manual lookup" in new WebBrowserWithJs {
       go to AddressPickerPage
       page.title should equal(AddressPickerPage.title)
 
@@ -81,7 +82,7 @@ class AddressPickerSpec extends UiSpec with TestHarness with AppendedClues {
       widget.assertMissingPostcodeInvisible()
     }
 
-    "Validate the address code only if missing " in new PhantomJsByDefault {
+    "Validate the address code only if missing " in new WebBrowserWithJs {
       go to AddressPickerPage
       page.title should equal(AddressPickerPage.title)
 
@@ -95,7 +96,7 @@ class AddressPickerSpec extends UiSpec with TestHarness with AppendedClues {
 
     }
 
-    "Lookup an address with ajax call" in new PhantomJsByDefault {
+    "Lookup an address with ajax call" in new WebBrowserWithJs {
       go to AddressPickerPage
       page.title should equal(AddressPickerPage.title)
 
@@ -140,7 +141,7 @@ class AddressPickerSpec extends UiSpec with TestHarness with AppendedClues {
       widget.assertMissingPostcodeInvisible()
     }
 
-    "show manual input only with javascript disabled" ignore new PhantomJsByDefault {
+    "show manual input only with javascript disabled" ignore new WebBrowserWithJs {
       go to AddressPickerPage
       page.title should equal(AddressPickerPage.title)
 
@@ -152,7 +153,7 @@ class AddressPickerSpec extends UiSpec with TestHarness with AppendedClues {
       widget.assertMissingPostcodeInvisible()
     }
 
-    "show server error message" in new PhantomJsByDefault {
+    "show server error message" in new WebBrowserWithJs {
       go to AddressPickerPage
       page.title should equal(AddressPickerPage.title)
 
@@ -168,7 +169,7 @@ class AddressPickerSpec extends UiSpec with TestHarness with AppendedClues {
       widget.assertMissingPostcodeInvisible()
     }
 
-    "show server postcode not found message" in new PhantomJsByDefault {
+    "show server postcode not found message" in new WebBrowserWithJs {
       go to AddressPickerPage
       page.title should equal(AddressPickerPage.title)
 
@@ -184,7 +185,7 @@ class AddressPickerSpec extends UiSpec with TestHarness with AppendedClues {
       widget.assertMissingPostcodeVisible()
     }
 
-    "validate required elements" in new PhantomJsByDefault {
+    "validate required elements" in new WebBrowserWithJs {
       go to AddressPickerPage
       val widget = AddressPickerPage.addressPickerDriver
       widget.assertLookupInputVisible()
@@ -211,7 +212,7 @@ class AddressPickerSpec extends UiSpec with TestHarness with AppendedClues {
       widget.assertMissingPostcodeInvisible()
     }
 
-    "preserve the submitted values" in new PhantomJsByDefault {
+    "preserve the submitted values" in new WebBrowserWithJs {
       go to AddressPickerPage
       val widget = AddressPickerPage.addressPickerDriver
       widget.assertLookupInputVisible()
@@ -233,7 +234,7 @@ class AddressPickerSpec extends UiSpec with TestHarness with AppendedClues {
       widget.postcode.value should equal("")
     }
 
-    "submit when required are present" in new PhantomJsByDefault {
+    "submit when required are present" in new WebBrowserWithJs {
       val model = Address(
         SearchFields(true, true, true, Some("AA11AA"), Some("1"), true),
         "address line 1",
@@ -257,71 +258,56 @@ class AddressPickerSpec extends UiSpec with TestHarness with AppendedClues {
       page.title should equal("Success") withClue s"Errors: ${ErrorPanel.text}"
       val addressCookie = webDriver.manage().getCookieNamed(AddressPickerModel.Key.value)
       val json = addressCookie.getValue
-      println("addressCookie: " + json)
       AddressPickerModel.JsonFormat.reads(Json.parse(json))
         .map(a => a.address1 should equal(model)) orElse(fail("Did not have a AddressPickerModel in the response"))
     }
 
-//    "load model from the cookies and preserve show the view as it was" in new PhantomJsByDefault {
-//
-//      val model = Address(
-//        SearchFields(true, false, true, Some("AA11AA"), Some("1"), true),
-//        "address line 1",
-//        Some("address line 2"),
-//        Some("address line 3"),
-//        "Post town",
-//        "N19 3NN"
-//      )
-//
-//      withCookie(model)
-//      go to AddressPickerPage
-//      val widget = AddressPickerPage.addressPickerDriver
-//      widget.assertLookupInputVisible()
-//      widget.assertAddressListInvisible()
-//      widget.assertAddressInputsVisible()
-//      widget.postCodeSearch should equal(model.searchFields.postCode)
-//      widget.addressLine1.value should equal(model.streetAddress1)
-//      widget.addressLine2.value should equal(model.streetAddress2)
-//      widget.addressLine3.value should equal(model.streetAddress3)
-//      widget.town.value should equal(model.postTown)
-//      widget.postcode.value should equal(model.postCode)
-//    }
-//
-//    "should hide the search inputs if cookie specifies so" in new PhantomJsByDefault {
-//      val model = Address(
-//        SearchFields(false, false, true, Some("AA11AA"), Some("1"), true),
-//        "address line 1",
-//        Some("address line 2"),
-//        Some("address line 3"),
-//        "Post town",
-//        "N19 3NN"
-//      )
-//
-//      withCookie(model)
-//      go to AddressPickerPage
-//      val widget = AddressPickerPage.addressPickerDriver
-//      widget.assertLookupInputInvisible()
-//      widget.assertAddressListInvisible()
-//      widget.assertAddressInputsVisible()
-//      widget.addressLine1.value should equal(model.streetAddress1)
-//      widget.addressLine2.value should equal(model.streetAddress2)
-//      widget.addressLine3.value should equal(model.streetAddress3)
-//      widget.town.value should equal(model.postTown)
-//      widget.postcode.value should equal(model.postCode)
-//    }
+    "enter address manually with html unit only" in new WebBrowserWithJs() {
+      go to AddressPickerPage
+      val widget = AddressPickerPage.addressPickerDriver
+      widget.assertLookupInputVisible()
+      click on widget.enterAddressManuallyLink
 
-    "run qunit tests" ignore {
-      "qunit tests should pass" in new WebBrowser(webDriver = WebDriverFactory.defaultBrowserPhantomJs) {
-        go to AddressPickerPage.jsTestUrl
-        assertJsTestPass
-      }
+      widget.assertLookupInputInvisible()
+
+      // just make sure the address line is visible and it's value can be entered
+      widget.addressLine1.value = "address line 1"
     }
 
-//    def withCookie[A](model: A)(implicit webDriver: WebDriver): Unit = {
-//      import AddressPickerModel.{Key, SearchFieldsJsonFormat, AddressJsonFormat, JsonFormat}
-//      val json = Json.toJson(model).toString()
-//      webDriver.manage().addCookie(new Cookie(Key.value, json))
-//    }
+    "Enter address manually should work with javascript disabled" in new WebBrowser() {
+      val model = Address(
+        SearchFields(false, false, true, None, None, true),
+        "address line 1",
+        Some("address line 2"),
+        Some("address line 3"),
+        "Post town",
+        "N19 3NN"
+      )
+      go to AddressPickerPage
+      val widget = AddressPickerPage.addressPickerDriver
+      widget.addressLine1.value = model.streetAddress1
+      widget.addressLine2.value = model.streetAddress2.get
+      widget.addressLine3.value = model.streetAddress3.get
+      widget.town.value = model.postTown
+      widget.postcode.value = model.postCode
+      widget.remember.select()
+      click on AddressPickerPage.submit
 
+      val addressCookie = webDriver.manage().getCookieNamed(AddressPickerModel.Key.value)
+      val json = addressCookie.getValue
+      AddressPickerModel.JsonFormat.reads(Json.parse(json))
+        .map(a => a.address1 should equal(model)) orElse(fail("Did not have a AddressPickerModel in the response"))
+    }
+
+    "form validation with js disabled" in new WebBrowser() {
+      go to AddressPickerPage
+      val widget = AddressPickerPage.addressPickerDriver
+      click on AddressPickerPage.submit
+
+      val errors = ErrorPanel.text.lines.filter(_ != "Please check the form").toSeq
+      errors.head should include(Messages("address-picker-1.address-line-1"))
+      errors.head should include(Messages("address-picker-1.post-town"))
+      errors.head should include(Messages("address-picker-1.post-code"))
+    }
   }
 }

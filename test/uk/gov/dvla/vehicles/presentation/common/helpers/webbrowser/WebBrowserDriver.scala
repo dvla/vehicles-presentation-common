@@ -11,6 +11,8 @@ import org.scalatest.AppendedClues
 
 class WebBrowserDriver extends EventFiringWebDriver(WebDriverFactory.webDriver)
 
+class WebBrowserDriverWithJs extends EventFiringWebDriver(WebDriverFactory.webDriver(javascriptEnabled = true))
+
 class PhantomJsDefaultDriver extends WebDriver {
   private val driver = WebDriverFactory.defaultBrowserPhantomJs
   override def getPageSource: String = driver.getPageSource

@@ -27,7 +27,7 @@ object AddressPicker {
       val rememberDetails = filterEmpty.get(s"$key.$RememberId")
       val showSearchFields = filterEmpty.get(s"$key.$ShowSearchFields").fold(false)(_.toBoolean)
       val showAddressSelect = filterEmpty.get(s"$key.$ShowAddressSelect").fold(false)(_.toBoolean)
-      val showAddressFields = filterEmpty.get(s"$key.$ShowAddressFields").fold(false)(_.toBoolean)
+      val showAddressFields = filterEmpty.get(s"$key.$ShowAddressFields").fold(true)(_.toBoolean)
       val searchPostCode = filterEmpty.get(s"$key.$SearchByPostcodeField")
       val listOption = filterEmpty.get(s"$key.$AddressListSelect")
       val line1 = filterEmpty.get(s"$key.$AddressLine1Id")
