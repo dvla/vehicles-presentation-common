@@ -56,10 +56,7 @@ abstract class NewKeeperChooseYourAddressBase @Inject()(protected val addressLoo
   protected def completeAndConfirmRedirect(implicit request: Request[_]): Result
   protected def upnpNotFoundRedirect(implicit request: Request[_]): Result
   
-  
-  
-
-  val form: Form[NewKeeperChooseYourAddressFormModel] = Form(NewKeeperChooseYourAddressFormModel.Form.Mapping)
+    val form: Form[NewKeeperChooseYourAddressFormModel] = Form(NewKeeperChooseYourAddressFormModel.Form.Mapping)
 
   private final val KeeperDetailsNotInCacheMessage = "Failed to find keeper details in cache. " +
     "Now redirecting to vehicle lookup."
@@ -296,7 +293,6 @@ abstract class NewKeeperChooseYourAddressBase @Inject()(protected val addressLoo
       else {
         // Guard against IndexOutOfBoundsException
         upnpNotFoundRedirect
-//        Redirect(routes.UprnNotFound.present())
       }
     }
   }
