@@ -115,7 +115,7 @@ abstract class VehicleLookupBase[FormModel <: VehicleLookupFormModelBase]
         }
         result
     } recover {
-      case NonFatal(e) => microServiceErrorResult("Lookup web service call failed.", e, formModel.)
+      case NonFatal(e) => microServiceErrorResult("Lookup web service call failed.", e, formModel)
     }
   }
 
