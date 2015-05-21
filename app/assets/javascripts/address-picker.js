@@ -4,6 +4,8 @@ define(['jquery'], function($) {
         // Quick Access Variables Declaration
         var addresses = [],
             // Address inputs
+            addressPicker         = $('.address-lookup-wrapper'),
+            contextPath           = addressPicker.attr('app-context-path'),
             addressPostCodeLookup = $('.js-address-postcode-lookup'),
             postCodeLookupContainer = $('.postcode-lookup-container'),
             addressToggle         = $('.address-manual-toggle'),
@@ -16,7 +18,7 @@ define(['jquery'], function($) {
             showAddress           = showAddressField.attr('value') === "true",
             addressFind           = $('#address-find'),
             // AJAX api URL
-            urlApi                = "/address-lookup/postcode/",
+            urlApi                = contextPath + "/address-lookup/postcode/",
             // Addresses list
             addressListWrapper    = $('.address-list-wrapper'),
             addressesList         = $(".js-address-list"),

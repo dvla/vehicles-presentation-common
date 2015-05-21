@@ -1,4 +1,4 @@
-@(field: play.api.data.Field)(implicit handler: helper.FieldConstructor, lang: Lang)
+@(field: play.api.data.Field, contextPath: String)(implicit handler: helper.FieldConstructor, lang: Lang)
 
 @import _root_.views.html.helper.input
 @import _root_.views.html.helper.select
@@ -19,7 +19,7 @@
 
 @input(field) { (id, name, value, htmlArgs) =>
 <!-- Address Lookup Wrapper -->
-<div id="@id" class="address-lookup-wrapper">
+<div id="@id" class="address-lookup-wrapper" app-context-path="@contextPath">
     @helper.input(field(ShowSearchFields)) { (id, name, value, args) =>
     <input id="@id" type="hidden" name="@name" value="@value" class="js-hidden-show-search-fields"/>
     }
