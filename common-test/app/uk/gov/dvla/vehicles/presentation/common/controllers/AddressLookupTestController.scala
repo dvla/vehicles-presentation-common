@@ -2,7 +2,7 @@ package uk.gov.dvla.vehicles.presentation.common.controllers
 
 import com.google.inject.Inject
 import play.api.libs.json.Json
-import play.api.mvc.{Action, Controller}
+import play.api.mvc.{Request, Action, Controller}
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClientSideSessionFactory
 import uk.gov.dvla.vehicles.presentation.common.mappings.Postcode
 import uk.gov.dvla.vehicles.presentation.common.model.Address
@@ -11,9 +11,9 @@ import uk.gov.dvla.vehicles.presentation.common.webserviceclients.addresslookup.
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
-class AddressLookupTestController @Inject()(addressLookup: AddressLookupService)
-                             (implicit clientSideSessionFactory: ClientSideSessionFactory)
-  extends AddressLookup(addressLookup) {
+class AddressLookupTestController @Inject()
+                             (implicit clientSideSessionFactory: ClientSideSessionFactory,
+                              addressLookup: AddressLookupService) extends AddressLookup {
 
   override def byPostcode(postCode: String) = Action.async { request =>
     implicit val writes = Json.format[AddressDto]
@@ -30,4 +30,6 @@ class AddressLookupTestController @Inject()(addressLookup: AddressLookupService)
       ))))
     }
   }
+
+  override protected def authenticate(request: Request[_]) = true
 }

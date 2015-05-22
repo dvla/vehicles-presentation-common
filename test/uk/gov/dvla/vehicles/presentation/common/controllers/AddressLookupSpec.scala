@@ -1,10 +1,9 @@
 package uk.gov.dvla.vehicles.presentation.common.controllers
 
 import play.api.libs.json.Json
-import play.api.mvc.Cookie
+import play.api.mvc.{Request, Cookie}
 import play.api.test.FakeRequest
 import uk.gov.dvla.vehicles.presentation.common
-import common.model.Address
 import common.UnitSpec
 import common.clientsidesession.{ClientSideSession, ClientSideSessionFactory}
 import common.webserviceclients.addresslookup.AddressLookupService
@@ -14,15 +13,15 @@ import uk.gov.dvla.vehicles.presentation.common.webserviceclients.addresslookup.
 
 import scala.language.postfixOps
 import scala.concurrent.duration.DurationInt
-import play.api.test.Helpers.{contentAsString, defaultAwaitTimeout, OK, INTERNAL_SERVER_ERROR}
+import play.api.test.Helpers._
 
 import scala.concurrent.{Future, Await}
 
 class AddressLookupSpec extends UnitSpec {
   val postCode = "E14 9LL"
   val trackingId = "test-tracking-id"
-  val lookupService = mock[AddressLookupService]
-  val sessionFactory = mock[ClientSideSessionFactory]
+  implicit val lookupService = mock[AddressLookupService]
+  implicit val sessionFactory = mock[ClientSideSessionFactory]
   val session = mock[ClientSideSession]
   stub(session.trackingId).toReturn(trackingId)
   stub(sessionFactory.getSession(any[Traversable[Cookie]])).toReturn(session)
@@ -44,7 +43,7 @@ class AddressLookupSpec extends UnitSpec {
         Future.failed(exc)
       )
 
-      val fr = new AddressLookup(lookupService)(sessionFactory).byPostcode(postCode)(request)
+      val fr = new AddressLookup(){override def authenticate(r: Request[_]) = true}.byPostcode(postCode)(request)
 
       val response = Await.result(fr, 5 seconds).header
       response.status should equal(INTERNAL_SERVER_ERROR)
@@ -52,12 +51,19 @@ class AddressLookupSpec extends UnitSpec {
       contentAsString(fr) should equal(exc.getMessage)
     }
 
+    "Fail if no authentication cookie is specified" in {
+      val fr = new AddressLookup{override def authenticate(r: Request[_]) = false}.byPostcode(postCode)(request)
+      val response = Await.result(fr, 5 seconds).header
+      response.status should equal(UNAUTHORIZED)
+      response.headers.get("content-type").get should equal("text/plain; charset=utf-8")
+    }
+
     def test200(addresses: Seq[AddressDto]) = {
       stub(lookupService.addresses(postCode, trackingId)).toReturn(
         Future.successful(addresses)
       )
 
-      val fr = new AddressLookup(lookupService)(sessionFactory).byPostcode(postCode)(request)
+      val fr = new AddressLookup{override def authenticate(r: Request[_]) = true}.byPostcode(postCode)(request)
       val response = Await.result(fr, 5 seconds).header
       response.status should equal(OK)
       response.headers.get("content-type").get should equal("application/json; charset=utf-8")
