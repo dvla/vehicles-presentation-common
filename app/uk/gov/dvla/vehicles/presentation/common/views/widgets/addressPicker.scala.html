@@ -32,8 +32,8 @@
 
 
     <!-- Lookup Input Wrapper - ONLY JS -->
-    @helper.input(field(SearchByPostcodeField)) { (id, name, value, args) =>
     <div class="postcode-lookup-container form-item no-js-hidden">
+    @helper.input(field(SearchByPostcodeField)) { (id, name, value, args) =>
         <div class="left-col">
             <label class="no-js-hidden" for="address-postcode-lookup">@Messages("address.picker.common.postcode")</label>
         </div>
@@ -44,8 +44,8 @@
                 <span class="address-manual-toggle no-js-hidden">@Messages("address.picker.common.manualAddress")</span>
             </div>
         </div>
-    </div>
     }
+    </div>
     <!-- end of Lookup Input Wrapper -->
 
     <!-- Lookup Input Wrapper - ONLY JS -->
