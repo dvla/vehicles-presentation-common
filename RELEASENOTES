@@ -1,3 +1,16 @@
+======= 2.23 ======
+Time of release binaries creation:
+Wed May 27 2015 FILL ME IN
+
+DE429  Date tabbing using shift and back tab deleting values
+DE477  Web countdown app
+DE480  Confirm email facility
+DE495  Entering an address manually address - error message & wording   
+DE514  New Business Page is not aligned correctly.
+DE518  Hide the validation errors associated with the address search fields when the manual fields are displayed
+US2634 Review the logs if suitable for developers to find out what's going on in the system
+US2860 Implement the new business details capture pattern
+
 ======= 2.22 ======
 Time of release binaries creation:
 Wed May 13 2015 09:31:12
