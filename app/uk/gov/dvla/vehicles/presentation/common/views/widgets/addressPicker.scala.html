@@ -115,24 +115,19 @@
         <!-- end of Postcode Input -->
 
         <!-- Remember Details Input -->
-        <div class="form-item">
-            <div class="left-col">
-
-            </div>
-            <div class="right-col">
-                @valtechDeclareCheck(
-                    field(RememberId),
-                    args =  Map(
-                        '_label -> Messages("address.picker.common.rememberDetails"),
-                        '_showConstraints -> false,
-                        'NO_OPTIONAL_LABEL -> true,
-                        'value -> field(RememberId).value.getOrElse(true)
-                    )
+        <div class="form-item business-remember-details">
+            @valtechDeclareCheck(
+                field(RememberId),
+                args =  Map(
+                    '_label -> Messages("address.picker.common.rememberDetails"),
+                    '_showConstraints -> false,
+                    'NO_OPTIONAL_LABEL -> true,
+                    'value -> field(RememberId).value.getOrElse(true)
                 )
-                <!-- Clear Form Call To Action - ONLY JS -->
-                <span class="address-reset-form no-js-hidden" href="#address-postcode-lookup">@Messages("address.picker.common.changeDetails")</span>
-                <!-- end of Clear Form Call To Action-->
-            </div>
+            )
+            <!-- Clear Form Call To Action - ONLY JS -->
+            <span class="address-reset-form no-js-hidden" href="#address-postcode-lookup">@Messages("address.picker.common.changeDetails")</span>
+            <!-- end of Clear Form Call To Action-->
         </div>
         <!-- end of  Remember Details Input -->
     </div>
