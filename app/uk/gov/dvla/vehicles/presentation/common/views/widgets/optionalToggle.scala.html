@@ -15,12 +15,12 @@
             <div class="radio">
                 <div class="form-item">
                     <label for="@(s"${id}_$Visible")" class="form-radio selectable">
-                        <input class="option-visible" name="@name" value="@Visible" showerrors="false" type="radio"
+                        <input class="option-visible ga-email-option-visible" name="@name" value="@Visible" showerrors="false" type="radio"
                                aria-required="true" @(if(value == Some(Visible)) "checked" else "") id="@(s"${id}_$Visible")">
                         <span class="text">@visibleLabel</span>
                     </label>
                     <label for="@(s"${id}_$Invisible")" class="form-radio selectable">
-                        <input class="option-invisible" name="@name" value="@Invisible" showerrors="false" type="radio"
+                        <input class="option-invisible  ga-email-option-invisible" name="@name" value="@Invisible" showerrors="false" type="radio"
                                aria-required="true" @(if(value == Some(Invisible)) "checked" else "") id="@(s"${id}_$Invisible")" >
                         <span class="text">@invisibleLable</span>
                     </label>
