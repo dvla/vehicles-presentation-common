@@ -54,7 +54,7 @@ object SEND {
   }
 
   /** A dummy email service, to send the white listed emails. */
-  case class WhiteListEmailOps(email: Email) extends EmailOps {
+  case class NonWhiteListEmailOps(email: Email) extends EmailOps {
     def send(trackingId: String)(implicit config: EmailConfiguration, emailService: EmailService) = {
       val message = s"""Got email with contents: (${email.subject} - ${email.message} ) to be sent to ${email.toPeople.mkString(" ")}
 
@@ -107,29 +107,28 @@ object SEND {
    * @returnan appropriate instance of an email.
    */
   implicit def mailtoOps (mail: Email)(implicit configuration: EmailConfiguration): EmailOps = mail match {
-    case Email(message, _, Some(toPeople), _) if isWhiteListed(toPeople) => WhiteListEmailOps(mail)
-    case Email(message, _, Some(toPeople), _)                            => SmtpEmailOps(mail)
-    case _                                                               => NoEmailOps
+    case Email(message, _, Some(toPeople), _) if !isWhiteListed(toPeople) => NonWhiteListEmailOps(mail)
+    case Email(message, _, Some(toPeople), _)                             => SmtpEmailOps(mail)
+    case _                                                                => NoEmailOps
   }
 
   /**
    * private method to decide if the email has a white listed address. In case there is a white listed address then the
-   * method will return true.
+   * method will return true.  An empty white list config implies all addresses are white listed.
    */
   def isWhiteListed(addresses: List[String])(implicit configuration: EmailConfiguration): Boolean = {
 
-    val whiteListConfig = configuration.whiteList match {
-      case Some(lst) => Option("@test.com" :: lst)
-      case _ => Option(List("@test.com"))
-    }
-      (for {
+    configuration.whiteList match {
+      case Some(lst) => (for {
         address <- addresses
-        whiteList <- whiteListConfig
+        whiteList <- Option("@test.com" :: lst)
       } yield whiteList.
           filter((domain: String) => address.endsWith(domain))).flatten match {
         case List() => false
         case _ => true
       }
+      case _ => true
+    }
   }
 
   /**

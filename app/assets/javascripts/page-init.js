@@ -111,33 +111,6 @@ define(function(require) {
         }
     };
 
-    var autoTabForInputs = function() {
-
-        // Auto-tab for date format forms and document ref number input
-        var autoTabsInputs = $('.form-date input, #documentReferenceNumber');
-        // Initialise all inputs
-        var hasFocus = autoTabsInputs.prop("autofocus");
-        if (hasFocus) {
-            autoTabsInputs.focus();
-        }
-        // Focus event
-        autoTabsInputs.on('focus', function() {
-            var nextInput, focusMaxLength, currentLength;
-            nextInput = $(':input:eq(' + ($(':input').index(this) + 1) + ')');
-            focusMaxLength = $(this).attr('maxlength');
-            // Check length & flag for already filled input
-            $(this).on('keyup', function() {
-                var currentFilledAttribute = $(this).attr('data-filled');
-                currentLength = $(this).val().length;
-                if ((focusMaxLength == currentLength) && (currentFilledAttribute !== "true")) {
-                    $(this).attr('data-filled', true);
-                    nextInput.focus();
-                    return false;
-                }
-            });
-        });
-    };
-
     var disableClickOnDisabledButtons = function() {
         $('.button-not-implemented').click(function() {
             return false;
@@ -295,7 +268,6 @@ define(function(require) {
         disableSubmitOnClick: disableSubmitOnClick,
         closingWarning: closingWarning,
         openFeedback: openFeedback,
-        autoTabForInputs: autoTabForInputs,
         imageHintToggles: imageHintToggles,
         disableClickOnDisabledButtons: disableClickOnDisabledButtons,
         printButton: printButton,
@@ -310,7 +282,6 @@ define(function(require) {
             $(function() {
                 disableSubmitOnClick();
                 closingWarning();
-                autoTabForInputs();
                 imageHintToggles();
                 disableClickOnDisabledButtons();
                 printButton();

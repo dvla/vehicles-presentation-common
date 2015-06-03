@@ -57,7 +57,7 @@ class SendSpec extends UnitSpec {
   }
 
   "Adding a template and some addresses" should {
-    "create an WhiteList if the user belongs to the whitelist" in new WithApplication {
+    "create an SmtpEmailOps if the user belongs to the whitelist" in new WithApplication {
       val template = Contents("<h1>Email</h1>", "text email")
       val receivers = List("test@valtech.co.uk")
 
@@ -65,7 +65,18 @@ class SendSpec extends UnitSpec {
 
       email shouldBe a [SEND.Email]
 
-      mailtoOps(email) shouldBe a [SEND.WhiteListEmailOps]
+      mailtoOps(email) shouldBe a [SEND.SmtpEmailOps]
+    }
+
+    "create a NonWhiteList if the user doesn't belong to the whitelist" in new WithApplication {
+      val template = Contents("<h1>Email</h1>", "text email")
+      val receivers = List("test@broken.co.uk")
+
+      val email = SEND email template withSubject "Some Subject" to receivers
+
+      email shouldBe a [SEND.Email]
+
+      mailtoOps(email) shouldBe a [SEND.NonWhiteListEmailOps]
     }
 
     "create a NoEmailOps if the email doesn't have any senders" in new WithApplication{
@@ -77,6 +88,13 @@ class SendSpec extends UnitSpec {
     }
 
     "send an email if the emailis ok" in new WithApplication {
+
+      implicit val emailConfiguration = EmailConfiguration(
+        From("donotreplypronline@dvla.gsi.gov.uk", "DO-NOT-REPLY"),
+        From("some@feedback", "dummy Feedback email"),
+        None)
+
+
       val template = Contents("<h1>Email</h1>", "text email")
       val receivers = List("makis.arvin@gmail.com")
 
