@@ -264,6 +264,18 @@ define(function(require) {
         });
     };
 
+    var gaTrackClickOnce = function() {
+        var gaTrackClickEvent = 'ga-track-click-event-once';
+        $('.' + gaTrackClickEvent).on('click', function(e) {
+            var category = $(this).attr('ga-event-category');
+            var action = $(this).attr('ga-event-action');
+            if ($(this).hasClass(gaTrackClickEvent) && category && action) {
+                _gaq.push(['_trackEvent', category, action, 'click', 1]);
+                $(this).removeClass(gaTrackClickEvent);
+            }
+        });
+    };
+
     return {
         disableSubmitOnClick: disableSubmitOnClick,
         closingWarning: closingWarning,
@@ -278,6 +290,7 @@ define(function(require) {
         formCheckedSelection: formCheckedSelection,
         hideEmailOnOther: hideEmailOnOther, // Do not call this from initAll because only some exemplars need it
         preventPasteOnEmailConfirm: preventPasteOnEmailConfirm,
+        gaTrackClickOnce: gaTrackClickOnce,
         initAll: function() {
             $(function() {
                 disableSubmitOnClick();
@@ -291,6 +304,7 @@ define(function(require) {
                 enableOptionToggle();
                 formCheckedSelection();
                 preventPasteOnEmailConfirm();
+                gaTrackClickOnce();
 
                 if ($('#feedback-open').length) {
                     openFeedback('feedback-open', 'click');
