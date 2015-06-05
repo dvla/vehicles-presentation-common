@@ -267,8 +267,10 @@ define(function(require) {
     var gaTrackClickOnce = function() {
         var gaTrackClickEvent = 'ga-track-click-event-once';
         $('.' + gaTrackClickEvent).on('click', function(e) {
-            if ($(this).hasClass(gaTrackClickEvent)) {
-                _gaq.push(['_trackEvent', $(this).attr('ga-event-type'), $(this).attr('ga-event-value')]);
+            var category = $(this).attr('ga-event-category');
+            var action = $(this).attr('ga-event-action');
+            if ($(this).hasClass(gaTrackClickEvent) && category && action) {
+                _gaq.push(['_trackEvent', category, action, 'click', 1]);
                 $(this).removeClass(gaTrackClickEvent);
             }
         });
