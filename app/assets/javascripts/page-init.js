@@ -1,6 +1,7 @@
 define(function(require) {
     var $ = require('jquery'),
-        addressLookup = require('address-picker');
+        addressLookup = require('address-picker'),
+        autofillTodaysDate = require('autofill-todays-date');
 
     var disableSubmitOnClick = function() {
         var pleaseWaitOverlay = $('.please-wait-overlay'),
@@ -276,6 +277,22 @@ define(function(require) {
         });
     };
 
+    // tracks an event based on a field that has a value. e.g. a textfield.
+    var gaTrackOptionalFields = function() {
+        $('button[type="submit"]').on('click', function(e) {
+            $('.ga-track-optional-text').map(function() {
+                var value = $(this).attr('ga-value');
+                if (!value) value = 1;
+                var actionName = $(this).attr('ga-action');
+                if(!$(this).val()) {
+                    _gaq.push(['_trackEvent', "optional_field", actionName, 'absent', value]);
+                } else {
+                    _gaq.push(['_trackEvent', "optional_field", actionName, 'provided', value]);
+                }
+            });
+        });
+    };
+
     return {
         disableSubmitOnClick: disableSubmitOnClick,
         closingWarning: closingWarning,
@@ -291,6 +308,7 @@ define(function(require) {
         hideEmailOnOther: hideEmailOnOther, // Do not call this from initAll because only some exemplars need it
         preventPasteOnEmailConfirm: preventPasteOnEmailConfirm,
         gaTrackClickOnce: gaTrackClickOnce,
+        gaTrackOptionalFields: gaTrackOptionalFields,
         initAll: function() {
             $(function() {
                 disableSubmitOnClick();
@@ -305,6 +323,7 @@ define(function(require) {
                 formCheckedSelection();
                 preventPasteOnEmailConfirm();
                 gaTrackClickOnce();
+                gaTrackOptionalFields();
 
                 if ($('#feedback-open').length) {
                     openFeedback('feedback-open', 'click');
