@@ -1,0 +1,70 @@
+@(fields: Form[uk.gov.dvla.vehicles.presentation.common.controllers.GaModel])(implicit lang: Lang)
+
+@import _root_.views.html.helper.input
+@import views.html.helper.form
+@import uk.gov.dvla.vehicles.presentation.common.controllers
+@main(title = "Google analytics events sender", currentForm = Some(fields)) {
+    @form(action = controllers.routes.GaEventsController.submit) {
+
+        @input(fields("optionalString")) { (id, name, value, htmlArgs) =>
+            <input id="@id" type="text" name="@name" value="@value"
+                   class="ga-track-optional-text"
+                   ga-action="test-ga-action"
+                   ga-value="test-ga-value" />
+        }
+        <a class="ga-track-click-event-once"
+           ga-event-category="test-ga-event-category"
+           ga-event-action="test-ge-event-acation">Click me twice</a>
+
+        <input id="js-events-hidden" type="hidden" name="js-events" value=""/>
+
+        <div class="form-steps">
+            <button id="submit"
+                    type="submit"
+                    name="action"
+                    class="button"
+                    aria-label="Next button">
+                @Messages("valtechInputText.button")
+            </button>
+        </div>
+    }
+    @form(action = controllers.routes.GaEventsController.submit) {
+
+        @input(fields("optionalString")) { (id, name, value, htmlArgs) =>
+            <input id="@id" type="text" name="@name" value="@value"
+                   class="ga-track-optional-text"
+                   ga-action="test-ga-action"
+                   ga-value="test-ga-value" />
+        }
+        <a class="ga-track-click-event-once"
+           ga-event-category="test-ga-event-category"
+           ga-event-action="test-ge-event-acation">Click me twice</a>
+
+        <input id="js-events-hidden" type="hidden" name="js-events" value=""/>
+
+        <div class="form-steps">
+            <button id="submit"
+                    type="submit"
+                    name="action"
+                    class="button"
+                    aria-label="Next button">
+                @Messages("valtechInputText.button")
+            </button>
+        </div>
+    }
+}
+
+<script>
+
+require(['../lib/vehicles-presentation-common/javascripts/config'], function() {
+    require(['jquery'], function($, main) {
+        $(function() {
+            window.setTimeout(function() {
+                $('button[type="submit"]').on('click', function(e) {
+                    $('#js-events-hidden').attr('value', JSON.stringify(_gaq));
+                });
+            }, 100);
+        });
+    });
+});
+</script>

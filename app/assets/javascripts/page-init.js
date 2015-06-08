@@ -280,7 +280,7 @@ define(function(require) {
     // tracks an event based on a field that has a value. e.g. a textfield.
     var gaTrackOptionalFields = function() {
         $('button[type="submit"]').on('click', function(e) {
-            $('.ga-track-optional-text').map(function() {
+            $(this).closest('form').find('.ga-track-optional-text').map(function() {
                 var value = $(this).attr('ga-value');
                 if (!value) value = 1;
                 var actionName = $(this).attr('ga-action');
