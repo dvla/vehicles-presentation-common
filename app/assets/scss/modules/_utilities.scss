@@ -106,10 +106,7 @@
     }
     p,
     dd {
-        @include long-text-wrap('full');
-//        &.word-wrap-only {
-//            @include long-text-wrap('word');
-//        }
+        word-wrap: break-word;
     }
     dt {
         padding-bottom: 0;
