@@ -214,7 +214,6 @@ img {
         }
         .ie7 & {
           li {
-            position: relative;
             vertical-align: middle;
           }
         }
@@ -313,6 +312,28 @@ img {
             padding: 16px 32px;
             position: absolute;
             border: 1px solid $govuk-blue;
+        }
+        &.online-retention-tooltip {
+            h3, p {
+                color: $white;
+                text-align: center;
+            }
+            p {
+                margin-bottom: 0;
+            }
+
+            .reg-number {
+                width: 150px;
+            }
+            padding: 16px;
+            box-sizing: border-box;
+            max-width: 500px;
+            @media (max-width: 640px) {
+                max-width: 320px;
+            }
+            text-align: center;
+            background-color: $turquoise;
+            border: none;
         }
     }
 
