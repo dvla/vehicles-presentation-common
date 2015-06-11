@@ -1,23 +1,23 @@
 #!/bin/bash
 ###
-### Script to capture the steps required when open sourcing the web layer for a single exemplar
+### Script to capture the steps required when open sourcing a single micro service
 ### Note that you need to set the GITLAB_ROOT environment variable before you can run this script
 ###
 
 # Include the common functions
 . common.sh
 
-enterExemplarName() {
-    read -p "Type the exemplar name to open source:" COMPONENT_NAME
+enterMicroServiceName() {
+    read -p "Type the micro service name to open source:" COMPONENT_NAME
 }
 
-getExemplarName() {
-    echo "Enter the exemplar name"
+getMicroServiceName() {
+    echo "Enter the micro service name"
     FINISHED="False"
   
     while [ ${FINISHED} == "False" ]; do
-        enterExemplarName
-        echo "Open sourcing exemplar $COMPONENT_NAME. Do you want to continue?"
+        enterMicroServiceName
+        echo "Open sourcing micro service $COMPONENT_NAME. Do you want to continue?"
         answerYesNo
 
         if [ ${ANS_YN} == "y" ] || [ ${ANS_YN} == "Y" ]; then
@@ -27,15 +27,15 @@ getExemplarName() {
 }
 
 showInfo() {
-    echo "Exemplar name: $COMPONENT_NAME"
-    echo "Release tag:   $RELEASE_TAG"
-    echo "Directory:     $DIRECTORY"
+    echo "Micro service name: $COMPONENT_NAME"
+    echo "Release tag:        $RELEASE_TAG"
+    echo "Directory:          $DIRECTORY"
 }
 
 checkEnvironmentVariables
-echo "This script will open source the web layer code for a single exemplar"
+echo "This script will open source a single micro service"
 echo "Please turn on your VPN connection so we can access GitLab"
-getExemplarName
+getMicroServiceName
 getRelease
 createOpenSourceDirectory
 pullGitLabMergeGitHub
