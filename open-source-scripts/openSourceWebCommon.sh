@@ -16,6 +16,20 @@ showInfo() {
     echo "Directory:             $DIRECTORY"
 }
 
+turnOffVpnBuildAndTestWebCommon() {
+    FINISHED="False"
+
+    while [ ${FINISHED} == "False" ]; do
+        echo "Please turn off your VPN connection. We will now build and test the code to open source"
+        answerYesNo
+
+        if [ ${ANS_YN} == "y" ] || [ ${ANS_YN} == "Y" ]; then
+            FINISHED="True"
+            sbt all-tests-clean
+        fi
+    done
+}
+
 checkEnvironmentVariables
 echo "This script will open source vehicles-presentation-common for the web layer"
 echo "Please turn on your VPN connection so we can access GitLab"
@@ -25,7 +39,7 @@ pullGitLabMergeGitHub
 confirmCanContinue
 reviewCodeDifferences
 confirmCanContinue
-turnOffVpnBuildAndTest
+turnOffVpnBuildAndTestWebCommon
 confirmCanContinue
 echo "The next step will be to push the code to GitHub so it will be open source"
 showInfo
