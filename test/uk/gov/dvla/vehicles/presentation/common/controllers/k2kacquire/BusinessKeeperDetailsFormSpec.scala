@@ -41,7 +41,7 @@ class BusinessKeeperDetailsFormSpec extends UnitSpec {
     "reject if form has no fields completed" in new WithApplication {
       formWithValidDefaults(fleetNumber = None, businessName = "", email = None).
         errors.flatMap(_.messages) should contain theSameElementsAs
-        List("error.minLength", "error.required", "error.validBusinessKeeperName")
+        List("error.minLength", "error.required", "error.validBusinessKeeperName", "error.atLeastOneChar")
     }
   }
 
@@ -49,13 +49,15 @@ class BusinessKeeperDetailsFormSpec extends UnitSpec {
     "reject if business name is blank" in new WithApplication {
       // IMPORTANT: The messages being returned by the form validation are overridden by the Controller
       val errors = formWithValidDefaults(businessName = "").errors
-      errors should have length 3
+      errors should have length 4
       errors(0).key should equal(BusinessNameId)
       errors(0).message should equal("error.minLength")
       errors(1).key should equal(BusinessNameId)
       errors(1).message should equal("error.required")
       errors(2).key should equal(BusinessNameId)
       errors(2).message should equal("error.validBusinessKeeperName")
+      errors(3).key should equal(BusinessNameId)
+      errors(3).message should equal("error.atLeastOneChar")
     }
 
     "reject if business keeper name is less than minimum length" in new WithApplication {
