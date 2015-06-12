@@ -111,9 +111,7 @@
             }
         }
 
-        ol, 
-        ul, 
-        p {
+        ol, ul, p, h3 {
             @include bold-19;
             color:$black-1;
             a {
