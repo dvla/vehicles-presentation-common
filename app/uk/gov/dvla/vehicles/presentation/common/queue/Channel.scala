@@ -1,6 +1,8 @@
 package uk.gov.dvla.vehicles.presentation.common.queue
 
-import play.api.libs.json.{Reads, Writes, Format}
+import java.io.IOException
+
+import play.api.libs.json.{Reads, Writes}
 
 import scala.concurrent.Future
 
@@ -30,6 +32,7 @@ class QueueException extends Exception
  * A trait to hold just the close() method which should free any resources taken.
  */
 trait ClosableChannel {
+  @throws[IOException]
   def close()
 }
 
@@ -54,30 +57,17 @@ trait OutChannel[T] extends ClosableChannel {
   def put(message: T, priority: Priority)(implicit jsonWrites: Writes[T]): Unit
 }
 
-/**
- * The InChan is used to read messages from a queue in a streaming fashion.
- * @tparam T
- */
-trait InChannel[T] extends ClosableChannel {
+trait ChannelFactory {
+  def outChannel[T](queue: String)(implicit jsonReads: Writes[T]): OutChannel[T]
 
   /**
-   * Register a method to be called when a message arrives. The method will be called for once for each message.
-   * The messages will be send until close() is called. The messages will be arriving in priority order.
-   * 
-   * The on next method returns a Future[MessageAck]. If that future completes with Ack, the message will be
+   * Register a method to be called when a message arrives. The method will be called once for each message.
+   * The messages will be sent until close() is called. The messages will be arriving in priority order.
+   *
+   * The onNext method returns a Future[MessageAck]. If that future completes with Ack, the message will be
    * acknowledged to the queue. If the future completes with Rollback the message will be rolled back to the queue.
    * If the Future fails or times out the message will be rolled back to the queue.
    * @param onNext
    */
-  def subscribe(onNext: T => Future[MessageAck])(implicit jsonReads: Reads[T])
-}
-
-trait Channel extends OutChannel with InChannel
-
-trait ChannelFactory {
-  def outChannel(queue: String): OutChannel
-
-  def inChannel(queue: String): InChannel
-
-  def channel(queue: String): Channel
+  def subscribe[T](queue: String, onNext: T => Future[MessageAck])(implicit jsonReads: Reads[T]): ClosableChannel
 }
