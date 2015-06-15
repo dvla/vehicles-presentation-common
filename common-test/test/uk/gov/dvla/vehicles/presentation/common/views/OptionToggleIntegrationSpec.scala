@@ -1,9 +1,6 @@
 package uk.gov.dvla.vehicles.presentation.common.views
 
-import org.openqa.selenium.support.ui.{WebDriverWait, ExpectedConditions}
-import org.openqa.selenium.{By, WebDriver, SearchContext}
-import org.scalatest.concurrent.Eventually.{eventually, timeout}
-import org.scalatest.time.{Span, Seconds}
+import org.openqa.selenium.SearchContext
 import uk.gov.dvla.vehicles.presentation.common.composition.TestHarness
 import uk.gov.dvla.vehicles.presentation.common.helpers.UiSpec
 import uk.gov.dvla.vehicles.presentation.common.helpers.webbrowser.WebDriverFactory

@@ -2,9 +2,19 @@ package uk.gov.dvla.vehicles.presentation.common.pages
 
 import org.openqa.selenium.support.ui.{ExpectedConditions, WebDriverWait}
 import org.openqa.selenium.{WebDriver, By, SearchContext}
-import uk.gov.dvla.vehicles.presentation.common.helpers.webbrowser._
+import uk.gov.dvla.vehicles.presentation.common.helpers.webbrowser.Element
+import uk.gov.dvla.vehicles.presentation.common.helpers.webbrowser.Page
+import uk.gov.dvla.vehicles.presentation.common.helpers.webbrowser.RadioButtonGroup
+import uk.gov.dvla.vehicles.presentation.common.helpers.webbrowser.TextField
+import uk.gov.dvla.vehicles.presentation.common.helpers.webbrowser.WebBrowserDSL
+import uk.gov.dvla.vehicles.presentation.common.helpers.webbrowser.WebDriverFactory
 import uk.gov.dvla.vehicles.presentation.common.mappings.OptionalToggle.OptionFieldSuffix
-import uk.gov.dvla.vehicles.presentation.common.models.OptionalToggleModel.Form._
+import uk.gov.dvla.vehicles.presentation.common.models.OptionalToggleModel.Form.OptionalDateId
+import uk.gov.dvla.vehicles.presentation.common.models.OptionalToggleModel.Form.OptionalDateOptionId
+import uk.gov.dvla.vehicles.presentation.common.models.OptionalToggleModel.Form.OptionalIntId
+import uk.gov.dvla.vehicles.presentation.common.models.OptionalToggleModel.Form.OptionalIntOptionId
+import uk.gov.dvla.vehicles.presentation.common.models.OptionalToggleModel.Form.OptionalStringId
+import uk.gov.dvla.vehicles.presentation.common.models.OptionalToggleModel.Form.OptionalStringOptionId
 
 object OptionTogglePage extends Page with WebBrowserDSL {
   final val address = "/option-toggle"
@@ -22,17 +32,17 @@ object OptionTogglePage extends Page with WebBrowserDSL {
       .getOrElse(throw new Exception(s"Cannot find name(legend element) for OptionToggleWidget with id:$widgetId"))
 
     def component(implicit driver: SearchContext): T = t(find(id(widgetId + OptionFieldSuffix)).getOrElse(
-      throw new Exception(s"Cannot find component element withId: ${widgetId}$OptionFieldSuffix " +
+      throw new Exception(s"Cannot find component element withId: $widgetId$OptionFieldSuffix " +
         s"for OptionToggleWidget with id:$widgetId"))
     )
 
     def assetComponentInvisible(implicit driver: WebDriver) =
-      (new WebDriverWait(driver, 3))
-        .until(ExpectedConditions.invisibilityOfElementLocated(By.id((widgetId + OptionFieldSuffix))))
+      new WebDriverWait(driver, 3)
+        .until(ExpectedConditions.invisibilityOfElementLocated(By.id(widgetId + OptionFieldSuffix)))
 
     def assetComponentVisible(implicit driver: WebDriver) =
-      (new WebDriverWait(driver, 3))
-        .until(ExpectedConditions.visibilityOfElementLocated(By.id((widgetId + OptionFieldSuffix))))
+      new WebDriverWait(driver, 3)
+        .until(ExpectedConditions.visibilityOfElementLocated(By.id(widgetId + OptionFieldSuffix)))
   }
 
   def textRadio(implicit driver: SearchContext) = new OptionToggleWidget[TextField](

@@ -1,10 +1,8 @@
 package uk.gov.dvla.vehicles.presentation.common.views
 
 import uk.gov.dvla.vehicles.presentation.common.composition.TestHarness
-import uk.gov.dvla.vehicles.presentation.common.pages
-import uk.gov.dvla.vehicles.presentation.common
 import uk.gov.dvla.vehicles.presentation.common.helpers.UiSpec
-import pages.{ErrorPanel, ValtechDeclareCheckPage}
+import uk.gov.dvla.vehicles.presentation.common.pages.{ErrorPanel, ValtechDeclareCheckPage}
 
 class ValtechDeclareCheckIntegrationSpec extends UiSpec with TestHarness {
 

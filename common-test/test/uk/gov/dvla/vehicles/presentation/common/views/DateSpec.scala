@@ -1,12 +1,10 @@
 package uk.gov.dvla.vehicles.presentation.common.views
 
+import com.github.nscala_time.time.Imports.LocalDate
+import play.api.i18n.Messages
 import uk.gov.dvla.vehicles.presentation.common.composition.TestHarness
 import uk.gov.dvla.vehicles.presentation.common.helpers.UiSpec
-import uk.gov.dvla.vehicles.presentation.common.pages
-
-import com.github.nscala_time.time.Imports.LocalDate
-import pages.{DatePage, ErrorPanel}
-import play.api.i18n.Messages
+import uk.gov.dvla.vehicles.presentation.common.pages.{DatePage, ErrorPanel}
 
 class DateSpec extends UiSpec with TestHarness {
 

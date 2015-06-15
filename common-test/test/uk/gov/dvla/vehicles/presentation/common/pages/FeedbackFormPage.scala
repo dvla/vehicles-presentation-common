@@ -1,10 +1,12 @@
 package uk.gov.dvla.vehicles.presentation.common.pages
 
-import uk.gov.dvla.vehicles.presentation.common.helpers
-
-import helpers.webbrowser.{Element, Page, WebBrowserDSL, TextArea, WebDriverFactory}
-import uk.gov.dvla.vehicles.presentation.common.model.FeedbackForm.Form.feedback
 import org.openqa.selenium.WebDriver
+import uk.gov.dvla.vehicles.presentation.common.helpers.webbrowser.Element
+import uk.gov.dvla.vehicles.presentation.common.helpers.webbrowser.Page
+import uk.gov.dvla.vehicles.presentation.common.helpers.webbrowser.TextArea
+import uk.gov.dvla.vehicles.presentation.common.helpers.webbrowser.WebBrowserDSL
+import uk.gov.dvla.vehicles.presentation.common.helpers.webbrowser.WebDriverFactory
+import uk.gov.dvla.vehicles.presentation.common.model.FeedbackForm.Form.feedback
 
 object FeedbackFormPage extends Page with WebBrowserDSL {
 

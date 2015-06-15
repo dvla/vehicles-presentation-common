@@ -1,14 +1,11 @@
 package uk.gov.dvla.vehicles.presentation.common.views
 
-import uk.gov.dvla.vehicles.presentation.common
-import uk.gov.dvla.vehicles.presentation.common.composition.TestHarness
-import uk.gov.dvla.vehicles.presentation.common.helpers.UiSpec
-import uk.gov.dvla.vehicles.presentation.common.pages
-
 import com.github.nscala_time.time.Imports.LocalDate
 import org.joda.time.chrono.ISOChronology
-import pages.{DateOfSalePage, ErrorPanel}
 import play.api.i18n.Messages
+import uk.gov.dvla.vehicles.presentation.common.composition.TestHarness
+import uk.gov.dvla.vehicles.presentation.common.helpers.UiSpec
+import uk.gov.dvla.vehicles.presentation.common.pages.{DateOfSalePage, ErrorPanel}
 
 class DateOfSaleIntegrationSpec extends UiSpec with TestHarness {
 
