@@ -31,7 +31,7 @@ trait ClosableChannel {
 /**
  * The out channel is used to send infinite number of generic messages to a queue.
  * It needs to be closed when the client no longer wants to send new messages.
- * @tparam T
+ * @tparam T The type of message being published to the queue.
  */
 trait OutChannel[T] extends ClosableChannel {
   /**
@@ -41,8 +41,10 @@ trait OutChannel[T] extends ClosableChannel {
    * The messages are put on the queue either with Normal priority or with Low priority. Messages with
    * Normal priority are put in the queue in from of all the messages with Low priority.
    * @param message The message object will be serialised to JSON so appropriate JSON format should be in scope.
-   * @param priority
-   * @throws uk.gov.dvla.vehicles.presentation.common.queue.QueueException
+   * @param priority The message priority. During working hours messages are published with Normal priority.
+   *                 Ot of hous they are published with Low priority.
+   * @throws uk.gov.dvla.vehicles.presentation.common.queue.QueueException Thrown if there are any problems when
+   *                                                                       publishing a message
    * @return Unit
    */
   @throws(classOf[QueueException])
@@ -60,7 +62,8 @@ trait ChannelFactory {
    * The onNext method returns a Future[MessageAck]. If that future completes with Ack, the message will be
    * acknowledged to the queue. If the future completes with Rollback the message will be rolled back to the queue.
    * If the Future fails or times out the message will be rolled back to the queue.
-   * @param onNext
+   * @param queue The queue to subscribe to
+   * @param onNext The callback to invoke to consume a published message
    */
   def subscribe[T](queue: String, onNext: T => Future[MessageAck])(implicit jsonReads: Reads[T]): ClosableChannel
 }
