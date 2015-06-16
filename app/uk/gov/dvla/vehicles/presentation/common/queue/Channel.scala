@@ -20,14 +20,6 @@ object MessageAck {
 
 class QueueException extends Exception
 
-//trait Message[T] {
-//  def ack()
-//
-//  def rollback()
-//
-//  def get: T
-//}
-
 /**
  * A trait to hold just the close() method which should free any resources taken.
  */
@@ -62,7 +54,8 @@ trait ChannelFactory {
 
   /**
    * Register a method to be called when a message arrives. The method will be called once for each message.
-   * The messages will be sent until close() is called. The messages will be arriving in priority order.
+   * The messages will be sent until close() is called. The messages will be arriving in priority order. If there
+   * are multiple subscribers only one of them will receive and process a single message.
    *
    * The onNext method returns a Future[MessageAck]. If that future completes with Ack, the message will be
    * acknowledged to the queue. If the future completes with Rollback the message will be rolled back to the queue.

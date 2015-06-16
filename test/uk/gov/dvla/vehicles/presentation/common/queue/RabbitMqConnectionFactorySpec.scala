@@ -15,7 +15,7 @@ class RabbitMqConnectionFactorySpec extends UnitSpec {
       when(config.rabbitMqPassword).thenReturn(Some("some-rmq-password"))
       when(config.rabbitMqUseSsl).thenReturn(true)
       when(config.rabbitMqNetworkRecoverIntervalMs).thenReturn(Some(456L))
-      when(config.rabbitMqHearthbeat).thenReturn(Some(44))
+      when(config.rabbitMqHeartBeat).thenReturn(Some(44))
       when(config.rabbitMqAddresses).thenReturn(Array(
         new Address("host1", 32), new Address("host2", 5534), new Address("host3", 44444))
       )
@@ -30,7 +30,7 @@ class RabbitMqConnectionFactorySpec extends UnitSpec {
       verify(factory).useSslProtocol()
       verify(factory).setAutomaticRecoveryEnabled(true)
       verify(factory).setNetworkRecoveryInterval(config.rabbitMqNetworkRecoverIntervalMs.get)
-      verify(factory).setRequestedHeartbeat(config.rabbitMqHearthbeat.get)
+      verify(factory).setRequestedHeartbeat(config.rabbitMqHeartBeat.get)
       verify(factory).newConnection(config.rabbitMqAddresses)
       verifyNoMoreInteractions(factory)
     }
@@ -42,7 +42,7 @@ class RabbitMqConnectionFactorySpec extends UnitSpec {
       when(config.rabbitMqPassword).thenReturn(None)
       when(config.rabbitMqUseSsl).thenReturn(false)
       when(config.rabbitMqNetworkRecoverIntervalMs).thenReturn(None)
-      when(config.rabbitMqHearthbeat).thenReturn(None)
+      when(config.rabbitMqHeartBeat).thenReturn(None)
       when(config.rabbitMqAddresses).thenReturn(Array(
         new Address("host1", 32), new Address("host2", 5534), new Address("host3", 44444))
       )
