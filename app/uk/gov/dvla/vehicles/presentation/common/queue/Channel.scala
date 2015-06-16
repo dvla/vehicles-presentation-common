@@ -37,7 +37,7 @@ trait OutChannel[T] extends ClosableChannel {
   /**
    * Enqueues a message potentially with a given priority.
    * If this method finishes without exceptions the message has surely ended up in the queue.
-   * If for some any the message cannot be put on the queue QueueException is thrown.
+   * If for any reason the message cannot be put on the queue QueueException is thrown.
    * The messages are put on the queue either with Normal priority or with Low priority. Messages with
    * Normal priority are put in the queue in from of all the messages with Low priority.
    * @param message The message object will be serialised to JSON so appropriate JSON format should be in scope.
@@ -46,7 +46,7 @@ trait OutChannel[T] extends ClosableChannel {
    * @return Unit
    */
   @throws(classOf[QueueException])
-  def put(message: T, priority: Priority)(implicit jsonWrites: Writes[T]): Unit
+  def put(message: T, priority: Priority = Priority.Normal)(implicit jsonWrites: Writes[T]): Unit
 }
 
 trait ChannelFactory {

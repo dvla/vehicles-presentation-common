@@ -1,9 +1,7 @@
 package uk.gov.dvla.vehicles.presentation.common.queue
 
-import java.io.IOException
-
-import akka.actor.ActorSystem
 import com.rabbitmq.client.{AMQP, Channel, Connection, Consumer, DefaultConsumer, Envelope, ShutdownSignalException}
+import java.io.IOException
 import org.mockito.Matchers.{any, eq => meq}
 import org.mockito.Mockito.{atLeastOnce, verify, when}
 import org.mockito.invocation.InvocationOnMock
@@ -16,7 +14,6 @@ import uk.gov.dvla.vehicles.presentation.common.UnitSpec
 
 class RabbitMqInChannelSpec extends UnitSpec with BeforeAndAfterAll  {
   case class TB(name: String, value: Int, value1: Boolean)
-  private implicit val actorSystem = ActorSystem.create("testActorSystem")
   private implicit val jsonFormat = Json.format[TB]
   private case class Config(rabbitMqVirtualHost: Option[String],
                             rabbitMqUserName: Option[String],
@@ -34,8 +31,6 @@ class RabbitMqInChannelSpec extends UnitSpec with BeforeAndAfterAll  {
 //    rabbitMqAddresses = Array.empty[com.rabbitmq.client.Address])
   private val testQueue = "test-queue"
   private val testConsumerTag = "consumer-tag-1"
-
-  override def afterAll(): Unit = actorSystem.shutdown()
 
   "subscribe" should {
     "get a connection, create channel and register a consumer as well as close them on close()" in {

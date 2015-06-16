@@ -90,19 +90,30 @@ class RabbitMqInChannel[T](connectionFactory: RabbitMqConnectionFactory,
   rabbitChannel.basicConsume(queueName, false, consumer)
 }
 
-class RabbitMqOutChannel[T] extends OutChannel[T] {
+class RabbitMqOutChannel[T](connectionFactory: RabbitMqConnectionFactory) extends OutChannel[T] {
+  private val connection = connectionFactory.connection
+  private val rabbitChannel = connection.createChannel()
+
   @throws(classOf[QueueException])
   override def put(message: T, priority: Priority = Priority.Normal)
-                  (implicit jsonWrite: Writes[T]): Unit = ???
+                  (implicit jsonWrite: Writes[T]): Unit = {
+  }
 
-  override def close(): Unit = ???
+  override def close(): Unit = {
+    try rabbitChannel.close() catch {
+      case e: IOException => // do nothing
+    }
+    try connection.close() catch {
+      case e: IOException => // do nothing
+    }
+  }
 }
 
 
 class RabbitMqChannelFactory @Inject()(connectionFactory: RabbitMqConnectionFactory) extends ChannelFactory {
 
   override def outChannel[T](queue: String)(implicit jsonReads: Writes[T]): OutChannel[T] =
-    new RabbitMqOutChannel[T]()
+    new RabbitMqOutChannel[T](connectionFactory)
 
   override def subscribe[T](queue: String, onNext: T => Future[MessageAck])
                            (implicit jsonReads: Reads[T]): ClosableChannel =
