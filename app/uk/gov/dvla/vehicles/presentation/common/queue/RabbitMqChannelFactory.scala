@@ -2,16 +2,27 @@ package uk.gov.dvla.vehicles.presentation.common.queue
 
 import java.io.IOException
 
-import akka.actor.ActorSystem
 import com.fasterxml.jackson.core.JsonParseException
 import com.google.inject.Inject
 import com.rabbitmq.client._
 import play.api.libs.json._
+import uk.gov.dvla.vehicles.presentation.common.queue.RMqPriority._
 
 import scala.concurrent.Future
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.util.control.NonFatal
 import scala.util.{Try, Failure, Success}
+
+object DeliveryMode {
+  final val Persistent = 2
+}
+
+object RMqPriority {
+  def toRMqPriority(priority: Priority): Int = {
+    Priorities.getOrElse(priority, 1)
+  }
+  final val Priorities = Map[Priority, Int](Priority.Normal -> 1, Priority.Low -> 0)
+}
 
 trait RabbitMqConfig {
   def rabbitMqVirtualHost: Option[String]
@@ -45,7 +56,11 @@ class RabbitMqInChannel[T](connectionFactory: RabbitMqConnectionFactory,
                             onNext: T => Future[MessageAck])
                            (implicit jsonReads: Reads[T]) extends ClosableChannel {
   private val connection = connectionFactory.connection
-  private val rabbitChannel = connection.createChannel()
+  private val rabbitChannel = try connection.createChannel() catch {
+    case NonFatal(e) =>
+      closeConnection
+      throw e
+  }
   private val consumer = new DefaultConsumer(rabbitChannel) {
     @throws(classOf[IOException])
     override def handleDelivery(consumerTag: String,
@@ -74,48 +89,90 @@ class RabbitMqInChannel[T](connectionFactory: RabbitMqConnectionFactory,
     override def handleShutdownSignal(consumerTag: String, sig: ShutdownSignalException): Unit = close()
   }
 
+  try rabbitChannel.basicConsume(queueName, false, consumer) catch {
+    case NonFatal(e) =>
+      closeChannel()
+      closeConnection()
+      throw e
+  }
 
   override def close(): Unit = {
-    try rabbitChannel.basicCancel(consumer.getConsumerTag) catch {
-      case e: IOException => // do nothing
-    }
-    try rabbitChannel.close() catch {
-      case e: IOException => // do nothing
-    }
+    cancelConsumer()
+    closeChannel()
+    closeConnection()
+  }
+
+  private def closeConnection(): Unit = {
     try connection.close() catch {
       case e: IOException => // do nothing
     }
   }
 
-  rabbitChannel.basicConsume(queueName, false, consumer)
+  private def closeChannel(): Unit = {
+    try rabbitChannel.close() catch {
+      case e: IOException => // do nothing
+    }
+  }
+
+  private def cancelConsumer(): Unit = {
+    try rabbitChannel.basicCancel(consumer.getConsumerTag) catch {
+      case e: IOException => // do nothing
+    }
+  }
 }
 
-class RabbitMqOutChannel[T](connectionFactory: RabbitMqConnectionFactory) extends OutChannel[T] {
+class RabbitMqOutChannel[T](connectionFactory: RabbitMqConnectionFactory,
+                            queueName: String) extends OutChannel[T] {
   private val connection = connectionFactory.connection
-  private val rabbitChannel = connection.createChannel()
+  private val rabbitChannel = try connection.createChannel() catch {
+    case NonFatal(e) =>
+      closeConnection()
+      throw e
+  }
+
+  try rabbitChannel.queueDeclare(queueName, true, false, false, null) catch {
+    case NonFatal(e) =>
+      close()
+      throw e
+  }
 
   @throws(classOf[QueueException])
   override def put(message: T, priority: Priority = Priority.Normal)
                   (implicit jsonWrite: Writes[T]): Unit = {
+    val props = new AMQP.BasicProperties.Builder()
+      .contentType("application/json")
+      .deliveryMode(DeliveryMode.Persistent)
+      .priority(toRMqPriority(priority))
+      .build()
+
+    try rabbitChannel.basicPublish("", queueName, props, jsonWrite.writes(message).toString().getBytes)
+    catch {
+      case NonFatal(e) => throw new QueueException(e)
+    }
   }
 
   override def close(): Unit = {
-    try rabbitChannel.close() catch {
-      case e: IOException => // do nothing
-    }
-    try connection.close() catch {
-      case e: IOException => // do nothing
-    }
+    closeChannel()
+    closeConnection()
+  }
+
+  private def closeChannel(): Unit = try rabbitChannel.close() catch {
+    case e: IOException => // do nothing
+  }
+
+  private def closeConnection(): Unit = try connection.close() catch {
+    case e: IOException => // do nothing
   }
 }
 
 
 class RabbitMqChannelFactory @Inject()(connectionFactory: RabbitMqConnectionFactory) extends ChannelFactory {
 
-  override def outChannel[T](queue: String)(implicit jsonReads: Writes[T]): OutChannel[T] =
-    new RabbitMqOutChannel[T](connectionFactory)
+  override def outChannel[T](queueName: String)(implicit jsonWrites: Writes[T]): Try[OutChannel[T]] =
+    Try(new RabbitMqOutChannel[T](connectionFactory, queueName))
 
-  override def subscribe[T](queue: String, onNext: T => Future[MessageAck])
-                           (implicit jsonReads: Reads[T]): ClosableChannel =
-    new RabbitMqInChannel[T](connectionFactory, queue, onNext)
+
+  override def subscribe[T](queueName: String, onNext: T => Future[MessageAck])
+                           (implicit jsonReads: Reads[T]): Try[ClosableChannel] =
+    Try(new RabbitMqInChannel[T](connectionFactory, queueName, onNext))
 }

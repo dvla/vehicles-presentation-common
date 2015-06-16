@@ -1,12 +1,16 @@
 package uk.gov.dvla.vehicles.presentation.common.queue
 
 import com.rabbitmq.client._
-import org.mockito.Matchers._
+import org.mockito.ArgumentCaptor
+import org.mockito.Matchers.{any, eq => meq}
 import org.mockito.Mockito._
 import org.mockito.invocation.InvocationOnMock
 import org.mockito.stubbing.Answer
 import play.api.libs.json.Json
+import RMqPriority.toRMqPriority
 import uk.gov.dvla.vehicles.presentation.common.UnitSpec
+
+import scala.util.Success
 
 class RabbitMqOutChannelSpec extends UnitSpec {
   case class TB(name: String, value: Int, value1: Boolean)
@@ -18,43 +22,118 @@ class RabbitMqOutChannelSpec extends UnitSpec {
 
   "put" should {
 
-    "Create a durable queue if it doesn't exist" in {
+    "Create a channel and a durable queue if it doesn't exist" in {
       val (rmqChannel, connection, rabbitFactory, factory) = setup
+      factory.outChannel(queueName)
+      verify(rabbitFactory).connection
+      verify(connection).createChannel()
+      verify(rmqChannel).queueDeclare(queueName, true, false, false, null)
+    }
+
+    "send a persistent message with Normal priority by default" in {
+      val (rmqChannel, _, _, factory) = setup
       val channel = factory.outChannel(queueName)
-      channel.put(message1)
+      channel.map(_.put(message1))
+
+      val properties = new AMQP.BasicProperties.Builder()
+        .contentType("application/json")
+        .deliveryMode(DeliveryMode.Persistent)
+        .priority(toRMqPriority(Priority.Normal))
+        .build()
+
+      val exchangeArg = ArgumentCaptor.forClass(classOf[String])
+      val routingArg = ArgumentCaptor.forClass(classOf[String])
+      val propertiesArg = ArgumentCaptor.forClass(classOf[AMQP.BasicProperties])
+      val messageArg = ArgumentCaptor.forClass(classOf[Array[Byte]])
+
+      verify(rmqChannel).basicPublish(
+        exchangeArg.capture(),
+        routingArg.capture(),
+        propertiesArg.capture(),
+        messageArg.capture()
+      )
+
+      exchangeArg.getValue should equal("")
+      routingArg.getValue should equal(queueName)
+      propertiesArg.getValue.toString should equal(properties.toString)
+      messageArg.getValue should equal(jsonFormat.writes(message1).toString().getBytes)
+    }
+
+    "send messages with explicit priority if specified" in {
+      val (rmqChannel, _, _, factory) = setup
+      val channel = factory.outChannel(queueName)
+      channel.map(_.put(message1, Priority.Low))
+
+      val properties = new AMQP.BasicProperties.Builder()
+        .contentType("application/json")
+        .deliveryMode(DeliveryMode.Persistent)
+        .priority(toRMqPriority(Priority.Low))
+        .build()
+
+      val exchangeArg = ArgumentCaptor.forClass(classOf[String])
+      val routingArg = ArgumentCaptor.forClass(classOf[String])
+      val propertiesArg = ArgumentCaptor.forClass(classOf[AMQP.BasicProperties])
+      val messageArg = ArgumentCaptor.forClass(classOf[Array[Byte]])
+
+      verify(rmqChannel).basicPublish(
+        exchangeArg.capture(),
+        routingArg.capture(),
+        propertiesArg.capture(),
+        messageArg.capture()
+      )
+
+      exchangeArg.getValue should equal("")
+      routingArg.getValue should equal(queueName)
+      propertiesArg.getValue.toString should equal(properties.toString)
+      messageArg.getValue should equal(jsonFormat.writes(message1).toString().getBytes)
+    }
+
+    "fail if cannot serialise the object" in {
+      fail("Not implemented")
+      val (rmqChannel, _, _, factory) = setup
+      val channel = factory.outChannel(queueName)
+      channel.map(_.put(message1, Priority.Low))
+
+      val properties = new AMQP.BasicProperties.Builder()
+        .contentType("application/json").deliveryMode(DeliveryMode.Persistent)
+        .priority(toRMqPriority(Priority.Low))
+        .build()
 
       verify(rmqChannel).basicPublish(
         "",
         queueName,
-        MessageProperties.MINIMAL_PERSISTENT_BASIC,
+        properties,
         jsonFormat.writes(message1).toString().getBytes
       )
     }
 
-    "send a persistent message" in {
-
-    }
-
-    "send messages with normal priority by default" in {
-
-    }
-
-    "send messages with explicit priority if specified" in {
-
-    }
-
-    "fail if cannot serialise the object" in {
-
-    }
-
     "fail if cannot queue" in {
+      val (rmqChannel, _, _, factory) = setup
+      when(rmqChannel.basicPublish(
+        meq(""),
+        meq(queueName),
+        any[AMQP.BasicProperties],
+        meq(jsonFormat.writes(message1).toString().getBytes)
+      )).thenThrow(new RuntimeException("Boom"))
 
+      val channel = factory.outChannel(queueName)
+
+      channel match {
+        case Success(channel) =>
+          intercept[QueueException] {
+            channel.put(message1, Priority.Low)
+          }
+        case _ => fail("channel was failure")
+      }
     }
   }
 
   "close" should {
     "Close the connection and the open rmqChannel" in {
-
+      val (rmqChannel, connection, rabbitFactory, factory) = setup
+      factory.outChannel(queueName).map(_.close())
+      verify(connection).close()
+      verify(rmqChannel).close()
     }
   }
 

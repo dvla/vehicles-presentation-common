@@ -46,7 +46,7 @@ class RabbitMqInChannelSpec extends UnitSpec with BeforeAndAfterAll  {
       when(channel.close()).thenThrow(new IOException())
       when(connection.close()).thenThrow(new IOException())
 
-      inChannel.close()
+      inChannel.map(_.close())
       verify(channel).basicCancel(testConsumerTag)
       verify(channel).close()
       verify(connection).close()

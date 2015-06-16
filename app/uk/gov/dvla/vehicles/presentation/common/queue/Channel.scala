@@ -5,6 +5,7 @@ import java.io.IOException
 import play.api.libs.json.{Reads, Writes}
 
 import scala.concurrent.Future
+import scala.util.Try
 
 sealed trait Priority
 object Priority {
@@ -18,7 +19,7 @@ object MessageAck {
   case object Nack extends MessageAck
 }
 
-class QueueException extends Exception
+class QueueException(cause: Throwable) extends Exception(cause)
 
 /**
  * A trait to hold just the close() method which should free any resources taken.
@@ -52,7 +53,7 @@ trait OutChannel[T] extends ClosableChannel {
 }
 
 trait ChannelFactory {
-  def outChannel[T](queue: String)(implicit jsonReads: Writes[T]): OutChannel[T]
+  def outChannel[T](queue: String)(implicit jsonReads: Writes[T]): Try[OutChannel[T]]
 
   /**
    * Register a method to be called when a message arrives. The method will be called once for each message.
@@ -65,5 +66,5 @@ trait ChannelFactory {
    * @param queue The queue to subscribe to
    * @param onNext The callback to invoke to consume a published message
    */
-  def subscribe[T](queue: String, onNext: T => Future[MessageAck])(implicit jsonReads: Reads[T]): ClosableChannel
+  def subscribe[T](queue: String, onNext: T => Future[MessageAck])(implicit jsonReads: Reads[T]): Try[ClosableChannel]
 }
