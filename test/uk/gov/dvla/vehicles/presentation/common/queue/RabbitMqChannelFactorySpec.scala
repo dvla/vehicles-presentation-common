@@ -1,8 +1,11 @@
 package uk.gov.dvla.vehicles.presentation.common.queue
 
-import com.rabbitmq.client.{Consumer, DefaultConsumer, Connection, Channel}
+import java.util.Date
+
+import com.rabbitmq.client._
 import org.mockito.Mockito.{verify, when, verifyNoMoreInteractions}
 import org.mockito.Matchers.{any, eq => meq}
+import play.api.libs.json.{Json, Format}
 import uk.gov.dvla.vehicles.presentation.common.UnitSpec
 
 import scala.concurrent.Future
@@ -142,6 +145,47 @@ class RabbitMqChannelFactorySpec extends UnitSpec {
       verify(rMqChannel).close()
       verifyNoMoreInteractions(connection)
       verifyNoMoreInteractions(rMqChannel)
+    }
+  }
+
+  case class B(name: String, value: String)
+  implicit val jsonFormat = Json.format[B]
+
+  "e2e" should {
+    import com.rabbitmq.client.Address
+
+    "Enqueue/Dequeue messages" in {
+      val config = TestRabbitMqConfig(
+          rabbitMqVirtualHost = None,
+          rabbitMqUserName = None,
+          rabbitMqPassword = None,
+          rabbitMqUseSsl = false,
+          rabbitMqNetworkRecoverIntervalMs = None,
+          rabbitMqHeartBeat = None,
+          rabbitMqAddresses = Array(new Address("localhost", 5672))
+      )
+
+      val rMqConnectionFactory = new RabbitMqConnectionFactory(config, new ConnectionFactory)
+      val factory = new RabbitMqChannelFactory(rMqConnectionFactory)
+      val queueName = "test-queue-234324"
+      val inChannel = factory.subscribe[B](queueName, b => Future.successful{
+        println(s"${new Date()} Message received: " + b)
+        MessageAck.Ack
+      })
+      val outChannel = factory.outChannel(queueName)
+
+      outChannel.map { ch =>
+        for (i <- 0 until 100000) ch.put(B(i.toString, "High priority"))
+        for (i <- 100000 until 200000) ch.put(B(i.toString, "Low priority"), Priority.Low)
+        for (i <- 200000 until 300000) ch.put(B(i.toString, "High priority"))
+      } orElse {
+      }
+
+      Thread.sleep(20000)
+
+      outChannel.map(_.close())
+      inChannel.map(_.close())
+
     }
   }
 }

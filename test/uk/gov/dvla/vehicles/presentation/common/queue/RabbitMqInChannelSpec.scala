@@ -15,20 +15,7 @@ import uk.gov.dvla.vehicles.presentation.common.UnitSpec
 class RabbitMqInChannelSpec extends UnitSpec with BeforeAndAfterAll  {
   case class TB(name: String, value: Int, value1: Boolean)
   private implicit val jsonFormat = Json.format[TB]
-  private case class Config(rabbitMqVirtualHost: Option[String],
-                            rabbitMqUserName: Option[String],
-                            rabbitMqPassword: Option[String],
-                            rabbitMqUseSsl: Boolean,
-                            rabbitMqNetworkRecoverIntervalMs: Option[Long],
-                            rabbitMqHeartBeat: Option[Int],
-                            rabbitMqAddresses: Array[com.rabbitmq.client.Address]) extends RabbitMqConfig
-//  private val config = Config(rabbitMqVirtualHost = None,
-//    rabbitMqUserName = None,
-//    rabbitMqPassword = None,
-//    rabbitMqUseSsl = false,
-//    rabbitMqNetworkRecoverIntervalMs = None,
-//    rabbitMqHeartBeat = None,
-//    rabbitMqAddresses = Array.empty[com.rabbitmq.client.Address])
+
   private val testQueue = "test-queue"
   private val testConsumerTag = "consumer-tag-1"
 
