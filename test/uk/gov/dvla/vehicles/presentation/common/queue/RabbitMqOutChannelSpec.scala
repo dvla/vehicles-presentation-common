@@ -1,16 +1,13 @@
 package uk.gov.dvla.vehicles.presentation.common.queue
 
-import com.rabbitmq.client._
+import com.rabbitmq.client.{AMQP, Channel, Connection}
 import org.mockito.ArgumentCaptor
 import org.mockito.Matchers.{any, eq => meq}
-import org.mockito.Mockito._
-import org.mockito.invocation.InvocationOnMock
-import org.mockito.stubbing.Answer
+import org.mockito.Mockito.{when, verify}
 import play.api.libs.json.Json
 import RMqPriority.toRMqPriority
-import uk.gov.dvla.vehicles.presentation.common.UnitSpec
-
 import scala.util.Success
+import uk.gov.dvla.vehicles.presentation.common.UnitSpec
 
 class RabbitMqOutChannelSpec extends UnitSpec {
   case class TB(name: String, value: Int, value1: Boolean)
@@ -91,7 +88,7 @@ class RabbitMqOutChannelSpec extends UnitSpec {
       fail("Not implemented")
       val (rmqChannel, _, _, factory) = setup
       val channel = factory.outChannel(queueName)
-      channel.map(_.put(message1, Priority.Low))
+      channel.map(_.put(message1))
 
       val properties = new AMQP.BasicProperties.Builder()
         .contentType("application/json").deliveryMode(DeliveryMode.Persistent)
@@ -118,9 +115,9 @@ class RabbitMqOutChannelSpec extends UnitSpec {
       val channel = factory.outChannel(queueName)
 
       channel match {
-        case Success(channel) =>
+        case Success(c) =>
           intercept[QueueException] {
-            channel.put(message1, Priority.Low)
+            c.put(message1, Priority.Low)
           }
         case _ => fail("channel was failure")
       }
@@ -129,7 +126,7 @@ class RabbitMqOutChannelSpec extends UnitSpec {
 
   "close" should {
     "Close the connection and the open rmqChannel" in {
-      val (rmqChannel, connection, rabbitFactory, factory) = setup
+      val (rmqChannel, connection, _, factory) = setup
       factory.outChannel(queueName).map(_.close())
       verify(connection).close()
       verify(rmqChannel).close()

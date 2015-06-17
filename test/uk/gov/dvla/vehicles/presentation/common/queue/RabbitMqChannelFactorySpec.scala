@@ -1,15 +1,13 @@
 package uk.gov.dvla.vehicles.presentation.common.queue
 
-import java.util.Date
-
-import com.rabbitmq.client._
+import com.rabbitmq.client.{Channel, Connection, ConnectionFactory, Consumer, DefaultConsumer}
 import org.mockito.Mockito.{verify, when, verifyNoMoreInteractions}
 import org.mockito.Matchers.{any, eq => meq}
-import play.api.libs.json.{Json, Format}
-import uk.gov.dvla.vehicles.presentation.common.UnitSpec
-
+import java.util.Date
+import play.api.libs.json.Json
 import scala.concurrent.Future
 import scala.util.Failure
+import uk.gov.dvla.vehicles.presentation.common.UnitSpec
 
 class RabbitMqChannelFactorySpec extends UnitSpec {
   "outChannel" should {
