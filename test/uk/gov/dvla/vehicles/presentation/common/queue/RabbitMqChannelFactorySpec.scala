@@ -178,14 +178,12 @@ class RabbitMqChannelFactorySpec extends UnitSpec {
         for (i <- 0 until 100000) ch.put(B(i.toString, "High priority"))
         for (i <- 100000 until 200000) ch.put(B(i.toString, "Low priority"), Priority.Low)
         for (i <- 200000 until 300000) ch.put(B(i.toString, "High priority"))
-      } orElse {
       }
 
       Thread.sleep(20000)
 
       outChannel.map(_.close())
       inChannel.map(_.close())
-
     }
   }
 }
