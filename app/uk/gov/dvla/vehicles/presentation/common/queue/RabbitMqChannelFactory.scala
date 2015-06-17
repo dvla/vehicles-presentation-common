@@ -1,17 +1,21 @@
 package uk.gov.dvla.vehicles.presentation.common.queue
 
-import java.io.IOException
-
 import com.fasterxml.jackson.core.JsonParseException
 import com.google.inject.Inject
-import com.rabbitmq.client._
-import play.api.libs.json._
-import uk.gov.dvla.vehicles.presentation.common.queue.RMqPriority._
-
-import scala.concurrent.Future
+import com.rabbitmq.client.AMQP
+import com.rabbitmq.client.Address
+import com.rabbitmq.client.Connection
+import com.rabbitmq.client.ConnectionFactory
+import com.rabbitmq.client.DefaultConsumer
+import com.rabbitmq.client.Envelope
+import com.rabbitmq.client.ShutdownSignalException
+import java.io.IOException
+import play.api.libs.json.{Json, Reads, Writes}
 import scala.concurrent.ExecutionContext.Implicits.global
+import scala.concurrent.Future
 import scala.util.control.NonFatal
 import scala.util.{Try, Failure, Success}
+import uk.gov.dvla.vehicles.presentation.common.queue.RMqPriority.toRMqPriority
 
 object DeliveryMode {
   final val Persistent = 2
@@ -36,10 +40,10 @@ trait RabbitMqConfig {
 
 class RabbitMqConnectionFactory @Inject()(config: RabbitMqConfig, factory: ConnectionFactory) {
   def connection: Connection = {
-    config.rabbitMqVirtualHost.foreach(factory.setVirtualHost(_))
-    config.rabbitMqUserName.foreach(factory.setUsername(_))
-    config.rabbitMqPassword.foreach(factory.setPassword(_))
-    config.rabbitMqHeartBeat.foreach(factory.setRequestedHeartbeat(_))
+    config.rabbitMqVirtualHost.foreach(factory.setVirtualHost)
+    config.rabbitMqUserName.foreach(factory.setUsername)
+    config.rabbitMqPassword.foreach(factory.setPassword)
+    config.rabbitMqHeartBeat.foreach(factory.setRequestedHeartbeat)
     if (config.rabbitMqUseSsl) factory.useSslProtocol()
     config.rabbitMqNetworkRecoverIntervalMs
       .fold(factory.setAutomaticRecoveryEnabled(false)) { interval =>
@@ -58,7 +62,7 @@ class RabbitMqInChannel[T](connectionFactory: RabbitMqConnectionFactory,
   private val connection = connectionFactory.connection
   private val rabbitChannel = try connection.createChannel() catch {
     case NonFatal(e) =>
-      closeConnection
+      closeConnection()
       throw e
   }
   private val consumer = new DefaultConsumer(rabbitChannel) {
@@ -147,7 +151,7 @@ class RabbitMqOutChannel[T](connectionFactory: RabbitMqConnectionFactory,
 
     try rabbitChannel.basicPublish("", queueName, props, jsonWrite.writes(message).toString().getBytes)
     catch {
-      case NonFatal(e) => throw new QueueException(e)
+      case e: Throwable =>println("Exception:" + e ); throw new QueueException(e)
     }
   }
 
@@ -165,12 +169,10 @@ class RabbitMqOutChannel[T](connectionFactory: RabbitMqConnectionFactory,
   }
 }
 
-
 class RabbitMqChannelFactory @Inject()(connectionFactory: RabbitMqConnectionFactory) extends ChannelFactory {
 
-  override def outChannel[T](queueName: String)(implicit jsonWrites: Writes[T]): Try[OutChannel[T]] =
+  override def outChannel[T](queueName: String): Try[OutChannel[T]] =
     Try(new RabbitMqOutChannel[T](connectionFactory, queueName))
-
 
   override def subscribe[T](queueName: String, onNext: T => Future[MessageAck])
                            (implicit jsonReads: Reads[T]): Try[ClosableChannel] =

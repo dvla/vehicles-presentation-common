@@ -2,7 +2,7 @@ package uk.gov.dvla.vehicles.presentation.common.queue
 
 import com.rabbitmq.client.ConnectionFactory
 import uk.gov.dvla.vehicles.presentation.common.UnitSpec
-import org.mockito.Mockito.{when, verify, never, verifyNoMoreInteractions}
+import org.mockito.Mockito.{when, verify, verifyNoMoreInteractions}
 import com.rabbitmq.client.Address
 import com.rabbitmq.client.Connection
 

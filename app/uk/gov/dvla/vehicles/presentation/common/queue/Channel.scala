@@ -1,9 +1,7 @@
 package uk.gov.dvla.vehicles.presentation.common.queue
 
 import java.io.IOException
-
 import play.api.libs.json.{Reads, Writes}
-
 import scala.concurrent.Future
 import scala.util.Try
 
@@ -53,7 +51,7 @@ trait OutChannel[T] extends ClosableChannel {
 }
 
 trait ChannelFactory {
-  def outChannel[T](queue: String)(implicit jsonReads: Writes[T]): Try[OutChannel[T]]
+  def outChannel[T](queue: String): Try[OutChannel[T]]
 
   /**
    * Register a method to be called when a message arrives. The method will be called once for each message.

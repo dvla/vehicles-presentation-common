@@ -6,12 +6,12 @@ import org.mockito.Matchers.{any, eq => meq}
 import org.mockito.Mockito.{when, verify}
 import play.api.libs.json.Json
 import RMqPriority.toRMqPriority
-import scala.util.Success
+import scala.util.{Failure, Success}
 import uk.gov.dvla.vehicles.presentation.common.UnitSpec
 
 class RabbitMqOutChannelSpec extends UnitSpec {
   case class TB(name: String, value: Int, value1: Boolean)
-  private implicit val jsonFormat = Json.format[TB]
+  private val jsonFormat = Json.format[TB]
   val message1 = TB("event-1-с български букви", 1, value1 = true)
   val message2 = TB("event-2  με ελληνικά", 2, value1 = true)
   val message3 = TB("event-3 希腊", 3, value1 = true)
@@ -28,8 +28,8 @@ class RabbitMqOutChannelSpec extends UnitSpec {
 
     "send a persistent message with Normal priority by default" in {
       val (rmqChannel, _, _, factory) = setup
-      val channel = factory.outChannel(queueName)
-      channel.map(_.put(message1))
+      val channel = factory.outChannel[TB](queueName)
+      channel.map(_.put(message1)(jsonFormat))
 
       val properties = new AMQP.BasicProperties.Builder()
         .contentType("application/json")
@@ -57,8 +57,8 @@ class RabbitMqOutChannelSpec extends UnitSpec {
 
     "send messages with explicit priority if specified" in {
       val (rmqChannel, _, _, factory) = setup
-      val channel = factory.outChannel(queueName)
-      channel.map(_.put(message1, Priority.Low))
+      val channel = factory.outChannel[TB](queueName)
+      channel.map(_.put(message1, Priority.Low)(jsonFormat))
 
       val properties = new AMQP.BasicProperties.Builder()
         .contentType("application/json")
@@ -84,23 +84,20 @@ class RabbitMqOutChannelSpec extends UnitSpec {
       messageArg.getValue should equal(jsonFormat.writes(message1).toString().getBytes)
     }
 
-    "fail if cannot serialise the object" ignore {
-      fail("Not implemented")
-      val (rmqChannel, _, _, factory) = setup
-      val channel = factory.outChannel(queueName)
-      channel.map(_.put(message1))
+    "fail if cannot serialise the object" in {
+      val (_, _, _, factory) = setup
 
-      val properties = new AMQP.BasicProperties.Builder()
-        .contentType("application/json").deliveryMode(DeliveryMode.Persistent)
-        .priority(toRMqPriority(Priority.Low))
-        .build()
+      implicit val mockJsonWrites = mock[play.api.libs.json.Writes[TB]]
+      when(mockJsonWrites.writes(any[TB])).thenThrow(new RuntimeException("Serialization failed in test"))
 
-      verify(rmqChannel).basicPublish(
-        "",
-        queueName,
-        properties,
-        jsonFormat.writes(message1).toString().getBytes
-      )
+      val channel = factory.outChannel[TB](queueName)
+
+      channel.map(_.put(message1)(mockJsonWrites)) match {
+        case Failure(e:QueueException) => // works as expected
+        case Failure(e) => fail("QueueException expected bug got:" + e)
+        case _ => fail("QueueException expected but no exception was thrown")
+
+      }
     }
 
     "fail if cannot queue" in {
@@ -112,12 +109,12 @@ class RabbitMqOutChannelSpec extends UnitSpec {
         meq(jsonFormat.writes(message1).toString().getBytes)
       )).thenThrow(new RuntimeException("Boom"))
 
-      val channel = factory.outChannel(queueName)
+      val channel = factory.outChannel[TB](queueName)
 
       channel match {
         case Success(c) =>
           intercept[QueueException] {
-            c.put(message1, Priority.Low)
+            c.put(message1, Priority.Low)(jsonFormat)
           }
         case _ => fail("channel was failure")
       }
@@ -127,7 +124,7 @@ class RabbitMqOutChannelSpec extends UnitSpec {
   "close" should {
     "Close the connection and the open rmqChannel" in {
       val (rmqChannel, connection, _, factory) = setup
-      factory.outChannel(queueName).map(_.close())
+      factory.outChannel[Any](queueName).map(_.close())
       verify(connection).close()
       verify(rmqChannel).close()
     }

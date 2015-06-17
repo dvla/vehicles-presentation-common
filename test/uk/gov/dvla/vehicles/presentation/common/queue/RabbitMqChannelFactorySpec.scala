@@ -152,7 +152,7 @@ class RabbitMqChannelFactorySpec extends UnitSpec {
   "e2e" should {
     import com.rabbitmq.client.Address
 
-    "Enqueue/Dequeue messages" in {
+    "Enqueue/Dequeue messages" ignore {
       val config = TestRabbitMqConfig(
           rabbitMqVirtualHost = None,
           rabbitMqUserName = None,
@@ -170,7 +170,7 @@ class RabbitMqChannelFactorySpec extends UnitSpec {
         println(s"${new Date()} Message received: " + b)
         MessageAck.Ack
       })
-      val outChannel = factory.outChannel(queueName)
+      val outChannel = factory.outChannel[B](queueName)
 
       outChannel.map { ch =>
         for (i <- 0 until 100000) ch.put(B(i.toString, "High priority"))
