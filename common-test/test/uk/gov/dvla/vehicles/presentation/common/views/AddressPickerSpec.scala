@@ -1,16 +1,13 @@
 package uk.gov.dvla.vehicles.presentation.common.views
 
-import org.openqa.selenium.{WebDriver, Cookie}
 import org.scalatest.AppendedClues
 import play.api.i18n.Messages
-import play.api.libs.json.{Writes, Json}
+import play.api.libs.json.Json
 import uk.gov.dvla.vehicles.presentation.common.composition.TestHarness
 import uk.gov.dvla.vehicles.presentation.common.helpers.UiSpec
-import uk.gov.dvla.vehicles.presentation.common.helpers.webbrowser.WebDriverFactory
-import uk.gov.dvla.vehicles.presentation.common.model.{SearchFields, Address}
+import uk.gov.dvla.vehicles.presentation.common.model.{Address, SearchFields}
 import uk.gov.dvla.vehicles.presentation.common.models.AddressPickerModel
-import uk.gov.dvla.vehicles.presentation.common.pages.{ErrorPanel, AddressPickerPage}
-import scala.collection.JavaConversions.asScalaBuffer
+import uk.gov.dvla.vehicles.presentation.common.pages.{AddressPickerPage, ErrorPanel}
 
 class AddressPickerSpec extends UiSpec with TestHarness with AppendedClues {
   "Address picker widget" should {
@@ -91,7 +88,7 @@ class AddressPickerSpec extends UiSpec with TestHarness with AppendedClues {
       widget.postCodeSearch.value = "AAAAAAA"
       click on AddressPickerPage.submit
       val errors = ErrorPanel.text.lines.filter(_ != "Please check the form").toSeq
-      errors should have size(1)
+      errors should have size 1
       errors.head should include(Messages("address-picker-1.address-postcode-lookup"))
 
     }
@@ -112,7 +109,7 @@ class AddressPickerSpec extends UiSpec with TestHarness with AppendedClues {
       widget.assertServerErrorInvisible()
       widget.assertMissingPostcodeInvisible()
 
-      println("OPTIONS:" + widget.addressSelect.getOptions.map(_.getAttribute("value")).mkString("\n"))
+//      println("OPTIONS:" + widget.addressSelect.getOptions.map(_.getAttribute("value")).mkString("\n"))
 
       widget.addressSelect.getOptions should not be empty
 
@@ -236,7 +233,13 @@ class AddressPickerSpec extends UiSpec with TestHarness with AppendedClues {
 
     "submit when required are present" in new WebBrowserWithJs {
       val model = Address(
-        SearchFields(true, true, true, Some("AA11AA"), Some("1"), true),
+        SearchFields(showSearchFields = true,
+          showAddressSelect = true,
+          showAddressFields = true,
+          Some("AA11AA"),
+          Some("1"),
+          remember = true
+        ),
         "address line 1",
         Some("address line 2"),
         Some("address line 3"),
@@ -259,7 +262,7 @@ class AddressPickerSpec extends UiSpec with TestHarness with AppendedClues {
       val addressCookie = webDriver.manage().getCookieNamed(AddressPickerModel.Key.value)
       val json = addressCookie.getValue
       AddressPickerModel.JsonFormat.reads(Json.parse(json))
-        .map(a => a.address1 should equal(model)) orElse(fail("Did not have a AddressPickerModel in the response"))
+        .map(a => a.address1 should equal(model)) orElse fail("Did not have a AddressPickerModel in the response")
     }
 
     "enter address manually with html unit only" in new WebBrowserWithJs() {
@@ -276,7 +279,13 @@ class AddressPickerSpec extends UiSpec with TestHarness with AppendedClues {
 
     "Enter address manually should work with javascript disabled" in new WebBrowser() {
       val model = Address(
-        SearchFields(false, false, true, None, None, true),
+        SearchFields(showSearchFields = false,
+          showAddressSelect = false,
+          showAddressFields = true,
+          None,
+          None,
+          remember = true
+        ),
         "address line 1",
         Some("address line 2"),
         Some("address line 3"),
@@ -296,7 +305,7 @@ class AddressPickerSpec extends UiSpec with TestHarness with AppendedClues {
       val addressCookie = webDriver.manage().getCookieNamed(AddressPickerModel.Key.value)
       val json = addressCookie.getValue
       AddressPickerModel.JsonFormat.reads(Json.parse(json))
-        .map(a => a.address1 should equal(model)) orElse(fail("Did not have a AddressPickerModel in the response"))
+        .map(a => a.address1 should equal(model)) orElse fail("Did not have a AddressPickerModel in the response")
     }
 
     "form validation with js disabled" in new WebBrowser() {

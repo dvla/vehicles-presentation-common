@@ -1,10 +1,8 @@
 package uk.gov.dvla.vehicles.presentation.common.views
 
 import uk.gov.dvla.vehicles.presentation.common.composition.TestHarness
-import uk.gov.dvla.vehicles.presentation.common.pages
-import uk.gov.dvla.vehicles.presentation.common
 import uk.gov.dvla.vehicles.presentation.common.helpers.UiSpec
-import pages.{ErrorPanel, V5cRegistrationNumberPage}
+import uk.gov.dvla.vehicles.presentation.common.pages.{ErrorPanel, V5cRegistrationNumberPage}
 
 class V5cRegistrationNumberIntegrationSpec extends UiSpec with TestHarness {
 

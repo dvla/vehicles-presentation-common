@@ -1,11 +1,12 @@
 package uk.gov.dvla.vehicles.presentation.common.pages
 
-import uk.gov.dvla.vehicles.presentation.common.helpers
-import uk.gov.dvla.vehicles.presentation.common.models
-
-import helpers.webbrowser.{Element, Page, TextField, WebBrowserDSL, WebDriverFactory}
-import models.V5cRegistrationNumberModel.Form.v5cRegistrationNumberID
 import org.openqa.selenium.WebDriver
+import uk.gov.dvla.vehicles.presentation.common.helpers.webbrowser.Element
+import uk.gov.dvla.vehicles.presentation.common.helpers.webbrowser.Page
+import uk.gov.dvla.vehicles.presentation.common.helpers.webbrowser.TextField
+import uk.gov.dvla.vehicles.presentation.common.helpers.webbrowser.WebBrowserDSL
+import uk.gov.dvla.vehicles.presentation.common.helpers.webbrowser.WebDriverFactory
+import uk.gov.dvla.vehicles.presentation.common.models.V5cRegistrationNumberModel.Form.v5cRegistrationNumberID
 
 object V5cRegistrationNumberPage extends Page with WebBrowserDSL {
   final val address = "/v5c-registration-number"

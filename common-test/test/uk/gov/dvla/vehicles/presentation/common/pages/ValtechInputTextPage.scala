@@ -1,11 +1,12 @@
 package uk.gov.dvla.vehicles.presentation.common.pages
 
-import uk.gov.dvla.vehicles.presentation.common.helpers
-import uk.gov.dvla.vehicles.presentation.common.models
-
-import helpers.webbrowser.{Element, Page, WebBrowserDSL, TextField, WebDriverFactory}
-import models.ValtechInputTextModel.Form.InputTextId
 import org.openqa.selenium.WebDriver
+import uk.gov.dvla.vehicles.presentation.common.helpers.webbrowser.Element
+import uk.gov.dvla.vehicles.presentation.common.helpers.webbrowser.Page
+import uk.gov.dvla.vehicles.presentation.common.helpers.webbrowser.TextField
+import uk.gov.dvla.vehicles.presentation.common.helpers.webbrowser.WebBrowserDSL
+import uk.gov.dvla.vehicles.presentation.common.helpers.webbrowser.WebDriverFactory
+import uk.gov.dvla.vehicles.presentation.common.models.ValtechInputTextModel.Form.InputTextId
 
 object ValtechInputTextPage extends Page with WebBrowserDSL {
 

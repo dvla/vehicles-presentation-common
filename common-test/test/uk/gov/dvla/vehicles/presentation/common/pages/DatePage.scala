@@ -1,11 +1,12 @@
 package uk.gov.dvla.vehicles.presentation.common.pages
 
-import uk.gov.dvla.vehicles.presentation.common.helpers
-import uk.gov.dvla.vehicles.presentation.common.models
-
-import helpers.webbrowser.{Element, Page, WebBrowserDSL, WebDriverFactory, _}
-import models.DateModel.Form.{OptionalDateId, DateId}
 import org.openqa.selenium.{SearchContext, WebDriver}
+import uk.gov.dvla.vehicles.presentation.common.helpers.webbrowser.Element
+import uk.gov.dvla.vehicles.presentation.common.helpers.webbrowser.Page
+import uk.gov.dvla.vehicles.presentation.common.helpers.webbrowser.TelField
+import uk.gov.dvla.vehicles.presentation.common.helpers.webbrowser.WebBrowserDSL
+import uk.gov.dvla.vehicles.presentation.common.helpers.webbrowser.WebDriverFactory
+import uk.gov.dvla.vehicles.presentation.common.models.DateModel.Form.{DateId, OptionalDateId}
 
 class DatePage(implicit driver: SearchContext) extends Page with WebBrowserDSL {
 

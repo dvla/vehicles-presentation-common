@@ -4,10 +4,8 @@ import org.openqa.selenium.Keys
 import play.api.i18n.Messages
 import uk.gov.dvla.vehicles.presentation.common.composition.TestHarness
 import uk.gov.dvla.vehicles.presentation.common.helpers.webbrowser.WebDriverFactory
-import uk.gov.dvla.vehicles.presentation.common.pages
-
 import uk.gov.dvla.vehicles.presentation.common.helpers.UiSpec
-import pages.{ErrorPanel, EmailPage}
+import uk.gov.dvla.vehicles.presentation.common.pages.{EmailPage, ErrorPanel}
 
 class EmailIntegrationSpec extends UiSpec with TestHarness {
 

@@ -1,11 +1,12 @@
 package uk.gov.dvla.vehicles.presentation.common.pages
 
-import uk.gov.dvla.vehicles.presentation.common.helpers
-import uk.gov.dvla.vehicles.presentation.common.models
-
-import helpers.webbrowser.{Element, SingleSel, WebDriverFactory, Page, WebBrowserDSL}
-import models.ValtechSelectModel.Form.{FirstOption, SelectId}
 import org.openqa.selenium.WebDriver
+import uk.gov.dvla.vehicles.presentation.common.helpers.webbrowser.Element
+import uk.gov.dvla.vehicles.presentation.common.helpers.webbrowser.SingleSel
+import uk.gov.dvla.vehicles.presentation.common.helpers.webbrowser.Page
+import uk.gov.dvla.vehicles.presentation.common.helpers.webbrowser.WebBrowserDSL
+import uk.gov.dvla.vehicles.presentation.common.helpers.webbrowser.WebDriverFactory
+import uk.gov.dvla.vehicles.presentation.common.models.ValtechSelectModel.Form.{FirstOption, SelectId}
 
 object ValtechSelectPage extends Page with WebBrowserDSL {
 

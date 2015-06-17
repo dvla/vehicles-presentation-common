@@ -1,9 +1,6 @@
 package uk.gov.dvla.vehicles.presentation.common.pages
 
-import uk.gov.dvla.vehicles.presentation.common.helpers
-import uk.gov.dvla.vehicles.presentation.common.models
-
-import helpers.webbrowser.{WebDriverFactory, WebBrowserDSL, Page}
+import uk.gov.dvla.vehicles.presentation.common.helpers.webbrowser.{Page, WebBrowserDSL, WebDriverFactory}
 
 object VersionPage extends Page with WebBrowserDSL {
 
