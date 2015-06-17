@@ -5,14 +5,17 @@ define(function(require) {
 
     var disableSubmitOnClick = function() {
         var pleaseWaitOverlay = $('.please-wait-overlay'),
-            closeWaitOverlay  = $('.please-wait-overlay a');
+            closeWaitOverlay  = $('.please-wait-overlay a'),
+            submitId, submitSelector;
 
         $(':submit').on('click', function(e) {
             //e.preventDefault();
-            if ( $(this).hasClass("disabled") ) {
+            submitId = $(this).attr('id') || "";
+            submitSelector = $('#' + submitId + '');
+            if ( submitSelector.hasClass("disabled") ) {
                 return false;
             }
-            $(this).html('Loading').addClass('loading-action disabled');
+            submitSelector.html('Loading').addClass('loading-action disabled');
             var runTimes = 0;
             setInterval(function() {
                 if ( runTimes < 3 ){
