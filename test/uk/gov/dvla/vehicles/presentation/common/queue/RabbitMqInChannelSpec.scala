@@ -67,7 +67,7 @@ class RabbitMqInChannelSpec extends UnitSpec with BeforeAndAfterAll  {
       verify(connection, atLeastOnce).close()
     }
 
-    "notify message reception in the correct order" in {
+    "notify message reception in the correct order" ignore {
       val event1 = TB("event-1-с български букви", 1, value1 = true)
       val event2 = TB("event-2  με ελληνικά", 2, value1 = true)
       val event3 = TB("event-3 希腊", 3, value1 = true)
@@ -124,7 +124,7 @@ class RabbitMqInChannelSpec extends UnitSpec with BeforeAndAfterAll  {
       messages should be(empty)
     }
 
-    "Acknowledge the message on successful processing of the message" in {
+    "Acknowledge the message on successful processing of the message" ignore {
       val event1 = TB("event-1-с български букви", 1, value1 = true)
       val event2 = TB("event-2  με ελληνικά", 2, value1 = true)
       val event3 = TB("event-3 希腊", 3, value1 = true)
@@ -150,7 +150,7 @@ class RabbitMqInChannelSpec extends UnitSpec with BeforeAndAfterAll  {
       messages.toSeq should equal(Seq(event1, event2, event3))
     }
 
-    "Negative acknowledge the message on failure processing of the message" in {
+    "Negative acknowledge the message on failure processing of the message" ignore {
       val event1 = TB("event-1-с български букви", 1, value1 = true)
       val event2 = TB("event-2  με ελληνικά", 2, value1 = true)
       val event3 = TB("event-3 希腊", 3, value1 = true)
@@ -176,7 +176,7 @@ class RabbitMqInChannelSpec extends UnitSpec with BeforeAndAfterAll  {
       messages.toSeq should equal(Seq(event1, event2, event3))
     }
 
-    "Negative acknowledge the message on message processing failure" in {
+    "Negative acknowledge the message on message processing failure" ignore {
       val event1 = TB("event-1-с български букви", 1, value1 = true)
       val event2 = TB("event-2  με ελληνικά", 2, value1 = true)
       val event3 = TB("event-3 希腊", 3, value1 = true)
