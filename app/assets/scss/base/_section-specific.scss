@@ -91,45 +91,40 @@
 
     //originally from retention sass
     .reg-number {
+        width: 180px;
+        .ie7 & {
+          width: 170px;
+        }
         display: inline-block;
+        margin: 0 auto 10px auto;
+        padding:6px 10px 10px 10px;
+        box-sizing: border-box;
         vertical-align: top;
-        color: $black-2;
-        width: auto;
-        text-align: center;
-        line-height: 1.25;
-        font-weight: bold;
-        padding: 0.4em 0.5em 0.3em 0.5em;
-        margin-bottom: 10px;
-        letter-spacing: 1px;
-        background-color: $yellow-75;
         border: solid 1px $grey-9;
         border-radius: 5px;
-        .ie7 & {
-          width: 170px;
-        }
-    }
-
-    .playback .reg-number {
-        width: auto;
-        padding:6px 10px 10px 10px;
-        margin-bottom: 10px;
-        .ie7 & {
-          width: 170px;
-        }
-    }
-
-    .alert-complete .reg-number {
-        clear: both;
-        display: block;
-        padding: 0.2em 0.5em 0.1em 0.5em;
-        margin: {
-            top: 2px;
-            left: 30px;
-        }
-        width: 155px;
-        margin-bottom: 5px;
+        background-color: $yellow-75;
         color: $black-2;
+        text-align: center;
+        line-height: 1.25;
+        font-size: 30px;
+        font-weight: bold;
+        letter-spacing: 1px;
+    }
+    .alert-complete .reg-number {
+      width: 300px;
+      .ie7 & {
+        width: 200px;
+      }
+      font-size: 50px;
+    }
 
+    .reg-number-confirmation {
+      .reg-number {
+        margin-top: 10px;
+        font-size: 30px;
+        width: 180px;
+        text-align: center;
+      }
     }
 
     //originally from retention sass
