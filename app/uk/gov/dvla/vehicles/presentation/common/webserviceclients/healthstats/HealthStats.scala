@@ -80,7 +80,7 @@ class HealthStats @Inject()(config: HealthStatsConfig, dateService: DateService)
       None
     } finally events.transform((_, value) => value.dropWhile(_.time.isBefore(oldThreshold)))
     healthyStatus.map(notHealthy => {
-      Logger.debug(s"The service is not healthy because ${notHealthy.details}.")
+      Logger.error(s"The service is not healthy because ${notHealthy.details}.")
       notHealthy
     })
   }
