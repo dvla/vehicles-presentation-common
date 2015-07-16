@@ -82,7 +82,7 @@ object Email {
   def emailAddress: Constraint[String] = Constraint[String]("constraint.email") {
     e =>
       if (!(EmailMinLength to EmailMaxLength contains e.length)) Invalid(ValidationError("error.email"))
-      else if (ptr.matcher(e).matches() && !e.contains(" "))
+      else if (ptr.matcher(e).matches()) // temporarily commented out to allow us the test email DLQ: && !e.contains(" "))
         if (emailStyleValid(e)) Valid else Invalid(ValidationError("error.email"))
       else Invalid(ValidationError("error.email"))
   }
