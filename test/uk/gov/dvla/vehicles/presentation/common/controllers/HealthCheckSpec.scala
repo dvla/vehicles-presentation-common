@@ -11,11 +11,12 @@ class HealthCheckSpec extends UnitSpec {
 
   "requests to /healthcheck" should {
 
-    "GET request should return 200 if the health stats are good" in {
+    "GET request should return 200 'VMPR Application Healthy!' if the health stats are good" in {
       val healthStats = mock[HealthStats]
       when(healthStats.healthy).thenReturn(None)
       val result = new HealthCheck(healthStats).respond(FakeRequest("GET", "/healthcheck"))
       whenReady(result) (_.header.status should equal(OK))
+      contentAsString(result) should equal("VMPR Application Healthy!")
     }
 
     "GET request should return 500 if the health stats are not good" in {

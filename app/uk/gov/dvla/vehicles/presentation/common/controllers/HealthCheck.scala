@@ -10,7 +10,7 @@ class HealthCheck @Inject()(healthStats: HealthStats) extends Controller {
   def respond = Action { request =>
     healthStats.healthy match {
       case Some(notHealthy) => InternalServerError(notHealthy.details)
-      case _ => Ok("")
+      case _ => Ok("VMPR Application Healthy!")
     }
   }
 
