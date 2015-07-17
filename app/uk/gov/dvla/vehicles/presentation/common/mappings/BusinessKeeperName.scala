@@ -10,5 +10,7 @@ object BusinessKeeperName {
   final val MaxLength = 30
 
   def businessKeeperNameMapping: Mapping[String] =
-    nonEmptyTextWithTransform(_.toUpperCase.trim)(MinLength, MaxLength) verifying validBusinessKeeperName verifying atLeastACharacter
+    nonEmptyTextWithTransform(_.toUpperCase.trim)(MinLength, MaxLength)
+      .verifying(validBusinessKeeperName)
+      .verifying(atLeastACharacter)
 }

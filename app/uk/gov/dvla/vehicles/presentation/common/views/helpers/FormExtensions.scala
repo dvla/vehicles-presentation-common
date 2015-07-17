@@ -15,7 +15,7 @@ object FormExtensions {
   // Extension method for forms.
   class RichForm[T](form: Form[T]) {
 
-    private def replaceError(newError: FormError, matcher: FormError => Boolean): Form[T] = {
+    def replaceError(newError: FormError, matcher: FormError => Boolean): Form[T] = {
       val errorToReplace = form.errors.find(matcher)
       errorToReplace match {
         case Some(n) =>
