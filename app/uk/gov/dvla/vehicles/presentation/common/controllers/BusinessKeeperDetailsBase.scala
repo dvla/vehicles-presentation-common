@@ -10,6 +10,7 @@ import common.clientsidesession.CookieImplicits.{RichCookies, RichForm, RichResu
 import uk.gov.dvla.vehicles.presentation.common.model._
 import NewKeeperChooseYourAddressFormModel._
 import common.views.helpers.FormExtensions.formBinding
+import uk.gov.dvla.vehicles.presentation.common.views.constraints.BusinessKeeperName
 
 abstract class BusinessKeeperDetailsBase @Inject()()
                     (implicit protected val clientSideSessionFactory: ClientSideSessionFactory,
@@ -56,8 +57,9 @@ abstract class BusinessKeeperDetailsBase @Inject()()
 
   private def formWithReplacedErrors(form: Form[BusinessKeeperDetailsFormModel]) = {
     form.replaceError(
-      BusinessKeeperDetailsFormModel.Form.BusinessNameId,
-      FormError(key = BusinessKeeperDetailsFormModel.Form.BusinessNameId,message = "error.validBusinessKeeperName")
+      FormError(key = BusinessKeeperDetailsFormModel.Form.BusinessNameId, message = BusinessKeeperName.GeneralError),
+      e => e.key == BusinessKeeperDetailsFormModel.Form.BusinessNameId &&
+        e.message != BusinessKeeperName.BracesOrQuotesError
     ).replaceError(
       BusinessKeeperDetailsFormModel.Form.PostcodeId,
       FormError(key = BusinessKeeperDetailsFormModel.Form.PostcodeId,message = "error.restricted.validPostcode")

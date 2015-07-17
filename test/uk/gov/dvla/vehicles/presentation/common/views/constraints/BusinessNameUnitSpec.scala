@@ -20,22 +20,6 @@ class BusinessNameUnitSpec extends UnitSpec {
         invalid.errors(0).message should equal(("error.validBusinessName"))
       }
     }
-
-    BusinessNameUnitSpec.invalidNameWithBraces.foreach { name =>
-      s"indicate the business name has invalid braces: $name" in {
-        val result = BusinessName.validBusinessName(name)
-        val invalid = result.asInstanceOf[Invalid]
-        invalid.errors(0).message should equal(("error.invalidBraces"))
-      }
-    }
-
-    BusinessNameUnitSpec.invalidNameWithQuotes.foreach { name =>
-      s"indicate the business name has invalid braces: $name" in {
-        val result = BusinessName.validBusinessName(name)
-        val invalid = result.asInstanceOf[Invalid]
-        invalid.errors(0).message should equal(("error.oddNumberOfQuotes"))
-      }
-    }
   }
 }
 
@@ -49,7 +33,5 @@ object BusinessNameUnitSpec {
   val invalidNames = Seq("Bob + Kerry's Cars", "Bob@Bob Cars", "(Keri's Motors)", "&& Keri's Motors&&",
     "", "'-", "..", "w*", "q+", "q!", "q£", "q$", "q%", "q^", "£a", "%a")
 
-  val invalidNameWithBraces = Seq("a(", "a)(", "a(a))", "a(a(b)")
 
-  val invalidNameWithQuotes = Seq("a single quote\"", "triple \"quote\" st\"ring")
 }
