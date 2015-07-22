@@ -7,4 +7,7 @@
 <label for="@field.id">
     @{Space.*}
     @valtechLabelText(field,args)
+    @if(args.contains('tooltipImgSrc)) {
+        <span class="js-has-tooltip" data-tooltip="tooltip_@field.id">i</span>
+    }
 </label>
