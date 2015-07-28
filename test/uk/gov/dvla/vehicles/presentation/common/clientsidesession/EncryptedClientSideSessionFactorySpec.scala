@@ -67,7 +67,7 @@ final class EncryptedClientSideSessionFactorySpec extends UnitSpec {
       val trackingIdCookie = cookies.get.head
       val sessionCookie = cookies.get(1)
 
-      session.trackingId should equal(trackingIdCookie.value)
+      session.trackingId.value should equal(trackingIdCookie.value)
 
       val encryptedSessionKey = session.getCookieValue(
         Cookie(sessionCookie.name, trackingIdCookie.value + sessionCookie.value))

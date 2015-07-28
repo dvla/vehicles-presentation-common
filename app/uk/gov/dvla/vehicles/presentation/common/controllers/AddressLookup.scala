@@ -18,11 +18,11 @@ abstract class AddressLookup(implicit clientSideSessionFactory: ClientSideSessio
     if (!authenticate(request)) Future.successful(Unauthorized(""))
     else {
       val session = clientSideSessionFactory.getSession(request.cookies)
-      addressLookup.addresses(postCode, session.trackingId).map { addressLines =>
+      addressLookup.addresses(postCode, session.trackingId.value).map { addressLines =>
         Ok(Json.toJson(addressLines))
       } recover {
         case NonFatal(e) =>
-          Logger.warn(s"${e.getMessage} ${e.getStackTraceString} - trackingId: ${request.cookies.trackingId()}")
+          Logger.warn(s"${e.getMessage} ${e.getStackTraceString} - trackingId: ${request.cookies.trackingId}")
           InternalServerError(e.getMessage)
       }
     }

@@ -2,7 +2,7 @@ package uk.gov.dvla.vehicles.presentation.common.clientsidesession
 
 import play.api.mvc.Cookie
 
-class EncryptedClientSideSession(override val trackingId: String,
+class EncryptedClientSideSession(override val trackingId: TrackingId,
                                  val sessionSecretKey: String)
                                 (implicit cookieFlags: CookieFlags,
                                  encryption: CookieEncryption,

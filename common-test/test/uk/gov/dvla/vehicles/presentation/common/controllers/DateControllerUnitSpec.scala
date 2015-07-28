@@ -10,7 +10,7 @@ import play.api.libs.json.{Json, Writes}
 import play.api.mvc.Cookie
 import play.api.test.FakeRequest
 import play.api.test.Helpers.{OK, contentAsString, defaultAwaitTimeout}
-import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClearTextClientSideSession
+import uk.gov.dvla.vehicles.presentation.common.clientsidesession.{TrackingId, ClearTextClientSideSession}
 
 
 class DateControllerUnitSpec extends UnitSpec {
@@ -40,7 +40,7 @@ class DateControllerUnitSpec extends UnitSpec {
 
   private def createCookie[A](key: String, value: A)(implicit tjs: Writes[A]): Cookie = {
     import uk.gov.dvla.vehicles.presentation.common.clientsidesession.NoCookieFlags
-    val session = new ClearTextClientSideSession("trackingId")(new NoCookieFlags)
+    val session = new ClearTextClientSideSession(TrackingId("trackingId"))(new NoCookieFlags)
     val json = Json.toJson(value).toString()
     val cookieName = session.nameCookie(key)
     session.newCookie(cookieName, json)

@@ -9,7 +9,7 @@ class ClearTextClientSideSessionFactory @Inject()(implicit cookieFlags: CookieFl
 
   override def getSession(request: Traversable[Cookie]): ClientSideSession =
     getTrackingId(request) match {
-      case Some(trackingId) => new ClearTextClientSideSession(trackingId)
+      case Some(trackingId) => new ClearTextClientSideSession(TrackingId(trackingId))
       case None => new ClearTextClientSideSession(ClearTextClientSideSessionFactory.DefaultTrackingId)
     }
 
@@ -18,5 +18,5 @@ class ClearTextClientSideSessionFactory @Inject()(implicit cookieFlags: CookieFl
 }
 
 object ClearTextClientSideSessionFactory {
-  final val DefaultTrackingId = "default_test_tracking_id"
+  final val DefaultTrackingId = TrackingId("default_test_tracking_id")
 }

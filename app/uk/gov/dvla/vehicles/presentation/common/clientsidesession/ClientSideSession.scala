@@ -3,7 +3,7 @@ package uk.gov.dvla.vehicles.presentation.common.clientsidesession
 import play.api.mvc.Cookie
 
 trait ClientSideSession {
-  val trackingId: String
+  val trackingId: TrackingId
 
   def nameCookie(key: String): CookieName
 
@@ -13,3 +13,5 @@ trait ClientSideSession {
 
   def getCookieValue(cookie: Cookie): String
 }
+
+case class TrackingId(value: String)

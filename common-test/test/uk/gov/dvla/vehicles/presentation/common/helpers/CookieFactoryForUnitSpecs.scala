@@ -10,14 +10,14 @@ import models.ValtechRadioModel.ValtechRadioModelCacheKey
 import play.api.libs.json.{Json, Writes}
 import play.api.mvc.Cookie
 import uk.gov.dvla.vehicles.presentation.common
-import common.clientsidesession.{ClearTextClientSideSession, CookieFlags}
+import uk.gov.dvla.vehicles.presentation.common.clientsidesession.{TrackingId, ClearTextClientSideSession, CookieFlags}
 import views.ValtechRadioView.KeeperType_Private
 
 object CookieFactoryForUnitSpecs extends TestComposition {
 
   implicit private val cookieFlags = injector.getInstance(classOf[CookieFlags])
   final val TrackingIdValue = "trackingId"
-  private val session = new ClearTextClientSideSession(TrackingIdValue)
+  private val session = new ClearTextClientSideSession(TrackingId(TrackingIdValue))
 
   private def createCookie[A](key: String, value: A)(implicit tjs: Writes[A]): Cookie = {
     val json = Json.toJson(value).toString()

@@ -40,7 +40,7 @@ final class OSAddressLookupServiceSpec extends UnitSpec {
 
       val result = service.fetchAddressesForPostcode(
         PostcodeValid,
-        ClearTextClientSideSessionFactory.DefaultTrackingId
+        ClearTextClientSideSessionFactory.DefaultTrackingId.value
       )
 
       whenReady(result, timeout) {
@@ -59,7 +59,7 @@ final class OSAddressLookupServiceSpec extends UnitSpec {
 
       val result = service.fetchAddressesForPostcode(
         PostcodeValid,
-        ClearTextClientSideSessionFactory.DefaultTrackingId
+        ClearTextClientSideSessionFactory.DefaultTrackingId.value
       )
 
       whenReady(result, timeout) {
@@ -75,7 +75,7 @@ final class OSAddressLookupServiceSpec extends UnitSpec {
 
       val result = service.fetchAddressesForPostcode(
         PostcodeValid,
-        ClearTextClientSideSessionFactory.DefaultTrackingId
+        ClearTextClientSideSessionFactory.DefaultTrackingId.value
       )
 
       whenReady(result, timeout) {
@@ -91,7 +91,7 @@ final class OSAddressLookupServiceSpec extends UnitSpec {
 
       val result = service.fetchAddressesForPostcode(
         PostcodeValid,
-        ClearTextClientSideSessionFactory.DefaultTrackingId
+        ClearTextClientSideSessionFactory.DefaultTrackingId.value
       )
 
       whenReady(result, timeout) {
@@ -108,7 +108,7 @@ final class OSAddressLookupServiceSpec extends UnitSpec {
 
       val result = service.fetchAddressesForPostcode(
         PostcodeValid,
-        ClearTextClientSideSessionFactory.DefaultTrackingId
+        ClearTextClientSideSessionFactory.DefaultTrackingId.value
       )
 
       whenReady(result, timeout) {
@@ -126,7 +126,7 @@ final class OSAddressLookupServiceSpec extends UnitSpec {
 
       val result = service.fetchAddressForUprn(
         traderUprnValid.toString,
-        ClearTextClientSideSessionFactory.DefaultTrackingId
+        ClearTextClientSideSessionFactory.DefaultTrackingId.value
       )
 
       whenReady(result, timeout) {
@@ -146,7 +146,7 @@ final class OSAddressLookupServiceSpec extends UnitSpec {
 
       val result = service.fetchAddressForUprn(
         traderUprnValid.toString,
-        ClearTextClientSideSessionFactory.DefaultTrackingId
+        ClearTextClientSideSessionFactory.DefaultTrackingId.value
       )
 
       whenReady(result, timeout) {
@@ -160,7 +160,8 @@ final class OSAddressLookupServiceSpec extends UnitSpec {
     "return none when response status is 200 OK but results is empty" in {
       val (service, healthStatsMock)  = addressServiceMock(responseUprn(OK, UprnToAddressResponseDto(addressViewModel = None)))
 
-      val result = service.fetchAddressForUprn(traderUprnValid.toString, ClearTextClientSideSessionFactory.DefaultTrackingId)
+      val result = service.fetchAddressForUprn(traderUprnValid.toString,
+        ClearTextClientSideSessionFactory.DefaultTrackingId.value)
 
       whenReady(result, timeout) {
         _ should equal(None)
@@ -173,7 +174,8 @@ final class OSAddressLookupServiceSpec extends UnitSpec {
     "return none when web service throws an exception" in {
       val (service, healthStatsMock)  = addressServiceMock(responseThrows)
 
-      val result = service.fetchAddressForUprn(traderUprnValid.toString, ClearTextClientSideSessionFactory.DefaultTrackingId)
+      val result = service.fetchAddressForUprn(traderUprnValid.toString,
+        ClearTextClientSideSessionFactory.DefaultTrackingId.value)
 
       whenReady(result) {
         _ should equal(None)
@@ -187,7 +189,7 @@ final class OSAddressLookupServiceSpec extends UnitSpec {
       val inputAsJson = Json.obj("addressViewModel" -> "INVALID")
       val (service, healthStatsMock)  = addressServiceMock(response(OK, inputAsJson))
 
-      val result = service.fetchAddressForUprn(PostcodeValid, ClearTextClientSideSessionFactory.DefaultTrackingId)
+      val result = service.fetchAddressForUprn(PostcodeValid, ClearTextClientSideSessionFactory.DefaultTrackingId.value)
 
       whenReady(result, timeout) {
         _ shouldBe empty
