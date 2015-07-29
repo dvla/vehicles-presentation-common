@@ -13,7 +13,7 @@ import play.api.mvc.BodyParsers.parse.tolerantFormUrlEncoded
 import play.api.mvc._
 import scala.util.Try
 import uk.gov.dvla.vehicles.presentation.common
-import common.clientsidesession.{AesEncryption, ClientSideSessionFactory}
+import uk.gov.dvla.vehicles.presentation.common.clientsidesession.{TrackingId, AesEncryption, ClientSideSessionFactory}
 import common.clientsidesession.CookieImplicits.RichCookies
 import common.ConfigProperties.{getProperty, getOptionalProperty, stringProp, booleanProp}
 
@@ -146,12 +146,12 @@ object CsrfPreventionAction {
       )
     }.getOrElse(CsrfPreventionToken(""))
 
-  private def buildTokenWithReferer(trackingId: String, requestHeaders: Headers) = {
-    trackingId + Delimiter + requestHeaders.get(REFERER).getOrElse("INVALID")
+  private def buildTokenWithReferer(trackingId: TrackingId, requestHeaders: Headers) = {
+    trackingId.value + Delimiter + requestHeaders.get(REFERER).getOrElse("INVALID")
   }
 
-  private def buildTokenWithUri(trackingId: String, uri: String) = {
-    trackingId + Delimiter + uri
+  private def buildTokenWithUri(trackingId: TrackingId, uri: String) = {
+    trackingId.value + Delimiter + uri
   }
 
   private def split(token: String): (String, String) = {

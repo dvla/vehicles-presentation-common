@@ -1,5 +1,7 @@
 package uk.gov.dvla.vehicles.presentation.common
 
+import uk.gov.dvla.vehicles.presentation.common.clientsidesession.TrackingId
+
 object LogFormats {
 
   private final val anonymousChar = "*"
@@ -28,10 +30,10 @@ object LogFormats {
     }
   }
 
-  def logMessage(messageText: String, trackingId: String, logData: Seq[String]): String =
-    messageText + logSeperator + logData + "trackingId: " + trackingId
+  def logMessage(messageText: String, trackingId: TrackingId, logData: Seq[String]): String =
+    messageText + logSeperator + logData + "trackingId: " + trackingId.value
 
-  def logMessage(messageText: String, trackingId: String): String =
-    messageText + logSeperator + "trackingId: " + trackingId
+  def logMessage(messageText: String, trackingId: TrackingId): String =
+    messageText + logSeperator + "trackingId: " + trackingId.value
 
 }

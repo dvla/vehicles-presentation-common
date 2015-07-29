@@ -59,8 +59,8 @@ object CookieImplicits {
       requestCookies.find(_.name == cookieName).map(session.getCookieValue)
     }
 
-    def trackingId()(implicit clientSideSessionFactory: ClientSideSessionFactory): String =
-      clientSideSessionFactory.getSession(requestCookies).trackingId.value
+    def trackingId()(implicit clientSideSessionFactory: ClientSideSessionFactory): TrackingId =
+      clientSideSessionFactory.getSession(requestCookies).trackingId
   }
 
   implicit class RichResult(val inner: Result) extends AnyVal {

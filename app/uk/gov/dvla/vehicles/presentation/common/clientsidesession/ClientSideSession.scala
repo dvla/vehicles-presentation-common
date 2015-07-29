@@ -14,4 +14,6 @@ trait ClientSideSession {
   def getCookieValue(cookie: Cookie): String
 }
 
-case class TrackingId(value: String)
+case class TrackingId(value: String) {
+  override def toString:String = value
+}

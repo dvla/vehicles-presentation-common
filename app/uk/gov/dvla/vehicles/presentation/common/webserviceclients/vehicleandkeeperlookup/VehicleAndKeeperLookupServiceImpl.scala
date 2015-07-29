@@ -3,6 +3,7 @@ package uk.gov.dvla.vehicles.presentation.common.webserviceclients.vehicleandkee
 import javax.inject.Inject
 import play.Logger
 import play.api.http.Status
+import uk.gov.dvla.vehicles.presentation.common.clientsidesession.TrackingId
 import uk.gov.dvla.vehicles.presentation.common.webserviceclients.healthstats.HealthStats
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
@@ -13,7 +14,7 @@ final class VehicleAndKeeperLookupServiceImpl @Inject()(ws: VehicleAndKeeperLook
   import VehicleAndKeeperLookupServiceImpl.ServiceName
 
   override def invoke(cmd: VehicleAndKeeperLookupRequest,
-                      trackingId: String): Future[VehicleAndKeeperLookupResponse] =
+                      trackingId: TrackingId): Future[VehicleAndKeeperLookupResponse] =
     ws.invoke(cmd, trackingId).map { resp =>
       Logger.debug(s"Vehicle and keeper lookup service returned ${resp.status} code - trackingId: $trackingId")
       if (resp.status == Status.OK) {

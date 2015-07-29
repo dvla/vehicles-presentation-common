@@ -10,7 +10,7 @@ import scala.concurrent.Future
 import scala.util.{Failure, Success}
 import scala.util.control.NonFatal
 import uk.gov.dvla.vehicles.presentation.common
-import common.clientsidesession.{CacheKey, ClientSideSessionFactory}
+import uk.gov.dvla.vehicles.presentation.common.clientsidesession.{TrackingId, CacheKey, ClientSideSessionFactory}
 import common.clientsidesession.CookieImplicits.{RichCookies, RichResult}
 import common.controllers.VehicleLookupBase.{LookupResult, VehicleFound, VehicleNotFound}
 import uk.gov.dvla.vehicles.presentation.common.LogFormats.{anonymize, logMessage, optionNone}
@@ -119,7 +119,7 @@ abstract class VehicleLookupBase[FormModel <: VehicleLookupFormModelBase]
     }
   }
 
-  protected def callLookupService(trackingId: String, formModel: FormModel)
+  protected def callLookupService(trackingId: TrackingId, formModel: FormModel)
                                  (implicit request: Request[_]): Future[LookupResult] = {
     val vehicleAndKeeperDetailsRequest = VehicleAndKeeperLookupRequest(
       dmsHeader = buildHeader(trackingId),
@@ -179,10 +179,10 @@ abstract class VehicleLookupBase[FormModel <: VehicleLookupFormModelBase]
     microServiceError(exception, formModel)
   }
 
-  private def buildHeader(trackingId: String): DmsWebHeaderDto = {
+  private def buildHeader(trackingId: TrackingId): DmsWebHeaderDto = {
     val alwaysLog = true
     val englishLanguage = "EN"
-    DmsWebHeaderDto(conversationId = trackingId,
+    DmsWebHeaderDto(conversationId = trackingId.value,
       originDateTime = dateService.now.toDateTime,
       applicationCode = config.applicationCode,
       channelCode = config.channelCode,
