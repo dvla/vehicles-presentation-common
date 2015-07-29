@@ -1,6 +1,7 @@
 package uk.gov.dvla.vehicles.presentation.common.services
 
 import play.api.Logger
+import uk.gov.dvla.vehicles.presentation.common.clientsidesession.TrackingId
 import uk.gov.dvla.vehicles.presentation.common.webserviceclients.emailservice.From
 import webserviceclients.emailservice.{EmailService, EmailServiceSendRequest}
 
@@ -50,12 +51,12 @@ object SEND {
 
   /** Generic trait to represent the Email Service */
   sealed trait EmailOps {
-    def send(trackingId: String)(implicit config: EmailConfiguration, emailService: EmailService): Unit
+    def send(trackingId: TrackingId)(implicit config: EmailConfiguration, emailService: EmailService): Unit
   }
 
   /** A dummy email service, to send the white listed emails. */
   case class NonWhiteListEmailOps(email: Email) extends EmailOps {
-    def send(trackingId: String)(implicit config: EmailConfiguration, emailService: EmailService) = {
+    def send(trackingId: TrackingId)(implicit config: EmailConfiguration, emailService: EmailService) = {
       val message = s"""Got email with contents: (${email.subject} - ${email.message} ) to be sent to ${email.toPeople.mkString(" ")}
 
           ||with cc (${email.ccPeople.mkString(" ")}
@@ -69,7 +70,7 @@ object SEND {
   }
   /** A no-ops email service that denotes an error in the email */
   object NoEmailOps extends EmailOps {
-    def send(trackingId: String)(implicit config: EmailConfiguration, emailService: EmailService) =
+    def send(trackingId: TrackingId)(implicit config: EmailConfiguration, emailService: EmailService) =
       Logger.info("The email is incomplete. you cannot send that")
 
   }
@@ -77,7 +78,7 @@ object SEND {
   /** An smtp email service. Currently implemented using the Apache commons email library */
   case class SmtpEmailOps(email: Email) extends EmailOps{
 
-    def send(trackingId: String)(implicit config: EmailConfiguration, emailService: EmailService) = {
+    def send(trackingId: TrackingId)(implicit config: EmailConfiguration, emailService: EmailService) = {
 
       val from = From(config.from.email, config.from.name)
 

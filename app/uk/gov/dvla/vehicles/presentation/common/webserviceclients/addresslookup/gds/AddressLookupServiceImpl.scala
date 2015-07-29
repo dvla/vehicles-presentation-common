@@ -4,6 +4,7 @@ import javax.inject.Inject
 import play.api.Logger
 import play.api.i18n.Lang
 import play.api.libs.ws.WSResponse
+import uk.gov.dvla.vehicles.presentation.common.clientsidesession.TrackingId
 import uk.gov.dvla.vehicles.presentation.common.model.AddressModel
 import uk.gov.dvla.vehicles.presentation.common.webserviceclients.addresslookup.ordnanceservey.AddressDto
 import uk.gov.dvla.vehicles.presentation.common.webserviceclients.addresslookup.{AddressLookupService, AddressLookupWebService}
@@ -26,7 +27,7 @@ final class AddressLookupServiceImpl @Inject()(ws: AddressLookupWebService, heal
       case e: Throwable => Seq.empty //  return empty seq given invalid json
     }
 
-  override def fetchAddressesForPostcode(postcode: String, trackingId: String, showBusinessName: Option[Boolean] = None)
+  override def fetchAddressesForPostcode(postcode: String, trackingId: TrackingId, showBusinessName: Option[Boolean] = None)
                                         (implicit lang: Lang): Future[Seq[(String, String)]] = {
     def sort(addresses: Seq[Address]): Seq[Address] = {
       addresses.sortBy(addressDpa => {
@@ -62,7 +63,7 @@ final class AddressLookupServiceImpl @Inject()(ws: AddressLookupWebService, heal
     }
   }
 
-  override def fetchAddressForUprn(uprn: String, trackingId: String)
+  override def fetchAddressForUprn(uprn: String, trackingId: TrackingId)
                                   (implicit lang: Lang): Future[Option[AddressModel]] = {
     def toViewModel(resp: WSResponse) = {
       val addresses = extractFromJson(resp)
@@ -88,7 +89,7 @@ final class AddressLookupServiceImpl @Inject()(ws: AddressLookupWebService, heal
     }
   }
 
-  def addresses(postcode: String, trackingId: String)
+  def addresses(postcode: String, trackingId: TrackingId)
                (implicit lang: Lang): Future[Seq[AddressDto]] = {
     healthStats.report(AddressLookupServiceImpl.ServiceName) {
       ws.callAddresses(postcode, trackingId).map { resp =>

@@ -4,6 +4,7 @@ import play.api.Logger
 import play.api.http.Status.OK
 import play.api.libs.json.Json
 import play.api.libs.ws.WSResponse
+import uk.gov.dvla.vehicles.presentation.common.clientsidesession.TrackingId
 import uk.gov.dvla.vehicles.presentation.common.webserviceclients.acquire
 import acquire.{AcquireResponseDto, AcquireRequestDto, AcquireWebService}
 import scala.concurrent.Future
@@ -11,7 +12,7 @@ import scala.concurrent.Future
 class FakeAcquireWebServiceImpl extends AcquireWebService {
   import FakeAcquireWebServiceImpl._
 
-  override def callAcquireService(request: AcquireRequestDto, trackingId: String): Future[WSResponse] = Future.successful {
+  override def callAcquireService(request: AcquireRequestDto, trackingId: TrackingId): Future[WSResponse] = Future.successful {
     val acquireResponse: AcquireResponseDto = {
       request.referenceNumber match {
         case SimulateMicroServiceUnavailable => throw new RuntimeException("simulateMicroServiceUnavailable")

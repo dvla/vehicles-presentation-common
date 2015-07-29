@@ -225,7 +225,7 @@ abstract class NewKeeperChooseYourAddressBase @Inject()(protected val addressLoo
 
   private def fetchAddresses(postcode: String)(implicit request: Request[_]) = {
     val session = clientSideSessionFactory.getSession(request.cookies)
-    addressLookupService.fetchAddressesForPostcode(postcode, session.trackingId.value)
+    addressLookupService.fetchAddressesForPostcode(postcode, request.cookies.trackingId)
   }
 
   private def lookupUprn(newKeeperName: String,
@@ -234,7 +234,7 @@ abstract class NewKeeperChooseYourAddressBase @Inject()(protected val addressLoo
                          isBusinessKeeper: Boolean)
                         (implicit model: NewKeeperChooseYourAddressFormModel, request: Request[_]) = {
     val session = clientSideSessionFactory.getSession(request.cookies)
-    val lookedUpAddress = addressLookupService.fetchAddressForUprn(model.uprnSelected.toString, session.trackingId.value)
+    val lookedUpAddress = addressLookupService.fetchAddressForUprn(model.uprnSelected.toString, request.cookies.trackingId)
     lookedUpAddress.map {
       case Some(addressViewModel) =>
         createNewKeeper(addressViewModel) match {

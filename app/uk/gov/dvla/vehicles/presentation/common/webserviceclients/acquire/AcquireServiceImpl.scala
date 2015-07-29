@@ -4,6 +4,7 @@ import javax.inject.Inject
 import play.api.Logger
 import play.api.http.Status.OK
 import uk.gov.dvla.vehicles.presentation.common.LogFormats
+import uk.gov.dvla.vehicles.presentation.common.clientsidesession.TrackingId
 import uk.gov.dvla.vehicles.presentation.common.services.DateService
 import uk.gov.dvla.vehicles.presentation.common.webserviceclients.healthstats.HealthStats
 import scala.concurrent.ExecutionContext.Implicits.global
@@ -13,7 +14,7 @@ final class AcquireServiceImpl @Inject()(config: AcquireConfig,
                                          ws: AcquireWebService,
                                          healthStats: HealthStats) extends AcquireService {
 
-  override def invoke(cmd: AcquireRequestDto, trackingId: String): Future[(Int, Option[AcquireResponseDto])] = {
+  override def invoke(cmd: AcquireRequestDto, trackingId: TrackingId): Future[(Int, Option[AcquireResponseDto])] = {
     val vrm = LogFormats.anonymize(cmd.registrationNumber)
     val refNo = LogFormats.anonymize(cmd.referenceNumber)
     val postcode = cmd.traderDetails match {

@@ -19,11 +19,11 @@ import scala.concurrent.{Future, Await}
 
 class AddressLookupSpec extends UnitSpec {
   val postCode = "E14 9LL"
-  val trackingId = "test-tracking-id"
+  val trackingId = TrackingId("test-tracking-id")
   implicit val lookupService = mock[AddressLookupService]
   implicit val sessionFactory = mock[ClientSideSessionFactory]
   val session = mock[ClientSideSession]
-  stub(session.trackingId).toReturn(TrackingId(trackingId))
+  stub(session.trackingId).toReturn(trackingId)
   stub(sessionFactory.getSession(any[Traversable[Cookie]])).toReturn(session)
 
   val request = FakeRequest()
