@@ -111,7 +111,7 @@ class CsrfPreventionAction(next: EssentialAction)
 
     result.exists{
       case (trackingIdFromUrl, refererFromUrl) =>
-        trackingIdFromUrl == trackingIdFromCookie && refererFromCookie.exists(_.contains(refererFromUrl))
+        TrackingId(trackingIdFromUrl) == trackingIdFromCookie && refererFromCookie.exists(_.contains(refererFromUrl))
     }
   }
 
@@ -119,6 +119,7 @@ class CsrfPreventionAction(next: EssentialAction)
     val remoteAddress = requestHeader.remoteAddress
     val path = requestHeader.path
     Logger.error(s"CsrfPreventionException remote address: $remoteAddress path: $path, message: $message")
+
     Done(Results.Forbidden)
   }
 }
