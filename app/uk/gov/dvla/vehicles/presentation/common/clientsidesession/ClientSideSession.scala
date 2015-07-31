@@ -14,6 +14,8 @@ trait ClientSideSession {
   def getCookieValue(cookie: Cookie): String
 }
 
+// When modifying this class be sure to replicate the changes in
+//    vehicles-services-common/src/main/scala/dvla.common/clientsidesession/ClientSideSession.scala
 case class TrackingId(value: String) {
   override def toString:String = value
 }

@@ -30,6 +30,9 @@ object LogFormats {
     }
   }
 
+  // When changes these two logMessage methods, be sure to replicate the changes in
+  //    vehicles-services-common/src/main/scala/dvla.common/LogFormats.scala
+  // in order to keep a consistent log format
   def logMessage(messageText: String, trackingId: TrackingId, logData: Seq[String]): String =
     messageText + logSeperator + logData + "trackingId: " + trackingId.value
 
