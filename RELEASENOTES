@@ -1,5 +1,12 @@
 ======= 2.23 ======
 Time of release binaries creation:
+TODO
+
+US3035 valtechLabel helper supports an optional tooltipImgSrc argument to display a help image for a field
+
+
+======= 2.23 ======
+Time of release binaries creation:
 Wed May 27 2015 13:21:42
 
 DE429  Date tabbing using shift and back tab deleting values
