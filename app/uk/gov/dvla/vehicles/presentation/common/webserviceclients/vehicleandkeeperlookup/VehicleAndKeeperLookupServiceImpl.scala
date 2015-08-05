@@ -3,6 +3,7 @@ package uk.gov.dvla.vehicles.presentation.common.webserviceclients.vehicleandkee
 import javax.inject.Inject
 import play.Logger
 import play.api.http.Status
+import uk.gov.dvla.vehicles.presentation.common.LogFormats.DVLALogger
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.TrackingId
 import uk.gov.dvla.vehicles.presentation.common.webserviceclients.healthstats.HealthStats
 import scala.concurrent.ExecutionContext.Implicits.global
@@ -10,13 +11,13 @@ import scala.concurrent.Future
 import scala.util.control.NonFatal
 
 final class VehicleAndKeeperLookupServiceImpl @Inject()(ws: VehicleAndKeeperLookupWebService, healthStats: HealthStats)
-  extends VehicleAndKeeperLookupService {
+  extends VehicleAndKeeperLookupService with DVLALogger {
   import VehicleAndKeeperLookupServiceImpl.ServiceName
 
   override def invoke(cmd: VehicleAndKeeperLookupRequest,
                       trackingId: TrackingId): Future[VehicleAndKeeperLookupResponse] =
     ws.invoke(cmd, trackingId).map { resp =>
-      Logger.debug(s"Vehicle and keeper lookup service returned ${resp.status} code - trackingId: $trackingId")
+      logMessage(trackingId, Debug,s"Vehicle and keeper lookup service returned ${resp.status} code")
       if (resp.status == Status.OK) {
         val response = resp.json.as[VehicleAndKeeperLookupResponse]
 
