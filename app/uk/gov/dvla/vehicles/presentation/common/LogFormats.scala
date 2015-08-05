@@ -34,7 +34,9 @@ object LogFormats {
     }
   }
 
-
+  // When changing DVLA logger, be sure to replicate the changes in
+  //    vehicles-services-common/src/main/scala/dvla.common/LogFormats.scala
+  // in order to keep a consistent log format
   trait DVLALogger {
 
     implicit val logger: org.slf4j.Logger = Logger.logger
@@ -58,13 +60,7 @@ object LogFormats {
     private def logMessageFormat(trackingId: TrackingId, messageText: String, logData: Option[Seq[String]]): String =
       s"""[TrackingID: ${trackingId.value}]$logSeperator$messageText ${logData.map( d => s"$logSeperator$logData" ).getOrElse("")}"""
   }
-  // When changes these two logMessage methods, be sure to replicate the changes in
-  //    vehicles-services-common/src/main/scala/dvla.common/LogFormats.scala
-  // in order to keep a consistent log format
-//  def logMessage(messageText: String, trackingId: TrackingId, logData: Seq[String]): String =
-//    messageText + logSeperator + logData + "trackingId: " + trackingId.value
-//
-//  def logMessage(messageText: String, trackingId: TrackingId): String =
-//    messageText + logSeperator + "trackingId: " + trackingId.value
+
+
 
 }

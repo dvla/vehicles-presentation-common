@@ -15,12 +15,13 @@ import common.model.PrivateKeeperDetailsFormModel
 import common.model.VehicleAndKeeperDetailsModel
 import common.model.VmAddressModel
 import common.views.helpers.FormExtensions.formBinding
+import uk.gov.dvla.vehicles.presentation.common.LogFormats.DVLALogger
 import uk.gov.dvla.vehicles.presentation.common.model.NewKeeperChooseYourAddressFormModel._
 
 abstract class NewKeeperEnterAddressManuallyBase @Inject()()
                (implicit protected val clientSideSessionFactory: ClientSideSessionFactory,
                 prefix: CacheKeyPrefix)
-  extends Controller {
+  extends Controller with DVLALogger {
 
   protected def presentResult(model: VehicleAndKeeperDetailsModel, postcode: String,
                               form: Form[NewKeeperEnterAddressManuallyFormModel])
@@ -93,7 +94,7 @@ abstract class NewKeeperEnterAddressManuallyBase @Inject()()
   }
 
   private def error(message: String)(implicit request: Request[_]): Result = {
-    Logger.warn(s"$message - trackingId: ${request.cookies.trackingId()}")
+    logMessage(request.cookies.trackingId(),Warn,message)
     missingVehicleDetails
   }
 

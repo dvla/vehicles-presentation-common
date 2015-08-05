@@ -9,13 +9,14 @@ import common.clientsidesession.ClientSideSessionFactory
 import common.clientsidesession.CookieImplicits.RichCookies
 import common.model.BruteForcePreventionModel
 import common.model.CacheKeyPrefix
+import uk.gov.dvla.vehicles.presentation.common.LogFormats.DVLALogger
 
 abstract class VehicleLookupFailureBase[FormModel <: VehicleLookupFormModelBase]
   (implicit clientSideSessionFactory: ClientSideSessionFactory,
    fromJson: Reads[FormModel],
    cacheKey: CacheKey[FormModel],
    cacheKeyPrefix: CacheKeyPrefix
-  ) extends Controller {
+  ) extends Controller with DVLALogger {
 
   protected def presentResult(model: FormModel, responseCode: String)(implicit request: Request[_]): Result
   protected def missingPresentCookieDataResult()(implicit request: Request[_]): Result
@@ -37,8 +38,8 @@ abstract class VehicleLookupFailureBase[FormModel <: VehicleLookupFormModelBase]
         presentResult(vehicleLookUpFormModelDetails, responseCode.last).
           discardingCookies(DiscardingCookie(name = vehicleLookupResponseCodeCacheKey))
       case _ =>
-        Logger.debug(s"VehicleLookupFailure present could not find all the cookie data. " +
-          s"A redirection will now occur - trackingId: ${request.cookies.trackingId()}")
+        logMessage(request.cookies.trackingId, Debug, s"VehicleLookupFailure present could not find all the cookie data. " +
+          s"A redirection will now occur")
         missingPresentCookieDataResult()
     }
   }
@@ -46,12 +47,12 @@ abstract class VehicleLookupFailureBase[FormModel <: VehicleLookupFormModelBase]
   def submit = Action { implicit request =>
     request.cookies.getModel[FormModel] match {
       case Some(vehicleLookUpFormModelDetails) =>
-        Logger.debug(s"VehicleLookupFailure submit successfully found " +
-          s"cookie data - trackingId: ${request.cookies.trackingId()}")
+        logMessage(request.cookies.trackingId, Debug, s"VehicleLookupFailure submit successfully found " +
+          s"cookie data")
         submitResult()
       case _ =>
-        Logger.debug(s"VehicleLookupFailure submit could not find all the cookie data. " +
-          s"A redirection will now occur - trackingId: ${request.cookies.trackingId()}")
+        logMessage(request.cookies.trackingId, Debug, s"VehicleLookupFailure submit could not find all the cookie data. " +
+          s"A redirection will now occur")
         missingSubmitCookieDataResult()
     }
   }

@@ -1,8 +1,8 @@
 package uk.gov.dvla.vehicles.presentation.common.controllers
 
-import play.api.Logger
 import play.api.libs.json.Json
 import play.api.mvc.{Request, Action, Controller}
+import uk.gov.dvla.vehicles.presentation.common.LogFormats.DVLALogger
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClientSideSessionFactory
 import uk.gov.dvla.vehicles.presentation.common.webserviceclients.addresslookup.AddressLookupService
 import scala.concurrent.ExecutionContext.Implicits.global
@@ -12,7 +12,7 @@ import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicit
 
 
 abstract class AddressLookup(implicit clientSideSessionFactory: ClientSideSessionFactory,
-                             addressLookup: AddressLookupService) extends Controller {
+                             addressLookup: AddressLookupService) extends Controller with DVLALogger {
 
   def byPostcode(postCode: String) = Action.async { request =>
     if (!authenticate(request)) Future.successful(Unauthorized(""))
@@ -23,7 +23,7 @@ abstract class AddressLookup(implicit clientSideSessionFactory: ClientSideSessio
         Ok(Json.toJson(addressLines))
       } recover {
         case NonFatal(e) =>
-          Logger.warn(s"${e.getMessage} ${e.getStackTraceString} - trackingId: ${request.cookies.trackingId}")
+          logMessage(request.cookies.trackingId, Warn, s"${e.getMessage} ${e.getStackTraceString}")
           InternalServerError(e.getMessage)
       }
     }

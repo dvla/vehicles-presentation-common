@@ -16,6 +16,8 @@ import uk.gov.dvla.vehicles.presentation.common
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.{TrackingId, AesEncryption, ClientSideSessionFactory}
 import common.clientsidesession.CookieImplicits.RichCookies
 import common.ConfigProperties.{getProperty, getOptionalProperty, stringProp, booleanProp}
+import uk.gov.dvla.vehicles.presentation.common
+import uk.gov.dvla.vehicles.presentation.common.LogFormats.DVLALogger
 
 class CsrfPreventionFilter @Inject()
 (implicit clientSideSessionFactory: ClientSideSessionFactory) extends EssentialFilter {
@@ -34,7 +36,8 @@ class CsrfPreventionFilter @Inject()
  *
  */
 class CsrfPreventionAction(next: EssentialAction)
-                          (implicit clientSideSessionFactory: ClientSideSessionFactory) extends EssentialAction {
+                          (implicit clientSideSessionFactory: ClientSideSessionFactory)
+                          extends EssentialAction with DVLALogger {
 
   import uk.gov.dvla.vehicles.presentation.common.filters.CsrfPreventionAction._
 
@@ -118,7 +121,7 @@ class CsrfPreventionAction(next: EssentialAction)
   private def error(message: String)(requestHeader: RequestHeader): Iteratee[Array[Byte], Result] = {
     val remoteAddress = requestHeader.remoteAddress
     val path = requestHeader.path
-    Logger.error(s"CsrfPreventionException remote address: $remoteAddress path: $path, message: $message")
+    logMessage(requestHeader.cookies.trackingId, Error, s"CsrfPreventionException remote address: $remoteAddress path: $path, message: $message")
 
     Done(Results.Forbidden)
   }

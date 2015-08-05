@@ -5,6 +5,7 @@ import javax.inject.Inject
 import play.api.Logger
 import play.api.data.{Form, FormError}
 import play.api.mvc.{Action, AnyContent, Controller, Request, Result}
+import uk.gov.dvla.vehicles.presentation.common.LogFormats.DVLALogger
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 import uk.gov.dvla.vehicles.presentation.common
@@ -29,7 +30,7 @@ import common.webserviceclients.addresslookup.AddressLookupService
 
 abstract class NewKeeperChooseYourAddressBase @Inject()(protected val addressLookupService: AddressLookupService)
                                           (implicit protected val clientSideSessionFactory: ClientSideSessionFactory,
-                                           prefix: CacheKeyPrefix) extends Controller {
+                                           prefix: CacheKeyPrefix) extends Controller with DVLALogger {
   
   protected def ordnanceSurveyUseUprn: Boolean
 
@@ -207,9 +208,8 @@ abstract class NewKeeperChooseYourAddressBase @Inject()(protected val addressLoo
   }
 
   private def error(message: String)(implicit request: Request[_]): Result = {
-    Logger.warn(s"$message - trackingId: ${request.cookies.trackingId()} ")
+    logMessage(request.cookies.trackingId(),Warn, message)
     vehicleLookupRedirect
-//    Redirect(routes.VehicleLookup.present())
   }
 
   private def formWithReplacedErrors(form: Form[NewKeeperChooseYourAddressFormModel])(implicit request: Request[_]) =

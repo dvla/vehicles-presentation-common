@@ -8,6 +8,10 @@ import webserviceclients.emailservice.{EmailService, EmailServiceSendRequest}
 import scala.concurrent.{ExecutionContext}
 import ExecutionContext.Implicits.global
 
+import uk.gov.dvla.vehicles.presentation.common
+import uk.gov.dvla.vehicles.presentation.common.LogFormats.DVLALogger
+import common.clientsidesession.CookieImplicits.RichCookies
+
 
 /**
  * A simple service to send an email, leveraging the apache commons email library.
@@ -20,7 +24,7 @@ import ExecutionContext.Implicits.global
  *
  * Created by gerasimosarvanitis on 03/12/2014.
  */
-object SEND {
+object SEND extends DVLALogger {
 
   import scala.language.{implicitConversions, postfixOps, reflectiveCalls}
 
@@ -62,17 +66,13 @@ object SEND {
           ||with cc (${email.ccPeople.mkString(" ")}
 )
          |${config.from.email}. Receiver was in whitelist""".stripMargin
-
-      Logger.info(
-
-        message)
+      logMessage(trackingId, Info, message)
     }
   }
   /** A no-ops email service that denotes an error in the email */
   object NoEmailOps extends EmailOps {
     def send(trackingId: TrackingId)(implicit config: EmailConfiguration, emailService: EmailService) =
-      Logger.info("The email is incomplete. you cannot send that")
-
+      logMessage(trackingId, Info, "The email is incomplete. you cannot send that")
   }
 
   /** An smtp email service. Currently implemented using the Apache commons email library */
@@ -93,10 +93,11 @@ object SEND {
       )
 
       emailService.invoke(emailRequest, trackingId).onFailure {
-        case fail => Logger.error(
-          s"""Failed to send email for ${email.toPeople.
-            mkString(" ")}
-             |reason was ${fail.getMessage}""".stripMargin)
+        case fail => logMessage(trackingId, Error,s"""Failed to send email for ${email.toPeople.
+          mkString(" ")}
+            , reason was ${fail.getMessage}""".stripMargin
+            )
+
       }
     }
   }

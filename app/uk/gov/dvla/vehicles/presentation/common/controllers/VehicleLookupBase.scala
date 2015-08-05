@@ -48,8 +48,6 @@ abstract class VehicleLookupBase[FormModel <: VehicleLookupFormModelBase]
  cacheKeyPrefix: CacheKeyPrefix,
  dateService: DateService) extends Controller with DVLALogger {
 
-  //implicit val logger: org.slf4j.Logger = Logger.logger
-
 
   def presentResult(implicit request: Request[_]): Result
   def microServiceError(t: Throwable, formModel: FormModel)(implicit request: Request[_]): Result
@@ -74,12 +72,12 @@ abstract class VehicleLookupBase[FormModel <: VehicleLookupFormModelBase]
 
   private def bruteForceAndLookup(formModel: FormModel)
                                  (implicit request: Request[_]): Future[Result] =
-    bruteForceService.isVrmLookupPermitted(formModel.registrationNumber).flatMap { bruteForcePreventionModel =>
+    bruteForceService.isVrmLookupPermitted(formModel.registrationNumber, request.cookies.trackingId()).flatMap { bruteForcePreventionModel =>
       val resultFuture = if (bruteForcePreventionModel.permitted)
         lookupVehicle(formModel.registrationNumber, formModel.referenceNumber, bruteForcePreventionModel, formModel)
       else Future.successful {
         val anonRegistrationNumber = anonymize(formModel.registrationNumber)
-        Logger.warn(s"BruteForceService locked out vrm: $anonRegistrationNumber - trackingId: ${request.cookies.trackingId()}")
+        logMessage(request.cookies.trackingId(), Warn,s"BruteForceService locked out vrm: $anonRegistrationNumber")
         vrmLocked(bruteForcePreventionModel, formModel)
       }
 
@@ -89,9 +87,9 @@ abstract class VehicleLookupBase[FormModel <: VehicleLookupFormModelBase]
       }
     } recover {
       case exception: Throwable =>
-        Logger.error(
+        logMessage(request.cookies.trackingId(), Error,
           s"Exception thrown by BruteForceService so for safety we won't let anyone through. " +
-            s"Exception:\n${exception.getMessage}\n${exception.getStackTraceString} - trackingId: ${request.cookies.trackingId()}"
+            s"Exception:\n${exception.getMessage}\n${exception.getStackTraceString}"
         )
         microServiceError(exception, formModel)
     } map (_.withCookie(formModel))
@@ -102,21 +100,19 @@ abstract class VehicleLookupBase[FormModel <: VehicleLookupFormModelBase]
                             formModel: FormModel)
                            (implicit request: Request[_]): Future[Result] = {
     def notFound(responseCode: VehicleAndKeeperLookupErrorMessage): Result = {
-      Logger.debug(s"VehicleAndKeeperLookup encountered a problem with request" +
+      logMessage(request.cookies.trackingId(),Debug,s"VehicleAndKeeperLookup encountered a problem with request" +
         s" ${anonymize(referenceNumber)}" +
         s" ${anonymize(registrationNumber)}," +
-        s" redirect to VehicleAndKeeperLookupFailure - trackingId: ${request.cookies.trackingId()}")
+        s" redirect to VehicleAndKeeperLookupFailure")
       vehicleLookupFailure(responseCode, formModel).withCookie(responseCodeCacheKey, responseCode.message)
     }
 
     callLookupService(request.cookies.trackingId(), formModel).map {
       case VehicleNotFound(responseCode) => notFound(responseCode)
       case VehicleFound(result) =>
-        bruteForceService.reset(registrationNumber).onComplete {
-          case Success(httpCode) => Logger.debug(s"Brute force reset was called - it returned httpCode: $httpCode " +
-            s"- trackingId: ${request.cookies.trackingId()}")
-          case Failure(t) => Logger.error(s"Brute force reset failed: ${t.getStackTraceString} " +
-            s"- trackingId: ${request.cookies.trackingId()}")
+        bruteForceService.reset(registrationNumber,request.cookies.trackingId()).onComplete {
+          case Success(httpCode) => logMessage(request.cookies.trackingId(), Debug,s"Brute force reset was called - it returned httpCode: $httpCode ")
+          case Failure(t) => logMessage(request.cookies.trackingId(),Error, s"Brute force reset failed: ${t.getStackTraceString} ")
         }
         result
     } recover {
@@ -133,7 +129,6 @@ abstract class VehicleLookupBase[FormModel <: VehicleLookupFormModelBase]
       registrationNumber = formModel.registrationNumber,
       transactionTimestamp = dateService.now.toDateTime
     )
-    //logMessage(Debug, "Test")//(requestToTrackingId(request), logger)
 
     logMessage( trackingId, Debug, "Vehicle lookup web service request",
       Some(Seq(vehicleAndKeeperDetailsRequest.dmsHeader.applicationCode,
@@ -182,7 +177,8 @@ abstract class VehicleLookupBase[FormModel <: VehicleLookupFormModelBase]
 
   private def microServiceErrorResult(message: String, exception: Throwable, formModel: FormModel)
                                      (implicit request: Request[_]): Result = {
-    Logger.error(message, exception)
+    logMessage(request.cookies.trackingId(),Error, message)
+    logMessage(request.cookies.trackingId(),Error, exception.getMessage)
     microServiceError(exception, formModel)
   }
 
