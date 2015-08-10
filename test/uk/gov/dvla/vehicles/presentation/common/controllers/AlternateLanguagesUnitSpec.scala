@@ -6,7 +6,6 @@ import play.api.test.FakeRequest
 import play.api.test.Helpers.{LOCATION, HOST, NOT_FOUND, REFERER, SEE_OTHER}
 import uk.gov.dvla.vehicles.presentation.common
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.NoCookieFlags
-
 import common.testhelpers.CookieHelper.fetchCookiesFromHeaders
 import common.{UnitSpec, WithApplication}
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.{ClearTextClientSideSessionFactory, ClientSideSessionFactory}

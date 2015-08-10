@@ -10,6 +10,7 @@ import play.api.Play.current
 
 class AlternateLanguages @Inject()(implicit clientSideSessionFactory: ClientSideSessionFactory)
   extends Controller with DVLALogger {
+
   final val CyId = "cy"
   final val EnId = "en"
   val langCy = Lang(CyId)

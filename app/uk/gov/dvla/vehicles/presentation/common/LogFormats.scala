@@ -2,9 +2,6 @@ package uk.gov.dvla.vehicles.presentation.common
 
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.TrackingId
 import play.api.{LoggerLike, Logger}
-import play.api.mvc.Request
-import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicits.RichCookies
-import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClientSideSessionFactory
 
 object LogFormats {
 
