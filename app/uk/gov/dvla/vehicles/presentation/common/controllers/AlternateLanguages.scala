@@ -11,11 +11,6 @@ import play.api.Play.current
 class AlternateLanguages @Inject()(implicit clientSideSessionFactory: ClientSideSessionFactory)
   extends Controller with DVLALogger {
 
-  final val CyId = "cy"
-  final val EnId = "en"
-  val langCy = Lang(CyId)
-  val langEn = Lang(EnId)
-
   def withLanguage(chosenLanguage: String) = Action { implicit request =>
     val refererOpt = request.headers.get(REFERER)
     val safeReferer = refererOpt.filter { _.stripPrefix("https://").stripPrefix("http://") startsWith request.host }
@@ -26,4 +21,14 @@ class AlternateLanguages @Inject()(implicit clientSideSessionFactory: ClientSide
       Redirect(ref).withLang(Lang(chosenLanguage))
     } getOrElse NotFound("The link is invalid")
   }
+}
+
+
+object AlternateLanguages {
+
+  final val CyId = "cy"
+  final val EnId = "en"
+  val langCy = Lang(CyId)
+  val langEn = Lang(EnId)
+
 }
