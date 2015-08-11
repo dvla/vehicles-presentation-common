@@ -19,24 +19,31 @@ object ServiceClosingWarning {
     appendSeconds().
     toFormatter
 
-  def warning(closingHour: Int, closingWarnPeriodMins: Int,
+  def warning(closingMins: Int, closingWarnPeriodMins: Int,
               currentTime: DateTime = Instant.now.toDateTime(LondonTimeZone)): Option[String] = {
 
-    def closingTimeInLondonToday(closingHour: Int, currentTime: DateTime): DateTime = {
+    def closingTimeInLondonToday(closingMins: Int, currentTime: DateTime): DateTime = {
+      val millisPerHour = 60000
+      val endOfDayMins = 1440
+      val startOfDayMillis = 0
+
+      val millisOfDay = closingMins match {
+        case 1440 => startOfDayMillis
+        case _ => closingMins * millisPerHour
+      }
+
       val closingTimeToday = currentTime.
-        withHourOfDay(if (closingHour == 24) 0 else closingHour).
-        withMinuteOfHour(0).
-        withSecondOfMinute(0).
+        withMillisOfDay(millisOfDay).
         withZone(LondonTimeZone)
-      if (closingHour == 24) closingTimeToday.plusDays(1) else closingTimeToday
+      if (closingMins == endOfDayMins) closingTimeToday.plusDays(1) else closingTimeToday
     }
 
-    val closingTime = closingTimeInLondonToday(closingHour, currentTime)
+    val closingTime = closingTimeInLondonToday(closingMins, currentTime)
     val warningTime = closingTime.minusMinutes(closingWarnPeriodMins)
 
     currentTime.isAfter(warningTime) && currentTime.isBefore(closingTime) match {
       case true => Some(
-        new Period(currentTime, closingTime).toString(periodFormatter))
+          new Period(currentTime, closingTime).toString(periodFormatter))
       case false => None
     }
   }

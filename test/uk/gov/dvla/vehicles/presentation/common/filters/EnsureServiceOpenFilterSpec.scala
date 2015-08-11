@@ -16,7 +16,7 @@ import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClientSideSess
 import uk.gov.dvla.vehicles.presentation.common.{UnitSpec, WithApplication}
 
 class EnsureServiceOpenFilterSpec extends UnitSpec {
-  private val hourMilllis = 60 * 60 * 1000
+  private val minuteMilllis = 60 * 1000
 
   private val dateTimeService = new DateTimeZoneServiceImpl
 
@@ -89,9 +89,10 @@ class EnsureServiceOpenFilterSpec extends UnitSpec {
       override def currentDateTimeZone = DateTimeZone.forID("Europe/London")
     })
 
-    def h(hour: Long) =
+    def h(minute: Long) = {
       DateTimeFormat.forPattern("HH:mm").withLocale(Locale.UK)
-        .print(new DateTime(hour * 3600000, DateTimeZone.forID("UTC"))).toLowerCase
+        .print(new DateTime(minute * 60000, DateTimeZone.forID("UTC"))).toLowerCase
+    }
   }
 
   private class MockFilter extends ((RequestHeader) => Future[Result]) {
@@ -126,18 +127,18 @@ class EnsureServiceOpenFilterSpec extends UnitSpec {
                            closing: Long)
 
   private def setUpInHours(test: SetUp => Any, dateTime: DateTime): Unit = {
-    val opening = Math.min(0, dateTime.getMillisOfDay / hourMilllis - 1)
-    val closing = Math.max(23, dateTime.getMillisOfDay / hourMilllis + 1)
+    val opening = Math.min(0, dateTime.getMillisOfDay / minuteMilllis - 1)
+    val closing = Math.max(1380, dateTime.getMillisOfDay / minuteMilllis + 1)
     setUp(test, opening, closing)
   }
 
   private def setUpInHours(test: SetUp => Any, dateTimeZoneService: DateTimeZoneService): Unit = {
-    setUp(test, 8, 18, dateTimeZoneService)
+    setUp(test, 480, 1080, dateTimeZoneService)
   }
 
   private def setUpOutOfHours(test: SetUp => Any, dateTime: DateTime): Unit =
-    if (dateTime.getMillisOfDay / hourMilllis >= 12) setUp(test, 0, 1)
-    else setUp(test, 13, 14)
+    if (dateTime.getMillisOfDay / minuteMilllis >= 720) setUp(test, 0, 60)
+    else setUp(test, 780, 840)
 
   private def setUpOutOfHours(test: SetUp => Any,
                               dateTime: DateTime,
@@ -149,7 +150,7 @@ class EnsureServiceOpenFilterSpec extends UnitSpec {
 
   private def setUp(test: SetUp => Any,
                     opening: Int = 0,
-                    closing: Int = 24,
+                    closing: Int = 1440,
                     dateTimeZoneService: DateTimeZoneService = new DateTimeZoneServiceImpl) {
     val sessionFactory =  org.scalatest.mock.MockitoSugar.mock[ClientSideSessionFactory]
 

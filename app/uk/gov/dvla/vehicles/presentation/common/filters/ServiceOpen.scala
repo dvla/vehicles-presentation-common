@@ -7,6 +7,7 @@ object ServiceOpen {
     "/assets/",
     "/help",
     "/feedback",
+    "/healthcheck",
     Version.Suffix
   )
 }

@@ -14,10 +14,10 @@ trait EnsureServiceOpenFilter extends Filter {
   protected val opening: Int
   protected val closing: Int
   protected val dateTimeZone: DateTimeZoneService
-  private def millisInHour = 60 * 60 * 1000L
+  private def millisInMinute = 60 * 1000L
 
-  private def openingHourMillis = opening * millisInHour
-  private def closingHourMillis = closing * millisInHour
+  private def openingHourMillis = opening * millisInMinute
+  private def closingHourMillis = closing * millisInMinute
   protected val html: HtmlFormat.Appendable
 
   protected def html(openingTime: String, closingTime: String): HtmlFormat.Appendable = html
