@@ -1,4 +1,4 @@
-@(openingHour: Int, closingHour: Int, closingWarnPeriodMins: Int)(implicit lang: Lang)
+@(openingTimeMins: Int, closingTimeMins: Int, closingWarnPeriodMins: Int)(implicit lang: Lang)
 
 @import uk.gov.dvla.vehicles.presentation.common.services.ServiceClosingWarning
 
@@ -9,15 +9,15 @@ be updated when the page is refreshed.
 In case javascript is enabled, there is a countdown function that will refresh the timers and once the
 the service is closed, it will change the message to global.serviceClosed.
 *@
-@ServiceClosingWarning.warning(closingHour, closingWarnPeriodMins).map { timeRemaining =>
+@ServiceClosingWarning.warning(closingTimeMins, closingWarnPeriodMins).map { timeRemaining =>
     <div class="serviceClosingWarning
     @if(timeRemaining <= "00:05.00") {
         final-closing-warning
     } else { closing-warning }">
         <p class="serviceClosing">@Messages(
             "global.serviceCloseWarning",
-            openingHour,
-            closingHour
+            ServiceClosingWarning.fomatMinutes(openingTimeMins),
+            ServiceClosingWarning.fomatMinutes(closingTimeMins)
         )
             <span class="count-down-wrapper">
                 <span class="js-minutes-left">@{
@@ -28,6 +28,6 @@ the service is closed, it will change the message to global.serviceClosed.
             </span>
             @Messages("global.serviceCloseWarning.p2")
         </p>
-        <p class="serviceClosed"> @Messages("global.serviceClosed", openingHour, closingHour)</p>
+        <p class="serviceClosed"> @Messages("global.serviceClosed", openingTimeMins, closingTimeMins)</p>
     </div>
 }

@@ -1,10 +1,12 @@
 package uk.gov.dvla.vehicles.presentation.common.services
 
+import java.util.Locale
+
 import org.joda.time.DateTime
 import org.joda.time.DateTimeZone
 import org.joda.time.Instant
 import org.joda.time.Period
-import org.joda.time.format.PeriodFormatterBuilder
+import org.joda.time.format.{DateTimeFormat, PeriodFormatterBuilder}
 
 object ServiceClosingWarning {
 
@@ -18,6 +20,13 @@ object ServiceClosingWarning {
     appendSeparator(".").
     appendSeconds().
     toFormatter
+
+  def fomatMinutes(mins: Long) = {
+    val millisPerMinute = 60000
+    val millis = mins * millisPerMinute
+    DateTimeFormat.forPattern("HH:mm").withLocale(Locale.UK)
+      .print(new DateTime(millis, DateTimeZone.forID("UTC"))).toLowerCase // Must use UTC as we only want to format the hour
+  }
 
   def warning(closingMins: Int, closingWarnPeriodMins: Int,
               currentTime: DateTime = Instant.now.toDateTime(LondonTimeZone)): Option[String] = {
