@@ -3,6 +3,7 @@ package webserviceclients.emailservice
 import javax.inject.Inject
 
 import play.api.http.Status
+import uk.gov.dvla.vehicles.presentation.common.clientsidesession.TrackingId
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
@@ -10,7 +11,7 @@ import scala.util.control.NonFatal
 
 final class EmailServiceImpl @Inject()(ws: EmailServiceWebService) extends EmailService {
 
-  override def invoke(cmd: EmailServiceSendRequest, trackingId: String): Future[EmailServiceSendResponse] = {
+  override def invoke(cmd: EmailServiceSendRequest, trackingId: TrackingId): Future[EmailServiceSendResponse] = {
     ws.invoke(cmd, trackingId).map { resp =>
       if (resp.status == Status.OK) new EmailServiceSendResponse
       else throw new RuntimeException(

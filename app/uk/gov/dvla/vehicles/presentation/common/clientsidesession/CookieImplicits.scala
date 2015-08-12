@@ -59,7 +59,7 @@ object CookieImplicits {
       requestCookies.find(_.name == cookieName).map(session.getCookieValue)
     }
 
-    def trackingId()(implicit clientSideSessionFactory: ClientSideSessionFactory): String =
+    def trackingId()(implicit clientSideSessionFactory: ClientSideSessionFactory): TrackingId =
       clientSideSessionFactory.getSession(requestCookies).trackingId
   }
 

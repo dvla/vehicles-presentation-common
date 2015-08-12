@@ -1,6 +1,7 @@
 package uk.gov.dvla.vehicles.presentation.common.controllers
 
 import play.api.mvc.Controller
+import uk.gov.dvla.vehicles.presentation.common.clientsidesession.TrackingId
 import uk.gov.dvla.vehicles.presentation.common.model.FeedbackForm
 import uk.gov.dvla.vehicles.presentation.common.services.{FeedbackMessageBuilder, SEND}
 import uk.gov.dvla.vehicles.presentation.common.services.SEND.EmailConfiguration
@@ -16,7 +17,7 @@ trait FeedbackBase extends Controller {
   val emailConfiguration: EmailConfiguration
   val emailService: EmailService
 
-  def sendFeedback(feedback: FeedbackForm, subject: String, trackingId: String): Unit = {
+  def sendFeedback(feedback: FeedbackForm, subject: String, trackingId: TrackingId): Unit = {
 
     import scala.language.postfixOps
 

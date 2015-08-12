@@ -5,7 +5,7 @@ import play.api.mvc.{Request, Cookie}
 import play.api.test.FakeRequest
 import uk.gov.dvla.vehicles.presentation.common
 import common.UnitSpec
-import common.clientsidesession.{ClientSideSession, ClientSideSessionFactory}
+import uk.gov.dvla.vehicles.presentation.common.clientsidesession.{TrackingId, ClientSideSession, ClientSideSessionFactory}
 import common.webserviceclients.addresslookup.AddressLookupService
 import org.mockito.Mockito.stub
 import org.mockito.Matchers.any
@@ -19,7 +19,7 @@ import scala.concurrent.{Future, Await}
 
 class AddressLookupSpec extends UnitSpec {
   val postCode = "E14 9LL"
-  val trackingId = "test-tracking-id"
+  val trackingId = TrackingId("test-tracking-id")
   implicit val lookupService = mock[AddressLookupService]
   implicit val sessionFactory = mock[ClientSideSessionFactory]
   val session = mock[ClientSideSession]

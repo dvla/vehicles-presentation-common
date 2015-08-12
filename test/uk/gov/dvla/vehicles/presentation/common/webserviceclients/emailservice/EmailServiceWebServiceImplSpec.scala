@@ -2,6 +2,7 @@ package uk.gov.dvla.vehicles.presentation.common.webserviceclients.emailservice
 
 import com.github.tomakehurst.wiremock.client.WireMock.{equalTo, postRequestedFor, urlEqualTo}
 import play.api.libs.json.Json
+import uk.gov.dvla.vehicles.presentation.common.clientsidesession.TrackingId
 import uk.gov.dvla.vehicles.presentation.common.{UnitSpec, WithApplication}
 import uk.gov.dvla.vehicles.presentation.common.testhelpers.WireMockFixture
 import uk.gov.dvla.vehicles.presentation.common.webserviceclients.HttpHeaders
@@ -17,7 +18,7 @@ final class EmailServiceWebServiceImplSpec extends UnitSpec with WireMockFixture
       whenReady(resultFuture, timeout) { result =>
         wireMock.verifyThat(1, postRequestedFor(
           urlEqualTo(s"/email/send")
-        ).withHeader(HttpHeaders.TrackingId, equalTo(trackingId)).
+        ).withHeader(HttpHeaders.TrackingId, equalTo(trackingId.value)).
           withRequestBody(equalTo(Json.toJson(request).toString())))
       }
     }
@@ -25,7 +26,7 @@ final class EmailServiceWebServiceImplSpec extends UnitSpec with WireMockFixture
 
   private val emailService = new EmailServiceWebServiceImpl(new TestEmailServiceConfig(wireMockPort))
 
-  private final val trackingId = "track-id-test"
+  private final val trackingId = TrackingId("track-id-test")
 
   private val request = EmailServiceSendRequest(
     plainTextMessage = "plainTextMessage",

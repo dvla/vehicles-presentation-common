@@ -4,7 +4,7 @@ import org.joda.time.DateTime
 import org.joda.time.format.ISODateTimeFormat
 import play.api.libs.json.{JsString, JsValue, Writes, Json}
 import uk.gov.dvla.vehicles.presentation.common.{WithApplication, UnitSpec}
-import uk.gov.dvla.vehicles.presentation.common.clientsidesession.{ClearTextClientSideSessionFactory, NoCookieFlags}
+import uk.gov.dvla.vehicles.presentation.common.clientsidesession.{TrackingId, ClearTextClientSideSessionFactory, NoCookieFlags}
 import uk.gov.dvla.vehicles.presentation.common.testhelpers.WireMockFixture
 import uk.gov.dvla.vehicles.presentation.common.webserviceclients.HttpHeaders
 import uk.gov.dvla.vehicles.presentation.common.webserviceclients.common.{VssWebHeaderDto, VssWebEndUserDto}
@@ -17,7 +17,7 @@ class AcquireWebServiceImplSpec extends UnitSpec with WireMockFixture {
   implicit val clientSideSessionFactory = new ClearTextClientSideSessionFactory()
   val acquireService = new AcquireWebServiceImpl(new TestAcquireConfig(wireMockPort))
 
-  private final val trackingId = "track-id-test"
+  private final val trackingId = TrackingId("track-id-test")
 
   // Handles this type of formatted string 2014-03-04T00:00:00.000Z
   implicit val jodaISODateWrites: Writes[DateTime] = new Writes[DateTime] {
@@ -69,7 +69,7 @@ class AcquireWebServiceImplSpec extends UnitSpec with WireMockFixture {
       whenReady(resultFuture, timeout) { result =>
         wireMock.verifyThat(1, postRequestedFor(
           urlEqualTo(s"/vehicles/acquire/v1")
-        ).withHeader(HttpHeaders.TrackingId, equalTo(trackingId)).
+        ).withHeader(HttpHeaders.TrackingId, equalTo(trackingId.value)).
           withRequestBody(equalTo(Json.toJson(request).toString())))
       }
     }

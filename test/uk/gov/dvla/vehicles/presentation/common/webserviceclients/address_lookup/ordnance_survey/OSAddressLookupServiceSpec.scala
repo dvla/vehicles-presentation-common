@@ -160,7 +160,8 @@ final class OSAddressLookupServiceSpec extends UnitSpec {
     "return none when response status is 200 OK but results is empty" in {
       val (service, healthStatsMock)  = addressServiceMock(responseUprn(OK, UprnToAddressResponseDto(addressViewModel = None)))
 
-      val result = service.fetchAddressForUprn(traderUprnValid.toString, ClearTextClientSideSessionFactory.DefaultTrackingId)
+      val result = service.fetchAddressForUprn(traderUprnValid.toString,
+        ClearTextClientSideSessionFactory.DefaultTrackingId)
 
       whenReady(result, timeout) {
         _ should equal(None)
@@ -173,7 +174,8 @@ final class OSAddressLookupServiceSpec extends UnitSpec {
     "return none when web service throws an exception" in {
       val (service, healthStatsMock)  = addressServiceMock(responseThrows)
 
-      val result = service.fetchAddressForUprn(traderUprnValid.toString, ClearTextClientSideSessionFactory.DefaultTrackingId)
+      val result = service.fetchAddressForUprn(traderUprnValid.toString,
+        ClearTextClientSideSessionFactory.DefaultTrackingId)
 
       whenReady(result) {
         _ should equal(None)

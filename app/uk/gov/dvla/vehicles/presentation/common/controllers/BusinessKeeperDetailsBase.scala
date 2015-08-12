@@ -7,6 +7,7 @@ import play.api.mvc.{Action, Controller, Request, Result}
 import uk.gov.dvla.vehicles.presentation.common
 import common.clientsidesession.ClientSideSessionFactory
 import common.clientsidesession.CookieImplicits.{RichCookies, RichForm, RichResult}
+import uk.gov.dvla.vehicles.presentation.common.LogFormats.DVLALogger
 import uk.gov.dvla.vehicles.presentation.common.model._
 import NewKeeperChooseYourAddressFormModel._
 import common.views.helpers.FormExtensions.formBinding
@@ -14,7 +15,7 @@ import uk.gov.dvla.vehicles.presentation.common.views.constraints.BusinessKeeper
 
 abstract class BusinessKeeperDetailsBase @Inject()()
                     (implicit protected val clientSideSessionFactory: ClientSideSessionFactory,
-                     prefix: CacheKeyPrefix) extends Controller {
+                     prefix: CacheKeyPrefix) extends Controller with DVLALogger {
 
   protected def presentResult(model: BusinessKeeperDetailsViewModel)(implicit request: Request[_]): Result
 
@@ -67,7 +68,7 @@ abstract class BusinessKeeperDetailsBase @Inject()()
   }
 
   private def redirectToSetupTradeDetails(message:String)(implicit request: Request[_]) = {
-    Logger.warn(s"$message - trackingId: ${request.cookies.trackingId()}")
+    logMessage(request.cookies.trackingId(), Warn, message)
     missingVehicleDetails
   }
 

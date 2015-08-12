@@ -8,6 +8,7 @@ import org.scalatest.time.{Seconds, Span}
 import play.api.libs.json.{JsString, JsValue, Writes, Json}
 import uk.gov.dvla.vehicles.presentation.common.WithApplication
 import uk.gov.dvla.vehicles.presentation.common.UnitSpec
+import uk.gov.dvla.vehicles.presentation.common.clientsidesession.TrackingId
 import uk.gov.dvla.vehicles.presentation.common.testhelpers.WireMockFixture
 import uk.gov.dvla.vehicles.presentation.common.webserviceclients.HttpHeaders
 import uk.gov.dvla.vehicles.presentation.common.webserviceclients.common.{DmsWebEndUserDto, DmsWebHeaderDto}
@@ -21,7 +22,7 @@ class VehicleAndKeeperLookupWebServiceImplSpec extends UnitSpec with WireMockFix
       whenReady(resultFuture, timeout) { result =>
         wireMock.verifyThat(1, postRequestedFor(
           urlEqualTo(s"/vehicleandkeeper/lookup/v1")
-        ).withHeader(HttpHeaders.TrackingId, equalTo(trackingId)).
+        ).withHeader(HttpHeaders.TrackingId, equalTo(trackingId.value)).
           withRequestBody(equalTo(Json.toJson(request).toString())))
       }
     }
@@ -46,7 +47,7 @@ class VehicleAndKeeperLookupWebServiceImplSpec extends UnitSpec with WireMockFix
   private val lookupService = new VehicleAndKeeperLookupWebServiceImpl(
     new TestVehicleAndKeeperLookupConfig(wireMockPort))
 
-  private final val trackingId = "track-id-test"
+  private final val trackingId = TrackingId("track-id-test")
 
   private val request = VehicleAndKeeperLookupRequest(
     dmsHeader = buildHeader,

@@ -1,9 +1,12 @@
 package uk.gov.dvla.vehicles.presentation.common
 
+import uk.gov.dvla.vehicles.presentation.common.clientsidesession.TrackingId
+import play.api.{LoggerLike, Logger}
+
 object LogFormats {
 
   private final val anonymousChar = "*"
-  private final val logSeperator = " - "
+  private final val logSeperator = "\t"
   private final val nullString = "null"
   final val optionNone = "none"
 
@@ -28,10 +31,33 @@ object LogFormats {
     }
   }
 
-  def logMessage(messageText: String, trackingId: String, logData: Seq[String]): String =
-    messageText + logSeperator + logData + "trackingId: " + trackingId
+  // When changing DVLA logger, be sure to replicate the changes in
+  //    vehicles-services-common/src/main/scala/dvla.common/LogFormats.scala
+  // in order to keep a consistent log format
+  trait DVLALogger {
 
-  def logMessage(messageText: String, trackingId: String): String =
-    messageText + logSeperator + "trackingId: " + trackingId
+    implicit val logger: org.slf4j.Logger = Logger.logger
+
+    sealed trait LogMessageType
+    case object Debug extends LogMessageType
+    case object Info extends LogMessageType
+    case object Error extends LogMessageType
+    case object Warn extends LogMessageType
+
+    def logMessage(trackingId: TrackingId, messageType: LogMessageType, messageText: String, logData: Option[Seq[String]] = None)
+                  (implicit logger: org.slf4j.Logger) =
+      messageType match {
+        case Debug => logger.debug(logMessageFormat(trackingId, messageText, logData))
+        case Info => logger.info(logMessageFormat(trackingId, messageText, logData))
+        case Error => logger.error(logMessageFormat(trackingId, messageText, logData))
+        case Warn => logger.warn(logMessageFormat(trackingId, messageText, logData))
+      }
+
+
+    private def logMessageFormat(trackingId: TrackingId, messageText: String, logData: Option[Seq[String]]): String =
+      s"""[TrackingID: ${trackingId.value}]$logSeperator$messageText ${logData.map( d => s"$logSeperator$logData" ).getOrElse("")}"""
+  }
+
+
 
 }

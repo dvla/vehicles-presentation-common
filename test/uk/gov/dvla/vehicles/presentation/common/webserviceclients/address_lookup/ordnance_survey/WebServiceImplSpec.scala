@@ -5,7 +5,7 @@ import org.scalatest.concurrent.PatienceConfiguration.Interval
 import scala.concurrent.duration.DurationInt
 import play.api.i18n.Lang
 import uk.gov.dvla.vehicles.presentation.common.{UnitSpec, WithApplication}
-import uk.gov.dvla.vehicles.presentation.common.clientsidesession.{ClearTextClientSideSessionFactory, NoCookieFlags}
+import uk.gov.dvla.vehicles.presentation.common.clientsidesession.{TrackingId, ClearTextClientSideSessionFactory, NoCookieFlags}
 import uk.gov.dvla.vehicles.presentation.common.testhelpers.WireMockFixture
 import uk.gov.dvla.vehicles.presentation.common.webserviceclients.HttpHeaders
 import uk.gov.dvla.vehicles.presentation.common.webserviceclients.addresslookup.ordnanceservey.OrdnanceSurveyConfig
@@ -14,7 +14,7 @@ import uk.gov.dvla.vehicles.presentation.common.webserviceclients.fakes.FakeAddr
 
 final class WebServiceImplSpec extends UnitSpec  with WireMockFixture {
 
-  val trackingIdValue = "trackingIdValue"
+  val trackingIdValue = TrackingId("trackingIdValue")
   val interval = Interval(50.millis)
 
   implicit val noCookieFlags = new NoCookieFlags
@@ -44,7 +44,7 @@ final class WebServiceImplSpec extends UnitSpec  with WireMockFixture {
       whenReady(futureResult, timeout, interval) { result =>
         wireMock.verifyThat(1, getRequestedFor(
           urlEqualTo(s"/postcode-to-address?postcode=$postCode&languageCode=EN&tracking_id=$trackingIdValue")
-        ).withHeader(HttpHeaders.TrackingId, equalTo(trackingIdValue)))
+        ).withHeader(HttpHeaders.TrackingId, equalTo(trackingIdValue.value)))
       }
     }
 
@@ -56,7 +56,7 @@ final class WebServiceImplSpec extends UnitSpec  with WireMockFixture {
       whenReady(futureResult, timeout, interval) { result =>
         wireMock.verifyThat(1, getRequestedFor(
           urlEqualTo(s"/uprn-to-address?uprn=$postCode&languageCode=EN&tracking_id=$trackingIdValue")
-        ).withHeader(HttpHeaders.TrackingId, equalTo(trackingIdValue)))
+        ).withHeader(HttpHeaders.TrackingId, equalTo(trackingIdValue.value)))
       }
     }
   }

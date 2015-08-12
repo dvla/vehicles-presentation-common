@@ -30,7 +30,8 @@ class AccessLoggingFilterSpec extends UnitSpec {
       whenReady(filterResult, timeout) { result =>
         val loggerInfo = logger.captureLogInfo()
         info("The log entry should look like 127.0.0.1 - - [dd/MMM/yyyy:hh:mm:ss +SSS] \"GET / HTTP/1.1\" 200 12345 \"98765\"")
-        loggerInfo should startWith("127.0.0.1")
+        loggerInfo should startWith("[TrackingID: 98765]")
+        loggerInfo should include("127.0.0.1")
         loggerInfo should include("GET /")
         loggerInfo should include("HTTP/1.1")
         loggerInfo should include("200")
@@ -51,7 +52,7 @@ class AccessLoggingFilterSpec extends UnitSpec {
 
       whenReady(filterResult) { result =>
         val loggerInfo = logger.captureLogInfo()
-        loggerInfo should startWith("127.0.0.2")
+        loggerInfo should include("127.0.0.2")
       }
   }
 
@@ -63,7 +64,7 @@ class AccessLoggingFilterSpec extends UnitSpec {
 
       whenReady(filterResult) { result =>
         val loggerInfo = logger.captureLogInfo()
-        loggerInfo should startWith("127.0.0.3")
+        loggerInfo should include("127.0.0.3")
       }
   }
 
@@ -75,7 +76,7 @@ class AccessLoggingFilterSpec extends UnitSpec {
 
       whenReady(filterResult) { result =>
         val loggerInfo = logger.captureLogInfo()
-        loggerInfo should startWith("127.0.0.4")
+        loggerInfo should include("127.0.0.4")
       }
   }
 
@@ -86,7 +87,8 @@ class AccessLoggingFilterSpec extends UnitSpec {
 
       whenReady(filterResult) { result =>
         val loggerInfo = logger.captureLogInfo()
-        loggerInfo should startWith("-")
+        loggerInfo should startWith("[TrackingID: -]")
+        loggerInfo should include("- - -")
       }
   }
 
@@ -143,10 +145,10 @@ class AccessLoggingFilterSpec extends UnitSpec {
     class TestClfEntryBuilder extends ClfEntryBuilder {
       import uk.gov.dvla.vehicles.presentation.common.filters.AccessLoggingFilterSpec.testDate
 
-      override def clfEntry(requestTimestamp: Date, request: RequestHeader, result: Result): String = {
+      override def clfEntry(requestTimestamp: Date, request: RequestHeader, result: Result)(logger: LoggerLike): String = {
         val extendedResult = result.withHeaders(CONTENT_LENGTH -> "12345").
           withHeaders(ClientSideSessionFactory.TrackingIdCookieName -> "98765")
-        super.clfEntry(testDate, request, extendedResult)
+        super.clfEntry(testDate, request, extendedResult)(logger)
       }
     }
 

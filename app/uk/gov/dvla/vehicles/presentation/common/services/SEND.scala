@@ -1,11 +1,16 @@
 package uk.gov.dvla.vehicles.presentation.common.services
 
 import play.api.Logger
+import uk.gov.dvla.vehicles.presentation.common.clientsidesession.TrackingId
 import uk.gov.dvla.vehicles.presentation.common.webserviceclients.emailservice.From
 import webserviceclients.emailservice.{EmailService, EmailServiceSendRequest}
 
 import scala.concurrent.{ExecutionContext}
 import ExecutionContext.Implicits.global
+
+import uk.gov.dvla.vehicles.presentation.common
+import uk.gov.dvla.vehicles.presentation.common.LogFormats.DVLALogger
+import common.clientsidesession.CookieImplicits.RichCookies
 
 
 /**
@@ -19,7 +24,7 @@ import ExecutionContext.Implicits.global
  *
  * Created by gerasimosarvanitis on 03/12/2014.
  */
-object SEND {
+object SEND extends DVLALogger {
 
   import scala.language.{implicitConversions, postfixOps, reflectiveCalls}
 
@@ -50,34 +55,30 @@ object SEND {
 
   /** Generic trait to represent the Email Service */
   sealed trait EmailOps {
-    def send(trackingId: String)(implicit config: EmailConfiguration, emailService: EmailService): Unit
+    def send(trackingId: TrackingId)(implicit config: EmailConfiguration, emailService: EmailService): Unit
   }
 
   /** A dummy email service, to send the white listed emails. */
   case class NonWhiteListEmailOps(email: Email) extends EmailOps {
-    def send(trackingId: String)(implicit config: EmailConfiguration, emailService: EmailService) = {
+    def send(trackingId: TrackingId)(implicit config: EmailConfiguration, emailService: EmailService) = {
       val message = s"""Got email with contents: (${email.subject} - ${email.message} ) to be sent to ${email.toPeople.mkString(" ")}
 
           ||with cc (${email.ccPeople.mkString(" ")}
 )
          |${config.from.email}. Receiver was in whitelist""".stripMargin
-
-      Logger.info(
-
-        message)
+      logMessage(trackingId, Info, message)
     }
   }
   /** A no-ops email service that denotes an error in the email */
   object NoEmailOps extends EmailOps {
-    def send(trackingId: String)(implicit config: EmailConfiguration, emailService: EmailService) =
-      Logger.info("The email is incomplete. you cannot send that")
-
+    def send(trackingId: TrackingId)(implicit config: EmailConfiguration, emailService: EmailService) =
+      logMessage(trackingId, Info, "The email is incomplete. you cannot send that")
   }
 
   /** An smtp email service. Currently implemented using the Apache commons email library */
   case class SmtpEmailOps(email: Email) extends EmailOps{
 
-    def send(trackingId: String)(implicit config: EmailConfiguration, emailService: EmailService) = {
+    def send(trackingId: TrackingId)(implicit config: EmailConfiguration, emailService: EmailService) = {
 
       val from = From(config.from.email, config.from.name)
 
@@ -92,10 +93,11 @@ object SEND {
       )
 
       emailService.invoke(emailRequest, trackingId).onFailure {
-        case fail => Logger.error(
-          s"""Failed to send email for ${email.toPeople.
-            mkString(" ")}
-             |reason was ${fail.getMessage}""".stripMargin)
+        case fail => logMessage(trackingId, Error,s"""Failed to send email for ${email.toPeople.
+          mkString(" ")}
+            , reason was ${fail.getMessage}""".stripMargin
+            )
+
       }
     }
   }

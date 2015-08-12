@@ -284,6 +284,17 @@ img {
         }
     }
 
+    .inline-desktop-only {
+        display: none;
+        @media screen and (min-width:$device-medium) {
+            display: inline-block;
+        }
+        .ie8 &,
+        .ie7 & {
+            display: inline-block;
+        }
+    }
+
     .js-has-tooltip {
         display: none;
         color: $govuk-blue;
@@ -296,7 +307,7 @@ img {
         margin-left: 5px;
         cursor: pointer;
         &.enabled {
-            display: inline-block;
+            @extend .inline-desktop-only;
         }
     }
 
@@ -332,7 +343,7 @@ img {
         margin-left: 5px;
         cursor: pointer;
         &.enabled {
-            display: inline-block;
+            @extend .inline-desktop-only;
         }
     }
 
