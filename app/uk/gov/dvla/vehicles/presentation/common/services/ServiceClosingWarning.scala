@@ -21,7 +21,7 @@ object ServiceClosingWarning {
     appendSeconds().
     toFormatter
 
-  def fomatMinutes(mins: Long) = {
+  def formatMinutes(mins: Long) = {
     val millisPerMinute = 60000
     val millis = mins * millisPerMinute
     DateTimeFormat.forPattern("HH:mm").withLocale(Locale.UK)

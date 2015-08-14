@@ -16,8 +16,8 @@ the service is closed, it will change the message to global.serviceClosed.
     } else { closing-warning }">
         <p class="serviceClosing">@Messages(
             "global.serviceCloseWarning",
-            ServiceClosingWarning.fomatMinutes(openingTimeMins),
-            ServiceClosingWarning.fomatMinutes(closingTimeMins)
+            ServiceClosingWarning.formatMinutes(openingTimeMins),
+            ServiceClosingWarning.formatMinutes(closingTimeMins)
         )
             <span class="count-down-wrapper">
                 <span class="js-minutes-left">@{
@@ -28,6 +28,8 @@ the service is closed, it will change the message to global.serviceClosed.
             </span>
             @Messages("global.serviceCloseWarning.p2")
         </p>
-        <p class="serviceClosed"> @Messages("global.serviceClosed", openingTimeMins, closingTimeMins)</p>
+        <p class="serviceClosed"> @Messages("global.serviceClosed",
+          ServiceClosingWarning.formatMinutes(openingTimeMins),
+          ServiceClosingWarning.formatMinutes(closingTimeMins))</p>
     </div>
 }
