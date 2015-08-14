@@ -268,13 +268,25 @@ define(function(require) {
         });
     };
 
+    var gaTrackEvent = function(category, action, label, value) {
+        // Helper method to support GA asynchronous and analytics.js - should always report an event depending on the
+        // version of GA used in a project
+        if (typeof ga !== 'undefined') {
+            ga('send', 'event', category, action, label, value)
+        } else if (typeof _gaq !== 'undefined') {
+            _gaq.push(['_trackEvent', category, action, label, value]);
+        } else {
+            console.log("GA event tracking not available");
+        }
+    }
+
     var gaTrackClickOnce = function() {
         var gaTrackClickEvent = 'ga-track-click-event-once';
         $('.' + gaTrackClickEvent).on('click', function(e) {
-            var category = $(this).attr('ga-event-category');
+            var category = $(this).attr('ga-event-category') || document.location.href;
             var action = $(this).attr('ga-event-action');
             if ($(this).hasClass(gaTrackClickEvent) && category && action) {
-                _gaq.push(['_trackEvent', category, action, 'click', 1]);
+                gaTrackEvent(category, action, 'click', 1);
                 $(this).removeClass(gaTrackClickEvent);
             }
         });
@@ -288,9 +300,9 @@ define(function(require) {
                 if (!value) value = 1;
                 var actionName = $(this).attr('ga-action');
                 if(!$(this).val()) {
-                    _gaq.push(['_trackEvent', "optional_field", actionName, 'absent', value]);
+                    gaTrackEvent("optional_field", actionName, 'absent', value);
                 } else {
-                    _gaq.push(['_trackEvent', "optional_field", actionName, 'provided', value]);
+                    gaTrackEvent("optional_field", actionName, 'provided', value);
                 }
             });
         });

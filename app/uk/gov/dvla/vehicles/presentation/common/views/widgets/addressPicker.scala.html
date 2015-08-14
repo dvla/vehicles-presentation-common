@@ -40,8 +40,8 @@
         <div class="right-col">
             <input class="no-js-hidden js-address-postcode-lookup address-postcode-lookup" id="@id" name="@name" placeholder="@Messages("address.picker.common.postcode")" value="@value" maxlength="58" autocomplete="off" type="text" aria-required="true">
             <div class="address-find-wrapper">
-                <button id="address-find" type="button" name="action" class="button button-secondary no-js-hidden">@Messages("address.picker.common.findAddress")</button>
-                <span class="address-manual-toggle no-js-hidden">@Messages("address.picker.common.manualAddress")</span>
+                <button id="address-find" type="button" name="action" class="button button-secondary no-js-hidden ga-track-click-event-once" ga-event-action="Find UK address">@Messages("address.picker.common.findAddress")</button>
+                <span class="address-manual-toggle no-js-hidden ga-track-click-event-once" ga-event-action="Enter address manually">@Messages("address.picker.common.manualAddress")</span>
             </div>
         </div>
     }
@@ -126,7 +126,7 @@
                 )
             )
             <!-- Clear Form Call To Action - ONLY JS -->
-            <span class="address-reset-form no-js-hidden" href="#address-postcode-lookup">@Messages("address.picker.common.changeDetails")</span>
+            <span class="address-reset-form no-js-hidden ga-track-click-event-once" ga-event-action="Change my details" href="#address-postcode-lookup">@Messages("address.picker.common.changeDetails")</span>
             <!-- end of Clear Form Call To Action-->
         </div>
         <!-- end of  Remember Details Input -->
