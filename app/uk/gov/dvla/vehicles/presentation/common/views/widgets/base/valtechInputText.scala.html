@@ -13,7 +13,7 @@
 @input(field, args.toSeq:_*) { (id, name, value, htmlArgs) =>
     @valtechLabel(field, args)
         @if(args.contains('tooltipImgSrc)) {
-            <div class="js-tooltip" data-tooltip="tooltip_@id" style="display: none;">
+            <div class="js-tooltip" data-tooltip="tooltip_@id">
                 <p>
                     @if(args.contains('tooltipHeading)) {
                         @args('tooltipHeading).toString
