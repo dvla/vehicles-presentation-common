@@ -5,7 +5,7 @@ import play.api.data.Form
 import play.api.libs.json.{Json, Writes}
 import play.api.mvc.Cookie
 import uk.gov.dvla.vehicles.presentation.common
-import common.clientsidesession.{ClearTextClientSideSession, NoCookieFlags}
+import uk.gov.dvla.vehicles.presentation.common.clientsidesession.{TrackingId, ClearTextClientSideSession, NoCookieFlags}
 import common.controllers.VehicleLookupFormModel
 import common.controllers.VehicleLookupFormModel.VehicleLookupFormModelCacheKey
 import common.controllers.VehicleLookupFormModel.VehicleLookupResponseCodeCacheKey
@@ -39,7 +39,7 @@ object CookieFactoryForUnitSpecs {
   final val ReferenceNumberValid = "12345678910"
   final val VehicleMakeValid = "Alfa Romeo"
   final val VehicleModelValid = "Alfasud ti"
-  private val session = new ClearTextClientSideSession(TrackingIdValue)
+  private val session = new ClearTextClientSideSession(TrackingId(TrackingIdValue))
 
   final val FirstNameValid = "fn"
   final val LastNameValid = "TestLastName"

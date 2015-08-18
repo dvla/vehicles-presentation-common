@@ -4,10 +4,12 @@ import java.security.GeneralSecurityException
 import java.util.Date
 
 import org.joda.time.Instant
+import org.mockito.internal.util.MockitoLogger
+import play.api.LoggerLike
 import play.api.libs.Codecs
 import play.api.mvc.{RequestHeader, Result}
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.InvalidSessionException
-import uk.gov.dvla.vehicles.presentation.common.filters.ClfEntryBuilder
+import uk.gov.dvla.vehicles.presentation.common.filters.{MockLogger, ClfEntryBuilder}
 import uk.gov.dvla.vehicles.presentation.common.services.DateService
 
 import scala.collection.mutable.ArrayBuffer
@@ -22,12 +24,12 @@ class ErrorStrategyBaseSpec extends UnitSpec {
     }
 
     "return the error page result in case of exception NOT related to the session security" in {
-      val (clfEntryBuilder, logger, dateService, request, errorStrategy) = setUp
+      val (clfEntryBuilder, logger, dateService, request, errorStrategy, loggerLike) = setUp
       // Given
       when(dateService.now).thenReturn(new Instant(100))
 
       val errorPageResultClfEntry = "errorPageResultClfEntry"
-      when(clfEntryBuilder.clfEntry(new Date(100L), request, errorStrategy.mockErrorPageResult))
+      when(clfEntryBuilder.clfEntry(new Date(100L), request, errorStrategy.mockErrorPageResult)(loggerLike))
         .thenReturn(errorPageResultClfEntry)
 
       // When
@@ -45,12 +47,12 @@ class ErrorStrategyBaseSpec extends UnitSpec {
   }
 
   private def testSessionValidationException(t: Throwable): Unit = {
-    val (clfEntryBuilder, logger, dateService, request, errorStrategy) = setUp
+    val (clfEntryBuilder, logger, dateService, request, errorStrategy, loggerLike) = setUp
     // Given
     when(dateService.now).thenReturn(new Instant(100))
 
     val sessionExceptionClfEntry = "sessionExceptionClfEntry"
-    when(clfEntryBuilder.clfEntry(new Date(100L), request, errorStrategy.mockSessionExceptionResult))
+    when(clfEntryBuilder.clfEntry(new Date(100L), request, errorStrategy.mockSessionExceptionResult)(loggerLike))
       .thenReturn(sessionExceptionClfEntry)
 
     // When
@@ -66,8 +68,9 @@ class ErrorStrategyBaseSpec extends UnitSpec {
 
   class ErrorStrategyTest(clfEntryBuilder: ClfEntryBuilder,
                           logger: String => Unit,
+                          loggerLike: LoggerLike,
                           dateService: DateService)
-    extends ErrorStrategyBase(clfEntryBuilder, logger, dateService) {
+    extends ErrorStrategyBase(clfEntryBuilder, logger, loggerLike, dateService) {
 
     val mockErrorPageResult = mock[Result]
     var requests = ArrayBuffer[RequestHeader]()
@@ -90,7 +93,8 @@ class ErrorStrategyBaseSpec extends UnitSpec {
     val logger = mock[String => Unit]
     val dateService = mock[DateService]
     val request = mock[RequestHeader]
-    val errorStrategy = new ErrorStrategyTest(clfEntryBuilder, logger, dateService)
-    (clfEntryBuilder, logger, dateService, request, errorStrategy)
+    val loggerLike = new MockLogger
+    val errorStrategy = new ErrorStrategyTest(clfEntryBuilder, logger, loggerLike, dateService)
+    (clfEntryBuilder, logger, dateService, request, errorStrategy, loggerLike)
   }
 }

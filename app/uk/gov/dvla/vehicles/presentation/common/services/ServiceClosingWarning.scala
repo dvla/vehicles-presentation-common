@@ -1,10 +1,12 @@
 package uk.gov.dvla.vehicles.presentation.common.services
 
+import java.util.Locale
+
 import org.joda.time.DateTime
 import org.joda.time.DateTimeZone
 import org.joda.time.Instant
 import org.joda.time.Period
-import org.joda.time.format.PeriodFormatterBuilder
+import org.joda.time.format.{DateTimeFormat, PeriodFormatterBuilder}
 
 object ServiceClosingWarning {
 
@@ -19,24 +21,38 @@ object ServiceClosingWarning {
     appendSeconds().
     toFormatter
 
-  def warning(closingHour: Int, closingWarnPeriodMins: Int,
+  def formatMinutes(mins: Long) = {
+    val millisPerMinute = 60000
+    val millis = mins * millisPerMinute
+    DateTimeFormat.forPattern("HH:mm").withLocale(Locale.UK)
+      .print(new DateTime(millis, DateTimeZone.forID("UTC"))).toLowerCase // Must use UTC as we only want to format the hour
+  }
+
+  def warning(closingMins: Int, closingWarnPeriodMins: Int,
               currentTime: DateTime = Instant.now.toDateTime(LondonTimeZone)): Option[String] = {
 
-    def closingTimeInLondonToday(closingHour: Int, currentTime: DateTime): DateTime = {
+    def closingTimeInLondonToday(closingMins: Int, currentTime: DateTime): DateTime = {
+      val millisPerHour = 60000
+      val endOfDayMins = 1440
+      val startOfDayMillis = 0
+
+      val millisOfDay = closingMins match {
+        case 1440 => startOfDayMillis
+        case _ => closingMins * millisPerHour
+      }
+
       val closingTimeToday = currentTime.
-        withHourOfDay(if (closingHour == 24) 0 else closingHour).
-        withMinuteOfHour(0).
-        withSecondOfMinute(0).
+        withMillisOfDay(millisOfDay).
         withZone(LondonTimeZone)
-      if (closingHour == 24) closingTimeToday.plusDays(1) else closingTimeToday
+      if (closingMins == endOfDayMins) closingTimeToday.plusDays(1) else closingTimeToday
     }
 
-    val closingTime = closingTimeInLondonToday(closingHour, currentTime)
+    val closingTime = closingTimeInLondonToday(closingMins, currentTime)
     val warningTime = closingTime.minusMinutes(closingWarnPeriodMins)
 
     currentTime.isAfter(warningTime) && currentTime.isBefore(closingTime) match {
       case true => Some(
-        new Period(currentTime, closingTime).toString(periodFormatter))
+          new Period(currentTime, closingTime).toString(periodFormatter))
       case false => None
     }
   }

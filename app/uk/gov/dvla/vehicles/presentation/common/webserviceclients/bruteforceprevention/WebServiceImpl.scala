@@ -4,8 +4,9 @@ import com.google.inject.Inject
 import play.api.Logger
 import play.api.libs.ws.{WSResponse, WS}
 import play.api.Play.current
-import scala.concurrent.Future
 import uk.gov.dvla.vehicles.presentation.common.LogFormats
+import uk.gov.dvla.vehicles.presentation.common.clientsidesession.TrackingId
+import scala.concurrent.Future
 
 final class WebServiceImpl @Inject()(config: BruteForcePreventionConfig) extends BruteForcePreventionWebService {
   private val baseUrl: String = config.baseUrl
@@ -14,9 +15,9 @@ final class WebServiceImpl @Inject()(config: BruteForcePreventionConfig) extends
   private val maxRetries: String = config.maxAttemptsHeader.toString
   private val keyExpire: String = config.expiryHeader
 
-  override def callBruteForce(vrm: String): Future[WSResponse] = {
+  override def callBruteForce(vrm: String, trackingId: TrackingId): Future[WSResponse] = {
     val endPoint = s"$baseUrl/security"
-    Logger.debug(s"Calling brute force prevention on $endPoint with vrm: ${LogFormats.anonymize(vrm)}")
+    logMessage(trackingId, Debug,s"Calling brute force prevention on $endPoint with vrm: ${LogFormats.anonymize(vrm)}")
     WS.url(endPoint).
       withHeaders("serviceName" -> serviceName).
       withHeaders("maxRetries" -> maxRetries).
@@ -25,9 +26,9 @@ final class WebServiceImpl @Inject()(config: BruteForcePreventionConfig) extends
       post(Map("tokenList" -> Seq(vrm)))
   }
 
-  override def reset(vrm: String): Future[WSResponse] = {
+  override def reset(vrm: String, trackingId: TrackingId): Future[WSResponse] = {
     val endPoint = s"$baseUrl/security/delete"
-    Logger.debug(s"Resetting brute force prevention on $endPoint for vrm: ${LogFormats.anonymize(vrm)}")
+    logMessage(trackingId, Debug, s"Resetting brute force prevention on $endPoint for vrm: ${LogFormats.anonymize(vrm)}")
     WS.url(endPoint).
       withHeaders("serviceName" -> serviceName).
       withRequestTimeout(requestTimeoutMillis).

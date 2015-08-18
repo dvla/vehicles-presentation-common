@@ -5,6 +5,8 @@ import play.api.Logger
 import play.api.i18n.Lang
 import play.api.libs.ws.WSResponse
 import uk.gov.dvla.vehicles.presentation.common.LogFormats
+import uk.gov.dvla.vehicles.presentation.common.LogFormats.DVLALogger
+import uk.gov.dvla.vehicles.presentation.common.clientsidesession.TrackingId
 import uk.gov.dvla.vehicles.presentation.common.model.AddressModel
 import uk.gov.dvla.vehicles.presentation.common.services.DateService
 import uk.gov.dvla.vehicles.presentation.common.webserviceclients.addresslookup.{AddressLookupService, AddressLookupWebService}
@@ -19,10 +21,10 @@ object AddressLookupServiceImpl {
 
 final class AddressLookupServiceImpl @Inject()(ws: AddressLookupWebService,
                                                dateService: DateService,
-                                               healthStats: HealthStats) extends AddressLookupService {
+                                               healthStats: HealthStats) extends AddressLookupService with DVLALogger {
   import AddressLookupServiceImpl.ServiceName
 
-  override def fetchAddressesForPostcode(postcode: String, trackingId: String, showBusinessName: Option[Boolean] = None)
+  override def fetchAddressesForPostcode(postcode: String, trackingId: TrackingId, showBusinessName: Option[Boolean] = None)
                                         (implicit lang: Lang): Future[Seq[(String, String)]] = {
 
     def extractFromJson(resp: WSResponse): Option[PostcodeToAddressResponseDto] =
@@ -35,32 +37,32 @@ final class AddressLookupServiceImpl @Inject()(ws: AddressLookupWebService,
         case None =>
           // Handle no results
           val postcodeToLog = LogFormats.anonymize(postcode)
-          Logger.debug(s"No results returned for postcode: $postcodeToLog - trackingId: $trackingId")
+          logMessage(trackingId, Debug, s"No results returned for postcode: $postcodeToLog")
           Seq.empty// Exception case and empty seq case are treated the same in the UI
       }
 
     ws.callPostcodeWebService(postcode, trackingId, showBusinessName)(lang).map { resp =>
-      Logger.debug(s"Http response code from Ordnance Survey postcode lookup " +
-        s"service was: ${resp.status} - trackingId: $trackingId")
+      logMessage(trackingId, Debug,s"Http response code from Ordnance Survey postcode lookup " +
+        s"service was: ${resp.status}")
       if (resp.status == play.api.http.Status.OK) {
         healthStats.success(HealthStatsSuccess(ServiceName, dateService.now))
         toDropDown(resp)
       }
       else {
-        Logger.error(s"Post code service returned abnormally " +
-          s"'${resp.status}: ${resp.body}' - trackingId: $trackingId")
+        logMessage(trackingId, Error, s"Post code service returned abnormally " +
+          s"'${resp.status}: ${resp.body}'")
         healthStats.failure(HealthStatsFailure(ServiceName, dateService.now, new Exception()))
         Seq.empty // The service returned http code other than 200 OK
       }
     }.recover {
       case e: Throwable =>
-        Logger.error(s"Ordnance Survey postcode lookup service error. - trackingId: $trackingId", e)
+        logMessage(trackingId, Error, s"Ordnance Survey postcode lookup service error.$e")
         healthStats.failure(HealthStatsFailure(ServiceName, dateService.now, e))
         Seq.empty // Exception case and empty seq case are treated the same in the UI
     }
   }
 
-  override def fetchAddressForUprn(uprn: String, trackingId: String)
+  override def fetchAddressForUprn(uprn: String, trackingId: TrackingId)
                                   (implicit lang: Lang): Future[Option[AddressModel]] = {
 
     // Extract result from response and return as a view model.
@@ -73,54 +75,54 @@ final class AddressLookupServiceImpl @Inject()(ws: AddressLookupWebService,
         case Some(deserialized) => deserialized.addressViewModel
         case None =>
           val uprnToLog = LogFormats.anonymize(uprn)
-          Logger.error(s"Could not deserialize response of web service for " +
-            s"submitted UPRN: $uprnToLog - trackingId: $trackingId")
+          logMessage(trackingId, Error,s"Could not deserialize response of web service for " +
+            s"submitted UPRN: $uprnToLog")
           None
       }
 
     ws.callUprnWebService(uprn, trackingId).map { resp =>
-      Logger.debug(s"Http response code from Ordnance Survey uprn lookup " +
-        s"service was: ${resp.status} - trackingId: $trackingId")
+      logMessage(trackingId, Debug,s"Http response code from Ordnance Survey uprn lookup " +
+        s"service was: ${resp.status}")
       if (resp.status == play.api.http.Status.OK) {
         healthStats.success(HealthStatsSuccess(ServiceName, dateService.now))
         toViewModel(resp)
       } else {
-        Logger.error(s"Post code service returned abnormally " +
-          s"'${resp.status}: ${resp.body}' - trackingId: $trackingId")
+        logMessage(trackingId, Error,s"Post code service returned abnormally " +
+          s"'${resp.status}: ${resp.body}'")
         healthStats.failure(HealthStatsFailure(ServiceName, dateService.now, new Exception()))
         None
       }
     }.recover {
       case e: Throwable =>
-        Logger.error(s"Ordnance Survey postcode lookup service error - trackingId: $trackingId", e)
+        logMessage(trackingId, Error, s"Ordnance Survey postcode lookup service error $e")
         healthStats.failure(HealthStatsFailure(ServiceName, dateService.now, e))
         None
     }
   }
 
-  def addresses(postcode: String, trackingId: String)
+  def addresses(postcode: String, trackingId: TrackingId)
                (implicit lang: Lang): Future[Seq[AddressDto]] = {
     ws.callAddresses(postcode, trackingId)(lang).map { resp =>
-      Logger.debug(s"Http response code from Ordnance Survey postcode lookup " +
-        s"service was: ${resp.status} - trackingId: $trackingId")
+      logMessage(trackingId, Debug,s"Http response code from Ordnance Survey postcode lookup " +
+        s"service was: ${resp.status}")
       if (resp.status == play.api.http.Status.OK) {
         healthStats.success(HealthStatsSuccess(ServiceName, dateService.now))
         try resp.json.as[Seq[AddressDto]]
         catch {
           case e: Throwable =>
-            Logger.error(s"Ordnance Survey postcode lookup service error: $e - trackingId: $trackingId", e)
+            logMessage(trackingId, Error, s"Ordnance Survey postcode lookup service error: $e")
             Seq.empty //  return empty seq given invalid json
         }
       }
       else {
-        Logger.error(s"Post code service returned abnormally " +
-          s"'${resp.status}: ${resp.body}' - trackingId: $trackingId")
+        logMessage(trackingId, Error, s"Post code service returned abnormally " +
+          s"'${resp.status}: ${resp.body}'")
         healthStats.failure(HealthStatsFailure(ServiceName, dateService.now, new Exception()))
         Seq.empty // The service returned http code other than 200 OK
       }
     }.recover {
       case e: Throwable =>
-        Logger.error(s"Ordnance Survey postcode lookup service error. - trackingId: $trackingId", e)
+        logMessage(trackingId, Error,s"Ordnance Survey postcode lookup service error: $e")
         healthStats.failure(HealthStatsFailure(ServiceName, dateService.now, e))
         Seq.empty // Exception case and empty seq case are treated the same in the UI
     }

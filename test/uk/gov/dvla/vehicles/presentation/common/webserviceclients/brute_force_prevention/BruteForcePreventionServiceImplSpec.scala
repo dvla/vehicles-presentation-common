@@ -8,6 +8,7 @@ import org.mockito.stubbing.Answer
 import org.scalatest.concurrent.Eventually
 import play.api.http.Status.{FORBIDDEN, OK}
 import play.api.libs.ws.WSResponse
+import uk.gov.dvla.vehicles.presentation.common.clientsidesession.TrackingId
 import uk.gov.dvla.vehicles.presentation.common.services.DateService
 import uk.gov.dvla.vehicles.presentation.common.webserviceclients.healthstats.{HealthStatsFailure, HealthStatsSuccess, HealthStats}
 import scala.concurrent.ExecutionContext.Implicits.global
@@ -26,11 +27,11 @@ import common.webserviceclients.fakes.{FakeDateServiceImpl, FakeResponse}
 
 class BruteForcePreventionServiceImplSpec extends UnitSpec {
   private final val RegistrationNumberValid = "AB12AWR"
-
+  private val trackingId = TrackingId("testtrackingId")
   "isVrmLookupPermitted" should {
     "return true when response status is 200 OK" in {
       val (service, healthStatsMock, dateService) = bruteForceServiceImpl(permitted = true)
-      whenReady(service.isVrmLookupPermitted(RegistrationNumberValid), timeout) {
+      whenReady(service.isVrmLookupPermitted(RegistrationNumberValid,trackingId), timeout) {
         case viewModel =>
           viewModel.permitted should equal(true)
           viewModel.attempts should equal(1)
@@ -41,7 +42,7 @@ class BruteForcePreventionServiceImplSpec extends UnitSpec {
 
     "return false when response status is not 200 OK" in {
       val (service, _, _) = bruteForceServiceImpl(permitted = false)
-      whenReady(service.isVrmLookupPermitted(RegistrationNumberValid)) {
+      whenReady(service.isVrmLookupPermitted(RegistrationNumberValid,trackingId)) {
         case viewModel =>
           viewModel.permitted should equal(false)
           viewModel.attempts should equal(1)
@@ -52,7 +53,7 @@ class BruteForcePreventionServiceImplSpec extends UnitSpec {
 
     "fail future when webservice call throws exception" in {
       val (service, healthStatsMock, dateService) = bruteForceServiceImpl(permitted = true)
-      val result = service.isVrmLookupPermitted(VrmThrows)
+      val result = service.isVrmLookupPermitted(VrmThrows,trackingId)
 
       Try(
         whenReady(result){ r => fail("we expect whenReady to throw an exception") }
@@ -65,7 +66,7 @@ class BruteForcePreventionServiceImplSpec extends UnitSpec {
   "reset" should {
     "return the http code from the underlying web service" in {
       val bruteForcePreventionWebServiceMock: BruteForcePreventionWebService = mock[BruteForcePreventionWebService]
-      when(bruteForcePreventionWebServiceMock.reset(anyString)).thenReturn(Future {
+      when(bruteForcePreventionWebServiceMock.reset(anyString, any[TrackingId])).thenReturn(Future {
         new FakeResponse(status = OK)
       })
 
@@ -84,7 +85,7 @@ class BruteForcePreventionServiceImplSpec extends UnitSpec {
         healthStatsMock,
         dateService = dateService
       )
-      val result = service.reset("A1")
+      val result = service.reset("A1", trackingId)
       whenReady(result) {
         case httpCode: Int =>
           httpCode should equal(OK)
@@ -94,7 +95,7 @@ class BruteForcePreventionServiceImplSpec extends UnitSpec {
 
     "fail future when webservice call throws exception" in {
       val bruteForcePreventionWebServiceMock: BruteForcePreventionWebService = mock[BruteForcePreventionWebService]
-      when(bruteForcePreventionWebServiceMock.reset(anyString)).thenReturn(responseThrows)
+      when(bruteForcePreventionWebServiceMock.reset(anyString, any[TrackingId])).thenReturn(responseThrows)
 
       val dateService = new FakeDateServiceImpl {
         override def now = new Instant(3466)
@@ -111,7 +112,7 @@ class BruteForcePreventionServiceImplSpec extends UnitSpec {
         healthStatsMock,
         dateService = dateService
       )
-      val result = service.reset("A1")
+      val result = service.reset("A1", trackingId)
 
       result.eitherValue
       Try(
@@ -131,18 +132,18 @@ class BruteForcePreventionServiceImplSpec extends UnitSpec {
       val status = if (permitted) OK else FORBIDDEN
       val bruteForcePreventionWebService: BruteForcePreventionWebService = mock[BruteForcePreventionWebService]
 
-      when(bruteForcePreventionWebService.callBruteForce(RegistrationNumberValid)).thenReturn(Future {
+      when(bruteForcePreventionWebService.callBruteForce(RegistrationNumberValid,trackingId)).thenReturn(Future {
         new FakeResponse(status = status, fakeJson = responseFirstAttempt)
       })
-      when(bruteForcePreventionWebService.callBruteForce(FakeBruteForcePreventionWebServiceImpl.VrmAttempt2))
+      when(bruteForcePreventionWebService.callBruteForce(FakeBruteForcePreventionWebServiceImpl.VrmAttempt2,trackingId))
         .thenReturn(Future {
           new FakeResponse(status = status, fakeJson = responseSecondAttempt)
         })
-      when(bruteForcePreventionWebService.callBruteForce(FakeBruteForcePreventionWebServiceImpl.VrmLocked))
+      when(bruteForcePreventionWebService.callBruteForce(FakeBruteForcePreventionWebServiceImpl.VrmLocked,trackingId))
         .thenReturn(Future {
           new FakeResponse(status = status)
         })
-      when(bruteForcePreventionWebService.callBruteForce(VrmThrows)).thenReturn(responseThrows)
+      when(bruteForcePreventionWebService.callBruteForce(VrmThrows,trackingId)).thenReturn(responseThrows)
 
       bruteForcePreventionWebService
     }

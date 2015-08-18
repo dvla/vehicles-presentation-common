@@ -4,6 +4,7 @@ import javax.inject.Inject
 import play.api.Logger
 import play.api.i18n.Lang
 import play.api.libs.ws.WSResponse
+import uk.gov.dvla.vehicles.presentation.common.clientsidesession.TrackingId
 import uk.gov.dvla.vehicles.presentation.common.model.AddressModel
 import uk.gov.dvla.vehicles.presentation.common.webserviceclients.addresslookup.ordnanceservey.AddressDto
 import uk.gov.dvla.vehicles.presentation.common.webserviceclients.addresslookup.{AddressLookupService, AddressLookupWebService}
@@ -12,13 +13,14 @@ import uk.gov.dvla.vehicles.presentation.common.webserviceclients.addresslookup.
 import uk.gov.dvla.vehicles.presentation.common.webserviceclients.healthstats.HealthStats
 import scala.concurrent.{ExecutionContext, Future}
 import ExecutionContext.Implicits.global
+import uk.gov.dvla.vehicles.presentation.common.LogFormats.DVLALogger
 
 object AddressLookupServiceImpl {
   final val ServiceName = "gds-address-lookup-microservice"
 }
 
 final class AddressLookupServiceImpl @Inject()(ws: AddressLookupWebService, healthStats: HealthStats)
-  extends AddressLookupService {
+  extends AddressLookupService with DVLALogger {
 
   private def extractFromJson(resp: WSResponse): Seq[Address] =
     try resp.json.as[Seq[Address]]
@@ -26,7 +28,7 @@ final class AddressLookupServiceImpl @Inject()(ws: AddressLookupWebService, heal
       case e: Throwable => Seq.empty //  return empty seq given invalid json
     }
 
-  override def fetchAddressesForPostcode(postcode: String, trackingId: String, showBusinessName: Option[Boolean] = None)
+  override def fetchAddressesForPostcode(postcode: String, trackingId: TrackingId, showBusinessName: Option[Boolean] = None)
                                         (implicit lang: Lang): Future[Seq[(String, String)]] = {
     def sort(addresses: Seq[Address]): Seq[Address] = {
       addresses.sortBy(addressDpa => {
@@ -46,23 +48,21 @@ final class AddressLookupServiceImpl @Inject()(ws: AddressLookupWebService, heal
     healthStats.report(AddressLookupServiceImpl.ServiceName) {
       ws.callPostcodeWebService(postcode, trackingId, showBusinessName).map {
         resp =>
-          Logger.debug(s"Http response code from GDS postcode lookup service " +
-            s"was: ${resp.status} - trackingId: $trackingId")
+          logMessage(trackingId,Debug, s"Http response code from GDS postcode lookup service was: ${resp.status}")
           if (resp.status == play.api.http.Status.OK) toDropDown(resp)
           else {
-            Logger.error(s"Post code service returned abnormally " +
-              s"'${resp.status}: ${resp.body}' - trackingId: $trackingId")
+            logMessage(trackingId,Error,s"Post code service returned abnormally '${resp.status}: ${resp.body}'")
             Seq.empty // The service returned http code other than 200 OK
           }
       }.recover {
         case e: Throwable =>
-          Logger.error(s"GDS postcode lookup service error: $e")
+          logMessage(trackingId, Error, s"GDS postcode lookup service error: $e")
           Seq.empty
       }
     }
   }
 
-  override def fetchAddressForUprn(uprn: String, trackingId: String)
+  override def fetchAddressForUprn(uprn: String, trackingId: TrackingId)
                                   (implicit lang: Lang): Future[Option[AddressModel]] = {
     def toViewModel(resp: WSResponse) = {
       val addresses = extractFromJson(resp)
@@ -73,42 +73,42 @@ final class AddressLookupServiceImpl @Inject()(ws: AddressLookupWebService, heal
 
     healthStats.report(AddressLookupServiceImpl.ServiceName) {
       ws.callUprnWebService(uprn, trackingId).map { resp =>
-        Logger.debug(s"Http response code from GDS postcode lookup service was: ${resp.status}")
+        logMessage(trackingId, Debug, s"Http response code from GDS postcode lookup service was: ${resp.status}")
         if (resp.status == play.api.http.Status.OK) toViewModel(resp)
         else {
-          Logger.error(s"UPRN service returned abnormally " +
-            s"'${resp.status}: ${resp.body}' - trackingId: $trackingId")
+          logMessage(trackingId, Error, s"UPRN service returned abnormally " +
+            s"'${resp.status}: ${resp.body}'")
           None
         }
       }.recover {
         case e: Throwable =>
-          Logger.error(s"GDS uprn lookup service error: $e - trackingId: $trackingId")
+          logMessage(trackingId,Error, s"GDS uprn lookup service error: $e")
           None
       }
     }
   }
 
-  def addresses(postcode: String, trackingId: String)
+  def addresses(postcode: String, trackingId: TrackingId)
                (implicit lang: Lang): Future[Seq[AddressDto]] = {
     healthStats.report(AddressLookupServiceImpl.ServiceName) {
       ws.callAddresses(postcode, trackingId).map { resp =>
-          Logger.debug(s"Http response code from GDS addresses lookup service " +
-            s"was: ${resp.status} - trackingId: $trackingId")
+            logMessage(trackingId,Debug,s"Http response code from GDS addresses lookup service " +
+            s"was: ${resp.status}")
           if (resp.status == play.api.http.Status.OK)
             try resp.json.as[Seq[AddressDto]]
             catch {
               case e: Throwable =>
-                Logger.error(s"GDS postcode lookup service error: $e - trackingId: $trackingId")
+                logMessage(trackingId,Error, s"GDS postcode lookup service error: $e")
                 Seq.empty //  return empty seq given invalid json
             }
           else {
-            Logger.error(s"Post code service returned abnormally " +
-              s"'${resp.status}: ${resp.body}' - trackingId: $trackingId")
+            logMessage(trackingId, Error,s"Post code service returned abnormally " +
+              s"'${resp.status}: ${resp.body}'")
             Seq.empty // The service returned http code other than 200 OK
           }
       }.recover {
         case e: Throwable =>
-          Logger.error(s"GDS postcode lookup service error: $e - trackingId: $trackingId")
+          logMessage(trackingId, Error,s"GDS postcode lookup service error: $e")
           Seq.empty
       }
     }

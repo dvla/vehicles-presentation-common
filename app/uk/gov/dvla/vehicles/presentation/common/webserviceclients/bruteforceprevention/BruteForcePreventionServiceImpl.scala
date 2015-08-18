@@ -5,6 +5,8 @@ import javax.inject.Inject
 import org.joda.time.Instant
 import play.api.Logger
 import play.api.libs.json.Json
+import uk.gov.dvla.vehicles.presentation.common.LogFormats.DVLALogger
+import uk.gov.dvla.vehicles.presentation.common.clientsidesession.TrackingId
 import uk.gov.dvla.vehicles.presentation.common.model.BruteForcePreventionModel
 import uk.gov.dvla.vehicles.presentation.common.services.DateService
 import uk.gov.dvla.vehicles.presentation.common.webserviceclients.healthstats.{HealthStatsSuccess, HealthStatsFailure, HealthStats}
@@ -19,15 +21,16 @@ object BruteForcePreventionServiceImpl {
 final class BruteForcePreventionServiceImpl @Inject()(config: BruteForcePreventionConfig,
                                                       ws: BruteForcePreventionWebService,
                                                       healthStats: HealthStats,
-                                                      dateService: DateService) extends BruteForcePreventionService {
+                                                      dateService: DateService)
+                          extends BruteForcePreventionService with DVLALogger {
   import BruteForcePreventionServiceImpl.ServiceName
   private val maxAttempts: Int = config.maxAttemptsHeader
 
-  override def isVrmLookupPermitted(vrm: String): Future[BruteForcePreventionModel] =
+  override def isVrmLookupPermitted(vrm: String, trackingId: TrackingId): Future[BruteForcePreventionModel] =
   // Feature toggle until all developers have Redis and the brute force micro service setup locally.
     if (config.isEnabled) {
       val returnedFuture = scala.concurrent.Promise[BruteForcePreventionModel]()
-      ws.callBruteForce(vrm).map { resp =>
+      ws.callBruteForce(vrm, trackingId).map { resp =>
         def permitted(): Unit = {
           Json.fromJson[BruteForcePreventionResponseDto](resp.json).asOpt match {
             case Some(model) =>
@@ -39,7 +42,7 @@ final class BruteForcePreventionServiceImpl @Inject()(config: BruteForcePreventi
               )
               returnedFuture.success(resultModel)
             case _ =>
-              Logger.error(s"Brute force prevention service returned invalid Json: ${resp.json} ")
+              logMessage(trackingId, Error, s"Brute force prevention service returned invalid Json: ${resp.json} ")
               returnedFuture.failure(new Exception("TODO"))
           }
         }
@@ -55,7 +58,7 @@ final class BruteForcePreventionServiceImpl @Inject()(config: BruteForcePreventi
         }
       }.recover {
         case e: Throwable =>
-          Logger.error(s"Brute force prevention service throw exception: ${e.getStackTraceString}")
+          logMessage(trackingId, Error, s"Brute force prevention service throw exception: ${e.getStackTraceString}")
           returnedFuture.failure(e)
       }
       healthStats.report(ServiceName) {
@@ -92,11 +95,11 @@ final class BruteForcePreventionServiceImpl @Inject()(config: BruteForcePreventi
       }
     }
 
-  override def reset(vrm: String): Future[Int] =
+  override def reset(vrm: String, trackingId: TrackingId): Future[Int] =
   // Feature toggle until all developers have Redis and the brute force micro service setup locally.
     if (config.isEnabled) {
       val returnedFuture = scala.concurrent.Promise[Int]()
-      ws.reset(vrm).map { resp =>
+      ws.reset(vrm, trackingId).map { resp =>
         returnedFuture.success(resp.status)
       }.recover { case e: Throwable =>
         returnedFuture.failure(e)

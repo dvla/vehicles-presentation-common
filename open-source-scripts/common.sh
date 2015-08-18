@@ -51,7 +51,10 @@ createOpenSourceDirectory() {
         echo "Will create directory $DIRECTORY. Do you want to continue?"
         answerYesNo
 
-        if [ ${ANS_YN} == "y" ] || [ ${ANS_YN} == "Y" ]; then
+        if ([ ${ANS_YN} == "y" ] || [ ${ANS_YN} == "Y" ]) && [ -d "$DIRECTORY" ]; then
+            echo "Directory $DIRECTORY already exists. Please choose another."
+        fi
+        if ([ ${ANS_YN} == "y" ] || [ ${ANS_YN} == "Y" ]) && [ ! -d "$DIRECTORY" ]; then
             FINISHED="True"
             mkdir $DIRECTORY
             cd $DIRECTORY

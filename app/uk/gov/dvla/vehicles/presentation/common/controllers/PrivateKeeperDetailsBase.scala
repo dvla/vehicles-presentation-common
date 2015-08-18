@@ -17,12 +17,15 @@ import common.model.PrivateKeeperDetailsFormModel.Form.PostcodeId
 import common.model.VehicleAndKeeperDetailsModel
 import common.services.DateService
 import common.views.helpers.FormExtensions.formBinding
+import uk.gov.dvla.vehicles.presentation.common
+import uk.gov.dvla.vehicles.presentation.common.LogFormats.DVLALogger
+import common.clientsidesession.CookieImplicits.RichCookies
 
 abstract class PrivateKeeperDetailsBase @Inject()()
                                       (implicit protected val clientSideSessionFactory: ClientSideSessionFactory,
                                        dateService: DateService,
                                        prefix: CacheKeyPrefix
-                                      ) extends Controller {
+                                      ) extends Controller with DVLALogger {
 
   protected def presentResult(model: VehicleAndKeeperDetailsModel, form: Form[PrivateKeeperDetailsFormModel])
                              (implicit request: Request[_]): Result
@@ -72,7 +75,7 @@ abstract class PrivateKeeperDetailsBase @Inject()()
     ).distinctErrors
 
   private def redirectToSetupTradeDetails(message:String)(implicit request: Request[_]) = {
-    Logger.warn(s"$message - trackingId: ${request.cookies.trackingId()}")
+    logMessage(request.cookies.trackingId, Warn, message)
     missingVehicleDetails
   }
 }

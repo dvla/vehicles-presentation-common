@@ -51,7 +51,7 @@ class EncryptedClientSideSessionFactory @Inject()()
 
   override def getSession(request: Traversable[Cookie]): ClientSideSession =
     validateSessionCookies(request) match {
-      case Some((trackingId, sessionSecretKey)) => new EncryptedClientSideSession(trackingId, sessionSecretKey)
+      case Some((trackingId, sessionSecretKey)) => new EncryptedClientSideSession(TrackingId(trackingId), sessionSecretKey)
       case _ => throw new InvalidSessionException("No session present in the request")
     }
 

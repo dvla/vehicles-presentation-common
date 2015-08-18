@@ -13,9 +13,11 @@ import play.api.mvc.BodyParsers.parse.tolerantFormUrlEncoded
 import play.api.mvc._
 import scala.util.Try
 import uk.gov.dvla.vehicles.presentation.common
-import common.clientsidesession.{AesEncryption, ClientSideSessionFactory}
+import uk.gov.dvla.vehicles.presentation.common.clientsidesession.{TrackingId, AesEncryption, ClientSideSessionFactory}
 import common.clientsidesession.CookieImplicits.RichCookies
 import common.ConfigProperties.{getProperty, getOptionalProperty, stringProp, booleanProp}
+import uk.gov.dvla.vehicles.presentation.common
+import uk.gov.dvla.vehicles.presentation.common.LogFormats.DVLALogger
 
 class CsrfPreventionFilter @Inject()
 (implicit clientSideSessionFactory: ClientSideSessionFactory) extends EssentialFilter {
@@ -34,7 +36,8 @@ class CsrfPreventionFilter @Inject()
  *
  */
 class CsrfPreventionAction(next: EssentialAction)
-                          (implicit clientSideSessionFactory: ClientSideSessionFactory) extends EssentialAction {
+                          (implicit clientSideSessionFactory: ClientSideSessionFactory)
+                          extends EssentialAction with DVLALogger {
 
   import uk.gov.dvla.vehicles.presentation.common.filters.CsrfPreventionAction._
 
@@ -111,14 +114,15 @@ class CsrfPreventionAction(next: EssentialAction)
 
     result.exists{
       case (trackingIdFromUrl, refererFromUrl) =>
-        trackingIdFromUrl == trackingIdFromCookie && refererFromCookie.exists(_.contains(refererFromUrl))
+        TrackingId(trackingIdFromUrl) == trackingIdFromCookie && refererFromCookie.exists(_.contains(refererFromUrl))
     }
   }
 
   private def error(message: String)(requestHeader: RequestHeader): Iteratee[Array[Byte], Result] = {
     val remoteAddress = requestHeader.remoteAddress
     val path = requestHeader.path
-    Logger.error(s"CsrfPreventionException remote address: $remoteAddress path: $path, message: $message")
+    logMessage(requestHeader.cookies.trackingId, Error, s"CsrfPreventionException remote address: $remoteAddress path: $path, message: $message")
+
     Done(Results.Forbidden)
   }
 }
@@ -146,12 +150,12 @@ object CsrfPreventionAction {
       )
     }.getOrElse(CsrfPreventionToken(""))
 
-  private def buildTokenWithReferer(trackingId: String, requestHeaders: Headers) = {
-    trackingId + Delimiter + requestHeaders.get(REFERER).getOrElse("INVALID")
+  private def buildTokenWithReferer(trackingId: TrackingId, requestHeaders: Headers) = {
+    trackingId.value + Delimiter + requestHeaders.get(REFERER).getOrElse("INVALID")
   }
 
-  private def buildTokenWithUri(trackingId: String, uri: String) = {
-    trackingId + Delimiter + uri
+  private def buildTokenWithUri(trackingId: TrackingId, uri: String) = {
+    trackingId.value + Delimiter + uri
   }
 
   private def split(token: String): (String, String) = {

@@ -40,30 +40,31 @@ define(function(require) {
         var d = new Date(),
             h = d.getHours(),
             m = d.getMinutes(),
-            closingWaring = $('.serviceClosingWarning'),
-            // closingHour is picked up by data-closing-time attribute which will be the same as configuration file
-            closingHour = $('body').attr('data-closing-time'),
-            // Last minute available is 59
-            closingMinute = 59,
-            // Warning will start at HH:45
-            closingMinuteStart = 45,
-            // Final warning will start at HH:55
-            closingMinuteFinalWarning = 55,
-            minLeft, secLeft, dClosing, mClosing, sClosing;
+            currentTimeInMinutes = h * 60 + m,
+            serviceClosingWarning = $('.serviceClosingWarning'),
+            // Default to 18:00 as closing time
+            closingTimeInMinutes = 18 * 60,
+            dClosing, dCurrentTimeInMinutes, minLeft, secLeft;
 
-        // If data-closing-time attribute is not numeric or empty initialise the variable to 17 hour
-        if ((closingHour) && ($.isNumeric(closingHour))) {
-            closingHour = closingHour - 1;
-        } else {
-            closingHour = 17;
+        // data-closing-time attribute which will be the same as configuration file
+        var dataClosingTime = $('body').attr('data-closing-time');
+
+        if ((dataClosingTime) && ($.isNumeric(dataClosingTime))) {
+            closingTimeInMinutes = parseInt(dataClosingTime);
         }
-        if ((h == closingHour) && (m >= closingMinuteStart) && (h == closingHour) && (m <= closingMinute)) {
-            var refreshTimer = setInterval(function () {
+
+        // Warning will start at T minus 15
+        var warningInMinutes = closingTimeInMinutes - 15;
+        // Final warning will start at T minus 5
+        var finalWarningInMinutes = closingTimeInMinutes - 5;
+        // Last minute available at T minus 1
+        var lastMinuteInMinutes = closingTimeInMinutes - 1;
+
+        if (currentTimeInMinutes >= warningInMinutes && currentTimeInMinutes <= lastMinuteInMinutes) {            var refreshTimer = setInterval(function () {
                 dClosing = new Date();
-                mClosing = dClosing.getMinutes();
-                sClosing = dClosing.getSeconds();
-                minLeft = closingMinute - mClosing;
-                secLeft = 60 - sClosing;
+                dCurrentTimeInMinutes = dClosing.getHours() * 60 + dClosing.getMinutes();
+                minLeft = lastMinuteInMinutes - dCurrentTimeInMinutes;
+                secLeft = 60 - dClosing.getSeconds();
                 function pad(d) {
                     return (d < 10) ? '0' + d.toString() : d.toString();
                 }
@@ -71,12 +72,10 @@ define(function(require) {
                 secLeft = pad(secLeft - 1);
                 $('.js-minutes-left').html(minLeft);
                 $('.js-seconds-left').html(secLeft);
-                if ((h == closingHour) && (mClosing >= closingMinuteFinalWarning) && (mClosing <= closingMinute)) {
-                    closingWaring.removeClass('closing-warning');
-                    closingWaring.addClass('final-closing-warning');
-                    if ((h == closingHour) && (mClosing == closingMinute) && (sClosing >= closingMinute)) {
-                        closingWaring.removeClass('closing-warning');
-                        closingWaring.addClass('final-closing-warning');
+                if (dCurrentTimeInMinutes >= finalWarningInMinutes) {
+                    serviceClosingWarning.removeClass('closing-warning');
+                    serviceClosingWarning.addClass('final-closing-warning');
+                    if (dCurrentTimeInMinutes >= closingTimeInMinutes) {
                         $('.serviceClosing').hide();
                         $('.serviceClosed').show();
                         clearInterval(refreshTimer);
@@ -268,13 +267,25 @@ define(function(require) {
         });
     };
 
+    var gaTrackEvent = function(category, action, label, value) {
+        // Helper method to support GA asynchronous and analytics.js - should always report an event depending on the
+        // version of GA used in a project
+        if (typeof ga !== 'undefined') {
+            ga('send', 'event', category, action, label, value)
+        } else if (typeof _gaq !== 'undefined') {
+            _gaq.push(['_trackEvent', category, action, label, value]);
+        } else {
+            console.log("GA event tracking not available");
+        }
+    }
+
     var gaTrackClickOnce = function() {
         var gaTrackClickEvent = 'ga-track-click-event-once';
         $('.' + gaTrackClickEvent).on('click', function(e) {
-            var category = $(this).attr('ga-event-category');
+            var category = $(this).attr('ga-event-category') || document.location.href;
             var action = $(this).attr('ga-event-action');
             if ($(this).hasClass(gaTrackClickEvent) && category && action) {
-                _gaq.push(['_trackEvent', category, action, 'click', 1]);
+                gaTrackEvent(category, action, 'click', 1);
                 $(this).removeClass(gaTrackClickEvent);
             }
         });
@@ -288,9 +299,9 @@ define(function(require) {
                 if (!value) value = 1;
                 var actionName = $(this).attr('ga-action');
                 if(!$(this).val()) {
-                    _gaq.push(['_trackEvent', "optional_field", actionName, 'absent', value]);
+                    gaTrackEvent("optional_field", actionName, 'absent', value);
                 } else {
-                    _gaq.push(['_trackEvent', "optional_field", actionName, 'provided', value]);
+                    gaTrackEvent("optional_field", actionName, 'provided', value);
                 }
             });
         });
