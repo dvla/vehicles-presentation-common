@@ -1,7 +1,7 @@
 package uk.gov.dvla.vehicles.presentation.common.webserviceclients.acquire
 
-import uk.gov.dvla.vehicles.presentation.common.ConfigProperties.{getOptionalProperty, stringProp, intProp}
 import scala.concurrent.duration.DurationInt
+import uk.gov.dvla.vehicles.presentation.common.ConfigProperties.{getOptionalProperty, stringProp, intProp}
 
 class AcquireConfig {
   lazy val baseUrl = getOptionalProperty[String]("acquireVehicle.baseUrl").getOrElse("")

@@ -9,7 +9,7 @@ import uk.gov.dvla.vehicles.presentation.common.model.{CacheKeyPrefix, SetupTrad
 
 import scala.collection.mutable.ArrayBuffer
 
-object SetUpTraderDetailsTesting extends MockitoSugar {
+object SetUpTradeDetailsTesting extends MockitoSugar {
   import play.api.mvc.Results.{Ok, BadRequest}
 
   val presentTestResult = Ok("presentResult")
@@ -17,10 +17,10 @@ object SetUpTraderDetailsTesting extends MockitoSugar {
   val invalidFormTestResult = BadRequest("invalidFormResult")
 }
 
-class SetUpTraderDetailsTesting(implicit override val clientSideSessionFactory: ClientSideSessionFactory,
+class SetUpTradeDetailsTesting(implicit override val clientSideSessionFactory: ClientSideSessionFactory,
                                    prefix: CacheKeyPrefix) extends SetUpTradeDetailsBase {
 
-  import SetUpTraderDetailsTesting._
+  import SetUpTradeDetailsTesting._
 
   val presentResultArgs = ArrayBuffer[SetupTradeDetailsFormModel]()
   val invalidFormResultArgs = ArrayBuffer[SetupTradeDetailsFormModel]()

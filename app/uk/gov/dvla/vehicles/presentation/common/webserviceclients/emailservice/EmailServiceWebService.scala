@@ -1,4 +1,4 @@
-package webserviceclients.emailservice
+package uk.gov.dvla.vehicles.presentation.common.webserviceclients.emailservice
 
 import play.api.libs.ws.WSResponse
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.TrackingId

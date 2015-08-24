@@ -10,11 +10,11 @@ import play.api.libs.concurrent.Execution.Implicits.defaultContext
 import play.api.LoggerLike
 import play.api.mvc.{Filter, RequestHeader, Result}
 import play.mvc.Http
-import uk.gov.dvla.vehicles.presentation.common.ConfigProperties._
 import scala.concurrent.Future
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClientSideSessionFactory
+import uk.gov.dvla.vehicles.presentation.common.ConfigProperties.getOptionalProperty
+import uk.gov.dvla.vehicles.presentation.common.ConfigProperties.stringProp
 import uk.gov.dvla.vehicles.presentation.common.LogFormats.DVLALogger
-
 
 class AccessLoggingFilter @Inject()(clfEntryBuilder: ClfEntryBuilder,
                                     @Named("AccessLogger") accessLogger: LoggerLike,
@@ -58,9 +58,9 @@ class ClfEntryBuilder extends DVLALogger  {
     val protocol = request.version
     val date = s"[${ClfEntryBuilder.dateFormat.format(requestTimestamp)}]"
     val responseCode = result.header.status
-    val responseLength = result.header.headers. get(CONTENT_LENGTH).getOrElse("-")
+    val responseLength = result.header.headers.get(CONTENT_LENGTH).getOrElse("-")
 
-    logMessage(uk.gov.dvla.vehicles.presentation.common.clientsidesession.TrackingId(trackingId),Info,
+    logMessage(uk.gov.dvla.vehicles.presentation.common.clientsidesession.TrackingId(trackingId), Info,
       s"""$ipAddress - - $date "$method $uri $protocol" $responseCode $responseLength""")(logger.logger)
 
     s"""$ipAddress - - $date "$method $uri $protocol" $responseCode $responseLength "$trackingId" """

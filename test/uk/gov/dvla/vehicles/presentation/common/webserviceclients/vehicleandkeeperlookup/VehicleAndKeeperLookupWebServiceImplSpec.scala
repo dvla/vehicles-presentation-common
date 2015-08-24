@@ -6,17 +6,16 @@ import org.joda.time.format.ISODateTimeFormat
 import org.scalatest.concurrent.PatienceConfiguration.Timeout
 import org.scalatest.time.{Seconds, Span}
 import play.api.libs.json.{JsString, JsValue, Writes, Json}
-import uk.gov.dvla.vehicles.presentation.common.WithApplication
-import uk.gov.dvla.vehicles.presentation.common.UnitSpec
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.TrackingId
 import uk.gov.dvla.vehicles.presentation.common.testhelpers.WireMockFixture
+import uk.gov.dvla.vehicles.presentation.common.UnitSpec
 import uk.gov.dvla.vehicles.presentation.common.webserviceclients.HttpHeaders
 import uk.gov.dvla.vehicles.presentation.common.webserviceclients.common.{DmsWebEndUserDto, DmsWebHeaderDto}
+import uk.gov.dvla.vehicles.presentation.common.WithApplication
 
 class VehicleAndKeeperLookupWebServiceImplSpec extends UnitSpec with WireMockFixture {
 
   "callVehicleAndKeeperLookupService" should {
-
     "send the serialised json request" in new WithApplication {
       val resultFuture = lookupService.invoke(request, trackingId)
       whenReady(resultFuture, timeout) { result =>
@@ -66,7 +65,7 @@ class VehicleAndKeeperLookupWebServiceImplSpec extends UnitSpec with WireMockFix
 
   private implicit val vehicleAndKeeperDetailsFormat = Json.format[VehicleAndKeeperLookupRequest]
 
-  private def buildHeader: DmsWebHeaderDto = {
+  private def buildHeader: DmsWebHeaderDto =
     DmsWebHeaderDto(conversationId = "",
       originDateTime = new DateTime,
       applicationCode = "TST",
@@ -76,16 +75,14 @@ class VehicleAndKeeperLookupWebServiceImplSpec extends UnitSpec with WireMockFix
       serviceTypeCode = "TST",
       languageCode = "EN",
       endUser = None)
-  }
 
-  private def buildEndUser: Option[DmsWebEndUserDto] = {
+  private def buildEndUser: Option[DmsWebEndUserDto] =
     Some(DmsWebEndUserDto(endUserTeamCode = "TMC",
       endUserTeamDesc = "Team",
         endUserRole = "Role",
       endUserId = "Id",
       endUserIdDesc = "Id Desc",
       endUserLongNameDesc = "Long name"))
-  }
 }
 
 class TestVehicleAndKeeperLookupConfig(wireMockPort: Int) extends VehicleAndKeeperLookupConfig {

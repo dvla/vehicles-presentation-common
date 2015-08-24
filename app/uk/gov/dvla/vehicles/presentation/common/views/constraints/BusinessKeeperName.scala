@@ -1,8 +1,7 @@
 package uk.gov.dvla.vehicles.presentation.common.views.constraints
 
-import play.api.data.validation.Constraints._
-import play.api.data.validation._
-
+import play.api.data.validation.Constraints.pattern
+import play.api.data.validation.{Constraint, Invalid, Valid, ValidationError}
 import scala.annotation.tailrec
 
 object BusinessKeeperName {

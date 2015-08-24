@@ -1,17 +1,10 @@
 package uk.gov.dvla.vehicles.presentation.common.services
 
-import play.api.Logger
+import scala.concurrent.ExecutionContext.Implicits.global
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.TrackingId
 import uk.gov.dvla.vehicles.presentation.common.webserviceclients.emailservice.From
-import webserviceclients.emailservice.{EmailService, EmailServiceSendRequest}
-
-import scala.concurrent.{ExecutionContext}
-import ExecutionContext.Implicits.global
-
-import uk.gov.dvla.vehicles.presentation.common
 import uk.gov.dvla.vehicles.presentation.common.LogFormats.DVLALogger
-import common.clientsidesession.CookieImplicits.RichCookies
-
+import uk.gov.dvla.vehicles.presentation.common.webserviceclients.emailservice.{EmailService, EmailServiceSendRequest}
 
 /**
  * A simple service to send an email, leveraging the apache commons email library.
@@ -21,8 +14,6 @@ import common.clientsidesession.CookieImplicits.RichCookies
  *  implicit configuration = SEND.EmailConfiguration("host", 25, "username", "passwd", from, None)
  *
  *  SEND email 'message withSubject 'subject to 'peopleList cc 'ccList send
- *
- * Created by gerasimosarvanitis on 03/12/2014.
  */
 object SEND extends DVLALogger {
 
@@ -49,8 +40,6 @@ object SEND extends DVLALogger {
       case None => this.copy(ccPeople = Some(people.toList))
       case Some(_) => this.copy(ccPeople = ccPeople.map(_ ++ people.toList))
     }
-
-
   }
 
   /** Generic trait to represent the Email Service */
@@ -93,7 +82,7 @@ object SEND extends DVLALogger {
       )
 
       emailService.invoke(emailRequest, trackingId).onFailure {
-        case fail => logMessage(trackingId, Error,s"""Failed to send email for ${email.toPeople.
+        case fail => logMessage(trackingId, Error, s"""Failed to send email for ${email.toPeople.
           mkString(" ")}
             , reason was ${fail.getMessage}""".stripMargin
             )

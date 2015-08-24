@@ -1,7 +1,7 @@
 package uk.gov.dvla.vehicles.presentation.common.webserviceclients.fakes
 
 import org.joda.time.format.DateTimeFormat
-import org.joda.time.{DateTime, Instant}
+import org.joda.time.DateTime
 import uk.gov.dvla.vehicles.presentation.common.services.DateService
 import uk.gov.dvla.vehicles.presentation.common.views.models.DayMonthYear
 

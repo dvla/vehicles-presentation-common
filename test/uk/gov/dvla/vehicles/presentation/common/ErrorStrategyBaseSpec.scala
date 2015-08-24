@@ -2,19 +2,16 @@ package uk.gov.dvla.vehicles.presentation.common
 
 import java.security.GeneralSecurityException
 import java.util.Date
-
 import org.joda.time.Instant
-import org.mockito.internal.util.MockitoLogger
-import play.api.LoggerLike
+import org.mockito.Mockito.{verify, when}
 import play.api.libs.Codecs
+import play.api.LoggerLike
 import play.api.mvc.{RequestHeader, Result}
+import scala.collection.mutable.ArrayBuffer
+import scala.concurrent.ExecutionContext.Implicits.global
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.InvalidSessionException
 import uk.gov.dvla.vehicles.presentation.common.filters.{MockLogger, ClfEntryBuilder}
 import uk.gov.dvla.vehicles.presentation.common.services.DateService
-
-import scala.collection.mutable.ArrayBuffer
-import scala.concurrent.ExecutionContext.Implicits.global
-import org.mockito.Mockito.{verify, when}
 
 class ErrorStrategyBaseSpec extends UnitSpec {
   "apply" should {
@@ -24,7 +21,7 @@ class ErrorStrategyBaseSpec extends UnitSpec {
     }
 
     "return the error page result in case of exception NOT related to the session security" in {
-      val (clfEntryBuilder, logger, dateService, request, errorStrategy, loggerLike) = setUp
+      val (clfEntryBuilder, logger, dateService, request, errorStrategy, loggerLike) = setUp()
       // Given
       when(dateService.now).thenReturn(new Instant(100))
 
@@ -47,7 +44,7 @@ class ErrorStrategyBaseSpec extends UnitSpec {
   }
 
   private def testSessionValidationException(t: Throwable): Unit = {
-    val (clfEntryBuilder, logger, dateService, request, errorStrategy, loggerLike) = setUp
+    val (clfEntryBuilder, logger, dateService, request, errorStrategy, loggerLike) = setUp()
     // Given
     when(dateService.now).thenReturn(new Instant(100))
 
@@ -88,7 +85,7 @@ class ErrorStrategyBaseSpec extends UnitSpec {
     }
   }
 
-  def setUp = {
+  private def setUp() = {
     val clfEntryBuilder = mock[ClfEntryBuilder]
     val logger = mock[String => Unit]
     val dateService = mock[DateService]

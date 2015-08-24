@@ -1,16 +1,15 @@
 package uk.gov.dvla.vehicles.presentation.common.webserviceclients.addresslookup.gds
 
 import com.google.inject.Inject
-import play.api.Logger
 import play.api.i18n.Lang
 import play.api.libs.ws.{WSResponse, WS}
 import play.api.Play.current
-import uk.gov.dvla.vehicles.presentation.common.LogFormats.DVLALogger
+import scala.concurrent.Future
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.TrackingId
+import uk.gov.dvla.vehicles.presentation.common.LogFormats.DVLALogger
 import uk.gov.dvla.vehicles.presentation.common.webserviceclients.HttpHeaders
 import uk.gov.dvla.vehicles.presentation.common.webserviceclients.addresslookup.AddressLookupWebService
 import uk.gov.dvla.vehicles.presentation.common.webserviceclients.config.GDSAddressLookupConfig
-import scala.concurrent.Future
 
 final class WebServiceImpl @Inject()(config: GDSAddressLookupConfig) extends AddressLookupWebService with DVLALogger {
   private val baseUrl: String = config.baseUrl

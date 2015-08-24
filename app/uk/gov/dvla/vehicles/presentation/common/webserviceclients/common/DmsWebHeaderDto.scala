@@ -3,7 +3,6 @@ package uk.gov.dvla.vehicles.presentation.common.webserviceclients.common
 import org.joda.time.DateTime
 import org.joda.time.format.ISODateTimeFormat
 import play.api.libs.json.{JsString, JsValue, Writes, Json}
-import uk.gov.dvla.vehicles.presentation.common.clientsidesession.TrackingId
 
 final case class DmsWebHeaderDto (conversationId: String,
                                   originDateTime: DateTime,

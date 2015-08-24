@@ -2,11 +2,9 @@ package uk.gov.dvla.vehicles.presentation.common.webserviceclients.vehicleandkee
 
 import org.joda.time.{DateTimeZone, DateTime}
 import org.joda.time.format.ISODateTimeFormat
-import play.Logger
 import play.api.data.validation.ValidationError
 import play.api.libs.json.{JsNumber, JsResult, JsValue, Reads, JsSuccess, JsError, JsString, JsPath, Writes, Json}
 import uk.gov.dvla.vehicles.presentation.common.LogFormats.DVLALogger
-import uk.gov.dvla.vehicles.presentation.common.clientsidesession.TrackingId
 
 final case class VehicleAndKeeperLookupDetailsDto(registrationNumber: String,
                                             vehicleMake: Option[String],
@@ -32,9 +30,8 @@ object VehicleAndKeeperLookupDetailsDto extends DVLALogger {
     private val df = ISODateTimeFormat.dateTime().withZone(dtz)
 
 
-    private def parseDate(input: String): Option[DateTime] = {
+    private def parseDate(input: String): Option[DateTime] =
       scala.util.control.Exception.allCatch[DateTime] opt DateTime.parse(input, df)
-    }
 
     def reads(json: JsValue): JsResult[DateTime] = json match {
       case JsNumber(d) =>

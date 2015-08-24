@@ -1,11 +1,10 @@
 package uk.gov.dvla.vehicles.presentation.common.controllers
 
 import com.google.inject.Inject
-import play.api.Logger
 import play.api.mvc.{Action, Controller, Request, Result}
-import uk.gov.dvla.vehicles.presentation.common.LogFormats.DVLALogger
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClientSideSessionFactory
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicits.RichCookies
+import uk.gov.dvla.vehicles.presentation.common.LogFormats.DVLALogger
 import uk.gov.dvla.vehicles.presentation.common.model.{CacheKeyPrefix, BruteForcePreventionModel}
 
 abstract class VrmLockedBase @Inject()()
@@ -25,10 +24,10 @@ abstract class VrmLockedBase @Inject()()
   def present = Action { implicit request =>
     request.cookies.getModel[BruteForcePreventionModel] match {
       case Some(viewModel) =>
-        logMessage(request.cookies.trackingId(),Debug, s"VrmLocked - Displaying the vrm locked error page")
+        logMessage(request.cookies.trackingId(), Debug, "VrmLocked - Displaying the vrm locked error page")
         presentResult(viewModel)
       case None =>
-        logMessage(request.cookies.trackingId(),Debug, s"VrmLocked - Can't find cookie for BruteForcePreventionViewModel ")
+        logMessage(request.cookies.trackingId(), Debug, "VrmLocked - Can't find cookie for BruteForcePreventionViewModel")
         missingBruteForcePreventionCookie
     }
   }

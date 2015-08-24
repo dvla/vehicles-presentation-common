@@ -1,14 +1,13 @@
 package uk.gov.dvla.vehicles.presentation.common.webserviceclients.addresslookup.ordnanceservey
 
 import com.google.inject.Inject
-import play.api.Logger
 import play.api.i18n.Lang
 import play.api.libs.ws.{WSResponse, WS}
 import play.api.Play.current
-import uk.gov.dvla.vehicles.presentation.common.LogFormats.DVLALogger
 import scala.concurrent.Future
-import uk.gov.dvla.vehicles.presentation.common.LogFormats
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.{TrackingId, ClientSideSessionFactory}
+import uk.gov.dvla.vehicles.presentation.common.LogFormats
+import uk.gov.dvla.vehicles.presentation.common.LogFormats.DVLALogger
 import uk.gov.dvla.vehicles.presentation.common.webserviceclients.HttpHeaders
 import uk.gov.dvla.vehicles.presentation.common.webserviceclients.addresslookup.AddressLookupWebService
 
@@ -25,8 +24,8 @@ final class WebServiceImpl @Inject()(config: OrdnanceSurveyConfig) extends Addre
       trackingIdParam(trackingId)
 
     val postcodeToLog = LogFormats.anonymize(postcode)
-    logMessage(trackingId, Debug,s"Calling ordnance-survey postcode lookup micro-service " +
-      s"with $postcodeToLog") // $endPoint...")
+    val msg = s"Calling ordnance-survey postcode lookup micro-service with $postcodeToLog"
+    logMessage(trackingId, Debug, msg)
     WS.url(endPoint).
       withHeaders(HttpHeaders.TrackingId -> trackingId.value).
       withRequestTimeout(requestTimeout). // Timeout is in milliseconds
@@ -41,9 +40,7 @@ final class WebServiceImpl @Inject()(config: OrdnanceSurveyConfig) extends Addre
       trackingIdParam(trackingId)
 
     val postcodeToLog = LogFormats.anonymize(postcode)
-
-    logMessage(trackingId, Debug, s"Calling ordnance-survey addresses lookup micro-service " +
-      s"with $postcodeToLog") // $endPoint...")
+    logMessage(trackingId, Debug, s"Calling ordnance-survey addresses lookup micro-service with $postcodeToLog")
     WS.url(endPoint).
       withHeaders(HttpHeaders.TrackingId -> trackingId.value).
       withRequestTimeout(requestTimeout). // Timeout is in milliseconds
@@ -58,7 +55,7 @@ final class WebServiceImpl @Inject()(config: OrdnanceSurveyConfig) extends Addre
       trackingIdParam(trackingId)
 
     val uprnToLog = LogFormats.anonymize(uprn)
-    logMessage(trackingId, Debug,s"Calling ordnance-survey uprn lookup micro-service with $uprnToLog")
+    logMessage(trackingId, Debug, s"Calling ordnance-survey uprn lookup micro-service with $uprnToLog")
     WS.url(endPoint).
       withHeaders(HttpHeaders.TrackingId -> trackingId.value).
       withRequestTimeout(requestTimeout). // Timeout is in milliseconds

@@ -1,16 +1,14 @@
 package uk.gov.dvla.vehicles.presentation.common.controllers
 
 import javax.inject.Inject
-
-import play.api.Logger
 import play.api.data.{Form, FormError}
 import play.api.mvc.{Action, AnyContent, Controller, Request, Result}
-import uk.gov.dvla.vehicles.presentation.common.LogFormats.DVLALogger
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 import uk.gov.dvla.vehicles.presentation.common
 import common.clientsidesession.ClientSideSessionFactory
 import common.clientsidesession.CookieImplicits.{RichCookies, RichForm, RichResult}
+import common.LogFormats.DVLALogger
 import common.model.AddressModel
 import common.model.allowGoingToCompleteAndConfirmPageCacheKey
 import common.model.BusinessKeeperDetailsFormModel
@@ -26,7 +24,6 @@ import common.model.VehicleAndKeeperDetailsModel
 import common.model.VmAddressModel
 import common.views.helpers.FormExtensions.formBinding
 import common.webserviceclients.addresslookup.AddressLookupService
-
 
 abstract class NewKeeperChooseYourAddressBase @Inject()(protected val addressLookupService: AddressLookupService)
                                           (implicit protected val clientSideSessionFactory: ClientSideSessionFactory,

@@ -5,7 +5,7 @@ import uk.gov.dvla.vehicles.presentation.common.clientsidesession.TrackingId
 import uk.gov.dvla.vehicles.presentation.common.model.FeedbackForm
 import uk.gov.dvla.vehicles.presentation.common.services.{FeedbackMessageBuilder, SEND}
 import uk.gov.dvla.vehicles.presentation.common.services.SEND.EmailConfiguration
-import webserviceclients.emailservice.EmailService
+import uk.gov.dvla.vehicles.presentation.common.webserviceclients.emailservice.EmailService
 
 /**
  * Feedback base controller.
@@ -20,12 +20,10 @@ trait FeedbackBase extends Controller {
   def sendFeedback(feedback: FeedbackForm, subject: String, trackingId: TrackingId): Unit = {
 
     import scala.language.postfixOps
-
     import SEND._ // Keep this local so that we don't pollute rest of the class with unnecessary imports.
 
     implicit val implicitEmailConf = implicitly[EmailConfiguration](emailConfiguration)
     implicit val implicitEmailService = implicitly[EmailService](emailService)
-
 
     //check if there are multiple emails for feedback
     val feedbackEmail: Array[String] = emailConfiguration.feedbackEmail.email.split(",")

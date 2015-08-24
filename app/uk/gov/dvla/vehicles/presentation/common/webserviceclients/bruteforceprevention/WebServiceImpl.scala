@@ -1,12 +1,11 @@
 package uk.gov.dvla.vehicles.presentation.common.webserviceclients.bruteforceprevention
 
 import com.google.inject.Inject
-import play.api.Logger
 import play.api.libs.ws.{WSResponse, WS}
 import play.api.Play.current
-import uk.gov.dvla.vehicles.presentation.common.LogFormats
-import uk.gov.dvla.vehicles.presentation.common.clientsidesession.TrackingId
 import scala.concurrent.Future
+import uk.gov.dvla.vehicles.presentation.common.clientsidesession.TrackingId
+import uk.gov.dvla.vehicles.presentation.common.LogFormats
 
 final class WebServiceImpl @Inject()(config: BruteForcePreventionConfig) extends BruteForcePreventionWebService {
   private val baseUrl: String = config.baseUrl
@@ -17,7 +16,7 @@ final class WebServiceImpl @Inject()(config: BruteForcePreventionConfig) extends
 
   override def callBruteForce(vrm: String, trackingId: TrackingId): Future[WSResponse] = {
     val endPoint = s"$baseUrl/security"
-    logMessage(trackingId, Debug,s"Calling brute force prevention on $endPoint with vrm: ${LogFormats.anonymize(vrm)}")
+    logMessage(trackingId, Debug, s"Calling brute force prevention on $endPoint with vrm: ${LogFormats.anonymize(vrm)}")
     WS.url(endPoint).
       withHeaders("serviceName" -> serviceName).
       withHeaders("maxRetries" -> maxRetries).

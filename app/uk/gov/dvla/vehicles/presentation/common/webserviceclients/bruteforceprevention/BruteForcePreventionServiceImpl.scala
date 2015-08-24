@@ -1,18 +1,14 @@
 package uk.gov.dvla.vehicles.presentation.common.webserviceclients.bruteforceprevention
 
 import javax.inject.Inject
-
-import org.joda.time.Instant
-import play.api.Logger
 import play.api.libs.json.Json
-import uk.gov.dvla.vehicles.presentation.common.LogFormats.DVLALogger
-import uk.gov.dvla.vehicles.presentation.common.clientsidesession.TrackingId
-import uk.gov.dvla.vehicles.presentation.common.model.BruteForcePreventionModel
-import uk.gov.dvla.vehicles.presentation.common.services.DateService
-import uk.gov.dvla.vehicles.presentation.common.webserviceclients.healthstats.{HealthStatsSuccess, HealthStatsFailure, HealthStats}
-
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
+import uk.gov.dvla.vehicles.presentation.common.clientsidesession.TrackingId
+import uk.gov.dvla.vehicles.presentation.common.LogFormats.DVLALogger
+import uk.gov.dvla.vehicles.presentation.common.model.BruteForcePreventionModel
+import uk.gov.dvla.vehicles.presentation.common.services.DateService
+import uk.gov.dvla.vehicles.presentation.common.webserviceclients.healthstats.HealthStats
 
 object BruteForcePreventionServiceImpl {
   final val ServiceName = "bruteforce-prevention-microservice"
@@ -42,7 +38,7 @@ final class BruteForcePreventionServiceImpl @Inject()(config: BruteForcePreventi
               )
               returnedFuture.success(resultModel)
             case _ =>
-              logMessage(trackingId, Error, s"Brute force prevention service returned invalid Json: ${resp.json} ")
+              logMessage(trackingId, Error, s"Brute force prevention service returned invalid Json: ${resp.json}")
               returnedFuture.failure(new Exception("TODO"))
           }
         }

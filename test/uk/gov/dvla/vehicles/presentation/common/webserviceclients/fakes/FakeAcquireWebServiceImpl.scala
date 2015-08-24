@@ -1,12 +1,13 @@
 package uk.gov.dvla.vehicles.presentation.common.webserviceclients.fakes
 
-import play.api.Logger
 import play.api.http.Status.OK
 import play.api.libs.json.Json
 import play.api.libs.ws.WSResponse
+import play.api.Logger
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.TrackingId
-import uk.gov.dvla.vehicles.presentation.common.webserviceclients.acquire
-import acquire.{AcquireResponseDto, AcquireRequestDto, AcquireWebService}
+import uk.gov.dvla.vehicles.presentation.common.webserviceclients.acquire.AcquireResponseDto
+import uk.gov.dvla.vehicles.presentation.common.webserviceclients.acquire.AcquireRequestDto
+import uk.gov.dvla.vehicles.presentation.common.webserviceclients.acquire.AcquireWebService
 import scala.concurrent.Future
 
 class FakeAcquireWebServiceImpl extends AcquireWebService {

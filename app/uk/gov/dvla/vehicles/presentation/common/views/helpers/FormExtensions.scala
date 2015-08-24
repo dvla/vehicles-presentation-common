@@ -4,8 +4,8 @@ import play.api.data.Forms.of
 import play.api.data.format.Formatter
 import play.api.data.validation.Constraints
 import play.api.data.{Form, FormError, Mapping}
-import uk.gov.dvla.vehicles.presentation.common.views.constraints.Required.RequiredField
 import scala.language.implicitConversions
+import uk.gov.dvla.vehicles.presentation.common.views.constraints.Required.RequiredField
 
 object FormExtensions {
   implicit def formBinding[T](form: Form[T]) = new RichForm[T](form)
@@ -96,10 +96,10 @@ object FormExtensions {
     // TODO This is not very efficient. Think about how to do it better
     val whitelist = ("^(" + charRegEx + ")$").r
     def negativeMatch = { char: Char => !whitelist.pattern.matcher(char.toString).matches }
-    input.
-      dropWhile(negativeMatch).
-      reverse.dropWhile(negativeMatch).
-      reverse
+    input
+      .dropWhile(negativeMatch)
+      .reverse.dropWhile(negativeMatch)
+      .reverse
   }
 
   private def transformedStringFormat(transform: String => String): Formatter[String] = new Formatter[String] {

@@ -1,6 +1,6 @@
 package uk.gov.dvla.vehicles.presentation.common.views.constraints
 
-import play.api.data.validation._
+import play.api.data.validation.{Constraint, Invalid, Valid, ValidationResult}
 
 object ConstraintChain {
   def apply[T](name: String,

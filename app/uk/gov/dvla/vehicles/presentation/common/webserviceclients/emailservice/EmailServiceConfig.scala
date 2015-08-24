@@ -1,7 +1,7 @@
 package uk.gov.dvla.vehicles.presentation.common.webserviceclients.emailservice
 
-import uk.gov.dvla.vehicles.presentation.common.ConfigProperties.{getOptionalProperty, stringProp, intProp}
 import scala.concurrent.duration.DurationInt
+import uk.gov.dvla.vehicles.presentation.common.ConfigProperties.{getOptionalProperty, stringProp, intProp}
 
 class EmailServiceConfig {
   lazy val emailServiceMicroServiceBaseUrl: String =

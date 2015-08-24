@@ -1,6 +1,8 @@
 package uk.gov.dvla.vehicles.presentation.common.webserviceclients.healthstats
 
-import uk.gov.dvla.vehicles.presentation.common.ConfigProperties.{getOptionalProperty, intProp, getOptionalDurationProperty}
+import uk.gov.dvla.vehicles.presentation.common.ConfigProperties.getOptionalDurationProperty
+import uk.gov.dvla.vehicles.presentation.common.ConfigProperties.getOptionalProperty
+import uk.gov.dvla.vehicles.presentation.common.ConfigProperties.intProp
 
 class HealthStatsConfig {
   lazy val failuresRatioPercent = getOptionalProperty[Int]("healthStats.failuresRatioPercent").getOrElse(-1)

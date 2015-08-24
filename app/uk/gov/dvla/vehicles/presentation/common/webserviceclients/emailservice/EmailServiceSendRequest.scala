@@ -1,7 +1,6 @@
-package webserviceclients.emailservice
+package uk.gov.dvla.vehicles.presentation.common.webserviceclients.emailservice
 
 import play.api.libs.json.Json
-import uk.gov.dvla.vehicles.presentation.common.webserviceclients.emailservice.{From, Attachment}
 
 case class EmailServiceSendRequest(plainTextMessage: String,
                                    htmlMessage: String,

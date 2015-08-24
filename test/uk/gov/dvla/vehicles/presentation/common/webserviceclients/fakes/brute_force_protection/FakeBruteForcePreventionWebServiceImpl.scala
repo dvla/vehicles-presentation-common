@@ -3,8 +3,8 @@ package uk.gov.dvla.vehicles.presentation.common.webserviceclients.fakes.brute_f
 import play.api.http.Status.{FORBIDDEN, OK}
 import play.api.libs.json.Json
 import play.api.libs.ws.WSResponse
-import uk.gov.dvla.vehicles.presentation.common.clientsidesession.TrackingId
 import scala.concurrent.Future
+import uk.gov.dvla.vehicles.presentation.common.clientsidesession.TrackingId
 import uk.gov.dvla.vehicles.presentation.common.webserviceclients.bruteforceprevention.BruteForcePreventionWebService
 import uk.gov.dvla.vehicles.presentation.common.webserviceclients.fakes.FakeResponse
 

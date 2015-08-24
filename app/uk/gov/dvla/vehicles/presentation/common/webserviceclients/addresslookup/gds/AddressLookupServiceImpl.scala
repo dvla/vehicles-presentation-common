@@ -1,19 +1,18 @@
 package uk.gov.dvla.vehicles.presentation.common.webserviceclients.addresslookup.gds
 
 import javax.inject.Inject
-import play.api.Logger
 import play.api.i18n.Lang
 import play.api.libs.ws.WSResponse
+import scala.concurrent.{ExecutionContext, Future}
+import ExecutionContext.Implicits.global
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.TrackingId
+import uk.gov.dvla.vehicles.presentation.common.LogFormats.DVLALogger
 import uk.gov.dvla.vehicles.presentation.common.model.AddressModel
 import uk.gov.dvla.vehicles.presentation.common.webserviceclients.addresslookup.ordnanceservey.AddressDto
 import uk.gov.dvla.vehicles.presentation.common.webserviceclients.addresslookup.{AddressLookupService, AddressLookupWebService}
 import uk.gov.dvla.vehicles.presentation.common.webserviceclients.addresslookup.gds.domain.Address
 import uk.gov.dvla.vehicles.presentation.common.webserviceclients.addresslookup.gds.domain.JsonFormats.addressFormat
 import uk.gov.dvla.vehicles.presentation.common.webserviceclients.healthstats.HealthStats
-import scala.concurrent.{ExecutionContext, Future}
-import ExecutionContext.Implicits.global
-import uk.gov.dvla.vehicles.presentation.common.LogFormats.DVLALogger
 
 object AddressLookupServiceImpl {
   final val ServiceName = "gds-address-lookup-microservice"
@@ -48,10 +47,10 @@ final class AddressLookupServiceImpl @Inject()(ws: AddressLookupWebService, heal
     healthStats.report(AddressLookupServiceImpl.ServiceName) {
       ws.callPostcodeWebService(postcode, trackingId, showBusinessName).map {
         resp =>
-          logMessage(trackingId,Debug, s"Http response code from GDS postcode lookup service was: ${resp.status}")
+          logMessage(trackingId, Debug, s"Http response code from GDS postcode lookup service was: ${resp.status}")
           if (resp.status == play.api.http.Status.OK) toDropDown(resp)
           else {
-            logMessage(trackingId,Error,s"Post code service returned abnormally '${resp.status}: ${resp.body}'")
+            logMessage(trackingId, Error,s"Post code service returned abnormally '${resp.status}: ${resp.body}'")
             Seq.empty // The service returned http code other than 200 OK
           }
       }.recover {
@@ -66,7 +65,7 @@ final class AddressLookupServiceImpl @Inject()(ws: AddressLookupWebService, heal
                                   (implicit lang: Lang): Future[Option[AddressModel]] = {
     def toViewModel(resp: WSResponse) = {
       val addresses = extractFromJson(resp)
-      require(addresses.length >= 1, s"Should be at least one address for the UPRN: $uprn")
+      require(addresses.nonEmpty, s"Should be at least one address for the UPRN: $uprn")
       Some(AddressModel(uprn = Some(addresses.head.presentation.uprn.toLong), address = addresses.head.toViewModel))
       // Translate to view model.
     }
@@ -82,7 +81,7 @@ final class AddressLookupServiceImpl @Inject()(ws: AddressLookupWebService, heal
         }
       }.recover {
         case e: Throwable =>
-          logMessage(trackingId,Error, s"GDS uprn lookup service error: $e")
+          logMessage(trackingId, Error, s"GDS uprn lookup service error: $e")
           None
       }
     }
@@ -92,23 +91,23 @@ final class AddressLookupServiceImpl @Inject()(ws: AddressLookupWebService, heal
                (implicit lang: Lang): Future[Seq[AddressDto]] = {
     healthStats.report(AddressLookupServiceImpl.ServiceName) {
       ws.callAddresses(postcode, trackingId).map { resp =>
-            logMessage(trackingId,Debug,s"Http response code from GDS addresses lookup service " +
-            s"was: ${resp.status}")
+            val msg = s"Http response code from GDS addresses lookup service was: ${resp.status}"
+            logMessage(trackingId, Debug, msg)
           if (resp.status == play.api.http.Status.OK)
             try resp.json.as[Seq[AddressDto]]
             catch {
               case e: Throwable =>
-                logMessage(trackingId,Error, s"GDS postcode lookup service error: $e")
+                logMessage(trackingId, Error, s"GDS postcode lookup service error: $e")
                 Seq.empty //  return empty seq given invalid json
             }
           else {
-            logMessage(trackingId, Error,s"Post code service returned abnormally " +
-              s"'${resp.status}: ${resp.body}'")
+            val msg = s"Post code service returned abnormally '${resp.status}: ${resp.body}'"
+            logMessage(trackingId, Error, msg)
             Seq.empty // The service returned http code other than 200 OK
           }
       }.recover {
         case e: Throwable =>
-          logMessage(trackingId, Error,s"GDS postcode lookup service error: $e")
+          logMessage(trackingId, Error, s"GDS postcode lookup service error: $e")
           Seq.empty
       }
     }

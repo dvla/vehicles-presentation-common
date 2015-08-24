@@ -8,7 +8,7 @@ import common.clientsidesession.ClientSideSessionFactory
 import common.clientsidesession.CookieImplicits.{RichForm, RichResult}
 import common.model.BusinessKeeperDetailsFormModel.businessKeeperDetailsCacheKey
 import common.model.{SetupTradeDetailsFormModel, CacheKeyPrefix}
-import common.model.SetupTradeDetailsFormModel.Form.{TraderEmailId, TraderNameId, TraderPostcodeId}
+import common.model.SetupTradeDetailsFormModel.Form.{TraderNameId, TraderPostcodeId}
 import common.views.helpers.FormExtensions.formBinding
 
 abstract class SetUpTradeDetailsBase @Inject()()(implicit protected val clientSideSessionFactory: ClientSideSessionFactory,

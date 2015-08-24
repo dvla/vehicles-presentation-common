@@ -5,7 +5,7 @@ import play.api.data.Mapping
 import play.api.libs.json.Json
 import uk.gov.dvla.vehicles.presentation.common
 import common.clientsidesession.CacheKey
-import common.views.helpers.FormExtensions.{nonEmptyTextWithTransform, textWithTransform, trimNonWhiteListedChars}
+import common.views.helpers.FormExtensions.{nonEmptyTextWithTransform, textWithTransform}
 
 case class AddressLinesViewModel(buildingNameOrNumber: String,
                                  line2: Option[String] = None,

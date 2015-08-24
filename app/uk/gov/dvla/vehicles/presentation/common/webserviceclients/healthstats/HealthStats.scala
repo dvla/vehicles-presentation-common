@@ -1,17 +1,14 @@
 package uk.gov.dvla.vehicles.presentation.common.webserviceclients.healthstats
 
-import java.io.{PrintWriter, Writer}
-
 import com.google.inject.Inject
-import org.joda.time.Instant
-import uk.gov.dvla.vehicles.presentation.common.services.DateService
-
+import java.io.PrintWriter
 import Math.max
+import org.joda.time.Instant
 import play.api.Logger
-
 import scala.collection.mutable
 import scala.concurrent.Future
 import scala.concurrent.ExecutionContext.Implicits.global
+import uk.gov.dvla.vehicles.presentation.common.services.DateService
 
 sealed trait HealthStatsEvent {
   val msName: String

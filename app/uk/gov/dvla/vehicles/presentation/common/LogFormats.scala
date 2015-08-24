@@ -1,12 +1,12 @@
 package uk.gov.dvla.vehicles.presentation.common
 
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.TrackingId
-import play.api.{LoggerLike, Logger}
+import play.api.Logger
 
 object LogFormats {
 
   private final val anonymousChar = "*"
-  private final val logSeperator = "\t"
+  private final val logSeparator = " - "
   private final val nullString = "null"
   final val optionNone = "none"
 
@@ -44,7 +44,10 @@ object LogFormats {
     case object Error extends LogMessageType
     case object Warn extends LogMessageType
 
-    def logMessage(trackingId: TrackingId, messageType: LogMessageType, messageText: String, logData: Option[Seq[String]] = None)
+    def logMessage(trackingId: TrackingId,
+                   messageType: LogMessageType,
+                   messageText: String,
+                   logData: Option[Seq[String]] = None)
                   (implicit logger: org.slf4j.Logger) =
       messageType match {
         case Debug => logger.debug(logMessageFormat(trackingId, messageText, logData))
@@ -55,7 +58,7 @@ object LogFormats {
 
 
     private def logMessageFormat(trackingId: TrackingId, messageText: String, logData: Option[Seq[String]]): String =
-      s"""[TrackingID: ${trackingId.value}]$logSeperator$messageText ${logData.map( d => s"$logSeperator$logData" ).getOrElse("")}"""
+      s"""[TrackingID: ${trackingId.value}]$logSeparator$messageText ${logData.map( d => s"$logSeparator$logData" ).getOrElse("")}"""
   }
 
 

@@ -1,15 +1,14 @@
 package uk.gov.dvla.vehicles.presentation.common.controllers
 
 import play.api.libs.json.Reads
-import play.api.Logger
 import play.api.mvc.{Action, Controller, DiscardingCookie, Request, Result}
 import uk.gov.dvla.vehicles.presentation.common
 import common.clientsidesession.CacheKey
 import common.clientsidesession.ClientSideSessionFactory
 import common.clientsidesession.CookieImplicits.RichCookies
+import common.LogFormats.DVLALogger
 import common.model.BruteForcePreventionModel
 import common.model.CacheKeyPrefix
-import uk.gov.dvla.vehicles.presentation.common.LogFormats.DVLALogger
 
 abstract class VehicleLookupFailureBase[FormModel <: VehicleLookupFormModelBase]
   (implicit clientSideSessionFactory: ClientSideSessionFactory,
@@ -38,8 +37,8 @@ abstract class VehicleLookupFailureBase[FormModel <: VehicleLookupFormModelBase]
         presentResult(vehicleLookUpFormModelDetails, responseCode.last).
           discardingCookies(DiscardingCookie(name = vehicleLookupResponseCodeCacheKey))
       case _ =>
-        logMessage(request.cookies.trackingId, Debug, s"VehicleLookupFailure present could not find all the cookie data. " +
-          s"A redirection will now occur")
+        val msg = "VehicleLookupFailure present could not find all the cookie data. A redirection will now occur"
+        logMessage(request.cookies.trackingId, Debug, msg)
         missingPresentCookieDataResult()
     }
   }
@@ -47,12 +46,11 @@ abstract class VehicleLookupFailureBase[FormModel <: VehicleLookupFormModelBase]
   def submit = Action { implicit request =>
     request.cookies.getModel[FormModel] match {
       case Some(vehicleLookUpFormModelDetails) =>
-        logMessage(request.cookies.trackingId, Debug, s"VehicleLookupFailure submit successfully found " +
-          s"cookie data")
+        logMessage(request.cookies.trackingId, Debug, "VehicleLookupFailure submit successfully found cookie data")
         submitResult()
       case _ =>
-        logMessage(request.cookies.trackingId, Debug, s"VehicleLookupFailure submit could not find all the cookie data. " +
-          s"A redirection will now occur")
+        val msg = "VehicleLookupFailure submit could not find all the cookie data. A redirection will now occur"
+        logMessage(request.cookies.trackingId, Debug, msg)
         missingSubmitCookieDataResult()
     }
   }

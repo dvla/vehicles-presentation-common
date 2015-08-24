@@ -2,17 +2,15 @@ package uk.gov.dvla.vehicles.presentation.common.webserviceclients.emailservice
 
 import com.github.tomakehurst.wiremock.client.WireMock.{equalTo, postRequestedFor, urlEqualTo}
 import play.api.libs.json.Json
+import scala.concurrent.duration.DurationInt
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.TrackingId
 import uk.gov.dvla.vehicles.presentation.common.{UnitSpec, WithApplication}
 import uk.gov.dvla.vehicles.presentation.common.testhelpers.WireMockFixture
 import uk.gov.dvla.vehicles.presentation.common.webserviceclients.HttpHeaders
-import webserviceclients.emailservice.{EmailServiceSendRequest, EmailServiceWebServiceImpl}
-import scala.concurrent.duration.DurationInt
 
-final class EmailServiceWebServiceImplSpec extends UnitSpec with WireMockFixture {
+class EmailServiceWebServiceImplSpec extends UnitSpec with WireMockFixture {
 
   "call EmailService" should {
-
     "send the serialised json request" in new WithApplication {
       val resultFuture = emailService.invoke(request, trackingId)
       whenReady(resultFuture, timeout) { result =>

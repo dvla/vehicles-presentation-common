@@ -53,7 +53,10 @@ final case class DayMonthYear(day: Int,
     }
 
   def toDateTimeMillis: Option[DateTime] =
-    try Some(new DateTime(year, month, day, hour.getOrElse(0), minutes.getOrElse(0), seconds.getOrElse(0), milliseconds.getOrElse(0)))
+    try
+      Some(new DateTime(
+        year, month, day, hour.getOrElse(0), minutes.getOrElse(0), seconds.getOrElse(0), milliseconds.getOrElse(0))
+      )
     catch {
       case e: Exception => None
     }

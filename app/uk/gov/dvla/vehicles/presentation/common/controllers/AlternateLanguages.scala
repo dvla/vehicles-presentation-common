@@ -3,10 +3,10 @@ package uk.gov.dvla.vehicles.presentation.common.controllers
 import com.google.inject.Inject
 import play.api.i18n.Lang
 import play.api.mvc.{Action, Controller}
+import play.api.Play.current
 import uk.gov.dvla.vehicles.presentation.common.LogFormats.DVLALogger
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClientSideSessionFactory
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicits.RichCookies
-import play.api.Play.current
 
 class AlternateLanguages @Inject()(implicit clientSideSessionFactory: ClientSideSessionFactory)
   extends Controller with DVLALogger {
@@ -22,7 +22,6 @@ class AlternateLanguages @Inject()(implicit clientSideSessionFactory: ClientSide
     } getOrElse NotFound("The link is invalid")
   }
 }
-
 
 object AlternateLanguages {
 

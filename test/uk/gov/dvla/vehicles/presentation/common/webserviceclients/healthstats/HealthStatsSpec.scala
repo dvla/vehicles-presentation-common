@@ -3,10 +3,10 @@ package uk.gov.dvla.vehicles.presentation.common.webserviceclients.healthstats
 import org.joda.time.Instant
 import org.mockito.Mockito.when
 import org.scalatest.concurrent.Eventually
-import uk.gov.dvla.vehicles.presentation.common.UnitSpec
-import uk.gov.dvla.vehicles.presentation.common.services.DateService
-import scala.concurrent.Future
 import scala.concurrent.duration.{Duration, DAYS}
+import scala.concurrent.Future
+import uk.gov.dvla.vehicles.presentation.common.services.DateService
+import uk.gov.dvla.vehicles.presentation.common.UnitSpec
 
 class HealthStatsSpec extends UnitSpec {
   val t = new Exception()

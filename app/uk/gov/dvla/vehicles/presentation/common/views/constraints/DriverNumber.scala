@@ -1,7 +1,6 @@
 package uk.gov.dvla.vehicles.presentation.common.views.constraints
 
 import java.util.regex.Pattern
-
 import play.api.data.validation.{Valid, ValidationError, Invalid, Constraint}
 import uk.gov.dvla.vehicles.presentation.common.mappings.DriverNumber.{MinLength, MaxLength}
 

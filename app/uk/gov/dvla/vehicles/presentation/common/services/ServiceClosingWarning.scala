@@ -1,25 +1,24 @@
 package uk.gov.dvla.vehicles.presentation.common.services
 
 import java.util.Locale
-
 import org.joda.time.DateTime
 import org.joda.time.DateTimeZone
+import org.joda.time.format.{DateTimeFormat, PeriodFormatterBuilder}
 import org.joda.time.Instant
 import org.joda.time.Period
-import org.joda.time.format.{DateTimeFormat, PeriodFormatterBuilder}
 
 object ServiceClosingWarning {
 
   private val LondonTimeZone = DateTimeZone.forID("Europe/London")
-  private val periodFormatter = new PeriodFormatterBuilder().
-    printZeroAlways().
-    minimumPrintedDigits(2).
-    appendHours().
-    appendSeparator(":").
-    appendMinutes().
-    appendSeparator(".").
-    appendSeconds().
-    toFormatter
+  private val periodFormatter = new PeriodFormatterBuilder()
+    .printZeroAlways()
+    .minimumPrintedDigits(2)
+    .appendHours()
+    .appendSeparator(":")
+    .appendMinutes()
+    .appendSeparator(".")
+    .appendSeconds()
+    .toFormatter
 
   def formatMinutes(mins: Long) = {
     val millisPerMinute = 60000
@@ -51,8 +50,7 @@ object ServiceClosingWarning {
     val warningTime = closingTime.minusMinutes(closingWarnPeriodMins)
 
     currentTime.isAfter(warningTime) && currentTime.isBefore(closingTime) match {
-      case true => Some(
-          new Period(currentTime, closingTime).toString(periodFormatter))
+      case true => Some(new Period(currentTime, closingTime).toString(periodFormatter))
       case false => None
     }
   }

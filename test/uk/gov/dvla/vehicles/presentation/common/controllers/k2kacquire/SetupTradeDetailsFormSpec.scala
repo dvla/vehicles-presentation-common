@@ -113,7 +113,7 @@ class SetupTradeDetailsFormSpec extends UnitSpec {
     implicit val cookieFlags = new NoCookieFlags()
     implicit val sideSessionFactory = new ClearTextClientSideSessionFactory()
 
-    new SetUpTraderDetailsTesting()
+    new SetUpTradeDetailsTesting()
       .form.bind(
         Map(
           TraderNameId -> traderBusinessName,

@@ -1,17 +1,19 @@
 package uk.gov.dvla.vehicles.presentation.common.controllers
 
 import com.google.inject.Inject
-import play.api.Logger
 import play.api.data.{Form, FormError}
 import play.api.mvc.{Action, Controller, Request, Result}
 import uk.gov.dvla.vehicles.presentation.common
 import common.clientsidesession.ClientSideSessionFactory
 import common.clientsidesession.CookieImplicits.{RichCookies, RichForm, RichResult}
-import uk.gov.dvla.vehicles.presentation.common.LogFormats.DVLALogger
-import uk.gov.dvla.vehicles.presentation.common.model._
-import NewKeeperChooseYourAddressFormModel._
+import common.LogFormats.DVLALogger
+import common.model.BusinessKeeperDetailsFormModel
+import common.model.BusinessKeeperDetailsViewModel
+import common.model.CacheKeyPrefix
+import common.model.NewKeeperChooseYourAddressFormModel.newKeeperChooseYourAddressCacheKey
+import common.model.VehicleAndKeeperDetailsModel
 import common.views.helpers.FormExtensions.formBinding
-import uk.gov.dvla.vehicles.presentation.common.views.constraints.BusinessKeeperName
+import common.views.constraints.BusinessKeeperName
 
 abstract class BusinessKeeperDetailsBase @Inject()()
                     (implicit protected val clientSideSessionFactory: ClientSideSessionFactory,
@@ -71,5 +73,4 @@ abstract class BusinessKeeperDetailsBase @Inject()()
     logMessage(request.cookies.trackingId(), Warn, message)
     missingVehicleDetails
   }
-
 }

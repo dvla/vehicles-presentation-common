@@ -1,15 +1,13 @@
 package uk.gov.dvla.vehicles.presentation.common.webserviceclients.acquire
 
 import javax.inject.Inject
-import play.api.Logger
 import play.api.http.Status.OK
-import uk.gov.dvla.vehicles.presentation.common.LogFormats
-import uk.gov.dvla.vehicles.presentation.common.clientsidesession.TrackingId
-import uk.gov.dvla.vehicles.presentation.common.webserviceclients.healthstats.HealthStats
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
+import uk.gov.dvla.vehicles.presentation.common.clientsidesession.TrackingId
+import uk.gov.dvla.vehicles.presentation.common.LogFormats
 import uk.gov.dvla.vehicles.presentation.common.LogFormats.DVLALogger
-
+import uk.gov.dvla.vehicles.presentation.common.webserviceclients.healthstats.HealthStats
 
 final class AcquireServiceImpl @Inject()(config: AcquireConfig,
                                          ws: AcquireWebService,
@@ -23,13 +21,13 @@ final class AcquireServiceImpl @Inject()(config: AcquireConfig,
       case _ => ""
     }
 
-    logMessage(trackingId,Debug,"Calling acquire vehicle micro-service with " +
+    logMessage(trackingId, Debug, "Calling acquire vehicle micro-service with " +
       s"$refNo $vrm $postcode ${cmd.keeperConsent} ${cmd.keeperConsent} ${cmd.mileage}")
 
     healthStats.report("acquire-fulfil-microservice") {
       ws.callAcquireService(cmd, trackingId).map { resp =>
-        logMessage(trackingId, Debug, s"Http response code from acquire vehicle micro-service " +
-          s"was: ${resp.status}")
+        val msg = s"Http response code from acquire vehicle micro-service was: ${resp.status}"
+        logMessage(trackingId, Debug, msg)
 
         if (resp.status == OK) (resp.status, resp.json.asOpt[AcquireResponseDto])
         else (resp.status, None)
