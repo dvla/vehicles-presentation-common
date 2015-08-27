@@ -5,8 +5,8 @@ import play.api.Logger
 
 object LogFormats {
 
+  final val logSeperator = " - "
   private final val anonymousChar = "*"
-  private final val logSeparator = " - "
   private final val nullString = "null"
   final val optionNone = "none"
 
@@ -56,11 +56,8 @@ object LogFormats {
         case Warn => logger.warn(logMessageFormat(trackingId, messageText, logData))
       }
 
-
     private def logMessageFormat(trackingId: TrackingId, messageText: String, logData: Option[Seq[String]]): String =
-      s"""[TrackingID: ${trackingId.value}]$logSeparator$messageText ${logData.map( d => s"$logSeparator$logData" ).getOrElse("")}"""
+      s"[TrackingID: ${trackingId.value}]$logSeperator$messageText" +
+        logData.map( d => s"$logSeperator$logData" ).getOrElse("")
   }
-
-
-
 }
