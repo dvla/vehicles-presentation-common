@@ -14,7 +14,7 @@
     @valtechLabel(field, args)
         @if(args.contains('tooltipImgSrc)) {
             <div class="js-tooltip no-js-only" data-tooltip="tooltip_@id">
-                <p>
+                <p class="js-only">
                     @if(args.contains('tooltipHeading)) {
                         @args('tooltipHeading).toString
                     } else {
