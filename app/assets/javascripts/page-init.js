@@ -172,20 +172,16 @@ define(function(require) {
     };
 
     var tooltipToggle = function() {
-        $('.js-tooltip').hide();
-        $('.js-has-tooltip').addClass('enabled');
+        $('.js-has-tooltip').addClass('enabled');   // Show the ibutton
+        $('.js-has-tooltip').on('click', function() {
+            var tooltip = $(this).attr('data-tooltip');
+            $('.js-tooltip[data-tooltip="' + tooltip +'"]').toggleClass('js-tooltip-style');
+        });
         $(document).mouseup(function (e) {
             var tooltipContainer = $(".js-tooltip");
             if ( !tooltipContainer.is(e.target) && tooltipContainer.has(e.target).length === 0 && (!$('.js-has-tooltip').is(e.target)) )  {
-                tooltipContainer.hide();
+                tooltipContainer.removeClass('js-tooltip-style');
             }
-        });
-        $('.js-has-tooltip').on('click', function() {
-            $('.js-tooltip').hide();
-            var tooltip = $(this).attr('data-tooltip');
-            $('.js-tooltip[data-tooltip="' + tooltip +'"]').addClass('js-tooltip-style');
-            $('.js-tooltip[data-tooltip="' + tooltip +'"]').toggle();
-
         });
     };
 
