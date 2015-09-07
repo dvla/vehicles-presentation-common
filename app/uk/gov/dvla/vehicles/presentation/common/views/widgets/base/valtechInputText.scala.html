@@ -12,18 +12,7 @@
 
 @input(field, args.toSeq:_*) { (id, name, value, htmlArgs) =>
     @valtechLabel(field, args)
-        @if(args.contains('tooltipImgSrc)) {
-            <div class="js-tooltip no-js-only" data-tooltip="tooltip_@id">
-                <p class="js-only">
-                    @if(args.contains('tooltipHeading)) {
-                        @args('tooltipHeading).toString
-                    } else {
-                        @args('_label).toString
-                    }
-                </p>
-                <img src="@args('tooltipImgSrc).toString" alt="@args('_label).toString">
-            </div>
-        }
+
         <input
             id="@id"
             name="@name"
@@ -44,6 +33,22 @@
 
         @hintTextSnippet(hintText, idOfRelatedInput = "hint_" + id)
 
+        @if(args.contains('tooltipImgSrc)) {
+            <div class="field-help-content no-js-only" data-tooltip="tooltip_@id">
+                <div class="panel-indent-wrapper">
+                    <div class="panel-indent">
+                        <p class="js-only">
+                            @if(args.contains('tooltipHeading)) {
+                                @args('tooltipHeading).toString
+                            } else {
+                                @args('_label).toString
+                            }
+                        </p>
+                        <p><img src="@args('tooltipImgSrc).toString" alt="@args('_label).toString"></p>
+                    </div>
+                </div>
+            </div>
+        }
   <script type="text/javascript">
   function check(evt, id, regex) {
 

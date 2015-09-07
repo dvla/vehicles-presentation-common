@@ -172,15 +172,21 @@ define(function(require) {
     };
 
     var tooltipToggle = function() {
-        $('.js-has-tooltip').addClass('enabled');   // Show the ibutton
-        $('.js-has-tooltip').on('click', function() {
-            var tooltip = $(this).attr('data-tooltip');
-            $('.js-tooltip[data-tooltip="' + tooltip +'"]').toggleClass('js-tooltip-style');
-        });
-        $(document).mouseup(function (e) {
-            var tooltipContainer = $(".js-tooltip");
-            if ( !tooltipContainer.is(e.target) && tooltipContainer.has(e.target).length === 0 && (!$('.js-has-tooltip').is(e.target)) )  {
-                tooltipContainer.removeClass('js-tooltip-style');
+        $('.field-help').addClass('enable');
+        $('.field-help').on('click', function(e) {
+            var helpContent = $('.field-help-content[data-tooltip="' + $(this).attr('data-tooltip') +'"]');
+            // Since its an anchor whose href is a fragment to the field, we prevent browser from scrolling to it
+            e.preventDefault();
+            if (helpContent) {
+                if ($(helpContent).is(':visible')) {
+                    $(helpContent).hide(100);
+                    $(this).find('.field-help-close').hide();
+                } else {
+                    var me = this;
+                    $(helpContent).show(100, function() {
+                        $(me).find('.field-help-close').show();
+                    });
+                }
             }
         });
     };

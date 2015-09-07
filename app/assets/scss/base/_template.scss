@@ -299,37 +299,55 @@ img {
         }
     }
 
-    .js-has-tooltip {
-        display: none;
-        color: $govuk-blue;
-        border: 1px solid $govuk-blue;
-        -webkit-border-radius: 50%;
-        -moz-border-radius: 50%;
-        border-radius: 50%;
-        width: 25px;
-        text-align: center;
-        margin-left: 5px;
-        cursor: pointer;
+    .field-help {
+        text-decoration: none;
+        &:focus {
+            background-color: inherit;
+            outline: inherit;
+        }
         &.enabled {
-            @extend .inline-desktop-only;
+          @extend .inline-desktop-only;
+        }
+        .field-help-icon {
+            display: none;                  // hidden by default - see media query below
+            color: $govuk-blue;
+            border: 1px solid $govuk-blue;
+            -webkit-border-radius: 50%;
+            -moz-border-radius: 50%;
+            border-radius: 50%;
+            width: 25px;
+            text-align: center;
+            margin-left: 5px;
+            cursor: pointer;
+        }
+        .field-help-close {
+            text-decoration: underline;
+            display: none;
+        }
+    }
+    @media screen and (min-width:$device-medium) {
+        .field-help .field-help-icon {
+            display: inline-block;          // only show help icon on tablet and desktop
         }
     }
 
-    .js-tooltip {
-        background: $white;
-        z-index: 9999;
-        margin: 0 0 10px 0;
-        padding: 16px 32px;
-        border: 1px solid $govuk-blue;
-        p {
-
-            color: $govuk-blue;
-            text-align: left;
+    .field-help-content {
+        .panel-indent-wrapper {
+            .panel-indent {
+                margin-top: 0;
+                margin-bottom: 20px;
+            }
         }
-        &.js-tooltip-style {
-            display: block !important;
-            position: static;
-            float: left;
+    }
+
+    ul.help-list {
+        li {
+            position: relative;
+            padding-bottom: 5px;
+            .field-help {
+                position: absolute;
+                left: 320px;
+            }
         }
     }
 
