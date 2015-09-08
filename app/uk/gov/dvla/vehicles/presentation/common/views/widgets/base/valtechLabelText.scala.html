@@ -5,14 +5,7 @@
 @import views.constraints.Required.RequiredField
 @import views.html.widgets.base.labelOrId
 
-<!-- This is an interim solution, the approach of checking the constraints is deprecated. -->
 @labelOrId(field.id, args)
-@if((!field.constraints.find(_._1 == RequiredField) && !args.contains('NO_OPTIONAL_LABEL))) {
-    <span>@Messages("widget.optional")</span>
-} else {
-    @if(args.contains('optionalFieldKey) &&
-        args.get('optionalFieldKey).get==true &&
-        !args.contains('NO_OPTIONAL_LABEL)) {
+    @if(args.contains('optionalFieldKey) && args.get('optionalFieldKey).get==true) {
         <span>@Messages("widget.optional")</span>
-    }
 }
