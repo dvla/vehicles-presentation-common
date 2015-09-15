@@ -1,9 +1,9 @@
 package uk.gov.dvla.vehicles.presentation.common.views.widgetdriver
 
 import org.openqa.selenium.{By, WebDriver}
+import org.scalatest.selenium.WebBrowser
 import org.openqa.selenium.support.ui.{ExpectedCondition, ExpectedConditions}
 import org.openqa.selenium.support.ui.ExpectedConditions.invisibilityOfElementLocated
-import uk.gov.dvla.vehicles.presentation.common.helpers.webbrowser.{Checkbox, Element, SingleSel, TextField, WebBrowserDSL}
 import uk.gov.dvla.vehicles.presentation.common.mappings.AddressPicker.AddressLine1Id
 import uk.gov.dvla.vehicles.presentation.common.mappings.AddressPicker.AddressLine2Id
 import uk.gov.dvla.vehicles.presentation.common.mappings.AddressPicker.AddressLine3Id
@@ -11,24 +11,23 @@ import uk.gov.dvla.vehicles.presentation.common.mappings.AddressPicker.PostcodeI
 import uk.gov.dvla.vehicles.presentation.common.mappings.AddressPicker.PostTownId
 import uk.gov.dvla.vehicles.presentation.common.mappings.AddressPicker.RememberId
 
-class AddressPickerDriver(id: String)  extends WebBrowserDSL {
+class AddressPickerDriver(id: String) extends WebBrowser {
   private implicit val timeout = 3
 
   def postCodeSearch(implicit driver: WebDriver): TextField =
-    textField(cssSelector(".js-address-postcode-lookup"))(driver.findElement(By.id(id)))
+    textField(cssSelector(".js-address-postcode-lookup"))//(driver.findElement(By.id(id)))
 
   def searchButton(implicit driver: WebDriver): Element =
-    find(id("address-find"))(driver.findElement(By.id(id)))
+    find(id("address-find"))//(driver.findElement(By.id(id)))
       .getOrElse(throw new Exception(s"Cannot find element with id address-postcode-lookup in address picker with id:$id "))
 
   def enterManuallyLink(implicit driver: WebDriver): Element =
-    find(cssSelector(".address-manual-toggle"))(driver.findElement(By.id(id)))
+    find(cssSelector(".address-manual-toggle"))//(driver.findElement(By.id(id)))
       .getOrElse(throw new Exception(s"Cannot find element with id address-manual-toggle in address picker with id:$id "))
 
   def search(postcode: String)(implicit driver: WebDriver): Unit = {
     postCodeSearch.value = postcode
     click on searchButton
-//    Thread.sleep(1000)
     Wait.until(selectPopulated)
   }
 
@@ -38,29 +37,29 @@ class AddressPickerDriver(id: String)  extends WebBrowserDSL {
   }
 
   def addressSelect(implicit driver: WebDriver): SingleSel =
-    singleSel(cssSelector(".js-address-list"))(driver.findElement(By.id(id)))
+    singleSel(cssSelector(".js-address-list"))//(driver.findElement(By.id(id)))
 
   def selectAddress(value: String)(implicit driver: WebDriver): Unit = {
     addressSelect.value = value
   }
 
   def addressLine1(implicit driver: WebDriver): TextField =
-    textField(id(s"${id}_$AddressLine1Id"))(driver.findElement(By.id(id)))
+    textField(id(s"${id}_$AddressLine1Id"))//(driver.findElement(By.id(id)))
 
   def addressLine2(implicit driver: WebDriver): TextField =
-    textField(id(s"${id}_$AddressLine2Id"))(driver.findElement(By.id(id)))
+    textField(id(s"${id}_$AddressLine2Id"))//(driver.findElement(By.id(id)))
 
   def addressLine3(implicit driver: WebDriver): TextField =
-    textField(id(s"${id}_$AddressLine3Id"))(driver.findElement(By.id(id)))
+    textField(id(s"${id}_$AddressLine3Id"))//(driver.findElement(By.id(id)))
 
   def town(implicit driver: WebDriver): TextField =
-    textField(id(s"${id}_$PostTownId"))(driver.findElement(By.id(id)))
+    textField(id(s"${id}_$PostTownId"))//(driver.findElement(By.id(id)))
 
   def postcode(implicit driver: WebDriver): TextField =
-    textField(id(s"${id}_$PostcodeId"))(driver.findElement(By.id(id)))
+    textField(id(s"${id}_$PostcodeId"))//(driver.findElement(By.id(id)))
 
   def remember(implicit driver: WebDriver): Checkbox =
-    checkbox(id(s"${id}_$RememberId"))(driver.findElement(By.id(id)))
+    checkbox(id(s"${id}_$RememberId"))//(driver.findElement(By.id(id)))
 
   def assertAddressInputsVisible(timeout: Int = timeout)(implicit driver: WebDriver): Unit = {
     Wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(s"#$id .address-manual-inputs-wrapper")))
@@ -115,7 +114,6 @@ class AddressPickerDriver(id: String)  extends WebBrowserDSL {
   private def selectPopulated: ExpectedCondition[Boolean] = {
     new ExpectedCondition[Boolean]() {
       override def apply(driver: WebDriver): Boolean = {
-//        println("data-ajax:" + driver.findElement(By.cssSelector(".js-address-list")).getAttribute("data-ajax"))
         try driver.findElement(By.cssSelector(".js-address-list")).getAttribute("data-ajax") == "true"
         catch {
           case e: Throwable =>

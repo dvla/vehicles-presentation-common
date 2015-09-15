@@ -1,11 +1,11 @@
 package uk.gov.dvla.vehicles.presentation.common.views.widgetdriver
 
-import org.openqa.selenium.{StaleElementReferenceException, WebDriver, By}
-import org.openqa.selenium.support.ui.{Select, WebDriverWait, ExpectedCondition}
-import uk.gov.dvla.vehicles.presentation.common.helpers.webbrowser.WebBrowserDSL
+import org.openqa.selenium.{WebDriver, By}
+import org.openqa.selenium.support.ui.{WebDriverWait, ExpectedCondition}
+import org.scalatest.selenium.WebBrowser
 import scala.collection.JavaConversions._
 
-object Wait extends WebBrowserDSL {
+object Wait extends WebBrowser {
   def until[T](condition: ExpectedCondition[T], timeoutSec: Int = 3)(implicit driver: WebDriver): T =
     (new WebDriverWait(driver, timeoutSec)).until(condition)
 
