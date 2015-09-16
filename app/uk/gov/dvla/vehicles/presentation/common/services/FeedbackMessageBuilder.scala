@@ -10,12 +10,11 @@ object FeedbackMessageBuilder {
   import SEND.Contents
 
   def buildWith(form: FeedbackForm, trackingId: TrackingId): Contents = {
-
     val date = new SimpleDateFormat("dd/MM/yyyy hh:mm").format(new Date())
 
     val sender =
       s"""received from: ${form.name.getOrElse("'no name given'")}
-         | with email: ${form.email.getOrElse("'no email given'")}""".stripMargin
+         |with email: ${form.email.getOrElse("'no email given'")}""".stripMargin
 
     val htmlContents = form.feedback.map {
       case ch if ch == '\n' => "<br />"
@@ -45,26 +44,20 @@ object FeedbackMessageBuilder {
         |
         |<p>New feedback received on $date
         |<br />
-        |from : $sender
+        |$sender
         |</p>
         |
         |<p> $contents </p>
-        |
         |<p>trackingId : $trackingId</p>
-        |
-        |<p></p>
         |</body>
-        |</html>
-      """.stripMargin
+        |</html>""".stripMargin
 
   private def buildText(contents: String, date: String, sender: String, trackingId: TrackingId): String =
     s"""
-        |
         |New feedback received on $date
-        | from : $sender
+        |$sender
         |
         |$contents
         |
-        |trackingId : $trackingId
-      """.stripMargin
+        |trackingId : $trackingId""".stripMargin
 }

@@ -50,13 +50,13 @@ object SEND extends DVLALogger {
   /** A dummy email service, to handle non-white listed emails. */
   case class NonWhiteListEmailOps(email: Email) extends EmailOps {
     def send(trackingId: TrackingId)(implicit config: EmailConfiguration, emailService: EmailService) = {
-//      val message = s"""Got email with contents: (${email.subject} - ${email.message} ) to be sent to ${email.toPeople.mkString(" ")}
-//          ||with cc (${email.ccPeople.mkString(" ")}
-//         |${config.from.email}. Receiver was in whitelist""".stripMargin
       val message =
-        s"""Got email with contents: (${email.subject} - ${email.message} ) to be sent to
-           |${email.toPeople.mkString(" ")} with cc ${email.ccPeople.mkString(" ")}
-           |${config.from.email}. Receiver was not in the white list so not sending""".stripMargin
+        s"""Got email with subject: ${email.subject}
+           |${email.message}
+           |to be sent to ${email.toPeople.mkString(" ")}
+           |with cc ${email.ccPeople.mkString(" ")}
+           |from ${config.from.email}
+           |Receiver was not in the white list so not sending""".stripMargin
       logMessage(trackingId, Info, message)
     }
   }
