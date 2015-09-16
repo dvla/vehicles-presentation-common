@@ -17,20 +17,20 @@ final class WebServiceImpl @Inject()(config: BruteForcePreventionConfig) extends
   override def callBruteForce(vrm: String, trackingId: TrackingId): Future[WSResponse] = {
     val endPoint = s"$baseUrl/security"
     logMessage(trackingId, Debug, s"Calling brute force prevention on $endPoint with vrm: ${LogFormats.anonymize(vrm)}")
-    WS.url(endPoint).
-      withHeaders("serviceName" -> serviceName).
-      withHeaders("maxRetries" -> maxRetries).
-      withHeaders("keyExpire" -> keyExpire).
-      withRequestTimeout(requestTimeoutMillis).
-      post(Map("tokenList" -> Seq(vrm)))
+    WS.url(endPoint)
+      .withHeaders("serviceName" -> serviceName)
+      .withHeaders("maxRetries" -> maxRetries)
+      .withHeaders("keyExpire" -> keyExpire)
+      .withRequestTimeout(requestTimeoutMillis)
+      .post(Map("tokenList" -> Seq(vrm)))
   }
 
   override def reset(vrm: String, trackingId: TrackingId): Future[WSResponse] = {
     val endPoint = s"$baseUrl/security/delete"
     logMessage(trackingId, Debug, s"Resetting brute force prevention on $endPoint for vrm: ${LogFormats.anonymize(vrm)}")
-    WS.url(endPoint).
-      withHeaders("serviceName" -> serviceName).
-      withRequestTimeout(requestTimeoutMillis).
-      post(Map("tokenList" -> Seq(vrm)))
+    WS.url(endPoint)
+      .withHeaders("serviceName" -> serviceName)
+      .withRequestTimeout(requestTimeoutMillis)
+      .post(Map("tokenList" -> Seq(vrm)))
   }
 }

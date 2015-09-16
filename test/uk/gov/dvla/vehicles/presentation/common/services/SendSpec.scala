@@ -1,26 +1,37 @@
 package uk.gov.dvla.vehicles.presentation.common.services
 
+import scala.language.postfixOps
+import uk.gov.dvla.vehicles.presentation.common.services.SEND.{Contents, EmailConfiguration, mailtoOps, NoEmailOps}
 import uk.gov.dvla.vehicles.presentation.common.webserviceclients.emailservice.From
 import uk.gov.dvla.vehicles.presentation.common.{WithApplication, UnitSpec}
 
 class SendSpec extends UnitSpec {
 
-  import scala.language.postfixOps
-  import uk.gov.dvla.vehicles.presentation.common.services.SEND._
-
   implicit val emailConfiguration = EmailConfiguration(
-                                    From("donotreplypronline@dvla.gsi.gov.uk", "DO-NOT-REPLY"),
-                                    From("some@feedback", "dummy Feedback email"),
-                                    Some(List("@valtech.co.uk","@dvla.gsi.gov.uk","@digital.dvla.gov.uk")))
+                                      From("donotreplypronline@dvla.gsi.gov.uk", "DO-NOT-REPLY"),
+                                      From("some@feedback", "dummy Feedback email"),
+                                      Some(List("@valtech.co.uk","@dvla.gsi.gov.uk","@digital.dvla.gov.uk"))
+                                    )
 
   "whitelist" should {
     "return true if an email belongs to this list" in new WithApplication {
       val receivers = List("test@valtech.co.uk")
       SEND.isWhiteListed(receivers) shouldEqual true
     }
+
     "return false if an email doesn't belong to this list" in new WithApplication {
       val receivers = List("test@gmail.com")
       SEND.isWhiteListed(receivers) shouldEqual false
+    }
+
+    "return true for any email if the white list is not configured" in new WithApplication() {
+      implicit val emailConfiguration = EmailConfiguration(
+        From("donotreplypronline@dvla.gsi.gov.uk", "DO-NOT-REPLY"),
+        From("some@feedback", "dummy Feedback email"),
+        None
+      )
+      val receivers = List("test@anything.com")
+      SEND.isWhiteListed(receivers) shouldEqual true
     }
   }
 
@@ -60,44 +71,36 @@ class SendSpec extends UnitSpec {
     "create an SmtpEmailOps if the user belongs to the whitelist" in new WithApplication {
       val template = Contents("<h1>Email</h1>", "text email")
       val receivers = List("test@valtech.co.uk")
-
       val email = SEND email template withSubject "Some Subject" to receivers
 
       email shouldBe a [SEND.Email]
-
       mailtoOps(email) shouldBe a [SEND.SmtpEmailOps]
     }
 
     "create a NonWhiteList if the user doesn't belong to the whitelist" in new WithApplication {
       val template = Contents("<h1>Email</h1>", "text email")
       val receivers = List("test@broken.co.uk")
-
       val email = SEND email template withSubject "Some Subject" to receivers
 
       email shouldBe a [SEND.Email]
-
       mailtoOps(email) shouldBe a [SEND.NonWhiteListEmailOps]
     }
 
     "create a NoEmailOps if the email doesn't have any senders" in new WithApplication{
       val template = Contents("<h1>Email</h1>", "text email")
-
       val email = SEND email template withSubject "Some Subject"
 
       mailtoOps(email) shouldBe NoEmailOps
     }
 
-    "send an email if the emailis ok" in new WithApplication {
-
+    "send an email if the email is ok" in new WithApplication {
       implicit val emailConfiguration = EmailConfiguration(
         From("donotreplypronline@dvla.gsi.gov.uk", "DO-NOT-REPLY"),
         From("some@feedback", "dummy Feedback email"),
         None)
 
-
       val template = Contents("<h1>Email</h1>", "text email")
       val receivers = List("makis.arvin@gmail.com")
-
       val email = SEND email template withSubject "Some Subject" to receivers
 
       mailtoOps(email) shouldBe a [SEND.SmtpEmailOps]

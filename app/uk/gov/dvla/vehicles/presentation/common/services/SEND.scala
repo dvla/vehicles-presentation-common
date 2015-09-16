@@ -7,7 +7,7 @@ import uk.gov.dvla.vehicles.presentation.common.LogFormats.DVLALogger
 import uk.gov.dvla.vehicles.presentation.common.webserviceclients.emailservice.{EmailService, EmailServiceSendRequest}
 
 /**
- * A simple service to send an email, leveraging the apache commons email library.
+ * A simple service to send an email by making a rest call to the EmailService.
  *
  * Usage:
  *  val from = EmailAddress("dvla@co.uk", "DVLA Department of..")
@@ -47,21 +47,23 @@ object SEND extends DVLALogger {
     def send(trackingId: TrackingId)(implicit config: EmailConfiguration, emailService: EmailService): Unit
   }
 
-  /** A dummy email service, to send the white listed emails. */
+  /** A dummy email service, to handle non-white listed emails. */
   case class NonWhiteListEmailOps(email: Email) extends EmailOps {
     def send(trackingId: TrackingId)(implicit config: EmailConfiguration, emailService: EmailService) = {
-      val message = s"""Got email with contents: (${email.subject} - ${email.message} ) to be sent to ${email.toPeople.mkString(" ")}
-
-          ||with cc (${email.ccPeople.mkString(" ")}
-)
-         |${config.from.email}. Receiver was in whitelist""".stripMargin
+//      val message = s"""Got email with contents: (${email.subject} - ${email.message} ) to be sent to ${email.toPeople.mkString(" ")}
+//          ||with cc (${email.ccPeople.mkString(" ")}
+//         |${config.from.email}. Receiver was in whitelist""".stripMargin
+      val message =
+        s"""Got email with contents: (${email.subject} - ${email.message} ) to be sent to
+           |${email.toPeople.mkString(" ")} with cc ${email.ccPeople.mkString(" ")}
+           |${config.from.email}. Receiver was not in the white list so not sending""".stripMargin
       logMessage(trackingId, Info, message)
     }
   }
   /** A no-ops email service that denotes an error in the email */
   object NoEmailOps extends EmailOps {
     def send(trackingId: TrackingId)(implicit config: EmailConfiguration, emailService: EmailService) =
-      logMessage(trackingId, Info, "The email is incomplete. you cannot send that")
+      logMessage(trackingId, Info, "The email is incomplete. You cannot send that")
   }
 
   /** An smtp email service. Currently implemented using the Apache commons email library */
@@ -82,11 +84,10 @@ object SEND extends DVLALogger {
       )
 
       emailService.invoke(emailRequest, trackingId).onFailure {
-        case fail => logMessage(trackingId, Error, s"""Failed to send email for ${email.toPeople.
-          mkString(" ")}
-            , reason was ${fail.getMessage}""".stripMargin
-            )
-
+        case fail =>
+          val msg = s"Failed to send email for ${email.toPeople.mkString(" ")}, reason was ${fail.getMessage}"
+            .stripMargin
+          logMessage(trackingId, Error, msg)
       }
     }
   }
@@ -95,7 +96,7 @@ object SEND extends DVLALogger {
    * Validation method that will return the correct service implementation depending on the email.
    * @param mail the email to send
    * @param configuration the configuration needed
-   * @returnan appropriate instance of an email.
+   * @return an appropriate instance of an email.
    */
   implicit def mailtoOps (mail: Email)(implicit configuration: EmailConfiguration): EmailOps = mail match {
     case Email(message, _, Some(toPeople), _) if !isWhiteListed(toPeople) => NonWhiteListEmailOps(mail)
@@ -104,8 +105,8 @@ object SEND extends DVLALogger {
   }
 
   /**
-   * private method to decide if the email has a white listed address. In case there is a white listed address then the
-   * method will return true.  An empty white list config implies all addresses are white listed.
+   * Method that decides if the email has a white listed address. In case there is a white listed address then
+   * the method will return true.  An empty white list config implies all addresses are white listed.
    */
   def isWhiteListed(addresses: List[String])(implicit configuration: EmailConfiguration): Boolean = {
 
@@ -113,8 +114,8 @@ object SEND extends DVLALogger {
       case Some(lst) => (for {
         address <- addresses
         whiteList <- Option("@test.com" :: lst)
-      } yield whiteList.
-          filter((domain: String) => address.endsWith(domain))).flatten match {
+      } yield whiteList
+          .filter((domain: String) => address.endsWith(domain))).flatten match {
         case List() => false
         case _ => true
       }
@@ -125,7 +126,7 @@ object SEND extends DVLALogger {
   /**
    * Main entry point for the send email.
    * @param message the contents of the email.
-   * @return an instance if the email message.
+   * @return an object that provides a withSubject method that will return an instance of the email message.
    */
   def email(message: Contents) = new { def withSubject(subject: String) = Email(message, subject) }
 }
