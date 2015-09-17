@@ -1,0 +1,5 @@
+@(cssClasses: List[String] = Nil)(html: Html)(implicit lang: Lang)
+
+<div class="@(("alert-warning" :: cssClasses).mkString(" "))">
+  @html
+</div>
