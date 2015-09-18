@@ -74,7 +74,7 @@ class SendSpec extends UnitSpec {
       val email = SEND email template withSubject "Some Subject" to receivers
 
       email shouldBe a [SEND.Email]
-      mailtoOps(email) shouldBe a [SEND.SmtpEmailOps]
+      mailtoOps(email) shouldBe a [SEND.MicroServiceEmailOps]
     }
 
     "create a NonWhiteList if the user doesn't belong to the whitelist" in new WithApplication {
@@ -103,7 +103,7 @@ class SendSpec extends UnitSpec {
       val receivers = List("makis.arvin@gmail.com")
       val email = SEND email template withSubject "Some Subject" to receivers
 
-      mailtoOps(email) shouldBe a [SEND.SmtpEmailOps]
+      mailtoOps(email) shouldBe a [SEND.MicroServiceEmailOps]
     }
   }
 }

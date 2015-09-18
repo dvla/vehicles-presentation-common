@@ -66,11 +66,9 @@ object SEND extends DVLALogger {
       logMessage(trackingId, Info, "The email is incomplete. You cannot send that")
   }
 
-  /** An smtp email service. Currently implemented using the Apache commons email library */
-  case class SmtpEmailOps(email: Email) extends EmailOps{
-
+  /** An smtp email service. Currently implemented by making a rest call to the email micro service */
+  case class MicroServiceEmailOps(email: Email) extends EmailOps{
     def send(trackingId: TrackingId)(implicit config: EmailConfiguration, emailService: EmailService) = {
-
       val from = From(config.from.email, config.from.name)
 
       val emailRequest: EmailServiceSendRequest = EmailServiceSendRequest(
@@ -96,11 +94,11 @@ object SEND extends DVLALogger {
    * Validation method that will return the correct service implementation depending on the email.
    * @param mail the email to send
    * @param configuration the configuration needed
-   * @return an appropriate instance of an email.
+   * @return an appropriate instance of an email operations object
    */
   implicit def mailtoOps (mail: Email)(implicit configuration: EmailConfiguration): EmailOps = mail match {
     case Email(message, _, Some(toPeople), _) if !isWhiteListed(toPeople) => NonWhiteListEmailOps(mail)
-    case Email(message, _, Some(toPeople), _)                             => SmtpEmailOps(mail)
+    case Email(message, _, Some(toPeople), _)                             => MicroServiceEmailOps(mail)
     case _                                                                => NoEmailOps
   }
 
