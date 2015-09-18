@@ -8,7 +8,7 @@
     @{Space.*}
     @valtechLabelText(field,args)
     @if(args.contains('tooltipImgSrc)) {
-        <a href="?#@field.id" class="field-help js-only" data-tooltip="tooltip_@field.id" aria-hidden="true">
+        <a href="?#@field.id" tabindex="-1" class="field-help js-only" data-tooltip="tooltip_@field.id" aria-hidden="true">
             <span class="field-help-icon">i</span>
             <span class="field-help-close" >Close</span>
         </a>
