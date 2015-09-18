@@ -2,25 +2,19 @@ package uk.gov.dvla.vehicles.presentation.common.services
 
 import java.text.SimpleDateFormat
 import java.util.Date
-
+import uk.gov.dvla.vehicles.presentation.common.clientsidesession.TrackingId
 import uk.gov.dvla.vehicles.presentation.common.model.FeedbackForm
 
-/**
- * Created by gerasimosarvanitis on 30/12/2014.
- */
 object FeedbackMessageBuilder {
 
   import SEND.Contents
 
-
-  def buildWith(form: FeedbackForm): Contents = {
-
+  def buildWith(form: FeedbackForm, trackingId: TrackingId): Contents = {
     val date = new SimpleDateFormat("dd/MM/yyyy hh:mm").format(new Date())
-
 
     val sender =
       s"""received from: ${form.name.getOrElse("'no name given'")}
-         | with email: ${form.email.getOrElse("'no email given'")}""".stripMargin
+         |with email: ${form.email.getOrElse("'no email given'")}""".stripMargin
 
     val htmlContents = form.feedback.map {
       case ch if ch == '\n' => "<br />"
@@ -30,12 +24,12 @@ object FeedbackMessageBuilder {
     }.mkString
 
     Contents(
-      buildHtml(htmlContents, date, sender),
-      buildText(form.feedback, date, sender)
+      buildHtml(htmlContents, date, sender, trackingId),
+      buildText(form.feedback, date, sender, trackingId)
     )
   }
 
-  private def buildHtml(contents: String, date:String, sender: String): String =
+  private def buildHtml(contents: String, date:String, sender: String, trackingId: TrackingId): String =
     s"""
         |<html>
         |<head>
@@ -50,23 +44,20 @@ object FeedbackMessageBuilder {
         |
         |<p>New feedback received on $date
         |<br />
-        |from : $sender
+        |$sender
         |</p>
         |
         |<p> $contents </p>
-        |
-        |<p></p>
+        |<p>trackingId : $trackingId</p>
         |</body>
-        |</html>
-      """.stripMargin
+        |</html>""".stripMargin
 
-  private def buildText(contents: String, date: String, sender: String): String =
+  private def buildText(contents: String, date: String, sender: String, trackingId: TrackingId): String =
     s"""
-        |
         |New feedback received on $date
-        | from : $sender
+        |$sender
         |
         |$contents
         |
-      """.stripMargin
+        |trackingId : $trackingId""".stripMargin
 }

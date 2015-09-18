@@ -12,13 +12,9 @@ final class EmailServiceImpl @Inject()(ws: EmailServiceWebService) extends Email
   override def invoke(cmd: EmailServiceSendRequest, trackingId: TrackingId): Future[EmailServiceSendResponse] = {
     ws.invoke(cmd, trackingId).map { resp =>
       if (resp.status == Status.OK) new EmailServiceSendResponse
-      else throw new RuntimeException(
-        s"Email Service web service call http status not OK, it " +
-          s"was: ${resp.status}. Problem may come from either email-service micro-service or the email server"
-      )
+      else throw new RuntimeException(s"Email Service web service call http status not OK, it was: ${resp.status}.")
     }.recover {
-      case NonFatal(e) => throw new RuntimeException("Email Service call failed for an unknown reason", e)
+      case NonFatal(e) => throw e
     }
   }
-
 }
