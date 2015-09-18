@@ -84,7 +84,6 @@ object SEND extends DVLALogger {
       emailService.invoke(emailRequest, trackingId).onFailure {
         case fail =>
           val msg = s"Failed to send email for ${email.toPeople.mkString(" ")}, reason was ${fail.getMessage}"
-            .stripMargin
           logMessage(trackingId, Error, msg)
       }
     }
