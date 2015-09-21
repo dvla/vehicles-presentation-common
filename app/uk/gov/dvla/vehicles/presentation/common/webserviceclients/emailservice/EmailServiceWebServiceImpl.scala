@@ -17,10 +17,9 @@ final class EmailServiceWebServiceImpl @Inject()(config: EmailServiceConfig)
     val endPoint: String = s"${config.emailServiceMicroServiceBaseUrl}/email/send"
 
     logMessage(trackingId, Debug, "Calling email service micro-service with request")
-    WS.url(endPoint).
-      withHeaders(HttpHeaders.TrackingId -> trackingId.value).
-      withRequestTimeout(config.requestTimeout). // Timeout is in milliseconds
-      post(Json.toJson(request))
+    WS.url(endPoint)
+      .withHeaders(HttpHeaders.TrackingId -> trackingId.value)
+      .withRequestTimeout(config.requestTimeout) // Timeout is in milliseconds
+      .post(Json.toJson(request))
   }
-
 }

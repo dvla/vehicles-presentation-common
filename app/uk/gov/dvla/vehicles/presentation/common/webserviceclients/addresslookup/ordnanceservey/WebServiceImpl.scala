@@ -26,10 +26,10 @@ final class WebServiceImpl @Inject()(config: OrdnanceSurveyConfig) extends Addre
     val postcodeToLog = LogFormats.anonymize(postcode)
     val msg = s"Calling ordnance-survey postcode lookup micro-service with $postcodeToLog"
     logMessage(trackingId, Debug, msg)
-    WS.url(endPoint).
-      withHeaders(HttpHeaders.TrackingId -> trackingId.value).
-      withRequestTimeout(requestTimeout). // Timeout is in milliseconds
-      get()
+    WS.url(endPoint)
+      .withHeaders(HttpHeaders.TrackingId -> trackingId.value)
+      .withRequestTimeout(requestTimeout) // Timeout is in milliseconds
+      .get()
   }
 
   def callAddresses(postcode: String, trackingId: TrackingId)
@@ -41,10 +41,10 @@ final class WebServiceImpl @Inject()(config: OrdnanceSurveyConfig) extends Addre
 
     val postcodeToLog = LogFormats.anonymize(postcode)
     logMessage(trackingId, Debug, s"Calling ordnance-survey addresses lookup micro-service with $postcodeToLog")
-    WS.url(endPoint).
-      withHeaders(HttpHeaders.TrackingId -> trackingId.value).
-      withRequestTimeout(requestTimeout). // Timeout is in milliseconds
-      get()
+    WS.url(endPoint)
+      .withHeaders(HttpHeaders.TrackingId -> trackingId.value)
+      .withRequestTimeout(requestTimeout) // Timeout is in milliseconds
+      .get()
   }
 
   override def callUprnWebService(uprn: String, trackingId: TrackingId)
@@ -56,10 +56,10 @@ final class WebServiceImpl @Inject()(config: OrdnanceSurveyConfig) extends Addre
 
     val uprnToLog = LogFormats.anonymize(uprn)
     logMessage(trackingId, Debug, s"Calling ordnance-survey uprn lookup micro-service with $uprnToLog")
-    WS.url(endPoint).
-      withHeaders(HttpHeaders.TrackingId -> trackingId.value).
-      withRequestTimeout(requestTimeout). // Timeout is in milliseconds
-      get()
+    WS.url(endPoint)
+      .withHeaders(HttpHeaders.TrackingId -> trackingId.value)
+      .withRequestTimeout(requestTimeout) // Timeout is in milliseconds
+      .get()
   }
 
   def postcodeWithNoSpaces(postcode: String): String = postcode.filter(_ != ' ')
