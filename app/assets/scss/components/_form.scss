@@ -104,6 +104,7 @@
             text-transform: uppercase;
         }
     }
+    input[type="email"] { text-transform: lowercase; }
 
     .read-only-input {
         line-height: 1.31579;
