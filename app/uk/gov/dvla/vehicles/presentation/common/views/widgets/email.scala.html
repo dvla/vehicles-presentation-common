@@ -14,7 +14,10 @@
     @valtechInputText(
         field(EmailId),
         hintText = hintText,
+
         args =  Map(
+            'pattern -> ".*",
+            'typeEmail -> true,
             '_label -> labelText,
             '_showConstraints -> false,
             'NO_OPTIONAL_LABEL -> true
@@ -24,6 +27,7 @@
     @valtechInputText(
         field(EmailVerifyId),
         args =  Map(
+            'typeEmail -> true,
             '_label -> Messages("email.verify.label"),
             '_showConstraints -> false,
             'NO_OPTIONAL_LABEL -> true,
