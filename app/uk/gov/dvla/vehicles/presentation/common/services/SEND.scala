@@ -48,7 +48,7 @@ object SEND extends DVLALogger {
   }
 
   /** A dummy email service, to handle non-white listed emails. */
-  case class NonWhiteListEmailOps(email: Email) extends EmailOps {
+  case class NonWhiteListedEmailOps(email: Email) extends EmailOps {
     def send(trackingId: TrackingId)(implicit config: EmailConfiguration, emailService: EmailService) = {
       val message =
         s"""Got email with subject: ${email.subject}
@@ -56,7 +56,8 @@ object SEND extends DVLALogger {
            |to be sent to ${email.toPeople.mkString(" ")}
            |with cc ${email.ccPeople.mkString(" ")}
            |from ${config.from.email}
-           |Receiver was not in the white list so not sending""".stripMargin
+           |Receiver ${config.feedbackEmail.email} was not in the white list ${config.whiteList} so not sending"""
+          .stripMargin
       logMessage(trackingId, Info, message)
     }
   }
@@ -67,7 +68,7 @@ object SEND extends DVLALogger {
   }
 
   /** An smtp email service. Currently implemented by making a rest call to the email micro service */
-  case class MicroServiceEmailOps(email: Email) extends EmailOps{
+  case class MicroServiceEmailOps(email: Email) extends EmailOps {
     def send(trackingId: TrackingId)(implicit config: EmailConfiguration, emailService: EmailService) = {
       val from = From(config.from.email, config.from.name)
 
@@ -96,7 +97,7 @@ object SEND extends DVLALogger {
    * @return an appropriate instance of an email operations object
    */
   implicit def mailtoOps (mail: Email)(implicit configuration: EmailConfiguration): EmailOps = mail match {
-    case Email(message, _, Some(toPeople), _) if !isWhiteListed(toPeople) => NonWhiteListEmailOps(mail)
+    case Email(message, _, Some(toPeople), _) if !isWhiteListed(toPeople) => NonWhiteListedEmailOps(mail)
     case Email(message, _, Some(toPeople), _)                             => MicroServiceEmailOps(mail)
     case _                                                                => NoEmailOps
   }
@@ -108,15 +109,16 @@ object SEND extends DVLALogger {
   def isWhiteListed(addresses: List[String])(implicit configuration: EmailConfiguration): Boolean = {
 
     configuration.whiteList match {
-      case Some(lst) => (for {
+      case Some(wl) => (for {
         address <- addresses
-        whiteList <- Option("@test.com" :: lst)
+        whiteList <- Option("@test.com" :: wl) // Prepend @test.com to the white list
       } yield whiteList
+          // Filter in all addresses whose domains match any of the domains in the white list
           .filter((domain: String) => address.endsWith(domain))).flatten match {
-        case List() => false
-        case _ => true
+        case List() => false // Empty list means address not white listed
+        case _ => true // Non-empty list means there is a white listed address
       }
-      case _ => true
+      case _ => true // The white list is not defined (it is None) so let everything through
     }
   }
 

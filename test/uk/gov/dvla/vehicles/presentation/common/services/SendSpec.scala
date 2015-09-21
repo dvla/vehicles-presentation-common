@@ -83,7 +83,7 @@ class SendSpec extends UnitSpec {
       val email = SEND email template withSubject "Some Subject" to receivers
 
       email shouldBe a [SEND.Email]
-      mailtoOps(email) shouldBe a [SEND.NonWhiteListEmailOps]
+      mailtoOps(email) shouldBe a [SEND.NonWhiteListedEmailOps]
     }
 
     "create a NoEmailOps if the email doesn't have any senders" in new WithApplication{
