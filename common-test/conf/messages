@@ -262,3 +262,8 @@ address.picker.common.changeDetails = Change my details
 address.picker.common.rememberDetails = Remember these details
 address.picker.common.postCodeNotFound = Postcode not found
 address.picker.common.serverError = Error from the server:
+
+# Alert Warning
+alertWarning.pageTitle = Alert Warning
+alertWarning.message1 = This is a warning
+alertWarning.message2 = This is a second warning

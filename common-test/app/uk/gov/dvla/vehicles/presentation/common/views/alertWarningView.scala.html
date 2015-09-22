@@ -1,0 +1,16 @@
+@()(implicit lang: Lang)
+
+@import uk.gov.dvla.vehicles.presentation.common
+@import uk.gov.dvla.vehicles.presentation.common.models
+@import uk.gov.dvla.vehicles.presentation.common.controllers
+@import common.views.html.widgets.alertWarning
+
+@main(title = Messages("alertWarning.pageTitle")) {
+  @alertWarning() {
+    <h2><strong>@Messages("alertWarning.message1")</strong></h2>
+  }
+
+  @alertWarning(List("print-message")) {
+    @Messages("alertWarning.message2")
+  }
+}
