@@ -87,3 +87,6 @@ GET     /cookie-policy                  @uk.gov.dvla.vehicles.presentation.commo
 GET     /test-context-path/address-lookup/postcode/:postcode   @uk.gov.dvla.vehicles.presentation.common.controllers.AddressLookupTestController.byPostcode(postcode)
 
 GET     /alert-warning                  @uk.gov.dvla.vehicles.presentation.common.controllers.AlertWarningController.present
+
+GET     /registration-number            @uk.gov.dvla.vehicles.presentation.common.controllers.RegistrationNumberController.present
+
