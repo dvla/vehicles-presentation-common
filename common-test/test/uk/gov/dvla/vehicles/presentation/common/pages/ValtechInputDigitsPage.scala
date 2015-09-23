@@ -1,14 +1,18 @@
 package uk.gov.dvla.vehicles.presentation.common.pages
 
 import org.openqa.selenium.WebDriver
-import uk.gov.dvla.vehicles.presentation.common.helpers.webbrowser.Element
+import org.scalatest.selenium.WebBrowser.id
+import org.scalatest.selenium.WebBrowser.Element
+import org.scalatest.selenium.WebBrowser.find
+import org.scalatest.selenium.WebBrowser.TelField
+import org.scalatest.selenium.WebBrowser.telField
+import org.scalatest.selenium.WebBrowser.go
+import org.scalatest.selenium.WebBrowser.click
 import uk.gov.dvla.vehicles.presentation.common.helpers.webbrowser.Page
-import uk.gov.dvla.vehicles.presentation.common.helpers.webbrowser.TelField
-import uk.gov.dvla.vehicles.presentation.common.helpers.webbrowser.WebBrowserDSL
 import uk.gov.dvla.vehicles.presentation.common.helpers.webbrowser.WebDriverFactory
 import uk.gov.dvla.vehicles.presentation.common.models.ValtechInputDigitsModel.Form.MileageId
 
-object ValtechInputDigitsPage extends Page with WebBrowserDSL {
+object ValtechInputDigitsPage extends Page {
 
   final val address = "/valtech-input-digits"
   override val url: String = WebDriverFactory.testUrl + address.substring(1)
@@ -20,7 +24,7 @@ object ValtechInputDigitsPage extends Page with WebBrowserDSL {
 
   def navigate (mileage: String = "40000")(implicit driver: WebDriver) {
     go to ValtechInputDigitsPage
-    mileageElement enter mileage
+    mileageElement.value = mileage
     click on submit
   }
 }

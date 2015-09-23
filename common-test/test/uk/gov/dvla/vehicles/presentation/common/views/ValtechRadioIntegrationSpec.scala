@@ -1,5 +1,8 @@
 package uk.gov.dvla.vehicles.presentation.common.views
 
+import org.scalatest.selenium.WebBrowser.go
+import org.scalatest.selenium.WebBrowser.pageTitle
+import org.scalatest.selenium.WebBrowser.pageSource
 import uk.gov.dvla.vehicles.presentation.common.composition.TestHarness
 import uk.gov.dvla.vehicles.presentation.common.helpers.UiSpec
 import uk.gov.dvla.vehicles.presentation.common.pages.ValtechRadioPage
@@ -7,21 +10,21 @@ import uk.gov.dvla.vehicles.presentation.common.pages.ValtechRadioPage
 class ValtechRadioIntegrationSpec extends UiSpec with TestHarness {
 
   "ValtechRadio integration" should {
-    "be presented" in new WebBrowser {
+    "be presented" in new WebBrowserForSelenium {
       go to ValtechRadioPage
-      page.title should equal(ValtechRadioPage.title)
+      pageTitle should equal(ValtechRadioPage.title)
     }
 
-    "redirects to the next page given valid input of private keeper" in new WebBrowser {
+    "redirects to the next page given valid input of private keeper" in new WebBrowserForSelenium {
       ValtechRadioPage.navigate()
-      page.title should equal("Success")
-      page.source should include("Success - you selected a keeper type of Private")
+      pageTitle should equal("Success")
+      pageSource should include("Success - you selected a keeper type of Private")
     }
 
-    "redirects to the next page given valid input of business keeper" in new WebBrowser {
+    "redirects to the next page given valid input of business keeper" in new WebBrowserForSelenium {
       ValtechRadioPage.navigate(isPrivateOwner = false)
-      page.title should equal("Success")
-      page.source should include("Success - you selected a keeper type of Business")
+      pageTitle should equal("Success")
+      pageSource should include("Success - you selected a keeper type of Business")
     }
   }
 }

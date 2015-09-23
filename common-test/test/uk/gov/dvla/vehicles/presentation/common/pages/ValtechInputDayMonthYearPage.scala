@@ -1,14 +1,18 @@
 package uk.gov.dvla.vehicles.presentation.common.pages
 
 import org.openqa.selenium.WebDriver
-import uk.gov.dvla.vehicles.presentation.common.helpers.webbrowser.Element
+import org.scalatest.selenium.WebBrowser.singleSel
+import org.scalatest.selenium.WebBrowser.SingleSel
+import org.scalatest.selenium.WebBrowser.click
+import org.scalatest.selenium.WebBrowser.Element
+import org.scalatest.selenium.WebBrowser.go
+import org.scalatest.selenium.WebBrowser.id
+import org.scalatest.selenium.WebBrowser.find
 import uk.gov.dvla.vehicles.presentation.common.helpers.webbrowser.Page
-import uk.gov.dvla.vehicles.presentation.common.helpers.webbrowser.SingleSel
-import uk.gov.dvla.vehicles.presentation.common.helpers.webbrowser.WebBrowserDSL
 import uk.gov.dvla.vehicles.presentation.common.helpers.webbrowser.WebDriverFactory
 import uk.gov.dvla.vehicles.presentation.common.models.ValtechInputDayMonthYearModel.Form.DateOfBirthId
 
-object ValtechInputDayMonthYearPage extends Page with WebBrowserDSL {
+object ValtechInputDayMonthYearPage extends Page {
 
   final val address = "/valtech-input-day-month-year"
   override val url: String = WebDriverFactory.testUrl + address.substring(1)
@@ -30,9 +34,9 @@ object ValtechInputDayMonthYearPage extends Page with WebBrowserDSL {
               (implicit driver: WebDriver) {
     go to ValtechInputDayMonthYearPage
 
-    dateOfBirthDay select day
-    dateOfBirthMonth select month
-    dateOfBirthYear select year
+    dateOfBirthDay.value = day
+    dateOfBirthMonth.value = month
+    dateOfBirthYear.value = year
 
     click on submit
   }

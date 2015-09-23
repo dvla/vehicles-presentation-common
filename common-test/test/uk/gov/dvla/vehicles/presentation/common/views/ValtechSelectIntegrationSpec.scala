@@ -1,5 +1,7 @@
 package uk.gov.dvla.vehicles.presentation.common.views
 
+import org.scalatest.selenium.WebBrowser.pageTitle
+import org.scalatest.selenium.WebBrowser.go
 import uk.gov.dvla.vehicles.presentation.common.composition.TestHarness
 import uk.gov.dvla.vehicles.presentation.common.helpers.UiSpec
 import uk.gov.dvla.vehicles.presentation.common.pages.{ErrorPanel, ValtechSelectPage}
@@ -7,17 +9,17 @@ import uk.gov.dvla.vehicles.presentation.common.pages.{ErrorPanel, ValtechSelect
 class ValtechSelectIntegrationSpec extends UiSpec with TestHarness {
 
   "ValtechSelect integration" should {
-    "be presented" in new WebBrowser {
+    "be presented" in new WebBrowserForSelenium {
       go to ValtechSelectPage
-      page.title should equal(ValtechSelectPage.title)
+      pageTitle should equal(ValtechSelectPage.title)
     }
 
-    "redirects to the next page given valid input" in new WebBrowser {
+    "redirects to the next page given valid input" in new WebBrowserForSelenium {
       ValtechSelectPage.navigate()
-      page.title should equal("Success")
+      pageTitle should equal("Success")
     }
 
-    "display validation error when nothing selected" in new WebBrowser {
+    "display validation error when nothing selected" in new WebBrowserForSelenium {
       ValtechSelectPage.navigate("")
       ErrorPanel.numberOfErrors should equal(2)
     }

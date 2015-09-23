@@ -3,12 +3,19 @@ import uk.gov.dvla.vehicles.presentation.common.helpers
 import uk.gov.dvla.vehicles.presentation.common.models
 import uk.gov.dvla.vehicles.presentation.common.views
 
-import helpers.webbrowser.{Element, Page, RadioButton, WebBrowserDSL, WebDriverFactory}
+import helpers.webbrowser.{Page, WebDriverFactory}
 import org.openqa.selenium.WebDriver
+import org.scalatest.selenium.WebBrowser.RadioButton
+import org.scalatest.selenium.WebBrowser.radioButton
+import org.scalatest.selenium.WebBrowser.id
+import org.scalatest.selenium.WebBrowser.Element
+import org.scalatest.selenium.WebBrowser.find
+import org.scalatest.selenium.WebBrowser.go
+import org.scalatest.selenium.WebBrowser.click
 import views.ValtechRadioView.{KeeperType_Business, KeeperType_Private}
 import models.ValtechRadioModel.Form.KeeperTypeId
 
-object ValtechRadioPage extends Page with WebBrowserDSL {
+object ValtechRadioPage extends Page {
 
   final val address = "/valtech-radio"
   override val url: String = WebDriverFactory.testUrl + address.substring(1)
