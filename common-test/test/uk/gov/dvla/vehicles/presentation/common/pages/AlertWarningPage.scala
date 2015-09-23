@@ -2,10 +2,9 @@ package uk.gov.dvla.vehicles.presentation.common.pages
 
 import org.openqa.selenium.{WebElement, By, SearchContext}
 import uk.gov.dvla.vehicles.presentation.common.helpers.webbrowser.Page
-import uk.gov.dvla.vehicles.presentation.common.helpers.webbrowser.WebBrowserDSL
 import uk.gov.dvla.vehicles.presentation.common.helpers.webbrowser.WebDriverFactory
 
-class AlertWarningPage(implicit driver: SearchContext) extends Page with WebBrowserDSL {
+class AlertWarningPage(implicit driver: SearchContext) extends Page {
 
   final val address = "/alert-warning"
   override val url: String = WebDriverFactory.testUrl + address.substring(1)

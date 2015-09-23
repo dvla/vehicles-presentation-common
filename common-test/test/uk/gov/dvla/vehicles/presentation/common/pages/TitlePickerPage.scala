@@ -3,13 +3,20 @@ package uk.gov.dvla.vehicles.presentation.common.pages
 import uk.gov.dvla.vehicles.presentation.common.helpers
 import uk.gov.dvla.vehicles.presentation.common.models
 
-import helpers.webbrowser.{Element, Page, WebBrowserDSL, WebDriverFactory}
+import helpers.webbrowser.{Page, WebDriverFactory}
 import models.TitlePickerModel.Form.TitleId
 import org.openqa.selenium.WebDriver
 import org.scalatest.Matchers
+import org.scalatest.selenium.WebBrowser.textField
+import org.scalatest.selenium.WebBrowser.radioButton
+import org.scalatest.selenium.WebBrowser.click
+import org.scalatest.selenium.WebBrowser.go
+import org.scalatest.selenium.WebBrowser.find
+import org.scalatest.selenium.WebBrowser.id
+import org.scalatest.selenium.WebBrowser.Element
 import uk.gov.dvla.vehicles.presentation.common.mappings.TitlePickerString.OtherTitleRadioValue
 
-object TitlePickerPage extends Page with WebBrowserDSL with Matchers {
+object TitlePickerPage extends Page with Matchers {
 
   final val address = "/title-picker"
   override val url = WebDriverFactory.testUrl + address.substring(1)

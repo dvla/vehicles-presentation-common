@@ -20,7 +20,6 @@
 
 package uk.gov.dvla.vehicles.presentation.common.helpers.webbrowser
 
-trait Page {
-  def url: String
+trait Page extends org.scalatest.selenium.Page {
   val title: String
 }

@@ -3,11 +3,18 @@ package uk.gov.dvla.vehicles.presentation.common.pages
 import uk.gov.dvla.vehicles.presentation.common.helpers
 import uk.gov.dvla.vehicles.presentation.common.models
 
-import helpers.webbrowser.{Element, Page, WebBrowserDSL, WebDriverFactory, _}
+import helpers.webbrowser.{Page, WebDriverFactory, _}
 import models.DateOfSaleModel.Form.{OptionalDateId, DateId}
 import org.openqa.selenium.WebDriver
+import org.scalatest.selenium.WebBrowser.Element
+import org.scalatest.selenium.WebBrowser.find
+import org.scalatest.selenium.WebBrowser.id
+import org.scalatest.selenium.WebBrowser.go
+import org.scalatest.selenium.WebBrowser.click
+import org.scalatest.selenium.WebBrowser.telField
+import org.scalatest.selenium.WebBrowser.TelField
 
-class DateOfSalePage(implicit driver: WebDriver) extends Page with WebBrowserDSL {
+class DateOfSalePage(implicit driver: WebDriver) extends Page {
 
   final val address = "/date-of-sale"
   override val url: String = WebDriverFactory.testUrl + address.substring(1)
@@ -41,7 +48,7 @@ object DateOfSalePage {
 }
 
 
-class DateOfSaleWidget(idStr: String)(implicit driver: WebDriver) extends WebBrowserDSL {
+class DateOfSaleWidget(idStr: String)(implicit driver: WebDriver) {
   def label: String = ???
 
   def hint: String = ???

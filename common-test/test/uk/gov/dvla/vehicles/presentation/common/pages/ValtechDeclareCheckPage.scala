@@ -3,11 +3,18 @@ package uk.gov.dvla.vehicles.presentation.common.pages
 import uk.gov.dvla.vehicles.presentation.common.helpers
 import uk.gov.dvla.vehicles.presentation.common.models
 
-import helpers.webbrowser.{Checkbox, Element, WebDriverFactory, WebBrowserDSL, Page}
+import helpers.webbrowser.{WebDriverFactory, Page}
 import models.ValtechDeclareCheckModel.Form.DeclareSelectId
 import org.openqa.selenium.WebDriver
+import org.scalatest.selenium.WebBrowser.Checkbox
+import org.scalatest.selenium.WebBrowser.checkbox
+import org.scalatest.selenium.WebBrowser.id
+import org.scalatest.selenium.WebBrowser.Element
+import org.scalatest.selenium.WebBrowser.find
+import org.scalatest.selenium.WebBrowser.go
+import org.scalatest.selenium.WebBrowser.click
 
-object ValtechDeclareCheckPage extends Page with WebBrowserDSL {
+object ValtechDeclareCheckPage extends Page {
 
   final val address = "/valtech-declare-check"
   override val url: String = WebDriverFactory.testUrl + address.substring(1)

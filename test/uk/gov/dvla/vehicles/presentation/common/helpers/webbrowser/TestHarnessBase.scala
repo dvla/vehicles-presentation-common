@@ -1,6 +1,7 @@
 package uk.gov.dvla.vehicles.presentation.common.helpers.webbrowser
 
 import org.openqa.selenium.WebDriver
+import org.scalatest.selenium.WebBrowser
 import org.specs2.execute.{AsResult, Result}
 import org.specs2.mutable.Around
 import org.specs2.specification.Scope
@@ -20,6 +21,7 @@ trait TestHarnessBase extends ProgressBar with GlobalCreator {
                                        val port: Int = testPort,
                                        implicit protected val webDriver: WebDriver = WebDriverFactory.webDriver)
     extends Around with Scope {
+//    extends Around with Scope with WebBrowser{
 
     override def around[T: AsResult](t: => T): Result =
       TestConfiguration.configureTestUrl(port) {
@@ -28,31 +30,19 @@ trait TestHarnessBase extends ProgressBar with GlobalCreator {
       }
   }
 
-  abstract class WebBrowser(val app: FakeApplication = fakeAppWithTestGlobal,
-                            val port: Int = testPort,
-                            implicit protected val webDriver: WebDriver = WebDriverFactory.webDriver)
-    extends Around with Scope with WebBrowserDSL {
+  abstract class ProgressBarTrue extends WebBrowserForSelenium(app = fakeApplicationWithProgressBarTrue)
 
-    override def around[T: AsResult](t: => T): Result =
-      TestConfiguration.configureTestUrl(port) {
-        try Helpers.running(TestServer(port, app))(AsResult.effectively(t))
-        finally webDriver.quit()
-      }
-  }
+  abstract class ProgressBarFalse extends WebBrowserForSelenium(app = fakeApplicationWithProgressBarFalse)
 
-  abstract class ProgressBarTrue extends WebBrowser(app = fakeApplicationWithProgressBarTrue)
-
-  abstract class ProgressBarFalse extends WebBrowser(app = fakeApplicationWithProgressBarFalse)
-
-  abstract class WebBrowserWithJs extends WebBrowser(
+  abstract class WebBrowserWithJs extends WebBrowserForSelenium(
     webDriver = WebDriverFactory.webDriver(javascriptEnabled = true)
   )
 
-  abstract class WebBrowserWithJsDisabled extends WebBrowser(
+  abstract class WebBrowserWithJsDisabled extends WebBrowserForSelenium(
     webDriver = WebDriverFactory.webDriver(javascriptEnabled = false)
   )
 
-  abstract class PhantomJsByDefault extends WebBrowser(
+  abstract class PhantomJsByDefault extends WebBrowserForSelenium(
     webDriver = WebDriverFactory.defaultBrowserPhantomJs
   )
 

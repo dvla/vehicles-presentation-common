@@ -1,5 +1,7 @@
 package uk.gov.dvla.vehicles.presentation.common.views
 
+import org.scalatest.selenium.WebBrowser.pageTitle
+import org.scalatest.selenium.WebBrowser.go
 import uk.gov.dvla.vehicles.presentation.common.composition.TestHarness
 import uk.gov.dvla.vehicles.presentation.common.helpers.UiSpec
 import uk.gov.dvla.vehicles.presentation.common.pages.{ErrorPanel, ValtechInputDigitsPage}
@@ -7,18 +9,18 @@ import uk.gov.dvla.vehicles.presentation.common.pages.{ErrorPanel, ValtechInputD
 class ValtechInputDigitsIntegrationSpec extends UiSpec with TestHarness {
 
   "ValtechInputDigits integration" should {
-    "be presented" in new WebBrowser {
+    "be presented" in new WebBrowserForSelenium {
       go to ValtechInputDigitsPage
-      page.title should equal(ValtechInputDigitsPage.title)
+      pageTitle should equal(ValtechInputDigitsPage.title)
     }
   }
 
-  "displays the success page when valid input is entered" in new WebBrowser {
+  "displays the success page when valid input is entered" in new WebBrowserForSelenium {
     ValtechInputDigitsPage.navigate()
-    page.title should equal("Success") // Check the new title of the success page
+    pageTitle should equal("Success") // Check the new title of the success page
   }
 
-  "reject submit when field is blank" in new WebBrowser {
+  "reject submit when field is blank" in new WebBrowserForSelenium {
     ValtechInputDigitsPage.navigate(mileage = "")
     ErrorPanel.numberOfErrors should equal(1)
   }

@@ -1,14 +1,18 @@
 package uk.gov.dvla.vehicles.presentation.common.pages
 
 import org.openqa.selenium.WebDriver
-import uk.gov.dvla.vehicles.presentation.common.helpers.webbrowser.Element
+import org.scalatest.selenium.WebBrowser.TextField
+import org.scalatest.selenium.WebBrowser.textField
+import org.scalatest.selenium.WebBrowser.id
+import org.scalatest.selenium.WebBrowser.Element
+import org.scalatest.selenium.WebBrowser.find
+import org.scalatest.selenium.WebBrowser.go
+import org.scalatest.selenium.WebBrowser.click
 import uk.gov.dvla.vehicles.presentation.common.helpers.webbrowser.Page
-import uk.gov.dvla.vehicles.presentation.common.helpers.webbrowser.TextField
-import uk.gov.dvla.vehicles.presentation.common.helpers.webbrowser.WebBrowserDSL
 import uk.gov.dvla.vehicles.presentation.common.helpers.webbrowser.WebDriverFactory
 import uk.gov.dvla.vehicles.presentation.common.models.ValtechInputTextModel.Form.InputTextId
 
-object ValtechInputTextPage extends Page with WebBrowserDSL {
+object ValtechInputTextPage extends Page {
 
   final val address = "/valtech-input-text"
   override val url: String = WebDriverFactory.testUrl + address.substring(1)
@@ -20,7 +24,7 @@ object ValtechInputTextPage extends Page with WebBrowserDSL {
 
   def navigate (documentReferenceNumber: String = "1" * 11)(implicit driver: WebDriver) {
     go to ValtechInputTextPage
-    documentReferenceNumberElement enter documentReferenceNumber
+    documentReferenceNumberElement.value = documentReferenceNumber
     click on submit
   }
 }

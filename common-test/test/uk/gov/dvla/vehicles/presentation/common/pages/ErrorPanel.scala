@@ -1,11 +1,14 @@
 package uk.gov.dvla.vehicles.presentation.common.pages
 
-import uk.gov.dvla.vehicles.presentation.common.helpers
+import org.openqa.selenium.{NoSuchElementException, SearchContext, By}
+import org.scalatest.selenium.WebBrowser.id
+import org.scalatest.selenium.WebBrowser.find
+import uk.gov.dvla.vehicles.presentation.common.helpers.webbrowser.WebDriverFactory
 
-import helpers.webbrowser.WebBrowserDSL
-import org.openqa.selenium.{NoSuchElementException, SearchContext, By, WebDriver}
+object ErrorPanel {
 
-object ErrorPanel extends WebBrowserDSL {
+  implicit lazy val webDriver = WebDriverFactory.webDriver
+
   def numberOfErrors(implicit driver: SearchContext): Int =
     driver.findElement(By.cssSelector(".validation-summary")).findElements(By.tagName("li")).size
 

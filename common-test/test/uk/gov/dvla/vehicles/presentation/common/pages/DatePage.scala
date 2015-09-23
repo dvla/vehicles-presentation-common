@@ -1,14 +1,18 @@
 package uk.gov.dvla.vehicles.presentation.common.pages
 
 import org.openqa.selenium.{SearchContext, WebDriver}
-import uk.gov.dvla.vehicles.presentation.common.helpers.webbrowser.Element
+import org.scalatest.selenium.WebBrowser.Element
+import org.scalatest.selenium.WebBrowser.find
+import org.scalatest.selenium.WebBrowser.id
+import org.scalatest.selenium.WebBrowser.go
+import org.scalatest.selenium.WebBrowser.click
+import org.scalatest.selenium.WebBrowser.telField
+import org.scalatest.selenium.WebBrowser.TelField
 import uk.gov.dvla.vehicles.presentation.common.helpers.webbrowser.Page
-import uk.gov.dvla.vehicles.presentation.common.helpers.webbrowser.TelField
-import uk.gov.dvla.vehicles.presentation.common.helpers.webbrowser.WebBrowserDSL
 import uk.gov.dvla.vehicles.presentation.common.helpers.webbrowser.WebDriverFactory
 import uk.gov.dvla.vehicles.presentation.common.models.DateModel.Form.{DateId, OptionalDateId}
 
-class DatePage(implicit driver: SearchContext) extends Page with WebBrowserDSL {
+class DatePage(implicit driver: SearchContext) extends Page {
 
   final val address = "/date"
   override val url: String = WebDriverFactory.testUrl + address.substring(1)
@@ -18,7 +22,10 @@ class DatePage(implicit driver: SearchContext) extends Page with WebBrowserDSL {
 
   lazy val required: DateWidget = DateWidget(DateId)
 
-  def submit(implicit driver: SearchContext): Element = find(id("submit")).get
+  def submit(implicit driver: SearchContext): Element = {
+    implicit lazy val webDriver = WebDriverFactory.webDriver
+    find(id("submit")).get
+  }
 
   def navigate(day: String = "3", month: String = "4", year: String = "2014",
                day1: String = "30", month1: String = "12", year1: String = "1970")
@@ -42,7 +49,9 @@ object DatePage {
 }
 
 
-class DateWidget(idStr: String)(implicit driver: SearchContext) extends WebBrowserDSL {
+class DateWidget(idStr: String)(implicit driver: SearchContext) {
+  implicit lazy val webDriver = WebDriverFactory.webDriver
+
   def label: String = ???
 
   def hint: String = ???

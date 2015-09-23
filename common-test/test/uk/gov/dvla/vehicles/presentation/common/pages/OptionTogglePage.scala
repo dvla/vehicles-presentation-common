@@ -2,33 +2,32 @@ package uk.gov.dvla.vehicles.presentation.common.pages
 
 import org.openqa.selenium.support.ui.{ExpectedConditions, WebDriverWait}
 import org.openqa.selenium.{WebDriver, By, SearchContext}
-import uk.gov.dvla.vehicles.presentation.common.helpers.webbrowser.Element
+import org.scalatest.selenium.WebBrowser.Element
+import org.scalatest.selenium.WebBrowser.find
+import org.scalatest.selenium.WebBrowser.id
+import org.scalatest.selenium.WebBrowser.RadioButtonGroup
+import org.scalatest.selenium.WebBrowser.tagName
+import org.scalatest.selenium.WebBrowser.TextField
+import org.scalatest.selenium.WebBrowser.textField
 import uk.gov.dvla.vehicles.presentation.common.helpers.webbrowser.Page
-import uk.gov.dvla.vehicles.presentation.common.helpers.webbrowser.RadioButtonGroup
-import uk.gov.dvla.vehicles.presentation.common.helpers.webbrowser.TextField
-import uk.gov.dvla.vehicles.presentation.common.helpers.webbrowser.WebBrowserDSL
 import uk.gov.dvla.vehicles.presentation.common.helpers.webbrowser.WebDriverFactory
 import uk.gov.dvla.vehicles.presentation.common.mappings.OptionalToggle.OptionFieldSuffix
-import uk.gov.dvla.vehicles.presentation.common.models.OptionalToggleModel.Form.OptionalDateId
-import uk.gov.dvla.vehicles.presentation.common.models.OptionalToggleModel.Form.OptionalDateOptionId
-import uk.gov.dvla.vehicles.presentation.common.models.OptionalToggleModel.Form.OptionalIntId
-import uk.gov.dvla.vehicles.presentation.common.models.OptionalToggleModel.Form.OptionalIntOptionId
-import uk.gov.dvla.vehicles.presentation.common.models.OptionalToggleModel.Form.OptionalStringId
-import uk.gov.dvla.vehicles.presentation.common.models.OptionalToggleModel.Form.OptionalStringOptionId
+import uk.gov.dvla.vehicles.presentation.common.models.OptionalToggleModel.Form._
 
-object OptionTogglePage extends Page with WebBrowserDSL {
+object OptionTogglePage extends Page {
   final val address = "/option-toggle"
   override val url: String = WebDriverFactory.testUrl + address.substring(1)
   final override val title: String = "Option Toggle"
   val jsTestUrl = WebDriverFactory.testUrl + "jstest" + address
+  implicit lazy val webDriver = WebDriverFactory.webDriver
 
   class OptionToggleWidget[T](widgetId: String, t: Element => T)
-                             (driver: SearchContext) extends WebBrowserDSL {
+                             (driver: SearchContext) {
     private implicit def widget = driver.findElement(By.id(widgetId))
 
-    def radio: RadioButtonGroup = new RadioButtonGroup(widgetId, widget)
+    def radio: RadioButtonGroup = new RadioButtonGroup(widgetId, WebDriverFactory.webDriver)
 
-    def label: Element = find(tagName("legend"))(widget)
+    def label: Element = find(tagName("legend"))//(widget)
       .getOrElse(throw new Exception(s"Cannot find name(legend element) for OptionToggleWidget with id:$widgetId"))
 
     def component(implicit driver: SearchContext): T = t(find(id(widgetId + OptionFieldSuffix)).getOrElse(
@@ -45,18 +44,38 @@ object OptionTogglePage extends Page with WebBrowserDSL {
         .until(ExpectedConditions.visibilityOfElementLocated(By.id(widgetId + OptionFieldSuffix)))
   }
 
-  def textRadio(implicit driver: SearchContext) = new OptionToggleWidget[TextField](
+//  def textRadio(implicit driver: SearchContext) = new OptionToggleWidget[TextField](
+//    OptionalStringOptionId,
+//    optionalDiv => TextField(
+//      find(id(OptionalStringId))(WebDriverFactory.webDriver).getOrElse(
+//        throw new Exception(s"Cannot find component element withId: $OptionalStringId"))
+//        .underlying
+//    )
+//  )(driver)
+
+  def textRadio(implicit driver: SearchContext) = {
+    println("---------")
+    println (">>>> " + OptionalStringId)
+    println (">>>> " + id(OptionalStringId))
+    println (">>>> " + find(id(OptionalStringId)))
+    println("---------")
+    new OptionToggleWidget[TextField](
     OptionalStringOptionId,
-    optionalDiv => TextField(find(id(OptionalStringId))(optionalDiv.underlying).getOrElse(
-      throw new Exception(s"Cannot find component element withId: $OptionalStringId"))
-    )
+    optionalDiv => textField(id(OptionalStringId))
   )(driver)
+  }
+
+//  def intRadio(implicit driver: SearchContext) = new OptionToggleWidget[TextField](
+//    OptionalIntOptionId,
+//    optionalDiv => TextField(find(id(OptionalIntId))(WebDriverFactory.webDriver).getOrElse(
+//      throw new Exception(s"Cannot find component element withId: $OptionalIntId"))
+//      .underlying
+//    )
+//  )(driver)
 
   def intRadio(implicit driver: SearchContext) = new OptionToggleWidget[TextField](
     OptionalIntOptionId,
-    optionalDiv => TextField(find(id(OptionalIntId))(optionalDiv.underlying).getOrElse(
-      throw new Exception(s"Cannot find component element withId: $OptionalIntId"))
-    )
+    optionalDiv => textField(id(OptionalStringId))
   )(driver)
 
   def dateRadio(implicit driver: SearchContext) =
