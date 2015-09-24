@@ -41,6 +41,12 @@ object HtmlArgsExtensions {
       }
       else htmlArgs
 
+    def withCustomValidityMessage: Map[Symbol, Any] =
+      if (htmlArgs.contains('validityMessage)) {
+        htmlArgs - 'validityMessage +  (Symbol("data-validity-message") -> htmlArgs(Symbol("validityMessage")))
+      }
+      else htmlArgs
+
     def withCanTabTo(canTabTo: Boolean = true): Map[Symbol, Any] =
       if (!canTabTo) htmlArgs + (Symbol("tabindex") -> -1) else htmlArgs
 

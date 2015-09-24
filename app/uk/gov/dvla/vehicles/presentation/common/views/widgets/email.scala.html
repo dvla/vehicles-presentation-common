@@ -10,13 +10,11 @@
 @import uk.gov.dvla.vehicles.presentation.common.mappings.Email.{EmailId, EmailVerifyId}
 
 @input(field) { (id, name, value, htmlArgs) =>
-
     @valtechInputText(
         field(EmailId),
         hintText = hintText,
 
         args =  Map(
-            'pattern -> ".*",
             'typeEmail -> true,
             '_label -> labelText,
             '_showConstraints -> false,

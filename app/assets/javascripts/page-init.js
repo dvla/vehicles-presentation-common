@@ -1,3 +1,73 @@
+var html5Validation = {
+    doesFieldValidate: function(field) {
+        // Checks if a field will pass validation using html5 methods
+        // If html5 validation is not available (IE8) it will return true as well
+        return (typeof field.willValidate === "undefined" || field.validity.valid);
+    },
+    getFieldContainer: function(field) {
+        // Gets the parent container, of the field, certain items such as email are grouped and its that
+        // group which should be selected
+        var fieldType = $(field).attr('type'),
+            formItemParents = $(field).parents('.form-item');
+
+        return (fieldType === "email" && formItemParents.length > 1)?formItemParents[1]:formItemParents[0];
+    },
+    showFieldError: function(field, errorMessage) {
+        var container = html5Validation.getFieldContainer(field),
+            errorContainer = $(container).children('p.error');
+
+        $(container).addClass('validation added-by-client');
+
+        if (errorContainer.length === 0) {
+           $(container).prepend('<p class="error">' + errorMessage + '</p>');
+        } else {
+           $(errorContainer).text(errorMessage);
+        }
+    },
+    hideFieldError: function(field) {
+        var container = html5Validation.getFieldContainer(field);
+        if ($(container).hasClass('added-by-client')) {
+            $(container).removeClass('validation');
+
+            $(container).find('p.error').remove();
+        }
+    },
+    validateField: function(field) {
+        // Validates an input field, and either shows / hides the error message
+        var optionalField = $(field).closest('.optional-field');
+        if (optionalField && optionalField.length && $(optionalField).is(':visible') === false ) {
+            // It's in an optional field container, and this container is not visible so whatever the value
+            // assume the field is valid
+            html5Validation.hideFieldError(field);
+            return true;
+        } else if (html5Validation.doesFieldValidate(field)) {
+            html5Validation.hideFieldError(field);
+            return true;
+        } else {
+            html5Validation.showFieldError(field, $(field).data('validity-message') || field.validationMessage || "Error");
+            return false;
+        }
+    },
+    validateForm: function(form) {
+        // For every control within the field, attempt to validate it
+        var hasInvalidField = false,
+            formFields = $(form).find('input');
+        for (var i = 0; i < formFields.length; i++) {
+            // if any field is invalid then the form is invalid
+            if (html5Validation.validateField(formFields[i]) === false) {
+                if (hasInvalidField === false ) {
+                    // Scroll to the First field with error
+                    $('html,body').animate({
+                        scrollTop: $(formFields[i]).offset().top - 60
+                    });
+                }
+                hasInvalidField = true;
+            }
+        }
+        return (hasInvalidField === false);
+    }
+};
+
 define(function(require) {
     var $ = require('jquery'),
         addressLookup = require('address-picker'),
@@ -8,27 +78,39 @@ define(function(require) {
             closeWaitOverlay  = $('.please-wait-overlay a'),
             submitId, submitSelector;
 
+        $('input').on('invalid',function(e) {
+            // This event handler, will handle html5 validation, and supress the validation bubble
+            e.preventDefault();
+            return html5Validation.validateField(this);
+        });
+
         $(':submit').on('click', function(e) {
-            //e.preventDefault();
-            submitId = $(this).attr('id') || "";
-            submitSelector = $('#' + submitId + '');
-            if ( submitSelector.hasClass("disabled") ) {
-                return false;
+            var pageForm = $(this).closest('form:first');
+            if (pageForm === undefined || pageForm.length === 0) {
+                pageForm = $('form');
             }
-            submitSelector.html('Loading').addClass('loading-action disabled');
-            var runTimes = 0;
-            setInterval(function() {
-                if ( runTimes < 3 ){
-                    $(':submit').append('.');
-                    runTimes++;
-                } else {
-                    runTimes = 0;
-                    $(':submit').html('Loading');
+
+            if (html5Validation.validateForm(pageForm)) {
+                submitId = $(this).attr('id') || "";
+                submitSelector = $('#' + submitId + '');
+                if ( submitSelector.hasClass("disabled") ) {
+                    return false;
                 }
-            }, 1000);
-            setTimeout(function() {
-                pleaseWaitOverlay.toggle();
-            }, 5000);
+                submitSelector.html('Loading').addClass('loading-action disabled');
+                var runTimes = 0;
+                setInterval(function() {
+                    if ( runTimes < 3 ){
+                        $(':submit').append('.');
+                        runTimes++;
+                    } else {
+                        runTimes = 0;
+                        $(':submit').html('Loading');
+                    }
+                }, 1000);
+                setTimeout(function() {
+                    pleaseWaitOverlay.toggle();
+                }, 5000);
+            }
         });
         closeWaitOverlay.on('click', function(e) {
             e.preventDefault();
@@ -195,10 +277,14 @@ define(function(require) {
         $('.optional-field').hide();
 
         $('.expandable-optional .option-visible').on('click', function() {
-            $(this).closest('.expandable-optional').find('.optional-field').show(100);
+            var expandable = $(this).closest('.expandable-optional').find('.optional-field');
+            $(expandable).find('input').attr('disabled',false);     // Enable the containing form fields
+            $(expandable).show(100);
         });
         $('.expandable-optional .option-invisible').on('click', function() {
-            $(this).closest('.expandable-optional').find('.optional-field').hide(100);
+            var expandable = $(this).closest('.expandable-optional').find('.optional-field');
+            $(expandable).find('input').attr('disabled',true);      // Disable the containing form fields
+            $(expandable).hide(100);
         });
 
         $('.expandable-optional .option-visible:checked').click();
