@@ -1,5 +1,3 @@
 @(cssClasses: List[String] = Nil)(html: Html)
 
-<span class="@(("reg-number" :: cssClasses).mkString(" "))">
-    @html
-</span>
+<span class="@(("reg-number" :: cssClasses).mkString(" "))">@html</span>
