@@ -16,7 +16,7 @@ import common.services.DateService
 import common.webserviceclients.bruteforceprevention.BruteForcePreventionService
 import common.webserviceclients.common.DmsWebHeaderDto
 import common.webserviceclients.vehicleandkeeperlookup.VehicleAndKeeperLookupDetailsDto
-import common.webserviceclients.vehicleandkeeperlookup.VehicleAndKeeperLookupErrorMessage
+import common.webserviceclients.vehicleandkeeperlookup.VehicleAndKeeperLookupFailureResponse
 import common.webserviceclients.vehicleandkeeperlookup.VehicleAndKeeperLookupRequest
 import common.webserviceclients.vehicleandkeeperlookup.VehicleAndKeeperLookupService
 
@@ -48,7 +48,7 @@ abstract class VehicleLookupBase[FormModel <: VehicleLookupFormModelBase]
   def presentResult(implicit request: Request[_]): Result
   def microServiceError(t: Throwable, formModel: FormModel)(implicit request: Request[_]): Result
   def invalidFormResult(invalidForm: play.api.data.Form[FormModel])(implicit request: Request[_]): Future[Result]
-  def vehicleLookupFailure(responseCode: VehicleAndKeeperLookupErrorMessage, formModel: FormModel)
+  def vehicleLookupFailure(response: VehicleAndKeeperLookupFailureResponse, formModel: FormModel)
                           (implicit request: Request[_]): Result
   def vehicleFoundResult(vehicleAndKeeperDetailsDto: VehicleAndKeeperLookupDetailsDto,
                          validFormModel: FormModel)(implicit request: Request[_]): Result
@@ -97,16 +97,16 @@ abstract class VehicleLookupBase[FormModel <: VehicleLookupFormModelBase]
                             bruteForcePreventionModel: BruteForcePreventionModel,
                             formModel: FormModel)
                            (implicit request: Request[_]): Future[Result] = {
-    def notFound(responseCode: VehicleAndKeeperLookupErrorMessage): Result = {
+    def notFound(failure: VehicleAndKeeperLookupFailureResponse): Result = {
       logMessage(request.cookies.trackingId(), Debug, "VehicleAndKeeperLookup encountered a problem with request" +
         s" ${anonymize(referenceNumber)}" +
         s" ${anonymize(registrationNumber)}," +
         " redirect to VehicleAndKeeperLookupFailure")
-      vehicleLookupFailure(responseCode, formModel).withCookie(responseCodeCacheKey, responseCode.message)
+      vehicleLookupFailure(failure, formModel).withCookie(responseCodeCacheKey, failure.response.message)
     }
 
     callLookupService(request.cookies.trackingId(), formModel).map {
-      case VehicleNotFound(responseCode) => notFound(responseCode)
+      case VehicleNotFound(failure) => notFound(failure)
       case VehicleFound(result) =>
         bruteForceService.reset(registrationNumber,request.cookies.trackingId()).onComplete {
           case Success(httpCode) =>
@@ -146,11 +146,11 @@ abstract class VehicleLookupBase[FormModel <: VehicleLookupFormModelBase]
       vehicleAndKeeperDetailsRequest.transactionTimestamp.toString)) )
 
     vehicleLookupService.invoke(vehicleAndKeeperDetailsRequest, trackingId) map { response =>
-      response.responseCode match {
-        case Some(error) =>
+      response match {
+        case Left(error) =>
           VehicleNotFound(error)
-        case None =>
-          response.vehicleAndKeeperDetailsDto match {
+        case Right(success) =>
+          success.vehicleAndKeeperDetailsDto match {
             case Some(dto) =>
               logMessage( trackingId, Debug, "Vehicle lookup web service response",
                 Some(Seq(anonymize(dto.registrationNumber),
@@ -201,7 +201,7 @@ abstract class VehicleLookupBase[FormModel <: VehicleLookupFormModelBase]
 object VehicleLookupBase {
   sealed trait LookupResult
 
-  final case class VehicleNotFound(responseCode: VehicleAndKeeperLookupErrorMessage) extends LookupResult
+  final case class VehicleNotFound(failure: VehicleAndKeeperLookupFailureResponse) extends LookupResult
 
   final case class VehicleFound(result: Result) extends LookupResult
 }

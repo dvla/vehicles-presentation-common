@@ -5,5 +5,6 @@ import uk.gov.dvla.vehicles.presentation.common.clientsidesession.TrackingId
 
 trait VehicleAndKeeperLookupService {
 
-  def invoke(cmd: VehicleAndKeeperLookupRequest, trackingId: TrackingId): Future[VehicleAndKeeperLookupResponse]
+  def invoke(cmd: VehicleAndKeeperLookupRequest, trackingId: TrackingId):
+                            Future[Either[VehicleAndKeeperLookupFailureResponse, VehicleAndKeeperLookupSuccessResponse]]
 }
