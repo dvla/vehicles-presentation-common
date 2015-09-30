@@ -1,3 +1,17 @@
+======= 2.33 ======
+Time of release binaries creation:
+
+
+======= 2.32 ======
+Time of release binaries creation:
+Tue Sep 11 2015 06:11:43
+
+DE618  Updated behaviour of js-tooltip.  Now appears inline with the field content (detail / gitlab)
+DE689  Change to how js-tooltip is displayed.  Now uses panel style layout (detail / gitlab)
+US1777 Removed obsolete option labelling mechanism. (detail / gitlab)
+DE618  removed tooltip open/close anchor from sequential focus navigation (detail / gitlab)
+US1410 Removed obsolete widget inputDayMonthYear (detail / gitlab)
+
 ======= 2.23 ======
 Time of release binaries creation:
 Tue Aug 4 2015 10:19:59
