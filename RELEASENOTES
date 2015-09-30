@@ -1,6 +1,18 @@
 ======= 2.33 ======
 Time of release binaries creation:
+Wed Sep 30 06:21:41 UTC 2015
 
+US2447 Removed selenium webBrowserDSL
+US3813 Create and implement alert-warning as a common widget in vehicles-presentation-common
+US3824 Removed unnecessary stripMargin from error message
+US3816 Create and impliment Reg-Number as a common widget
+US3824 General code tidy up: added extra info to the logging in NonWhiteListedEmailOps and added some comments
+US3815 Updated email widget to use type=email
+US3813 Create and implement alert-warning as a common widget in vehicles-presentation-common
+US3816 Create and implement Reg-Number as a common widget - tests added
+US2440 Remove local Selenium DSL implementation
+US3816 Removed extra spaces before and after Reg Number in registrationNumber widget
+US3852 Added javascript to supress and present html5 validation error messages
 
 ======= 2.32 ======
 Time of release binaries creation:
