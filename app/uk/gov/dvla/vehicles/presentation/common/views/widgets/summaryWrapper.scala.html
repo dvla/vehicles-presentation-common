@@ -1,0 +1,10 @@
+@(title: String, cssClasses: List[String] = Nil)(html: Html)(implicit lang: Lang)
+
+<div class="@(("summary-wrapper" :: cssClasses).mkString(" "))">
+    <a href="#" class="summary" ><strong>@title</strong></a>
+    <div class="details no-js-only">
+        <div class="panel-indent">
+            @html
+        </div>
+    </div>
+</div>

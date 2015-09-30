@@ -214,11 +214,13 @@ define(function(require) {
             e.preventDefault();
             var target = this.hash,
                 $target = $(target);
-            $('html, body').animate({
-                scrollTop: $(target).offset().top - 40
-            }, 750, 'swing', function () {
-                window.location.hash = target;
-            });
+            if ($target.length) {
+                $('html, body').animate({
+                    scrollTop: $(target).offset().top - 40
+                }, 750, 'swing', function () {
+                    window.location.hash = target;
+                });
+            }
         });
     };
 
@@ -272,6 +274,16 @@ define(function(require) {
             }
         });
     };
+
+    var summaryWrapperToggle = function() {
+        // Summary details toggle
+        $('.summary').on('click', function(e) {
+            e.preventDefault();
+
+            $(this).siblings().toggle(100);
+            $(this).toggleClass('active');
+        });
+    }
 
     var enableOptionToggle = function() {
         $('.optional-field').hide();
@@ -409,6 +421,7 @@ define(function(require) {
         formCheckedSelection: formCheckedSelection,
         hideEmailOnOther: hideEmailOnOther, // Do not call this from initAll because only some exemplars need it
         preventPasteOnEmailConfirm: preventPasteOnEmailConfirm,
+        summaryWrapperToggle: summaryWrapperToggle,
         gaTrackClickOnce: gaTrackClickOnce,
         gaTrackOptionalFields: gaTrackOptionalFields,
         initAll: function() {
@@ -424,6 +437,7 @@ define(function(require) {
                 enableOptionToggle();
                 formCheckedSelection();
                 preventPasteOnEmailConfirm();
+                summaryWrapperToggle();
                 gaTrackClickOnce();
                 gaTrackOptionalFields();
 
