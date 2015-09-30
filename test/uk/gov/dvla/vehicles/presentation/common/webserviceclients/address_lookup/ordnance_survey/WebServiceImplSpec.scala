@@ -24,13 +24,11 @@ final class WebServiceImplSpec extends UnitSpec  with WireMockFixture {
   "postcodeWithNoSpaces" should {
     "return the same string if no spaces present" in {
       val result = addressLookupService.postcodeWithNoSpaces(PostcodeValid)
-
       result should equal(PostcodeValid)
     }
 
     "remove spaces when present" in {
       val result = addressLookupService.postcodeWithNoSpaces(PostcodeValidWithSpace)
-
       result should equal(PostcodeValid)
     }
   }
@@ -43,7 +41,7 @@ final class WebServiceImplSpec extends UnitSpec  with WireMockFixture {
 
       whenReady(futureResult, timeout, interval) { result =>
         wireMock.verifyThat(1, getRequestedFor(
-          urlEqualTo(s"/postcode-to-address?postcode=$postCode&languageCode=EN&tracking_id=$trackingIdValue")
+          urlEqualTo(s"/postcode-to-address?postcode=$postCode&languageCode=EN")
         ).withHeader(HttpHeaders.TrackingId, equalTo(trackingIdValue.value)))
       }
     }
@@ -55,7 +53,7 @@ final class WebServiceImplSpec extends UnitSpec  with WireMockFixture {
 
       whenReady(futureResult, timeout, interval) { result =>
         wireMock.verifyThat(1, getRequestedFor(
-          urlEqualTo(s"/uprn-to-address?uprn=$postCode&languageCode=EN&tracking_id=$trackingIdValue")
+          urlEqualTo(s"/uprn-to-address?uprn=$postCode&languageCode=EN")
         ).withHeader(HttpHeaders.TrackingId, equalTo(trackingIdValue.value)))
       }
     }

@@ -5,7 +5,7 @@ import play.api.i18n.Lang
 import play.api.libs.ws.{WSResponse, WS}
 import play.api.Play.current
 import scala.concurrent.Future
-import uk.gov.dvla.vehicles.presentation.common.clientsidesession.{TrackingId, ClientSideSessionFactory}
+import uk.gov.dvla.vehicles.presentation.common.clientsidesession.TrackingId
 import uk.gov.dvla.vehicles.presentation.common.LogFormats
 import uk.gov.dvla.vehicles.presentation.common.LogFormats.DVLALogger
 import uk.gov.dvla.vehicles.presentation.common.webserviceclients.HttpHeaders
@@ -20,8 +20,7 @@ final class WebServiceImpl @Inject()(config: OrdnanceSurveyConfig) extends Addre
     val endPoint = s"$baseUrl/postcode-to-address?" +
       postcodeParam(postcode) +
       languageParam +
-      showBusinessNameParam(showBusinessName) +
-      trackingIdParam(trackingId)
+      showBusinessNameParam(showBusinessName)
 
     val postcodeToLog = LogFormats.anonymize(postcode)
     val msg = s"Calling ordnance-survey postcode lookup micro-service with $postcodeToLog"
@@ -36,8 +35,7 @@ final class WebServiceImpl @Inject()(config: OrdnanceSurveyConfig) extends Addre
                    (implicit lang: Lang): Future[WSResponse] = {
     val endPoint = s"$baseUrl/addresses?" +
       postcodeParam(postcode) +
-      languageParam +
-      trackingIdParam(trackingId)
+      languageParam
 
     val postcodeToLog = LogFormats.anonymize(postcode)
     logMessage(trackingId, Debug, s"Calling ordnance-survey addresses lookup micro-service with $postcodeToLog")
@@ -51,8 +49,7 @@ final class WebServiceImpl @Inject()(config: OrdnanceSurveyConfig) extends Addre
                                  (implicit lang: Lang): Future[WSResponse] = {
     val endPoint = s"$baseUrl/uprn-to-address?" +
       s"uprn=$uprn" +
-      languageParam +
-      trackingIdParam(trackingId)
+      languageParam
 
     val uprnToLog = LogFormats.anonymize(uprn)
     logMessage(trackingId, Debug, s"Calling ordnance-survey uprn lookup micro-service with $uprnToLog")
@@ -65,9 +62,6 @@ final class WebServiceImpl @Inject()(config: OrdnanceSurveyConfig) extends Addre
   def postcodeWithNoSpaces(postcode: String): String = postcode.filter(_ != ' ')
 
   private def postcodeParam(postcode: String) = s"postcode=${postcodeWithNoSpaces(postcode)}"
-
-  private def trackingIdParam(trackingId: TrackingId): String =
-    s"&${ClientSideSessionFactory.TrackingIdCookieName}=$trackingId"
 
   private def languageParam(implicit lang: Lang) = s"&languageCode=${lang.code.toUpperCase}"
 
