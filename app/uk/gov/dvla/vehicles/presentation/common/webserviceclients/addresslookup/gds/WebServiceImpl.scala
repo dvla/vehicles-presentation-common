@@ -30,16 +30,5 @@ final class WebServiceImpl @Inject()(config: GDSAddressLookupConfig) extends Add
       get()
   }
 
-  override def callUprnWebService(uprn: String, trackingId: TrackingId)
-                                 (implicit lang: Lang): Future[WSResponse] = {
-    val endPoint = s"$baseUrl/uprn?uprn=$uprn"
-    logMessage(trackingId, Debug, s"Calling GDS uprn lookup service on")
-    WS.url(endPoint).
-      withHeaders("AUTHORIZATION" -> authorisation).
-      withHeaders(HttpHeaders.TrackingId -> trackingId.value).
-      withRequestTimeout(requestTimeout). // Timeout is in milliseconds
-      get()
-  }
-
   override def callAddresses(postcode: String, trackingId: TrackingId)(implicit lang: Lang): Future[WSResponse] = ???
 }

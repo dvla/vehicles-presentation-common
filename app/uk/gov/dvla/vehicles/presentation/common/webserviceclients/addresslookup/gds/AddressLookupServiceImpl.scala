@@ -61,32 +61,6 @@ final class AddressLookupServiceImpl @Inject()(ws: AddressLookupWebService, heal
     }
   }
 
-  override def fetchAddressForUprn(uprn: String, trackingId: TrackingId)
-                                  (implicit lang: Lang): Future[Option[AddressModel]] = {
-    def toViewModel(resp: WSResponse) = {
-      val addresses = extractFromJson(resp)
-      require(addresses.nonEmpty, s"Should be at least one address for the UPRN: $uprn")
-      Some(AddressModel(uprn = Some(addresses.head.presentation.uprn.toLong), address = addresses.head.toViewModel))
-      // Translate to view model.
-    }
-
-    healthStats.report(AddressLookupServiceImpl.ServiceName) {
-      ws.callUprnWebService(uprn, trackingId).map { resp =>
-        logMessage(trackingId, Debug, s"Http response code from GDS postcode lookup service was: ${resp.status}")
-        if (resp.status == play.api.http.Status.OK) toViewModel(resp)
-        else {
-          logMessage(trackingId, Error, s"UPRN service returned abnormally " +
-            s"'${resp.status}: ${resp.body}'")
-          None
-        }
-      }.recover {
-        case e: Throwable =>
-          logMessage(trackingId, Error, s"GDS uprn lookup service error: $e")
-          None
-      }
-    }
-  }
-
   def addresses(postcode: String, trackingId: TrackingId)
                (implicit lang: Lang): Future[Seq[AddressDto]] = {
     healthStats.report(AddressLookupServiceImpl.ServiceName) {

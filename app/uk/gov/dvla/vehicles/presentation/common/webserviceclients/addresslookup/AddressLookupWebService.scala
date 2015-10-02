@@ -14,6 +14,4 @@ trait AddressLookupWebService {
   def callAddresses(postcode: String, trackingId: TrackingId)
                             (implicit lang: Lang): Future[WSResponse]
 
-  def callUprnWebService(uprn: String, trackingId: TrackingId)
-                        (implicit lang: Lang): Future[WSResponse]
 }

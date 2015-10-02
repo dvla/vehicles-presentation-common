@@ -36,9 +36,6 @@ final class NewKeeperChooseYourAddressUnitSpec extends UnitSpec {
                                           (implicit lang: Lang): Future[Seq[(String, String)]] =
       Future(Seq((PostcodeValid, "not an address")))
 
-    override def fetchAddressForUprn(uprn: String, trackingId: TrackingId)(implicit lang: Lang) =
-      Future(Some(AddressModel(None, Seq("not an address"))))
-
     override def addresses(postcode: String, trackingId: TrackingId)(implicit lang: Lang): Future[Seq[AddressDto]] = ???
   }
 

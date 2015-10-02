@@ -8,11 +8,8 @@ import uk.gov.dvla.vehicles.presentation.common.webserviceclients.addresslookup.
 
 trait AddressLookupService {
 
-  def fetchAddressesForPostcode(postcode: String, trackingId: TrackingId, showBusinessName: Option[Boolean] = None)
+  def fetchAddressesForPostcode(postcode: String, trackingId: TrackingId)
                                (implicit lang: Lang): Future[Seq[(String, String)]]
-
-  def fetchAddressForUprn(uprn: String, trackingId: TrackingId)
-                         (implicit lang: Lang): Future[Option[AddressModel]]
 
   def addresses(postcode: String, trackingId: TrackingId)
                (implicit lang: Lang): Future[Seq[AddressDto]]

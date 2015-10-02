@@ -28,8 +28,6 @@ class NewKeeperChooseYourAddressBaseTesting(protected override val addressLookup
 
   import NewKeeperChooseYourAddressBaseTesting._
 
-  protected def ordnanceSurveyUseUprn: Boolean = true
-
   val presentResultArgs = ArrayBuffer[NewKeeperChooseYourAddressViewModel]()
   
   val invalidFormResultArgs = ArrayBuffer[NewKeeperChooseYourAddressViewModel]()

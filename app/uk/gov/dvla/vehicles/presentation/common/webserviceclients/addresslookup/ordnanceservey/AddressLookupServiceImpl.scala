@@ -65,43 +65,6 @@ final class AddressLookupServiceImpl @Inject()(ws: AddressLookupWebService,
     }
   }
 
-  override def fetchAddressForUprn(uprn: String, trackingId: TrackingId)
-                                  (implicit lang: Lang): Future[Option[AddressModel]] = {
-
-    // Extract result from response and return as a view model.
-    def extractFromJson(resp: WSResponse): Option[UprnToAddressResponseDto] =
-      resp.json.asOpt[UprnToAddressResponseDto]
-
-    def toViewModel(resp: WSResponse) =
-      extractFromJson(resp) match {
-        case Some(deserialized) => deserialized.addressViewModel
-        case None =>
-          val uprnToLog = LogFormats.anonymize(uprn)
-          val msg = s"Could not deserialize response of web service for submitted UPRN: $uprnToLog"
-          logMessage(trackingId, Error, msg)
-          None
-      }
-
-    ws.callUprnWebService(uprn, trackingId).map { resp =>
-      val msg = s"Http response code from Ordnance Survey uprn lookup service was: ${resp.status}"
-      logMessage(trackingId, Debug, msg)
-      if (resp.status == play.api.http.Status.OK) {
-        healthStats.success(HealthStatsSuccess(ServiceName, dateService.now))
-        toViewModel(resp)
-      } else {
-        val msg = s"Post code service returned abnormally '${resp.status}: ${resp.body}'"
-        logMessage(trackingId, Error, msg)
-        healthStats.failure(HealthStatsFailure(ServiceName, dateService.now, new Exception()))
-        None
-      }
-    }.recover {
-      case e: Throwable =>
-        logMessage(trackingId, Error, s"Ordnance Survey postcode lookup service error $e")
-        healthStats.failure(HealthStatsFailure(ServiceName, dateService.now, e))
-        None
-    }
-  }
-
   def addresses(postcode: String, trackingId: TrackingId)
                (implicit lang: Lang): Future[Seq[AddressDto]] = {
     ws.callAddresses(postcode, trackingId)(lang).map { resp =>
