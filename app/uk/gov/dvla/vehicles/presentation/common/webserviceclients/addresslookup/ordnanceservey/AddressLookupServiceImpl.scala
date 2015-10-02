@@ -26,8 +26,7 @@ final class AddressLookupServiceImpl @Inject()(ws: AddressLookupWebService,
   import AddressLookupServiceImpl.ServiceName
 
   override def fetchAddressesForPostcode(postcode: String,
-                                         trackingId: TrackingId,
-                                         showBusinessName: Option[Boolean] = None)
+                                         trackingId: TrackingId)
                                         (implicit lang: Lang): Future[Seq[(String, String)]] = {
 
     def extractFromJson(resp: WSResponse): Option[PostcodeToAddressResponseDto] =
@@ -44,7 +43,7 @@ final class AddressLookupServiceImpl @Inject()(ws: AddressLookupWebService,
           Seq.empty// Exception case and empty seq case are treated the same in the UI
       }
 
-    ws.callPostcodeWebService(postcode, trackingId, showBusinessName)(lang).map { resp =>
+    ws.callPostcodeWebService(postcode, trackingId)(lang).map { resp =>
       val msg = s"Http response code from Ordnance Survey postcode lookup service was: ${resp.status}"
       logMessage(trackingId, Debug, msg)
       if (resp.status == play.api.http.Status.OK) {

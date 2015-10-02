@@ -31,8 +31,7 @@ final class NewKeeperChooseYourAddressUnitSpec extends UnitSpec {
   implicit val cacheKeyPrefix = CacheKeyPrefix("testing-prefix")
   implicit val AddressService: AddressLookupService = new AddressLookupService {
     override def fetchAddressesForPostcode(postcode: String,
-                                           trackingId: TrackingId,
-                                           showBusinessName: Option[Boolean])
+                                           trackingId: TrackingId)
                                           (implicit lang: Lang): Future[Seq[(String, String)]] =
       Future(Seq((PostcodeValid, "not an address")))
 

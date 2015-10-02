@@ -15,12 +15,11 @@ final class WebServiceImpl @Inject()(config: OrdnanceSurveyConfig) extends Addre
   private val baseUrl: String = config.baseUrl
   private val requestTimeout: Int = config.requestTimeout
 
-  override def callPostcodeWebService(postcode: String, trackingId: TrackingId, showBusinessName: Option[Boolean])
+  override def callPostcodeWebService(postcode: String, trackingId: TrackingId)
                                      (implicit lang: Lang): Future[WSResponse] = {
     val endPoint = s"$baseUrl/postcode-to-address?" +
       postcodeParam(postcode) +
-      languageParam +
-      showBusinessNameParam(showBusinessName)
+      languageParam
 
     val postcodeToLog = LogFormats.anonymize(postcode)
     val msg = s"Calling ordnance-survey postcode lookup micro-service with $postcodeToLog"
@@ -51,6 +50,4 @@ final class WebServiceImpl @Inject()(config: OrdnanceSurveyConfig) extends Addre
 
   private def languageParam(implicit lang: Lang) = s"&languageCode=${lang.code.toUpperCase}"
 
-  private def showBusinessNameParam(showBusinessName: Option[Boolean]) =
-    if(showBusinessName.isDefined) s"&showBusinessName=${showBusinessName.get}" else ""
 }
