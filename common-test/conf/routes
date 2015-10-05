@@ -92,4 +92,5 @@ GET     /registration-number            @uk.gov.dvla.vehicles.presentation.commo
 
 GET     /summary-wrapper                @uk.gov.dvla.vehicles.presentation.common.controllers.SummaryWrapperController.present
 
+GET     /playback                       @uk.gov.dvla.vehicles.presentation.common.controllers.PlaybackController.present
 
