@@ -268,21 +268,3 @@ alertWarning.message2 = This is a second warning
 # Registration number
 registration-number-title = Registration Number
 registration.number1 = A1
-
-# Playback
-playback-title = Playback
-playback-vehicle_callback.title = Vehicle details
-playback-vehicle_callback.regNumLabel = Registration number:
-playback-registrationNumber = A 1
-playback-vehicle_callback.makeLabel = Make:
-playback-vehicleMake = Ford
-playback-vehicle_callback.modelLabel = Model:
-playback-vehicleModel = Focus
-
-playback-trader_details.title = Trader details
-playback-trader_details.trader_name = Trader name
-playback-trader_details.name = Jones
-playback-trader_details.trader_address = Trader address
-playback-trader_details.address_1 = 1 Not a real street
-playback-trader_details.address_2 = Not a real town
-playback-trader_details.postcode = AA11AA

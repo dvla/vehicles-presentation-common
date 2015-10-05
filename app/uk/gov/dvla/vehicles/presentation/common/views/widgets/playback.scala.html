@@ -1,8 +1,0 @@
-@(heading: String, content: scala.collection.mutable.LinkedHashMap[String, String])(implicit lang: Lang)
-
-@import uk.gov.dvla.vehicles.presentation.common.views.html.widgets.playbackList
-
-<dl class="playback">
-    <h2>@heading</h2>
-    @playbackList(content)
-</dl>
