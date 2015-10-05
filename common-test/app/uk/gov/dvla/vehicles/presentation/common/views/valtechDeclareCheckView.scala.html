@@ -20,6 +20,13 @@
             'autofocus -> true)
         )
 
+        @valtechDeclareCheck(valtechDeclareCheckForm(DeclareSelectId),
+            args =  Map('_label -> Messages("valtechDeclareCheck.label"),
+            '_showConstraints -> false,
+            'autofocus -> true,
+            'tooltipText -> Messages("valtechDeclareCheck.label"))
+        )
+
         <div class="form-steps">
             <button id="submit" type="submit" name="action" class="button" aria-label="Next button">@Messages("valtechDeclareCheck.button")</button>
         </div>

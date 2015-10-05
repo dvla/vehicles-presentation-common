@@ -9,23 +9,42 @@
 @import views.html.widgets.base.hintTextSnippet
 
 @input(field, args.toSeq: _*) { (id, name, value, htmlArgs) =>
+        @if(args.contains('tooltipText)) {
+            <label class="form-checkbox with-tooltip selectable">
+        } else {
+            <label class="form-checkbox selectable">
+        }
+        <input
+               id="@id"
+               name="@name"
+               @toHtmlArgs(
+                   htmlArgs.valueElseTrue.
+                           checkedWhenValueMatches(value).
+                           withAriaDescribedby(hintText, id).
+                           withTypeAttributeCheckbox.
+                           withAriaInvalid(field.hasErrors).
+                           withAriaRequired(field.constraints)
+               )
+        >
 
-<label class="form-checkbox selectable">
-    <input
-           id="@id"
-           name="@name"
-           @toHtmlArgs(
-               htmlArgs.valueElseTrue.
-                       checkedWhenValueMatches(value).
-                       withAriaDescribedby(hintText, id).
-                       withTypeAttributeCheckbox.
-                       withAriaInvalid(field.hasErrors).
-                       withAriaRequired(field.constraints)
-           )
-    >
+        @valtechLabelText(field,args)
+    </label>
 
-    @valtechLabelText(field,args)
-</label>
+    @hintTextSnippet(hintText, idOfRelatedInput = id)
 
-@hintTextSnippet(hintText, idOfRelatedInput = id)
+    @if(args.contains('tooltipText)) {
+        <span class="tooltip-icon-declare">
+            <a href="?#@id" tabindex="-1" class="field-help js-only" data-tooltip="tooltip_@id" aria-hidden="true">
+                <span class="field-help-icon">i</span>
+                <span class="field-help-close" >Close</span>
+            </a>
+        </span>
+        <div class="field-help-content no-js-only" data-tooltip="tooltip_@id">
+            <div class="panel-indent-wrapper">
+                <div class="panel-indent">
+                    <p>@args('tooltipText)</p>
+                </div>
+            </div>
+        </div>
+    }
 }
