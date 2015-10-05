@@ -180,40 +180,6 @@
             }
         }
     }
-
-    .summary-wrapper {
-      margin-bottom: 1em;
-
-      .summary {
-        color:#005EA5;
-        margin-bottom:15px;
-        cursor: pointer;
-        text-decoration: none;
-        strong {
-          text-decoration:underline;
-        }
-        &::before {
-          content: "\25BA";
-          margin-right: 8px;
-        }
-        &.active {
-          &::before {
-            content: "\25BC";
-          }
-        }
-        &:focus {
-            background: none;
-            outline: none;
-        }
-      }
-
-      .details {
-          border-left: 4px solid #bfc1c3;
-          padding: 10px 0 10px 15px;
-          margin: 10px 15px 45px 0;
-      }
-    }
-
 }
 
 // Fixes button rendering in Firefox
