@@ -1,0 +1,15 @@
+@(content: scala.collection.mutable.LinkedHashMap[String, String])
+
+@import uk.gov.dvla.vehicles.presentation.common.views.html.widgets.registrationNumber
+@import java.lang.String; val regNumberFlag = "REG_"; var temp = ""
+
+@for((label,value) <- content){
+
+    @if(label.startsWith(regNumberFlag)) {
+        <dt>@label.stripPrefix(regNumberFlag)</dt>
+        @registrationNumber() {@value}
+    } else {
+        <dt>@label</dt>
+        <dd>@Html(value)</dd> @* use @Html to render a string *@
+    }
+}

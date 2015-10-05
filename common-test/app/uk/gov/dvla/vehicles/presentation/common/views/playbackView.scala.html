@@ -1,0 +1,36 @@
+@()
+
+@import scala.collection.mutable.LinkedHashMap
+@import uk.gov.dvla.vehicles.presentation.common
+@import common.views.html.widgets.playback
+@import uk.gov.dvla.vehicles.presentation.common.models
+@import uk.gov.dvla.vehicles.presentation.common.controllers
+
+@main(
+title = Messages("playback-title")
+) {
+    <div class="two-col">
+        <div class="second-col"></div>
+        <div class="first-col">
+            @{
+                val playbackItems: LinkedHashMap[String, String] = LinkedHashMap();
+                val flaggedRegNumberLabel: String = "REG_" + Messages("playback-vehicle_callback.regNumLabel")
+                playbackItems += (flaggedRegNumberLabel -> Messages("playback-registrationNumber"))
+                playbackItems += (Messages("playback-vehicle_callback.makeLabel") -> Messages("playback-vehicleMake") )
+                playbackItems += (Messages("playback-vehicle_callback.modelLabel") -> Messages("playback-vehicleModel") )
+                playback(Messages("playback-vehicle_callback.title"), playbackItems)
+            }
+            @{
+                val playbackItems: LinkedHashMap[String, String] = LinkedHashMap();
+                playbackItems += (Messages("playback-trader_details.trader_name") -> Messages("playback-trader_details.name"))
+                val address = List(
+                                    Messages("playback-trader_details.address_1"),
+                                    Messages("playback-trader_details.address_2"),
+                                    Messages("playback-trader_details.postcode")
+                              )
+                playbackItems += (Messages("playback-trader_details.trader_address") -> address.mkString("<br/>"))
+                playback(Messages("playback-trader_details.title"), playbackItems)
+            }
+        </div>
+    </div>
+}
