@@ -14,19 +14,21 @@ final class VehicleAndKeeperLookupServiceImpl @Inject()(ws: VehicleAndKeeperLook
   import VehicleAndKeeperLookupServiceImpl.ServiceName
 
   override def invoke(cmd: VehicleAndKeeperLookupRequest,
-                      trackingId: TrackingId): Future[VehicleAndKeeperLookupResponse] =
+                      trackingId: TrackingId):
+                      Future[Either[VehicleAndKeeperLookupFailureResponse, VehicleAndKeeperLookupSuccessResponse]] =
     ws.invoke(cmd, trackingId).map { resp =>
       logMessage(trackingId, Debug, s"Vehicle and keeper lookup service returned ${resp.status} code")
       if (resp.status == Status.OK) {
-        val response = resp.json.as[VehicleAndKeeperLookupResponse]
-
-        // Horrible workaround to overcome the sophisticated way the errors are returned
-        response.responseCode match {
-          case Some(error) if error.code.startsWith("VMPR2") || error.code.startsWith("VMPR3") =>
-            healthStats.failure(ServiceName, new Exception(s"${error.code} - ${error.message}"))
-          case _ => healthStats.success(ServiceName)
-        }
-        response
+        healthStats.success(ServiceName)
+        Right(resp.json.as[VehicleAndKeeperLookupSuccessResponse])
+      } else if (resp.status == Status.INTERNAL_SERVER_ERROR) {
+        val e =  new RuntimeException(
+          s"Vehicle and keeper lookup web service call failed with ${resp.status}. " +
+          s"body: ${resp.body}'. Problem may come from either vehicle and keeper " +
+          s"lookup micro-service or the VPDS - trackingId: $trackingId"
+        )
+        healthStats.failure(ServiceName, e)
+        Left(resp.json.as[VehicleAndKeeperLookupFailureResponse])
       } else {
         val e =  new RuntimeException(
           s"Vehicle and keeper lookup web service call http status not OK, it " +

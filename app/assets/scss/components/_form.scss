@@ -198,7 +198,7 @@
         position:relative;
         background:$grey-8;
         padding:12px 14px;
-        margin:0 0 1em 0;
+        margin: 0 0 1em 0;
         overflow:hidden;
         cursor:pointer;
         clear:left;
@@ -212,9 +212,8 @@
         }
 
         @media screen and (min-width: $device-small) {
-            width:auto;
+            width: auto;
         }
-
         input {
             float:left;
             width:auto;
@@ -242,6 +241,12 @@
             border: 1px solid #555;
             background: #fff;
             padding: 11px 13px;
+        }
+    }
+
+    label.form-checkbox.with-tooltip {
+        @media screen and (min-width: $device-small) {
+            width: 80%;
         }
     }
 

@@ -89,4 +89,4 @@ GET     /test-context-path/address-lookup/postcode/:postcode   @uk.gov.dvla.vehi
 GET     /alert-warning                  @uk.gov.dvla.vehicles.presentation.common.controllers.AlertWarningController.present
 
 GET     /registration-number            @uk.gov.dvla.vehicles.presentation.common.controllers.RegistrationNumberController.present
-
+GET     /summary-wrapper                @uk.gov.dvla.vehicles.presentation.common.controllers.SummaryWrapperController.present

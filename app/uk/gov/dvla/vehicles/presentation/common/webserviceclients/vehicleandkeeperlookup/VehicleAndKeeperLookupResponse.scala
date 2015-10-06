@@ -1,14 +1,19 @@
 package uk.gov.dvla.vehicles.presentation.common.webserviceclients.vehicleandkeeperlookup
 
 import play.api.libs.json.Json
+import uk.gov.dvla.vehicles.presentation.common.webserviceclients.common.MicroserviceResponse
 
-case class VehicleAndKeeperLookupErrorMessage(code: String, message: String)
+final case class VehicleAndKeeperLookupFailureResponse(response: MicroserviceResponse)
 
-case class VehicleAndKeeperLookupResponse(responseCode: Option[VehicleAndKeeperLookupErrorMessage],
-                                          vehicleAndKeeperDetailsDto: Option[VehicleAndKeeperLookupDetailsDto])
+final case class VehicleAndKeeperLookupSuccessResponse(
+                                                   vehicleAndKeeperDetailsDto: Option[VehicleAndKeeperLookupDetailsDto])
 
-object VehicleAndKeeperLookupResponse {
+object VehicleAndKeeperLookupFailureResponse {
 
-  implicit val VehicleAndKeeperLookupErrorMessageJsonFormat = Json.format[VehicleAndKeeperLookupErrorMessage]
-  implicit val VehicleAndKeeperLookupResponseJsonFormat = Json.format[VehicleAndKeeperLookupResponse]
+  implicit val VehicleAndKeeperLookupFailureResponseJsonFormat = Json.format[VehicleAndKeeperLookupFailureResponse]
+}
+
+object VehicleAndKeeperLookupSuccessResponse {
+
+  implicit val VehicleAndKeeperLookupSuccessResponseJsonFormat = Json.format[VehicleAndKeeperLookupSuccessResponse]
 }

@@ -51,7 +51,8 @@ class AcquireWebServiceImplSpec extends UnitSpec with WireMockFixture {
     traderPostCode = "QQ99QQ",
     traderEmailAddress = None))
 
-  val request = AcquireRequestDto(webHeader = new VssWebHeaderDto("1", new DateTime, "A", "B", VssWebEndUserDto("ORG","ENDUSERID")),
+  val request = AcquireRequestDto(
+    webHeader = new VssWebHeaderDto("1", new DateTime, "A", "B", VssWebEndUserDto("ORG","ENDUSERID")),
     referenceNumber = "ref num",
     registrationNumber = "vrm",
     keeperDetails,

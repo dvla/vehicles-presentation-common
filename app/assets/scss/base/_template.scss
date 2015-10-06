@@ -323,6 +323,8 @@ img {
         .field-help-close {
             text-decoration: underline;
             display: none;
+            line-height: 1.3em;
+            font-size: 1.9rem;
         }
     }
     @media screen and (min-width:$device-medium) {
@@ -332,12 +334,19 @@ img {
     }
 
     .field-help-content {
+        clear: both;
         .panel-indent-wrapper {
             .panel-indent {
                 margin-top: 10px;
                 margin-bottom: 20px;
             }
         }
+    }
+
+    .tooltip-icon-declare {
+        display: inline-block;
+        margin-top: 10px;
+        margin-left: -1em;
     }
 
     ul.help-list {
@@ -434,7 +443,6 @@ img {
                     width: auto;
                 }
             }
-
         }
         .address-find-wrapper {
             .ie7 & {
