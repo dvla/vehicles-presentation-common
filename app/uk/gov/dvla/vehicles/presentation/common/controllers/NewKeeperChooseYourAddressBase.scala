@@ -50,8 +50,7 @@ abstract class NewKeeperChooseYourAddressBase @Inject()(protected val addressLoo
   protected def businessKeeperDetailsRedirect(implicit request: Request[_]): Result
   protected def vehicleLookupRedirect(implicit request: Request[_]): Result
   protected def completeAndConfirmRedirect(implicit request: Request[_]): Result
-  protected def upnpNotFoundRedirect(implicit request: Request[_]): Result
-  
+
     val form: Form[NewKeeperChooseYourAddressFormModel] = Form(NewKeeperChooseYourAddressFormModel.Form.Mapping)
 
   private final val KeeperDetailsNotInCacheMessage = "Failed to find keeper details in cache. " +
@@ -201,23 +200,12 @@ abstract class NewKeeperChooseYourAddressBase @Inject()(protected val addressLoo
                                                postCode: String)
                                               (implicit request: Request[_]): Future[Result] = {
     fetchAddresses(postCode)(request).map { addresses =>
-      val indexSelected = model.uprnSelected.toInt
-
-      if (indexSelected < addresses.length) {
-        val lookedUpAddresses = addresses
-        val lookedUpAddress = lookedUpAddresses(indexSelected) match {
-          case (index, address) => address
-        }
+      val lookedUpAddress = model.uprnSelected
         val addressModel = VmAddressModel.from(lookedUpAddress)
         createNewKeeper(addressModel) match {
           case Some(newKeeperDetails) => nextPage(model, newKeeperDetails, addressModel)
           case _ => error("No new keeper details found in cache, redirecting to vehicle lookup")
         }
-      }
-      else {
-        // Guard against IndexOutOfBoundsException
-        upnpNotFoundRedirect
-      }
     }
   }
 

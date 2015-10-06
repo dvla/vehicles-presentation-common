@@ -59,8 +59,6 @@ class NewKeeperChooseYourAddressBaseTesting(protected override val addressLookup
   protected def businessKeeperDetailsRedirect(implicit request: Request[_]): Result = businessKeeperDetailsTestResult
   protected def vehicleLookupRedirect(implicit request: Request[_]): Result         = vehicleLookupTestResult
   protected def completeAndConfirmRedirect(implicit request: Request[_]): Result    = completeAndConfirmTestResult
-  protected def upnpNotFoundRedirect(implicit request: Request[_]): Result          = upnpNotFoundTestResult
-  
 
 }
 

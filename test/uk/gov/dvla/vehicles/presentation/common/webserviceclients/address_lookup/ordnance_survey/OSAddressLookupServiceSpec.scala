@@ -46,7 +46,7 @@ final class OSAddressLookupServiceSpec extends UnitSpec {
       whenReady(result, timeout) {
         r =>
           r.length should equal(postcodeToAddressResponseValid.addresses.length)
-          r should equal(postcodeToAddressResponseValid.addresses.map(i => (i.uprn, i.address)))
+          r should equal(postcodeToAddressResponseValid.addresses.map(i => (i.address, i.address)))
       }
       verify(healthStatsMock).success(
         new HealthStatsSuccess("os-address-lookup-microservice", dateService.now)

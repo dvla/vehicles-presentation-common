@@ -9,9 +9,7 @@ import scala.concurrent.Future
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.TrackingId
 import uk.gov.dvla.vehicles.presentation.common.model.AddressModel
 import uk.gov.dvla.vehicles.presentation.common.webserviceclients.addresslookup.AddressLookupWebService
-import uk.gov.dvla.vehicles.presentation.common.webserviceclients.addresslookup.ordnanceservey.UprnToAddressResponseDto
-import uk.gov.dvla.vehicles.presentation.common.webserviceclients.addresslookup.ordnanceservey.UprnAddressPairDto
-import uk.gov.dvla.vehicles.presentation.common.webserviceclients.addresslookup.ordnanceservey.PostcodeToAddressResponseDto
+import uk.gov.dvla.vehicles.presentation.common.webserviceclients.addresslookup.ordnanceservey.{AddressResponseDto, UprnToAddressResponseDto, AddressResponseDto$, PostcodeToAddressResponseDto}
 import uk.gov.dvla.vehicles.presentation.common.webserviceclients.addresslookup.gds.domain.Address
 import uk.gov.dvla.vehicles.presentation.common.webserviceclients.addresslookup.gds.domain.Details
 import uk.gov.dvla.vehicles.presentation.common.webserviceclients.addresslookup.gds.domain.Location
@@ -42,7 +40,7 @@ object FakeAddressLookupWebServiceImpl {
   def uprnAddressPairWithDefaults(uprn: String = traderUprnValid.toString,
                                   houseName: String = "presentationProperty stub",
                                   houseNumber: String = "123") =
-    UprnAddressPairDto(uprn, address = addressSeq(houseName, houseNumber).mkString(", "))
+    AddressResponseDto(addressSeq(houseName, houseNumber).mkString(", "), Some(uprn), None)
 
   def postcodeToAddressResponseValid: PostcodeToAddressResponseDto = {
     val results = Seq(
@@ -73,7 +71,7 @@ object FakeAddressLookupWebServiceImpl {
   val uprnToAddressResponseValid = {
     val uprnAddressPair = uprnAddressPairWithDefaults()
     UprnToAddressResponseDto(addressViewModel = Some(AddressModel(
-      uprn = Some(uprnAddressPair.uprn.toLong),
+      uprn = None,
       address = uprnAddressPair.address.split(", ")))
     )
   }
