@@ -12,6 +12,9 @@
 
 @form(action = controls("submit")) {
   @csrfTokenHiddenField()
+  @alertWarning() {
+    <p><strong>@Messages("common_feedback.warning")</strong></p>
+  }
 
   <p>@Messages("common_feedback.message")</p>
   <p>@Messages("common_feedback.label")</p>
