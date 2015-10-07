@@ -244,12 +244,6 @@
         }
     }
 
-    label.form-checkbox.with-tooltip {
-        @media screen and (min-width: $device-small) {
-            width: 80%;
-        }
-    }
-
     // Expandable radio option widget
     .expandable-optional {
       legend {

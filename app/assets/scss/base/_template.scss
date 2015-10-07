@@ -301,6 +301,10 @@ img {
 
     .field-help {
         text-decoration: none;
+        white-space: nowrap;
+        min-width: 92px;
+        width: auto !important;
+        display: inline-block !important;
         &:focus {
             background-color: inherit;
             outline: inherit;
@@ -309,7 +313,7 @@ img {
           @extend .inline-desktop-only;
         }
         .field-help-icon {
-            display: none;                  // hidden by default - see media query below
+            display: inline-block;
             color: $govuk-blue;
             border: 1px solid $govuk-blue;
             -webkit-border-radius: 50%;
@@ -327,11 +331,6 @@ img {
             font-size: 1.9rem;
         }
     }
-    @media screen and (min-width:$device-medium) {
-        .field-help .field-help-icon {
-            display: inline-block;          // only show help icon on tablet and desktop
-        }
-    }
 
     .field-help-content {
         clear: both;
@@ -341,12 +340,6 @@ img {
                 margin-bottom: 20px;
             }
         }
-    }
-
-    .tooltip-icon-declare {
-        display: inline-block;
-        margin-top: 10px;
-        margin-left: -1em;
     }
 
     ul.help-list {

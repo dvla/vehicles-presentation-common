@@ -21,10 +21,11 @@
         )
 
         @valtechDeclareCheck(valtechDeclareCheckForm(DeclareSelectId),
-            args =  Map('_label -> Messages("valtechDeclareCheck.label"),
+            args =  Map('_label -> "I understand that I will lose the rights to this registration number when I confirm the sale",
             '_showConstraints -> false,
             'autofocus -> true,
-            'tooltipText -> Messages("valtechDeclareCheck.label"))
+            'tooltipText -> "If you have a personalised or private registration number on this vehicle that you want to keep, you must transfer or retain it before notifying the sale. If you notify the sale without doing this, you will lose the rights to the registration number."
+            )
         )
 
         <div class="form-steps">

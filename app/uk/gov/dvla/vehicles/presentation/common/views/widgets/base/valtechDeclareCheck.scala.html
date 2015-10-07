@@ -9,11 +9,7 @@
 @import views.html.widgets.base.hintTextSnippet
 
 @input(field, args.toSeq: _*) { (id, name, value, htmlArgs) =>
-        @if(args.contains('tooltipText)) {
-            <label class="form-checkbox with-tooltip selectable">
-        } else {
-            <label class="form-checkbox selectable">
-        }
+    <label class="form-checkbox selectable">
         <input
                id="@id"
                name="@name"
@@ -26,19 +22,19 @@
                            withAriaRequired(field.constraints)
                )
         >
-
         @valtechLabelText(field,args)
+        @if(args.contains('tooltipText)) {
+            <a href="?#@id" tabindex="-1" class="field-help js-only" data-tooltip="tooltip_@id" aria-hidden="true">
+                <span class="field-help-icon">i</span>
+                <span class="field-help-close" >Close</span>
+            </a>
+        }
     </label>
 
     @hintTextSnippet(hintText, idOfRelatedInput = id)
 
     @if(args.contains('tooltipText)) {
-        <span class="tooltip-icon-declare">
-            <a href="?#@id" tabindex="-1" class="field-help js-only" data-tooltip="tooltip_@id" aria-hidden="true">
-                <span class="field-help-icon">i</span>
-                <span class="field-help-close" >Close</span>
-            </a>
-        </span>
+
         <div class="field-help-content no-js-only" data-tooltip="tooltip_@id">
             <div class="panel-indent-wrapper">
                 <div class="panel-indent">
