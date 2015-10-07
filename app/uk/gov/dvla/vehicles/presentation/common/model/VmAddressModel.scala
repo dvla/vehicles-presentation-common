@@ -13,8 +13,10 @@ object VmAddressModel {
   def from(addressString: String): AddressModel =
     AddressModel(uprn = None, address = joinAddressesIfNeeded(addressString.split(",") map (line => line.trim)))
 
+  private def countAllowedLineCharacters(s: String) = s.count(_.isLetter)
+
   private def joinAddressesIfNeeded(addresses: Seq[String]): Seq[String] = addresses.toList match {
-    case head :: second :: tail  if head.length < AddressLinesViewModel.Form.BuildingNameOrNumberMinLength =>
+    case head :: second :: tail  if countAllowedLineCharacters(head) < AddressLinesViewModel.Form.BuildingNameOrNumberMinLength =>
       joinAddressesIfNeeded(s"$head $second" :: tail)
     case _ => addresses
   }
