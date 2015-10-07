@@ -1,0 +1,64 @@
+@()
+
+@import scala.collection.mutable.LinkedHashMap
+@import uk.gov.dvla.vehicles.presentation.common
+@import common.views.html.widgets.playbackList
+
+@main(
+title = Messages("playback-title")
+) {
+    <div class="two-col">
+        <div class="second-col"></div>
+        <div class="first-col">
+            @playbackList(
+                Messages("playback-vehicle_callback.title"),
+                {
+                    val playbackItems: LinkedHashMap[String, String] = LinkedHashMap();
+                    val flaggedRegNumberLabel: String = "REG_" + Messages("playback-vehicle_callback.regNumLabel")
+                    playbackItems += (flaggedRegNumberLabel -> Messages("playback-registrationNumber"))
+                    playbackItems += (Messages("playback-vehicle_callback.makeLabel") -> Messages("playback-vehicleMake"))
+                    playbackItems += (Messages("playback-vehicle_callback.modelLabel") -> Messages("playback-vehicleModel"))
+                }
+            )()
+            @playbackList(
+                Messages("playback-trader_details.title"),
+                {
+                    val playbackItems: LinkedHashMap[String, String] = LinkedHashMap();
+                    playbackItems += (Messages("playback-trader_details.trader_name") -> Messages("playback-trader_details.name"))
+                    val address = List(
+                        Messages("playback-trader_details.address_1"),
+                        Messages("playback-trader_details.address_2"),
+                        Messages("playback-trader_details.postcode")
+                    )
+                    playbackItems += (Messages("playback-trader_details.trader_address") -> address.mkString("<br/>"))
+                }
+            )()
+            @playbackList(
+                Messages("playback-vehicle_callback.title"),
+                {
+                    val playbackItems: LinkedHashMap[String, String] = LinkedHashMap();
+                    val flaggedRegNumberLabel: String = "REG_" + Messages("playback-vehicle_callback.regNumLabel")
+                    playbackItems += (flaggedRegNumberLabel -> Messages("playback-registrationNumber"))
+                }
+            ) {
+                <br/>
+                <br/>
+                <p>@Messages("playback-keeper-application-details-contact-us")</p>
+                <div style="line-height : 75 % ;">
+                    <br/>
+                </div>
+                <p>@Messages("playback-keeper-application-details-telephone")</p>
+                <p><strong>@Messages("playback-keeper-application-details-telephone-number")</strong>
+                    <strong><small>@Messages("playback-keeper-application-details-telephone-number-extension1") @Messages("playback-keeper-application-details-telephone-number-extension2") @Messages("playback-keeper-application-details-telephone-number-extension3")</small></strong>
+                </p>
+                <br/>
+                <p>@Messages("playback-keeper-application-details-monday-to-friday")</p>
+                <p>@Messages("playback-keeper-application-details-saturday")</p>
+                <p>@Messages("playback-keeper-application-details-sunday")</p>
+                <br/>
+                <p>@Messages("playback-keeper-application-details-textphone")</p>
+                <p><strong>@Messages("playback-keeper-application-details-textphone-number")</strong></p>
+            }
+        </div>
+    </div>
+}
