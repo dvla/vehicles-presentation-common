@@ -31,7 +31,8 @@ title = Messages("playback-title")
                         Messages("playback-trader_details.postcode")
                     )
                     playbackItems += (Messages("playback-trader_details.trader_address") -> address.mkString("<br/>"))
-                }
+                },
+                List("vehicle-sold-by", "bg-plain")
             )()
             @playbackList(
                 Messages("playback-vehicle_callback.title"),
