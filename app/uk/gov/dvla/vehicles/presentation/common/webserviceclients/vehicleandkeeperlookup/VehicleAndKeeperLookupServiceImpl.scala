@@ -41,8 +41,7 @@ final class VehicleAndKeeperLookupServiceImpl @Inject()(ws: VehicleAndKeeperLook
     }.recover {
       case NonFatal(e) =>
         healthStats.failure(ServiceName, e)
-        throw new RuntimeException("Vehicle and keeper lookup call failed for an unknown " +
-          s"reason - trackingId: $trackingId", e)
+        throw e
     }
 }
 

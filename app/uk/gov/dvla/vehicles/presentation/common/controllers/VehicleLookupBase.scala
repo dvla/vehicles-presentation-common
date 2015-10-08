@@ -118,7 +118,7 @@ abstract class VehicleLookupBase[FormModel <: VehicleLookupFormModelBase]
         }
         result
     } recover {
-      case NonFatal(e) => microServiceErrorResult("Lookup web service call failed.", e, formModel)
+      case NonFatal(e) => microServiceErrorResult("Vehicle lookup web service call failed.", e, formModel)
     }
   }
 
@@ -179,7 +179,7 @@ abstract class VehicleLookupBase[FormModel <: VehicleLookupFormModelBase]
   private def microServiceErrorResult(message: String, exception: Throwable, formModel: FormModel)
                                      (implicit request: Request[_]): Result = {
     logMessage(request.cookies.trackingId(),Error, message)
-    logMessage(request.cookies.trackingId(),Error, exception.getMessage)
+    logMessage(request.cookies.trackingId(),Error, s"Failure was because: ${exception.getMessage}")
     microServiceError(exception, formModel)
   }
 
