@@ -92,6 +92,11 @@ class AddressLookupWithOrgnameServiceImpl @Inject()(ws: AddressLookupWebService,
   }
 
   def toDropDownFormat(addresses: Seq[AddressResponseDto]): Seq[(String, String)] =
-    addresses.map(address => (address.address, address.businessName + ", " + address.address))
-
+    addresses.map(aR => (aR.address, aR.businessName match {
+      case Some(businessName) => {
+        businessName + ", " + aR.address
+      }
+      case _ => aR.address
+    })
+    )
 }
