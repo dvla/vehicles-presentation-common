@@ -1,6 +1,6 @@
-@(heading: String)(html: Html)(implicit lang: Lang)
+@(heading: String, cssClasses: List[String] = Nil)(html: Html)(implicit lang: Lang)
 
-<dl class="playback">
+<dl class="@(("playback" :: cssClasses).mkString(" "))">
     <dt><h2>@heading</h2></dt>
     @html
 </dl>
