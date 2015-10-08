@@ -16,13 +16,13 @@ import uk.gov.dvla.vehicles.presentation.common.webserviceclients.healthstats.He
 import uk.gov.dvla.vehicles.presentation.common.webserviceclients.healthstats.HealthStatsSuccess
 import uk.gov.dvla.vehicles.presentation.common.webserviceclients.healthstats.HealthStats
 
-object AddressLookupServiceImpl {
+object AddressLookupWithOrgnameServiceImpl {
   final val ServiceName = "os-address-lookup-microservice"
 }
 
-class AddressLookupServiceImpl @Inject()(ws: AddressLookupWebService,
-                                               dateService: DateService,
-                                               healthStats: HealthStats) extends AddressLookupService with DVLALogger {
+class AddressLookupWithOrgnameServiceImpl @Inject()(ws: AddressLookupWebService,
+                                         dateService: DateService,
+                                         healthStats: HealthStats) extends AddressLookupService with DVLALogger {
   import AddressLookupServiceImpl.ServiceName
 
   override def fetchAddressesForPostcode(postcode: String,
@@ -92,6 +92,11 @@ class AddressLookupServiceImpl @Inject()(ws: AddressLookupWebService,
   }
 
   def toDropDownFormat(addresses: Seq[AddressResponseDto]): Seq[(String, String)] =
-    addresses.map(address => (address.address, address.address))
-
+    addresses.map(aR => (aR.address, aR.businessName match {
+      case Some(businessName) => {
+        businessName + ", " + aR.address
+      }
+      case _ => aR.address
+    })
+    )
 }

@@ -19,21 +19,10 @@ final class WebServiceImpl @Inject()(config: GDSAddressLookupConfig) extends Add
   def postcodeWithNoSpaces(postcode: String): String = postcode.filter(_ != ' ')
 
   // request should look like    (GET, "/addresses?postcode=kt70ej").withHeaders(validAuthHeader)
-  override def callPostcodeWebService(postcode: String, trackingId: TrackingId, showBusinessName: Option[Boolean])
+  override def callPostcodeWebService(postcode: String, trackingId: TrackingId)
                                      (implicit lang: Lang): Future[WSResponse] = {
     val endPoint = s"$baseUrl/addresses?postcode=${ postcodeWithNoSpaces(postcode) }"
     logMessage(trackingId, Debug, s"Calling GDS postcode lookup service on $endPoint")
-    WS.url(endPoint).
-      withHeaders("AUTHORIZATION" -> authorisation).
-      withHeaders(HttpHeaders.TrackingId -> trackingId.value).
-      withRequestTimeout(requestTimeout). // Timeout is in milliseconds
-      get()
-  }
-
-  override def callUprnWebService(uprn: String, trackingId: TrackingId)
-                                 (implicit lang: Lang): Future[WSResponse] = {
-    val endPoint = s"$baseUrl/uprn?uprn=$uprn"
-    logMessage(trackingId, Debug, s"Calling GDS uprn lookup service on")
     WS.url(endPoint).
       withHeaders("AUTHORIZATION" -> authorisation).
       withHeaders(HttpHeaders.TrackingId -> trackingId.value).

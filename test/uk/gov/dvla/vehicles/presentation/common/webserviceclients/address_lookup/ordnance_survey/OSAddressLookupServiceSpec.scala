@@ -46,7 +46,7 @@ final class OSAddressLookupServiceSpec extends UnitSpec {
       whenReady(result, timeout) {
         r =>
           r.length should equal(postcodeToAddressResponseValid.addresses.length)
-          r should equal(postcodeToAddressResponseValid.addresses.map(i => (i.uprn, i.address)))
+          r should equal(postcodeToAddressResponseValid.addresses.map(i => (i.address, i.address)))
       }
       verify(healthStatsMock).success(
         new HealthStatsSuccess("os-address-lookup-microservice", dateService.now)
@@ -110,86 +110,6 @@ final class OSAddressLookupServiceSpec extends UnitSpec {
         PostcodeValid,
         ClearTextClientSideSessionFactory.DefaultTrackingId
       )
-
-      whenReady(result, timeout) {
-        _ shouldBe empty
-      }
-      verify(healthStatsMock).success(
-        new HealthStatsSuccess("os-address-lookup-microservice", dateService.now)
-      )
-    }
-  }
-
-  "fetchAddressForUprn" should {
-    "return AddressViewModel when response status is 200 OK" in {
-      val (service, healthStatsMock)  = addressServiceMock(responseValidForUprnToAddress)
-
-      val result = service.fetchAddressForUprn(
-        traderUprnValid.toString,
-        ClearTextClientSideSessionFactory.DefaultTrackingId
-      )
-
-      whenReady(result, timeout) {
-        case Some(addressViewModel) =>
-          addressViewModel.uprn.map(_.toString) should equal(Some(traderUprnValid.toString))
-          addressViewModel.address === uprnToAddressResponseValid.addressViewModel.get.address
-        case _ => fail("Should have returned Some(AddressViewModel)")
-      }
-      verify(healthStatsMock).success(
-        new HealthStatsSuccess("os-address-lookup-microservice", dateService.now)
-      )
-    }
-
-    "return None when response status not 200 OK" in {
-      val (service, healthStatsMock) =
-        addressServiceMock(responseUprn(NOT_FOUND, UprnToAddressResponseDto(addressViewModel = None)))
-
-      val result = service.fetchAddressForUprn(
-        traderUprnValid.toString,
-        ClearTextClientSideSessionFactory.DefaultTrackingId
-      )
-
-      whenReady(result, timeout) {
-        _ should equal(None)
-      }
-      verify(healthStatsMock).failure(
-        new HealthStatsFailure("os-address-lookup-microservice", dateService.now, any[Exception])
-      )
-    }
-
-    "return none when response status is 200 OK but results is empty" in {
-      val (service, healthStatsMock)  = addressServiceMock(responseUprn(OK, UprnToAddressResponseDto(addressViewModel = None)))
-
-      val result = service.fetchAddressForUprn(traderUprnValid.toString,
-        ClearTextClientSideSessionFactory.DefaultTrackingId)
-
-      whenReady(result, timeout) {
-        _ should equal(None)
-      }
-      verify(healthStatsMock).success(
-        new HealthStatsSuccess("os-address-lookup-microservice", dateService.now)
-      )
-    }
-
-    "return none when web service throws an exception" in {
-      val (service, healthStatsMock)  = addressServiceMock(responseThrows)
-
-      val result = service.fetchAddressForUprn(traderUprnValid.toString,
-        ClearTextClientSideSessionFactory.DefaultTrackingId)
-
-      whenReady(result) {
-        _ should equal(None)
-      }
-      verify(healthStatsMock).failure(
-        new HealthStatsFailure("os-address-lookup-microservice", dateService.now, responseThrowsException)
-      )
-    }
-
-    "return empty seq given invalid json" in {
-      val inputAsJson = Json.obj("addressViewModel" -> "INVALID")
-      val (service, healthStatsMock)  = addressServiceMock(response(OK, inputAsJson))
-
-      val result = service.fetchAddressForUprn(PostcodeValid, ClearTextClientSideSessionFactory.DefaultTrackingId)
 
       whenReady(result, timeout) {
         _ shouldBe empty

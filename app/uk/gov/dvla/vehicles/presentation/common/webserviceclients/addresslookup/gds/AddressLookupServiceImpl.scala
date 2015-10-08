@@ -8,7 +8,7 @@ import ExecutionContext.Implicits.global
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.TrackingId
 import uk.gov.dvla.vehicles.presentation.common.LogFormats.DVLALogger
 import uk.gov.dvla.vehicles.presentation.common.model.AddressModel
-import uk.gov.dvla.vehicles.presentation.common.webserviceclients.addresslookup.ordnanceservey.AddressDto
+import uk.gov.dvla.vehicles.presentation.common.webserviceclients.addresslookup.ordnanceservey.{AddressResponseDto, AddressDto}
 import uk.gov.dvla.vehicles.presentation.common.webserviceclients.addresslookup.{AddressLookupService, AddressLookupWebService}
 import uk.gov.dvla.vehicles.presentation.common.webserviceclients.addresslookup.gds.domain.Address
 import uk.gov.dvla.vehicles.presentation.common.webserviceclients.addresslookup.gds.domain.JsonFormats.addressFormat
@@ -27,7 +27,7 @@ final class AddressLookupServiceImpl @Inject()(ws: AddressLookupWebService, heal
       case e: Throwable => Seq.empty //  return empty seq given invalid json
     }
 
-  override def fetchAddressesForPostcode(postcode: String, trackingId: TrackingId, showBusinessName: Option[Boolean] = None)
+  override def fetchAddressesForPostcode(postcode: String, trackingId: TrackingId)
                                         (implicit lang: Lang): Future[Seq[(String, String)]] = {
     def sort(addresses: Seq[Address]): Seq[Address] = {
       addresses.sortBy(addressDpa => {
@@ -45,7 +45,7 @@ final class AddressLookupServiceImpl @Inject()(ws: AddressLookupWebService, heal
     }
 
     healthStats.report(AddressLookupServiceImpl.ServiceName) {
-      ws.callPostcodeWebService(postcode, trackingId, showBusinessName).map {
+      ws.callPostcodeWebService(postcode, trackingId).map {
         resp =>
           logMessage(trackingId, Debug, s"Http response code from GDS postcode lookup service was: ${resp.status}")
           if (resp.status == play.api.http.Status.OK) toDropDown(resp)
@@ -57,32 +57,6 @@ final class AddressLookupServiceImpl @Inject()(ws: AddressLookupWebService, heal
         case e: Throwable =>
           logMessage(trackingId, Error, s"GDS postcode lookup service error: $e")
           Seq.empty
-      }
-    }
-  }
-
-  override def fetchAddressForUprn(uprn: String, trackingId: TrackingId)
-                                  (implicit lang: Lang): Future[Option[AddressModel]] = {
-    def toViewModel(resp: WSResponse) = {
-      val addresses = extractFromJson(resp)
-      require(addresses.nonEmpty, s"Should be at least one address for the UPRN: $uprn")
-      Some(AddressModel(uprn = Some(addresses.head.presentation.uprn.toLong), address = addresses.head.toViewModel))
-      // Translate to view model.
-    }
-
-    healthStats.report(AddressLookupServiceImpl.ServiceName) {
-      ws.callUprnWebService(uprn, trackingId).map { resp =>
-        logMessage(trackingId, Debug, s"Http response code from GDS postcode lookup service was: ${resp.status}")
-        if (resp.status == play.api.http.Status.OK) toViewModel(resp)
-        else {
-          logMessage(trackingId, Error, s"UPRN service returned abnormally " +
-            s"'${resp.status}: ${resp.body}'")
-          None
-        }
-      }.recover {
-        case e: Throwable =>
-          logMessage(trackingId, Error, s"GDS uprn lookup service error: $e")
-          None
       }
     }
   }
@@ -112,4 +86,8 @@ final class AddressLookupServiceImpl @Inject()(ws: AddressLookupWebService, heal
       }
     }
   }
+
+  def toDropDownFormat(addresses: Seq[AddressResponseDto]): Seq[(String, String)] =
+    addresses.map(address => (address.address, address.address))
+
 }

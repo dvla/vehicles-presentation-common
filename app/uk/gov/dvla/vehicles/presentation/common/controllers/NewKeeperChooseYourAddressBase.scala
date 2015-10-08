@@ -29,8 +29,6 @@ abstract class NewKeeperChooseYourAddressBase @Inject()(protected val addressLoo
                                           (implicit protected val clientSideSessionFactory: ClientSideSessionFactory,
                                            prefix: CacheKeyPrefix) extends Controller with DVLALogger {
   
-  protected def ordnanceSurveyUseUprn: Boolean
-
   protected def presentView(model: NewKeeperChooseYourAddressViewModel,
                             name: String,
                             postcode: String,
@@ -52,8 +50,7 @@ abstract class NewKeeperChooseYourAddressBase @Inject()(protected val addressLoo
   protected def businessKeeperDetailsRedirect(implicit request: Request[_]): Result
   protected def vehicleLookupRedirect(implicit request: Request[_]): Result
   protected def completeAndConfirmRedirect(implicit request: Request[_]): Result
-  protected def upnpNotFoundRedirect(implicit request: Request[_]): Result
-  
+
     val form: Form[NewKeeperChooseYourAddressFormModel] = Form(NewKeeperChooseYourAddressFormModel.Form.Mapping)
 
   private final val KeeperDetailsNotInCacheMessage = "Failed to find keeper details in cache. " +
@@ -79,35 +76,21 @@ abstract class NewKeeperChooseYourAddressBase @Inject()(protected val addressLoo
 
   def present = Action.async { implicit request => switch(
     privateKeeperDetails => fetchAddresses(privateKeeperDetails.postcode).map { addresses =>
-      if (ordnanceSurveyUseUprn) openView(
+        openView(
         constructPrivateKeeperName(privateKeeperDetails),
         privateKeeperDetails.postcode,
         privateKeeperDetails.email,
         addresses,
-        isBusinessKeeper = false,
-        None
-      ) else openView(
-        constructPrivateKeeperName(privateKeeperDetails),
-        privateKeeperDetails.postcode,
-        privateKeeperDetails.email,
-        index(addresses),
         isBusinessKeeper = false,
         None
       )
     },
     businessKeeperDetails => fetchAddresses(businessKeeperDetails.postcode).map { addresses =>
-      if (ordnanceSurveyUseUprn) openView(
+      openView(
         businessKeeperDetails.businessName,
         businessKeeperDetails.postcode,
         businessKeeperDetails.email,
         addresses,
-        isBusinessKeeper = true,
-        businessKeeperDetails.fleetNumber
-      ) else openView(
-        businessKeeperDetails.businessName,
-        businessKeeperDetails.postcode,
-        businessKeeperDetails.email,
-        index(addresses),
         isBusinessKeeper = true,
         businessKeeperDetails.fleetNumber
       )
@@ -118,35 +101,21 @@ abstract class NewKeeperChooseYourAddressBase @Inject()(protected val addressLoo
   def submit = Action.async { implicit request =>
     def onInvalidForm(implicit invalidForm: Form[NewKeeperChooseYourAddressFormModel]) = switch(
       privateKeeperDetails => fetchAddresses(privateKeeperDetails.postcode).map { addresses =>
-        if (ordnanceSurveyUseUprn) handleInvalidForm(
+        handleInvalidForm(
           constructPrivateKeeperName(privateKeeperDetails),
           privateKeeperDetails.postcode,
           privateKeeperDetails.email,
           addresses,
-          isBusinessKeeper = false,
-          None
-        ) else handleInvalidForm(
-          constructPrivateKeeperName(privateKeeperDetails),
-          privateKeeperDetails.postcode,
-          privateKeeperDetails.email,
-          index(addresses),
           isBusinessKeeper = false,
           None
         )
       },
       businessKeeperDetails => fetchAddresses(businessKeeperDetails.postcode).map { addresses =>
-        if (ordnanceSurveyUseUprn) handleInvalidForm(
+        handleInvalidForm(
           businessKeeperDetails.businessName,
           businessKeeperDetails.postcode,
           businessKeeperDetails.email,
           addresses,
-          isBusinessKeeper = true,
-          businessKeeperDetails.fleetNumber
-        ) else handleInvalidForm(
-          businessKeeperDetails.businessName,
-          businessKeeperDetails.postcode,
-          businessKeeperDetails.email,
-          index(addresses),
           isBusinessKeeper = true,
           businessKeeperDetails.fleetNumber
         )
@@ -155,20 +124,8 @@ abstract class NewKeeperChooseYourAddressBase @Inject()(protected val addressLoo
     )
 
     def onValidForm(implicit validModel: NewKeeperChooseYourAddressFormModel) = switch(
-      privateKeeperDetails =>
-        if (ordnanceSurveyUseUprn) lookupUprn(
-          constructPrivateKeeperName(privateKeeperDetails),
-          privateKeeperDetails.email,
-          None,
-          isBusinessKeeper = false
-        ) else lookupAddressByPostcodeThenIndex(validModel, privateKeeperDetails.postcode),
-      businessKeeperDetails =>
-        if (ordnanceSurveyUseUprn) lookupUprn(
-          businessKeeperDetails.businessName,
-          businessKeeperDetails.email,
-          businessKeeperDetails.fleetNumber,
-          isBusinessKeeper = true
-        ) else lookupAddressByPostcodeThenIndex(validModel, businessKeeperDetails.postcode),
+      privateKeeperDetails => lookupAddressByPostcodeThenIndex(validModel, privateKeeperDetails.postcode),
+      businessKeeperDetails => lookupAddressByPostcodeThenIndex(validModel, businessKeeperDetails.postcode),
       message => Future.successful(error(message))
     )
 
@@ -225,28 +182,6 @@ abstract class NewKeeperChooseYourAddressBase @Inject()(protected val addressLoo
     addressLookupService.fetchAddressesForPostcode(postcode, request.cookies.trackingId)
   }
 
-  private def lookupUprn(newKeeperName: String,
-                         email: Option[String],
-                         fleetNumber: Option[String],
-                         isBusinessKeeper: Boolean)
-                        (implicit model: NewKeeperChooseYourAddressFormModel, request: Request[_]) = {
-    val session = clientSideSessionFactory.getSession(request.cookies)
-    val lookedUpAddress = addressLookupService.fetchAddressForUprn(model.uprnSelected.toString, request.cookies.trackingId)
-    lookedUpAddress.map {
-      case Some(addressViewModel) =>
-        createNewKeeper(addressViewModel) match {
-          case Some(newKeeperDetails) =>
-            completeAndConfirmRedirect//Redirect(routes.CompleteAndConfirm.present())
-              .discardingCookie(newKeeperEnterAddressManuallyCacheKey)
-              .withCookie(model)
-              .withCookie(newKeeperDetails)
-              .withCookie(allowGoingToCompleteAndConfirmPageCacheKey, "true")
-          case _ => error("No new keeper details found in cache, redirecting to vehicle lookup")
-        }
-      case None => upnpNotFoundRedirect //Redirect(routes.UprnNotFound.present())
-    }
-  }
-
   private def openView(name: String,
                        postcode: String,
                        email: Option[String],
@@ -261,36 +196,16 @@ abstract class NewKeeperChooseYourAddressBase @Inject()(protected val addressLoo
       case _ => error(VehicleDetailsNotInCacheMessage)
     }
 
-  private def index(addresses: Seq[(String, String)]) =
-    addresses.map {
-      case (uprn, address) => address
-    }. // Extract the address.
-      zipWithIndex. // Add an index for each address
-      map {
-      case (address, index) => (index.toString, address)
-    } // Flip them around so index comes first.
-
   private def lookupAddressByPostcodeThenIndex(model: NewKeeperChooseYourAddressFormModel,
                                                postCode: String)
                                               (implicit request: Request[_]): Future[Result] = {
     fetchAddresses(postCode)(request).map { addresses =>
-      val indexSelected = model.uprnSelected.toInt
-
-      if (indexSelected < addresses.length) {
-        val lookedUpAddresses = index(addresses)
-        val lookedUpAddress = lookedUpAddresses(indexSelected) match {
-          case (index, address) => address
-        }
+      val lookedUpAddress = model.uprnSelected
         val addressModel = VmAddressModel.from(lookedUpAddress)
         createNewKeeper(addressModel) match {
           case Some(newKeeperDetails) => nextPage(model, newKeeperDetails, addressModel)
           case _ => error("No new keeper details found in cache, redirecting to vehicle lookup")
         }
-      }
-      else {
-        // Guard against IndexOutOfBoundsException
-        upnpNotFoundRedirect
-      }
     }
   }
 

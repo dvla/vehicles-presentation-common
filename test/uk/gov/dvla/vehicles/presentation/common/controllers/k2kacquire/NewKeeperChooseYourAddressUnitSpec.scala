@@ -13,7 +13,7 @@ import common.testhelpers.CookieFactoryForUnitSpecs.{PostcodeValid, defaultKeepe
 import common.{WithApplication, UnitSpec}
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.{TrackingId, ClearTextClientSideSessionFactory, NoCookieFlags}
 import uk.gov.dvla.vehicles.presentation.common.testhelpers.CookieFactoryForUnitSpecs
-import uk.gov.dvla.vehicles.presentation.common.webserviceclients.addresslookup.ordnanceservey.AddressDto
+import uk.gov.dvla.vehicles.presentation.common.webserviceclients.addresslookup.ordnanceservey.{AddressResponseDto, AddressDto}
 import scala.concurrent.duration.DurationInt
 import uk.gov.dvla.vehicles.presentation.common.controllers.k2kacquire.PrivateKeeperDetailsTesting.presentTestResult
 import uk.gov.dvla.vehicles.presentation.common.model.{AddressModel, CacheKeyPrefix}
@@ -31,15 +31,13 @@ final class NewKeeperChooseYourAddressUnitSpec extends UnitSpec {
   implicit val cacheKeyPrefix = CacheKeyPrefix("testing-prefix")
   implicit val AddressService: AddressLookupService = new AddressLookupService {
     override def fetchAddressesForPostcode(postcode: String,
-                                           trackingId: TrackingId,
-                                           showBusinessName: Option[Boolean])
+                                           trackingId: TrackingId)
                                           (implicit lang: Lang): Future[Seq[(String, String)]] =
       Future(Seq((PostcodeValid, "not an address")))
 
-    override def fetchAddressForUprn(uprn: String, trackingId: TrackingId)(implicit lang: Lang) =
-      Future(Some(AddressModel(None, Seq("not an address"))))
-
     override def addresses(postcode: String, trackingId: TrackingId)(implicit lang: Lang): Future[Seq[AddressDto]] = ???
+
+    override def toDropDownFormat(addresses: Seq[AddressResponseDto]): Seq[(String, String)] = ???
   }
 
   private def controller = new NewKeeperChooseYourAddressBaseTesting(AddressService)

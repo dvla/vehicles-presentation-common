@@ -186,6 +186,7 @@ title = Title
 
 #Feedback
 feedbackForm.pageTitle = Feedback Form
+common_feedback.warning = This page is for feedback only and we are unable to offer a personal reply to your email
 common_feedback.message = Please enter your message
 common_feedback.label = This should be bold
 common_feedback.placeholder = placeholder
