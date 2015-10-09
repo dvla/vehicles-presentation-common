@@ -1,0 +1,35 @@
+@()(implicit lang: Lang)
+
+@import uk.gov.dvla.vehicles.presentation.common
+@import uk.gov.dvla.vehicles.presentation.common.models
+@import uk.gov.dvla.vehicles.presentation.common.controllers
+@import common.views.html.widgets.alertSuccess
+
+@main(title = Messages("alertSuccess.pageTitle")) {
+    @alertSuccess(Some(Messages("alertSuccess.heading"))) {
+        <!-- <h2><strong>@Messages("alertSuccess.message1")</strong></h2> -->
+        <strong>@Messages("alertSuccess.message1") in bold</strong>
+    }
+
+    @*
+    @alertSuccess(Messages("alertSuccess.heading")) {
+    *@
+    @alertSuccess(Some(Messages("alertSuccess.heading"))) {
+        @Messages("alertSuccess.message1")
+    }
+
+    @alertSuccess(Some(Messages("alertSuccess.heading"))) {
+        @Messages("alertSuccess.message1") with a <a href="#">link</a>
+        <!-- <p>This a message has a <a href="#">link</a></p>-->
+    }
+
+    @* header only *@
+    @* NOTE: no space preceeding the empty parenthesis at the end of the line*@
+    @alertSuccess(Some(Messages("alertSuccess.heading") + " header only"))()
+
+    @* usage without a header *@
+    @alertSuccess(){
+        @Messages("alertSuccess.message1") without a header
+    }
+
+}

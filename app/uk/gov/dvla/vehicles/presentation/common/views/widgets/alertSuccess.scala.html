@@ -1,0 +1,13 @@
+@(headerText: Option[String] = None)(body: Html = HtmlFormat.empty)
+@*
+@(header: String)(body: Html = HtmlFormat.empty)
+Usage tip: body should not contain h1,h2,h3 tags
+*@
+<div class="alert-complete">
+    @if(headerText.isDefined) {
+        <h1>@headerText</h1>
+        <br>
+    }
+    @body
+</div>
+

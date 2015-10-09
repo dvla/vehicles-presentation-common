@@ -266,6 +266,11 @@ alertWarning.pageTitle = Alert Warning
 alertWarning.message1 = This is a warning
 alertWarning.message2 = This is a second warning
 
+# Alert Success
+alertSuccess.pageTitle = Alert Success
+alertSuccess.heading = Thanks!
+alertSuccess.message1 = This is a success message
+
 # Registration number
 registration-number-title = Registration Number
 registration.number1 = A1
