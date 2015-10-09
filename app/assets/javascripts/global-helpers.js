@@ -1,3 +1,4 @@
+// FIXME: This file is no longer used and should be removed.
 require(["jquery"], function($) {
 
     // All the functions in this file are added as properties of the window object thus putting them in the global scope

@@ -1,3 +1,4 @@
+// FIXME: This file is no longer used and should be removed.
 function setCookie(e, t, n) {
     var r = e + "=" + t + "; path=/";
     if (n) {

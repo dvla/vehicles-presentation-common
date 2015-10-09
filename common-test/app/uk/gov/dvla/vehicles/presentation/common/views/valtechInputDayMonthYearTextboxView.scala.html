@@ -13,9 +13,8 @@ dateService: uk.gov.dvla.vehicles.presentation.common.services.DateService)(impl
     title = Messages("valtechInputDayMonthYear.pageTitle"),
     currentForm = Some(valtechInputDayMonthYearForm)
 ) {
+    <div id=@DateOfBirthId class="form-steps">
     @form(action = controllers.routes.ValtechInputDayMonthYearTextboxController.submit) {
-
-        <script src="@routes.Assets.at("lib/vehicles-presentation-common/javascripts/autofill-todays-date.js")" type="text/javascript"></script>
         @inputDayMonthYearTextbox(
             field = valtechInputDayMonthYearForm(DateOfBirthId),
             args = Map(
@@ -25,8 +24,10 @@ dateService: uk.gov.dvla.vehicles.presentation.common.services.DateService)(impl
             dateService = dateService,
             showTodaysDateButton = true
         )
-        <div class="form-steps">
-            <button id="submit" type="submit" name="action" class="button" aria-label="Next button">@Messages("valtechInputDayMonthYear.button")</button>
-        </div>
     }
+    </div>
+
+    <div class="form-steps">
+        <button id="submit" type="submit" name="action" class="button" aria-label="Next button">@Messages("valtechInputDayMonthYear.button")</button>
+    </div>
 }
