@@ -8,6 +8,7 @@
 @import common.views.html.widgets.registrationNumber
 
 @playback(heading, cssClasses){
+    <dl>
     @for((label,value) <- content){
         @if(label.startsWith(regNumberFlag)) {
             <dt>@label.stripPrefix(regNumberFlag)</dt>
@@ -17,5 +18,6 @@
             <dd>@Html(value)</dd>
         }
     }
+    </dl>
     @html
 }
