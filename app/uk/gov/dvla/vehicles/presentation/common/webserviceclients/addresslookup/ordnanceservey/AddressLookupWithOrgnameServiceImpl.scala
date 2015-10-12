@@ -34,7 +34,7 @@ class AddressLookupWithOrgnameServiceImpl @Inject()(ws: AddressLookupWebService,
 
     def toDropDown(resp: WSResponse): Seq[(String, String)] =
       extractFromJson(resp) match {
-        case Some(results) => toDropDownFormat(results.addresses)
+        case Some(results) => toDropDownFormat(results.addresses).sortWith(_._2 < _._2)
         case None =>
           // Handle no results
           val postcodeToLog = LogFormats.anonymize(postcode)
@@ -93,9 +93,7 @@ class AddressLookupWithOrgnameServiceImpl @Inject()(ws: AddressLookupWebService,
 
   def toDropDownFormat(addresses: Seq[AddressResponseDto]): Seq[(String, String)] =
     addresses.map(aR => (aR.address, aR.businessName match {
-      case Some(businessName) => {
-        businessName + ", " + aR.address
-      }
+      case Some(businessName) => businessName + ", " + aR.address
       case _ => aR.address
     })
     )
