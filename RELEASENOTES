@@ -1,3 +1,19 @@
+======= 2.34 ======
+Time of release binaries creation:
+Wed Oct 14 06:24:20 UTC 2015
+
+DE646 Insufficient characters in first line of address
+US1410 Widget code tidy up - change the inputDayMonthYear widget so that it uses the same mapping as the valtechDate widget
+US3792 Fix the error handling in some microservices (vehicles-and-keeper)
+US3810 Add 2nd Consent box for customers to to advise current keeper that VRN will be lost when they complete and confim
+US3814 Create and impliment Alert-Complete as a common widget in vehicles-presentation-common
+US3817 Create and impliment Summary-wrapper as a common widget in vehicles-presentation-common
+US3819 Create and implement playback and playback-list as common widgets in vehicles-presentation-common
+US3861 Message on Feedback Screen to Tell Customers that we wont reply to their questions
+US3866 Revisit os-address-lookup to improve the microservice return response
+US3876 In vehicles-presentation-common address lookup web service client remove the tracking id query params because they are redundant
+US3900 Audit the logging
+
 ======= 2.33 ======
 Time of release binaries creation:
 Wed Sep 30 06:21:41 UTC 2015
