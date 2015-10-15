@@ -14,6 +14,13 @@ class EmailSpec extends UnitSpec {
       )) should equal(Right("abc@xyz.com"))
     }
 
+    "pass a emails with the same value, but different case" in {
+      formatter.bind("email1", Map(
+        s"email1.${Email.EmailId}" -> "ABC@XYZ.COM",
+        s"email1.${Email.EmailVerifyId}" -> "abc@xyz.com"
+      )) should equal(Right("abc@xyz.com"))
+    }
+
     "generate error for both fields missing" in {
       formatter.bind("email1", Map()) should equal(Left(Seq(FormError(s"email1", "error.email"))))
     }
