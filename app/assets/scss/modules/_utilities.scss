@@ -42,6 +42,10 @@
     left: -9999px;
 }
 
+@mixin to-lowercase {
+    text-transform: lowercase;
+}
+
 @mixin to-uppercase {
     text-transform: uppercase;
 }

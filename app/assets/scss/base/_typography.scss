@@ -53,6 +53,10 @@ b, strong {
   }
 }
 
+.lowercase-text {
+    @include to-lowercase;
+}
+
 .uppercase-text {
     @include to-uppercase;
 }
