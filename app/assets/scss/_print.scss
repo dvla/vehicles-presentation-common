@@ -206,6 +206,10 @@ img {
   }
 }
 
+.lowercase-text {
+    text-transform:lowercase;
+}
+
 dl.playback {
     display:inline-block;
     vertical-align:top;
@@ -233,7 +237,6 @@ p.transaction-id {
         display:none;
     }
 }
-
 
 .global-header {
     background:transparent;

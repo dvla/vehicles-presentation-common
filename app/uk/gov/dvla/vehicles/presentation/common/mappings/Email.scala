@@ -26,8 +26,7 @@ object Email {
         case (_, None) => Left(Seq(FormError(key, "error.email.confirm.required")))
         case (_, Some(emailConfirm)) if emailConfirm.trim.isEmpty =>
           Left(Seq(FormError(key, "error.email.confirm.required")))
-        case (Some(email), Some(emailConfirm)) if email.trim.toLowerCase == emailConfirm.trim.toLowerCase =>
-          Right(email)
+        case (Some(email), Some(emailConfirm)) if email.equalsIgnoreCase(emailConfirm) => Right(email.toLowerCase)
         case _ =>  Left(Seq(FormError(key, "error.email.not.match")))
       }
 
