@@ -17,25 +17,19 @@ abstract class VehicleLookupFailureBase[FormModel <: VehicleLookupFormModelBase]
    cacheKeyPrefix: CacheKeyPrefix
   ) extends Controller with DVLALogger {
 
-  protected def presentResult(model: FormModel, responseCode: String)(implicit request: Request[_]): Result
+  protected def presentResult(model: FormModel)(implicit request: Request[_]): Result
   protected def missingPresentCookieDataResult()(implicit request: Request[_]): Result
   protected def submitResult()(implicit request: Request[_]): Result
   protected def missingSubmitCookieDataResult()(implicit request: Request[_]): Result
-  protected val vehicleLookupResponseCodeCacheKey: String
 
   def present = Action { implicit request =>
-    implicit val bruteForceCacheKey = BruteForcePreventionModel.key
 
     (request.cookies.getModel[BruteForcePreventionModel],
-      request.cookies.getModel[FormModel],
-      request.cookies.getString(vehicleLookupResponseCodeCacheKey)
+      request.cookies.getModel[FormModel]
       ) match {
       case (Some(bruteForcePreventionResponse),
-            Some(vehicleLookUpFormModelDetails),
-            Some(vehicleLookupResponseCode)) =>
-        val responseCode = vehicleLookupResponseCode.split("-").map(_.trim)
-        presentResult(vehicleLookUpFormModelDetails, responseCode.last).
-          discardingCookies(DiscardingCookie(name = vehicleLookupResponseCodeCacheKey))
+            Some(vehicleLookUpFormModelDetails)) =>
+            presentResult(vehicleLookUpFormModelDetails)
       case _ =>
         val msg = "VehicleLookupFailure present could not find all the cookie data. A redirection will now occur"
         logMessage(request.cookies.trackingId, Debug, msg)

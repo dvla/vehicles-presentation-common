@@ -39,10 +39,6 @@ class VehicleLookupFailureUnitSpec extends UnitSpec {
       result.header.status should equal(OK)
       result.body should equal(presentTestResult.body)
 
-      CookieHelper.verifyCookieHasBeenDiscarded(
-        vehicleLookupResponseCodeCacheKey,
-        result.cookies.values.toSeq
-      )
     }
 
     "handle when the brute force prevention cookie is missing" in new WithApplication {
@@ -63,14 +59,6 @@ class VehicleLookupFailureUnitSpec extends UnitSpec {
       result should equal(missingPresentCookieDataTestResult)
     }
 
-    "handle when the vehicle lookup response code cookie is missing" in new WithApplication {
-      val vehicleLookupFailure = controller
-      val request = FakeRequest()
-        .withCookies(bruteForcePreventionCookie())
-        .withCookies(vehicleLookupFormModel())
-      val result = Await.result(vehicleLookupFailure.present(request), 5 seconds)
-      result should equal(missingPresentCookieDataTestResult)
-    }
   }
 
   "submit" should {
