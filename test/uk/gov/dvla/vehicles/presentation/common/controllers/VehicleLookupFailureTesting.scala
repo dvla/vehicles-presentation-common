@@ -33,9 +33,9 @@ class VehicleLookupFailureTesting(implicit clientSideSessionFactory: ClientSideS
 
   import VehicleLookupFailureTesting._
 
-  protected override def presentResult(model: VehicleLookupFormModel, responseCode: String)
-                                      (implicit request: Request[_]): Result =
-    presentTestResult
+  protected override def presentResult(model: VehicleLookupFormModel)
+                                        (implicit request: Request[_]): Result =
+      presentTestResult
 
   protected override def missingPresentCookieDataResult()(implicit request: Request[_]): Result =
     missingPresentCookieDataTestResult
@@ -46,6 +46,4 @@ class VehicleLookupFailureTesting(implicit clientSideSessionFactory: ClientSideS
   protected override def missingSubmitCookieDataResult()(implicit request: Request[_]): Result =
     missingSubmitCookieDataTestResult
 
-  protected override val vehicleLookupResponseCodeCacheKey: String =
-    VehicleLookupFormModel.VehicleLookupResponseCodeCacheKey
 }
