@@ -20,20 +20,13 @@ currentForm = Some(valtechDateOfSaleForm)) {
 
 @valtechDate(valtechDateOfSaleForm(models.DateOfSaleModel.Form.DateId), Messages("dateOfSaleInput.label"),
     Some("Changed hint"),
+    showTodaysDateButton = true,
     args = Map(
     '_label -> "A required date",
     '_showConstraints -> false
     )
 )
 
-@valtechDate(valtechDateOfSaleForm(models.DateOfSaleModel.Form.DateId), Messages("dateOfSaleInput.label"),
-    Some("Changed hint"),
-    showTodaysDateButton = true,
-    args = Map(
-    '_label -> "Show with a set using todays link",
-    '_showConstraints -> false
-    )
-)
 
 <div class="form-steps">
     <button id="submit"

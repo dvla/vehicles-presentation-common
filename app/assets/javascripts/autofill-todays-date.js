@@ -7,7 +7,7 @@ function AutoFillTodaysDate(day, month, year, checkboxId, dayId, monthId, yearId
     var padded_day = ('0' + day).substr(('0' + day).length - 2, 2);
     var padded_month = ('0' + month).substr(('0' + month).length - 2, 2);
 
-    if (dod_elm.checked === false) {
+    if (dod_elm && dod_elm.checked === false) {
         dod_day.value = '';
         dod_month.value = '';
         dod_year.value = '';
