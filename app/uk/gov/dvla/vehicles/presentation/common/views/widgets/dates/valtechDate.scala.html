@@ -1,7 +1,12 @@
-@(field: play.api.data.Field, labelText: String, hintText: Option[String] = None,
-  canTabTo: Boolean = true, autofocus: Boolean = false,
-  args: Map[Symbol, Any] = Map.empty)(implicit handler: views.html.helper.FieldConstructor,
-  lang: Lang)
+@(field: play.api.data.Field,
+    labelText: String,
+    hintText: Option[String] = None,
+    canTabTo: Boolean = true,
+    autofocus: Boolean = false,
+    showTodaysDateButton: Boolean = false,
+    showTodaysDateButtonId: Option[String] = None,
+    args: Map[Symbol, Any] = Map.empty
+)(implicit handler: views.html.helper.FieldConstructor, lang: Lang)
 
 @import uk.gov.dvla.vehicles.presentation.common.views
 @import play.api.templates.PlayMagic.toHtmlArgs
@@ -9,52 +14,63 @@
 @import views.html.widgets.base.valtechLabel
 @import views.html.widgets.base.valtechInputText
 @import _root_.views.html.helper.input
-@import uk.gov.dvla.vehicles.presentation.common.mappings.Date.{DayId, MonthId, YearId}
+@import uk.gov.dvla.vehicles.presentation.common.mappings.Date.{DayId, MonthId, YearId, TodaysDateId}
 @import views.html.widgets.base.hintTextSnippet
+@import uk.gov.dvla.vehicles.presentation.common.views.models.DayMonthYear
 
 @input(field, args.toSeq:_*) { (id, name, value, htmlArgs) =>
-    @valtechLabel(field, Map('_label -> labelText) ++ args)
+@valtechLabel(field, Map('_label -> labelText) ++ args)
 
-    <div class="form-inline form-date">
-        <div class="form-item">
-        @valtechInputText(
-          field(DayId),
-          None,
-          args = Map(
-            '_label -> Messages("dateOfBirth.day"),
-            '_showConstraints -> false,
-            'typeTel -> true,
-            'maxLength -> 2,
-            'NO_OPTIONAL_LABEL -> true,
-            'class -> "day"
-          ).withAriaDescribedby(hintText, id).withCanTabTo(canTabTo).withAutofocus(autofocus = autofocus)
-        )
-        @valtechInputText(
-          field(MonthId),
-          None,
-          args = Map(
-            '_label -> Messages("dateOfBirth.month"),
-            '_showConstraints -> false,
-            'typeTel -> true,
-            'maxLength -> 2,
-            'NO_OPTIONAL_LABEL -> true,
-            'class -> "month"
-          ).withCanTabTo(canTabTo)
-        )
-        @valtechInputText(
-          field(YearId),
-          None,
-          args = Map(
-            '_label -> Messages("dateOfBirth.year"),
-            '_showConstraints -> false,
-            'typeTel -> true,
-            'maxLength -> 4,
-            'NO_OPTIONAL_LABEL -> true,
-            'class -> "year"
-          ).withCanTabTo(canTabTo)
-        )
-        </div>
+<div class="form-inline form-date">
+    <div class="form-item">
+        @if(showTodaysDateButton) {
+            <div class="todays-date js-only">
+                <button id="@TodaysDateId" @if(args.get('tabindex) == Some(-1)) {tabindex="-1"} type="button" class="button"
+                @if(args.get('autofocus) == Some(true)) {autofocus="true"}
+                onclick="AutoFillTodaysDate(@{DayMonthYear.today.day}, @{DayMonthYear.today.month}, @{DayMonthYear.today.year},
+                '@{field.id}', '@{field.id}_day', '@{field.id}_month', '@{field.id}_year')">
+                @Messages("use_todays_date.label")</button>
+            </div>
+        }
 
-        @hintTextSnippet(hintText, idOfRelatedInput = id)
+        @valtechInputText(
+            field(DayId),
+            None,
+            args = Map(
+                '_label -> Messages("dateOfBirth.day"),
+                '_showConstraints -> false,
+                'typeTel -> true,
+                'maxLength -> 2,
+                'NO_OPTIONAL_LABEL -> true,
+                'class -> "day"
+            ).withAriaDescribedby(hintText, id).withCanTabTo(canTabTo).withAutofocus(autofocus = autofocus)
+        )
+        @valtechInputText(
+            field(MonthId),
+            None,
+            args = Map(
+                '_label -> Messages("dateOfBirth.month"),
+                '_showConstraints -> false,
+                'typeTel -> true,
+                'maxLength -> 2,
+                'NO_OPTIONAL_LABEL -> true,
+                'class -> "month"
+            ).withCanTabTo(canTabTo)
+        )
+        @valtechInputText(
+            field(YearId),
+            None,
+            args = Map(
+                '_label -> Messages("dateOfBirth.year"),
+                '_showConstraints -> false,
+                'typeTel -> true,
+                'maxLength -> 4,
+                'NO_OPTIONAL_LABEL -> true,
+                'class -> "year"
+            ).withCanTabTo(canTabTo)
+        )
     </div>
+
+    @hintTextSnippet(hintText, idOfRelatedInput = id)
+</div>
 }

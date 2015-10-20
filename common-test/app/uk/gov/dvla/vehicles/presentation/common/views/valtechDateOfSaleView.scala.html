@@ -8,32 +8,41 @@
 @import views.html.helper.form
 
 @main(title = Messages("dateOfSaleInput.pageTitle"),
-  currentForm = Some(valtechDateOfSaleForm)) {
-  @form(action = controllers.routes.DateOfSaleController.submit) {
+currentForm = Some(valtechDateOfSaleForm)) {
+@form(action = controllers.routes.DateOfSaleController.submit) {
 
-    @valtechDate(valtechDateOfSaleForm(models.DateOfSaleModel.Form.OptionalDateId), Messages("dateOfSaleInput.label"),
-        args = Map(
-            '_showConstraints -> false,
-            'autofocus -> true
-        )
+@valtechDate(valtechDateOfSaleForm(models.DateOfSaleModel.Form.OptionalDateId), Messages("dateOfSaleInput.label"),
+    args = Map(
+    '_showConstraints -> false,
+    'autofocus -> true
     )
+)
 
-    @valtechDate(valtechDateOfSaleForm(models.DateOfSaleModel.Form.DateId), Messages("dateOfSaleInput.label"),
-        Some("Changed hint"),
-        args = Map(
-            '_label -> "A changed label",
-            '_showConstraints -> false
-        )
+@valtechDate(valtechDateOfSaleForm(models.DateOfSaleModel.Form.DateId), Messages("dateOfSaleInput.label"),
+    Some("Changed hint"),
+    args = Map(
+    '_label -> "A required date",
+    '_showConstraints -> false
     )
+)
 
-    <div class="form-steps">
-        <button id="submit"
-                type="submit"
-                name="action"
-                class="button"
-                aria-label="Next button">
-            @Messages("valtechInputText.button")
-        </button>
-    </div>
-  }
+@valtechDate(valtechDateOfSaleForm(models.DateOfSaleModel.Form.DateId), Messages("dateOfSaleInput.label"),
+    Some("Changed hint"),
+    showTodaysDateButton = true,
+    args = Map(
+    '_label -> "Show with a set using todays link",
+    '_showConstraints -> false
+    )
+)
+
+<div class="form-steps">
+    <button id="submit"
+            type="submit"
+            name="action"
+            class="button"
+            aria-label="Next button">
+        @Messages("valtechInputText.button")
+    </button>
+</div>
+}
 }
