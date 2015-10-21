@@ -7,8 +7,8 @@ import uk.gov.dvla.vehicles.presentation.common.views.models.{AddressLinesViewMo
 object VmAddressModel {
   implicit val JsonFormat = Json.format[AddressModel]
 
-  def from(address: AddressAndPostcodeViewModel, postcode: String): AddressModel =
-    AddressModel(address = joinAddressesIfNeeded(address.toViewFormat(postcode)))
+  def from(address: AddressAndPostcodeViewModel): AddressModel =
+    AddressModel(address = joinAddressesIfNeeded(address.toViewFormat))
 
   def from(addressString: String): AddressModel =
     AddressModel(uprn = None, address = joinAddressesIfNeeded(addressString.split(",") map (line => line.trim)))

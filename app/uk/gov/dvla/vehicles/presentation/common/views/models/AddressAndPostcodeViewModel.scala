@@ -6,11 +6,14 @@ import play.api.data.validation.{Constraint, Invalid, Valid, ValidationError}
 import play.api.libs.json.Json
 import uk.gov.dvla.vehicles.presentation.common
 import common.clientsidesession.CacheKey
+import common.mappings.Postcode.postcode
 import common.views.models.AddressLinesViewModel.Form.{AddressLinesId, mapping => addressLinesMapping}
 import common.views.constraints.Required.RequiredField
 
-case class AddressAndPostcodeViewModel(uprn: Option[Int] = None, addressLinesModel: AddressLinesViewModel) {
-  def toViewFormat(postcode: String): Seq[String] = addressLinesModel.toViewFormat :+ postcode
+case class AddressAndPostcodeViewModel(uprn: Option[Int] = None,
+                                       addressLinesModel: AddressLinesViewModel,
+                                       postCode: String) {
+  def toViewFormat: Seq[String] = addressLinesModel.toViewFormat :+ postCode
 }
 
 object AddressAndPostcodeViewModel {
@@ -19,19 +22,22 @@ object AddressAndPostcodeViewModel {
   implicit val Key = CacheKey[AddressAndPostcodeViewModel](AddressAndPostcodeCacheKey)
 
   object Form {
+    final val PostcodeId = "postcode"
     final val UprnId = "uprn"
     final val MaxLengthOfLinesConcatenated = 120
 
     // This is being left for backwards compatibility
     final val Mapping: Mapping[AddressAndPostcodeViewModel] = mapping(
       UprnId -> uprn,
-      AddressLinesId -> addressLinesMapping().verifying(validAddressLines)
+      AddressLinesId -> addressLinesMapping().verifying(validAddressLines),
+      PostcodeId -> postcode
     )(AddressAndPostcodeViewModel.apply)(AddressAndPostcodeViewModel.unapply)
 
     def mappingWithCustomPostTownMaxLength(postTownMaxLength: Int): Mapping[AddressAndPostcodeViewModel] =
       play.api.data.Forms.mapping(
         UprnId -> uprn,
-        AddressLinesId -> addressLinesMapping(postTownMaxLength).verifying(validAddressLines)
+        AddressLinesId -> addressLinesMapping(postTownMaxLength).verifying(validAddressLines),
+        PostcodeId -> postcode
       )(AddressAndPostcodeViewModel.apply)(AddressAndPostcodeViewModel.unapply)
 
     private def uprn: Mapping[Option[Int]] = optional(number)

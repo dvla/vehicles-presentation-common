@@ -30,7 +30,6 @@ class NewKeeperEnterAddressManuallyTesting(implicit override val clientSideSessi
   val invalidFormResultArgs = ArrayBuffer[(VehicleAndKeeperDetailsModel, Form[NewKeeperEnterAddressManuallyFormModel])]()
 
   protected def presentResult(model: VehicleAndKeeperDetailsModel,
-                              postcode: String,
                               form: Form[NewKeeperEnterAddressManuallyFormModel])
                              (implicit request: Request[_]): Result = {
     presentResultArgs.append((model, form))
@@ -41,7 +40,7 @@ class NewKeeperEnterAddressManuallyTesting(implicit override val clientSideSessi
 
   override protected def missingVehicleDetails(implicit request: Request[_]): Result = missingVehicleDetailsTestResult
 
-  protected def invalidFormResult(model: VehicleAndKeeperDetailsModel, postcode: String,
+  protected def invalidFormResult(model: VehicleAndKeeperDetailsModel,
                                   form: Form[NewKeeperEnterAddressManuallyFormModel])
                                  (implicit request: Request[_]): Result = {
     invalidFormResultArgs.append((model, form))

@@ -4,7 +4,7 @@ import uk.gov.dvla.vehicles.presentation.common.helpers.UnitSpec
 import uk.gov.dvla.vehicles.presentation.common.views.models.{AddressLinesViewModel, AddressAndPostcodeViewModel}
 
 class VmAddressModelSpec extends UnitSpec {
-  val testAddress = List("THIS STREET","MYTOWN")
+  val testAddress = List("THIS STREET", "MYTOWN")
   val postCode = "AA1 1AA"
   val testAddressWithPostCode = testAddress :+ postCode
 
@@ -16,10 +16,8 @@ class VmAddressModelSpec extends UnitSpec {
       AddressLinesViewModel(buildingNameOrNumber = firstLine,
         line2 = Option(testAddress(0)),
         postTown =  testAddress(1)
-      )
-    ), postCode).address(0)
-
-
+      ), postCode
+    )).address(0)
 
   "VmAddressModel.from(String) " should {
     "join address lines when first line is 4/17 (< 4 alpha chars)" in {

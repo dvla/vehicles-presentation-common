@@ -28,15 +28,20 @@ object VehicleAndKeeperDetailsModel {
 
     val addressViewModel = {
       val addressLineModel = AddressLinesViewModel(
-        vehicleAndKeeperDetailsDto.keeperAddressLine1.get, // TODO: we shouldn't be calling .get on an option without checking that it exists, otherwise if the field contained None it WILL throw at runtime. Better to wrap with a 'match'.
+        // TODO: we shouldn't be calling .get on an option without checking that it exists,
+        // otherwise if the field contained None it WILL throw at runtime. Better to wrap with a 'match'.
+        vehicleAndKeeperDetailsDto.keeperAddressLine1.get,
         vehicleAndKeeperDetailsDto.keeperAddressLine2,
         vehicleAndKeeperDetailsDto.keeperAddressLine3,
         vehicleAndKeeperDetailsDto.keeperAddressLine4,
-        vehicleAndKeeperDetailsDto.keeperPostTown.get // TODO: we shouldn't be calling .get on an option without checking that it exists, otherwise if the field contained None it WILL throw at runtime. Better to wrap with a 'match'.
+        // TODO: we shouldn't be calling .get on an option without checking that it exists,
+        // otherwise if the field contained None it WILL throw at runtime. Better to wrap with a 'match'.
+        vehicleAndKeeperDetailsDto.keeperPostTown.get
       )
-      val addressAndPostcodeModel = AddressAndPostcodeViewModel(None, addressLineModel)
       vehicleAndKeeperDetailsDto.keeperPostcode match {
-        case Some(postcode) => AddressModel.from(addressAndPostcodeModel, formatPostcode(postcode))
+        case Some(postCode) => AddressModel.from(
+          AddressAndPostcodeViewModel(None, addressLineModel, postCode)
+        )
         case None => AddressModel(address = addressLineModel.toViewFormat)
       }
     }

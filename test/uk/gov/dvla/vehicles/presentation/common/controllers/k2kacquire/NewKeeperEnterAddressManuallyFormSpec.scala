@@ -12,6 +12,7 @@ import common.views.models.AddressLinesViewModel.Form.Line2Id
 import common.views.models.AddressLinesViewModel.Form.Line3Id
 import common.views.models.AddressLinesViewModel.Form.LineMaxLength
 import common.views.models.AddressLinesViewModel.Form.PostTownId
+import common.views.models.AddressAndPostcodeViewModel.Form.PostcodeId
 
 class NewKeeperEnterAddressManuallyFormSpec extends UnitSpec {
 
@@ -19,6 +20,7 @@ class NewKeeperEnterAddressManuallyFormSpec extends UnitSpec {
   final val Line2Valid = "line2 stub"
   final val Line3Valid = "line3 stub"
   final val PostTownValid = "postTown stub"
+  final val PostCodeValid = "AA11AA"
 
   "form" should {
     "accept if form is valid with all fields filled in" in new WithApplication {
@@ -137,7 +139,8 @@ class NewKeeperEnterAddressManuallyFormSpec extends UnitSpec {
   private def formWithValidDefaults(buildingNameOrNumber: String = BuildingNameOrNumberValid,
                                     line2: String = Line2Valid,
                                     line3: String = Line3Valid,
-                                    postTown: String = PostTownValid) = {
+                                    postTown: String = PostTownValid,
+                                    postCode: String = PostCodeValid) = {
 
     implicit val cookieFlags = new NoCookieFlags()
     implicit val sideSessionFactory = new ClearTextClientSideSessionFactory()
@@ -150,7 +153,8 @@ class NewKeeperEnterAddressManuallyFormSpec extends UnitSpec {
         s"$AddressAndPostcodeId.$AddressLinesId.$BuildingNameOrNumberId" -> buildingNameOrNumber,
         s"$AddressAndPostcodeId.$AddressLinesId.$Line2Id" -> line2,
         s"$AddressAndPostcodeId.$AddressLinesId.$Line3Id" -> line3,
-        s"$AddressAndPostcodeId.$AddressLinesId.$PostTownId" -> postTown
+        s"$AddressAndPostcodeId.$AddressLinesId.$PostTownId" -> postTown,
+        s"$AddressAndPostcodeId.$PostcodeId" -> postCode
       )
     )
   }

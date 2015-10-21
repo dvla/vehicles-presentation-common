@@ -1,14 +1,16 @@
 package uk.gov.dvla.vehicles.presentation.common.controllers
 
 import com.google.inject.Inject
-import play.api.Logger
 import play.api.data.{FormError, Form}
 import play.api.mvc.{Result, Request, Action, Controller, AnyContent}
 import uk.gov.dvla.vehicles.presentation.common
 import common.clientsidesession.ClientSideSessionFactory
-import common.clientsidesession.CookieImplicits.{RichCookies, RichForm, RichResult}
+import common.clientsidesession.CookieImplicits.{RichCookies, RichResult}
 import common.model.BusinessKeeperDetailsFormModel
 import common.model.CacheKeyPrefix
+import common.views.models.AddressAndPostcodeViewModel
+import common.views.models.AddressLinesViewModel
+import common.model.NewKeeperChooseYourAddressFormModel.newKeeperChooseYourAddressCacheKey
 import common.model.NewKeeperDetailsViewModel.createNewKeeper
 import common.model.NewKeeperEnterAddressManuallyFormModel
 import common.model.PrivateKeeperDetailsFormModel
@@ -16,20 +18,19 @@ import common.model.VehicleAndKeeperDetailsModel
 import common.model.VmAddressModel
 import common.views.helpers.FormExtensions.formBinding
 import uk.gov.dvla.vehicles.presentation.common.LogFormats.DVLALogger
-import uk.gov.dvla.vehicles.presentation.common.model.NewKeeperChooseYourAddressFormModel._
 
 abstract class NewKeeperEnterAddressManuallyBase @Inject()()
                (implicit protected val clientSideSessionFactory: ClientSideSessionFactory,
                 prefix: CacheKeyPrefix)
   extends Controller with DVLALogger {
 
-  protected def presentResult(model: VehicleAndKeeperDetailsModel, postcode: String,
+  protected def presentResult(model: VehicleAndKeeperDetailsModel,
                               form: Form[NewKeeperEnterAddressManuallyFormModel])
                              (implicit request: Request[_]): Result
 
   protected def missingVehicleDetails(implicit request: Request[_]): Result
 
-  protected def invalidFormResult(model: VehicleAndKeeperDetailsModel, postcode: String,
+  protected def invalidFormResult(model: VehicleAndKeeperDetailsModel,
                                   form: Form[NewKeeperEnterAddressManuallyFormModel])
                                  (implicit request: Request[_]): Result
 
@@ -54,16 +55,16 @@ abstract class NewKeeperEnterAddressManuallyBase @Inject()()
     form.bindFromRequest.fold(
       invalidForm => switch(
         privateKeeperDetails =>
-          handleInvalidForm(invalidForm, privateKeeperDetails.postcode),
+          handleInvalidForm(invalidForm),
         businessKeeperDetails =>
-          handleInvalidForm(invalidForm, businessKeeperDetails.postcode),
+          handleInvalidForm(invalidForm),
         message => error(message)
       ),
       validForm => switch(
         privateKeeperDetails =>
-          handleValidForm(validForm, privateKeeperDetails.postcode),
+          handleValidForm(validForm),
         businessKeeperDetails =>
-          handleValidForm(validForm, businessKeeperDetails.postcode),
+          handleValidForm(validForm),
         message => error(message)
       )
     )
@@ -88,7 +89,23 @@ abstract class NewKeeperEnterAddressManuallyBase @Inject()()
                       (implicit request: Request[_]) = {
     request.cookies.getModel[VehicleAndKeeperDetailsModel] match {
       case Some(vehicleAndKeeperDetails) =>
-        presentResult(vehicleAndKeeperDetails, postcode, form.fill())
+        request.cookies.getModel[NewKeeperEnterAddressManuallyFormModel] match {
+          case Some(formModel) =>
+            presentResult(vehicleAndKeeperDetails, form.fill(formModel))
+          case None =>
+            presentResult(
+              vehicleAndKeeperDetails,
+              form.fill(
+                NewKeeperEnterAddressManuallyFormModel(
+                  AddressAndPostcodeViewModel(
+                    None,
+                    AddressLinesViewModel("", None, None, None, ""),
+                    postcode
+                  )
+                )
+              )
+            )
+        }
       case _ => error(VehicleDetailsNotInCacheMessage)
     }
   }
@@ -98,21 +115,19 @@ abstract class NewKeeperEnterAddressManuallyBase @Inject()()
     missingVehicleDetails
   }
 
-  private def handleInvalidForm(invalidForm: Form[NewKeeperEnterAddressManuallyFormModel],
-                                postcode: String)
+  private def handleInvalidForm(invalidForm: Form[NewKeeperEnterAddressManuallyFormModel])
                                (implicit request: Request[_]) = {
     request.cookies.getModel[VehicleAndKeeperDetailsModel] match {
       case Some(vehicleAndKeeperDetails) =>
-        invalidFormResult(vehicleAndKeeperDetails, postcode, formWithReplacedErrors(invalidForm))
+        invalidFormResult(vehicleAndKeeperDetails, formWithReplacedErrors(invalidForm))
       case _ => error(VehicleDetailsNotInCacheMessage)
     }
   }
 
-  private def handleValidForm(validForm: NewKeeperEnterAddressManuallyFormModel, postcode: String)
+  private def handleValidForm(validForm: NewKeeperEnterAddressManuallyFormModel)
                              (implicit request: Request[_]): Result = {
     createNewKeeper(VmAddressModel.from(
-      validForm.addressAndPostcodeModel,
-      postcode
+      validForm.addressAndPostcodeModel
     )) match {
       case Some(keeperDetails) => success
         .discardingCookie(newKeeperChooseYourAddressCacheKey)
@@ -122,7 +137,8 @@ abstract class NewKeeperEnterAddressManuallyBase @Inject()()
     }
   }
 
-  def formWithReplacedErrors(form: Form[NewKeeperEnterAddressManuallyFormModel]): Form[NewKeeperEnterAddressManuallyFormModel] = {
+  def formWithReplacedErrors(form: Form[NewKeeperEnterAddressManuallyFormModel])
+                                                                      : Form[NewKeeperEnterAddressManuallyFormModel] = {
     form.replaceError(
       "addressAndPostcode.addressLines.buildingNameOrNumber",
       FormError("addressAndPostcode.addressLines", "error.address.buildingNameOrNumber.invalid")

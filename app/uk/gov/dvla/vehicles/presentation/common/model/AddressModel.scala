@@ -25,8 +25,8 @@ final case class AddressModel(uprn: Option[Long] = None, address: Seq[String]) {
 object AddressModel {
   implicit val JsonFormat = Json.format[AddressModel]
 
-  def from(address: AddressAndPostcodeViewModel, postcode: String): AddressModel =
-    AddressModel(address = address.toViewFormat(postcode))
+  def from(address: AddressAndPostcodeViewModel): AddressModel =
+    AddressModel(address = address.toViewFormat)
 
   def from(addressString: String): AddressModel =
     AddressModel(uprn = None, address = addressString.split(",") map (line => line.trim))

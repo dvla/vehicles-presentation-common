@@ -1,15 +1,26 @@
 @(field: play.api.data.Field, args: Map[Symbol, Any] = Map.empty)(implicit lang: Lang)
 
+@import uk.gov.dvla.vehicles.presentation.common.mappings.Postcode
 @import uk.gov.dvla.vehicles.presentation.common.views
+@import views.models.AddressAndPostcodeViewModel.Form.PostcodeId
 @import views.models.AddressLinesViewModel.Form.AddressLinesId
 @import views.helpers.BaseTemplate.fieldConstructor
 @import _root_.views.html.helper.input
 @import views.html.widgets.addressLines
+@import views.html.widgets.base.valtechInputText
 
 <fieldset>
-    @input(field,args.toSeq: _*){(id, name, value, htmlArgs) =>
+    @input(field, args.toSeq: _*){(id, name, value, htmlArgs) =>
         @addressLines(field(AddressLinesId),
             args = args + ('_label -> Messages("address.lines.label"), '_postTownMaxLength -> 20)
         )
     }
+    <div class="form-item post-town">
+        @valtechInputText(field(PostcodeId),
+            args = Map('_label -> Messages("address.postcode.label"),
+                '_showConstraints -> false,
+                'maxLength -> Postcode.MaxLength
+            )
+        )
+    </div>
 </fieldset>
