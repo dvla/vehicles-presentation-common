@@ -23,7 +23,6 @@ abstract class VehicleLookupFailureBase[FormModel <: VehicleLookupFormModelBase]
   protected def missingSubmitCookieDataResult()(implicit request: Request[_]): Result
 
   def present = Action { implicit request =>
-
     (request.cookies.getModel[BruteForcePreventionModel],
       request.cookies.getModel[FormModel]
       ) match {

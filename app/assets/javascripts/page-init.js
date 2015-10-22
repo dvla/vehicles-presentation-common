@@ -395,11 +395,12 @@ define(function(require) {
     var gaTrackOptionalFields = function() {
         $('button[type="submit"]').on('click', function(e) {
             var form = $(this).closest('form');
+
             $(form).find('.ga-track-value').map(function() {
                 var inputType = $(this).attr('type'),
                     actionName = $(this).data('ga-action') || 'Not set',
-                    label = $(this).data('ga-label') || 'Not set',
-                    value = $(this).data('ga-value') || $(this).attr('value');
+                    label = $(this).data('ga-label') || $(this).attr('value'),
+                    value = parseInt($(this).data('ga-value')) || 1;
 
                 if (inputType ==='checkbox' || inputType === 'radio') {
                     // we only want to track these input types if they have been checked/selected
@@ -410,6 +411,7 @@ define(function(require) {
                     gaTrackEvent('field_value', actionName, label, value);
                 }
             });
+
             $(form).find('.ga-track-optional-text').map(function() {
                 var value = $(this).attr('ga-value');
                 if (!value) value = 1;
