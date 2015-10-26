@@ -1,0 +1,10 @@
+@(closingTime: Int, closingWarnPeriod: Int)
+
+@import uk.gov.dvla.vehicles.presentation.common
+@import common.views.html.widgets.serviceClosingWarning
+
+@main(
+    title = Messages("service-closing-warning.title")
+) {
+    @serviceClosingWarning(0, closingTime, closingWarnPeriod)
+}

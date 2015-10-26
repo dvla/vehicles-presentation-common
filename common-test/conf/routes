@@ -11,7 +11,7 @@
 # Home page
 GET     /                               @uk.gov.dvla.vehicles.presentation.common.controllers.Application.present
 
-GET     /webjars/*file                    controllers.WebJarAssets.at(file)
+GET     /webjars/*file                  controllers.WebJarAssets.at(file)
 
 #GET     /tests/*file                   controllers.Assets.at(path="/assets/javascripts/tests", file:Asset)
 
@@ -76,7 +76,7 @@ GET     /ga-events                      @uk.gov.dvla.vehicles.presentation.commo
 POST    /ga-events                      @uk.gov.dvla.vehicles.presentation.common.controllers.GaEventsController.submit
 
 GET     /address-picker                 @uk.gov.dvla.vehicles.presentation.common.controllers.AddressPicker.present
-GET     /jstest/address-picker                 @uk.gov.dvla.vehicles.presentation.common.controllers.AddressPicker.jsTest
+GET     /jstest/address-picker          @uk.gov.dvla.vehicles.presentation.common.controllers.AddressPicker.jsTest
 POST    /address-picker                 @uk.gov.dvla.vehicles.presentation.common.controllers.AddressPicker.submit
 
 GET     /cookie-policy                  @uk.gov.dvla.vehicles.presentation.common.controllers.CookiePolicyController.present
@@ -92,3 +92,10 @@ GET     /summary-wrapper                @uk.gov.dvla.vehicles.presentation.commo
 GET     /playback                       @uk.gov.dvla.vehicles.presentation.common.controllers.PlaybackController.present
 
 GET     /alert-success                  @uk.gov.dvla.vehicles.presentation.common.controllers.AlertSuccessController.present
+
+GET     /adress-and-postcode            @uk.gov.dvla.vehicles.presentation.common.controllers.AddressAndPostcodeController.present
+POST    /adress-and-postcode            @uk.gov.dvla.vehicles.presentation.common.controllers.AddressAndPostcodeController.submit
+
+GET     /please-wait                    @uk.gov.dvla.vehicles.presentation.common.controllers.PleaseWaitController.present
+
+GET     /service-closing-warning        @uk.gov.dvla.vehicles.presentation.common.controllers.ServiceClosingWarningController.present

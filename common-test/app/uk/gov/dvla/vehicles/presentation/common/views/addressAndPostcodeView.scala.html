@@ -1,0 +1,29 @@
+@(enterAddressManuallyForm: Form[uk.gov.dvla.vehicles.presentation.common.models.EnterAddressManuallyFormModel])(implicit lang: Lang)
+
+@import uk.gov.dvla.vehicles.presentation.common
+@import uk.gov.dvla.vehicles.presentation.common.models
+@import uk.gov.dvla.vehicles.presentation.common.controllers
+@import common.views.helpers.BaseTemplate.fieldConstructor
+@import common.views.html.widgets.addressAndPostcode
+@import models.EnterAddressManuallyFormModel.Form.AddressAndPostcodeId
+@import views.html.helper.form
+
+@main(
+    title = Messages("address-and-postcode.title"),
+    currentForm = Some(enterAddressManuallyForm)
+) {
+<div class="two-col clearfix vehicle-lookup">
+    <div class="second-col enter-address-manually uppercase-input sr-only-labels">
+        @form(action = controllers.routes.AddressAndPostcodeController.submit()) {
+
+            @addressAndPostcode(enterAddressManuallyForm(AddressAndPostcodeId))
+
+            <div class="form-steps">
+                <button id="submit" type="submit" name="action" class="button ga-manual-address-submit">
+                    @Messages("address-and-postcode.submitbutton")
+                </button>
+            </div>
+        }
+    </div>
+</div>
+}

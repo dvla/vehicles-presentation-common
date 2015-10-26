@@ -304,3 +304,48 @@ playback-keeper-application-details-saturday = Saturday: 08.00 - 14.00
 playback-keeper-application-details-sunday = Sunday: Closed
 playback-keeper-application-details-textphone = Textphone
 playback-keeper-application-details-textphone-number = 18001 0300 123 1379
+
+#addressAndPostcode widget
+address-and-postcode.title = Address and Postcode
+address-and-postcode.submitbutton = Next
+
+addressAndPostcode.addressLines.buildingNameOrNumber = Building name or number
+addressAndPostcode.addressLines.line2 = Street name
+addressAndPostcode.addressLines.line3 = Area
+addressAndPostcode.addressLines.postTown = Town or city
+addressAndPostcode.addressLines.postTown.hint = e.g. SWANSEA
+
+address.lines.label = Building/number and street
+address.buildingNameOrNumber.label =
+address.buildingNameOrNumber.hint = e.g. 1 HIGH STREET
+address.line2.label=
+address.line3.label=
+address.postTown.label= Town or city
+address.postcode.label = Postcode
+address.postcode.label.prompt = e.g. SA99 1BD
+address.postcode.validation = Enter a valid postcode
+
+errorsummary.title = Please correct the details below
+addressAndPostcode = Building name or number
+addressAndPostcode.addressLines = Address
+addressAndPostcode.postcode = Postcode
+addressAndPostcode.addressLines.buildingNameOrNumber = Building name or number
+error.address.buildingNameOrNumber.invalid = Building/number and street must contain between 4 and 30 characters
+error.address.postTown = Town or city must contain between 3 and 20 characters
+error.address.postcode.invalid = Must be between five and eight characters and in a valid format, eg. AB1 2Ba or AB12BA
+error.address.maxLengthOfLinesConcatenated = Address can have no more than 120 characters
+
+#pleaseWait widget
+please-wait.title = Please Wait
+please-wait.label = Press the button to display the widget
+please-wait.button = Please Wait
+global-please-wait-header = Please wait
+global-please-wait-p1 = We are currently receiving a large volume of applications which has led to our service performance being slower than usual.
+global-please-wait-p2 = This page will update automatically, please do not close your browser.
+global-please-wait-close = Close this message
+
+#serviceClosingWarning widget
+service-closing-warning.title = Service Closing Warning
+global.serviceCloseWarning = This service is available from {0} to {1}, you have
+global.serviceCloseWarning.p2 = to complete this service.
+global.serviceClosed = Service now closed. Service is available {0} to {1}

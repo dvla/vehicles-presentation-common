@@ -1,0 +1,21 @@
+@()
+
+@import uk.gov.dvla.vehicles.presentation.common
+@import common.views.html.widgets.pleaseWait
+
+@main(
+    title = Messages("please-wait.title")
+) {
+    @pleaseWait()
+    <legend>@Messages("please-wait.label")</legend>
+    <a href="#" id="button" class="button">
+        @Messages("please-wait.button")
+    </a>
+
+    <script>
+        var button = document.getElementById('button');
+        button.onclick = function() {
+            $('.please-wait-overlay').toggle();
+        };
+    </script>
+}
