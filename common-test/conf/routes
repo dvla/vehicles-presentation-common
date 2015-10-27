@@ -33,9 +33,6 @@ POST    /valtech-select                 @uk.gov.dvla.vehicles.presentation.commo
 GET     /postcode                       @uk.gov.dvla.vehicles.presentation.common.controllers.PostcodeController.present
 POST    /postcode                       @uk.gov.dvla.vehicles.presentation.common.controllers.PostcodeController.submit
 
-GET     /valtech-input-day-month-year-textbox   @uk.gov.dvla.vehicles.presentation.common.controllers.ValtechInputDayMonthYearTextboxController.present
-POST    /valtech-input-day-month-year-textbox   @uk.gov.dvla.vehicles.presentation.common.controllers.ValtechInputDayMonthYearTextboxController.submit
-
 GET     /v5c-registration-number        @uk.gov.dvla.vehicles.presentation.common.controllers.V5cRegistrationNumberController.present
 POST    /v5c-registration-number        @uk.gov.dvla.vehicles.presentation.common.controllers.V5cRegistrationNumberController.submit
 
