@@ -305,6 +305,9 @@ playback-keeper-application-details-sunday = Sunday: Closed
 playback-keeper-application-details-textphone = Textphone
 playback-keeper-application-details-textphone-number = 18001 0300 123 1379
 
+playback-callback.title = Existing vehicle details
+playback-callback.title-2 = Your personal registration number is being placed on the vehicle below:
+
 #addressAndPostcode widget
 address-and-postcode.title = Address and Postcode
 address-and-postcode.submitbutton = Next

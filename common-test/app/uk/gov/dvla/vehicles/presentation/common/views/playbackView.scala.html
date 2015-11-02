@@ -60,6 +60,36 @@ title = Messages("playback-title")
                 <p>@Messages("playback-keeper-application-details-textphone")</p>
                 <p><strong>@Messages("playback-keeper-application-details-textphone-number")</strong></p>
             }
+
+            @playbackList(
+                null,
+                {
+                    val playbackItems: LinkedHashMap[String, String] = LinkedHashMap();
+                    playbackItems += (Messages("playback-trader_details.trader_name") -> Messages("playback-trader_details.name"))
+                    val address = List(
+                        Messages("playback-trader_details.address_1"),
+                        Messages("playback-trader_details.address_2"),
+                        Messages("playback-trader_details.postcode")
+                    )
+                    playbackItems += (Messages("playback-trader_details.trader_address") -> address.mkString("<br/>"))
+                },
+                List("vehicle-sold-by", "bg-plain")
+            )()
+
+            @playbackList(
+                Messages("playback-callback.title"),
+                {
+                    val playbackItems: LinkedHashMap[String, String] = LinkedHashMap();
+                    playbackItems += (Messages("playback-vehicle_callback.makeLabel") -> Messages("playback-vehicleMake"))
+                    playbackItems += (Messages("playback-vehicle_callback.modelLabel") -> Messages("playback-vehicleModel"))
+                    val flaggedRegNumberLabel: String = "REG_" + Messages("playback-vehicle_callback.regNumLabel")
+                    playbackItems += (flaggedRegNumberLabel -> Messages("playback-registrationNumber"))
+                },
+                Nil,
+                {
+                    Html("<p><strong>" + Messages("playback-callback.title-2") + "</strong></p>")
+                }
+            )()
         </div>
     </div>
 }

@@ -1,6 +1,8 @@
 @(heading: String, cssClasses: List[String] = Nil)(html: Html)(implicit lang: Lang)
 
 <div class="@(("playback" :: cssClasses).mkString(" "))">
-    <h2>@heading</h2>
+    @if(heading != null && !heading.isEmpty()) {
+        <h2>@heading</h2>
+    }
     @html
 </div>
