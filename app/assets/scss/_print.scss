@@ -210,7 +210,7 @@ img {
     text-transform:lowercase;
 }
 
-dl.playback {
+div.playback {
     display:inline-block;
     vertical-align:top;
     width:100%;
@@ -218,7 +218,7 @@ dl.playback {
     dt {
         float:left;
         clear:both;
-        min-width:165px;
+        min-width:250px;
     }
     dd {
         float:left;
