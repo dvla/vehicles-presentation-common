@@ -167,35 +167,6 @@ define(function(require) {
         }
     };
 
-    var openFeedback = function(inputId, event) {
-        var element = document.getElementById(inputId);
-        if (element) {
-            if (element.addEventListener) {
-                // addEventListener is a W3 standard that is implemented in the majority of other browsers (FF, Webkit, Opera, IE9+)
-                element.addEventListener(event, function (e) {
-                    console.log("openFeedback addEventListener id: " + inputId + ", event " + event);
-                    //window.open(url,'_blank');
-                    window.open(this.href, '_blank');
-                    e.preventDefault();
-                });
-            } else if (element.attachEvent) {
-                // attachEvent can only be used on older trident rendering engines ( IE5+ IE5-8*)
-                element.attachEvent(event, function (e) {
-                    // console.log("openFeedback addEventListener id: " + inputId + ", event " + event);
-                    //window.open(url,'_blank');
-                    window.open(this.href, '_blank');
-                    e.preventDefault();
-                });
-            } else {
-                console.error("element does not support addEventListener or attachEvent");
-                return false;
-            }
-        } else {
-            console.error("element id: " + inputId + " not found on page");
-            return false;
-        }
-    };
-
     var disableClickOnDisabledButtons = function() {
         $('.button-not-implemented').click(function() {
             return false;
@@ -428,7 +399,6 @@ define(function(require) {
     return {
         disableSubmitOnClick: disableSubmitOnClick,
         closingWarning: closingWarning,
-        openFeedback: openFeedback,
         imageHintToggles: imageHintToggles,
         disableClickOnDisabledButtons: disableClickOnDisabledButtons,
         printButton: printButton,
@@ -458,10 +428,6 @@ define(function(require) {
                 summaryWrapperToggle();
                 gaTrackClickOnce();
                 gaTrackOptionalFields();
-
-                if ($('#feedback-open').length) {
-                    openFeedback('feedback-open', 'click');
-                }
 
                 //html5 autofocus fallback for browsers that do not support it natively
                 //if form element autofocus is not active, autofocus
