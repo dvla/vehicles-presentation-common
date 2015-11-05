@@ -38,7 +38,7 @@
             <label class="no-js-hidden" for="address-postcode-lookup">@Messages("address.picker.common.postcode")</label>
         </div>
         <div class="right-col">
-            <input class="no-js-hidden js-address-postcode-lookup address-postcode-lookup" id="@id" name="@name" placeholder="@Messages("address.picker.common.postcode")" value="@value" maxlength="58" autocomplete="off" type="text" aria-required="true">
+            <input class="no-js-hidden js-address-postcode-lookup address-postcode-lookup" id="@id" name="@name" placeholder="@Messages("address.picker.common.postcode")" value="@value" maxlength=@Messages("address.picker.common.postcodeLength") autocomplete="off" type="text" aria-required="true">
             <div class="address-find-wrapper">
                 <button id="address-find" type="button" name="action" class="button button-secondary no-js-hidden ga-track-click-event-once" ga-event-action="Find UK address">@Messages("address.picker.common.findAddress")</button>
                 <span class="address-manual-toggle no-js-hidden ga-track-click-event-once" ga-event-action="Enter address manually">@Messages("address.picker.common.manualAddress")</span>
@@ -75,13 +75,13 @@
             </div>
             <div class="right-col">
 
-                <input id="@id" name="@name" value="@value" class="address-street-first" data-form="@id" placeholder="@Messages("address.picker.common.streetNameNumber")"  maxlength="58" autocomplete="off" type="text" aria-required="true">
+                <input id="@id" name="@name" value="@value" class="address-street-first" data-form="@id" placeholder="@Messages("address.picker.common.streetNameNumber")"  maxlength=@Messages("address.picker.common.addressStreetLength") autocomplete="off" type="text" aria-required="true">
 
                 @helper.input(field(AddressLine2Id)) { (id, name, value, args) =>
-                <input id="@id" name="@name" class="address-street-second" data-form="@id"  value="@value" maxlength="58" autocomplete="off" type="text" aria-required="false">
+                <input id="@id" name="@name" class="address-street-second" data-form="@id"  value="@value" maxlength=@Messages("address.picker.common.addressStreetLength") autocomplete="off" type="text" aria-required="false">
                 }
                 @helper.input(field(AddressLine3Id)) { (id, name, value, args) =>
-                <input id="@id" name="@name"  class="address-street-third" data-form="@id" value="@value" maxlength="58" autocomplete="off" type="text" aria-required="false">
+                <input id="@id" name="@name"  class="address-street-third" data-form="@id" value="@value" maxlength=@Messages("address.picker.common.addressStreetLength") autocomplete="off" type="text" aria-required="false">
                 }
             </div>
         </div>
@@ -95,7 +95,7 @@
                 <label for="address-town">@Messages("address.picker.common.townCity")</label>
             </div>
             <div class="right-col">
-                <input id="@id" name="@name" class="address-town" data-form="@id" placeholder="@Messages("address.picker.common.townOrCity")" value="@value" maxlength="58" autocomplete="off" type="text" aria-required="true">
+                <input id="@id" name="@name" class="address-town" data-form="@id" placeholder="@Messages("address.picker.common.townOrCity")" value="@value" maxlength=@Messages("address.picker.common.townOrCityLength") autocomplete="off" type="text" aria-required="true">
             </div>
         </div>
         }
@@ -108,7 +108,7 @@
                 <label for="address-postcode">@Messages("address.picker.common.postcode")</label>
             </div>
             <div class="right-col">
-                <input id="@id" name="@name" class="address-postcode" data-form="@id" placeholder="@Messages("address.picker.common.postcode")" value="@value" maxlength="58" autocomplete="off" type="text" aria-required="true">
+                <input id="@id" name="@name" class="address-postcode" data-form="@id" placeholder="@Messages("address.picker.common.postcode")" value="@value" maxlength=@Messages("address.picker.common.postcodeLength") autocomplete="off" type="text" aria-required="true">
             </div>
         </div>
         }
