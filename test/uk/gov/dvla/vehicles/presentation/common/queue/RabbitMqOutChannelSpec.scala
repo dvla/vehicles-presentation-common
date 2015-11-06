@@ -55,7 +55,7 @@ class RabbitMqOutChannelSpec extends UnitSpec {
       messageArg.getValue should equal(jsonFormat.writes(message1).toString().getBytes)
     }
 
-    "send messages with explicit priority if specified" in {
+    "send messages.en with explicit priority if specified" in {
       val (rmqChannel, _, _, factory) = setup
       val channel = factory.outChannel[TB](queueName)
       channel.map(_.put(message1, Priority.Low)(jsonFormat))

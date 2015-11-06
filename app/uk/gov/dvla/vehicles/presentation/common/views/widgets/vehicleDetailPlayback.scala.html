@@ -1,0 +1,33 @@
+@(vehicleDetails: uk.gov.dvla.vehicles.presentation.common.model.VehicleAndKeeperDetailsModel,
+    addtitionalItems: scala.collection.mutable.LinkedHashMap[String, String] = scala.collection.mutable.LinkedHashMap.empty,
+    cssClasses: List[String] = Nil,
+    htmlBefore: Html = HtmlFormat.empty)(htmlAfter: Html = HtmlFormat.empty)(implicit lang: Lang)
+
+@import scala.collection.mutable.LinkedHashMap
+@import uk.gov.dvla.vehicles.presentation.common
+@import common.views.html.widgets.playbackList
+
+@playbackList(
+    Messages("vehicle-detail-playback.vehicledetails"),
+    {
+        val playbackItems: LinkedHashMap[String, String] = LinkedHashMap()
+        val flaggedRegNumberLabel: String = "REG_" + Messages("vehicle-detail-playback.vehiclereg")
+        playbackItems += (flaggedRegNumberLabel -> vehicleDetails.registrationNumber)
+
+        vehicleDetails.make match {
+            case Some(make) => playbackItems += (Messages("vehicle-detail-playback.vehiclemake") -> make)
+            case None => playbackItems
+        }
+
+        vehicleDetails.model match {
+            case Some(model) => playbackItems += (Messages("vehicle-detail-playback.vehiclemodel") -> model)
+            case None => playbackItems
+        }
+
+        playbackItems ++= addtitionalItems
+    },
+    cssClasses,
+    htmlBefore
+){
+    @htmlAfter
+}

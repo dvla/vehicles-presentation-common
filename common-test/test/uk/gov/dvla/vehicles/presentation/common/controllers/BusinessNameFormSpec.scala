@@ -18,7 +18,7 @@ final class BusinessNameFormSpec extends UnitSpec {
 
   "dealerName" should {
     "reject if business name is blank" in new WithTestApplication {
-      // IMPORTANT: The messages being returned by the form validation are overridden by the Controller
+      // IMPORTANT: The messages.en being returned by the form validation are overridden by the Controller
       val errors = formWithValidDefaults(businessName = "").errors
       errors should have length 3
       errors(0).key should equal(BusinessNameId)

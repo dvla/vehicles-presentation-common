@@ -89,7 +89,7 @@ class RabbitMqInChannelSpec extends UnitSpec with BeforeAndAfterAll  {
       messages.toSeq should equal(Seq(event1, event2, event3))
     }
 
-    "un-parsable json messages should be put in the dead letter queue" in {
+    "un-parsable json messages.en should be put in the dead letter queue" in {
       val (channel, _, _, _, factory, stubBasicConsumer) = setup
       val envelope1 = mock[Envelope]
       val envelope2 = mock[Envelope]

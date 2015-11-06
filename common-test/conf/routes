@@ -96,3 +96,6 @@ POST    /adress-and-postcode            @uk.gov.dvla.vehicles.presentation.commo
 GET     /please-wait                    @uk.gov.dvla.vehicles.presentation.common.controllers.PleaseWaitController.present
 
 GET     /service-closing-warning        @uk.gov.dvla.vehicles.presentation.common.controllers.ServiceClosingWarningController.present
+
+GET     /vehicle-detail-playback        @uk.gov.dvla.vehicles.presentation.common.controllers.VehicleDetailPlaybackController.present
+GET     /with-language/:chosenLanguage  @uk.gov.dvla.vehicles.presentation.common.controllers.AlternateLanguages.withLanguage(chosenLanguage: String)

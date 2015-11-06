@@ -10,7 +10,7 @@ object HtmlArgsExtensions {
   implicit class RichHtmlArgs(val htmlArgs: Map[Symbol, Any]) extends AnyVal {
 
     // Always have a maxLength on production, so if you forgot to add one then the default is used. We need to be able
-    // to override this behaviour when running integration tests that check that server-side error messages are shown
+    // to override this behaviour when running integration tests that check that server-side error messages.en are shown
     // in non-html5 browser
     def withMaxLength: Map[Symbol, Any] =
       if (htmlArgs.contains('maxLength)) htmlArgs // No change
