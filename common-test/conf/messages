@@ -295,6 +295,10 @@ playback-trader_details.trader_address = Trader address
 playback-trader_details.address_1 = 1 Not a real street
 playback-trader_details.address_2 = Not a real town
 playback-trader_details.postcode = AA11AA
+playback-trader_details.trader_email_label = Email
+# Note: email is displayed in lowercase via exemplars
+# Note2: vpc common-tests-run will show in UPPERCASE via playback CSS
+playback-trader_details.trader_email = Trader@Company.com
 
 playback-keeper-application-details-contact-us = To contact us:
 playback-keeper-application-details-telephone = Telephone
