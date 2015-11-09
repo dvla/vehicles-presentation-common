@@ -309,7 +309,7 @@ define(function(require) {
         }
 
         var checkStateOfRadio = function(radioOtherId, emailId) {
-            if(!$(radioOtherId).attr('checked')) {
+            if(!$(radioOtherId).prop('checked')) {
                 $(emailId).parent().hide().removeClass('item-visible');
                 $(emailId).val('');
             } else {
