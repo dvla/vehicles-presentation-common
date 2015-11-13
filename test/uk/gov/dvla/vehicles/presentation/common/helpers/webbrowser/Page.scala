@@ -20,6 +20,26 @@
 
 package uk.gov.dvla.vehicles.presentation.common.helpers.webbrowser
 
+import org.openqa.selenium.{By, WebDriver}
+import org.openqa.selenium.support.ui.{ExpectedConditions, WebDriverWait}
+import uk.gov.dvla.vehicles.presentation.common.views.widgetdriver.Wait
+
 trait Page extends org.scalatest.selenium.Page {
   val title: String
+
+  def waitUntilJavascriptReady(implicit driver: WebDriver): Unit = {
+    Wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(".js-ready")))
+  }
+
+  def assetComponentInvisible(cssClass: String)(implicit driver: WebDriver) =
+    new WebDriverWait(driver, 7)
+      .until(ExpectedConditions.invisibilityOfElementLocated(By.cssSelector(cssClass)))
+
+  def assetComponentVisible(cssClass: String)(implicit driver: WebDriver) =
+    new WebDriverWait(driver, 7)
+      .until(ExpectedConditions.visibilityOfAllElementsLocatedBy(By.cssSelector(cssClass)))
+
+  def elementHasClass(cssSelector: String, hasClass: String)(implicit driver: WebDriver): Boolean =
+    driver.findElement(By.cssSelector(cssSelector)).getAttribute("class").contains(hasClass)
+
 }

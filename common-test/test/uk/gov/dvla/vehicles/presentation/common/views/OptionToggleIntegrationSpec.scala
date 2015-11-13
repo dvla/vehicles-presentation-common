@@ -1,69 +1,78 @@
 package uk.gov.dvla.vehicles.presentation.common.views
 
-import org.openqa.selenium.SearchContext
-import org.scalatest.selenium.WebBrowser.click
-import org.scalatest.selenium.WebBrowser.go
-import org.scalatest.selenium.WebBrowser.pageTitle
-import org.scalatest.selenium.WebBrowser.pageSource
+import org.openqa.selenium.WebDriver
+import org.scalatest.selenium.WebBrowser.{click, go,pageSource, pageTitle}
 import uk.gov.dvla.vehicles.presentation.common.composition.TestHarness
 import uk.gov.dvla.vehicles.presentation.common.helpers.UiSpec
-import uk.gov.dvla.vehicles.presentation.common.helpers.webbrowser.WebDriverFactory
-import uk.gov.dvla.vehicles.presentation.common.mappings.OptionalToggle
 import uk.gov.dvla.vehicles.presentation.common.pages.{ErrorPanel, OptionTogglePage}
+import uk.gov.dvla.vehicles.presentation.common.mappings.OptionalToggle
 
 class OptionToggleIntegrationSpec extends UiSpec with TestHarness {
 
-  "present" ignore {
-    "Display all the three testing components with the correct labels" in new WebBrowserForSelenium {
+  "present" should {
+    "Display all the three testing components with the correct labels" in new WebBrowserWithJs {
       go to OptionTogglePage
       pageTitle should equal(OptionTogglePage.title)
 
-      val textRadio = OptionTogglePage.textRadio
+      val textOptionGroup = OptionTogglePage.textRadioOption
+      textOptionGroup.label.getText should equal("Do you want to enter a string?")
+      textOptionGroup.radio.selection should equal(None)
+      textOptionGroup.component.underlying.getText should equal("")
 
-      textRadio.radio.selection should equal(None)
-      textRadio.label.text should equal("Do you want to enter a string?")
-      textRadio.component.text should equal("")
+      val intRadioOption = OptionTogglePage.intRadioOption
 
-      val intRadio = OptionTogglePage.intRadio
-      intRadio.radio.selection should equal(None)
-      intRadio.label.text should equal("Do you want to enter an Int?")
-      intRadio.component.text should equal("")
+      intRadioOption.radio.selection should equal(None)
+      intRadioOption.label.getText should equal("Do you want to enter an Int?")
+      intRadioOption.component.text should equal("")
 
-      val dateRadio = OptionTogglePage.dateRadio
-      dateRadio.radio.selection should equal(None)
-      dateRadio.label.text should equal("Do you want to enter a Date?")
-      val dateComponent = dateRadio.component
+      val dateOptionGroup = OptionTogglePage.dateRadioOption
+      dateOptionGroup.radio.selection should equal(None)
+      dateOptionGroup.label.getText should equal("Do you want to enter a Date?")
+      val dateComponent = dateOptionGroup.component
       dateComponent.day.text should equal("")
       dateComponent.month.text should equal("")
       dateComponent.year.text should equal("")
     }
 
-    "show working option toggle" in new WebBrowserForSelenium(webDriver = WebDriverFactory.defaultBrowserPhantomJs) {
+    "show working option toggle" in new WebBrowserWithJs {
       go to OptionTogglePage
       pageTitle should equal(OptionTogglePage.title)
 
-      OptionTogglePage.textRadio.assetComponentInvisible
-      OptionTogglePage.textRadio.radio.value = "visible"
-      OptionTogglePage.textRadio.assetComponentVisible
-      OptionTogglePage.textRadio.radio.value = "invisible"
-      OptionTogglePage.textRadio.assetComponentInvisible
+      OptionTogglePage.textRadioOption.assetComponentInvisible
+      OptionTogglePage.textRadioOption.radio.value = "visible"
+      OptionTogglePage.textRadioOption.assetComponentVisible
+      OptionTogglePage.textRadioOption.radio.value = "invisible"
+      OptionTogglePage.textRadioOption.assetComponentInvisible
+    }
+
+    "show/hide the options when yes/no is clicked" in new WebBrowserWithJs {
+      go to OptionTogglePage
+
+      OptionTogglePage.waitUntilJavascriptReady
+      OptionTogglePage.textRadioOption.assetComponentInvisible
+
+      click on OptionTogglePage.textRadioOption.radioInputWithValue(OptionalToggle.Visible)
+      OptionTogglePage.textRadioOption.assetComponentVisible
+
+      click on OptionTogglePage.textRadioOption.radioInputWithValue(OptionalToggle.Invisible)
+      OptionTogglePage.textRadioOption.assetComponentInvisible
     }
   }
 
-  "submit" ignore {
-    "should remember the radio state" in new WebBrowserForSelenium {
+  "submit" should {
+    "should remember the radio state" in new WebBrowserWithJs {
       go to OptionTogglePage
 
-      OptionTogglePage.textRadio.radio.value = OptionalToggle.Visible
-      OptionTogglePage.dateRadio.radio.value = OptionalToggle.Visible
+      OptionTogglePage.textRadioOption.radio.value = OptionalToggle.Visible
+      OptionTogglePage.dateRadioOption.radio.value = OptionalToggle.Visible
       click on OptionTogglePage.submit
 
-      OptionTogglePage.textRadio.radio.selection should equal(Some(OptionalToggle.Visible))
-      OptionTogglePage.intRadio.radio.selection should equal(None)
-      OptionTogglePage.dateRadio.radio.selection should equal(Some(OptionalToggle.Visible))
+      OptionTogglePage.textRadioOption.radio.selection should equal(Some(OptionalToggle.Visible))
+      OptionTogglePage.intRadioOption.radio.selection should equal(None)
+      OptionTogglePage.dateRadioOption.radio.selection should equal(Some(OptionalToggle.Visible))
     }
 
-    "should require options to be selected" in new WebBrowserForSelenium {
+    "should require options to be selected" in new WebBrowserWithJs {
       go to OptionTogglePage
 
       click on OptionTogglePage.submit
@@ -73,9 +82,10 @@ class OptionToggleIntegrationSpec extends UiSpec with TestHarness {
         "optional-date-option - mandatory-alternative.not-selected"
       )
 
-      val textRadio = OptionTogglePage.textRadio
-      textRadio.radio.value = OptionalToggle.Visible
-      textRadio.component.value = "some text"
+      val textOptionGroup = OptionTogglePage.textRadioOption
+      textOptionGroup.radio.value = OptionalToggle.Visible
+      textOptionGroup.assetComponentVisible
+      textOptionGroup.component.value = "some text"
       click on OptionTogglePage.submit
 
       verifyErrors(
@@ -84,23 +94,23 @@ class OptionToggleIntegrationSpec extends UiSpec with TestHarness {
       )
     }
 
-    "should run the underlying validations" in new WebBrowserForSelenium {
+    "should run the underlying validations" in new WebBrowserWithJs {
       go to OptionTogglePage
 
-      OptionTogglePage.textRadio.radio.value = OptionalToggle.Invisible
-      OptionTogglePage.intRadio.radio.value = OptionalToggle.Invisible
-      OptionTogglePage.dateRadio.radio.value = OptionalToggle.Visible
+      OptionTogglePage.textRadioOption.radio.value = OptionalToggle.Invisible
+      OptionTogglePage.intRadioOption.radio.value = OptionalToggle.Invisible
+      OptionTogglePage.dateRadioOption.radio.value = OptionalToggle.Visible
       click on OptionTogglePage.submit
       verifyErrors(
         "optional-date - Please enter a valid date in the format DD MM YYYY for example 20 3 1976 or 1 03 1976"
       )
-
-      OptionTogglePage.dateRadio.component.day.value = "12"
+      OptionTogglePage.dateRadioOption.assetComponentVisible
+      OptionTogglePage.dateRadioOption.component.day.value = "12"
       click on OptionTogglePage.submit
       verifyErrors(
         "optional-date - Please enter a valid date in the format DD MM YYYY for example 20 3 1976 or 1 03 1976"
       )
-      val dateComponent = OptionTogglePage.dateRadio.component
+      val dateComponent = OptionTogglePage.dateRadioOption.component
       dateComponent.day.value should equal("12")
       dateComponent.month.value should equal("")
       dateComponent.year.value should equal("")
@@ -111,20 +121,10 @@ class OptionToggleIntegrationSpec extends UiSpec with TestHarness {
       click on OptionTogglePage.submit
       pageTitle should equal("Success")
       pageSource should include("Some(2012-12-12)")
-
     }
   }
 
-  "javascript prototype" ignore {
-    "qunit tests should pass" in new WebBrowserForSelenium(webDriver = WebDriverFactory.defaultBrowserPhantomJs) {
-      go to OptionTogglePage.jsTestUrl
-      assertJsTestPass
-    }
-  }
-
-
-
-  private def verifyErrors(errors: String*)(implicit driver: SearchContext): Unit = {
+  private def verifyErrors(errors: String*)(implicit driver: WebDriver): Unit = {
     val errorsStr = ErrorPanel.text
     errors.foreach(errorsStr should include(_))
     ErrorPanel.numberOfErrors should equal(errors.length)

@@ -1,6 +1,6 @@
 package uk.gov.dvla.vehicles.presentation.common.pages
 
-import org.openqa.selenium.{SearchContext, WebDriver}
+import org.openqa.selenium.{WebDriver}
 import org.scalatest.selenium.WebBrowser.Element
 import org.scalatest.selenium.WebBrowser.find
 import org.scalatest.selenium.WebBrowser.id
@@ -12,7 +12,7 @@ import uk.gov.dvla.vehicles.presentation.common.helpers.webbrowser.Page
 import uk.gov.dvla.vehicles.presentation.common.helpers.webbrowser.WebDriverFactory
 import uk.gov.dvla.vehicles.presentation.common.models.DateModel.Form.{DateId, OptionalDateId}
 
-class DatePage(implicit driver: SearchContext) extends Page {
+class DatePage(implicit driver: WebDriver) extends Page {
 
   final val address = "/date"
   override val url: String = WebDriverFactory.testUrl + address.substring(1)
@@ -22,8 +22,8 @@ class DatePage(implicit driver: SearchContext) extends Page {
 
   lazy val required: DateWidget = DateWidget(DateId)
 
-  def submit(implicit driver: SearchContext): Element = {
-    implicit lazy val webDriver = WebDriverFactory.webDriver
+  def submit(implicit driver: WebDriver): Element = {
+//    implicit lazy val webDriver = WebDriverFactory.webDriver
     find(id("submit")).get
   }
 
@@ -45,12 +45,12 @@ class DatePage(implicit driver: SearchContext) extends Page {
 }
 
 object DatePage {
-  def instance(implicit driver: SearchContext) = new DatePage
+  def instance(implicit driver: WebDriver) = new DatePage
 }
 
 
-class DateWidget(idStr: String)(implicit driver: SearchContext) {
-  implicit lazy val webDriver = WebDriverFactory.webDriver
+class DateWidget(idStr: String)(implicit driver: WebDriver) {
+//  implicit lazy val webDriver = WebDriverFactory.webDriver
 
   def label: String = ???
 
@@ -66,5 +66,5 @@ class DateWidget(idStr: String)(implicit driver: SearchContext) {
 }
 
 object DateWidget {
-  def apply(idStr: String)(implicit driver: SearchContext): DateWidget = new DateWidget(idStr)
+  def apply(idStr: String)(implicit driver: WebDriver): DateWidget = new DateWidget(idStr)
 }

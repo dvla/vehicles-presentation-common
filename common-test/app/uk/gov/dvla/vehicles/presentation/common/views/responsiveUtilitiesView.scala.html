@@ -1,0 +1,14 @@
+@(closingTime: Int, closingWarnPeriod: Int)
+
+@import uk.gov.dvla.vehicles.presentation.common
+
+@main(
+title = Messages("responsive-utilities.title")
+) {
+    <div >
+        <p class="no-js-only">.no-js-only - only show is javascript is disabled</p>
+        <p class="js-only">.js-only - only show if javascript is enabled</p>
+        <p class="no-js-hidden">.no-js-hidden - don't show if javascript is disabled. Used in address picker page</p>
+    </div>
+
+}

@@ -3,13 +3,17 @@
 #{$htmlNamespace} {
 
     //Hides .js-only if .js-enabled not applied to <body>
-    body:not(.js-enabled) &  .js-only {
+    body:not(.js-enabled) & .js-only, body.js-disabled & .js-only {
         display:none;
     }
 
     //Hides .no-js-only if .js-enabled is applied to <body>
     body.js-enabled & .no-js-only {
         display:none;
+    }
+
+    .no-js-hidden {
+        display: none;
     }
 
     fieldset {

@@ -352,3 +352,6 @@ service-closing-warning.title = Service Closing Warning
 global.serviceCloseWarning = This service is available from {0} to {1}, you have
 global.serviceCloseWarning.p2 = to complete this service.
 global.serviceClosed = Service now closed. Service is available {0} to {1}
+
+#responsive-utilities
+responsive-utilities.title = Responsive Utilities

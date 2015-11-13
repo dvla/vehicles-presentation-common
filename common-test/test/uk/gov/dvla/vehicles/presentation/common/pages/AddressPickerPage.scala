@@ -1,6 +1,6 @@
 package uk.gov.dvla.vehicles.presentation.common.pages
 
-import org.openqa.selenium.SearchContext
+import org.openqa.selenium.{WebDriver}
 import org.scalatest.selenium.WebBrowser.Element
 import org.scalatest.selenium.WebBrowser.find
 import org.scalatest.selenium.WebBrowser.id
@@ -13,9 +13,9 @@ object AddressPickerPage  extends Page {
   override val url: String = WebDriverFactory.testUrl + address.substring(1)
   final override val title: String = "Address Picker"
   val jsTestUrl = WebDriverFactory.testUrl + "jstest" + address
-  implicit lazy val webDriver = WebDriverFactory.webDriver
 
   val addressPickerDriver = new AddressPickerDriver(AddressPickerModel.Form.datePicker1Id)
 
-  def submit(implicit driver: SearchContext): Element = find(id("submit")).get
+  def submit(implicit driver: WebDriver): Element = find(id("submit")).get
+
 }

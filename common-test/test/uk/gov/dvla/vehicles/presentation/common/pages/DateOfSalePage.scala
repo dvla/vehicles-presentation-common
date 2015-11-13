@@ -2,17 +2,10 @@ package uk.gov.dvla.vehicles.presentation.common.pages
 
 import uk.gov.dvla.vehicles.presentation.common.helpers
 import uk.gov.dvla.vehicles.presentation.common.models
-
-import helpers.webbrowser.{Page, WebDriverFactory, _}
+import helpers.webbrowser.{Page, WebDriverFactory}
 import models.DateOfSaleModel.Form.{OptionalDateId, DateId}
 import org.openqa.selenium.WebDriver
-import org.scalatest.selenium.WebBrowser.Element
-import org.scalatest.selenium.WebBrowser.find
-import org.scalatest.selenium.WebBrowser.id
-import org.scalatest.selenium.WebBrowser.go
-import org.scalatest.selenium.WebBrowser.click
-import org.scalatest.selenium.WebBrowser.telField
-import org.scalatest.selenium.WebBrowser.TelField
+import org.scalatest.selenium.WebBrowser._
 
 class DateOfSalePage(implicit driver: WebDriver) extends Page {
 
@@ -41,10 +34,18 @@ class DateOfSalePage(implicit driver: WebDriver) extends Page {
 
     click on submit
   }
+
+
 }
 
 object DateOfSalePage {
   def instance(implicit driver: WebDriver) = new DateOfSalePage
+
+
+  def useTodaysDateButton(implicit driver: WebDriver): Element = {
+    // This is the element / dom node that must be clicked to show / hide content
+    find(cssSelector("#todays_date")) getOrElse(throw new Exception("Unable to find help icon "))
+  }
 }
 
 
@@ -58,6 +59,7 @@ class DateOfSaleWidget(idStr: String)(implicit driver: WebDriver) {
   lazy val month: TelField = telField(id(s"${idStr}_month"))
 
   lazy val year: TelField = telField(id(s"${idStr}_year"))
+
 }
 
 object DateOfSaleWidget {

@@ -33,5 +33,17 @@ class FeedbackFormIntegrationSpec extends UiSpec with TestHarness {
       FeedbackFormPage.navigate(feedback = "1" * 1201)
       ErrorPanel.numberOfErrors should equal(1)
     }
+
+    "show a count down of characters remaining as user types in text" in new WebBrowserWithJs {
+      go to FeedbackFormPage
+
+      FeedbackFormPage.waitUntilJavascriptReady
+
+      FeedbackFormPage.feedbackElement.value = ""
+      FeedbackFormPage.feedbackCounterElement.text should equal("500")
+
+      FeedbackFormPage.feedbackElement.underlying.sendKeys("1234567890")
+      FeedbackFormPage.feedbackCounterElement.text should equal("490")
+    }
   }
 }

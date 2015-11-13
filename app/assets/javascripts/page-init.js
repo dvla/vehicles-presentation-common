@@ -142,7 +142,8 @@ define(function(require) {
         // Last minute available at T minus 1
         var lastMinuteInMinutes = closingTimeInMinutes - 1;
 
-        if (currentTimeInMinutes >= warningInMinutes && currentTimeInMinutes <= lastMinuteInMinutes) {            var refreshTimer = setInterval(function () {
+        if (currentTimeInMinutes >= warningInMinutes && currentTimeInMinutes <= lastMinuteInMinutes) {
+            var refreshTimer = setInterval(function () {
                 dClosing = new Date();
                 dCurrentTimeInMinutes = dClosing.getHours() * 60 + dClosing.getMinutes();
                 minLeft = lastMinuteInMinutes - dCurrentTimeInMinutes;
@@ -444,6 +445,9 @@ define(function(require) {
                     return true;
                 });
                 addressLookup.enableAddressLookup()
+
+                // Last command adds class, so we have a condition to wait for when unit-testing
+                $('html').addClass('js-ready');
             });
         }
     };

@@ -2,8 +2,8 @@ package uk.gov.dvla.vehicles.presentation.common.views
 
 import com.github.nscala_time.time.Imports.LocalDate
 import org.joda.time.chrono.ISOChronology
-import org.scalatest.selenium.WebBrowser.go
-import org.scalatest.selenium.WebBrowser.pageTitle
+import org.openqa.selenium.interactions.SendKeysAction
+import org.scalatest.selenium.WebBrowser._
 import play.api.i18n.Messages
 import uk.gov.dvla.vehicles.presentation.common.composition.TestHarness
 import uk.gov.dvla.vehicles.presentation.common.helpers.UiSpec
@@ -55,9 +55,6 @@ class DateOfSaleIntegrationSpec extends UiSpec with TestHarness {
 
       DateOfSalePage.instance.navigate((day + 1).toString, month.toString, year.toString)
 
-
-
-//      ErrorPanel.text should include(Messages("error.date.inTheFuture"))
       ErrorPanel.numberOfErrors should equal(1)
     }
 
@@ -71,6 +68,7 @@ class DateOfSaleIntegrationSpec extends UiSpec with TestHarness {
       val today = LocalDate.today
       success(today.toString("dd"), today.toString("MM"), today.toString("YYYY"))
     }
+
   }
 
   "Required date of birth" should {
@@ -78,6 +76,34 @@ class DateOfSaleIntegrationSpec extends UiSpec with TestHarness {
       DateOfSalePage.instance.navigate("01", "01", "1939", "", "", "")
       ErrorPanel.text should include(Messages("error.date.invalid"))
       ErrorPanel.numberOfErrors should equal(1)
+    }
+
+    "set today's date if the button is clicked" in new WebBrowserWithJs  {
+      go to DateOfSalePage.instance
+
+      val today = LocalDate.today
+
+      DateOfSalePage.instance.waitUntilJavascriptReady
+      click on DateOfSalePage.useTodaysDateButton
+
+      DateOfSalePage.instance.required.day.value should equal(today.toString("dd"))
+      DateOfSalePage.instance.required.month.value should equal(today.toString("MM"))
+      DateOfSalePage.instance.required.year.value should equal(today.toString("YYYY"))
+    }
+
+    "only allow numbers to be typed in" in new WebBrowserWithJs {
+      val alphaChars = "#$%&'()*+,-./:;<=>?@[\\]^{|}~ \"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
+      val today = LocalDate.today
+      go to DateOfSalePage.instance
+      DateOfSalePage.instance.waitUntilJavascriptReady
+
+      DateOfSalePage.instance.required.day.underlying.sendKeys(alphaChars.concat(today.toString("dd")))
+      DateOfSalePage.instance.required.month.underlying.sendKeys(alphaChars.concat(today.toString("MM")))
+      DateOfSalePage.instance.required.year.underlying.sendKeys(alphaChars.concat(today.toString("YYYY")))
+
+      DateOfSalePage.instance.required.day.value should equal(today.toString("dd"))
+      DateOfSalePage.instance.required.month.value should equal(today.toString("MM"))
+      DateOfSalePage.instance.required.year.value should equal(today.toString("YYYY"))
     }
   }
 }

@@ -1,13 +1,7 @@
 package uk.gov.dvla.vehicles.presentation.common.pages
 
 import org.openqa.selenium.WebDriver
-import org.scalatest.selenium.WebBrowser.TextField
-import org.scalatest.selenium.WebBrowser.textField
-import org.scalatest.selenium.WebBrowser.Element
-import org.scalatest.selenium.WebBrowser.find
-import org.scalatest.selenium.WebBrowser.id
-import org.scalatest.selenium.WebBrowser.click
-import org.scalatest.selenium.WebBrowser.go
+import org.scalatest.selenium.WebBrowser._
 import uk.gov.dvla.vehicles.presentation.common.helpers.webbrowser.Page
 import uk.gov.dvla.vehicles.presentation.common.helpers.webbrowser.WebDriverFactory
 import uk.gov.dvla.vehicles.presentation.common.models.V5cRegistrationNumberModel.Form.v5cRegistrationNumberID
@@ -25,5 +19,15 @@ object V5cRegistrationNumberPage extends Page {
     go to V5cRegistrationNumberPage
     registrationNumber.value = v5cRegistrationNumber
     click on submit
+  }
+
+  def helpIcon()(implicit driver: WebDriver): Element = {
+    // This is the element / dom node that must be clicked to show / hide content
+    find(cssSelector(".field-help")) getOrElse(throw new Exception("Unable to find help icon "))
+  }
+
+  def helpContent()(implicit driver: WebDriver): Element = {
+    // This is the element / dom node that must be clicked to show / hide content
+    find(cssSelector(".field-help-content")) getOrElse(throw new Exception("Unable to find help content"))
   }
 }

@@ -61,7 +61,7 @@ class AddressPickerSpec extends UiSpec with TestHarness with AppendedClues {
       widget.assertMissingPostcodeInvisible()
     }
 
-    "Keep Lookup container and Dropdown select invisible on resubmit for manual lookup" ignore new WebBrowserWithJs {
+    "Keep Lookup container and Dropdown select invisible on resubmit for manual lookup" in new WebBrowserWithJs {
       go to AddressPickerPage
       pageTitle should equal(AddressPickerPage.title)
 
@@ -82,7 +82,7 @@ class AddressPickerSpec extends UiSpec with TestHarness with AppendedClues {
       widget.assertMissingPostcodeInvisible()
     }
 
-    "Validate the address code only if missing " ignore new WebBrowserWithJs {
+    "Validate the address code only if missing " in new WebBrowserWithJs {
       go to AddressPickerPage
       pageTitle should equal(AddressPickerPage.title)
 
@@ -90,10 +90,9 @@ class AddressPickerSpec extends UiSpec with TestHarness with AppendedClues {
       widget.assertLookupInputVisible()
       widget.postCodeSearch.value = "AAAAAAA"
       click on AddressPickerPage.submit
-      val errors = ErrorPanel.text.lines.filter(_ != "Please check the form").toSeq
+      val errors = ErrorPanel.text.lines.filter(_ != "Please correct the details below").toSeq
       errors should have size 1
       errors.head should include(Messages("address-picker-1.address-postcode-lookup"))
-
     }
 
     "Lookup an address with ajax call" in new WebBrowserWithJs {
@@ -139,16 +138,24 @@ class AddressPickerSpec extends UiSpec with TestHarness with AppendedClues {
       widget.assertMissingPostcodeInvisible()
     }
 
-    "show manual input only with javascript disabled" ignore new WebBrowserWithJs {
+    "show manual input only with javascript disabled" in new WebBrowserWithJs {
+      go to AddressPickerPage
+      pageTitle should equal(AddressPickerPage.title)
+
+      // Testing for utility classes as our browser automation suite does not work with Javascript disabled
+      val widget = AddressPickerPage.addressPickerDriver
+      AddressPickerPage.elementHasClass(".postcode-lookup-container","no-js-hidden") should equal(true)
+
+    }
+    "dont show manual input with javascript enabled" in new WebBrowserWithJs {
       go to AddressPickerPage
       pageTitle should equal(AddressPickerPage.title)
 
       val widget = AddressPickerPage.addressPickerDriver
+      widget.assertAddressVisible()
 
       widget.assertLookupInputVisible()
-      widget.assertAddressInputsVisible()
-      widget.assertServerErrorInvisible()
-      widget.assertMissingPostcodeInvisible()
+      widget.assertAddressInputsInvisible()
     }
 
     "show server error message" in new WebBrowserWithJs {
@@ -167,7 +174,7 @@ class AddressPickerSpec extends UiSpec with TestHarness with AppendedClues {
       widget.assertMissingPostcodeInvisible()
     }
 
-    "show server postcode not found message" ignore new WebBrowserWithJs {
+    "show server postcode not found message" in new WebBrowserWithJs {
       go to AddressPickerPage
       pageTitle should equal(AddressPickerPage.title)
 
@@ -183,7 +190,7 @@ class AddressPickerSpec extends UiSpec with TestHarness with AppendedClues {
       widget.assertMissingPostcodeVisible()
     }
 
-    "validate required elements" ignore new WebBrowserWithJs {
+    "validate required elements" in new WebBrowserWithJs {
       go to AddressPickerPage
       val widget = AddressPickerPage.addressPickerDriver
       widget.assertLookupInputVisible()
@@ -210,7 +217,7 @@ class AddressPickerSpec extends UiSpec with TestHarness with AppendedClues {
       widget.assertMissingPostcodeInvisible()
     }
 
-    "preserve the submitted values" ignore new WebBrowserWithJs {
+    "preserve the submitted values" in new WebBrowserWithJs {
       go to AddressPickerPage
       val widget = AddressPickerPage.addressPickerDriver
       widget.assertLookupInputVisible()
@@ -232,7 +239,7 @@ class AddressPickerSpec extends UiSpec with TestHarness with AppendedClues {
       widget.postcode.value should equal("")
     }
 
-    "submit when required are present" ignore new WebBrowserWithJs {
+    "submit when required are present" in new WebBrowserWithJs {
       val model = Address(
         SearchFields(showSearchFields = true,
           showAddressSelect = true,
@@ -266,7 +273,7 @@ class AddressPickerSpec extends UiSpec with TestHarness with AppendedClues {
         .map(a => a.address1 should equal(model)) orElse fail("Did not have a AddressPickerModel in the response")
     }
 
-    "enter address manually with html unit only" ignore new WebBrowserWithJs() {
+    "enter address manually with html unit only" in new WebBrowserWithJs() {
       go to AddressPickerPage
       val widget = AddressPickerPage.addressPickerDriver
       widget.assertLookupInputVisible()
@@ -278,7 +285,7 @@ class AddressPickerSpec extends UiSpec with TestHarness with AppendedClues {
       widget.addressLine1.value = "address line 1"
     }
 
-    "Enter address manually should work with javascript disabled" ignore new WebBrowserForSelenium {
+    "Enter address manually should work with javascript disabled" in new WebBrowserForSelenium {
       val model = Address(
         SearchFields(showSearchFields = false,
           showAddressSelect = false,

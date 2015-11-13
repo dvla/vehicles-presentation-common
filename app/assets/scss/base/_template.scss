@@ -304,7 +304,7 @@ img {
         white-space: nowrap;
         min-width: 92px;
         width: auto !important;
-        display: inline-block !important;
+        display: inline-block;
         &:focus {
             background-color: inherit;
             outline: inherit;

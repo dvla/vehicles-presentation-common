@@ -11,7 +11,7 @@ import uk.gov.dvla.vehicles.presentation.common.mappings.AddressPicker.PostcodeI
 import uk.gov.dvla.vehicles.presentation.common.mappings.AddressPicker.PostTownId
 import uk.gov.dvla.vehicles.presentation.common.mappings.AddressPicker.RememberId
 
-class AddressPickerDriver(id: String) extends WebBrowser {
+class AddressPickerDriver(id: String) extends WebBrowser  {
   private implicit val timeout = 3
 
   def postCodeSearch(implicit driver: WebDriver): TextField =
@@ -25,6 +25,7 @@ class AddressPickerDriver(id: String) extends WebBrowser {
     find(cssSelector(".address-manual-toggle"))//(driver.findElement(By.id(id)))
       .getOrElse(throw new Exception(s"Cannot find element with id address-manual-toggle in address picker with id:$id "))
 
+
   def search(postcode: String)(implicit driver: WebDriver): Unit = {
     postCodeSearch.value = postcode
     click on searchButton
@@ -37,7 +38,7 @@ class AddressPickerDriver(id: String) extends WebBrowser {
   }
 
   def addressSelect(implicit driver: WebDriver): SingleSel =
-    singleSel(cssSelector(".js-address-list"))//(driver.findElement(By.id(id)))
+    singleSel(cssSelector(".js-address-list"))   //(driver.findElement(By.id(id)))
 
   def selectAddress(value: String)(implicit driver: WebDriver): Unit = {
     addressSelect.value = value
@@ -61,6 +62,10 @@ class AddressPickerDriver(id: String) extends WebBrowser {
   def remember(implicit driver: WebDriver): Checkbox =
     checkbox(id(s"${id}_$RememberId"))//(driver.findElement(By.id(id)))
 
+  def assertAddressVisible(timeout: Int = timeout)(implicit driver: WebDriver): Unit = {
+    Wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(s"#$id")))
+  }
+
   def assertAddressInputsVisible(timeout: Int = timeout)(implicit driver: WebDriver): Unit = {
     Wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(s"#$id .address-manual-inputs-wrapper")))
   }
@@ -81,6 +86,10 @@ class AddressPickerDriver(id: String) extends WebBrowser {
     Wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(s"#$id .postcode-lookup-container")))
   }
 
+  def assertLookupInputInvisible(timeout: Int = timeout)(implicit driver: WebDriver): Unit = {
+    Wait.until(ExpectedConditions.invisibilityOfElementLocated(By.cssSelector(s"#$id .postcode-lookup-container")))
+  }
+
   def assertServerErrorVisible(timeout: Int = timeout)(implicit driver: WebDriver): Unit = {
     Wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(s"#$id .server-message")))
   }
@@ -95,10 +104,6 @@ class AddressPickerDriver(id: String) extends WebBrowser {
 
   def assertMissingPostcodeInvisible(timeout: Int = timeout)(implicit driver: WebDriver): Unit = {
     Wait.until(ExpectedConditions.invisibilityOfElementLocated(By.cssSelector(s"#$id .missing-postcode")))
-  }
-
-  def assertLookupInputInvisible(timeout: Int = timeout)(implicit driver: WebDriver): Unit = {
-    Wait.until(ExpectedConditions.invisibilityOfElementLocated(By.cssSelector(s"#$id .postcode-lookup-container")))
   }
 
   def enterAddressManuallyLink(implicit driver: WebDriver): Element =
