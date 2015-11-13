@@ -19,12 +19,12 @@ class PostcodeIntegrationSpec extends UiSpec with TestHarness {
       pageTitle should equal("Success")
     }
 
-    "display three validation error messages when no postcode is entered" in new WebBrowserForSelenium {
+    "display three validation error messages.en when no postcode is entered" in new WebBrowserForSelenium {
       PostcodePage.navigate(postcode = "")
       ErrorPanel.numberOfErrors should equal(3)
     }
 
-    "display two validation error messages when a postcode less than min length is entered" in new WebBrowserForSelenium {
+    "display two validation error messages.en when a postcode less than min length is entered" in new WebBrowserForSelenium {
       PostcodePage.navigate(postcode = "SA99")
       ErrorPanel.numberOfErrors should equal(2)
     }

@@ -152,7 +152,7 @@ class RabbitMqChannelFactorySpec extends UnitSpec {
   "e2e" should {
     import com.rabbitmq.client.Address
 
-    "Enqueue/Dequeue messages" ignore {
+    "Enqueue/Dequeue messages.en" ignore {
       val config = TestRabbitMqConfig(
           rabbitMqVirtualHost = None,
           rabbitMqUserName = None,

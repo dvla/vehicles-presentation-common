@@ -46,7 +46,7 @@ class SetupTradeDetailsFormSpec extends UnitSpec {
 
   "traderBusinessName" should {
     "reject if trader business name is blank" in new WithApplication {
-      // IMPORTANT: The messages being returned by the form validation are overridden by the Controller
+      // IMPORTANT: The messages.en being returned by the form validation are overridden by the Controller
       val errors = formWithValidDefaults(traderBusinessName = "").errors
       errors should have length 3
       errors(0).key should equal(TraderNameId)
@@ -75,7 +75,7 @@ class SetupTradeDetailsFormSpec extends UnitSpec {
 
   "postcode" should {
     "reject if trader postcode is empty" in new WithApplication {
-      // IMPORTANT: The messages being returned by the form validation are overridden by the Controller
+      // IMPORTANT: The messages.en being returned by the form validation are overridden by the Controller
       val errors = formWithValidDefaults(traderPostcode = "").errors
       errors should have length 3
       errors(0).key should equal(TraderPostcodeId)

@@ -260,6 +260,9 @@ address.picker.common.changeDetails = Change my details
 address.picker.common.rememberDetails = Remember these details
 address.picker.common.postCodeNotFound = Postcode not found
 address.picker.common.serverError = Error from the server:
+address.picker.common.townOrCityLength = 20
+address.picker.common.postcodeLength = 8
+address.picker.common.addressStreetLength = 30
 
 # Alert Warning
 alertWarning.pageTitle = Alert Warning
@@ -292,6 +295,10 @@ playback-trader_details.trader_address = Trader address
 playback-trader_details.address_1 = 1 Not a real street
 playback-trader_details.address_2 = Not a real town
 playback-trader_details.postcode = AA11AA
+playback-trader_details.trader_email_label = Email
+# Note: email is displayed in lowercase via exemplars
+# Note2: vpc common-tests-run will show in UPPERCASE via playback CSS
+playback-trader_details.trader_email = Trader@Company.com
 
 playback-keeper-application-details-contact-us = To contact us:
 playback-keeper-application-details-telephone = Telephone
@@ -337,6 +344,9 @@ error.address.buildingNameOrNumber.invalid = Building/number and street must con
 error.address.postTown = Town or city must contain between 3 and 20 characters
 error.address.postcode.invalid = Must be between five and eight characters and in a valid format, eg. AB1 2Ba or AB12BA
 error.address.maxLengthOfLinesConcatenated = Address can have no more than 120 characters
+error.address.characterInvalid = Invalid character in line of address
+error.postTown.characterInvalid = Invalid character in post town
+error.threeAlphas = Entry requires at least three letters
 
 #pleaseWait widget
 please-wait.title = Please Wait
@@ -353,5 +363,19 @@ global.serviceCloseWarning = This service is available from {0} to {1}, you have
 global.serviceCloseWarning.p2 = to complete this service.
 global.serviceClosed = Service now closed. Service is available {0} to {1}
 
+
 #responsive-utilities
 responsive-utilities.title = Responsive Utilities
+
+#vehicleDetailPlayback widget
+vehicle-detail-playback.title = Vehicle Detail Playback
+vehicle-detail-playback.vehicledetails = Vehicle details
+vehicle-detail-playback.vehiclereg = Registration number
+vehicle-detail-playback.vehiclemake = Make
+vehicle-detail-playback.vehiclemodel = Model
+vehicle-detail-playback.mileage = Vehicle mileage
+vehicle-detail-playback.mileageNotEntered = NOT ENTERED
+
+language.cy.button = Cymraeg
+language.en.button = English
+

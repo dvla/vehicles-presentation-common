@@ -1,0 +1,34 @@
+@(vehicleDetails: uk.gov.dvla.vehicles.presentation.common.model.VehicleAndKeeperDetailsModel,
+    showLanguageSwitch: Boolean = true)(implicit lang: Lang)
+
+@import scala.collection.mutable.LinkedHashMap
+@import uk.gov.dvla.vehicles.presentation.common
+@import common.views.html.widgets.vehicleDetailPlayback
+@import common.views.html.common.alternateLanguages
+
+@main(
+title = Messages("vehicle-detail-playback.title")
+) {
+    <div class="two-col">
+        <div class="second-col">
+            <li>@alternateLanguages(showLanguageSwitch)</li>
+        </div>
+        <div class="first-col">
+            @vehicleDetailPlayback(vehicleDetails)()
+
+            @vehicleDetailPlayback(vehicleDetails, LinkedHashMap.empty, List("related"))()
+
+            @vehicleDetailPlayback(
+                vehicleDetails,
+                {
+                    val additionalPlaybackItems: LinkedHashMap[String, String] = LinkedHashMap()
+                    additionalPlaybackItems += (
+                        Messages("vehicle-detail-playback.mileage") ->
+                        Messages("vehicle-detail-playback.mileageNotEntered")
+                    )
+                },
+                List("related")
+            )()
+        </div>
+    </div>
+}

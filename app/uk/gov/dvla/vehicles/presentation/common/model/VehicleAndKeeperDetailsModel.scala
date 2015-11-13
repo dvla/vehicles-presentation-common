@@ -99,5 +99,4 @@ object VehicleAndKeeperDetailsModel {
 
   def vehicleAndKeeperLookupDetailsCacheKey(implicit prefix: CacheKeyPrefix) =
     s"${prefix}vehicle-and-keeper-lookup-details"
-
 }

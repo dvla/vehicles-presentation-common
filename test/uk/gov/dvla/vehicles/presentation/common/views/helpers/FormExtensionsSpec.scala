@@ -87,7 +87,7 @@ final class FormExtensionsSpec extends UnitSpec {
       result should equal(expectedForm)
     }
 
-    "preserve the order of the error messages when replacing" in {
+    "preserve the order of the error messages.en when replacing" in {
       val form = createForm(errors = Seq(differentError1, originalError, differentError2))
       val expectedForm = createForm(errors = Seq(differentError1, replacementError, differentError2))
       val idToReplace = originalErrorId
@@ -164,7 +164,7 @@ final class FormExtensionsSpec extends UnitSpec {
       result should equal(expectedForm)
     }
 
-    "preserve the order of the error messages when replacing" in {
+    "preserve the order of the error messages.en when replacing" in {
       val form = createForm(errors = Seq(differentError1, originalError, differentError2))
       val expectedForm = createForm(errors = Seq(differentError1, replacementError, differentError2))
       val idToReplace = originalErrorId

@@ -4,7 +4,7 @@ import play.api.Application
 import play.api.i18n._
 
 /**
- * optimizes the loading of the messages so that they are loaded only one per JVM
+ * optimizes the loading of the messages.en so that they are loaded only one per JVM
  * this is useful for unit & integration tests that start a new Fakeapplication for each test
  */
 class CachedMessagesPlugin(app: Application) extends DefaultMessagesPlugin(app) {
@@ -25,7 +25,7 @@ class CachedMessagesPlugin(app: Application) extends DefaultMessagesPlugin(app) 
 }
 
 /**
- * holds the cached messages
+ * holds the cached messages.en
  */
 object CachedMessagesPlugin{
   var cache :Option[MessagesApi]= None

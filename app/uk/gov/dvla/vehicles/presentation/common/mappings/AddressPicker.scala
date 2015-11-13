@@ -6,9 +6,10 @@ import play.api.data.format.Formatter
 import uk.gov.dvla.vehicles.presentation.common.model.{SearchFields, Address}
 
 object AddressPicker {
-  private final val AddressLinesFormat = """^[a-zA-Z0-9][A-Za-z0-9\s\-\,\.\/\\]*$""".r.pattern
-  private final val PostTownFormat = """^[a-zA-Z][A-Za-z\s\-\,\.\/\\]*$""".r.pattern
-  private final val MaxLengthOfLinesConcatenated = 120
+  val TownMaxLength = 20
+  private final val AddressLinesFormat = uk.gov.dvla.vehicles.presentation.common.views.models.AddressAndPostcodeViewModel.Form.addressLinesFormat.pattern // additional address lines
+  private final val PostTownFormat = uk.gov.dvla.vehicles.presentation.common.views.models.AddressAndPostcodeViewModel.Form.postTownFormat.pattern
+  private final val MaxLengthOfLinesConcatenated = uk.gov.dvla.vehicles.presentation.common.views.models.AddressAndPostcodeViewModel.Form.MaxLengthOfLinesConcatenated
   final val SearchByPostcodeField = "address-postcode-lookup"
   final val AddressLine1Id = "address-line-1"
   final val AddressLine2Id = "address-line-2"
@@ -62,6 +63,7 @@ object AddressPicker {
                 else Some(FormError(s"$key.$lkey", "error.address.characterInvalid"))
               }
             }.flatten ++ addressLineLengthErr
+
           } ++ postTown.fold[SFE](Seq(FormError(s"$key.$PostTownId", "error.address.postTown"))) { postTown =>
             if (PostTownFormat.matcher(postTown).matches()) Nil
             else Seq(FormError(s"$key.$PostTownId", "error.postTown.characterInvalid"))
@@ -113,14 +115,4 @@ object AddressPicker {
 
   val mapAddress = of[Address](AddressPicker.formatter())
 
-  //  def addressesForPostCode(postCode: Field, trackingId: String)
-  //                          (implicit addressLookupService: AddressLookupService): Seq[(String, String)] = {
-  //    postCode.value.fold(Seq.empty[(String, String)]) {postCode =>
-  //      val result: Seq[AddressDto] = try
-  //        Await.result(addressLookupService.addresses(postCode, trackingId), Duration(2, TimeUnit.SECONDS))
-  //      catch {case e: TimeoutException => Nil}
-  //
-  //      result.sortBy(_.addressLine).zipWithIndex.map{case (line, index) => (index.toString, line.addressLine)}
-  //    }
-  //  }
 }

@@ -26,6 +26,12 @@ object AddressAndPostcodeViewModel {
     final val UprnId = "uprn"
     final val MaxLengthOfLinesConcatenated = 120
 
+    // Post town cannot contain numbers, can also include punctuation.
+    final val postTownFormat = """^[a-zA-Z][A-Za-z\s\-\,\.\/\\]*$""".r
+
+    // Regex states string must contain at least one number or letter, can also include punctuation.
+    final val addressLinesFormat = uk.gov.dvla.vehicles.presentation.common.views.constraints.BusinessName.Pattern.r // to be applied on combined address lines
+
     // This is being left for backwards compatibility
     final val Mapping: Mapping[AddressAndPostcodeViewModel] = mapping(
       UprnId -> uprn,
@@ -44,15 +50,8 @@ object AddressAndPostcodeViewModel {
 
     private def validAddressLines: Constraint[AddressLinesViewModel] = Constraint[AddressLinesViewModel](RequiredField) {
       case input: AddressLinesViewModel =>
-        // Regex states string must contain at least one number or letter, can also include punctuation.
-        val addressLinesFormat = """^[a-zA-Z0-9][A-Za-z0-9\s\-\,\.\'\/\\]*$""".r
-
-        // TODO FIX THIS CODE WHICH DOESN'T DO WHAT YOU MIGHT EXPECT
 
         val addressLines = input.toViewFormat.dropRight(1).mkString
-
-        // Post town cannot contain numbers, can also include punctuation.
-        val postTownFormat = """^[a-zA-Z][A-Za-z\s\-\,\.\/\\]*$""".r
 
         val postTown = input.toViewFormat.last.mkString
 
