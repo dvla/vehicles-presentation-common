@@ -4,6 +4,7 @@
 @import uk.gov.dvla.vehicles.presentation.common.models
 @import uk.gov.dvla.vehicles.presentation.common.controllers
 @import uk.gov.dvla.vehicles.presentation.common.views
+@import uk.gov.dvla.vehicles.presentation.common.views.models.RadioWithHint
 @import common.views.helpers.BaseTemplate.fieldConstructor
 @import common.views.html.widgets.listRadioGroup
 @import models.ValtechRadioModel.Form.KeeperTypeId
@@ -31,5 +32,20 @@
         <div class="form-steps">
             <button id="submit" type="submit" name="action" class="button" aria-label="Next button">@Messages("valtechRadio.button")</button>
         </div>
+
+
+        @* radio with hints and without default radio button and no autofocus option *@
+        </p>
+        @listRadioGroup(field = valtechRadioForm("radiogroup2"),
+            optionsWithHint = Seq(
+                RadioWithHint("Business2", "No, I am a busniness", "Hint: you are not a keeper and no default selected in this group."),
+                RadioWithHint("Keeper2", "Yes", ""), // empty hint
+                RadioWithHint("Maybe", "Not sure", "", """<div class="panel-indent-wrapper"><p>Extra html e.g. a placeholder
+                    for content that is normally hidden via jquery/js method hideEmailOnOther.</p></div>""") // empty hint, but with raw html
+            ),
+            args = Map(
+               '_label -> (Messages("valtechRadio.label") + " (Radio group with hint)")
+            )
+        )
     }
 }
