@@ -4,3 +4,6 @@ vehicle-detail-playback.vehiclereg = Registration number
 vehicle-detail-playback.vehiclemake = Make
 vehicle-detail-playback.vehiclemodel = Model
 
+formSteps.buttonnavprint = Print
+formSteps.newdisposalbutton = Notify Another Sale
+formSteps.exitbutton = Finish

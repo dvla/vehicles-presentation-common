@@ -379,3 +379,12 @@ vehicle-detail-playback.mileageNotEntered = NOT ENTERED
 language.cy.button = Cymraeg
 language.en.button = English
 
+#formSteps widget
+form-steps.title = Form Steps
+formSteps.buttonnavprint = Print
+formSteps.newdisposalbutton = Notify Another Sale
+formSteps.exitbutton = Finish
+form-steps.label = Switch the topmost form-steps to desktop or mobile mode
+form-steps.button = Desktop / Mobile
+form-steps.button.desktop = Desktop only
+form-steps.button.mobile = Mobile only

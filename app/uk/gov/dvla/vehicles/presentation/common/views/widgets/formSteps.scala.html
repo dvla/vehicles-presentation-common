@@ -1,0 +1,69 @@
+@(exitFormTarget: Call,
+    ExitId: String,
+    surveyUrl: Option[String] = None,
+    cssClasses: List[String] = Nil,
+    args: Map[Symbol, Any] = Map.empty
+)(implicit lang: Lang,
+    token: uk.gov.dvla.vehicles.presentation.common.filters.CsrfPreventionAction.CsrfPreventionToken)
+
+@import views.html.helper.form
+@import uk.gov.dvla.vehicles.presentation.common
+@import common.views.html.widgets.base.csrfTokenHiddenField
+
+<div class="@(("form-steps" :: cssClasses).mkString(" "))">
+    <div class="step">
+        <button id="printDisposalSuccess"
+                type="button"
+                name="action"
+                value="printDisposalSuccess"
+                class="button js-only print-button ga-track-click-event-once"
+                ga-event-category="ct_print"
+                ga-event-action="print">
+            @Messages("formSteps.buttonnavprint")
+        </button>
+    </div>
+
+    @if(args.contains('target) && args.contains('buttonId)) {
+        <div class="step">
+            @form(action = args('target).asInstanceOf[Call]) {
+                @csrfTokenHiddenField()
+                <button id="@args('buttonId)"
+                    type="submit"
+                    name="action"
+                    class="button button-new-disposal button-secondary ga-track-click-event-once"
+                    ga-event-category="ct_link"
+                    ga-event-action="sell-another">
+                    @Messages("formSteps.newdisposalbutton")
+                </button>
+            }
+        </div>
+    }
+
+    <div class="step">
+        @form(action = exitFormTarget) {
+            @csrfTokenHiddenField()
+            @surveyUrl match {
+                case Some(url) => {
+                    <button id="@ExitId"
+                        type="submit"
+                        name="action"
+                        onclick="window.open('@url', '_blank');"
+                        class="button button-secondary ga-track-click-event-once"
+                        ga-event-category="dispose-success"
+                        ga-event-action="exit">
+                        @Messages("formSteps.exitbutton")
+                    </button>
+                }
+                case None => {
+                    <button id="@ExitId"
+                        type="submit"
+                        name="action"
+                        class="button button-secondary ga-dispose-success-exit">
+                        @Messages("formSteps.exitbutton")
+                    </button>
+                }
+            }
+        }
+    </div>
+</div>
+
