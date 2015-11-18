@@ -9,6 +9,7 @@
 <div class="two-col clearfix">
   <div class="second-col">
 
+    <h1>@Messages("cookie-policy-title")</h1>
     @displayMessage(Messages("cookie-policy-p1"))
     @displayMessage(Messages("cookie-policy-p2"))
     <ul>
@@ -39,7 +40,7 @@
             <td>@Messages("cookie-policy.table.expires")</td>
           </tr>
           </thead>
-        @for( entry <- cookiesPolicyMap(section) ) {
+        @for(entry <- cookiesPolicyMap(section)) {
           <tr>
             <td>@entry.name</td>
             <td>@Messages(s"cookie-policy.cookies.$section.${entry.purpose}")</td>

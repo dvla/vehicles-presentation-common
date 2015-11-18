@@ -1,12 +1,12 @@
 package uk.gov.dvla.vehicles.presentation.common.controllers
 
 import com.google.inject.Inject
-import play.api.mvc.{Action, Controller}
-import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClientSideSessionFactory
-import uk.gov.dvla.vehicles.presentation.common.model.CookieReport
-import uk.gov.dvla.vehicles.presentation.common.views
+import play.api.mvc.Controller
+import uk.gov.dvla.vehicles.presentation.common
+import common.clientsidesession.ClientSideSessionFactory
+import common.model.CookieReport
 
-class CookiePolicyController @Inject()(implicit clientSideSessionFactory: ClientSideSessionFactory) extends Controller {
+class CookiePolicy @Inject()(implicit clientSideSessionFactory: ClientSideSessionFactory) extends Controller {
 
   protected val cookies = Map(
     "google_analytics" -> List(
@@ -27,8 +27,4 @@ class CookiePolicyController @Inject()(implicit clientSideSessionFactory: Client
       CookieReport("PLAY_LANG", "PLAY_LANG", "1year")
     )
   )
-
-  def present = Action { implicit request =>
-    Ok(views.html.cookiesPolicyPage(cookies))
-  }
 }
