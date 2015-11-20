@@ -388,3 +388,12 @@ form-steps.label = Switch the topmost form-steps to desktop or mobile mode
 form-steps.button = Desktop / Mobile
 form-steps.button.desktop = Desktop only
 form-steps.button.mobile = Mobile only
+
+#micro-service-error widget
+micro-service-error.title = Micro Service Error
+
+micro_service_error.title=We are sorry
+micro_service_error.text1=The service is temporarily unavailable.
+micro_service_error.text2=
+micro_service_error.back.button=Try again
+micro_service_error.exit.button=Exit

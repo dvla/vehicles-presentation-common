@@ -105,3 +105,5 @@ GET     /with-language/:chosenLanguage  @uk.gov.dvla.vehicles.presentation.commo
 
 GET     /form-steps                     @uk.gov.dvla.vehicles.presentation.common.controllers.FormStepsController.present
 POST    /form-steps                     @uk.gov.dvla.vehicles.presentation.common.controllers.FormStepsController.present
+
+GET     /micro-services-error           @uk.gov.dvla.vehicles.presentation.common.controllers.MicroServiceErrorController.present

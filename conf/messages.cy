@@ -6,6 +6,11 @@ vehicle-detail-playback.vehiclemodel = Model
 vehicle-detail-playback.mileage = Milltiredd y cerbyd
 vehicle-detail-playback.mileageNotEntered = HEB EI ROI
 
+#formSteps widget
+formSteps.buttonnavprint = Argraffwch
+formSteps.newdisposalbutton = Gwerthu cerbyd arall
+formSteps.exitbutton = Gorffen
+
 # Cookie Policy
 footer.cookies = Cwcis
 cookie-policy-title = Cwcis
@@ -64,3 +69,10 @@ cookie-policy.expires.2years = 2 flynedd
 cookie-policy.expires.30min = 30 munud
 cookie-policy.expires.inactivity = Ar ôl 15 munud o anweithgarwch neu pan fyddwch yn cau eich porwr
 cookie-policy.expires.close = Pan fyddwch yn cau eich porwr
+
+#microServiceError widget
+micro_service_error.title = Mae''n ddrwg gennym
+micro_service_error.text1 = Nid yw''r gwasanaeth ar gael dros dro.
+micro_service_error.text2 =
+micro_service_error.back.button = Yn ôl
+micro_service_error.exit.button = Allan
