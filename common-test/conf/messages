@@ -1,6 +1,14 @@
 #main header
 main.banner = Generic widgets
 
+# close widget
+#closed-title = Close
+closed.title = Service Unavailable
+closed.p1 = This service is only available Monday to Saturday {0} to {1}.
+closed.exit_button = Exit
+closed.opening = 08:00
+closed.closing = 18:00
+
 #widget messages
 errorsummary.title = Please check the form
 errorsummary.p1 = Please fix the following:

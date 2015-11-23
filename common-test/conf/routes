@@ -107,3 +107,5 @@ GET     /form-steps                     @uk.gov.dvla.vehicles.presentation.commo
 POST    /form-steps                     @uk.gov.dvla.vehicles.presentation.common.controllers.FormStepsController.present
 
 GET     /micro-services-error           @uk.gov.dvla.vehicles.presentation.common.controllers.MicroServiceErrorController.present
+
+GET     /closed                         @uk.gov.dvla.vehicles.presentation.common.controllers.ClosedController.present
