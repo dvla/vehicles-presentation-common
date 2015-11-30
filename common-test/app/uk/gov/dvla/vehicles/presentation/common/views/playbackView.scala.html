@@ -72,6 +72,7 @@ title = Messages("playback-title")
                     )
                     playbackItems += (Messages("playback-trader_details.trader_address") -> address.mkString("<br/>"))
                     playbackItems += (Messages("playback-trader_details.trader_email_label") -> Messages("playback-trader_details.trader_email"))
+                    playbackItems += ("EMAIL_" + Messages("playback-trader_details.trader_email_label") -> Messages("playback-trader_details.trader_email"))
                 },
                 List("vehicle-sold-by", "bg-plain")
             )()
