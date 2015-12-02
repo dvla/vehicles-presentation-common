@@ -17,6 +17,7 @@
                         value="@v._1" @(if(value == Some(v._1)) "checked" else "")
                    }
                    @if(v == options.head) {@toHtmlArgs(htmlArgs)} else {@toHtmlArgs(htmlArgs - 'autofocus) }
+
             >
                    <span class="text">@v._2</span>
         </label>

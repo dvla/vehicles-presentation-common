@@ -227,52 +227,38 @@ define(function(require) {
         }
     };
 
-    var tooltipToggle = function() {
-        $('.field-help').addClass('enable');
-        $('.field-help').on('click', function(e) {
-            var helpContent = $('.field-help-content[data-tooltip="' + $(this).attr('data-tooltip') +'"]');
-            // Since its an anchor whose href is a fragment to the field, we prevent browser from scrolling to it
-            e.preventDefault();
-            if (helpContent) {
-                if ($(helpContent).is(':visible')) {
-                    $(helpContent).hide(100);
-                    $(this).find('.field-help-close').hide();
+    var elementToggle = function() {
+        $('.toggle-element').each(function() {
+            // Trigger is the item that is usually clicked, while target is the element to show / hide
+            var trigger = this;
+            var target = $(trigger).data('target') || $(this).siblings('.toggle-target');
+            var animationSpeed = 100;
+            if (target) {
+                if (trigger.tagName.toLowerCase() === 'input' && $(trigger).attr('type') === 'radio') {
+                    $(trigger).on('click', function(e) {
+                        // Do we show / hide the target
+                        // This prevents unwanted toggle behaviour i.e. if a user double-clicks the trigger
+                        if ($(trigger).hasClass('option-visible') !== $(target).is(':visible')) {
+                            $(target).toggle(animationSpeed);
+                            // Disable / Enable the optional fields, needed to managed HTML5 validation
+                            $(target).find('input').attr('disabled', $(trigger).hasClass('option-visible') === false);
+                        }
+                    });
+                    // If the option-visible is selected on-load then we should show the optional-areas
+                    if ($(trigger).hasClass('option-visible') && $(trigger).is(':checked')) {
+                        $(target).find('input').attr('disabled', false); // Enable the fields for HTML5 validation
+                        $(target).show();
+                    }
                 } else {
-                    var me = this;
-                    $(helpContent).show(100, function() {
-                        $(me).find('.field-help-close').show();
+                    $(trigger).on('click', function(e){
+                        e.preventDefault();
+                        $(trigger).toggleClass('active');
+                        $(target).toggle(animationSpeed);
                     });
                 }
             }
         });
-    };
-
-    var summaryWrapperToggle = function() {
-        // Summary details toggle
-        $('.summary').on('click', function(e) {
-            e.preventDefault();
-
-            $(this).siblings().toggle(100);
-            $(this).toggleClass('active');
-        });
     }
-
-    var enableOptionToggle = function() {
-        $('.optional-field').hide();
-
-        $('.expandable-optional .option-visible').on('click', function() {
-            var expandable = $(this).closest('.expandable-optional').find('.optional-field');
-            $(expandable).find('input').attr('disabled',false);     // Enable the containing form fields
-            $(expandable).show(100);
-        });
-        $('.expandable-optional .option-invisible').on('click', function() {
-            var expandable = $(this).closest('.expandable-optional').find('.optional-field');
-            $(expandable).find('input').attr('disabled',true);      // Disable the containing form fields
-            $(expandable).hide(100);
-        });
-
-        $('.expandable-optional .option-visible:checked').click();
-    };
 
     // TODO: remove it if unused
     var areCookiesEnabled = function() {
@@ -322,14 +308,6 @@ define(function(require) {
 
         $("input:radio" ).click(function() {
             checkStateOfRadio(radioOtherId, emailId);
-        });
-    };
-
-    var imageHintToggles = function() {
-        $('.hint-image-wrap > .panel-indent-wrapper').hide();
-
-        $('.hint-image-wrap > p').on('click', function() {
-            $(this).siblings().toggle();
         });
     };
 
@@ -400,33 +378,27 @@ define(function(require) {
     return {
         disableSubmitOnClick: disableSubmitOnClick,
         closingWarning: closingWarning,
-        imageHintToggles: imageHintToggles,
         disableClickOnDisabledButtons: disableClickOnDisabledButtons,
         printButton: printButton,
-        tooltipToggle: tooltipToggle,
+        elementToggle: elementToggle,
         enableSmoothScroll: enableSmoothScroll,
         feedbackFormCharacterCountdown: feedbackFormCharacterCountdown,
-        enableOptionToggle: enableOptionToggle,
         formCheckedSelection: formCheckedSelection,
         hideEmailOnOther: hideEmailOnOther, // Do not call this from initAll because only some exemplars need it
         preventPasteOnEmailConfirm: preventPasteOnEmailConfirm,
-        summaryWrapperToggle: summaryWrapperToggle,
         gaTrackClickOnce: gaTrackClickOnce,
         gaTrackOptionalFields: gaTrackOptionalFields,
         initAll: function() {
             $(function() {
                 disableSubmitOnClick();
                 closingWarning();
-                imageHintToggles();
                 disableClickOnDisabledButtons();
                 printButton();
-                tooltipToggle();
+                elementToggle();
                 enableSmoothScroll();
                 feedbackFormCharacterCountdown();
-                enableOptionToggle();
                 formCheckedSelection();
                 preventPasteOnEmailConfirm();
-                summaryWrapperToggle();
                 gaTrackClickOnce();
                 gaTrackOptionalFields();
 
