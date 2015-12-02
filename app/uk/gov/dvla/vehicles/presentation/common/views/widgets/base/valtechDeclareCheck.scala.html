@@ -24,7 +24,7 @@
         >
         @valtechLabelText(field,args)
         @if(args.contains('tooltipText)) {
-            <a href="?#@id" class="field-help js-only" data-tooltip="tooltip_@id" aria-hidden="true">
+            <a href="?#@id" class="field-help js-only toggle-element" data-target="#tooltip_@id" data-tooltip="tooltip_@id" aria-hidden="true">
                 <span class="field-help-icon">i</span>
                 <span class="field-help-close" >Close</span>
             </a>
@@ -34,8 +34,7 @@
     @hintTextSnippet(hintText, idOfRelatedInput = id)
 
     @if(args.contains('tooltipText)) {
-
-        <div class="field-help-content no-js-only" data-tooltip="tooltip_@id">
+        <div class="field-help-content no-js-only" id="tooltip_@id" data-tooltip="tooltip_@id">
             <div class="panel-indent-wrapper">
                 <div class="panel-indent">
                     <p>@args('tooltipText)</p>

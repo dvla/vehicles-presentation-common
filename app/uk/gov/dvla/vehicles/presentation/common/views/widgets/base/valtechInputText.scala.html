@@ -34,7 +34,7 @@
         @hintTextSnippet(hintText, idOfRelatedInput = "hint_" + id)
 
         @if(args.contains('tooltipImgSrc)) {
-            <div class="field-help-content no-js-only" data-tooltip="tooltip_@id">
+            <div class="field-help-content no-js-only" id="tooltip_@id" data-tooltip="tooltip_@id">
                 <div class="panel-indent-wrapper">
                     <div class="panel-indent">
                         <p class="js-only">

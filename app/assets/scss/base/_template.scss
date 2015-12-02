@@ -312,6 +312,7 @@ img {
         &.enabled {
           @extend .inline-desktop-only;
         }
+
         .field-help-icon {
             display: inline-block;
             color: $govuk-blue;
@@ -331,7 +332,9 @@ img {
             font-size: 1.9rem;
         }
     }
-
+    .field-help.active .field-help-close {
+        display: inline-block;
+    }
     .field-help-content {
         clear: both;
         .panel-indent-wrapper {
