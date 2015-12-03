@@ -8,6 +8,7 @@ import uk.gov.dvla.vehicles.presentation.common
 import common.clientsidesession.CacheKey
 import common.mappings.Postcode.postcode
 import common.views.models.AddressLinesViewModel.Form.{AddressLinesId, mapping => addressLinesMapping}
+import common.views.constraints.BusinessName
 import common.views.constraints.Required.RequiredField
 
 case class AddressAndPostcodeViewModel(uprn: Option[Int] = None,
@@ -26,11 +27,14 @@ object AddressAndPostcodeViewModel {
     final val UprnId = "uprn"
     final val MaxLengthOfLinesConcatenated = 120
 
+    // First line must contain at least 3 alpha characters
+    final val buildingNameOrNumberFormat = """([^A-Za-z]*?[A-Za-z][^A-Za-z]*?){3,}""".r
+
     // Post town cannot contain numbers, can also include punctuation.
     final val postTownFormat = """^[a-zA-Z][A-Za-z\s\-\,\.\/\\]*$""".r
 
     // Regex states string must contain at least one number or letter, can also include punctuation.
-    final val addressLinesFormat = uk.gov.dvla.vehicles.presentation.common.views.constraints.BusinessName.Pattern.r // to be applied on combined address lines
+    final val addressLinesFormat = BusinessName.Pattern.r // to be applied on combined address lines
 
     // This is being left for backwards compatibility
     final val Mapping: Mapping[AddressAndPostcodeViewModel] = mapping(
@@ -61,6 +65,8 @@ object AddressAndPostcodeViewModel {
           Invalid(ValidationError("error.address.characterInvalid"))
         else if (!postTownFormat.pattern.matcher(postTown).matches)
           Invalid(ValidationError("error.postTown.characterInvalid"))
+        else if (!buildingNameOrNumberFormat.pattern.matcher(input.buildingNameOrNumber).matches)
+          Invalid(ValidationError("error.threeAlphas"))
         else Valid
 
       case _ => Invalid(ValidationError("error.address.buildingNameOrNumber.invalid"))

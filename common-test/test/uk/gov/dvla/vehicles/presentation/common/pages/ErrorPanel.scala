@@ -1,8 +1,6 @@
 package uk.gov.dvla.vehicles.presentation.common.pages
 
-import org.openqa.selenium.{NoSuchElementException, SearchContext, By}
-import org.scalatest.selenium.WebBrowser.id
-import org.scalatest.selenium.WebBrowser.find
+import org.openqa.selenium.{By, NoSuchElementException, SearchContext}
 import uk.gov.dvla.vehicles.presentation.common.helpers.webbrowser.WebDriverFactory
 
 object ErrorPanel {
@@ -21,5 +19,12 @@ object ErrorPanel {
     element.map(_.getText).getOrElse("")
   }
 
-  def hasErrors(implicit driver: SearchContext): Boolean = find(id("validation-summary")).isDefined
+  def hasErrors(implicit driver: SearchContext): Boolean =
+    try {
+      driver.findElement(By.id("validation-summary"))
+      true
+    } catch {
+      case e: NoSuchElementException => false
+      case e: Throwable => throw e
+    }
 }
