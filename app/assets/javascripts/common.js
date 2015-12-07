@@ -660,9 +660,11 @@ $("#tryagain").click(function() {
     return true;
 });
 
-// Last command adds class, so we have a condition to wait for when unit-testing
+//Set an empty function to be called on window.onunload so that Javascript runs when user returns to this page
+//using the back button. This just prevents Firefox from caching the page in the Back-Forward Cache
+//https://stackoverflow.com/questions/2638292/after-travelling-back-in-firefox-history-javascript-wont-run
+window.onunload = function(){};
+
+// Last command adds a class, so we have a condition to wait for when unit-testing
+// Also used in the web-apps as a check that all javascript executed
 $('html').addClass('js-ready');
-
-
-
-
