@@ -1,0 +1,9 @@
+@()(implicit date: uk.gov.dvla.vehicles.presentation.common.services.DateService)
+
+@import uk.gov.dvla.vehicles.presentation.common.views.html.widgets.xmasOpeningTimes
+
+@main(
+title = Messages("xmas-opening-times.title")
+) {
+    @xmasOpeningTimes()
+}

@@ -76,3 +76,6 @@ micro_service_error.text1 = Nid yw''r gwasanaeth ar gael dros dro.
 micro_service_error.text2 =
 micro_service_error.back.button = Yn ôl
 micro_service_error.exit.button = Allan
+
+#xmasOpeningTimes widget
+xmas-opening-times.text = View Christmas opening times
