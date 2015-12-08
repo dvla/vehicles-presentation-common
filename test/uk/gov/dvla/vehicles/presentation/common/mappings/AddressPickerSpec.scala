@@ -119,7 +119,7 @@ class AddressPickerSpec extends UnitSpec {
           FormError(s"dp.$AddressLine1Id", "error.address.characterInvalid"),
           FormError(s"dp.$AddressLine2Id", "error.address.characterInvalid"),
           FormError(s"dp.$AddressLine3Id", "error.address.characterInvalid"),
-          FormError(s"dp.$PostTownId", "error.postTown.characterInvalid"),
+          FormError(s"dp.$PostTownId", "error.address.postTown.characterInvalid"),
           FormError(s"dp.$PostcodeId", "error.restricted.validPostcode", Seq(constraints.Postcode.regex))
         ))
       )

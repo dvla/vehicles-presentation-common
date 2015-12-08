@@ -1,6 +1,7 @@
 @(field: play.api.data.Field, args: Map[Symbol, Any] = Map.empty)(implicit lang: Lang)
 
 @import uk.gov.dvla.vehicles.presentation.common.mappings.Postcode
+@import uk.gov.dvla.vehicles.presentation.common.views.models.AddressLinesViewModel.Form.TownMaxLength
 @import uk.gov.dvla.vehicles.presentation.common.mappings.AddressPicker
 @import uk.gov.dvla.vehicles.presentation.common.views
 @import views.models.AddressAndPostcodeViewModel.Form.PostcodeId
@@ -13,7 +14,7 @@
 <fieldset>
     @input(field, args.toSeq: _*){(id, name, value, htmlArgs) =>
         @addressLines(field(AddressLinesId),
-            args = args + ('_label -> Messages("address.lines.label"), '_postTownMaxLength -> AddressPicker.TownMaxLength)
+            args = args + ('_label -> Messages("address.lines.label"), '_postTownMaxLength -> TownMaxLength)
         )
     }
     <div class="form-item post-town">

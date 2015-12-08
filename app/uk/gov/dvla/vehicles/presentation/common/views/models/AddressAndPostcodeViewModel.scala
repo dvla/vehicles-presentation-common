@@ -25,7 +25,8 @@ object AddressAndPostcodeViewModel {
   object Form {
     final val PostcodeId = "postcode"
     final val UprnId = "uprn"
-    final val MaxLengthOfLinesConcatenated = 120
+    //final val MaxLengthOfLinesConcatenated = 120
+    // NOTE: total address line max is actually defined by line length x number of address lines i.e. 30 x 3 = 90
 
     // First line must contain at least 3 alpha characters
     final val buildingNameOrNumberFormat = """([^A-Za-z]*?[A-Za-z][^A-Za-z]*?){3,}""".r
@@ -59,14 +60,14 @@ object AddressAndPostcodeViewModel {
 
         val postTown = input.toViewFormat.last.mkString
 
-        if (input.totalCharacters > MaxLengthOfLinesConcatenated)
-          Invalid(ValidationError("error.address.maxLengthOfLinesConcatenated"))
-        else if (!addressLinesFormat.pattern.matcher(addressLines).matches)
+//        if (input.totalCharacters > MaxLengthOfLinesConcatenated)
+//          Invalid(ValidationError("error.address.maxLengthOfLinesConcatenated"))
+        if (!addressLinesFormat.pattern.matcher(addressLines).matches)
           Invalid(ValidationError("error.address.characterInvalid"))
         else if (!postTownFormat.pattern.matcher(postTown).matches)
-          Invalid(ValidationError("error.postTown.characterInvalid"))
+          Invalid(ValidationError("error.address.postTown.characterInvalid"))
         else if (!buildingNameOrNumberFormat.pattern.matcher(input.buildingNameOrNumber).matches)
-          Invalid(ValidationError("error.threeAlphas"))
+          Invalid(ValidationError("error.address.threeAlphas"))
         else Valid
 
       case _ => Invalid(ValidationError("error.address.buildingNameOrNumber.invalid"))

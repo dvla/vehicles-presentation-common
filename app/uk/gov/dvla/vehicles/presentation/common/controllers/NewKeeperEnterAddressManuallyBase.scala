@@ -99,7 +99,7 @@ abstract class NewKeeperEnterAddressManuallyBase @Inject()()
                 NewKeeperEnterAddressManuallyFormModel(
                   AddressAndPostcodeViewModel(
                     None,
-                    AddressLinesViewModel("", None, None, None, ""),
+                    AddressLinesViewModel("", None, None, ""),
                     postcode
                   )
                 )
@@ -147,7 +147,7 @@ abstract class NewKeeperEnterAddressManuallyBase @Inject()()
         FormError("addressAndPostcode.addressLines", "error.address.postTown")
       ).replaceError(
         "addressAndPostcode.postcode",
-        FormError("addressAndPostcode.postcode", "error.address.postcode.invalid")
+        FormError("addressAndPostcode.postcode", "error.restricted.validPostcode")
       ).distinctErrors
   }
 }
