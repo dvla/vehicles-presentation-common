@@ -7,11 +7,11 @@ import uk.gov.dvla.vehicles.presentation.common
 import common.model.{SearchFields, Address}
 import common.views.models.AddressAndPostcodeViewModel.Form.addressLinesFormat
 import common.views.models.AddressAndPostcodeViewModel.Form.buildingNameOrNumberFormat
-import common.views.models.AddressAndPostcodeViewModel.Form.MaxLengthOfLinesConcatenated
 import common.views.models.AddressAndPostcodeViewModel.Form.postTownFormat
+import common.views.models.AddressLinesViewModel.Form.BuildingNameOrNumberMinLength
+import common.views.models.AddressLinesViewModel.Form.PostTownMinLength
 
 object AddressPicker {
-  val TownMaxLength = 20
   private final val AddressLinesFormat = addressLinesFormat.pattern // additional address lines
   private final val PostTownFormat = postTownFormat.pattern
   final val SearchByPostcodeField = "address-postcode-lookup"
@@ -25,6 +25,7 @@ object AddressPicker {
   final val ShowAddressSelect = "show-address-select"
   final val ShowAddressFields = "show-address-fields"
   final val AddressListSelect = "address-list"
+  //Maximum total length of address lines was 174 (3 x 58) and limited to 120.
 
   def formatter() = new Formatter[Address] {
     override def bind(key: String, data: Map[String, String]): Either[Seq[FormError], Address] = {
@@ -56,25 +57,26 @@ object AddressPicker {
       val addressFieldsErrors =
         if(showAddressFields)
           line1.fold[SFE](Seq(FormError(s"$key.$AddressLine1Id", "error.address.addressLine1"))) { line =>
-            val threeAlphasErr =
-              if (!buildingNameOrNumberFormat.pattern.matcher(line).matches)
-                Seq(FormError(s"$key.$AddressLine1Id", "error.threeAlphas"))
-              else Nil
-
-            val addressLineLengthErr =
-              if (Seq(line1, line2, line3).flatten.mkString(",").length > MaxLengthOfLinesConcatenated)
-                Seq(FormError(key, "error.address.postCode"))
-              else Nil
+            val addressLine1Err =
+              if (line1.getOrElse("").length < BuildingNameOrNumberMinLength)
+                Seq(FormError(s"$key.$AddressLine1Id", "error.address.buildingNameOrNumber.invalid"))
+              else { // perform three alpha check iff min length is valid
+                if (!buildingNameOrNumberFormat.pattern.matcher(line).matches)
+                  Seq(FormError(s"$key.$AddressLine1Id", "error.address.threeAlphas"))
+                else Nil}
 
             Seq(AddressLine1Id, AddressLine2Id, AddressLine3Id).flatMap { lkey =>
               filterEmpty.get(s"$key.$lkey").fold[Option[FormError]](None) { line =>
                 if (AddressLinesFormat.matcher(line).matches()) None
                 else Some(FormError(s"$key.$lkey", "error.address.characterInvalid"))
               }
-            } ++ addressLineLengthErr ++ threeAlphasErr
+            } ++ addressLine1Err
           } ++ postTown.fold[SFE](Seq(FormError(s"$key.$PostTownId", "error.address.postTown"))) { postTown =>
-            if (PostTownFormat.matcher(postTown).matches()) Nil
-            else Seq(FormError(s"$key.$PostTownId", "error.postTown.characterInvalid"))
+            if (postTown.length < PostTownMinLength)
+              Seq(FormError(s"$key.$PostTownId", "error.address.postTown"))
+            else {
+              if (PostTownFormat.matcher(postTown).matches()) Nil
+              else Seq(FormError(s"$key.$PostTownId", "error.address.postTown.characterInvalid"))}
           } ++ postCode.fold[SFE](Seq(FormError(s"$key.$PostcodeId", "error.address.postCode"))) { postCode =>
             Postcode.postcode.withPrefix(s"$key.$PostcodeId").bind(Map(s"$key.$PostcodeId" -> postCode)) match {
               case Left(errors) => errors

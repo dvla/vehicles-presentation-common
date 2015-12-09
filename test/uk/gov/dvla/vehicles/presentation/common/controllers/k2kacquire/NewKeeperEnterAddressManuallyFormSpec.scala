@@ -64,7 +64,7 @@ class NewKeeperEnterAddressManuallyFormSpec extends UnitSpec {
 
     "reject if post town contains numbers" in new WithApplication {
       formWithValidDefaults(postTown = "123456").errors.flatMap(_.messages) should contain theSameElementsAs
-        List("error.postTown.characterInvalid")
+        List("error.address.postTown.characterInvalid")
     }
 
     "accept if post town starts with spaces" in new WithApplication {

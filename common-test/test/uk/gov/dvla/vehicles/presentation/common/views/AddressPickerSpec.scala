@@ -234,7 +234,7 @@ class AddressPickerSpec extends UiSpec with TestHarness with AppendedClues {
 
       click on AddressPickerPage.submit
       pageTitle should equal(AddressPickerPage.title)
-      ErrorPanel.text should include(Messages("error.threeAlphas"))
+      ErrorPanel.text should include(Messages("error.address.threeAlphas"))
 
       widget.assertLookupInputVisible()
       widget.assertAddressListInvisible()
@@ -347,7 +347,68 @@ class AddressPickerSpec extends UiSpec with TestHarness with AppendedClues {
       val widget = AddressPickerPage.addressPickerDriver
       click on AddressPickerPage.submit
 
+      ErrorPanel.numberOfErrors should equal(3)
       ErrorPanel.hasErrors should equal(true)
     }
   }
+
+  "validate required elements (address lines length)" in new WebBrowserWithJs {
+      go to AddressPickerPage
+      val widget = AddressPickerPage.addressPickerDriver
+      widget.assertLookupInputVisible()
+
+      widget.search("AA11AA")
+      widget.addressSelect.value = "1"
+      widget.addressLine1.value = "1"
+      widget.addressLine2.value = ""
+      widget.addressLine3.value = ""
+      widget.assertLookupInputVisible()
+      widget.assertAddressListVisible()
+      widget.assertAddressInputsVisible()
+      widget.assertServerErrorInvisible()
+      widget.assertMissingPostcodeInvisible()
+
+      click on AddressPickerPage.submit
+      pageTitle should equal(AddressPickerPage.title)
+      //info("errors: " + ErrorPanel.text)
+      ErrorPanel.numberOfErrors should equal(2)
+      ErrorPanel.text should include(Messages("error.address.postTown"))
+      ErrorPanel.text should include(Messages("error.address.buildingNameOrNumber.invalid"))
+
+      widget.assertLookupInputVisible()
+      widget.assertAddressListInvisible()
+      widget.assertAddressInputsVisible()
+      widget.assertServerErrorInvisible()
+      widget.assertMissingPostcodeInvisible()
+    }
+
+    "validate required elements (max length for address line and post town)" in new WebBrowserWithJs {
+      go to AddressPickerPage
+      val widget = AddressPickerPage.addressPickerDriver
+      widget.assertLookupInputVisible()
+
+      widget.search("AA11AA")
+      widget.addressSelect.value = "1"
+      widget.addressLine1.value = "abcdefghij0123456789abcdefghij0" // 31 characters
+      widget.addressLine2.value = "address 2"
+      widget.addressLine3.value = "address 3"
+      widget.town.value = "abcdefghij0123456789a" // 21 characters
+      widget.assertLookupInputVisible()
+      widget.assertAddressListVisible()
+      widget.assertAddressInputsVisible()
+      widget.assertServerErrorInvisible()
+      widget.assertMissingPostcodeInvisible()
+
+      click on AddressPickerPage.submit
+      pageTitle should equal(AddressPickerPage.title)
+      widget.addressLine1.value.length should equal(30)
+      widget.town.value.length should equal(20)
+
+      widget.assertLookupInputVisible()
+      widget.assertAddressListInvisible()
+      widget.assertAddressInputsVisible()
+      widget.assertServerErrorInvisible()
+      widget.assertMissingPostcodeInvisible()
+    }
+
 }

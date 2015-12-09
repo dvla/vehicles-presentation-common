@@ -1,0 +1,14 @@
+@()(implicit dateService: uk.gov.dvla.vehicles.presentation.common.services.DateService, lang: Lang)
+
+@*
+The Xmas opening times link is only displayed when the current date is within a specified period.
+*@
+
+@if(dateService.today.month == 12 && dateService.today.day >= 7
+    || dateService.today.month == 1 && dateService.today.day <= 2) {
+    <p>
+        <a id="xmas-opening-times" href="https://www.gov.uk/government/news/dvla-opening-hours-christmas-and-new-year" target="_blank">
+            @Messages("xmas-opening-times.text")
+        </a>
+    </p>
+}

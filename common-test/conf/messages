@@ -79,7 +79,7 @@ postcode.name = Postcode capture
 postcode.hint = e.g. AB1 2BA or AB12BA
 postcode.label = Postcode
 postcode.button = Submit
-error.restricted.validPostcode = Postcode must be in valid format, e.g. AB1 2BA or AB12BA
+error.restricted.validPostcode = Must be between five and eight characters and in a valid format, eg. AB1 2Ba or AB12BA
 
 #valtechInputDayMonthYear widget
 valtechInputDayMonthYear.pageTitle = Valtech input day month year
@@ -123,7 +123,7 @@ email.hint = e.g. test@test.com
 email.label = Email address
 email.verify.label = Confirm email address
 email.button = Submit
-error.restricted.validEmail = Email must be in valid format, e.g. AB1 2BA or AB12BA
+error.restricted.validEmail = Email must be in valid format
 error.email = Email address is required
 error.email.confirm.required = Please confirm the email address
 error.email.not.match = The email addresses did not match
@@ -348,13 +348,19 @@ addressAndPostcode = Building name or number
 addressAndPostcode.addressLines = Address
 addressAndPostcode.postcode = Postcode
 addressAndPostcode.addressLines.buildingNameOrNumber = Building name or number
+
+# common to both addressPicker widget and addressAndPostcode widget
 error.address.buildingNameOrNumber.invalid = Building/number and street must contain between 4 and 30 characters
-error.address.postTown = Town or city must contain between 3 and 20 characters
-error.address.postcode.invalid = Must be between five and eight characters and in a valid format, eg. AB1 2Ba or AB12BA
-error.address.maxLengthOfLinesConcatenated = Address can have no more than 120 characters
 error.address.characterInvalid = Invalid character in line of address
-error.postTown.characterInvalid = Invalid character in post town
-error.threeAlphas = Entry requires at least three letters
+#error.address.maxLengthOfLinesConcatenated = Address can have no more than 120 characters
+error.address.postTown = Town or city must contain between 3 and 20 characters
+error.address.postTown.characterInvalid = Invalid character in post town
+error.address.threeAlphas = Entry requires at least three letters
+
+# addressPicker widget
+error.address.addressLine1 = This field is mandatory
+error.address.postCode = This field is mandatory
+error.address.required = Address is required
 
 #pleaseWait widget
 please-wait.title = Please Wait
@@ -405,3 +411,6 @@ micro_service_error.text1=The service is temporarily unavailable.
 micro_service_error.text2=
 micro_service_error.back.button=Try again
 micro_service_error.exit.button=Exit
+
+#xmasOpeningTimes widget
+xmas-opening-times.title = View Christmas opening times

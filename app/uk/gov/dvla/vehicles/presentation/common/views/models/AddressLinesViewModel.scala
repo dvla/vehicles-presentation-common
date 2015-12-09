@@ -10,14 +10,12 @@ import common.views.helpers.FormExtensions.{nonEmptyTextWithTransform, textWithT
 case class AddressLinesViewModel(buildingNameOrNumber: String,
                                  line2: Option[String] = None,
                                  line3: Option[String] = None,
-                                 line4: Option[String] = None,
                                  postTown: String) {
 
   def toViewFormat: Seq[String] = Seq(
     Some(buildingNameOrNumber.toUpperCase),
     line2.map(_.toUpperCase),
     line3.map(_.toUpperCase),
-    line4.map(_.toUpperCase),
     Some(postTown.toUpperCase)
   ).flatten
 
@@ -34,10 +32,10 @@ object AddressLinesViewModel {
     final val BuildingNameOrNumberId = "buildingNameOrNumber"
     final val Line2Id = "line2"
     final val Line3Id = "line3"
-    final val Line4Id = "line4"
     final val PostTownId = "postTown"
     final val BuildingNameOrNumberMinLength = 4
     final val PostTownMinLength = 3
+    final val TownMaxLength = 20
     final val LineMaxLength = 30
 
     def mapping(postTownMaxLength: Int = LineMaxLength): Mapping[AddressLinesViewModel] = play.api.data.Forms.mapping(
@@ -45,7 +43,6 @@ object AddressLinesViewModel {
         nonEmptyTextWithTransform(fieldTransform)(minLength = BuildingNameOrNumberMinLength, maxLength = LineMaxLength),
       Line2Id -> optional(textWithTransform(fieldTransform)(maxLength = LineMaxLength)),
       Line3Id -> optional(textWithTransform(fieldTransform)(maxLength = LineMaxLength)),
-      Line4Id -> optional(textWithTransform(fieldTransform)(maxLength = LineMaxLength)),
       PostTownId -> nonEmptyTextWithTransform(fieldTransform)(minLength = PostTownMinLength, maxLength = postTownMaxLength)
     )(AddressLinesViewModel.apply)(AddressLinesViewModel.unapply)
 

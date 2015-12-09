@@ -60,7 +60,8 @@ libraryDependencies ++= Seq(
   "net.htmlparser.jericho" % "jericho-html" % "3.3" withSources() withJavadoc(),
   "com.rabbitmq" % "amqp-client" % "3.4.1",
   "org.webjars" %% "webjars-play" % "2.3.0-2",
-  "org.webjars" % "jquery" % "1.9.1"
+  "org.webjars" % "jquery" % "1.9.1",
+  "org.webjars" % "jquery-migrate" % "1.2.1"
 )
 
 instrumentSettings
