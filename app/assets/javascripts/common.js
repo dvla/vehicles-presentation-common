@@ -586,8 +586,8 @@ var gaTrackEvent = function(category, action, label, value) {
 var gaTrackClickOnce = function() {
     var gaTrackClickEvent = 'ga-track-click-event-once';
     $('.' + gaTrackClickEvent).on('click', function(e) {
-        var category = $(this).attr('ga-event-category') || document.location.href;
-        var action = $(this).attr('ga-event-action');
+        var category = $(this).data('ga-event-category') || document.location.href;
+        var action = $(this).data('ga-event-action');
         if ($(this).hasClass(gaTrackClickEvent) && category && action) {
             gaTrackEvent(category, action, 'click', 1);
             $(this).removeClass(gaTrackClickEvent);
