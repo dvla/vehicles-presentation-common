@@ -102,13 +102,13 @@ class OptionToggleIntegrationSpec extends UiSpec with TestHarness {
       OptionTogglePage.dateRadioOption.radio.value = OptionalToggle.Visible
       click on OptionTogglePage.submit
       verifyErrors(
-        "optional-date - Please enter a valid date in the format DD MM YYYY for example 20 3 1976 or 1 03 1976"
+        "optional-date - Please enter a valid date in the format DD MM YYYY"
       )
       OptionTogglePage.dateRadioOption.assetComponentVisible
       OptionTogglePage.dateRadioOption.component.day.value = "12"
       click on OptionTogglePage.submit
       verifyErrors(
-        "optional-date - Please enter a valid date in the format DD MM YYYY for example 20 3 1976 or 1 03 1976"
+        "optional-date - Please enter a valid date in the format DD MM YYYY"
       )
       OptionTogglePage.assetComponentVisible("#optional-date_day")
       val dateComponent = OptionTogglePage.dateRadioOption.component

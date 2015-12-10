@@ -66,7 +66,7 @@ object Date {
   private def genericDateOfBirth(implicit dateService: DateService) =
     of[LocalDate](formatter("error.dateOfBirth.invalid"))
       .verifying(notInTheFuture(Messages("error.dateOfBirth.inTheFuture")))
-      .verifying(notBefore(dateService.now.toDateTime.toLocalDate.minusYears(110),
+      .verifying(notBefore(dateService.now.toDateTime.toLocalDate.minusYears(ValidYearsAgo),
       Messages("error.dateOfBirth.110yearsInThePast")))
 
   def dateOfBirth()(implicit dateService: DateService) = genericDateOfBirth verifying required

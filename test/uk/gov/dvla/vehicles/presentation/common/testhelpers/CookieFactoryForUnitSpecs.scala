@@ -1,5 +1,7 @@
 package uk.gov.dvla.vehicles.presentation.common.testhelpers
 
+import java.util.Calendar
+
 import org.joda.time.LocalDate
 import play.api.data.Form
 import play.api.libs.json.{Json, Writes}
@@ -46,7 +48,9 @@ object CookieFactoryForUnitSpecs {
   final val DriverNumberValid = "ABCD9711215EFLGH"
   final val DayDateOfBirthValid = "24"
   final val MonthDateOfBirthValid = "12"
-  final val YearDateOfBirthValid = "1920"
+  final val dob = Calendar.getInstance()
+  dob.add(Calendar.YEAR, -20)
+  final val YearDateOfBirthValid = dob.get(Calendar.YEAR)
 
   def createCookie[A](key: String, value: A)(implicit tjs: Writes[A]): Cookie = {
     val json = Json.toJson(value).toString()
@@ -89,7 +93,7 @@ object CookieFactoryForUnitSpecs {
     lastName = LastNameValid,
     dateOfBirth = Some(
       new LocalDate(
-        YearDateOfBirthValid.toInt,
+        YearDateOfBirthValid,
         MonthDateOfBirthValid.toInt,
         DayDateOfBirthValid.toInt
       )

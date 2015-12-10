@@ -5,12 +5,11 @@ import org.mockito.Mockito.{when, verify}
 import org.mockito.Matchers.{anyString, any}
 import org.mockito.invocation.InvocationOnMock
 import org.mockito.stubbing.Answer
-import org.scalatest.concurrent.Eventually
 import play.api.http.Status.{FORBIDDEN, OK}
 import play.api.libs.ws.WSResponse
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.TrackingId
 import uk.gov.dvla.vehicles.presentation.common.services.DateService
-import uk.gov.dvla.vehicles.presentation.common.webserviceclients.healthstats.{HealthStatsFailure, HealthStatsSuccess, HealthStats}
+import uk.gov.dvla.vehicles.presentation.common.webserviceclients.healthstats.{HealthStats}
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 import scala.util.Try
@@ -36,7 +35,7 @@ class BruteForcePreventionServiceImplSpec extends UnitSpec {
           viewModel.permitted should equal(true)
           viewModel.attempts should equal(1)
           viewModel.maxAttempts should equal(3)
-          viewModel.dateTimeISOChronology should startWith("1970-11-25T00:00:00.000")
+          viewModel.dateTimeISOChronology should startWith("1970-11-25T00:00:00.000") //TODO use regex pattern match
       }
     }
 
@@ -47,7 +46,7 @@ class BruteForcePreventionServiceImplSpec extends UnitSpec {
           viewModel.permitted should equal(false)
           viewModel.attempts should equal(1)
           viewModel.maxAttempts should equal(3)
-          viewModel.dateTimeISOChronology should startWith("1970-11-25T00:00:00.000")
+          viewModel.dateTimeISOChronology should startWith("1970-11-25T00:00:00.000") //TODO use regex pattern match
       }
     }
 

@@ -1,5 +1,7 @@
 package uk.gov.dvla.vehicles.presentation.common.pages
 
+import java.util.Calendar
+
 import uk.gov.dvla.vehicles.presentation.common.helpers
 import uk.gov.dvla.vehicles.presentation.common.models
 import helpers.webbrowser.{Page, WebDriverFactory}
@@ -19,8 +21,9 @@ class DateOfSalePage(implicit driver: WebDriver) extends Page {
 
   def submit(implicit driver: WebDriver): Element = find(id("submit")).get
 
-  def navigate(day: String = "3", month: String = "4", year: String = "2014",
-               day1: String = "30", month1: String = "12", year1: String = "1970")
+  // NOTE: use valid (arbitrary) default values - Q. why does optional have defaults?
+  def navigate(day: String = "01", month: String = "01", year: String = Calendar.getInstance().get(Calendar.YEAR).toString,
+               day1: String = "01", month1: String = "01", year1: String = Calendar.getInstance().get(Calendar.YEAR).toString)
               (implicit driver: WebDriver) {
     go to this
 

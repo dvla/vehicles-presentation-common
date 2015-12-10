@@ -8,7 +8,11 @@ object ErrorPanel {
   implicit lazy val webDriver = WebDriverFactory.webDriver
 
   def numberOfErrors(implicit driver: SearchContext): Int =
-    driver.findElement(By.cssSelector(".validation-summary")).findElements(By.tagName("li")).size
+    try {
+      driver.findElement(By.cssSelector(".validation-summary")).findElements(By.tagName("li")).size
+    } catch {
+      case ex: NoSuchElementException => 0 //if ".validation-summary" element not found return 0
+    }
 
   def text(implicit driver: SearchContext): String = {
     val element = try Some(driver.findElement(By.cssSelector(".validation-summary")))

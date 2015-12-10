@@ -1,5 +1,7 @@
 package uk.gov.dvla.vehicles.presentation.common.controllers.k2kacquire
 
+import java.util.Calendar
+
 import org.joda.time.LocalDate
 import uk.gov.dvla.vehicles.presentation.common
 import common.clientsidesession.{ClearTextClientSideSessionFactory, NoCookieFlags}
@@ -21,7 +23,6 @@ import common.model.PrivateKeeperDetailsFormModel.Form.LastNameMinLength
 import common.model.PrivateKeeperDetailsFormModel.Form.TitleId
 import common.services.DateServiceImpl
 import common.{UnitSpec, WithApplication}
-import uk.gov.dvla.vehicles.presentation.common.model.SetupTradeDetailsFormModel.Form._
 
 class PrivateKeeperDetailsFormSpec extends UnitSpec {
 
@@ -32,7 +33,9 @@ class PrivateKeeperDetailsFormSpec extends UnitSpec {
   final val LastNameValid = "TestLastName"
   final val MonthDateOfBirthValid = "12"
   final val PostcodeValid = "QQ99QQ"
-  final val YearDateOfBirthValid = "1920"
+  final val dob = Calendar.getInstance()
+  dob.add(Calendar.YEAR, -20)
+  final val YearDateOfBirthValid : String = dob.get(Calendar.YEAR).toString
   final val MrTitleType = "1"
   final val MrsTitleType = "2"
   final val MissTitleType = "3"
