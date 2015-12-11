@@ -1,4 +1,7 @@
-@(field: play.api.data.Field, optionsWithHint: Seq[uk.gov.dvla.vehicles.presentation.common.views.models.RadioWithHint] = Seq.empty, args: Map[Symbol, Any])(implicit handler: views.html.helper.FieldConstructor, lang: Lang)
+@(field: play.api.data.Field,
+    optionsWithHint: Seq[uk.gov.dvla.vehicles.presentation.common.views.models.RadioWithHint] = Seq.empty,
+    args: Map[Symbol, Any]
+)(implicit handler: views.html.helper.FieldConstructor, lang: Lang)
 
 @import views.html.helper.input
 @import uk.gov.dvla.vehicles.presentation.common.views.html.widgets.{radioListPlaceholder, radioListWithHintsPlaceholder}

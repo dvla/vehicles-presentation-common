@@ -1,6 +1,9 @@
-@(field: play.api.data.Field, options: Seq[uk.gov.dvla.vehicles.presentation.common.views.models.RadioWithHint], args: Map[Symbol, Any])(implicit handler: helper.FieldConstructor, lang: Lang)
-@import uk.gov.dvla.vehicles.presentation.common.views.helpers.HtmlArgsExtensions.RichHtmlArgs
+@(field: play.api.data.Field,
+    options: Seq[uk.gov.dvla.vehicles.presentation.common.views.models.RadioWithHint],
+    args: Map[Symbol, Any]
+)(implicit handler: helper.FieldConstructor, lang: Lang)
 
+@import uk.gov.dvla.vehicles.presentation.common.views.helpers.HtmlArgsExtensions.RichHtmlArgs
 @import uk.gov.dvla.vehicles.presentation.common.views
 @import play.api.templates.PlayMagic.toHtmlArgs
 @import views.helpers.HtmlArgsExtensions.RichHtmlArgs
@@ -25,6 +28,10 @@
                     htmlArgs.withTypeAttributeRadio.
                             withAriaRequired(field.constraints)
                 )
+                @if(radio.gaAction.length > 0 || radio.gaCategory.length > 0 || radio.gaLabel.length > 0){ class="ga-track-value" }
+                @if(radio.gaCategory.length > 0) { data-ga-category="@radio.gaCategory" }
+                @if(radio.gaAction.length > 0) { data-ga-action="@radio.gaAction" }
+                @if(radio.gaLabel.length > 0) { data-ga-label="@radio.gaLabel" }
             >
             <span class="text">@{radio.message}</span>
         </label>
@@ -36,6 +43,5 @@
         }
 
         @Html(radio.helpHtml)
-
     }
 }

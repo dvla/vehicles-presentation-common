@@ -603,28 +603,40 @@ var gaTrackOptionalFields = function() {
         $(form).find('.ga-track-value').map(function() {
             var inputType = $(this).attr('type'),
                 actionName = $(this).data('ga-action') || 'Not set',
+                category = $(this).data('ga-category') || 'optional_field'
                 label = $(this).data('ga-label') || $(this).attr('value'),
                 value = parseInt($(this).data('ga-value')) || 1;
 
             if (inputType ==='checkbox' || inputType === 'radio') {
                 // we only want to track these input types if they have been checked/selected
                 if ($(this).is(':checked')) {
-                    gaTrackEvent('field_value', actionName, label, value);
+                    gaTrackEvent(category, actionName, label, value);
                 }
             } else {
-                gaTrackEvent('field_value', actionName, label, value);
+                gaTrackEvent(category, actionName, label, value);
             }
         });
 
         $(form).find('.ga-track-optional-text').map(function() {
-            var value = $(this).attr('ga-value');
-            if (!value) value = 1;
-            var actionName = $(this).attr('ga-action');
-            if(!$(this).val()) {
-                gaTrackEvent("optional_field", actionName, 'absent', value);
+            var actionName = $(this).data('ga-action'),
+                value = parseInt($(this).data('ga-value')) || 1.
+                isProvided = false;
+
+            if (this.tagName.toLowerCase() !== "input") {
+                // All input fields within container must have a value for us to report it as present
+                isProvided = true;
+                $(this).find('input').map(function() {
+                    return ($(this).val().length > 0);
+                }).each(function() {
+                    if (this.valueOf() === false) {
+                        isProvided = false;
+                    }
+                });
             } else {
-                gaTrackEvent("optional_field", actionName, 'provided', value);
+                isProvided = ($(this).val().length !== 0);
             }
+
+            gaTrackEvent("optional_field", actionName, (isProvided)?'provided':'absent', value);
         });
     });
 };
@@ -642,7 +654,6 @@ formCheckedSelection();
 preventPasteOnEmailConfirm();
 gaTrackClickOnce();
 gaTrackOptionalFields();
-//hideEmailOnOther(); // Do not call this from initAll because only some exemplars need it
 preventPasteOnEmailConfirm();
 
 //html5 autofocus fallback for browsers that do not support it natively
