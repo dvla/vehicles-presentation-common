@@ -307,6 +307,32 @@ var addressLookup = function() {
     }
 };
 
+var check = function(evt, id, regex) {
+    var theEvent = evt || window.event;
+    if ( theEvent == null || theEvent == undefined) {
+      return;
+    }
+
+    var key = theEvent.keyCode || theEvent.which;
+
+    // Don't validate the input if below arrow, delete and backspace keys were pressed
+    if(key == 37 || key == 39 || key == 8 || key == 9 || key == 46) { // Left / Right , Backspace, Tab, Delete keys
+        if ( String.fromCharCode( key ) != "%" && String.fromCharCode( key ) != "."
+            && String.fromCharCode( key ) != "'" ) {
+            return;
+        }
+    }
+
+    var keyStr = String.fromCharCode( key );
+
+    if( !regex.test(keyStr)) {
+        theEvent.returnValue = false;
+
+        if(theEvent.preventDefault)
+            theEvent.preventDefault();
+    }
+};
+
 var AutoFillTodaysDate = function(day, month, year, checkboxId, dayId, monthId, yearId) {
     var dod_elm = document.getElementById(checkboxId);
     var dod_day = document.getElementById(dayId);
@@ -571,6 +597,46 @@ var preventPasteOnEmailConfirm = function() {
     });
 };
 
+var showRadioContentOnSelected = function() {
+    $('.title-radio-wrapper').on('click',function(e) {
+        if ($(e.target).attr('type') && $(e.target).attr('type') === "radio") {
+            var otherGroup = $(this).siblings('.associated-input-wrapper');
+            var otherTriggerItem = $(this).find('input[type=radio]').last().attr('id');
+
+            if ($(e.target).attr('id') === otherTriggerItem){
+                $(otherGroup).show(100);
+                $(otherGroup).find('.form-item').addClass('item-visible');
+            } else {
+                $(otherGroup).hide(100);
+                $(otherGroup).find('.form-item').removeClass('item-visible');
+                $(otherGroup).find('input').val('');
+            }
+        }
+    });
+};
+
+var showHelpContentOnSelected = function() {
+    $('.show-on-selected').each(function(i) {
+        var parentGroup = $(this).closest('.form-item'),
+            parentAssociatedContent = $(parentGroup).find('.show-on-selected');
+
+        $(parentGroup).on('click',function(e) {
+            if ($(e.target).attr('type') && $(e.target).attr('type') === 'radio') {
+                var associatedHelpContent = $(e.target).parent().next('.show-on-selected');
+
+                if ($(e.target).is(':checked') && associatedHelpContent.length) {
+                    $(parentAssociatedContent).not(associatedHelpContent).hide(100);
+                    $(associatedHelpContent).show(100);
+                } else {
+                    // Hide everything
+                    $(parentAssociatedContent).hide(100);
+                }
+            }
+        });
+    });
+}
+
+
 var gaTrackEvent = function(category, action, label, value) {
     // Helper method to support GA asynchronous and analytics.js - should always report an event depending on the
     // version of GA used in a project
@@ -651,6 +717,8 @@ elementToggle();
 enableSmoothScroll();
 feedbackFormCharacterCountdown();
 formCheckedSelection();
+showRadioContentOnSelected();
+showHelpContentOnSelected();
 preventPasteOnEmailConfirm();
 gaTrackClickOnce();
 gaTrackOptionalFields();

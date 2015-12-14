@@ -12,7 +12,7 @@
 @input(field, args.toSeq:_*) { (id, name, value, htmlArgs) =>
 
     @for(radio <- options) {
-        <label for="@{id + "_"+ radio.key}" class="form-radio selectable">
+        <label for="@{id + "_"+ radio.key}" class="form-radio selectable@if(!radio.helpHtml.isEmpty){ show-content-onselected}">
             <input
                 id="@{id + "_"+ radio.key}"
                 name="@name"
