@@ -36,7 +36,7 @@ class DateOfSaleIntegrationSpec extends UiSpec with TestHarness {
     }
 
     "validate the day if there is any input" in new WebBrowserForSelenium {
-      val month = f"${validDos.get(Calendar.MONTH)}%02d"
+      val month = f"${validDos.get(Calendar.MONTH)+1}%02d"
       DateOfSalePage.instance.navigate("oij", month, validDos.get(Calendar.YEAR).toString)
       ErrorPanel.text should include(Messages("error.date.invalid"))
       ErrorPanel.numberOfErrors should equal(1)
@@ -58,7 +58,7 @@ class DateOfSaleIntegrationSpec extends UiSpec with TestHarness {
     "validate the year if there is any input" in new WebBrowserForSelenium {
       val today = Calendar.getInstance()
       val date = f"${today.get(Calendar.DATE)}%02d"
-      val month = f"${today.get(Calendar.MONTH)}%02d"
+      val month = f"${today.get(Calendar.MONTH)+1}%02d"
       DateOfSalePage.instance.navigate(date, month, "wwer")
       ErrorPanel.text should include(Messages("error.date.invalid"))
       ErrorPanel.numberOfErrors should equal(1)
