@@ -8,7 +8,11 @@
 @import common.mappings.Date.{DayId, MonthId, YearId}
 @import common.views.html.widgets.listRadioGroup
 @import views.constraints.Required.RequiredField
-@import common.mappings.TitlePickerString.{TitleRadioKey, MaxOtherTitleLength, TitleTextKey, OtherTitleRadioValue, standardOptions}
+@import common.mappings.TitlePickerString.MaxOtherTitleLength
+@import common.mappings.TitlePickerString.OtherTitleRadioValue
+@import common.mappings.TitlePickerString.standardOptions
+@import common.mappings.TitlePickerString.TitleRadioKey
+@import common.mappings.TitlePickerString.TitleTextKey
 
 @input(field, args.toSeq:_*) { (id, name, value, htmlArgs) =>
   @valtechLabel(field, Map('_label -> Messages("titlePicker.label")) ++ args)
@@ -23,14 +27,16 @@
         )    
     )
     </div>
-    @valtechInputText(
-        field = field(TitleTextKey).copy(constraints = Seq(RequiredField -> Seq[Any]())),
-        hintText = Some(Messages("titlePicker.textHint")),
-        args =  Map(
-            '_label -> Messages("titlePicker.textLabel"),
-            '_showConstraints -> false,
-            'maxLength -> MaxOtherTitleLength
-          )
-        )
-    <span class="form-hint">@hintText</span>
+    <div class="associated-input-wrapper no-js-only">
+        @valtechInputText(
+            field = field(TitleTextKey).copy(constraints = Seq(RequiredField -> Seq[Any]())),
+            hintText = Some(Messages("titlePicker.textHint")),
+            args =  Map(
+                '_label -> Messages("titlePicker.textLabel"),
+                '_showConstraints -> false,
+                'maxLength -> MaxOtherTitleLength
+              )
+            )
+        <span class="form-hint">@hintText</span>
+    </div>
 }

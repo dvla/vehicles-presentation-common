@@ -21,11 +21,13 @@
 @input(field, args.toSeq:_*) { (id, name, value, htmlArgs) =>
 @valtechLabel(field, Map('_label -> labelText) ++ args)
 
-<div class="form-inline form-date">
+<div class="form-inline form-date @if(args.get('class)){ @args('class) }"  @if(args.get(Symbol("data-ga-action"))){ data-ga-action="@args.get(Symbol("data-ga-action"))" }>
     <div class="form-item">
         @if(showTodaysDateButton) {
             <div class="todays-date js-only">
-                <button id="@TodaysDateId" @if(args.get('tabindex) == Some(-1)) {tabindex="-1"} type="button" class="button"
+                <button id="@TodaysDateId" @if(args.get('tabindex) == Some(-1)) {tabindex="-1"} type="button" class="button ga-track-click-event-once"
+                data-ga-event-category="ct_link"
+                data-ga-event-action="use-todays-date"
                 @if(args.get('autofocus) == Some(true)) {autofocus="true"}
                 onclick="AutoFillTodaysDate(@{DayMonthYear.today.day}, @{DayMonthYear.today.month}, @{DayMonthYear.today.year},
                 '@{field.id}', '@{field.id}_day', '@{field.id}_month', '@{field.id}_year')">

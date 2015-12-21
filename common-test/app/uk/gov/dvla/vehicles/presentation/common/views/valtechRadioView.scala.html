@@ -29,23 +29,35 @@
             )
         )
 
-        <div class="form-steps">
-            <button id="submit" type="submit" name="action" class="button" aria-label="Next button">@Messages("valtechRadio.button")</button>
-        </div>
-
 
         @* radio with hints and without default radio button and no autofocus option *@
-        </p>
+
         @listRadioGroup(field = valtechRadioForm("radiogroup2"),
             optionsWithHint = Seq(
-                RadioWithHint("Business2", "No, I am a busniness", "Hint: you are not a keeper and no default selected in this group."),
-                RadioWithHint("Keeper2", "Yes", ""), // empty hint
-                RadioWithHint("Maybe", "Not sure", "", """<div class="panel-indent-wrapper"><p>Extra html e.g. a placeholder
-                    for content that is normally hidden via jquery/js method hideEmailOnOther.</p></div>""") // empty hint, but with raw html
+
+                RadioWithHint("Keeper2", "Yes", "","""<div class="neither-text panel-indent-wrapper show-on-selected no-js-only">
+                    <div id="keeper2_details" class="panel-indent">
+                        <p class="form-hint">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam ac sollicitudin ante. Vestibulum ut neque vel leo volutpat consequat vitae sit amet lorem. Etiam imperdiet posuere venenatis. Sed efficitur lorem nec quam blandit viverra. Praesent varius fringilla ligula eu convallis.</p>
+                    </div>
+                </div>"""), // empty hint
+                RadioWithHint("Business2", "No, I am a busniness", "Hint: you are not a keeper and no default selected in this group.", gaAction="business"),
+                RadioWithHint("Maybe", "Not sure", "",
+                    """<div class="neither-text panel-indent-wrapper show-on-selected no-js-only">
+                        <div id="neither_details" class="panel-indent">
+                            <p class="form-hint">If you have not already taxed or declared SORN for this vehicle, you must remind the new keeper that its their responsibility to ensure the vehicle is taxed if it is driven on the road.</p>
+                            <p class="form-hint">If the vehicle is being kept off road, the new keeper must make a SORN.</p>
+                        </div>
+                    </div>""") // empty hint, but with raw html
             ),
             args = Map(
                '_label -> (Messages("valtechRadio.label") + " (Radio group with hint)")
             )
         )
+
+
+        <div class="form-steps">
+            <button id="submit" type="submit" name="action" class="button" aria-label="Next button">@Messages("valtechRadio.button")</button>
+        </div>
+
     }
 }

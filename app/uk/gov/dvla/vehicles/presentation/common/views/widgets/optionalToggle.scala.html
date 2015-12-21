@@ -1,8 +1,10 @@
 @(field: play.api.data.Field,
   title: String,
   visibleLabel: String,
-  invisibleLable: String,
-  optionalField: => play.twirl.api.HtmlFormat.Appendable)(implicit handler: helper.FieldConstructor, lang: Lang)
+  invisibleLabel: String,
+  optionalField: => play.twirl.api.HtmlFormat.Appendable,
+  gaTrackValue: Boolean = false
+)(implicit handler: helper.FieldConstructor, lang: Lang)
 
 @import uk.gov.dvla.vehicles.presentation.common.mappings.OptionalToggle.{Visible, Invisible, OptionFieldSuffix}
 @import _root_.views.html.helper.input
@@ -15,16 +17,15 @@
             <div class="radio">
                 <div class="form-item">
                     <label for="@(s"${id}_$Visible")" class="form-radio selectable">
-                        <input class="option-visible toggle-element" data-target="#@(s"${id}${OptionFieldSuffix}")" name="@name" value="@Visible" showerrors="false" type="radio"
+                        <input class="option-visible toggle-element @(if(gaTrackValue) "ga-track-value")" data-ga-action="@name" data-ga-label="provided" data-target="#@(s"${id}${OptionFieldSuffix}")" name="@name" value="@Visible" showerrors="false" type="radio"
                                aria-required="true" @(if(value == Some(Visible)) "checked" else "")
-
                                 id="@(s"${id}_$Visible")">
                         <span class="text">@visibleLabel</span>
                     </label>
                     <label for="@(s"${id}_$Invisible")" class="form-radio selectable">
-                        <input class="option-invisible toggle-element" data-target="#@(s"${id}${OptionFieldSuffix}")"  name="@name" value="@Invisible" showerrors="false" type="radio"
+                        <input class="option-invisible toggle-element @(if(gaTrackValue) "ga-track-value")" data-ga-action="@name" data-ga-label="absent" data-target="#@(s"${id}${OptionFieldSuffix}")"  name="@name" value="@Invisible" showerrors="false" type="radio"
                                aria-required="true" @(if(value == Some(Invisible)) "checked" else "") id="@(s"${id}_$Invisible")" >
-                        <span class="text">@invisibleLable</span>
+                        <span class="text">@invisibleLabel</span>
                     </label>
                 </div>
             </div>
