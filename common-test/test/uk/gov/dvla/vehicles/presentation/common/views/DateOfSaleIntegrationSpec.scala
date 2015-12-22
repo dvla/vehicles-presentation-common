@@ -1,10 +1,6 @@
 package uk.gov.dvla.vehicles.presentation.common.views
 
-import com.github.nscala_time.time.Imports.LocalDate
-import org.joda.time.chrono.ISOChronology
-
-import java.util.Calendar
-
+import org.joda.time.LocalDate
 import org.scalatest.selenium.WebBrowser._
 import play.api.i18n.Messages
 import uk.gov.dvla.vehicles.presentation.common.composition.TestHarness
@@ -13,8 +9,8 @@ import uk.gov.dvla.vehicles.presentation.common.pages.{DateOfSalePage, ErrorPane
 
 class DateOfSaleIntegrationSpec extends UiSpec with TestHarness {
 
-  val validDos = Calendar.getInstance()
-  validDos.add(Calendar.YEAR, -1)
+  val validDos = LocalDate.now().minusYears(1) // months are 1-12, unlike Calander's
+  val today = LocalDate.now()
 
   "DateOfSale" should {
     "be on a page with the correct title" in new WebBrowserForSelenium {
@@ -30,48 +26,38 @@ class DateOfSaleIntegrationSpec extends UiSpec with TestHarness {
     }
 
     "validate partial input" in new WebBrowserForSelenium {
-      DateOfSalePage.instance.navigate("", "", validDos.get(Calendar.YEAR).toString)
+      DateOfSalePage.instance.navigate("", "", validDos.toString("YYYY"))
       ErrorPanel.text should include(Messages("error.date.invalid"))
       ErrorPanel.numberOfErrors should equal(1)
     }
 
     "validate the day if there is any input" in new WebBrowserForSelenium {
-      val month = f"${validDos.get(Calendar.MONTH)+1}%02d"
-      DateOfSalePage.instance.navigate("oij", month, validDos.get(Calendar.YEAR).toString)
+      DateOfSalePage.instance.navigate("oij", validDos.toString("MM"), validDos.toString("YYYY"))
       ErrorPanel.text should include(Messages("error.date.invalid"))
       ErrorPanel.numberOfErrors should equal(1)
     }
 
     "validate the whole date with invalid day" in new WebBrowserForSelenium {
-      DateOfSalePage.instance.navigate("31", "09", validDos.get(Calendar.YEAR).toString)
+      DateOfSalePage.instance.navigate("31", "09", validDos.toString("YYYY"))
       ErrorPanel.text should include(Messages("error.date.invalid"))
       ErrorPanel.numberOfErrors should equal(1)
     }
 
     "validate the month if there is any input" in new WebBrowserForSelenium {
-      val date = f"${validDos.get(Calendar.DATE)}%02d"
-      DateOfSalePage.instance.navigate(date, "we", validDos.get(Calendar.YEAR).toString)
+      DateOfSalePage.instance.navigate(validDos.toString("dd"), "we", validDos.toString("YYYY"))
       ErrorPanel.text should include(Messages("error.date.invalid"))
       ErrorPanel.numberOfErrors should equal(1)
     }
 
     "validate the year if there is any input" in new WebBrowserForSelenium {
-      val today = Calendar.getInstance()
-      val date = f"${today.get(Calendar.DATE)}%02d"
-      val month = f"${today.get(Calendar.MONTH)+1}%02d"
-      DateOfSalePage.instance.navigate(date, month, "wwer")
+      DateOfSalePage.instance.navigate(today.toString("dd"), today.toString("MM"), "wwer")
       ErrorPanel.text should include(Messages("error.date.invalid"))
       ErrorPanel.numberOfErrors should equal(1)
     }
 
     "validate the whole date is not in the future" in new WebBrowserForSelenium {
-      val chronology = ISOChronology.getInstance()
-      val now = System.currentTimeMillis()
-      val day = chronology.dayOfMonth().get(now)
-      val month = chronology.monthOfYear().get(now)
-      val year = chronology.year().get(now)
-
-      DateOfSalePage.instance.navigate((day + 1).toString, month.toString, year.toString)
+      val tomorrow = today.plusDays(1)
+      DateOfSalePage.instance.navigate(tomorrow.toString("dd"), tomorrow.toString("MM"), tomorrow.toString("YYYY"))
 
       ErrorPanel.numberOfErrors should equal(1)
     }
@@ -82,22 +68,19 @@ class DateOfSaleIntegrationSpec extends UiSpec with TestHarness {
         pageTitle should equal("Success")
       }
 
-      success("01", "02", validDos.get(Calendar.YEAR).toString)
-      success("31", "12", validDos.get(Calendar.YEAR).toString)
-      val today = LocalDate.today
+      success(validDos.toString("dd"), validDos.toString("MM"), validDos.toString("YYYY"))
+      success("31", "12", validDos.toString("YYYY")) // last day of last year
       success(today.toString("dd"), today.toString("MM"), today.toString("YYYY"))
     }
 
     "Not allow any empty fields in required date" in new WebBrowserForSelenium {
-      DateOfSalePage.instance.navigate("01", "01", validDos.get(Calendar.YEAR).toString, "", "", "")
+      DateOfSalePage.instance.navigate("01", "01", validDos.toString("YYYY"), "", "", "")
       ErrorPanel.text should include(Messages("error.date.invalid"))
       ErrorPanel.numberOfErrors should equal(1)
     }
 
     "set today's date if the button is clicked" in new WebBrowserWithJs {
       go to DateOfSalePage.instance
-
-      val today = LocalDate.today
 
       DateOfSalePage.instance.waitUntilJavascriptReady
       click on DateOfSalePage.useTodaysDateButton
@@ -109,7 +92,6 @@ class DateOfSaleIntegrationSpec extends UiSpec with TestHarness {
 
     "only allow numbers to be typed in" in new WebBrowserWithJs {
       val alphaChars = "#$%&'()*+,-./:;<=>?@[\\]^{|}~ \"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
-      val today = LocalDate.today
       go to DateOfSalePage.instance
       DateOfSalePage.instance.waitUntilJavascriptReady
 

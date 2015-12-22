@@ -1,6 +1,6 @@
 package uk.gov.dvla.vehicles.presentation.common.webserviceclients.fakes
 
-import org.joda.time.{DateTime, Instant}
+import org.joda.time.{LocalDate, DateTime, Instant}
 import uk.gov.dvla.vehicles.presentation.common.services.DateService
 import uk.gov.dvla.vehicles.presentation.common.views.models.DayMonthYear
 
@@ -24,7 +24,8 @@ class FakeDateServiceImpl extends DateService {
 }
 
 object FakeDateServiceImpl {
-  final val DateOfDisposalDayValid = "25"
-  final val DateOfDisposalMonthValid = "11"
-  final val DateOfDisposalYearValid = "1970"
+  val today = LocalDate.now()
+  final val DateOfDisposalDayValid = today.toString("dd")
+  final val DateOfDisposalMonthValid = today.toString("MM")
+  final val DateOfDisposalYearValid = today.toString("YYYY")
 }
