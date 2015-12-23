@@ -30,6 +30,8 @@ class HealthStats @Inject()(config: HealthStatsConfig, dateService: DateService)
   private val events = new Stats()
   private val consecutiveFailCounts = new FailCounts()
 
+  private final val unhealthyIntro = "The service is not healthy -"
+
   def report[T](msName: String)
                (future: Future[T]): Future[T] = {
     future.onSuccess {
@@ -42,23 +44,30 @@ class HealthStats @Inject()(config: HealthStatsConfig, dateService: DateService)
     future
   }
 
+  /**
+    * Provides a client with the ability to get debug information out of this service
+    * @param out the PrintWriter that will be written to
+    */
   def debug(out: PrintWriter): Unit = {
-    out.println("--------------- Request rate per MS -----------------")
+    out.println("=============== Request rate per MS ================")
     out.println(s"Request rate threshold: ${config.numberOfRequests} per ${config.numberOfRequestsTimeFrame}ms")
     events.foreach { case (msName, eventsPerMs) =>
       val requestRateN = requestRate(eventsPerMs, numberOfRequestsThreshold)
       out.println(s"Current requests rate: $msName - $requestRateN requests per ${config.numberOfRequestsTimeFrame}ms")
     }
+    out.println()
 
-    out.println("--------------- Consecutive Fail Counts -----------------")
+    out.println("============= Consecutive Fail Counts ==============")
+    out.println(s"Consecutive fail threshold: ${config.numberOfConsecutiveFailures}")
     consecutiveFailCounts.foreach{case (msName, count) => out.println(s"$msName: $count")}
     out.println()
 
-    out.println("======================= Events ==========================")
+    out.println("====================== Events ======================")
     out.println()
     events.foreach { case (msName, msStats) =>
       out.println(s"----------------------- $msName -------------------------")
       for (stat <- msStats) out.println(stat)
+      out.println()
     }
   }
 
@@ -106,7 +115,7 @@ class HealthStats @Inject()(config: HealthStatsConfig, dateService: DateService)
     val healthyStatus = try hasConsecutiveFailuresThatExceedThreshold orElse checkEvents
     finally dropOldEvents()
     healthyStatus.map(notHealthy => {
-      Logger.error(s"The service is not healthy because ${notHealthy.details}.")
+      Logger.error(s"${notHealthy.details}.")
       notHealthy
     })
   }
@@ -123,7 +132,7 @@ class HealthStats @Inject()(config: HealthStatsConfig, dateService: DateService)
       // If the failure count hits the threshold return the NotHealthyStats case class and the loop terminates early
       if (msFailureCount >= config.numberOfConsecutiveFailures)
         return Some(NotHealthyStats(
-          msName, s"The number of consecutive failures in $msName is $msFailureCount and " +
+          msName, s"$unhealthyIntro the number of consecutive failures in $msName is $msFailureCount and " +
             s"the fail threshold is ${config.numberOfConsecutiveFailures}"
         ))
     }
@@ -204,7 +213,7 @@ class HealthStats @Inject()(config: HealthStatsConfig, dateService: DateService)
         val percentFailures = failureCount * 100 / max(1, successCount + failureCount)
         // If the % failures exceeds or equals the threshold then return a filled Option[A]
         if (percentFailures >= config.failuresRatioPercent)
-          Some(NotHealthyStats(s"$msName", s"$msName has $percentFailures% failures " +
+          Some(NotHealthyStats(s"$msName", s"$unhealthyIntro $msName has $percentFailures% failures " +
             s"for the last ${config.failuresRatioPercentTimeFrame}ms " +
             s"This equals or exceeds the configured threshold of ${config.failuresRatioPercent}% failures" ))
         else None
@@ -231,8 +240,9 @@ class HealthStats @Inject()(config: HealthStatsConfig, dateService: DateService)
         if (event.time.isBefore(numberOfFailuresThreshold)) return None
         else if (event.isInstanceOf[HealthStatsFailure]) {
           if (numberOfFailures < 2)
-            return Some(NotHealthyStats(s"${event.msName}", s"${event.msName} equals or has more" +
-              s" than ${config.numberOfFailures} failures for the last ${config.numberOfFailuresTimeFrame}ms" ))
+            return Some(NotHealthyStats(s"${event.msName}", s"$unhealthyIntro ${event.msName} equals " +
+              s"or has more than ${config.numberOfFailures} failures " +
+              s"for the last ${config.numberOfFailuresTimeFrame}ms" ))
           numberOfFailures - 1 // Reduce the accumulator
         }
         else numberOfFailures
