@@ -46,7 +46,7 @@ class HealthStats @Inject()(config: HealthStatsConfig, dateService: DateService)
 
   /**
     * Provides a client with the ability to get debug information out of this service
-    * @param out the PrintWriter that will be written to
+    * @param out the PrintWriter where the debug will be written
     */
   def debug(out: PrintWriter): Unit = {
     out.println("=============== Request rate per MS ================")
