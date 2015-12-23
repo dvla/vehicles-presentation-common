@@ -1,6 +1,6 @@
 package uk.gov.dvla.vehicles.presentation.common.mappings
 
-import com.github.nscala_time.time.Imports._
+import org.joda.time.LocalDate
 import play.api.data.{Form, FormError}
 import play.api.data.Forms.mapping
 import uk.gov.dvla.vehicles.presentation.common.webserviceclients.fakes.FakePastDateServiceImpl
@@ -117,14 +117,16 @@ class DateSpec extends UnitSpec {
   "Not before and not after constraints" should {
 
     "Disallow future dates, and allow the same dates as they become past dates" in {
+      val today = LocalDate.now()
+
       val notAfterFormPast = Form(mapping(
         "required" -> mappings.Date.dateMapping.verifying(mappings.Date.notInTheFuture()(new FakePastDateServiceImpl))
       )(RequiredDateModel.apply)(RequiredDateModel.unapply))
 
       val formNotAfterFormPast = notAfterFormPast.bind(Map(
-        "required.day" -> "01",
-        "required.month" -> "01",
-        "required.year" -> "2015"
+        "required.day" -> today.toString("dd"),
+        "required.month" -> today.toString("MM"),
+        "required.year" -> today.toString("YYYY")
       ))
       formNotAfterFormPast.value should === (None)
       formNotAfterFormPast.errors should === (Seq(FormError("required", "error.date.inTheFuture")))
@@ -134,20 +136,20 @@ class DateSpec extends UnitSpec {
       )(RequiredDateModel.apply)(RequiredDateModel.unapply))
 
       val formNotAfterFormFuture = notAfterFormFuture.bind(Map(
-        "required.day" -> "01",
-        "required.month" -> "01",
-        "required.year" -> "2015"
+        "required.day" -> today.toString("dd"),
+        "required.month" -> today.toString("MM"),
+        "required.year" -> today.toString("YYYY")
       ))
-      formNotAfterFormFuture.value should ===(Some(RequiredDateModel(new LocalDate(2015, 1, 1))))
+      formNotAfterFormFuture.value should ===(Some(RequiredDateModel(new LocalDate(today.getYear, today.getMonthOfYear, today.getDayOfMonth))))
       formNotAfterFormFuture.errors should ===(Seq.empty)
     }
 
     "Invalidate an year after some date" in {
       val notAfterForm = Form(mapping(
-        "required" -> mappings.Date.dateMapping.verifying(mappings.Date.notAfter(LocalDate.tomorrow))
+        "required" -> mappings.Date.dateMapping.verifying(mappings.Date.notAfter(LocalDate.now().plusDays(1)))
       )(RequiredDateModel.apply)(RequiredDateModel.unapply))
 
-      val tomorrowPlusOne = LocalDate.tomorrow.plusDays(1)
+      val tomorrowPlusOne = LocalDate.now().plusDays(2)
       val form = notAfterForm.bind(Map(
         "required.day" -> tomorrowPlusOne.toString("dd"),
         "required.month" -> tomorrowPlusOne.toString("MM"),
@@ -163,26 +165,27 @@ class DateSpec extends UnitSpec {
         "required" -> mappings.Date.dateMapping.verifying(mappings.Date.notInTheFuture())
       )(RequiredDateModel.apply)(RequiredDateModel.unapply))
 
-      val tomorrowPlusOne = LocalDate.tomorrow
+      val tomorrow = LocalDate.now().plusDays(1)
       val form = notInTheFutureForm.bind(Map(
-        "required.day" -> tomorrowPlusOne.toString("dd"),
-        "required.month" -> tomorrowPlusOne.toString("MM"),
-        "required.year" -> tomorrowPlusOne.getYear.toString
+        "required.day" -> tomorrow.toString("dd"),
+        "required.month" -> tomorrow.toString("MM"),
+        "required.year" -> tomorrow.getYear.toString
       ))
       form.value should ===(None)
       form.errors should ===(Seq(FormError("required", "error.date.inTheFuture")))
     }
 
     "Invalidate an year before some date" in {
+      val yesturday = LocalDate.now().minusDays(1)
       val notBeforeForm = Form(mapping(
-        "required" -> mappings.Date.dateMapping.verifying(mappings.Date.notBefore(LocalDate.yesterday))
+        "required" -> mappings.Date.dateMapping.verifying(mappings.Date.notBefore(yesturday))
       )(RequiredDateModel.apply)(RequiredDateModel.unapply))
 
-      val tomorrowPlusOne = LocalDate.yesterday.minusDays(1)
+      val yesturdayMinusOne = yesturday.minusDays(1)
       val form = notBeforeForm.bind(Map(
-        "required.day" -> tomorrowPlusOne.toString("dd"),
-        "required.month" -> tomorrowPlusOne.toString("MM"),
-        "required.year" -> tomorrowPlusOne.getYear.toString
+        "required.day" -> yesturdayMinusOne.toString("dd"),
+        "required.month" -> yesturdayMinusOne.toString("MM"),
+        "required.year" -> yesturdayMinusOne.getYear.toString
       ))
       form.value should ===(None)
       form.errors should ===(Seq(FormError("required", "error.date.notBefore")))
@@ -194,11 +197,11 @@ class DateSpec extends UnitSpec {
         "required" -> mappings.Date.dateMapping.verifying(mappings.Date.notInThePast())
       )(RequiredDateModel.apply)(RequiredDateModel.unapply))
 
-      val tomorrowPlusOne = LocalDate.yesterday
+      val yesturday = LocalDate.now().minusDays(1)
       val form = notInThePastForm.bind(Map(
-        "required.day" -> tomorrowPlusOne.toString("dd"),
-        "required.month" -> tomorrowPlusOne.toString("MM"),
-        "required.year" -> tomorrowPlusOne.getYear.toString
+        "required.day" -> yesturday.toString("dd"),
+        "required.month" -> yesturday.toString("MM"),
+        "required.year" -> yesturday.getYear.toString
       ))
       form.value should ===(None)
       form.errors should ===(Seq(FormError("required", "error.date.notInThePast")))
@@ -212,7 +215,7 @@ class DateSpec extends UnitSpec {
     )(RequiredDateModel.apply)(RequiredDateModel.unapply))
 
     "Validate is not in the future" in {
-      val tomorrow = LocalDate.tomorrow
+      val tomorrow = LocalDate.now().plusDays(1)
       validateInvalidDate(
         dateOfBirthForm,
         tomorrow.toString("dd"),
@@ -221,7 +224,7 @@ class DateSpec extends UnitSpec {
         "error.dateOfBirth.inTheFuture"
       )
 
-      val today = LocalDate.today
+      val today = LocalDate.now()
       validateValidDate(
         dateOfBirthForm,
         today.toString("dd"),
@@ -242,7 +245,7 @@ class DateSpec extends UnitSpec {
         dateOfBirthForm,
         "01",
         "01",
-        LocalDate.today.minusYears(111).getYear.toString,
+        LocalDate.now().minusYears(111).getYear.toString,
         "error.dateOfBirth.110yearsInThePast"
       )
     }

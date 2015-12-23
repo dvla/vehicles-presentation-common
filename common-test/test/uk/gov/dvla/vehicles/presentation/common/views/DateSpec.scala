@@ -1,6 +1,6 @@
 package uk.gov.dvla.vehicles.presentation.common.views
 
-import com.github.nscala_time.time.Imports.LocalDate
+import org.joda.time.LocalDate
 import org.scalatest.selenium.WebBrowser.go
 import org.scalatest.selenium.WebBrowser.pageTitle
 import play.api.i18n.Messages
@@ -54,7 +54,7 @@ class DateSpec extends UiSpec with TestHarness {
       }
       success("01", "02", validFourDigitYear)
       success("31", "12", validFourDigitYear)
-      val today = LocalDate.today
+      val today = LocalDate.now()
       success(today.toString("dd"), today.toString("MM"), today.toString("YYYY"))
     }
   }

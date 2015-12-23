@@ -1,6 +1,6 @@
 package uk.gov.dvla.vehicles.presentation.common.webserviceclients.brute_force_prevention
 
-import org.joda.time.Instant
+import org.joda.time.{LocalDate, Instant}
 import org.mockito.Mockito.{when, verify}
 import org.mockito.Matchers.{anyString, any}
 import org.mockito.invocation.InvocationOnMock
@@ -35,7 +35,7 @@ class BruteForcePreventionServiceImplSpec extends UnitSpec {
           viewModel.permitted should equal(true)
           viewModel.attempts should equal(1)
           viewModel.maxAttempts should equal(3)
-          viewModel.dateTimeISOChronology should startWith("1970-11-25T00:00:00.000") //TODO use regex pattern match
+          viewModel.dateTimeISOChronology should startWith(LocalDate.now().toString + "T00:00:00.000")
       }
     }
 
@@ -46,7 +46,7 @@ class BruteForcePreventionServiceImplSpec extends UnitSpec {
           viewModel.permitted should equal(false)
           viewModel.attempts should equal(1)
           viewModel.maxAttempts should equal(3)
-          viewModel.dateTimeISOChronology should startWith("1970-11-25T00:00:00.000") //TODO use regex pattern match
+          viewModel.dateTimeISOChronology should startWith(LocalDate.now().toString + "T00:00:00.000")
       }
     }
 

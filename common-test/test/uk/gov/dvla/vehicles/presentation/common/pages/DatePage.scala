@@ -23,12 +23,11 @@ class DatePage(implicit driver: WebDriver) extends Page {
   lazy val required: DateWidget = DateWidget(DateId)
 
   def submit(implicit driver: WebDriver): Element = {
-//    implicit lazy val webDriver = WebDriverFactory.webDriver
     find(id("submit")).get
   }
 
-  def navigate(day: String = "3", month: String = "4", year: String = "2014",
-               day1: String = "30", month1: String = "12", year1: String = "1970")
+  def navigate(day: String = "01", month: String = "01", year: String = "1970",
+               day1: String = "01", month1: String = "01", year1: String = "1970")
               (implicit driver: WebDriver) {
     go to this
 
