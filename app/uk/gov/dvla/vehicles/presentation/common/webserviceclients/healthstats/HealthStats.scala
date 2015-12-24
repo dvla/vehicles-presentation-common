@@ -49,6 +49,21 @@ class HealthStats @Inject()(config: HealthStatsConfig, dateService: DateService)
     * @param out the PrintWriter where the debug will be written
     */
   def debug(out: PrintWriter): Unit = {
+    def countAbsoluteFailures() = {
+      val numberOfFailuresThreshold = dateService.now.minus(max(0, config.numberOfFailuresTimeFrame))
+      events.foreach { case (msName, eventsPerMs) =>
+        val count = eventsPerMs.foldRight(0)((event, numberOfFailures) =>
+          // As we are processing the most recent events and moving back in time, if we find any event (success or failure)
+          // before the start of the time frame then ignore it as we have processed the time frame
+          if (event.time.isBefore(numberOfFailuresThreshold)) numberOfFailures
+          else if (event.isInstanceOf[HealthStatsFailure]) {
+            numberOfFailures + 1 // Increase the count
+          }
+          else numberOfFailures // Ignore success events
+        )
+        out.println(s"$msName: $count")
+      }
+    }
     out.println("=============== Request rate per MS ================")
     out.println(s"Request rate threshold: ${config.numberOfRequests} per ${config.numberOfRequestsTimeFrame}ms")
     events.foreach { case (msName, eventsPerMs) =>
@@ -60,6 +75,11 @@ class HealthStats @Inject()(config: HealthStatsConfig, dateService: DateService)
     out.println("============= Consecutive Fail Counts ==============")
     out.println(s"Consecutive fail threshold: ${config.numberOfConsecutiveFailures}")
     consecutiveFailCounts.foreach{case (msName, count) => out.println(s"$msName: $count")}
+    out.println()
+
+    out.println("=============== Absolute Fail Counts ===============")
+    out.println(s"Absolute fail threshold: ${config.numberOfFailures}")
+    countAbsoluteFailures()
     out.println()
 
     out.println("====================== Events ======================")
@@ -241,7 +261,7 @@ class HealthStats @Inject()(config: HealthStatsConfig, dateService: DateService)
         else if (event.isInstanceOf[HealthStatsFailure]) {
           if (numberOfFailures < 2)
             return Some(NotHealthyStats(s"${event.msName}", s"$unhealthyIntro ${event.msName} equals " +
-              s"or has more than ${config.numberOfFailures} failures " +
+              s"or has more than ${config.numberOfFailures} failures (absolute failure count) " +
               s"for the last ${config.numberOfFailuresTimeFrame}ms" ))
           numberOfFailures - 1 // Reduce the accumulator
         }
