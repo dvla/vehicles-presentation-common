@@ -1,6 +1,6 @@
 #!/bin/bash
 
-export SBT_OPTS="-Dspecs2.color=false -Dsbt.log.format=true -Dsbt.log.noformat=true $SBT_OPTS" &&
+export SBT_OPTS="-Dspecs2.color=false -Dsbt.log.format=true \
+  -Dsbt.log.noformat=true -DspanScaleFactor=5.0 $SBT_OPTS"
 
 http_proxy='' sbt clean all-tests dist publish commonTests/publish
-
