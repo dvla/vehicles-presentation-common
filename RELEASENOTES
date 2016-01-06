@@ -1,3 +1,15 @@
+======= 2.39 ======
+Time of release binaries creation:
+
+
+DE812   Amend all views to render correctly in mobile format
+DE833   Within the live environment, certain post codes are padded with a zero leading to confusion
+US2400  Override spanScaleFactor to scale test timeouts
+US4045  Review and correct tests with hard coded date values
+US4051  Xmas Opening Times Link for CEG
+US4074  Remove require.js, call javascript resources directly, and fallback to no-js if a file does not load
+US4139  Refactor the HealthStats to make it more understandable how it works
+
 ======= 2.38 ======
 Time of release binaries creation:
 Wed Dec 09 09:12:10 UTC 2015
