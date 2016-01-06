@@ -1,5 +1,6 @@
 ======= 2.38 ======
 Time of release binaries creation:
+Wed Dec 09 09:12:10 UTC 2015
 
 US3957  Refactor javascript toggle functions in to one common method
 US3973  Enhance playbackList widget to handle lower case email
@@ -11,6 +12,7 @@ US4059  Change the version of Apache Commons Collections to the one that has fix
 
 ======= 2.37 ======
 Time of release binaries creation:
+Wed Nov 25 10:34:05 UTC 2015
 
 US3956 	Review each exemplar and make sure all form controls are displayed through a widget in vehicles-presentation-common
 US3959 	Ensure all widgets in vehicles-presentation-common that use javascript have the javascript behaviour under unit testing
