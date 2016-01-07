@@ -1,10 +1,15 @@
 package uk.gov.dvla.vehicles.presentation.common.services
 
 import scala.concurrent.ExecutionContext.Implicits.global
+import scala.util.{Failure, Success}
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.TrackingId
-import uk.gov.dvla.vehicles.presentation.common.webserviceclients.emailservice.From
 import uk.gov.dvla.vehicles.presentation.common.LogFormats.DVLALogger
-import uk.gov.dvla.vehicles.presentation.common.webserviceclients.emailservice.{EmailService, EmailServiceSendRequest}
+import uk.gov.dvla.vehicles.presentation.common.webserviceclients.emailservice.EmailService
+import uk.gov.dvla.vehicles.presentation.common.webserviceclients.emailservice.EmailServiceSendRequest
+import uk.gov.dvla.vehicles.presentation.common.webserviceclients.emailservice.From
+import uk.gov.dvla.vehicles.presentation.common.webserviceclients.healthstats.HealthStats
+import uk.gov.dvla.vehicles.presentation.common.webserviceclients.healthstats.HealthStatsFailure
+import uk.gov.dvla.vehicles.presentation.common.webserviceclients.healthstats.HealthStatsSuccess
 
 /**
  * A simple service to send an email by making a rest call to the EmailService.
@@ -44,12 +49,18 @@ object SEND extends DVLALogger {
 
   /** Generic trait to represent the Email Service */
   sealed trait EmailOps {
-    def send(trackingId: TrackingId)(implicit config: EmailConfiguration, emailService: EmailService): Unit
+    def send(trackingId: TrackingId)(implicit config: EmailConfiguration,
+                                     emailService: EmailService,
+                                     dateService: DateService,
+                                     healthStats: HealthStats): Unit
   }
 
   /** A dummy email service, to handle non-white listed emails. */
   case class NonWhiteListedEmailOps(email: Email) extends EmailOps {
-    def send(trackingId: TrackingId)(implicit config: EmailConfiguration, emailService: EmailService) = {
+    def send(trackingId: TrackingId)(implicit config: EmailConfiguration,
+                                     emailService: EmailService,
+                                     dateService: DateService,
+                                     healthStats: HealthStats) = {
       val message =
         s"""Got email with subject: ${email.subject}
            |${email.message}
@@ -63,13 +74,21 @@ object SEND extends DVLALogger {
   }
   /** A no-ops email service that denotes an error in the email */
   object NoEmailOps extends EmailOps {
-    def send(trackingId: TrackingId)(implicit config: EmailConfiguration, emailService: EmailService) =
+    def send(trackingId: TrackingId)(implicit config: EmailConfiguration,
+                                     emailService: EmailService,
+                                     dateService: DateService,
+                                     healthStats: HealthStats) =
       logMessage(trackingId, Info, "The email is incomplete. You cannot send that")
   }
 
   /** An smtp email service. Currently implemented by making a rest call to the email micro service */
   case class MicroServiceEmailOps(email: Email) extends EmailOps {
-    def send(trackingId: TrackingId)(implicit config: EmailConfiguration, emailService: EmailService) = {
+    def send(trackingId: TrackingId)(implicit config: EmailConfiguration,
+                                     emailService: EmailService,
+                                     dateService: DateService,
+                                     healthStats: HealthStats) = {
+      import uk.gov.dvla.vehicles.presentation.common.webserviceclients.emailservice.EmailServiceImpl.ServiceName
+
       val from = From(config.from.email, config.from.name)
 
       val emailRequest: EmailServiceSendRequest = EmailServiceSendRequest(
@@ -82,16 +101,23 @@ object SEND extends DVLALogger {
         ccReceivers = email.ccPeople
       )
 
-      emailService.invoke(emailRequest, trackingId).onFailure {
-        case fail =>
+      healthStats.success(HealthStatsSuccess(ServiceName, dateService.now))
+      healthStats.success(HealthStatsSuccess(ServiceName, dateService.now))
+
+      emailService.invoke(emailRequest, trackingId).onComplete {
+        case Success(resp) =>
+          logMessage(trackingId, Info, "Received success response back from email micro service")
+          healthStats.success(HealthStatsSuccess(ServiceName, dateService.now))
+        case Failure(fail) =>
           val msg = s"Failed to send email for ${email.toPeople.mkString(" ")}, reason was ${fail.getMessage}"
           logMessage(trackingId, Error, msg)
+          healthStats.failure(HealthStatsFailure(ServiceName, dateService.now, fail))
       }
     }
   }
 
   /**
-   * Validation method that will return the correct service implementation depending on the email.
+   * Method that will return the correct service implementation depending on who the email is being sent to.
    * @param mail the email to send
    * @param configuration the configuration needed
    * @return an appropriate instance of an email operations object
@@ -105,9 +131,9 @@ object SEND extends DVLALogger {
   /**
    * Method that decides if the email has a white listed address. In case there is a white listed address then
    * the method will return true.  An empty white list config implies all addresses are white listed.
+   * Note this method is package private so the test class can access it
    */
-  def isWhiteListed(addresses: List[String])(implicit configuration: EmailConfiguration): Boolean = {
-
+  private[services] def isWhiteListed(addresses: List[String])(implicit configuration: EmailConfiguration): Boolean =
     configuration.whiteList match {
       case Some(wl) => (for {
         address <- addresses
@@ -120,7 +146,6 @@ object SEND extends DVLALogger {
       }
       case _ => true // The white list is not defined (it is None) so let everything through
     }
-  }
 
   /**
    * Main entry point for the send email.

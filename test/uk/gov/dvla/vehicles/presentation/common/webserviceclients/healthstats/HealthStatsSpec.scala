@@ -305,7 +305,7 @@ class HealthStatsSpec extends UnitSpec {
   }
 
   "report method" should {
-    "Report success or failure in case of successful of failing future" in {
+    "Report success or failure in case of successful or failing future" in {
       implicit val (dateService, config, service) = setup
       when(dateService.now).thenReturn(new Instant(1))
       when(config.numberOfConsecutiveFailures).thenReturn(1)

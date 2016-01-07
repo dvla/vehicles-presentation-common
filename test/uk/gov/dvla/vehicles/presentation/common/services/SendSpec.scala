@@ -1,9 +1,18 @@
 package uk.gov.dvla.vehicles.presentation.common.services
 
+import org.joda.time.Instant
+import org.mockito.Matchers.any
+import org.mockito.Mockito.{times, verify, when}
+import scala.concurrent.ExecutionContext.Implicits.global
+import scala.concurrent.Future
 import scala.language.postfixOps
-import uk.gov.dvla.vehicles.presentation.common.services.SEND.{Contents, EmailConfiguration, mailtoOps, NoEmailOps}
-import uk.gov.dvla.vehicles.presentation.common.webserviceclients.emailservice.From
-import uk.gov.dvla.vehicles.presentation.common.{WithApplication, UnitSpec}
+import uk.gov.dvla.vehicles.presentation.common
+import common.clientsidesession.TrackingId
+import common.services.SEND.{Contents, EmailConfiguration, mailtoOps, NoEmailOps}
+import common.{UnitSpec, WithApplication}
+import common.webserviceclients.emailservice.{EmailServiceSendResponse, EmailServiceSendRequest, EmailService, From}
+import common.webserviceclients.emailservice.EmailServiceImpl.{ServiceName => EmailServiceName}
+import common.webserviceclients.healthstats.{HealthStatsFailure, HealthStatsSuccess, HealthStats}
 
 class SendSpec extends UnitSpec {
 
@@ -12,7 +21,6 @@ class SendSpec extends UnitSpec {
                                       From("some@feedback", "dummy Feedback email"),
                                       Some(List("@valtech.co.uk","@dvla.gsi.gov.uk","@digital.dvla.gov.uk"))
                                     )
-
   "whitelist" should {
     "return true if an email belongs to this list" in new WithApplication {
       val receivers = List("test@valtech.co.uk")
@@ -35,7 +43,7 @@ class SendSpec extends UnitSpec {
     }
   }
 
-  "add people to the email" should {
+  "Adding people to the email" should {
     "add people if it is a list" in {
       val template = Contents("<h1>Email</h1>", "text email")
       val receivers = List("test@valtech.co.uk")
@@ -68,13 +76,13 @@ class SendSpec extends UnitSpec {
   }
 
   "Adding a template and some addresses" should {
-    "create an SmtpEmailOps if the user belongs to the whitelist" in new WithApplication {
+    "create a MicroServiceEmailOps if the user belongs to the whitelist" in new WithApplication {
       val template = Contents("<h1>Email</h1>", "text email")
       val receivers = List("test@valtech.co.uk")
       val email = SEND email template withSubject "Some Subject" to receivers
 
-      email shouldBe a [SEND.Email]
-      mailtoOps(email) shouldBe a [SEND.MicroServiceEmailOps]
+      email shouldBe a[SEND.Email]
+      mailtoOps(email) shouldBe a[SEND.MicroServiceEmailOps]
     }
 
     "create a NonWhiteList if the user doesn't belong to the whitelist" in new WithApplication {
@@ -82,11 +90,11 @@ class SendSpec extends UnitSpec {
       val receivers = List("test@broken.co.uk")
       val email = SEND email template withSubject "Some Subject" to receivers
 
-      email shouldBe a [SEND.Email]
-      mailtoOps(email) shouldBe a [SEND.NonWhiteListedEmailOps]
+      email shouldBe a[SEND.Email]
+      mailtoOps(email) shouldBe a[SEND.NonWhiteListedEmailOps]
     }
 
-    "create a NoEmailOps if the email doesn't have any senders" in new WithApplication{
+    "create a NoEmailOps if the email doesn't have any senders" in new WithApplication {
       val template = Contents("<h1>Email</h1>", "text email")
       val email = SEND email template withSubject "Some Subject"
 
@@ -103,7 +111,47 @@ class SendSpec extends UnitSpec {
       val receivers = List("makis.arvin@gmail.com")
       val email = SEND email template withSubject "Some Subject" to receivers
 
-      mailtoOps(email) shouldBe a [SEND.MicroServiceEmailOps]
+      mailtoOps(email) shouldBe a[SEND.MicroServiceEmailOps]
+    }
+  }
+
+  // Ignored as I need to figure out how to test a method that is called on a dependent object
+  // in the Future callback, which is on a different thread to the one that has the assertions
+  "When failing to send a message to the email micro service the SEND service" should {
+    "inform the health stats service of failure" ignore new WithApplication {
+      implicit val emailServiceMock = mock[EmailService]
+      when(emailServiceMock.invoke(any[EmailServiceSendRequest](), any[TrackingId]))
+        .thenReturn(Future.failed(new RuntimeException("BOOM")))
+      implicit val dateServiceMock = mock[DateService]
+      val expectedInstant = new Instant(0)
+      when(dateServiceMock.now).thenReturn(expectedInstant)
+      implicit val healthStatsMock = mock[HealthStats]
+
+      val template = Contents("<h1>Email</h1>", "text email")
+      val receivers = List("test@valtech.co.uk")
+      SEND email template withSubject "Some Subject" to receivers send TrackingId("test-tracking-id")
+
+      verify(healthStatsMock, times(1)).failure(any[HealthStatsFailure])
+    }
+  }
+
+  // Ignored as I need to figure out how to test a method that is called on a dependent object
+  // in the Future callback, which is on a different thread to the one that has the assertions
+  "When successfully sending a message to the email micro service the SEND service" should {
+    "inform the health stats service of success" ignore new WithApplication {
+      implicit val emailServiceMock = mock[EmailService]
+      when(emailServiceMock.invoke(any[EmailServiceSendRequest](), any[TrackingId]))
+        .thenReturn(Future(EmailServiceSendResponse()))
+      implicit val dateServiceMock = mock[DateService]
+      val expectedInstant = new Instant(0)
+      when(dateServiceMock.now).thenReturn(expectedInstant)
+      implicit val healthStatsMock = mock[HealthStats]
+
+      val template = Contents("<h1>Email</h1>", "text email")
+      val receivers = List("test@valtech.co.uk")
+      SEND email template withSubject "Some Subject" to receivers send TrackingId("test-tracking-id")
+
+      verify(healthStatsMock, times(1)).success(HealthStatsSuccess(EmailServiceName, expectedInstant))
     }
   }
 }
