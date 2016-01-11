@@ -101,9 +101,6 @@ object SEND extends DVLALogger {
         ccReceivers = email.ccPeople
       )
 
-      healthStats.success(HealthStatsSuccess(ServiceName, dateService.now))
-      healthStats.success(HealthStatsSuccess(ServiceName, dateService.now))
-
       emailService.invoke(emailRequest, trackingId).onComplete {
         case Success(resp) =>
           logMessage(trackingId, Info, "Received success response back from email micro service")
