@@ -14,7 +14,7 @@ import uk.gov.dvla.vehicles.presentation.common.testhelpers.LightFakeApplication
 // which means around() gets invoked twice and everything is not happy.  Only lazy vals and defs are allowed,
 // no vals or any other code blocks.
 
-trait TestHarnessBase extends ProgressBar with GlobalCreator {
+trait TestHarnessBase extends GlobalCreator {
   import WebBrowser._
 
   abstract class WebBrowserForSelenium(val app: FakeApplication = fakeAppWithTestGlobal,
@@ -29,10 +29,6 @@ trait TestHarnessBase extends ProgressBar with GlobalCreator {
         finally webDriver.quit()
       }
   }
-
-  abstract class ProgressBarTrue extends WebBrowserForSelenium(app = fakeApplicationWithProgressBarTrue)
-
-  abstract class ProgressBarFalse extends WebBrowserForSelenium(app = fakeApplicationWithProgressBarFalse)
 
   abstract class WebBrowserWithJs extends WebBrowserForSelenium(
     webDriver = WebDriverFactory.webDriver(javascriptEnabled = true)
