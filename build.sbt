@@ -64,11 +64,11 @@ libraryDependencies ++= Seq(
   "org.webjars" % "jquery-migrate" % "1.2.1"
 )
 
-instrumentSettings
+coverageExcludedPackages := "<empty>;Reverse.*"
 
-ScoverageKeys.excludedPackages := "<empty>;Reverse.*"
+coverageMinimum := 70
 
-//CoverallsPlugin.coverallsSettings
+coverageFailOnMinimum := false
 
 net.virtualvoid.sbt.graph.Plugin.graphSettings
 

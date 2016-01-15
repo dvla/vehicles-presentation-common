@@ -12,10 +12,7 @@ addSbtPlugin("com.typesafe.sbt" % "sbt-web" % "1.1.0")
 
 addSbtPlugin("default" % "sbt-sass" % "0.1.9")
 
-// Plugin for publishing scoverage results to coveralls
-addSbtPlugin("org.scoverage" %% "sbt-scoverage" % "0.99.10.2")
-
-addSbtPlugin("org.scoverage" %% "sbt-coveralls" % "0.99.0")
+addSbtPlugin("org.scoverage" %% "sbt-scoverage" % "1.3.5")
 
 resolvers += Resolver.url(
   "bintray-sbt-plugin-releases",
