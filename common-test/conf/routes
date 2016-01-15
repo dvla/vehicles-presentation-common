@@ -48,11 +48,8 @@ POST    /email                          @uk.gov.dvla.vehicles.presentation.commo
 GET     /business-name                  @uk.gov.dvla.vehicles.presentation.common.controllers.BusinessNameController.present
 POST    /business-name                  @uk.gov.dvla.vehicles.presentation.common.controllers.BusinessNameController.submit
 
-GET     /date                           @uk.gov.dvla.vehicles.presentation.common.controllers.DateController.present
-POST    /date                           @uk.gov.dvla.vehicles.presentation.common.controllers.DateController.submit
-
-GET     /date-of-sale                   @uk.gov.dvla.vehicles.presentation.common.controllers.DateOfSaleController.present
-POST    /date-of-sale                   @uk.gov.dvla.vehicles.presentation.common.controllers.DateOfSaleController.submit
+GET     /valtech-date                   @uk.gov.dvla.vehicles.presentation.common.controllers.DateController.present
+POST    /valtech-date                   @uk.gov.dvla.vehicles.presentation.common.controllers.DateController.submit
 
 GET     /mileage                        @uk.gov.dvla.vehicles.presentation.common.controllers.MileageController.present
 POST    /mileage                        @uk.gov.dvla.vehicles.presentation.common.controllers.MileageController.submit

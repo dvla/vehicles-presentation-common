@@ -137,10 +137,10 @@ name = Business name
 error.validBusinessName = Must be between two and 56 characters and only contain valid characters (a-z, A-Z, 0-9, -, ‘, and ,)
 
 #Date of birth widget
-dateInput.pageTitle = Date Of Birth Input
-dateInput.label = Testing date of birth
+dateInput.pageTitle = Date Input
+dateInput.label = Testing date
 #dateInput.hint = for example, 20 3 1976
-error.date.inTheFuture = Date of birth cannot be in the future
+error.date.inTheFuture = Date cannot be in the future
 error.date.invalid = Please enter a valid date in the format DD MM YYYY
 # date of birth limit
 error.dateOfBirth.110yearsInThePast = Date of birth cannot be more than 110 years in the past

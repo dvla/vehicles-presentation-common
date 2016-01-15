@@ -1,8 +1,7 @@
 package uk.gov.dvla.vehicles.presentation.common.views
 
 import org.joda.time.LocalDate
-import org.scalatest.selenium.WebBrowser.go
-import org.scalatest.selenium.WebBrowser.pageTitle
+import org.scalatest.selenium.WebBrowser.{click, go, pageTitle}
 import play.api.i18n.Messages
 import uk.gov.dvla.vehicles.presentation.common.composition.TestHarness
 import uk.gov.dvla.vehicles.presentation.common.helpers.UiSpec
@@ -10,58 +9,38 @@ import uk.gov.dvla.vehicles.presentation.common.pages.{DatePage, ErrorPanel}
 
 class DateSpec extends UiSpec with TestHarness {
 
-  val validFourDigitYear = "1984"
+  val today = LocalDate.now()
 
-  "Optional date of birth field" should {
-    "be on a page with the correct title" in new WebBrowserForSelenium {
+  "Date" should {
+    "set today's date if the button is clicked" in new WebBrowserWithJs {
       go to DatePage.instance
-      pageTitle should equal(DatePage.instance.title)
+
+      DatePage.instance.waitUntilJavascriptReady
+      click on DatePage.useTodaysDateButton
+
+      DatePage.instance.required.day.value should equal(today.toString("dd"))
+      DatePage.instance.required.month.value should equal(today.toString("MM"))
+      DatePage.instance.required.year.value should equal(today.toString("YYYY"))
     }
 
-    "allow no values to be input" in new WebBrowserForSelenium {
-      DatePage.instance.navigate("", "", "")
-      pageTitle should equal("Success")
-    }
+    "only allow numbers to be typed in" in new WebBrowserWithJs {
+      val alphaChars = "#$%&'()*+,-./:;<=>?@[\\]^{|}~ \"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
+      go to DatePage.instance
+      DatePage.instance.waitUntilJavascriptReady
 
-    "validate partial input" in new WebBrowserForSelenium {
-      DatePage.instance.navigate("", "", validFourDigitYear)
-      ErrorPanel.text should include(Messages("error.date.invalid"))
-      ErrorPanel.numberOfErrors should equal(1)
-    }
+      DatePage.instance.required.day.underlying.sendKeys(alphaChars.concat(today.toString("dd")))
+      DatePage.instance.required.month.underlying.sendKeys(alphaChars.concat(today.toString("MM")))
+      DatePage.instance.required.year.underlying.sendKeys(alphaChars.concat(today.toString("YYYY")))
 
-    "validate the day if there is any input" in new WebBrowserForSelenium {
-      DatePage.instance.navigate("oij", "04", validFourDigitYear)
-      ErrorPanel.text should include(Messages("error.date.invalid"))
-      ErrorPanel.numberOfErrors should equal(1)
-    }
-
-    "validate the moth if there is any input" in new WebBrowserForSelenium {
-      DatePage.instance.navigate("01", "we", validFourDigitYear)
-      ErrorPanel.text should include(Messages("error.date.invalid"))
-      ErrorPanel.numberOfErrors should equal(1)
-    }
-
-    "validate the year if there is any input" in new WebBrowserForSelenium {
-      DatePage.instance.navigate("01", "04", "wwer")
-      ErrorPanel.text should include(Messages("error.date.invalid"))
-      ErrorPanel.numberOfErrors should equal(1)
-    }
-
-    "Pass trough valid dates" in new WebBrowserForSelenium {
-      def success(day: String, month: String, year: String): Unit = {
-        DatePage.instance.navigate(day, month, year)
-        pageTitle should equal("Success")
-      }
-      success("01", "02", validFourDigitYear)
-      success("31", "12", validFourDigitYear)
-      val today = LocalDate.now()
-      success(today.toString("dd"), today.toString("MM"), today.toString("YYYY"))
+      DatePage.instance.required.day.value should equal(today.toString("dd"))
+      DatePage.instance.required.month.value should equal(today.toString("MM"))
+      DatePage.instance.required.year.value should equal(today.toString("YYYY"))
     }
   }
 
   "Required date of birth" should {
     "Not allow any empty fields" in new WebBrowserForSelenium {
-      DatePage.instance.navigate("01", "01", validFourDigitYear, "", "", "")
+      DatePage.instance.navigate("01", "01", "1984", "", "", "")
       ErrorPanel.text should include(Messages("error.date.invalid"))
       ErrorPanel.numberOfErrors should equal(1)
     }

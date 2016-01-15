@@ -14,14 +14,14 @@ import uk.gov.dvla.vehicles.presentation.common.clientsidesession.{TrackingId, C
 
 
 class DateControllerUnitSpec extends UnitSpec {
-  private def dateOfBirthController = {
+  private def dateController = {
     injector.getInstance(classOf[DateController])
   }
 
   "Private keeper detail complete controller" should {
     "present an empty form" in new WithTestApplication {
       val request = FakeRequest()
-      whenReady(dateOfBirthController.present(request)) {
+      whenReady(dateController.present(request)) {
         r => r.header.status should equal(OK)
       }
     }
@@ -31,7 +31,7 @@ class DateControllerUnitSpec extends UnitSpec {
 
       val request = FakeRequest()
         .withCookies(createCookie(Key.value, value))
-      val html = contentAsString(dateOfBirthController.present(request))
+      val html = contentAsString(dateController.present(request))
       html should include("24")
       html should include("12")
       html should include("1234")
