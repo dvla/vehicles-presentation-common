@@ -5,7 +5,7 @@ package uk.gov.dvla.vehicles.presentation.common.helpers.webbrowser
 import java.util
 
 import org.openqa.selenium.WebDriver.{Navigation, TargetLocator, Options}
-import org.openqa.selenium.{By, WebElement, WebDriver}
+import org.openqa.selenium.{By, Cookie, WebElement, WebDriver}
 import org.openqa.selenium.support.events.EventFiringWebDriver
 import org.scalatest.AppendedClues
 
@@ -35,5 +35,8 @@ class WebBrowserFirefoxDriver extends EventFiringWebDriver(WebDriverFactory.webD
 trait WithClue extends AppendedClues {
 
   def trackingId(implicit webDriver: WebDriver) =
-    "- trackingId: " + webDriver.manage().getCookieNamed("tracking_id").getValue
+    "- trackingId: " + (Option(webDriver.manage().getCookieNamed("tracking_id")) match {
+      case Some(c: Cookie) => c.getValue
+      case None => "default_test_tracking_id"
+    })
 }

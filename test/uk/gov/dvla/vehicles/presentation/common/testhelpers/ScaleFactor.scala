@@ -8,9 +8,6 @@ import scala.concurrent.duration.FiniteDuration
 import scala.concurrent.duration.SECONDS
 
 trait ScaleFactor extends ScalaFutures {
-
-  protected val timeout = Timeout(scaled(Span(1, Second)))
-
   // The default PatienceConfig from ScalaTest uses scaled time spans.
   // The interval and timeout for the PatienceConfig will be scaled,
   // allowing us to run the tests with fail-fast values for local testing
