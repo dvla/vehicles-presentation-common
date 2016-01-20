@@ -1,6 +1,6 @@
-======= 2.39 ======
+======= 2.40 ======
 Time of release binaries creation:
-
+Wed Jan 20 10:42:21 UTC 2016
 
 US2404 	Mixin trait eventually with testComposition and IntegrationPatience on any file that contains selenium code
 US3790 	Code coverage for all the code
@@ -11,7 +11,7 @@ US4161 	When the SEND email service gets an error when trying to call the email 
 
 ======= 2.39 ======
 Time of release binaries creation:
-
+Wed Jan 06 14:52:46 UTC 2016
 
 DE812   Amend all views to render correctly in mobile format
 DE833   Within the live environment, certain post codes are padded with a zero leading to confusion
