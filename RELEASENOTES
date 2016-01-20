@@ -2,6 +2,17 @@
 Time of release binaries creation:
 
 
+US2404 	Mixin trait eventually with testComposition and IntegrationPatience on any file that contains selenium code
+US3790 	Code coverage for all the code
+US4012 	Remove redundant views/common object progressBar
+US4013 	Remove redundant views/common object help
+US4144 	Remove tests concerning date widget from exemplars
+US4161 	When the SEND email service gets an error when trying to call the email web service it must inform the HealthStats service
+
+======= 2.39 ======
+Time of release binaries creation:
+
+
 DE812   Amend all views to render correctly in mobile format
 DE833   Within the live environment, certain post codes are padded with a zero leading to confusion
 US2400  Override spanScaleFactor to scale test timeouts
