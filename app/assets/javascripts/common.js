@@ -678,6 +678,13 @@ var gaTrackOptionalFields = function() {
                 if ($(this).is(':checked')) {
                     gaTrackEvent(category, actionName, label, value);
                 }
+            } else if ($(this).hasClass('ga-track-region')) {
+                // Special case to track the geo region from a particular selected address
+                var areaCode = $(this).val().split(', ').splice(-1)[0].substr(0,2);
+                if (areaCode) {
+                    var regionLookup = {"BT": "Northern Ireland"};
+                    gaTrackEvent(category, actionName, ((regionLookup[areaCode])?regionLookup[areaCode]:'Other'), value)
+                }
             } else {
                 gaTrackEvent(category, actionName, label, value);
             }
