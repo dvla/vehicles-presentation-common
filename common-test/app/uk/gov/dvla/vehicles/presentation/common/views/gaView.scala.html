@@ -55,16 +55,7 @@
 }
 
 <script>
-
-require(['../lib/vehicles-presentation-common/javascripts/config'], function() {
-    require(['jquery'], function($, main) {
-        $(function() {
-            window.setTimeout(function() {
-                $('button[type="submit"]').on('click', function(e) {
-                    $('#js-events-hidden').attr('value', JSON.stringify(_gaq));
-                });
-            }, 100);
-        });
-    });
+$('button[type="submit"]').on('click', function(e) {
+    $('#js-events-hidden').attr('value', JSON.stringify(_gaq));
 });
 </script>
