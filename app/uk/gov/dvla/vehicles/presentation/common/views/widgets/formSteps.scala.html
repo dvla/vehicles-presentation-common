@@ -17,8 +17,8 @@
                 name="action"
                 value="printDisposalSuccess"
                 class="button js-only print-button ga-track-click-event-once"
-                ga-event-category="ct_print"
-                ga-event-action="print">
+                data-ga-event-category="ct_print"
+                data-ga-event-action="print">
             @Messages("formSteps.buttonnavprint")
         </button>
     </div>
@@ -31,8 +31,8 @@
                     type="submit"
                     name="action"
                     class="button button-new-disposal button-secondary ga-track-click-event-once"
-                    ga-event-category="ct_link"
-                    ga-event-action="sell-another">
+                    data-ga-event-category="ct_link"
+                    data-ga-event-action="sell-another">
                     @Messages("formSteps.newdisposalbutton")
                 </button>
             }
@@ -49,8 +49,8 @@
                         name="action"
                         onclick="window.open('@url', '_blank');"
                         class="button button-secondary ga-track-click-event-once"
-                        ga-event-category="dispose-success"
-                        ga-event-action="exit">
+                        data-ga-event-category="exit-success-survey"
+                        data-ga-event-action="exit">
                         @Messages("formSteps.exitbutton")
                     </button>
                 }
@@ -59,8 +59,8 @@
                         type="submit"
                         name="action"
                         class="button button-secondary ga-dispose-success-exit"
-                        ga-event-category="dispose-success"
-                        ga-event-action="exit">
+                        data-ga-event-category="exit-success"
+                        data-ga-event-action="exit">
                         @Messages("formSteps.exitbutton")
                     </button>
                 }

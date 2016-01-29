@@ -9,36 +9,12 @@
         @input(fields("optionalString")) { (id, name, value, htmlArgs) =>
             <input id="@id" type="text" name="@name" value="@value"
                    class="ga-track-optional-text"
-                   ga-action="test-ga-action"
-                   ga-value="test-ga-value" />
+                   data-ga-action="data-ga-action val"
+                   data-ga-value="data-ga-value val" />
         }
         <a class="ga-track-click-event-once"
-           ga-event-category="test-ga-event-category"
-           ga-event-action="test-ge-event-acation">Click me twice</a>
-
-        <input id="js-events-hidden" type="hidden" name="js-events" value=""/>
-
-        <div class="form-steps">
-            <button id="submit"
-                    type="submit"
-                    name="action"
-                    class="button"
-                    aria-label="Next button">
-                @Messages("valtechInputText.button")
-            </button>
-        </div>
-    }
-    @form(action = controllers.routes.GaEventsController.submit) {
-
-        @input(fields("optionalString")) { (id, name, value, htmlArgs) =>
-            <input id="@id" type="text" name="@name" value="@value"
-                   class="ga-track-optional-text"
-                   ga-action="test-ga-action"
-                   ga-value="test-ga-value" />
-        }
-        <a class="ga-track-click-event-once"
-           ga-event-category="test-ga-event-category"
-           ga-event-action="test-ge-event-acation">Click me twice</a>
+           data-ga-event-category="data-ga-event-category val"
+           data-ga-event-action="data-ga-event-action val">Click me twice</a>
 
         <input id="js-events-hidden" type="hidden" name="js-events" value=""/>
 
