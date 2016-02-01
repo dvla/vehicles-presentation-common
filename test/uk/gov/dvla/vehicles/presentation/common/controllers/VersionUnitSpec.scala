@@ -1,31 +1,22 @@
 package uk.gov.dvla.vehicles.presentation.common.controllers
 
-import java.io.ByteArrayInputStream
+import com.github.tomakehurst.wiremock.client.WireMock.{get, urlEqualTo, aResponse}
 import java.net.URL
-
-import com.github.tomakehurst.wiremock.client.MappingBuilder
-import play.api.test.Helpers.{BAD_REQUEST, LOCATION, OK, SET_COOKIE, contentAsString, defaultAwaitTimeout}
-import com.github.tomakehurst.wiremock.http.RequestMethod
 import org.apache.commons.io.{FileUtils, IOUtils}
-import org.mockito.Mockito.when
 import org.scalatest.BeforeAndAfterAll
-import play.api.libs.Files.TemporaryFile
-import play.api.mvc.Result
+import play.api.mvc.{Action, AnyContent}
 import play.api.test.FakeRequest
-import play.api.test.Helpers._
-import uk.gov.dvla.vehicles.presentation.common.{WithApplication, UnitSpec}
-
-import scala.concurrent.Future
+import play.api.test.Helpers.{contentAsString, defaultAwaitTimeout}
 import scala.tools.nsc.util.ScalaClassLoader.URLClassLoader
-import org.scalatest.concurrent.Futures
+import uk.gov.dvla.vehicles.presentation.common.{UnitSpec, WithApplication}
 import uk.gov.dvla.vehicles.presentation.common.testhelpers.WireMockFixture
 
 class VersionUnitSpec extends UnitSpec with BeforeAndAfterAll with WireMockFixture {
-  val buildTimeDetails = "Build time details"
+  val buildDetails = "Name: test\nVersion: 0.01\n\n"
   val tmpFile = java.io.File.createTempFile("VersionUnitSpecTmpFile", "tmp")
 
   override def beforeAll() {
-    FileUtils.writeStringToFile(tmpFile, "buildTimeDetails")
+    FileUtils.writeStringToFile(tmpFile, buildDetails)
   }
 
   override def afterAll() {
@@ -33,35 +24,46 @@ class VersionUnitSpec extends UnitSpec with BeforeAndAfterAll with WireMockFixtu
   }
 
   "version" should {
-//    "show the build-details.txt if exists along with runtime information" in {
-//      val loader = new URLClassLoader(Seq[URL](), getClass.getClassLoader) {
-//        override def loadClass(name: String) = {
-//          if (name == classOf[Version].getName) {
-//            val cls = super.getResource(classOf[Version].getName.replace(".", "/") + ".class").openStream()
-//            val clsBytes = IOUtils.toByteArray(cls)
-//            defineClass(classOf[Version].getName, clsBytes, 0, clsBytes.length)
-//          } else super.loadClass(name)
-//        }
-//        override def getResource(name: String) = {
-//          println(s"################# $name")
-//          if (name == "/build-details.txt") tmpFile.toURI.toURL
-//          else super.getResource(name)
-//        }
-//      }
-//      val request = FakeRequest()
-//
-//      val testVersionControllerClass = loader.loadClass(classOf[Version].getName)
-//      val versionController = testVersionControllerClass.newInstance()
-//      val result = testVersionControllerClass
-//        .getMethod("version").invoke(versionController, request)
-//        .asInstanceOf[Future[Result]]
-//
-//      println(s"################ ${versionController.getClass.getClassLoader} ")
-//      val resultContent = contentAsString(result)
-//
-//      resultContent should include(buildTimeDetails)
-//      resultContent should include("Runtime Java:")
-//    }
+    "show the build-details.txt if exists along with runtime information" in new WithApplication {
+      val loader = new URLClassLoader(Seq[URL](), getClass.getClassLoader) {
+        override def loadClass(name: String) = {
+          if (name.startsWith(classOf[Version].getName)) {
+            val cls = super.getResource(name.replace(".", "/") + ".class").openStream()
+            val clsBytes = IOUtils.toByteArray(cls)
+            defineClass(name, clsBytes, 0, clsBytes.length)
+          } else super.loadClass(name)
+        }
+        override def getResource(name: String) = {
+          if (name == "build-details.txt") tmpFile.toURI.toURL
+          else super.getResource(name)
+        }
+      }
+
+      val request = FakeRequest()
+
+      import scala.reflect.runtime.{universe => ru}
+      val mirror = ru.runtimeMirror(loader)
+      val classVersion = ru.typeOf[Version].typeSymbol.asClass
+      val cm = mirror.reflectClass(classVersion)
+      val constructorMethod = ru.typeOf[Version].declaration(ru.nme.CONSTRUCTOR).asMethod
+      val constructor = cm.reflectConstructor(constructorMethod)
+
+      wireMock.register(get(urlEqualTo("/version")).willReturn(aResponse()))
+      val versionController = constructor(Seq(s"http://localhost:$wireMockPort/version"))
+
+      val versionSymbol = ru.typeOf[Version].member(ru.newTermName("version"))
+      val im = mirror.reflect(versionController)
+      val versionMethodMirror = im.reflectMethod(versionSymbol.asMethod).apply().asInstanceOf[Action[AnyContent]]
+
+      val result = versionMethodMirror(request)
+
+      val resultContent = contentAsString(result)
+
+      resultContent should include(buildDetails)
+      resultContent should include("Running as:")
+      resultContent should include("Runtime OS:")
+      resultContent should include("Runtime Java:")
+    }
 
     "show build-details.txt doesn't exist along with runtime information" in {
       val request = FakeRequest()
@@ -74,7 +76,6 @@ class VersionUnitSpec extends UnitSpec with BeforeAndAfterAll with WireMockFixtu
     }
 
     "fetch the version strings from microservices" in new WithApplication {
-      import com.github.tomakehurst.wiremock.client.WireMock.{get, urlEqualTo, aResponse}
       wireMock.register(get(urlEqualTo("/version1")).willReturn(aResponse().withBody("version1-body")))
       wireMock.register(get(urlEqualTo("/version2")).willReturn(aResponse().withBody("version2-body")))
       wireMock.register(get(urlEqualTo("/version3")).willReturn(aResponse().withBody("version3-body")))
