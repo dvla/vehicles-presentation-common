@@ -209,14 +209,14 @@ final class HtmlArgsExtensionsSpec extends UnitSpec {
       result should equal(htmlArgsWithValue)
     }
 
-//    "add 'checked' when the field has no value (so defaults to 'true') and htmlArgs contains value 'true'" in {
-//      val fieldValue = None
-//      val htmlArgsWithValue = Map('title -> "test", 'value -> true)
-//      val richHtmlArgs = new RichHtmlArgs(htmlArgsWithValue)
-//      val result = richHtmlArgs.checkedWhenValueMatches(fieldValue)
-//      val htmlArgsWithChecked = Map('title -> "test", 'value -> true, 'checked -> "")
-//      result should equal(htmlArgsWithChecked)
-//    }
+    "not add 'checked' when the field has no value (so defaults to 'true') and htmlArgs contains value 'true'" in {
+      val fieldValue = None
+      val htmlArgsWithValue = Map('title -> "test", 'value -> true)
+      val richHtmlArgs = new RichHtmlArgs(htmlArgsWithValue)
+      val result = richHtmlArgs.checkedWhenValueMatches(fieldValue)
+      val htmlArgsWithChecked = Map('title -> "test", 'value -> true)
+      result should equal(htmlArgsWithChecked)
+    }
 
     "add 'checked' when the field has the same value as the htmlArgs value" in {
       val fieldValue = Some("test-value")
