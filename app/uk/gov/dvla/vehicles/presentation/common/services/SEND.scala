@@ -62,12 +62,12 @@ object SEND extends DVLALogger {
                                      dateService: DateService,
                                      healthStats: HealthStats) = {
       val message =
-        s"""Got email with subject: ${email.subject}
+        s"""send non-whitelisted : Got email with subject: ${email.subject}
            |${email.message}
            |to be sent to ${email.toPeople.mkString(" ")}
            |with cc ${email.ccPeople.mkString(" ")}
            |from ${config.from.email}
-           |Receiver ${config.feedbackEmail.email} was not in the white list ${config.whiteList} so not sending"""
+           |white list ${config.whiteList} so not sending"""
           .stripMargin
       logMessage(trackingId, Info, message)
     }
