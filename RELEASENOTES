@@ -1,3 +1,11 @@
+======= 2.41 ======
+Time of release binaries creation:
+
+
+DE840 	Correct data attributes on print button for ga tracking
+US4180 	Add Trader email capture Functionality to 'Provide trader details page'
+US4187 	Google Analytics - Identify, Collate and Report on Northern Ireland Address Use by Service and Customer Type
+
 ======= 2.40 ======
 Time of release binaries creation:
 Wed Jan 20 10:42:21 UTC 2016
