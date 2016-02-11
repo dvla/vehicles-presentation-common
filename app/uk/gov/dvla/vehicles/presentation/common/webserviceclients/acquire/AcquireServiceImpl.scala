@@ -1,7 +1,7 @@
 package uk.gov.dvla.vehicles.presentation.common.webserviceclients.acquire
 
 import javax.inject.Inject
-import play.api.http.Status.{INTERNAL_SERVER_ERROR, OK}
+import play.api.http.Status.{FORBIDDEN, OK}
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.TrackingId
@@ -29,9 +29,7 @@ final class AcquireServiceImpl @Inject()(config: AcquireConfig,
         val msg = s"Http response code from acquire vehicle micro-service was: ${resp.status}"
         logMessage(trackingId, Debug, msg)
 
-        if (resp.status == OK)
-          (resp.status, resp.json.asOpt[AcquireResponseDto])
-        else if (resp.status == INTERNAL_SERVER_ERROR)
+        if (resp.status == OK || resp.status == FORBIDDEN)
           (resp.status, resp.json.asOpt[AcquireResponseDto])
         else (resp.status, None)
       }
