@@ -68,7 +68,8 @@ abstract class VehicleLookupBase[FormModel <: VehicleLookupFormModelBase]
   }
 
   private def bruteForceAndLookup(formModel: FormModel)
-                                 (implicit request: Request[_]): Future[Result] =
+                                 (implicit request: Request[_]): Future[Result] = {
+    logMessage(request.cookies.trackingId(), Debug, s"VehicleLookupBase.bruteForceAndLookup entry")
     bruteForceService.isVrmLookupPermitted(formModel.registrationNumber, request.cookies.trackingId())
       .flatMap { bruteForcePreventionModel =>
       val resultFuture = if (bruteForcePreventionModel.permitted)
@@ -81,6 +82,7 @@ abstract class VehicleLookupBase[FormModel <: VehicleLookupFormModelBase]
 
       resultFuture.map { result =>
         import BruteForcePreventionModel.{key, JsonFormat}
+        logMessage(request.cookies.trackingId(), Debug, s"VehicleLookupBase.bruteForceAndLookup exit")
         result.withCookie(bruteForcePreventionModel)(JsonFormat, key(cacheKeyPrefix), request, clientSideSessionFactory)
       }
     } recover {
@@ -91,6 +93,7 @@ abstract class VehicleLookupBase[FormModel <: VehicleLookupFormModelBase]
         )
         microServiceError(exception, formModel)
     } map (_.withCookie(formModel))
+  }
 
   private def lookupVehicle(registrationNumber: String,
                             referenceNumber: String,
@@ -105,10 +108,12 @@ abstract class VehicleLookupBase[FormModel <: VehicleLookupFormModelBase]
       vehicleLookupFailure(failure, formModel).withCookie(responseCodeCacheKey, failure.response.message)
     }
 
+    logMessage(request.cookies.trackingId(), Debug, s"VehicleLookupBase.lookupVehicle entry")
     callLookupService(request.cookies.trackingId(), formModel).map {
       case VehicleNotFound(failure) => notFound(failure)
       case VehicleFound(result) =>
-        bruteForceService.reset(registrationNumber,request.cookies.trackingId()).onComplete {
+          logMessage(request.cookies.trackingId(), Debug, s"VehicleLookupBase.lookupVehicle - vehicle found")
+          bruteForceService.reset(registrationNumber, request.cookies.trackingId()).onComplete {
           case Success(httpCode) =>
             val msg = s"Brute force reset was called - it returned httpCode: $httpCode"
             logMessage(request.cookies.trackingId(), Debug, msg)
