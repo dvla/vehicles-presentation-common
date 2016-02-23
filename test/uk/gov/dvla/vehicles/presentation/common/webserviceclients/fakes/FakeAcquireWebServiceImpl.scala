@@ -1,6 +1,6 @@
 package uk.gov.dvla.vehicles.presentation.common.webserviceclients.fakes
 
-import play.api.http.Status.OK
+import play.api.http.Status.{FORBIDDEN, OK, SERVICE_UNAVAILABLE}
 import play.api.libs.json.Json
 import play.api.libs.ws.WSResponse
 import play.api.Logger
@@ -14,28 +14,36 @@ import webserviceclients.acquire.AcquireWebService
 import webserviceclients.common.MicroserviceResponse
 
 class FakeAcquireWebServiceImpl extends AcquireWebService {
-  import FakeAcquireWebServiceImpl._
+  import FakeAcquireWebServiceImpl.SimulateForbidden
+  import FakeAcquireWebServiceImpl.SimulateMicroServiceUnavailable
+  import FakeAcquireWebServiceImpl.SimulateSoapEndpointFailure
+  import FakeAcquireWebServiceImpl.acquireResponseGeneralError
+  import FakeAcquireWebServiceImpl.acquireResponseSoapEndpointFailure
+  import FakeAcquireWebServiceImpl.acquireResponseSuccess
 
-  override def callAcquireService(request: AcquireRequestDto, trackingId: TrackingId):
-                                                                              Future[WSResponse] = Future.successful {
-    val acquireResponse: AcquireResponseDto = {
-      request.referenceNumber match {
-        case SimulateMicroServiceUnavailable => throw new RuntimeException("simulateMicroServiceUnavailable")
-        case SimulateSoapEndpointFailure => acquireResponseSoapEndpointFailure
-        case _ => acquireResponseSuccess
+  override def callAcquireService(request: AcquireRequestDto, trackingId: TrackingId): Future[WSResponse] = {
+    if (request.referenceNumber == SimulateMicroServiceUnavailable) {
+      Future.failed(new Exception("Connection refused"))
+    } else {
+      val (status: Int, acquireResponse: AcquireResponseDto) = {
+        request.referenceNumber match {
+          case SimulateSoapEndpointFailure => (SERVICE_UNAVAILABLE, acquireResponseSoapEndpointFailure)
+          case SimulateForbidden => (FORBIDDEN, acquireResponseGeneralError)
+          case _ => (OK, acquireResponseSuccess)
+        }
       }
+      val responseAsJson = Json.toJson(acquireResponse)
+      Logger.debug(s"FakeVehicleLookupWebService callVehicleLookupService with: $responseAsJson")
+      Future.successful(new FakeResponse(status = status, fakeJson = Some(responseAsJson)))
     }
-    val responseAsJson = Json.toJson(acquireResponse)
-    Logger.debug(s"FakeVehicleLookupWebService callVehicleLookupService with: $responseAsJson")
-    new FakeResponse(status = OK, fakeJson = Some(responseAsJson)) // Any call to a webservice will always return this successful response.
   }
 }
 
 object FakeAcquireWebServiceImpl {
   final val TransactionIdValid = "1234"
-  private final val AuditIdValid = "7575"
-  private final val SimulateMicroServiceUnavailable = "8" * 11
-  private final val SimulateSoapEndpointFailure = "9" * 11
+  final val SimulateForbidden = "7" * 11
+  final val SimulateMicroServiceUnavailable = "8" * 11
+  final val SimulateSoapEndpointFailure = "9" * 11
   private final val RegistrationNumberValid = "AB12AWR"
 
   val acquireResponseSuccess = AcquireResponseDto(
@@ -43,7 +51,8 @@ object FakeAcquireWebServiceImpl {
     AcquireResponse(transactionId = TransactionIdValid, registrationNumber = RegistrationNumberValid)
   )
 
-  // We should always get back a transaction id even for failure scenarios. Only exception is if the soap endpoint is down
+  // We should always get back a transaction id even for failure scenarios.
+  // Only exception is if the soap endpoint is down
   val acquireResponseGeneralError = AcquireResponseDto(
     Some(MicroserviceResponse("", "ms.vehiclesService.error.generalError")),
     AcquireResponse(transactionId = TransactionIdValid, registrationNumber = "")
@@ -53,6 +62,16 @@ object FakeAcquireWebServiceImpl {
   val acquireResponseSoapEndpointFailure = AcquireResponseDto(
     None,
     AcquireResponse(transactionId = "", registrationNumber = "")
+  )
+
+  val acquireResponseApplicationBeingProcessed = AcquireResponseDto(
+    None,
+    AcquireResponse(transactionId = TransactionIdValid, registrationNumber = RegistrationNumberValid)
+  )
+
+  val acquireResponseFurtherActionRequired = AcquireResponseDto(
+    Some(MicroserviceResponse("", "ms.vehiclesService.response.furtherActionRequired")),
+    AcquireResponse(transactionId = TransactionIdValid, registrationNumber = "")
   )
 
   final val ConsentValid = "true"
