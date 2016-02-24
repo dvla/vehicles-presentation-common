@@ -1,10 +1,8 @@
 package uk.gov.dvla.vehicles.presentation.common.model
 
-import play.api.data.Forms._
-import uk.gov.dvla.vehicles.presentation.common
-import common.mappings.Email.email
+import play.api.data.Forms.{mapping, nonEmptyText, optional, text}
+import uk.gov.dvla.vehicles.presentation.common.mappings.Email.email
 import play.api.libs.json.Json
-
 
 case class FeedbackForm(feedback: String, name: Option[String], email: Option[String])
 
@@ -14,7 +12,6 @@ object FeedbackForm {
     final val feedback = "feedback"
     final val nameMapping = "feedbackName"
     final val emailMapping = "feedbackEmail"
-
 
     final val Mapping = mapping(
       feedback -> nonEmptyText(minLength = 2, maxLength = 500),
