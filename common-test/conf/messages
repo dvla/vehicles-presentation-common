@@ -320,8 +320,6 @@ playback-keeper-application-details-telephone-number-extension3 = when prompted)
 playback-keeper-application-details-monday-to-friday = Monday to Friday: 08.00 - 19.00
 playback-keeper-application-details-saturday = Saturday: 08.00 - 14.00
 playback-keeper-application-details-sunday = Sunday: Closed
-playback-keeper-application-details-textphone = Textphone
-playback-keeper-application-details-textphone-number = 18001 0300 123 1379
 
 playback-callback.title = Existing vehicle details
 playback-callback.title-2 = Your personal registration number is being placed on the vehicle below:
