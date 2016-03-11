@@ -11,7 +11,7 @@ import common.clientsidesession.{CacheKey, ClientSideSessionFactory, TrackingId}
 import common.clientsidesession.CookieImplicits.{RichCookies, RichResult}
 import common.controllers.VehicleLookupBase.{LookupResult, VehicleFound, VehicleNotFound}
 import common.LogFormats.{anonymize, optionNone, DVLALogger}
-import common.model.{CacheKeyPrefix, BruteForcePreventionModel}
+import uk.gov.dvla.vehicles.presentation.common.model.{MicroserviceResponseModel, CacheKeyPrefix, BruteForcePreventionModel}
 import common.services.DateService
 import common.webserviceclients.bruteforceprevention.BruteForcePreventionService
 import common.webserviceclients.common.DmsWebHeaderDto
@@ -105,7 +105,7 @@ abstract class VehicleLookupBase[FormModel <: VehicleLookupFormModelBase]
         s" ${anonymize(referenceNumber)}" +
         s" ${anonymize(registrationNumber)}," +
         " redirect to VehicleAndKeeperLookupFailure")
-      vehicleLookupFailure(failure, formModel).withCookie(responseCodeCacheKey, failure.response.message)
+      vehicleLookupFailure(failure, formModel).withCookie(MicroserviceResponseModel.content(failure.response))
     }
 
     logMessage(request.cookies.trackingId(), Debug, s"VehicleLookupBase.lookupVehicle entry")
