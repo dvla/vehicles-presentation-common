@@ -12,10 +12,10 @@
 
 <div class="@(("form-steps" :: cssClasses).mkString(" "))">
     <div class="step">
-        <button id="printDisposalSuccess"
+        <button id="printSuccess"
                 type="button"
                 name="action"
-                value="printDisposalSuccess"
+                value="printSuccess"
                 class="button js-only print-button ga-track-click-event-once"
                 data-ga-event-category="ct_print"
                 data-ga-event-action="print">
@@ -30,7 +30,7 @@
                 <button id="@args('buttonId)"
                     type="submit"
                     name="action"
-                    class="button button-new-disposal button-secondary ga-track-click-event-once"
+                    class="button button-secondary ga-track-click-event-once"
                     data-ga-event-category="ct_link"
                     data-ga-event-action="sell-another">
                     @Messages("formSteps.newdisposalbutton")
@@ -58,7 +58,7 @@
                     <button id="@ExitId"
                         type="submit"
                         name="action"
-                        class="button button-secondary ga-dispose-success-exit"
+                        class="button button-secondary ga-track-click-event-once"
                         data-ga-event-category="exit-success"
                         data-ga-event-action="exit">
                         @Messages("formSteps.exitbutton")
