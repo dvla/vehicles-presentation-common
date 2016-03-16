@@ -1,3 +1,10 @@
+======= 2.44 ======
+Time of release binaries creation:
+
+US4212 	VPC - class name value needs changing for form exit without survey
+US4268 	Remove textphone off all error pages before 1 April
+US4273 	WEBCHAT - PR Retain add custom detail
+
 ======= 2.43 ======
 Time of release binaries creation:
 Wed Mar 02 10:48:37 UTC 2016
