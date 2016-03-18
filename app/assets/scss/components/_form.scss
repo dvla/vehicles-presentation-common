@@ -350,7 +350,7 @@
     //container for action buttons at the bottom of a page
     .form-steps {
         margin-top: 1em;
-        clear: both;
+        clear: left;
         @include clearfix;
 
         @media screen and (max-width: $device-small) {
@@ -415,7 +415,7 @@
         }
         .exit,
         .back {
-            clear: both;
+            clear: left;
             padding: .350em 0;
             text-align: center;
             line-height: 300%;
