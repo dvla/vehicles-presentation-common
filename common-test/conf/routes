@@ -108,3 +108,5 @@ GET     /micro-services-error           @uk.gov.dvla.vehicles.presentation.commo
 GET     /closed                         @uk.gov.dvla.vehicles.presentation.common.controllers.ClosedController.present
 
 GET     /xmas-opening-times             @uk.gov.dvla.vehicles.presentation.common.controllers.XmasOpeningTimesController.present
+
+GET     /tandc                          @uk.gov.dvla.vehicles.presentation.common.controllers.TermsAndConditionsController.present

@@ -98,3 +98,57 @@ feedbackName = Name
 feedback = Feedback form
 feedback_return = ◄ Return to your application
 feedback_close = Please close this page to return to your application
+
+# Terms and Conditions
+tandc-title = Terms and Conditions
+footer.tandc = Terms & Conditions
+
+tandc.tandc.header = Terms and Conditions
+tandc.tandc.p1 = These Terms and Conditions govern your use of the DVLA's Vehicle Management and Personalised Registration Online website and your relationship with this website. Please read them carefully as they affect your rights and liabilities under the law. If you do not agree to these Terms and Conditions, please do not use this website.
+tandc.use_of_website.header = Use of this Website
+tandc.use_of_website.p1 = DVLA takes every effort to ensure that the information published on this website is accurate. However, the DVLA cannot accept any liability for the accuracy or content. Visitors who rely on this information do so at their own risk.
+tandc.use_of_website.p2 = This service is available Monday to Saturday, 8am to 6pm.  We cannot guarantee that the service will be fault free. If a fault occurs we will attempt to correct the fault as soon as we reasonably can.
+tandc.hyperlinking.header = Hyperlinking
+tandc.hyperlinking.p1 = It is our policy to obtain permission to link to other websites. The DVLA is not responsible for the content or reliability of the linked websites and does not necessarily endorse the views expressed within them. Listings should not be taken as endorsement of any kind. We cannot guarantee that these links will work all of the time and we have no control over the availability of linked pages.
+tandc.payment_cards.header = Payment Cards
+tandc.payment_cards.p1 = Debit and credit cards are accepted for payment on this website. Card information is transferred in accordance with our security statement and is held in accordance with our privacy statement.
+tandc.data_protection_act.header = Data Protection Act 1998
+tandc.data_protection_act.p1 = This Act requires that we inform you that our confirmation by e-mail may include information about you (this is called ''personal data'' in the Act) and that we are a ''data controller'' for the purposes of the Act.
+tandc.data_protection_act.p2 = It is a criminal offence under section 55 of the Data Protection Act 1998 to unlawfully obtain or disclose (or procure the disclosure of) personal data from Data Controllers without the data subject’s consent.  It is also an offence to sell personal data that is illegally obtained.  Convictions for offences are punished in a Magistrates Court by fine of up to £5000 or by an unlimited fine in a Crown Court.
+tandc.data_protection_act.p3 = We will process any feedback you give us about this website. We will only use this information to improve this website.
+tandc.data_protection_act.p4 = We may disclose any data obtained to any person or organisation for the purposes for which it was collected or where the Act allows disclosure. As a data subject, you have the right to ask for a copy of the data and to ask for any inaccuracies to be corrected.
+tandc.site_usage_information.header = Site Usage Information
+tandc.site_usage_information.p1 = Log files allow us to record visitors'' use of this website, which we use to make improvements to the layout of the website and to the information on it, based on the way that visitors navigate around it. Log files do not contain any personal information about you.
+tandc.online_cookies_policies.header = Online Cookies policies
+tandc.online_cookies_policies.p1 = When we provide services, we want to make them easy, useful and reliable. Where services are delivered on the Internet, this sometimes involves placing small amounts of information on your device, for example, computer or mobile phone. These include small files known as cookies. They cannot be used to identify you personally.
+tandc.online_cookies_policies.p2 = These pieces of information are used to improve services for you through, for example:
+tandc.online_cookies_policies.p3 = enabling a service to recognise your device so you don''t have to give the same information several times during one task recognising that you may already have given a username and password so you don''t need to do it for every web page requested measuring how many people are using services, so they can be made easier to use and there's enough capacity to ensure they are fast
+tandc.online_cookies_policies.p4 = You can configure your web-browser to reject cookies.  Note that you may not be able to access or use certain features of this website if you reject a cookie.  Please read the <a href="{0}">cookie policy</a> for more information.
+tandc.disclaimer.header = Disclaimer
+tandc.disclaimer.p1 = We don’t accept liability for loss or damage incurred by users of this service, whether direct, indirect or consequential, whether caused by tort, breach of contract or otherwise, in connection with our site, its use, the inability to use, or results of the use of our site, any websites linked to it and any materials posted on it.
+tandc.disclaimer.p2 = This includes loss of:
+tandc.disclaimer.list1 = income or revenue,business,profits or contracts,anticipated savings,data,goodwill,tangible property,wasted management or office time
+tandc.disclaimer.p3 = Websites or web pages to which this website is linked are for information purposes only. DVLA does not control, endorse, sponsor or approve of content on such websites or pages, except where it is otherwise expressly stated. DVLA does not accept responsibility or liability for any losses or penalties incurred as a result of your use of any links or reliance on the content of any website or web pages to which this website is linked.
+tandc.disclaimer.p4 = You may not frame or link this website to any other website without the prior written consent of DVLA.
+tandc.virus_protection.header = Virus protection
+tandc.virus_protection.p1 = The DVLA makes every effort to check and test material at all stages of production. However, you must take your own precautions to ensure that the process you employ for accessing this website does not expose you to the risk of viruses, malicious computer code or other forms of interference which may damage your own computer system.
+tandc.virus_protection.p2 = The DVLA can’t accept responsibility for any loss, disruption or damage to your data or your computer system which may occur whilst using material derived from this website.
+tandc.virus_hacking_other_offences.header = Viruses, hacking and other offences
+tandc.virus_hacking_other_offences.p1 = You must not misuse our site by knowingly introducing viruses, trojans, worms, logic bombs or other material which is malicious or technologically harmful. You must not attempt to gain unauthorised access to our site, the server on which our site is stored or any server, computer or database connected to our site. You must not attack our site via a denial-of-service attack or a distributed denial-of-service attack.
+tandc.virus_hacking_other_offences.p2 = By breaching this provision, you would commit a criminal offence under the Computer Misuse Act 1990. We will report any such breach to the relevant law enforcement authorities and we will co-operate with those authorities by disclosing your identity to them.
+tandc.copyright_and_reproduction.header = Copyright and reproduction
+tandc.copyright_and_reproduction.p1 = The material featured on this website is subject to Crown copyright protection unless otherwise indicated. Please read the <a href="http://www.nationalarchives.gov.uk/information-management/re-using-public-sector-information/copyright/crown-copyright/">Crown copyright page</a> for more information.
+tandc.copyright_and_reproduction.p2 = You are not permitted to adapt or modify the Information or any part of it, except where it is expressly stated.
+tandc.copyright_and_reproduction.p3 = The names, images and logos identifying DVLA are proprietary marks of DVLA. Copying our logos and/or any other third party logos accessed through this site is not permitted without prior approval from the relevant copyright owner.
+tandc.changes.header = Changes
+tandc.changes.p1 = DVLA reserves the right, at its discretion, to make changes to any part of this website, the information or these terms. Should DVLA change these terms, DVLA will publish details of the changes on the website. Any changes shall take effect on posting to this website.
+tandc.amendments_to_tandc.header = Amendments to Terms and Conditions
+tandc.amendments_to_tandc.p1 = We may update these Terms and Conditions from time to time. If you continue to use this website after the date on which changes come into effect, your use of the website indicates your agreement to be bound by the new Terms and Conditions.
+tandc.severability.header = Severability
+tandc.severability.p1 = If any of these terms and conditions are held to be invalid, unenforceable or illegal for any reason, the remaining terms and conditions shall nevertheless continue in full force.
+tandc.events_beyond_dvla_control.header = Events beyond DVLA control
+tandc.events_beyond_dvla_control.p1 = DVLA accept no liability for any failure to comply with these terms and conditions where such failure is due to circumstance beyond our reasonable control.
+tandc.events_beyond_dvla_control.p2 = If DVLA waives any rights available to it under these terms and conditions on one occasion, this does not mean that those rights will automatically be waived on any other occasion.
+tandc.governing_law.header = Governing law
+tandc.governing_law.p1 = These terms and conditions shall be governed by and construed in accordance with the laws of England and Wales. Any dispute arising under these terms and conditions shall be subject to the exclusive jurisdiction of the courts of England and Wales.
+tandc.last_updated = These Terms and Conditions were last updated 30 March 2016. &copy; Copyright

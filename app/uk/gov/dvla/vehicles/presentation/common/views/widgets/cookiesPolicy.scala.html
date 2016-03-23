@@ -6,51 +6,44 @@
   }
 }
 
-<div class="two-col clearfix">
-  <div class="second-col">
-
-    <h1>@Messages("cookie-policy-title")</h1>
-    @displayMessage(Messages("cookie-policy-p1"))
-    @displayMessage(Messages("cookie-policy-p2"))
-    <ul>
-      <li>@Messages("cookie-policy-p3")</li>
-      <li>@Messages("cookie-policy-p4")</li>
-    </ul>
-    <div>
-      @displayMessage(Messages("cookie-policy-p5"))
-    </div>
-    @displayMessage(Messages("cookie-policy-p6"))
-    @displayMessage(Messages("cookie-policy-p7"))&nbsp;<a href="http://www.aboutcookies.org/" target="_blank" data-sso="false">
-    @displayMessage(Messages("cookie-policy-p8"))</a>.
-
-    <h2>@Messages("cookie-policy-p9")</h2>
-
-    @for(section <- cookiesPolicyMap.keys) {
-      <h3>@Messages(s"cookie-policy.name.$section")</h3>
-      @displayMessage(Messages(s"cookie-policy.name.$section.p1"))
-      @displayMessage(Messages(s"cookie-policy.name.$section.p2"))
-      @displayMessage(Messages(s"cookie-policy.name.$section.p3"))
-      @displayMessage(Messages(s"cookie-policy.name.$section.p4"))
-      @displayMessage(Messages("cookie-policy-p10"))
-      <table>
-        <thead>
-          <tr>
-            <td>@Messages("cookie-policy.table.name")</td>
-            <td>@Messages("cookie-policy.table.purpose")</td>
-            <td>@Messages("cookie-policy.table.expires")</td>
-          </tr>
-          </thead>
-        @for(entry <- cookiesPolicyMap(section)) {
-          <tr>
-            <td>@entry.name</td>
-            <td>@Messages(s"cookie-policy.cookies.$section.${entry.purpose}")</td>
-            <td>@Messages(s"cookie-policy.expires.${entry.expires}")</td>
-          </tr>
-        }
-
-      </table>
-      <p></p>
-    }
-
-  </div>
+<h1>@Messages("cookie-policy-title")</h1>
+@displayMessage(Messages("cookie-policy-p1"))
+@displayMessage(Messages("cookie-policy-p2"))
+<ul>
+  <li>@Messages("cookie-policy-p3")</li>
+  <li>@Messages("cookie-policy-p4")</li>
+</ul>
+<div>
+  @displayMessage(Messages("cookie-policy-p5"))
 </div>
+@displayMessage(Messages("cookie-policy-p6"))
+@displayMessage(Messages("cookie-policy-p7"))&nbsp;<a href="http://www.aboutcookies.org/" target="_blank" data-sso="false">
+@displayMessage(Messages("cookie-policy-p8"))</a>.
+
+<h2>@Messages("cookie-policy-p9")</h2>
+
+@for(section <- cookiesPolicyMap.keys) {
+  <h3>@Messages(s"cookie-policy.name.$section")</h3>
+  @displayMessage(Messages(s"cookie-policy.name.$section.p1"))
+  @displayMessage(Messages(s"cookie-policy.name.$section.p2"))
+  @displayMessage(Messages(s"cookie-policy.name.$section.p3"))
+  @displayMessage(Messages(s"cookie-policy.name.$section.p4"))
+  @displayMessage(Messages("cookie-policy-p10"))
+  <table>
+    <thead>
+      <tr>
+        <td>@Messages("cookie-policy.table.name")</td>
+        <td>@Messages("cookie-policy.table.purpose")</td>
+        <td>@Messages("cookie-policy.table.expires")</td>
+      </tr>
+    </thead>
+    @for(entry <- cookiesPolicyMap(section)) {
+      <tr>
+        <td>@entry.name</td>
+        <td>@Messages(s"cookie-policy.cookies.$section.${entry.purpose}")</td>
+        <td>@Messages(s"cookie-policy.expires.${entry.expires}")</td>
+      </tr>
+    }
+  </table>
+  <p></p>
+}
