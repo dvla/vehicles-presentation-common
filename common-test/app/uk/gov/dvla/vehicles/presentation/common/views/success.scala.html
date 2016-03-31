@@ -1,5 +1,5 @@
 @(message: String)(implicit lang: Lang)
 
 @main(Messages("success.pageTitle")) {
-    <p id="successMesage">@message</p>
+    <p id="successMesage">@Html(message)</p>
 }

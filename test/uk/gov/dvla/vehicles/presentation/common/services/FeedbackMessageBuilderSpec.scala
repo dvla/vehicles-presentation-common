@@ -12,8 +12,8 @@ class FeedbackMessageBuilderSpec extends UnitSpec {
   val email = "test@test.com"
 
   "Message builder" should {
-    "include contain correct details" in new WithApplication {
-      val feedbackForm = FeedbackForm(feedback = "Feedback text", name = Some(name), email = Some(email))
+    "contain correct details" in new WithApplication {
+      val feedbackForm = FeedbackForm(feedback = "Feedback text", webChat = None, name = Some(name), email = Some(email))
       val message: Contents = FeedbackMessageBuilder.buildWith(feedbackForm, trackingId)
       message.htmlMessage should include(s"<p>trackingId : $trackingId</p>")
       message.htmlMessage should include(s"received from: $name")
@@ -23,8 +23,8 @@ class FeedbackMessageBuilderSpec extends UnitSpec {
       message.plainMessage should include(s"email: $email")
     }
 
-    "handles no name or email address" in new WithApplication() {
-      val feedbackForm = FeedbackForm(feedback = "Feedback text", name = None, email = None)
+    "handle no name or email address" in new WithApplication() {
+      val feedbackForm = FeedbackForm(feedback = "Feedback text", webChat = None, name = None, email = None)
       val message: Contents = FeedbackMessageBuilder.buildWith(feedbackForm, trackingId)
       message.htmlMessage should include("received from: 'no name given'")
       message.htmlMessage should include("email: 'no email given'")
@@ -32,10 +32,18 @@ class FeedbackMessageBuilderSpec extends UnitSpec {
       message.plainMessage should include("email: 'no email given'")
     }
 
-    "correctly converts reserved characters" in new WithApplication() {
-      val feedbackForm = FeedbackForm(feedback = "Feedback text: <>", name = None, email = None)
+    "correctly convert reserved characters" in new WithApplication() {
+      val feedbackForm = FeedbackForm(feedback = "Feedback text: <>", webChat = None, name = None, email = None)
       val message: Contents = FeedbackMessageBuilder.buildWith(feedbackForm, trackingId)
       message.htmlMessage should include("&lt;&gt;")
+    }
+
+    "include webchat feedback" in new WithApplication {
+      val webChatFeedbackText = "Webchat feedback text"
+      val feedbackForm = FeedbackForm(feedback = "Feedback text", webChat = Some(webChatFeedbackText), name = Some(name), email = Some(email))
+      val message: Contents = FeedbackMessageBuilder.buildWith(feedbackForm, trackingId)
+      message.htmlMessage should include(s"<p>$webChatFeedbackText</p>")
+      message.plainMessage should include(s"$webChatFeedbackText")
     }
   }
 }

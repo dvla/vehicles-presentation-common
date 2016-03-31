@@ -1,5 +1,6 @@
 @(field: play.api.data.Field,
   hintText: Option[String] = None,
+  showCharacterCountdown: Boolean = false,
   args: Map[Symbol, Any] = Map.empty)(implicit handler: helper.FieldConstructor, lang: Lang)
 
 @import uk.gov.dvla.vehicles.presentation.common.views
@@ -23,7 +24,14 @@
                     withTypeAttributeText.
                     withAriaRequired(field.constraints)
         )
+        data-target="#@id-character-countdown"
     >@value</textarea>
 
     @hintTextSnippet(hintText, idOfRelatedInput = id)
+
+    @if(showCharacterCountdown) {
+      <p>
+        <span id="@id-character-countdown">@args('maxLength)</span>&nbsp;@Messages("common_feedback.charactersRemaining")
+      </p>
+    }
 }

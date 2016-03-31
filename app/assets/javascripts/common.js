@@ -480,18 +480,22 @@ var feedbackFormCharacterCountdown = function() {
     if ($("#feedback-form textarea").length > 0) {
         function updateCountdown() {
             // 500 is the max message length
-            var remaining = 500 - $('#feedback-form textarea').val().length;
-            $('.character-countdown').text(remaining);
+            var remaining = 500 - $(this).val().length;
+            var target = $(this).data('target');
+            if (target) {
+              $(target).text(remaining);
+            }
         }
         $(document).ready(function($) {
             // IE 9- maxlength on input textarea
             var txts = document.getElementsByTagName('TEXTAREA')
             for(var i = 0, l = txts.length; i < l; i++) {
                 if(/^[0-9]+$/.test(txts[i].getAttribute("maxlength"))) {
+                    updateCountdown.call(txts[i]);
                     var func = function() {
                         var len = parseInt(this.getAttribute("maxlength"), 10);
 
-                        if(this.value.length > len) {
+                        if (this.value.length > len) {
                             this.value = this.value.substr(0, len);
                             return false;
                         }

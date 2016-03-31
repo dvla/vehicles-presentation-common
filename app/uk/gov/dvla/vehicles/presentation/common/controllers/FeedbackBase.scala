@@ -1,12 +1,16 @@
 package uk.gov.dvla.vehicles.presentation.common.controllers
 
+import play.api.data.{Form, FormError}
 import play.api.mvc.Controller
-import uk.gov.dvla.vehicles.presentation.common.clientsidesession.TrackingId
-import uk.gov.dvla.vehicles.presentation.common.model.FeedbackForm
-import uk.gov.dvla.vehicles.presentation.common.services.{DateService, FeedbackMessageBuilder, SEND}
-import uk.gov.dvla.vehicles.presentation.common.services.SEND.EmailConfiguration
-import uk.gov.dvla.vehicles.presentation.common.webserviceclients.emailservice.EmailService
-import uk.gov.dvla.vehicles.presentation.common.webserviceclients.healthstats.HealthStats
+import uk.gov.dvla.vehicles.presentation.common
+import common.clientsidesession.TrackingId
+import common.model.FeedbackForm
+import common.model.FeedbackForm.Form.{emailMapping, feedback, nameMapping}
+import common.services.{DateService, FeedbackMessageBuilder, SEND}
+import common.services.SEND.EmailConfiguration
+import common.webserviceclients.emailservice.EmailService
+import common.webserviceclients.healthstats.HealthStats
+import common.views.helpers.FormExtensions.formBinding
 
 /**
  * Feedback base controller.
@@ -19,6 +23,20 @@ trait FeedbackBase extends Controller {
   val emailService: EmailService
   val dateService: DateService
   val healthStats: HealthStats
+
+  val form = Form(
+    FeedbackForm.Form.Mapping
+  )
+
+  def formWithReplacedErrors(form: Form[FeedbackForm]) = {
+    form.replaceError(
+      feedback, FormError(key = feedback,message = "error.feedback", args = Seq.empty)
+    ).replaceError(
+      nameMapping, FormError(key = nameMapping, message = "error.feedbackName", args = Seq.empty)
+    ).replaceError(
+      emailMapping, FormError(key = emailMapping, message = "error.email", args = Seq.empty)
+    ).distinctErrors
+  }
 
   def sendFeedback(feedback: FeedbackForm, subject: String, trackingId: TrackingId): Unit = {
 

@@ -5,9 +5,10 @@
 @import views.html.helper.form
 @import uk.gov.dvla.vehicles.presentation.common
 @import common.views.html.widgets.base.csrfTokenHiddenField
-@import common.views.html.widgets.base.{ valtechInputTextArea, valtechInputText}
+@import common.views.html.widgets.base.{valtechInputTextArea, valtechInputText}
+@import common.views.html.widgets.optionalToggle
 @import common.mappings.Email.EmailMaxLength
-@import common.model.FeedbackForm.Form.{feedback, nameMapping, emailMapping}
+@import common.model.FeedbackForm.Form.{feedback, nameMapping, emailMapping, webChat, webChatOption}
 @import common.views.helpers.BaseTemplate.fieldConstructor
 
 @form(action = controls("submit")) {
@@ -22,6 +23,7 @@
   <dl class="playback" id="feedback-form">
     <dl>
     @valtechInputTextArea(feedbackForm(feedback),
+      showCharacterCountdown = true,
       args = Map(
         '_label -> "",
         '_showConstraints -> false,
@@ -30,7 +32,19 @@
     </dl>
 
     <dl>
-      <p><span class="character-countdown">500</span>&nbsp;@Messages("common_feedback.charactersRemaining")</p>
+    @optionalToggle(feedbackForm(webChatOption),
+      Messages("common_feedback.webChat.option"),
+      Messages("common_feedback.webChat.option.yes"),
+      Messages("common_feedback.webChat.option.no"),
+      valtechInputTextArea(feedbackForm(webChat),
+        showCharacterCountdown = true,
+        args = Map(
+          '_label -> Messages("common_feedback.webChat.label"),
+          '_showConstraints -> false,
+          'maxLength -> "500",
+          'showErrors -> true)),
+      gaTrackValue = false
+    )
     </dl>
 
     <dl>
