@@ -1,3 +1,11 @@
+======= 2.45 ======
+Time of release binaries creation:
+
+DE848 	Some Google analytic events no longer being tracked
+US4269 	Create Terms & Conditions page
+US4286 	WEBCHAT - RE-Positioning the 'Try again' button
+US4298 	CSRF extra logging, code tidy up and new tests
+
 ======= 2.44 ======
 Time of release binaries creation:
 Wed Mar 16 09:52:15 UTC 2016
