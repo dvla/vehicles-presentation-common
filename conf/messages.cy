@@ -1,3 +1,10 @@
+# footer
+footer.builtbyintro = Adeiladwyd gan
+footer.builtby = Asiantaeth Trwyddedu Gyrwyr a Cherbydau
+footer.text1 = Mae''r holl gynnwys ar gael ar delerau''r
+footer.link = Drwydded Llywodraeth Agored v3.0
+footer.text2 = , ac eithrio lle nodir yn wahanol
+
 #vehicleDetailPlayback widget
 vehicle-detail-playback.vehicledetails = Manylion y cerbyd
 vehicle-detail-playback.vehiclereg = Rhif cofrestru
