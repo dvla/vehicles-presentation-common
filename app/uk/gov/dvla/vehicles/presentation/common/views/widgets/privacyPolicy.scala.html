@@ -1,0 +1,39 @@
+@(cookiePolicyLink: Call)(implicit lang: Lang)
+
+<h1>@Messages("privacy.privacy.header")</h1>
+<h2>@Messages("privacy.general.header")</h2>
+<p>@Messages("privacy.general.p1")</p>
+<ul>@Messages("privacy.general.list1").split(",").map { (v) => <li>@v</li> }</ul>
+<h2>@Messages("privacy.access.header")</h2>
+<p>@Messages("privacy.access.p1")</p>
+<p>@Messages("privacy.access.p2")</p>
+<p>@Messages("privacy.access.p3")</p>
+<p>@Messages("privacy.access.p4")</p>
+<h2>@Messages("privacy.information.header")</h2>
+<p>@Messages("privacy.information.p1")</p>
+<p>@Messages("privacy.information.p2")</p>
+<p>@Messages("privacy.information.p3")</p>
+<p>@Messages("privacy.information.p4")</p>
+<p>@Messages("privacy.information.p5")</p>
+<ul>@Messages("privacy.information.list1").split(",").map { (v) => <li>@v</li> }</ul>
+<p>@Html(Messages("privacy.information.p6", cookiePolicyLink))</p>
+<h2>@Messages("privacy.accuracy.header")</h2>
+<p>@Messages("privacy.accuracy.p1")</p>
+<h2>@Messages("privacy.security.header")</h2>
+<p>@Messages("privacy.security.p1")</p>
+<p>@Messages("privacy.security.p2")</p>
+<p>@Messages("privacy.security.p3")</p>
+<p>@Messages("privacy.security.p4")</p>
+<p>@Messages("privacy.security.p5")</p>
+<p>@Messages("privacy.security.p6")</p>
+<h2>@Messages("privacy.monitoring.header")</h2>
+<p>@Messages("privacy.monitoring.p1")</p>
+<h2>@Messages("privacy.complaints.header")</h2>
+<p>@Html(Messages("privacy.complaints.p1"))</p>
+<p>@Html(Messages("privacy.complaints.p2"))</p>
+<h2>@Messages("privacy.notifications.header")</h2>
+<p>@Messages("privacy.notifications.p1")</p>
+<p>@Messages("privacy.notifications.p2")</p>
+<h2>@Messages("privacy.amendments.header")</h2>
+<p>@Messages("privacy.amendments.p1")</p>
+<p>@Html(Messages("privacy.last_updated"))</p>

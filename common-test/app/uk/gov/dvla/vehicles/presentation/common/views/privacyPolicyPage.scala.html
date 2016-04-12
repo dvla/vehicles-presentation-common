@@ -1,0 +1,9 @@
+@()(implicit lang: Lang)
+
+@import uk.gov.dvla.vehicles.presentation.common.views.html.widgets.privacyPolicy
+
+@main(
+  title = Messages("privacy-title")
+) {
+    @privacyPolicy(uk.gov.dvla.vehicles.presentation.common.controllers.routes.CookiePolicyController.present())
+}

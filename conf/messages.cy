@@ -164,3 +164,45 @@ tandc.events_beyond_dvla_control.p2 = If DVLA waives any rights available to it 
 tandc.governing_law.header = Governing law
 tandc.governing_law.p1 = These terms and conditions shall be governed by and construed in accordance with the laws of England and Wales. Any dispute arising under these terms and conditions shall be subject to the exclusive jurisdiction of the courts of England and Wales.
 tandc.last_updated = These Terms and Conditions were last updated 30 March 2016. &copy; Copyright
+
+# Privacy policy
+privacy-title = Vehicle Management and Personalised Registration Online Privacy Policy
+footer.privacy = Privacy Policy
+
+privacy.privacy.header = Vehicle Management and Personalised Registration Online Privacy Policy
+privacy.general.header = General
+privacy.general.p1 = The Driver and Vehicle Licensing Agency (DVLA) have developed a free secure online facility to enable you to
+privacy.general.list1 = take a registration number off a vehicle,put a registration number on a vehicle,tell DVLA you’ve bought or sold a vehicle
+privacy.access.header = Access to the service
+privacy.access.p1 = To protect your personal data we will make checks to verify your identity before we share vehicle registration information with anyone.
+privacy.access.p2 = You will need the registration number, the 11 digit reference number from the latest V5C registration certificate and post code of the vehicle keeper in order to access these services.  If we can’t verify your identity you won’t be able to access the service.
+privacy.access.p3 = You should only attempt to access these services if you are authorised to do so i.e. you are the registered keeper or are a vehicle trader and have the consent of the keeper. It is an offence under Section 55(1) Data Protection Act to knowingly or recklessly obtain, disclose or procure the disclosure of personal information without the consent of the data controller (DVLA).
+privacy.access.p4 = Authorised DVLA staff will also have access to this information in order to deal with customer queries and provide technical support.
+privacy.information.header = How we use your information?
+privacy.information.p1 = The information we collect about you depends on the online services that you request.
+privacy.information.p2 = We collect relevant information from visitors to this website: feedback (through visitors completing feedback questionnaires or emailing us) and site usage information, from a cookie and page tagging. We also store e-mail addresses provided as part of these services for the sole confirmation of the transaction.
+privacy.information.p3 = Where Webchat is available on these services and you choose to use this function, your e-mail address will also be retained for 3 months as part of your Webchat contact history.
+privacy.information.p4 = We will use the information you supply us with to progress any driver and vehicle licensing business. We may check the information you provide us with to see how it compares with information already held by us (for example, we may ask you for your name, date of birth and address so that we can locate your record).
+privacy.information.p5 = We can also get information about you from certain third parties, or give information to them to check accuracy of information. We use the information for:
+privacy.information.list1 = driver and vehicle licensing purposes,related law enforcement,road safety,assistance to the police in the prevention of crime,improving our services
+privacy.information.p6 = Our <a href="{0}">cookie policy</a> can be read separately.
+privacy.accuracy.header = Accuracy and correction of vehicle information
+privacy.accuracy.p1 = DVLA will take all reasonable steps in accordance with legal obligations to update or correct information held on your vehicle record.  If the details shown are out of date or incorrect you have a legal obligation to notify DVLA of any changes. Please update and return your V5C registration certificate to DVLA, SA99 1BA with a letter telling us about the errors.
+privacy.security.header = Security
+privacy.security.p1 = The DVLA takes security very seriously. The DVLA takes all reasonable steps to protect the personal data available via these services in accordance with legislation such as the Data Protection Act 1998.
+privacy.security.p2 = Unlawfully obtaining or accessing personal data is a criminal offence under section 55 of the Data Protection Act 1998 (as amended). As a data controller, registered with the Information Commissioners Office, the Department for Transport will investigate any abuse of these services.
+privacy.security.p3 = Data is held in a secure environment that meets industry and Government security standards.
+privacy.security.p4 = A number of security features are in place to protect your personal information during transit from your computer to the service. However, transmitting data over the internet is generally not completely secure, and we can’t guarantee the security of your data.
+privacy.security.p5 = We will not disclose information about you to anyone outside DVLA unless the law permits us or unless you have given us your explicit consent.
+privacy.security.p6 = Our website does not enable our visitors to communicate with other visitors or for them to post information to be accessed by others. DVLA is the Data Controller for the purpose of the Data Protection Act.
+privacy.monitoring.header = Monitoring use of the service
+privacy.monitoring.p1 = DVLA will keep an audit trail of successful and unsuccessful attempts to access your vehicle record information and will monitor use of the service. This is to help prevent and detect unauthorised access.
+privacy.complaints.header = Complaints Procedure
+privacy.complaints.p1 = If you believe DVLA has not met its obligations under the Data Protection Act 1998 as part of this service please contact our Customer Complaints Resolution Team on <a href="mailto:CCRT@dvla.gsi.gov.uk">CCRT@dvla.gsi.gov.uk</a>.
+privacy.complaints.p2 = If you are not satisfied with our response you can contact the Information Commissioner’s Office, Wycliffe House, Water Lane, Wilmslow, Cheshire, SK9 5AF or e-mail them at <a href="mailto:casework@ico.org.uk">casework@ico.org.uk</a>.
+privacy.notifications.header = Notification of changes to the Privacy Policy
+privacy.notifications.p1 = We review this privacy policy regularly to ensure that you are always aware of how we use your personal information.
+privacy.notifications.p2 = Please be aware that this privacy policy does not apply to any other DVLA services and the DVLA encourages you to read the Privacy Policy of each service you use.
+privacy.amendments.header = Amendments to the Security and Privacy Statement
+privacy.amendments.p1 = If this security and privacy statement changes in any way, we will place an updated version on this page. By reviewing this page it ensures you are always aware of what information we collect, how we use it and under what circumstances, if any, we will share it with other parties.
+privacy.last_updated = This privacy policy was last updated on 24 March 2016
