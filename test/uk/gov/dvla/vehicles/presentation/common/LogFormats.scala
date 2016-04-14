@@ -9,8 +9,8 @@ class LogFormatsUnitSpec extends UnitSpec with DVLALogger  {
   val trackingId = TrackingId("test-trackingId")
   val message = "Test message to log"
   val logData = Some(List("one", "two", "three"))
-  val expectedLogMessage = s"[TrackingID: test-trackingId]${LogFormats.logSeperator}$message"
-  val expectedLogMessageWithlogData = s"$expectedLogMessage${LogFormats.logSeperator}Some(List(one, two, three))"
+  val expectedLogMessage = s"[TrackingID: test-trackingId]${LogFormats.logSeparator}$message"
+  val expectedLogMessageWithlogData = s"$expectedLogMessage${LogFormats.logSeparator}Some(List(one, two, three))"
 
   "logMessage" should {
     "log correctly with Info" in {

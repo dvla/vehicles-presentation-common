@@ -12,56 +12,67 @@ import play.api.mvc.{Filter, RequestHeader, Result}
 import play.mvc.Http
 import scala.concurrent.Future
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClientSideSessionFactory
+import uk.gov.dvla.vehicles.presentation.common.clientsidesession.TrackingId
 import uk.gov.dvla.vehicles.presentation.common.ConfigProperties.getOptionalProperty
 import uk.gov.dvla.vehicles.presentation.common.ConfigProperties.stringProp
 import uk.gov.dvla.vehicles.presentation.common.LogFormats.DVLALogger
 
 class AccessLoggingFilter @Inject()(clfEntryBuilder: ClfEntryBuilder,
                                     @Named("AccessLogger") accessLogger: LoggerLike,
-                                    config: AccessLoggingConfig) extends Filter{
+                                    config: AccessLoggingConfig) extends Filter {
 
-  override def apply(filter: (RequestHeader) => Future[Result])
-                    (requestHeader: RequestHeader): Future[Result] = {
-    val requestTimestamp = new Date()
-    filter(requestHeader).map {result =>
-      val requestPath = new URI(requestHeader.uri).getPath
+  override def apply(filter: (RequestHeader) => Future[Result])(requestHeader: RequestHeader): Future[Result] = {
 
-      if (!AccessLoggingFilter.NonLoggingUrls.map(config.contextPath + _).contains(requestPath))
-        clfEntryBuilder.clfEntry(requestTimestamp, requestHeader, result)(accessLogger)
+    def shouldLogRequest(requestPath: String): Boolean =
+      // The request path is not contained in the set of non-logging-urls
+      !AccessLoggingFilter.NonLoggingUrls.map(config.contextPath + _).contains(requestPath)
+
+    def disableBrowserCachingForTextHtmlResponses(result: Result): Result =
       result.header.headers.get(Http.HeaderNames.CONTENT_TYPE).fold(result) { contentType =>
         if (contentType.startsWith("text/html"))
           result.withHeaders(Http.HeaderNames.PRAGMA -> "no-cache", Http.HeaderNames.CACHE_CONTROL -> "no-store")
         else result
       }
+
+    filter(requestHeader).map { result =>
+      val requestTimestamp = new Date()
+      val requestPath = new URI(requestHeader.uri).getPath
+
+      if (shouldLogRequest(requestPath))
+        clfEntryBuilder.clfEntry(requestTimestamp, requestHeader, result)(accessLogger)
+
+      disableBrowserCachingForTextHtmlResponses(result)
     }
   }
 }
 
 class ClfEntryBuilder extends DVLALogger  {
-  import uk.gov.dvla.vehicles.presentation.common.webserviceclients.HttpHeaders._
+  import uk.gov.dvla.vehicles.presentation.common.webserviceclients.HttpHeaders.{XForwardedFor, XRealIp}
 
-  def clfEntry(requestTimestamp: Date, request: RequestHeader, result: Result)(logger: LoggerLike) : String = {
+  def clfEntry(requestTimestamp: Date, request: RequestHeader, result: Result)(accessLogger: LoggerLike): String = {
+
+    val missing = "-"
+
+    def getTrackingIdOutOfTrackingIdCookie = request.cookies.get(ClientSideSessionFactory.TrackingIdCookieName)
+      .fold(missing) { cookie => cookie.value }
+
     val ipAddress = Seq(
       request.headers.get(XForwardedFor),
       Option(request.remoteAddress),
       request.headers.get(XRealIp),
-      Some("-")
+      Some(missing)
     ).flatten.head
 
-    val trackingId = request.cookies.get(ClientSideSessionFactory.TrackingIdCookieName) match {
-      case Some(c) => c.value
-      case _ => "-"
-    }
-
+    val trackingId = getTrackingIdOutOfTrackingIdCookie
     val method = request.method
     val uri = request.uri
     val protocol = request.version
     val date = s"[${ClfEntryBuilder.dateFormat.format(requestTimestamp)}]"
     val responseCode = result.header.status
-    val responseLength = result.header.headers.get(CONTENT_LENGTH).getOrElse("-")
+    val responseLength = result.header.headers.getOrElse(CONTENT_LENGTH, missing)
 
-    logMessage(uk.gov.dvla.vehicles.presentation.common.clientsidesession.TrackingId(trackingId), Info,
-      s"""$ipAddress - - $date "$method $uri $protocol" $responseCode $responseLength""")(logger.logger)
+    logMessage(TrackingId(trackingId), Info,
+      s"""$ipAddress - - $date "$method $uri $protocol" $responseCode $responseLength""")(accessLogger.logger)
 
     s"""$ipAddress - - $date "$method $uri $protocol" $responseCode $responseLength "$trackingId" """
   }

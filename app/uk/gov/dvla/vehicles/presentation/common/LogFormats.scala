@@ -5,13 +5,13 @@ import play.api.Logger
 
 object LogFormats {
 
-  final val logSeperator = " - "
+  final val logSeparator = " - "
   private final val anonymousChar = "*"
   private final val nullString = "null"
   final val optionNone = "none"
 
   def anonymize(input: AnyRef): String = {
-    if (input==null){
+    if (input == null) {
       nullString
     } else {
       val stringInput = input.toString
@@ -32,7 +32,7 @@ object LogFormats {
   }
 
   // When changing DVLA logger, be sure to replicate the changes in
-  //    vehicles-services-common/src/main/scala/dvla.common/LogFormats.scala
+  // vehicles-services-common/src/main/scala/dvla.common/LogFormats.scala
   // in order to keep a consistent log format
   trait DVLALogger {
 
@@ -57,7 +57,7 @@ object LogFormats {
       }
 
     private def logMessageFormat(trackingId: TrackingId, messageText: String, logData: Option[Seq[String]]): String =
-      s"[TrackingID: ${trackingId.value}]$logSeperator$messageText" +
-        logData.map( d => s"$logSeperator$logData" ).getOrElse("")
+      s"[TrackingID: ${trackingId.value}]$logSeparator$messageText" +
+        logData.map( d => s"$logSeparator$logData" ).getOrElse("")
   }
 }
