@@ -15,7 +15,7 @@ vehicle-detail-playback.mileageNotEntered = NOT ENTERED
 
 #formSteps widget
 formSteps.buttonnavprint = Print
-formSteps.newdisposalbutton = Notify Another Sale
+formSteps.newdisposalbutton = Notify another purchase
 formSteps.exitbutton = Finish
 
 # Cookie Policy

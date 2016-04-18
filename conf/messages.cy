@@ -15,7 +15,7 @@ vehicle-detail-playback.mileageNotEntered = HEB EI ROI
 
 #formSteps widget
 formSteps.buttonnavprint = Argraffwch
-formSteps.newdisposalbutton = Gwerthu cerbyd arall
+formSteps.newdisposalbutton = Notify another purchase
 formSteps.exitbutton = Gorffen
 
 # Cookie Policy
