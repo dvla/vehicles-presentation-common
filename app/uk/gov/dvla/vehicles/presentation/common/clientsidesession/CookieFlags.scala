@@ -21,7 +21,7 @@ final class NoCookieFlags extends CookieFlags {
 final class CookieFlagsFromConfig @Inject()() extends CookieFlags {
 
   private val cookieMaxAgeSeconds = getProperty[Int]("application.cookieMaxAge")
-  private val secureCookies =getOptionalProperty[Boolean]("secureCookies").getOrElse(true)
+  private val secureCookies = getOptionalProperty[Boolean]("secureCookies").getOrElse(true)
 //  private val cookieMaxAgeSeconds = getProperty("application.cookieMaxAge", 30.minutes.toSeconds.toInt)
 //  private val secureCookies = getProperty("secureCookies", default = true)
 

@@ -2,7 +2,7 @@ package uk.gov.dvla.vehicles.presentation.common.clientsidesession
 
 import uk.gov.dvla.vehicles.presentation.common.{UnitSpec, WithApplication}
 
-final class Sha1HashSpec extends UnitSpec {
+class Sha1HashSpec extends UnitSpec {
 
   "Sha1Hash" should {
     "return a hashed string" in new WithApplication {
