@@ -26,6 +26,10 @@ class EnsureSessionCreatedFilter @Inject()(sessionFactory: ClientSideSessionFact
     */
   private def addSessionCookiesToRequestHeader(requestHeader: RequestHeader,
                                                newSessionCookies: Seq[Cookie]): RequestHeader = {
+    val cookieData = newSessionCookies.map(c => s"Name: ${c.name}, Value: ${c.value}, ")
+      .foldLeft("") { (cookies, cookieString)  => cookies + cookieString }
+    play.Logger.debug(s"Creating new session cookies: ${cookieData.substring(0, cookieData.lastIndexOf(","))}")
+
     val requestCookiesString = requestHeader.headers.get(play.api.http.HeaderNames.COOKIE).getOrElse("")
     val mergedCookiesString = Cookies.merge(requestCookiesString, newSessionCookies)
 
