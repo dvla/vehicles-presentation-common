@@ -175,7 +175,7 @@ privacy.general.p1 = The Driver and Vehicle Licensing Agency (DVLA) have develop
 privacy.general.list1 = take a registration number off a vehicle,put a registration number on a vehicle,tell DVLA you’ve bought or sold a vehicle
 privacy.access.header = Access to the service
 privacy.access.p1 = To protect your personal data we will make checks to verify your identity before we share vehicle registration information with anyone.
-privacy.access.p2 = You will need the registration number, the 11 digit reference number from the latest V5C registration certificate and post code of the vehicle keeper in order to access these services.  If we can’t verify your identity you won’t be able to access the service.
+privacy.access.p2 = You will need the registration number, the 11 digit reference number from the latest tystysgrif cofrestru V5CW (llyfr log) and post code of the vehicle keeper in order to access these services.  If we can’t verify your identity you won’t be able to access the service.
 privacy.access.p3 = You should only attempt to access these services if you are authorised to do so i.e. you are the registered keeper or are a vehicle trader and have the consent of the keeper. It is an offence under Section 55(1) Data Protection Act to knowingly or recklessly obtain, disclose or procure the disclosure of personal information without the consent of the data controller (DVLA).
 privacy.access.p4 = Authorised DVLA staff will also have access to this information in order to deal with customer queries and provide technical support.
 privacy.information.header = How we use your information?
@@ -187,7 +187,7 @@ privacy.information.p5 = We can also get information about you from certain thir
 privacy.information.list1 = driver and vehicle licensing purposes,related law enforcement,road safety,assistance to the police in the prevention of crime,improving our services
 privacy.information.p6 = Our <a href="{0}">cookie policy</a> can be read separately.
 privacy.accuracy.header = Accuracy and correction of vehicle information
-privacy.accuracy.p1 = DVLA will take all reasonable steps in accordance with legal obligations to update or correct information held on your vehicle record.  If the details shown are out of date or incorrect you have a legal obligation to notify DVLA of any changes. Please update and return your V5C registration certificate to DVLA, SA99 1BA with a letter telling us about the errors.
+privacy.accuracy.p1 = DVLA will take all reasonable steps in accordance with legal obligations to update or correct information held on your vehicle record.  If the details shown are out of date or incorrect you have a legal obligation to notify DVLA of any changes. Please update and return your tystysgrif cofrestru V5CW (llyfr log) to DVLA, SA99 1BA with a letter telling us about the errors.
 privacy.security.header = Security
 privacy.security.p1 = The DVLA takes security very seriously. The DVLA takes all reasonable steps to protect the personal data available via these services in accordance with legislation such as the Data Protection Act 1998.
 privacy.security.p2 = Unlawfully obtaining or accessing personal data is a criminal offence under section 55 of the Data Protection Act 1998 (as amended). As a data controller, registered with the Information Commissioners Office, the Department for Transport will investigate any abuse of these services.
