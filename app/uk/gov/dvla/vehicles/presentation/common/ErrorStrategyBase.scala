@@ -25,7 +25,9 @@ abstract class ErrorStrategyBase(clfEntryBuilder: ClfEntryBuilder,
       case _: GeneralSecurityException => sessionExceptionResult(request)
       case cause =>
         val exceptionDigest = Codecs.sha1(Option(cause).fold("")(c => Option(c.getMessage).getOrElse("")))
-
+        val msg = s"Exception caught [${cause.getMessage}] " +
+          s"whose digest is '$exceptionDigest' - will now display error page..."
+        play.Logger.error(msg)
         errorPageResult(exceptionDigest)
     }
     clfEntryLog(clfEntryBuilder.clfEntry(dateService.now.toDate, request, result)(accessLogger))

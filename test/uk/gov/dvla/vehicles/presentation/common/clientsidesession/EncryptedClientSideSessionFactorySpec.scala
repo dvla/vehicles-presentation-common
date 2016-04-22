@@ -1,11 +1,10 @@
 package uk.gov.dvla.vehicles.presentation.common.clientsidesession
 
 import play.api.mvc.Cookie
-import uk.gov.dvla.vehicles.presentation.common.ConfigProperties._
 import uk.gov.dvla.vehicles.presentation.common.UnitSpec
 import uk.gov.dvla.vehicles.presentation.common.WithApplication
 
-final class EncryptedClientSideSessionFactorySpec extends UnitSpec {
+class EncryptedClientSideSessionFactorySpec extends UnitSpec {
   implicit val noCookieFlags = new NoCookieFlags
   implicit val noEncryption = new NoEncryption with CookieEncryption
   implicit val noHashing = new NoHashGenerator with CookieNameHashGenerator
@@ -62,7 +61,7 @@ final class EncryptedClientSideSessionFactorySpec extends UnitSpec {
     "get the session from the request cookies" in new WithApplication {
       val cookies = encryptedClientSideSessionFactory.newSessionCookiesIfNeeded(Seq.empty[Cookie])
       val session = encryptedClientSideSessionFactory.getSession(cookies.get)
-      session shouldBe an [EncryptedClientSideSession]
+      session shouldBe an[EncryptedClientSideSession]
 
       val trackingIdCookie = cookies.get.head
       val sessionCookie = cookies.get(1)

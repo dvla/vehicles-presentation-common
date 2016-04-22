@@ -1,10 +1,9 @@
 package uk.gov.dvla.vehicles.presentation.common.clientsidesession
 
-import play.api.test.FakeApplication
 import uk.gov.dvla.vehicles.presentation.common.testhelpers.LightFakeApplication
 import uk.gov.dvla.vehicles.presentation.common.{SimpleTestGlobal, WithApplication, UnitSpec}
 
-final class EncryptedClientSideSessionSpec extends UnitSpec {
+class EncryptedClientSideSessionSpec extends UnitSpec {
   "nameCookie" should {
     "return a new CookieName type consisting of the session secret key plus the cookie name that we can see in clear text when hashing is not used" in new WithApplication {
       val encryptedClientSideSession =

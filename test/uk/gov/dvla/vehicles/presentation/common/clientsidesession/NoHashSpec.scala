@@ -2,7 +2,7 @@ package uk.gov.dvla.vehicles.presentation.common.clientsidesession
 
 import uk.gov.dvla.vehicles.presentation.common.{UnitSpec, WithApplication}
 
-final class NoHashSpec extends UnitSpec {
+class NoHashSpec extends UnitSpec {
 
   "NoHash" should {
     "return a clear text string" in new WithApplication {

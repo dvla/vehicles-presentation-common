@@ -51,7 +51,7 @@ class EnsureSessionCreatedFilterSpec extends UnitSpec {
   "Not do anything if the session cookies are already present" in setUp {
     case SetUp(filter, request, sessionFactory, nextFilter) =>
       val existingRequestCookie1 = Cookie("existingRequestCookie1", "existingRequestCookie1Value")
-      val existingRequestCookie2 = Cookie("existingRequestCookie2", "sexistingRequestCookie2Value")
+      val existingRequestCookie2 = Cookie("existingRequestCookie2", "existingRequestCookie2Value")
       val requestWithSomeCookies = request.withCookies(existingRequestCookie1, existingRequestCookie2)
 
       when(sessionFactory.newSessionCookiesIfNeeded(requestWithSomeCookies.cookies)).thenReturn(None)
