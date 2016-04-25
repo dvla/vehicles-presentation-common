@@ -21,7 +21,6 @@ trait TestHarnessBase extends GlobalCreator {
                                        val port: Int = testPort,
                                        implicit protected val webDriver: WebDriver = WebDriverFactory.webDriver)
     extends Around with Scope {
-//    extends Around with Scope with WebBrowser{
 
     override def around[T: AsResult](t: => T): Result =
       TestConfiguration.configureTestUrl(port) {

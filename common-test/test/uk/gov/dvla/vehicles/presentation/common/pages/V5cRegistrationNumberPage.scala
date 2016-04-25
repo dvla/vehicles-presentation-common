@@ -9,7 +9,7 @@ import uk.gov.dvla.vehicles.presentation.common.models.V5cRegistrationNumberMode
 object V5cRegistrationNumberPage extends Page {
   final val address = "/v5c-registration-number"
   override val url: String = WebDriverFactory.testUrl + address.substring(1)
-  final override val title: String = "V5c Registration Number"
+  final override val title: String = "V5C Registration Number"
 
   def registrationNumber(implicit driver: WebDriver): TextField = textField(id(v5cRegistrationNumberID))
 

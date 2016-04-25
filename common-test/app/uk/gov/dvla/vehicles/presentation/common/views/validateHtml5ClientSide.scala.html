@@ -20,7 +20,7 @@
 @import views.html.widgets.base.hintTextSnippet
 
 @main(
-    title = Messages(Messages("email.pageTitle")),
+    title = Messages("validateHtml5ClientSide.pageTitle"),
     currentForm = Some(validateForm)
 ) {
 @form(action = controllers.routes.EmailController.submit) {
@@ -46,23 +46,23 @@
         "no",
         valtechInputText(
             validateForm(EmailId),
-            hintText = Some("change_keeper_businesskeeperdetails.businessname.hint"),
+            hintText = Some(Messages("validateHtml5ClientSide.hint")),
             args = Map(
-                '_label ->"change_keeper_businesskeeperdetails.fleetnumber",
+                '_label -> Messages("validateHtml5ClientSide.label"),
                 'maxLength -> 10,
                 '_showConstraints -> true,
                 'NO_OPTIONAL_LABEL -> false
             ) ++ Map('pattern -> common.views.constraints.FleetNumber.Pattern)
         )
     )
-    @hintTextSnippet(Some("change_keeper_businesskeeperdetails.businessname.hint"), idOfRelatedInput = EmailId)
+    @hintTextSnippet(Some(Messages("validateHtml5ClientSide.hint")), idOfRelatedInput = EmailId)
 
 
 
     <!-- V5 Lookup details -->
-    @valtechInputText(validateForm(DocumentReferenceNumberId), hintText = Some(Messages("v5cRegistrationNumber.hint")),
+    @valtechInputText(validateForm(DocumentReferenceNumberId), hintText = Some(Messages("validateHtml5ClientSide.v5cRegistrationNumber.hint")),
         args = Map(
-            '_label -> Messages("v5cRegistrationNumber.label"),
+            '_label -> Messages("validateHtml5ClientSide.v5cRegistrationNumber.label"),
             '_showConstraints -> false,
             'maxLength -> DocumentReferenceNumber.MaxLength, // Must be set independently of the pattern as the pattern is only checked when the user submits.
             'pattern -> DocumentReferenceNumber.Pattern)
