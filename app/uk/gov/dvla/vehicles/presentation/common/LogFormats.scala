@@ -5,7 +5,7 @@ import play.api.Logger
 
 object LogFormats {
 
-  final val logSeparator = " - "
+  private[common] final val logSeparator = " - "
   private final val anonymousChar = "*"
   private final val nullString = "null"
   final val optionNone = "none"
