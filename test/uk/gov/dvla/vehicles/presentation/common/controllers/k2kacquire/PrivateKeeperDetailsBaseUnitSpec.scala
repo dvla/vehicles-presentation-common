@@ -2,7 +2,7 @@ package uk.gov.dvla.vehicles.presentation.common.controllers.k2kacquire
 
 import play.api.data.Form
 import play.api.test.{FakeRequest}
-import uk.gov.dvla.vehicles.presentation.common.{WithApplication, UnitSpec}
+import uk.gov.dvla.vehicles.presentation.common.{TestWithApplication, UnitSpec}
 import uk.gov.dvla.vehicles.presentation.common.testhelpers.CookieHelper
 import scala.collection.mutable.ArrayBuffer
 import scala.concurrent.Await
@@ -53,7 +53,7 @@ class PrivateKeeperDetailsBaseUnitSpec extends UnitSpec {
     )
 
   "present" should {
-    "display the page" in new WithApplication {
+    "display the page" in new TestWithApplication {
       val privateKeeperDetails = controller
       val request = FakeRequest().withCookies(vehicleAndKeeperDetailsCookie())
 
@@ -70,7 +70,7 @@ class PrivateKeeperDetailsBaseUnitSpec extends UnitSpec {
       } should equal(Seq(defaultVehicleAndKeeperDetailsModel))
     }
 
-    "display populated fields when cookie exists" in new WithApplication {
+    "display populated fields when cookie exists" in new TestWithApplication {
       val privateKeeperDetails = controller
       val request = FakeRequest().
         withCookies(vehicleAndKeeperDetailsCookie()).
@@ -83,7 +83,7 @@ class PrivateKeeperDetailsBaseUnitSpec extends UnitSpec {
       } should equal(ArrayBuffer((defaultVehicleAndKeeperDetailsModel, defaultPrivateKeeperDetailsModel)))
     }
 
-    "redirect to setup trade details when no cookie is present" in new WithApplication {
+    "redirect to setup trade details when no cookie is present" in new TestWithApplication {
       val privateKeeperDetails = controller
       val result = Await.result(privateKeeperDetails.present(FakeRequest()), 5 seconds)
       result should equal(missingVehicleDetailsTestResult)
@@ -91,7 +91,7 @@ class PrivateKeeperDetailsBaseUnitSpec extends UnitSpec {
   }
 
   "submit" should {
-    "redirect to next page when only mandatory fields are filled in" in new WithApplication {
+    "redirect to next page when only mandatory fields are filled in" in new TestWithApplication {
       val privateKeeperDetails = controller
       val request = buildRequest(defaultPrivateKeeperDetailsModel.copy(dateOfBirth = None, driverNumber = None,  email = None))
         .withCookies(vehicleAndKeeperDetailsCookie())
@@ -99,7 +99,7 @@ class PrivateKeeperDetailsBaseUnitSpec extends UnitSpec {
       result.body should equal(successTestResult.body)
     }
 
-    "redirect to next page when all fields are complete" in new WithApplication {
+    "redirect to next page when all fields are complete" in new TestWithApplication {
       val privateKeeperDetails = controller
       val request = buildRequest()
         .withCookies(vehicleAndKeeperDetailsCookie())
@@ -112,14 +112,14 @@ class PrivateKeeperDetailsBaseUnitSpec extends UnitSpec {
       )
     }
 
-    "redirect to setup trade details when no cookie is present with invalid submission" in new WithApplication {
+    "redirect to setup trade details when no cookie is present with invalid submission" in new TestWithApplication {
       val privateKeeperDetails = controller
       val request = buildRequest(defaultPrivateKeeperDetailsModel.copy(postcode = "12345"))
       val result = Await.result(privateKeeperDetails.submit(request), 5 seconds)
       result.body should equal(missingVehicleDetailsTestResult.body)
     }
 
-    "return a bad request if no details are entered" in new WithApplication {
+    "return a bad request if no details are entered" in new TestWithApplication {
       val privateKeeperDetails = controller
       val request = buildRequest(defaultPrivateKeeperDetailsModel.copy(firstName = "", lastName = ""))
         .withCookies(vehicleAndKeeperDetailsCookie())
@@ -127,7 +127,7 @@ class PrivateKeeperDetailsBaseUnitSpec extends UnitSpec {
       result.body should equal(invalidFormTestResult.body)
     }
 
-    "replace required error message for last name with standard error message " in new WithApplication {
+    "replace required error message for last name with standard error message " in new TestWithApplication {
       val privateKeeperDetails = controller
       val request = buildRequest(defaultPrivateKeeperDetailsModel.copy(lastName = ""))
         .withCookies(vehicleAndKeeperDetailsCookie())
@@ -139,7 +139,7 @@ class PrivateKeeperDetailsBaseUnitSpec extends UnitSpec {
       )
     }
 
-    "replace required error message for email with standard error message " in new WithApplication {
+    "replace required error message for email with standard error message " in new TestWithApplication {
       val privateKeeperDetails = controller
       val request = buildRequest(defaultPrivateKeeperDetailsModel.copy(email = Some("123")))
         .withCookies(vehicleAndKeeperDetailsCookie())

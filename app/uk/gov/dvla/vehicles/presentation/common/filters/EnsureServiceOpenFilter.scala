@@ -3,6 +3,7 @@ package uk.gov.dvla.vehicles.presentation.common.filters
 import java.util.Locale
 import org.joda.time.format.DateTimeFormat
 import org.joda.time.{DateTime, DateTimeZone}
+import play.api.Logger
 import play.api.mvc.{Filter, RequestHeader, Result, Results}
 import play.twirl.api.HtmlFormat
 import scala.concurrent.ExecutionContext.Implicits.global
@@ -19,6 +20,7 @@ trait EnsureServiceOpenFilter extends Filter {
   private def openingHourMillis = opening * millisInMinute
   private def closingHourMillis = closing * millisInMinute
   protected val html: HtmlFormat.Appendable
+  protected val closedDays: List[Int] = List(7) // a list of closed days 1 to 7, Sunday by default
 
   protected def html(openingTime: String, closingTime: String): HtmlFormat.Appendable = html
 
@@ -28,13 +30,19 @@ trait EnsureServiceOpenFilter extends Filter {
     else nextFilter(requestHeader)
   }
 
+  // unable to mark private due to unit test
   def serviceOpen(currentDateTime: DateTime = new DateTime(dateTimeZone.currentDateTimeZone)): Boolean = {
-    isNotSunday(currentDateTime) && isDuringOpeningHours(currentDateTime.getMillisOfDay)
+    val result: Boolean = isOpenToday(currentDateTime) && isDuringOpeningHours(currentDateTime.getMillisOfDay)
+    Logger.trace(s"service opening times: $openingHourMillis" + s" : $closingHourMillis")
+    Logger.trace(s"serviceOpen? $result")
+    result
   }
 
-  def isNotSunday(day: DateTime): Boolean = day.getDayOfWeek != 7
+  private def isOpenToday(day: DateTime): Boolean = {
+    !closedDays.contains(day.getDayOfWeek)
+  }
 
-  def isDuringOpeningHours(timeInMillis: Int): Boolean = {
+  private def isDuringOpeningHours(timeInMillis: Int): Boolean = {
     if (closingHourMillis >= openingHourMillis) (timeInMillis >= openingHourMillis) && (timeInMillis < closingHourMillis)
     else (timeInMillis >= openingHourMillis) || (timeInMillis < closingHourMillis)
   }

@@ -25,15 +25,15 @@ crossScalaVersions := Seq("2.10.3", "2.11.4")
 lazy val root = project.in(file(".")).enablePlugins(PlayScala, SbtWeb)
 
 libraryDependencies ++= Seq(
-  "org.seleniumhq.selenium" % "selenium-java" % "2.42.2" % "test" withSources() withJavadoc(),
-  "com.github.detro" % "phantomjsdriver" % "1.2.0" % "test" withSources() withJavadoc(),
-  "org.mockito" % "mockito-all" % "1.9.5" % "test" withSources() withJavadoc(),
-  "com.github.tomakehurst" % "wiremock" % "1.46" % "test" withSources() withJavadoc() exclude("log4j", "log4j"),
-  "org.slf4j" % "log4j-over-slf4j" % "1.7.7" % "test" withSources() withJavadoc(),
-  "org.scalatest" %% "scalatest" % "2.2.1" % "test" withSources() withJavadoc(),
   "commons-codec" % "commons-codec" % "1.9" withSources() withJavadoc(),
   "com.github.nscala-time" %% "nscala-time" % "1.4.0" withSources() withJavadoc(),
-  "org.apache.httpcomponents" % "httpclient" % "4.3.4" withSources() withJavadoc()
+  // test
+  "com.github.detro" % "phantomjsdriver" % "1.2.0" % "test" withSources() withJavadoc(),
+  "com.github.tomakehurst" % "wiremock" % "1.46" % "test" withSources() withJavadoc() exclude("log4j", "log4j"),
+  "org.mockito" % "mockito-all" % "1.9.5" % "test" withSources() withJavadoc(),
+  "org.scalatest" %% "scalatest" % "2.2.1" % "test" withSources() withJavadoc(),
+  "org.seleniumhq.selenium" % "selenium-java" % "2.42.2" % "test" withSources() withJavadoc(),
+  "org.slf4j" % "log4j-over-slf4j" % "1.7.7" % "test" withSources() withJavadoc()
 )
 
 val myTestOptions =

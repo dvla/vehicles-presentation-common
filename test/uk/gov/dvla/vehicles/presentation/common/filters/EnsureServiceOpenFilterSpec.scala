@@ -13,7 +13,7 @@ import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 import scala.language.existentials
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClientSideSessionFactory
-import uk.gov.dvla.vehicles.presentation.common.{UnitSpec, WithApplication}
+import uk.gov.dvla.vehicles.presentation.common.{UnitSpec, TestWithApplication}
 
 class EnsureServiceOpenFilterSpec extends UnitSpec {
   private val minuteMilllis = 60 * 1000
@@ -68,7 +68,7 @@ class EnsureServiceOpenFilterSpec extends UnitSpec {
     }, dateTime)
   }
 
-  "The out of hours message contains the hours from the config" in new WithApplication {
+  "The out of hours message contains the hours from the config" in new TestWithApplication {
     val requestHeader = mock[RequestHeader]
     when(requestHeader.path).thenReturn("some-test-path")
     val next = (request:RequestHeader) => Future.successful[Result](fail("Should not come here"))

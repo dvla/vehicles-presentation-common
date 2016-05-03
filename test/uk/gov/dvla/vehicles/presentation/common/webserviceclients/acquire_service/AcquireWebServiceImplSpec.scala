@@ -3,7 +3,7 @@ package uk.gov.dvla.vehicles.presentation.common.webserviceclients.acquire
 import org.joda.time.DateTime
 import org.joda.time.format.ISODateTimeFormat
 import play.api.libs.json.{JsString, JsValue, Writes, Json}
-import uk.gov.dvla.vehicles.presentation.common.{WithApplication, UnitSpec}
+import uk.gov.dvla.vehicles.presentation.common.{TestWithApplication, UnitSpec}
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.{TrackingId, ClearTextClientSideSessionFactory, NoCookieFlags}
 import uk.gov.dvla.vehicles.presentation.common.testhelpers.WireMockFixture
 import uk.gov.dvla.vehicles.presentation.common.webserviceclients.HttpHeaders
@@ -65,7 +65,7 @@ class AcquireWebServiceImplSpec extends UnitSpec with WireMockFixture {
     requiresSorn = false)
 
   "callAcquireService" should {
-    "send the serialised json request" in new WithApplication {
+    "send the serialised json request" in new TestWithApplication {
       val resultFuture = acquireService.callAcquireService(request, trackingId)
       whenReady(resultFuture, timeout) { result =>
         wireMock.verifyThat(1, postRequestedFor(

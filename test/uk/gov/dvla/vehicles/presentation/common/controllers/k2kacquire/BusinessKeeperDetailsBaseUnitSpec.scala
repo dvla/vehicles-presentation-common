@@ -27,7 +27,7 @@ import common.testhelpers.CookieFactoryForUnitSpecs.defaultBusinessKeeperDetails
 import common.testhelpers.CookieFactoryForUnitSpecs.defaultVehicleAndKeeperDetailsModel
 import common.testhelpers.CookieFactoryForUnitSpecs.vehicleAndKeeperDetailsCookie
 import common.testhelpers.CookieHelper
-import uk.gov.dvla.vehicles.presentation.common.{WithApplication, UnitSpec}
+import uk.gov.dvla.vehicles.presentation.common.{TestWithApplication, UnitSpec}
 
 
 class BusinessKeeperDetailsBaseUnitSpec extends UnitSpec {
@@ -50,7 +50,7 @@ class BusinessKeeperDetailsBaseUnitSpec extends UnitSpec {
   )
 
   "present" should {
-    "display the page" in new WithApplication {
+    "display the page" in new TestWithApplication {
       val businessKeeperDetails = controller
       val request = FakeRequest().withCookies(vehicleAndKeeperDetailsCookie())
 
@@ -64,7 +64,7 @@ class BusinessKeeperDetailsBaseUnitSpec extends UnitSpec {
       ))
     }
 
-    "display populated fields when cookie exists" in new WithApplication {
+    "display populated fields when cookie exists" in new TestWithApplication {
       val businessKeeperDetails = controller
       val request = FakeRequest().
         withCookies(vehicleAndKeeperDetailsCookie()).
@@ -79,7 +79,7 @@ class BusinessKeeperDetailsBaseUnitSpec extends UnitSpec {
       ))
     }
 
-    "redirect to setup trade details when no cookie is present" in new WithApplication {
+    "redirect to setup trade details when no cookie is present" in new TestWithApplication {
       val businessKeeperDetails = controller
       val result = Await.result(businessKeeperDetails.present(FakeRequest()), 5 seconds)
       result should equal(missingVehicleDetailsTestResult)
@@ -87,7 +87,7 @@ class BusinessKeeperDetailsBaseUnitSpec extends UnitSpec {
   }
 
   "submit" should {
-    "redirect to next page when only mandatory fields are filled in" in new WithApplication {
+    "redirect to next page when only mandatory fields are filled in" in new TestWithApplication {
       val businessKeeperDetails = controller
       val request = buildRequest(defaultBusinessKeeperDetailsModel.copy(fleetNumber = None, email = None))
         .withCookies(vehicleAndKeeperDetailsCookie())
@@ -95,7 +95,7 @@ class BusinessKeeperDetailsBaseUnitSpec extends UnitSpec {
       result.body should equal(successTestResult.body)
     }
 
-    "redirect to next page when all fields are complete" in new WithApplication {
+    "redirect to next page when all fields are complete" in new TestWithApplication {
       val businessKeeperDetails = controller
       val request = buildRequest()
         .withCookies(vehicleAndKeeperDetailsCookie())
@@ -115,14 +115,14 @@ class BusinessKeeperDetailsBaseUnitSpec extends UnitSpec {
       ))
     }
 
-    "redirect to setup trade details when no cookie is present with invalid submission" in new WithApplication {
+    "redirect to setup trade details when no cookie is present with invalid submission" in new TestWithApplication {
       val businessKeeperDetails = controller
       val request = buildRequest(defaultBusinessKeeperDetailsModel.copy(fleetNumber = Some("-12345")))
       val result = Await.result(businessKeeperDetails.submit(request), 5 seconds)
       result.body should equal(missingVehicleDetailsTestResult.body)
     }
 
-    "return a bad request if no details are entered" in new WithApplication {
+    "return a bad request if no details are entered" in new TestWithApplication {
       val businessKeeperDetails = controller
       val request = buildRequest(defaultBusinessKeeperDetailsModel.copy(businessName = "", postcode = ""))
         .withCookies(vehicleAndKeeperDetailsCookie())
@@ -132,7 +132,7 @@ class BusinessKeeperDetailsBaseUnitSpec extends UnitSpec {
       result.body should equal(invalidFormTestResult.body)
     }
 
-    "replace required error message for business name with standard error message " in new WithApplication {
+    "replace required error message for business name with standard error message " in new TestWithApplication {
       val businessKeeperDetails = controller
       val request = buildRequest(defaultBusinessKeeperDetailsModel.copy(businessName = ""))
         .withCookies(vehicleAndKeeperDetailsCookie())
@@ -144,7 +144,7 @@ class BusinessKeeperDetailsBaseUnitSpec extends UnitSpec {
       )
     }
 
-    "replace required error message for business postcode with standard error message " in new WithApplication {
+    "replace required error message for business postcode with standard error message " in new TestWithApplication {
       val businessKeeperDetails = controller
       val request = buildRequest(defaultBusinessKeeperDetailsModel.copy(postcode = ""))
         .withCookies(vehicleAndKeeperDetailsCookie())

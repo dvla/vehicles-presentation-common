@@ -3,17 +3,16 @@ package uk.gov.dvla.vehicles.presentation.common.helpers.webbrowser
 import java.util
 import java.util.concurrent.TimeUnit
 
-import org.openqa.selenium.WebDriver.{Options, TargetLocator, Navigation}
-import org.openqa.selenium.{WebElement, By, WebDriver}
+import org.openqa.selenium.WebDriver.{Navigation, Options, TargetLocator}
 import org.openqa.selenium.chrome.ChromeDriver
 import org.openqa.selenium.firefox.{FirefoxDriver, FirefoxProfile}
 import org.openqa.selenium.htmlunit.HtmlUnitDriver
 import org.openqa.selenium.ie.InternetExplorerDriver
+import org.openqa.selenium.phantomjs.{PhantomJSDriver, PhantomJSDriverService}
 import org.openqa.selenium.remote.DesiredCapabilities
 import org.openqa.selenium.safari.SafariDriver
+import org.openqa.selenium.{By, WebDriver, WebElement}
 import uk.gov.dvla.vehicles.presentation.common.ConfigProperties._
-import org.openqa.selenium.phantomjs.PhantomJSDriverService
-import org.openqa.selenium.phantomjs.PhantomJSDriver
 import uk.gov.dvla.vehicles.presentation.common.views.widgetdriver.Wait
 
 object WebDriverFactory {

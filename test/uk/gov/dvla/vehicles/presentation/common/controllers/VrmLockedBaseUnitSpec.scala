@@ -1,7 +1,7 @@
 package uk.gov.dvla.vehicles.presentation.common.controllers
 
 import play.api.test.{FakeRequest}
-import uk.gov.dvla.vehicles.presentation.common.{WithApplication, UnitSpec}
+import uk.gov.dvla.vehicles.presentation.common.{TestWithApplication, UnitSpec}
 import scala.concurrent.Await
 import scala.concurrent.duration.DurationInt
 import scala.language.postfixOps
@@ -23,7 +23,7 @@ class VrmLockedBaseUnitSpec extends UnitSpec {
   import VrmLockedTesting._
 
   "present" should {
-    "display the page" in new WithApplication {
+    "display the page" in new TestWithApplication {
       val vrmLocked = controller
       val request = FakeRequest().withCookies(bruteForcePreventionCookie())
       val result = Await.result(vrmLocked.present(request), 5 seconds)
@@ -31,7 +31,7 @@ class VrmLockedBaseUnitSpec extends UnitSpec {
       vrmLocked.presentResultArgs should equal(Seq(defaultBruteForcePreventionModel))
     }
 
-    "handle when the brute force prevention cookie is missing" in new WithApplication {
+    "handle when the brute force prevention cookie is missing" in new TestWithApplication {
       val vrmLocked = controller
       val result = Await.result(vrmLocked.present(FakeRequest()), 5 seconds)
       result should equal(missingBruteForcePreventionCookieTestResult)
@@ -39,7 +39,7 @@ class VrmLockedBaseUnitSpec extends UnitSpec {
   }
 
   "tryAnother" should {
-    "display the page" in new WithApplication {
+    "display the page" in new TestWithApplication {
       val vrmLocked = controller
       val result = Await.result(vrmLocked.tryAnother(FakeRequest()), 5 seconds)
       result should equal(tryAnotherTestResult)
@@ -47,7 +47,7 @@ class VrmLockedBaseUnitSpec extends UnitSpec {
   }
 
   "exit" should {
-    "display the page" in new WithApplication {
+    "display the page" in new TestWithApplication {
       val vrmLocked = controller
       val result = Await.result(vrmLocked.exit(FakeRequest()), 5 seconds)
       result should equal(exitTestResult)

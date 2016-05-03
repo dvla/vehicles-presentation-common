@@ -1,11 +1,11 @@
 package uk.gov.dvla.vehicles.presentation.common.controllers
 
 import uk.gov.dvla.vehicles.presentation.common.composition.WithTestApplication
-import uk.gov.dvla.vehicles.presentation.common.{WithApplication, views, helpers}
 
 import uk.gov.dvla.vehicles.presentation.common.helpers.{ CookieFactoryForUnitSpecs, UnitSpec}
 import play.api.test.FakeRequest
 import play.api.test.Helpers.{OK, contentAsString, defaultAwaitTimeout}
+import uk.gov.dvla.vehicles.presentation.common.views
 import views.ValtechRadioView.{KeeperType_Business, KeeperType_Private}
 
 final class ValtechRadioControllerUnitSpec extends UnitSpec {

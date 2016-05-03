@@ -2,7 +2,7 @@ package uk.gov.dvla.vehicles.presentation.common.composition
 
 import play.api.{Application, GlobalSettings, Logger}
 
-trait GlobalLike extends GlobalSettings with Composition {
+trait CommonTestGlobal extends GlobalSettings with Composition {
 
   /**
    * Controllers must be resolved through the application context. There is a special method of GlobalSettings

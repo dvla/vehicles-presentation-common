@@ -2,7 +2,7 @@ package uk.gov.dvla.vehicles.presentation.common.clientsidesession
 
 import play.api.mvc.Cookie
 import uk.gov.dvla.vehicles.presentation.common.UnitSpec
-import uk.gov.dvla.vehicles.presentation.common.WithApplication
+import uk.gov.dvla.vehicles.presentation.common.TestWithApplication
 
 class EncryptedClientSideSessionFactorySpec extends UnitSpec {
   implicit val noCookieFlags = new NoCookieFlags
@@ -16,7 +16,7 @@ class EncryptedClientSideSessionFactorySpec extends UnitSpec {
 
   "newSessionCookiesIfNeeded" should {
 
-    "create a couple of session cookies if there are not yet in the request" in new WithApplication {
+    "create a couple of session cookies if there are not yet in the request" in new TestWithApplication {
       val cookies = encryptedClientSideSessionFactory.newSessionCookiesIfNeeded(Seq.empty[Cookie])
 
       cookies.get should have size 2
@@ -24,27 +24,27 @@ class EncryptedClientSideSessionFactorySpec extends UnitSpec {
       cookies.get.last.value should not be empty
     }
 
-    "returns None if the cookies are already present in the request" in new WithApplication {
+    "returns None if the cookies are already present in the request" in new TestWithApplication {
       val cookies = encryptedClientSideSessionFactory.newSessionCookiesIfNeeded(Seq.empty[Cookie])
       val cookies2 = encryptedClientSideSessionFactory.newSessionCookiesIfNeeded(cookies.get)
       cookies2 should be(None)
     }
 
-    "explode with an exception if there is only the trackingId cookie present" in new WithApplication {
+    "explode with an exception if there is only the trackingId cookie present" in new TestWithApplication {
       val cookies = encryptedClientSideSessionFactory.newSessionCookiesIfNeeded(Seq.empty[Cookie])
       intercept[InvalidSessionException] {
         encryptedClientSideSessionFactory.newSessionCookiesIfNeeded(Seq(cookies.get.head))
       }
     }
 
-    "explode with an exception if there is only the session cookie present" in new WithApplication {
+    "explode with an exception if there is only the session cookie present" in new TestWithApplication {
       val cookies = encryptedClientSideSessionFactory.newSessionCookiesIfNeeded(Seq.empty[Cookie])
       intercept[InvalidSessionException] {
         encryptedClientSideSessionFactory.newSessionCookiesIfNeeded(Seq(cookies.get(1)))
       }
     }
 
-    "explode with an exception if the session cookies are fake or not properly encrypted" in new WithApplication {
+    "explode with an exception if the session cookies are fake or not properly encrypted" in new TestWithApplication {
       val cookies = encryptedClientSideSessionFactory.newSessionCookiesIfNeeded(Seq.empty[Cookie])
       val trackingIdCookie = cookies.get.head
       val sessionCookie = cookies.get.last
@@ -58,7 +58,7 @@ class EncryptedClientSideSessionFactorySpec extends UnitSpec {
   }
 
   "getSession" should {
-    "get the session from the request cookies" in new WithApplication {
+    "get the session from the request cookies" in new TestWithApplication {
       val cookies = encryptedClientSideSessionFactory.newSessionCookiesIfNeeded(Seq.empty[Cookie])
       val session = encryptedClientSideSessionFactory.getSession(cookies.get)
       session shouldBe an[EncryptedClientSideSession]
@@ -74,7 +74,7 @@ class EncryptedClientSideSessionFactorySpec extends UnitSpec {
       encryptedSessionKey should not be empty
     }
 
-    "explode with an exception if the session cookies are fake or not properly encrypted" in new WithApplication {
+    "explode with an exception if the session cookies are fake or not properly encrypted" in new TestWithApplication {
       val cookies = encryptedClientSideSessionFactory.newSessionCookiesIfNeeded(Seq.empty[Cookie])
       val trackingIdCookie = cookies.get.head
       val sessionCookie = cookies.get.last
@@ -86,7 +86,7 @@ class EncryptedClientSideSessionFactorySpec extends UnitSpec {
       }
     }
 
-    "explode with an exception if the are no session cookies in the request" in new WithApplication {
+    "explode with an exception if the are no session cookies in the request" in new TestWithApplication {
       intercept[InvalidSessionException] {
         encryptedClientSideSessionFactory.getSession(Seq.empty[Cookie])
       }

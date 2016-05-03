@@ -2,7 +2,7 @@ package uk.gov.dvla.vehicles.presentation.common.services
 
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.TrackingId
 import uk.gov.dvla.vehicles.presentation.common.services.SEND.Contents
-import uk.gov.dvla.vehicles.presentation.common.{WithApplication, UnitSpec}
+import uk.gov.dvla.vehicles.presentation.common.{TestWithApplication, UnitSpec}
 import uk.gov.dvla.vehicles.presentation.common.model.FeedbackForm
 
 class FeedbackMessageBuilderSpec extends UnitSpec {
@@ -12,7 +12,7 @@ class FeedbackMessageBuilderSpec extends UnitSpec {
   val email = "test@test.com"
 
   "Message builder" should {
-    "contain correct details" in new WithApplication {
+    "contain correct details" in new TestWithApplication {
       val feedbackForm = FeedbackForm(feedback = "Feedback text", webChat = None, name = Some(name), email = Some(email))
       val message: Contents = FeedbackMessageBuilder.buildWith(feedbackForm, trackingId)
       message.htmlMessage should include(s"<p>trackingId : $trackingId</p>")
@@ -23,7 +23,7 @@ class FeedbackMessageBuilderSpec extends UnitSpec {
       message.plainMessage should include(s"email: $email")
     }
 
-    "handle no name or email address" in new WithApplication() {
+    "handle no name or email address" in new TestWithApplication() {
       val feedbackForm = FeedbackForm(feedback = "Feedback text", webChat = None, name = None, email = None)
       val message: Contents = FeedbackMessageBuilder.buildWith(feedbackForm, trackingId)
       message.htmlMessage should include("received from: 'no name given'")
@@ -32,13 +32,13 @@ class FeedbackMessageBuilderSpec extends UnitSpec {
       message.plainMessage should include("email: 'no email given'")
     }
 
-    "correctly convert reserved characters" in new WithApplication() {
+    "correctly convert reserved characters" in new TestWithApplication() {
       val feedbackForm = FeedbackForm(feedback = "Feedback text: <>", webChat = None, name = None, email = None)
       val message: Contents = FeedbackMessageBuilder.buildWith(feedbackForm, trackingId)
       message.htmlMessage should include("&lt;&gt;")
     }
 
-    "include webchat feedback" in new WithApplication {
+    "include webchat feedback" in new TestWithApplication {
       val webChatFeedbackText = "Webchat feedback text"
       val feedbackForm = FeedbackForm(feedback = "Feedback text", webChat = Some(webChatFeedbackText), name = Some(name), email = Some(email))
       val message: Contents = FeedbackMessageBuilder.buildWith(feedbackForm, trackingId)

@@ -4,7 +4,7 @@ import com.github.tomakehurst.wiremock.client.WireMock.{getRequestedFor, urlEqua
 import org.scalatest.concurrent.PatienceConfiguration.Interval
 import scala.concurrent.duration.DurationInt
 import play.api.i18n.Lang
-import uk.gov.dvla.vehicles.presentation.common.{UnitSpec, WithApplication}
+import uk.gov.dvla.vehicles.presentation.common.{UnitSpec, TestWithApplication}
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.{TrackingId, ClearTextClientSideSessionFactory, NoCookieFlags}
 import uk.gov.dvla.vehicles.presentation.common.testhelpers.WireMockFixture
 import uk.gov.dvla.vehicles.presentation.common.webserviceclients.HttpHeaders
@@ -34,7 +34,7 @@ final class WebServiceImplSpec extends UnitSpec  with WireMockFixture {
   }
 
   "callPostcodeWebService" should {
-    "send the trackingId to the PostcodeWebService" in new WithApplication {
+    "send the trackingId to the PostcodeWebService" in new TestWithApplication {
       val postCode = "N193NN"
 
       val futureResult = addressLookupService.callPostcodeWebService(postCode, trackingIdValue)(lang = Lang("en"))

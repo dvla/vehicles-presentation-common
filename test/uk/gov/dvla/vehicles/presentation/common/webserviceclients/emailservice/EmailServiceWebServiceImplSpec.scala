@@ -4,14 +4,14 @@ import com.github.tomakehurst.wiremock.client.WireMock.{equalTo, postRequestedFo
 import play.api.libs.json.Json
 import scala.concurrent.duration.DurationInt
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.TrackingId
-import uk.gov.dvla.vehicles.presentation.common.{UnitSpec, WithApplication}
+import uk.gov.dvla.vehicles.presentation.common.{UnitSpec, TestWithApplication}
 import uk.gov.dvla.vehicles.presentation.common.testhelpers.WireMockFixture
 import uk.gov.dvla.vehicles.presentation.common.webserviceclients.HttpHeaders
 
 class EmailServiceWebServiceImplSpec extends UnitSpec with WireMockFixture {
 
   "call EmailService" should {
-    "send the serialised json request" in new WithApplication {
+    "send the serialised json request" in new TestWithApplication {
       val resultFuture = emailService.invoke(request, trackingId)
       whenReady(resultFuture, timeout) { result =>
         wireMock.verifyThat(1, postRequestedFor(

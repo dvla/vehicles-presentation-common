@@ -11,12 +11,12 @@ import uk.gov.dvla.vehicles.presentation.common.testhelpers.WireMockFixture
 import uk.gov.dvla.vehicles.presentation.common.UnitSpec
 import uk.gov.dvla.vehicles.presentation.common.webserviceclients.HttpHeaders
 import uk.gov.dvla.vehicles.presentation.common.webserviceclients.common.{DmsWebEndUserDto, DmsWebHeaderDto}
-import uk.gov.dvla.vehicles.presentation.common.WithApplication
+import uk.gov.dvla.vehicles.presentation.common.TestWithApplication
 
 class VehicleAndKeeperLookupWebServiceImplSpec extends UnitSpec with WireMockFixture {
 
   "callVehicleAndKeeperLookupService" should {
-    "send the serialised json request" in new WithApplication {
+    "send the serialised json request" in new TestWithApplication {
       val resultFuture = lookupService.invoke(request, trackingId)
       whenReady(resultFuture, timeout) { result =>
         wireMock.verifyThat(1, postRequestedFor(
@@ -26,7 +26,7 @@ class VehicleAndKeeperLookupWebServiceImplSpec extends UnitSpec with WireMockFix
       }
     }
 
-    "timeout when the endpoint is slow to respond" in new WithApplication {
+    "timeout when the endpoint is slow to respond" in new TestWithApplication {
       val requestTimeout: Int = 1
       val requestTimeoutMillis: Int = requestTimeout * 1000
       val futureTimeout = Timeout(Span(requestTimeout * 4, Seconds))

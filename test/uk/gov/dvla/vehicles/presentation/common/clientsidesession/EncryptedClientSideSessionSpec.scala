@@ -1,18 +1,18 @@
 package uk.gov.dvla.vehicles.presentation.common.clientsidesession
 
 import uk.gov.dvla.vehicles.presentation.common.testhelpers.LightFakeApplication
-import uk.gov.dvla.vehicles.presentation.common.{SimpleTestGlobal, WithApplication, UnitSpec}
+import uk.gov.dvla.vehicles.presentation.common.{TestGlobalSettings, TestWithApplication, UnitSpec}
 
 class EncryptedClientSideSessionSpec extends UnitSpec {
   "nameCookie" should {
-    "return a new CookieName type consisting of the session secret key plus the cookie name that we can see in clear text when hashing is not used" in new WithApplication {
+    "return a new CookieName type consisting of the session secret key plus the cookie name that we can see in clear text when hashing is not used" in new TestWithApplication {
       val encryptedClientSideSession =
         new EncryptedClientSideSession(TrackingId("trackingId"), SessionSecretKey)(noCookieFlags, noEncryption, noHashing)
       val encryptedCookieName = encryptedClientSideSession.nameCookie(CookieName)
       encryptedCookieName.value should equal(s"$SessionSecretKey$CookieName")
     }
 
-    "return a deterministic hashed cookie name (the hash will always be the same value for the same inputs)" in new WithApplication {
+    "return a deterministic hashed cookie name (the hash will always be the same value for the same inputs)" in new TestWithApplication {
       val encryptedClientSideSession =
         new EncryptedClientSideSession(TrackingId("trackingId"), SessionSecretKey)(noCookieFlags, noEncryption, sha1Hashing)
       val encryptedCookieName1 = encryptedClientSideSession.nameCookie(CookieName)
@@ -20,7 +20,7 @@ class EncryptedClientSideSessionSpec extends UnitSpec {
       encryptedCookieName1.value should equal(encryptedCookieName2.value)
     }
 
-    "return a cookie whose value is prefixed with the cookie name that we can see in clear text when hashing is not used" in new WithApplication {
+    "return a cookie whose value is prefixed with the cookie name that we can see in clear text when hashing is not used" in new TestWithApplication {
       val encryptedClientSideSession =
         new EncryptedClientSideSession(TrackingId("trackingId"), SessionSecretKey)(noCookieFlags, noEncryption, noHashing)
       val cookieNameType = encryptedClientSideSession.nameCookie(CookieName)
@@ -29,7 +29,7 @@ class EncryptedClientSideSessionSpec extends UnitSpec {
       cookie.value should equal(cookie.name + value)
     }
 
-    "allow the client to extract the encrypted value from the cookie" in new WithApplication(app = fakeAppWithConfig) {
+    "allow the client to extract the encrypted value from the cookie" in new TestWithApplication(testApp = fakeAppWithConfig) {
       implicit val aesEncryption = new AesEncryption with CookieEncryption
       val encryptedClientSideSession =
         new EncryptedClientSideSession(TrackingId("trackingId"), SessionSecretKey)(noCookieFlags, aesEncryption, sha1Hashing)
@@ -48,7 +48,7 @@ class EncryptedClientSideSessionSpec extends UnitSpec {
   implicit val noHashing = new NoHashGenerator with CookieNameHashGenerator
   implicit val sha1Hashing = new Sha1HashGenerator with CookieNameHashGenerator
 
-  private val fakeAppWithConfig = LightFakeApplication(SimpleTestGlobal,
+  private val fakeAppWithConfig = LightFakeApplication(TestGlobalSettings,
     Map(
       "application.secret256Bit" -> "MnPSvGpiEF5OJRG3xLAnsfmdMTLr6wpmJmZLv2RB9Vo=",
       "application.crypto.aes.transformation" -> "AES/CBC/PKCS5Padding"

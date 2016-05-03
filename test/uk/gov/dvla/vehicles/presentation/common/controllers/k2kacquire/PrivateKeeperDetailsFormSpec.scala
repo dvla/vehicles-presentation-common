@@ -22,7 +22,7 @@ import common.model.PrivateKeeperDetailsFormModel.Form.LastNameMaxLength
 import common.model.PrivateKeeperDetailsFormModel.Form.LastNameMinLength
 import common.model.PrivateKeeperDetailsFormModel.Form.TitleId
 import common.services.DateServiceImpl
-import common.{UnitSpec, WithApplication}
+import common.{UnitSpec, TestWithApplication}
 
 class PrivateKeeperDetailsFormSpec extends UnitSpec {
 
@@ -42,7 +42,7 @@ class PrivateKeeperDetailsFormSpec extends UnitSpec {
   final val OtherTitleType = "4"
 
   "form" should {
-    "accept if form is completed with all fields correctly" in new WithApplication {
+    "accept if form is completed with all fields correctly" in new TestWithApplication {
       val model = formWithValidDefaults().get
       model.title should equal(TitleType(1, ""))
       model.firstName should equal(FirstNameValid)
@@ -56,7 +56,7 @@ class PrivateKeeperDetailsFormSpec extends UnitSpec {
       model.postcode should equal(PostcodeValid)
     }
 
-    "accept if form is completed with mandatory fields only" in new WithApplication {
+    "accept if form is completed with mandatory fields only" in new TestWithApplication {
       val model = formWithValidDefaults(
         dayDateOfBirth = "",
         monthDateOfBirth = "",
@@ -72,7 +72,7 @@ class PrivateKeeperDetailsFormSpec extends UnitSpec {
       model.postcode should equal(PostcodeValid)
     }
 
-    "reject if form has no fields completed" in new WithApplication {
+    "reject if form has no fields completed" in new TestWithApplication {
       formWithValidDefaults(title = "", firstName = "", lastName = "", email = None).
         errors.flatMap(_.messages) should contain theSameElementsAs
         List("error.title.unknownOption", "error.validFirstName", "error.minLength", "error.required", "error.validLastName")
@@ -80,148 +80,148 @@ class PrivateKeeperDetailsFormSpec extends UnitSpec {
   }
 
   "title" should {
-    "accept if Mr title is selected" in new WithApplication {
+    "accept if Mr title is selected" in new TestWithApplication {
       val model = formWithValidDefaults(title = MrTitleType).get
       model.title should equal(TitleType(MrTitleType.toInt, ""))
     }
 
-    "accept if Mrs title is selected" in new WithApplication {
+    "accept if Mrs title is selected" in new TestWithApplication {
       val model = formWithValidDefaults(title = MrsTitleType).get
       model.title should equal(TitleType(MrsTitleType.toInt, ""))
     }
 
-    "accept if Miss title is selected" in new WithApplication {
+    "accept if Miss title is selected" in new TestWithApplication {
       val model = formWithValidDefaults(title = MissTitleType).get
       model.title should equal(TitleType(MissTitleType.toInt, ""))
     }
 
-    "accept if other title is selected and the other title contains allowed special character (hyphen)" in new WithApplication {
+    "accept if other title is selected and the other title contains allowed special character (hyphen)" in new TestWithApplication {
       val otherTitle = "MY-TITLE"
       val model = formWithValidDefaults(title = OtherTitleType, otherTitle = otherTitle).get
       model.title should equal(TitleType(OtherTitleType.toInt, otherTitle))
     }
 
-    "accept if other title is selected and the other title contains allowed special character (full stop)" in new WithApplication {
+    "accept if other title is selected and the other title contains allowed special character (full stop)" in new TestWithApplication {
       val otherTitle = "MY.TITLE"
       val model = formWithValidDefaults(title = OtherTitleType, otherTitle = otherTitle).get
       model.title should equal(TitleType(OtherTitleType.toInt, otherTitle))
     }
 
-    "accept if other title is selected and the other title contains allowed special character (apostrophe)" in new WithApplication {
+    "accept if other title is selected and the other title contains allowed special character (apostrophe)" in new TestWithApplication {
       val otherTitle = "MY'TITLE"
       val model = formWithValidDefaults(title = OtherTitleType, otherTitle = otherTitle).get
       model.title should equal(TitleType(OtherTitleType.toInt, otherTitle))
     }
 
-    "accept if other title is selected and the other title contains allowed special character (space)" in new WithApplication {
+    "accept if other title is selected and the other title contains allowed special character (space)" in new TestWithApplication {
       val otherTitle = "MY TITLE"
       val model = formWithValidDefaults(title = OtherTitleType, otherTitle = otherTitle).get
       model.title should equal(TitleType(OtherTitleType.toInt, otherTitle))
     }
 
-    "reject if no selection is made" in new WithApplication {
+    "reject if no selection is made" in new TestWithApplication {
       formWithValidDefaults(title = "").errors.flatMap(_.messages) should contain theSameElementsAs
         List("error.title.unknownOption")
     }
 
-    "reject if other title is selected and the other title text is empty" in new WithApplication {
+    "reject if other title is selected and the other title text is empty" in new TestWithApplication {
       formWithValidDefaults(title = OtherTitleType, otherTitle = "").errors.flatMap(_.messages) should contain theSameElementsAs
         List("error.title.missing")
     }
 
-    "reject if other title is selected and the other title text exceeds the max" in new WithApplication {
+    "reject if other title is selected and the other title text exceeds the max" in new TestWithApplication {
       formWithValidDefaults(title = OtherTitleType, otherTitle = "A" * TitlePickerString.MaxOtherTitleLength + 1).errors
         .flatMap(_.messages) should contain theSameElementsAs
           List("error.title.tooLong")
     }
 
-    "reject if other title is selected and the other title contains numbers" in new WithApplication {
+    "reject if other title is selected and the other title contains numbers" in new TestWithApplication {
       formWithValidDefaults(title = OtherTitleType, otherTitle = "AAA1").errors.flatMap(_.messages) should contain theSameElementsAs
         List("error.title.illegalCharacters")
     }
 
-    "reject if other title is selected and the other title contains illegal special character (dollar)" in new WithApplication {
+    "reject if other title is selected and the other title contains illegal special character (dollar)" in new TestWithApplication {
       formWithValidDefaults(title = OtherTitleType, otherTitle = "AAA$").errors.flatMap(_.messages) should contain theSameElementsAs
         List("error.title.illegalCharacters")
     }
   }
 
   "email" should {
-    "accept in valid format" in new WithApplication {
+    "accept in valid format" in new TestWithApplication {
       val model = formWithValidDefaults().get
       model.email should equal(Some(EmailValid))
     }
 
-    "accept with no entry" in new WithApplication {
+    "accept with no entry" in new TestWithApplication {
       val model = formWithValidDefaults(email = None).get
       model.email should equal(None)
     }
 
-    "reject if incorrect format" in new WithApplication {
+    "reject if incorrect format" in new TestWithApplication {
       formWithValidDefaults(email = Some("no_at_symbol.com")).errors.flatMap(_.messages) should contain theSameElementsAs
         List("error.email")
     }
 
-    "reject if less than min length" in new WithApplication {
+    "reject if less than min length" in new TestWithApplication {
       formWithValidDefaults(email = Some("no")).errors.flatMap(_.messages) should contain theSameElementsAs
         List("error.email")
     }
 
-    "reject if greater than max length" in new WithApplication {
+    "reject if greater than max length" in new TestWithApplication {
       formWithValidDefaults(email = Some("n@" + ("a" * 248) + ".com")).errors.flatMap(_.messages) should contain theSameElementsAs
         List("error.email")
     }
   }
 
   "firstName" should {
-    "reject if empty" in new WithApplication {
+    "reject if empty" in new TestWithApplication {
       formWithValidDefaults(firstName = "").errors.flatMap(_.messages) should contain theSameElementsAs
         List("error.validFirstName")
     }
 
-    "reject if greater than max length" in new WithApplication {
+    "reject if greater than max length" in new TestWithApplication {
       formWithValidDefaults(firstName = "a" * (FirstNameAndTitleMaxLength + 1)).errors.flatMap(_.messages) should contain theSameElementsAs
         List("error.titlePlusFirstName.tooLong")
     }
 
-    "reject if denied special characters are present (dollar)" in new WithApplication {
+    "reject if denied special characters are present (dollar)" in new TestWithApplication {
       formWithValidDefaults(firstName = FirstNameValid + "$").errors.flatMap(_.messages) should contain theSameElementsAs
         List("error.validFirstName")
     }
 
-    "reject if denied special characters are present (plus)" in new WithApplication {
+    "reject if denied special characters are present (plus)" in new TestWithApplication {
       formWithValidDefaults(firstName = FirstNameValid + "+").errors.flatMap(_.messages) should contain theSameElementsAs
         List("error.validFirstName")
     }
 
-    "reject if denied special characters are present (caret)" in new WithApplication {
+    "reject if denied special characters are present (caret)" in new TestWithApplication {
       formWithValidDefaults(firstName = FirstNameValid + "^").errors.flatMap(_.messages) should contain theSameElementsAs
         List("error.validFirstName")
     }
 
-    "reject if denied special characters are present (star)" in new WithApplication {
+    "reject if denied special characters are present (star)" in new TestWithApplication {
       formWithValidDefaults(firstName = FirstNameValid + "*").errors.flatMap(_.messages) should contain theSameElementsAs
         List("error.validFirstName")
     }
 
-    "reject if denied special characters are present (comma)" in new WithApplication {
+    "reject if denied special characters are present (comma)" in new TestWithApplication {
       formWithValidDefaults(firstName = FirstNameValid + ",").errors.flatMap(_.messages) should contain theSameElementsAs
         List("error.validFirstName")
     }
 
-    "reject if denied special characters are present (double quotes)" in new WithApplication {
+    "reject if denied special characters are present (double quotes)" in new TestWithApplication {
       formWithValidDefaults(firstName = FirstNameValid + "\"").errors.flatMap(_.messages) should contain theSameElementsAs
         List("error.validFirstName")
     }
 
-    "accept if equal to max length" in new WithApplication {
+    "accept if equal to max length" in new TestWithApplication {
       val maxFirstName = "a" * (FirstNameAndTitleMaxLength - 1)
       val formModel = validFormModel(title = "4", otherTitle = "x", firstName = maxFirstName)
       formModel.firstName should equal(maxFirstName)
       formModel.title should equal(TitleType(4, "x"))
     }
 
-    "don't accept if title plus first name is above the max" in new WithApplication {
+    "don't accept if title plus first name is above the max" in new TestWithApplication {
       val title = "sometitle"
       val tooLongFirstName = "a" * (FirstNameAndTitleMaxLength - title.length + 1)
       formWithValidDefaults(title = "4", otherTitle = title, firstName = tooLongFirstName)
@@ -233,166 +233,166 @@ class PrivateKeeperDetailsFormSpec extends UnitSpec {
       formModel.title should equal(TitleType(4, title))
     }
 
-    "accept if equal to min length" in new WithApplication {
+    "accept if equal to min length" in new TestWithApplication {
       val model = formWithValidDefaults(firstName = "a" * FirstNameMinLength).get
       model.firstName should equal("a" * FirstNameMinLength)
     }
 
-    "accept in valid format" in new WithApplication {
+    "accept in valid format" in new TestWithApplication {
       val model = formWithValidDefaults(firstName = FirstNameValid).get
       model.firstName should equal(FirstNameValid)
     }
 
-    "accept allowed special characters (full stop)" in new WithApplication {
+    "accept allowed special characters (full stop)" in new TestWithApplication {
       val model = formWithValidDefaults(firstName = FirstNameValid + ".").get
       model.firstName should equal(FirstNameValid + ".")
     }
 
-    "accept allowed special characters (hyphen)" in new WithApplication {
+    "accept allowed special characters (hyphen)" in new TestWithApplication {
       val model = formWithValidDefaults(firstName = FirstNameValid + "'").get
       model.firstName should equal(FirstNameValid + "'")
     }
 
-    "accept allowed special characters (apostrophe)" in new WithApplication {
+    "accept allowed special characters (apostrophe)" in new TestWithApplication {
       val model = formWithValidDefaults(firstName = FirstNameValid + "'").get
       model.firstName should equal(FirstNameValid + "'")
     }
 
-    "accept when a space is present within the first name" in new WithApplication {
+    "accept when a space is present within the first name" in new TestWithApplication {
       val model = formWithValidDefaults(firstName = "a" + " " + "a").get
       model.firstName should equal("a" + " " + "a")
     }
   }
 
   "lastName" should {
-    "reject if empty" in new WithApplication {
+    "reject if empty" in new TestWithApplication {
       formWithValidDefaults(lastName = "").errors.flatMap(_.messages) should contain theSameElementsAs
         List("error.minLength", "error.validLastName", "error.required")
     }
 
-    "reject if greater than max length" in new WithApplication {
+    "reject if greater than max length" in new TestWithApplication {
       formWithValidDefaults(lastName = "a" * (LastNameMaxLength + 1)).errors.flatMap(_.messages) should contain theSameElementsAs
         List("error.maxLength")
     }
 
-    "reject if denied special characters are present (dollar)" in new WithApplication {
+    "reject if denied special characters are present (dollar)" in new TestWithApplication {
       formWithValidDefaults(lastName = LastNameValid + "$").errors.flatMap(_.messages) should contain theSameElementsAs
         List("error.validLastName")
     }
 
-    "reject if denied special characters are present (plus)" in new WithApplication {
+    "reject if denied special characters are present (plus)" in new TestWithApplication {
       formWithValidDefaults(lastName = LastNameValid + "+").errors.flatMap(_.messages) should contain theSameElementsAs
         List("error.validLastName")
     }
 
-    "reject if denied special characters are present (caret)" in new WithApplication {
+    "reject if denied special characters are present (caret)" in new TestWithApplication {
       formWithValidDefaults(lastName = LastNameValid + "^").errors.flatMap(_.messages) should contain theSameElementsAs
         List("error.validLastName")
     }
 
-    "reject if denied special characters are present (star)" in new WithApplication {
+    "reject if denied special characters are present (star)" in new TestWithApplication {
       formWithValidDefaults(lastName = LastNameValid + "*").errors.flatMap(_.messages) should contain theSameElementsAs
         List("error.validLastName")
     }
 
-    "reject if denied special characters are present (comma)" in new WithApplication {
+    "reject if denied special characters are present (comma)" in new TestWithApplication {
       formWithValidDefaults(lastName = LastNameValid + ",").errors.flatMap(_.messages) should contain theSameElementsAs
         List("error.validLastName")
     }
 
-    "accept if equal to max length" in new WithApplication {
+    "accept if equal to max length" in new TestWithApplication {
       val model = formWithValidDefaults(lastName = "a" * LastNameMaxLength).get
       model.lastName should equal("a" * LastNameMaxLength)
     }
 
-    "accept if equal to min length" in new WithApplication {
+    "accept if equal to min length" in new TestWithApplication {
       val model = formWithValidDefaults(lastName = "a" * LastNameMinLength).get
       model.lastName should equal("a" * LastNameMinLength)
     }
 
-    "accept in valid format" in new WithApplication {
+    "accept in valid format" in new TestWithApplication {
       val model = formWithValidDefaults(lastName = LastNameValid).get
       model.lastName should equal(LastNameValid)
     }
 
-    "accept allowed special characters (full stop)" in new WithApplication {
+    "accept allowed special characters (full stop)" in new TestWithApplication {
       val model = formWithValidDefaults(lastName = LastNameValid + ".").get
       model.lastName should equal(LastNameValid + ".")
     }
 
-    "accept allowed special characters (hyphen)" in new WithApplication {
+    "accept allowed special characters (hyphen)" in new TestWithApplication {
       val model = formWithValidDefaults(lastName = LastNameValid + "'").get
       model.lastName should equal(LastNameValid + "'")
     }
 
-    "accept allowed special characters (double quotes)" in new WithApplication {
+    "accept allowed special characters (double quotes)" in new TestWithApplication {
       val model = formWithValidDefaults(lastName = LastNameValid + "'").get
       model.lastName should equal(LastNameValid + "'")
     }
 
-    "accept allowed special characters (apostrophe)" in new WithApplication {
+    "accept allowed special characters (apostrophe)" in new TestWithApplication {
       val model = formWithValidDefaults(lastName = LastNameValid + "'").get
       model.lastName should equal(LastNameValid + "'")
     }
 
-    "accept when a space is present within the first name" in new WithApplication {
+    "accept when a space is present within the first name" in new TestWithApplication {
       val model = formWithValidDefaults(lastName = "a" + " " + "a").get
       model.lastName should equal("a" + " " + "a")
     }
   }
 
   "date of birth" should {
-    "not accept an invalid day of month of 0" in new WithApplication {
+    "not accept an invalid day of month of 0" in new TestWithApplication {
       formWithValidDefaults(dayDateOfBirth = "0").errors.flatMap(_.messages) should contain theSameElementsAs
         List("error.dateOfBirth.invalid")
     }
 
-    "not accept an invalid day of month of 32" in new WithApplication {
+    "not accept an invalid day of month of 32" in new TestWithApplication {
       formWithValidDefaults(dayDateOfBirth = "32").errors.flatMap(_.messages) should contain theSameElementsAs
         List("error.dateOfBirth.invalid")
     }
 
-    "not accept an invalid month of 0" in new WithApplication {
+    "not accept an invalid month of 0" in new TestWithApplication {
       formWithValidDefaults(monthDateOfBirth = "0").errors.flatMap(_.messages) should contain theSameElementsAs
         List("error.dateOfBirth.invalid")
     }
 
-    "not accept an invalid month of 13" in new WithApplication {
+    "not accept an invalid month of 13" in new TestWithApplication {
       formWithValidDefaults(monthDateOfBirth = "13").errors.flatMap(_.messages) should contain theSameElementsAs
         List("error.dateOfBirth.invalid")
     }
 
-    "not accept special characters in day field" in new WithApplication {
+    "not accept special characters in day field" in new TestWithApplication {
       formWithValidDefaults(dayDateOfBirth = "$").errors.flatMap(_.messages) should contain theSameElementsAs
         List("error.dateOfBirth.invalid")
     }
 
-    "not accept special characters in month field" in new WithApplication {
+    "not accept special characters in month field" in new TestWithApplication {
       formWithValidDefaults(monthDateOfBirth = "$").errors.flatMap(_.messages) should contain theSameElementsAs
         List("error.dateOfBirth.invalid")
     }
 
-    "not accept special characters in year field" in new WithApplication {
+    "not accept special characters in year field" in new TestWithApplication {
       formWithValidDefaults(yearDateOfBirth = "$").errors.flatMap(_.messages) should contain theSameElementsAs
         List("error.dateOfBirth.invalid")
     }
 
-    "not accept letters in day field" in new WithApplication {
+    "not accept letters in day field" in new TestWithApplication {
       formWithValidDefaults(dayDateOfBirth = "a").errors.flatMap(_.messages) should contain theSameElementsAs
         List("error.dateOfBirth.invalid")
     }
 
-    "not accept letters in month field" in new WithApplication {
+    "not accept letters in month field" in new TestWithApplication {
       formWithValidDefaults(monthDateOfBirth = "a").errors.flatMap(_.messages) should contain theSameElementsAs
         List("error.dateOfBirth.invalid")
     }
 
-    "not accept lettersin year field" in new WithApplication {
+    "not accept lettersin year field" in new TestWithApplication {
       formWithValidDefaults(yearDateOfBirth = "a").errors.flatMap(_.messages) should contain theSameElementsAs
         List("error.dateOfBirth.invalid")
     }
 
-    "accept if date of birth is entered correctly" in new WithApplication {
+    "accept if date of birth is entered correctly" in new TestWithApplication {
       val model = formWithValidDefaults(
         dayDateOfBirth = DayDateOfBirthValid,
         monthDateOfBirth = MonthDateOfBirthValid,
@@ -406,32 +406,32 @@ class PrivateKeeperDetailsFormSpec extends UnitSpec {
   }
 
   "postcode" should {
-    "reject if postcode is empty" in new WithApplication {
+    "reject if postcode is empty" in new TestWithApplication {
       formWithValidDefaults(postcode = "M15A").errors.flatMap(_.messages) should contain theSameElementsAs
         List("error.minLength", "error.restricted.validPostcode")
     }
 
-    "reject if postcode is less than the minimum length" in new WithApplication {
+    "reject if postcode is less than the minimum length" in new TestWithApplication {
       formWithValidDefaults(postcode = "M15A").errors.flatMap(_.messages) should contain theSameElementsAs
         List("error.minLength", "error.restricted.validPostcode")
     }
 
-    "reject if postcode is more than the maximum length" in new WithApplication {
+    "reject if postcode is more than the maximum length" in new TestWithApplication {
       formWithValidDefaults(postcode = "SA99 1DDD").errors.flatMap(_.messages) should contain theSameElementsAs
         List("error.maxLength", "error.restricted.validPostcode")
     }
 
-    "reject if postcode contains special characters" in new WithApplication {
+    "reject if postcode contains special characters" in new TestWithApplication {
       formWithValidDefaults(postcode = "SA99 1D$").errors.flatMap(_.messages) should contain theSameElementsAs
         List("error.restricted.validPostcode")
     }
 
-    "reject if postcode contains an incorrect format" in new WithApplication {
+    "reject if postcode contains an incorrect format" in new TestWithApplication {
       formWithValidDefaults(postcode = "SAR99").errors.flatMap(_.messages) should contain theSameElementsAs
         List("error.restricted.validPostcode")
     }
 
-    "accept when a valid postcode is entered" in new WithApplication {
+    "accept when a valid postcode is entered" in new TestWithApplication {
       val model = formWithValidDefaults(postcode = PostcodeValid).get
       model.postcode should equal(PostcodeValid)
     }

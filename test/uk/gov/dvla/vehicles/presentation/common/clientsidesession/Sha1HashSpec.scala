@@ -1,21 +1,21 @@
 package uk.gov.dvla.vehicles.presentation.common.clientsidesession
 
-import uk.gov.dvla.vehicles.presentation.common.{UnitSpec, WithApplication}
+import uk.gov.dvla.vehicles.presentation.common.{UnitSpec, TestWithApplication}
 
 class Sha1HashSpec extends UnitSpec {
 
   "Sha1Hash" should {
-    "return a hashed string" in new WithApplication {
+    "return a hashed string" in new TestWithApplication {
       sha1Hash.hash(ClearText) should not equal ClearText
     }
 
-    "returns the same hash repeatedly" in new WithApplication {
+    "returns the same hash repeatedly" in new TestWithApplication {
       val first = sha1Hash.hash(ClearText)
       val second = sha1Hash.hash(ClearText)
       first should equal(second)
     }
 
-    "return expected length for the digest" in new WithApplication {
+    "return expected length for the digest" in new TestWithApplication {
       sha1Hash.digestStringLength should equal(40)
     }
   }

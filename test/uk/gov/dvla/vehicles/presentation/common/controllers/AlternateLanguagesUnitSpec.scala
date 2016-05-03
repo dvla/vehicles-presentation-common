@@ -7,7 +7,7 @@ import play.api.test.Helpers.{LOCATION, HOST, NOT_FOUND, REFERER, SEE_OTHER}
 import uk.gov.dvla.vehicles.presentation.common
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.NoCookieFlags
 import common.testhelpers.CookieHelper.fetchCookiesFromHeaders
-import common.{UnitSpec, WithApplication}
+import common.{UnitSpec, TestWithApplication}
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.{ClearTextClientSideSessionFactory, ClientSideSessionFactory}
 
 final class AlternateLanguagesUnitSpec extends UnitSpec {
@@ -20,14 +20,14 @@ final class AlternateLanguagesUnitSpec extends UnitSpec {
   val testLang = new AlternateLanguages()
 
   "withLanguage" should {
-    "prevent redirect to referers outside our website for http" in new WithApplication {
+    "prevent redirect to referers outside our website for http" in new TestWithApplication {
       val result = testLang.withLanguage(CyId)(request.withHeaders(HOST -> "our.app", REFERER -> "http://external.referer"))
       whenReady(result) { r =>
         r.header.status should equal(NOT_FOUND)
       }
     }
 
-    "prevent redirect to referers outside our website for https" in new WithApplication {
+    "prevent redirect to referers outside our website for https" in new TestWithApplication {
       val result = testLang.withLanguage(CyId)(request.withHeaders(HOST -> "our.app", REFERER -> "https://external.referer"))
       whenReady(result) { r =>
         r.header.status should equal(NOT_FOUND)
@@ -36,7 +36,7 @@ final class AlternateLanguagesUnitSpec extends UnitSpec {
   }
 
   "withLanguageCy" should {
-    "redirect back to the same page" in new WithApplication {
+    "redirect back to the same page" in new TestWithApplication {
       val result = testLang.withLanguage(CyId)(request)
       whenReady(result) { r =>
         r.header.status should equal(SEE_OTHER) // Redirect...
@@ -44,7 +44,7 @@ final class AlternateLanguagesUnitSpec extends UnitSpec {
       }
     }
 
-    "writes language cookie set to 'cy'" in new WithApplication {
+    "writes language cookie set to 'cy'" in new TestWithApplication {
       val result = testLang.withLanguage(CyId)(request)
       whenReady(result) { r =>
         val cookies = fetchCookiesFromHeaders(r)
@@ -54,7 +54,7 @@ final class AlternateLanguagesUnitSpec extends UnitSpec {
   }
 
   "withLanguageEn" should {
-    "redirect back to the same page" in new WithApplication {
+    "redirect back to the same page" in new TestWithApplication {
       val result = testLang.withLanguage(EnId)(request)
       whenReady(result) { r =>
         r.header.status should equal(SEE_OTHER) // Redirect...
@@ -62,7 +62,7 @@ final class AlternateLanguagesUnitSpec extends UnitSpec {
       }
     }
 
-    "writes language cookie set to 'en'" in new WithApplication {
+    "writes language cookie set to 'en'" in new TestWithApplication {
       val result = testLang.withLanguage(EnId)(request)
       whenReady(result) { r =>
         val cookies = fetchCookiesFromHeaders(r)

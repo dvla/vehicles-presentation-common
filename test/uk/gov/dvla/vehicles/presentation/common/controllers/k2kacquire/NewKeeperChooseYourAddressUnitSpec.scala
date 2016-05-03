@@ -10,7 +10,7 @@ import common.testhelpers.CookieFactoryForUnitSpecs.{privateKeeperDetailsCookie,
 import common.testhelpers.CookieFactoryForUnitSpecs.businessKeeperDetailsCookie
 import common.testhelpers.CookieFactoryForUnitSpecs.{PostcodeValid, defaultKeeperChooseYourAddressViewModel}
 
-import common.{WithApplication, UnitSpec}
+import common.{TestWithApplication, UnitSpec}
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.{TrackingId, ClearTextClientSideSessionFactory, NoCookieFlags}
 import uk.gov.dvla.vehicles.presentation.common.testhelpers.CookieFactoryForUnitSpecs
 import uk.gov.dvla.vehicles.presentation.common.webserviceclients.addresslookup.ordnanceservey.{AddressResponseDto, AddressDto}
@@ -49,7 +49,7 @@ final class NewKeeperChooseYourAddressUnitSpec extends UnitSpec {
     )
 
   "present (use UPRN enabled)" should {
-    "display the page if private new keeper details cached" in new WithApplication {
+    "display the page if private new keeper details cached" in new TestWithApplication {
       val newKeeperChooseYourAddress = controller
       val request = FakeRequest().withCookies(privateKeeperDetailsCookie(), vehicleAndKeeperDetailsCookie())
 
@@ -62,7 +62,7 @@ final class NewKeeperChooseYourAddressUnitSpec extends UnitSpec {
     }
   }
 
-  "display selected field when private new keeper cookie exists" in new WithApplication {
+  "display selected field when private new keeper cookie exists" in new TestWithApplication {
     val newKeeperChooseYourAddress = controller
     val request = FakeRequest().withCookies(privateKeeperDetailsCookie(), 
       vehicleAndKeeperDetailsCookie(),
@@ -73,7 +73,7 @@ final class NewKeeperChooseYourAddressUnitSpec extends UnitSpec {
     content should equal("presentResult")
   }
 
-  "display selected field when business new keeper cookie exists" in new WithApplication {
+  "display selected field when business new keeper cookie exists" in new TestWithApplication {
     val newKeeperChooseYourAddress = controller
     val request = FakeRequest().withCookies(businessKeeperDetailsCookie(),
       vehicleAndKeeperDetailsCookie(),
@@ -84,7 +84,7 @@ final class NewKeeperChooseYourAddressUnitSpec extends UnitSpec {
     content should equal("presentResult")
   }
 
-  "redirect to vehicle lookup page when present is called with no keeper details cached" in new WithApplication {
+  "redirect to vehicle lookup page when present is called with no keeper details cached" in new TestWithApplication {
     val newKeeperChooseYourAddress = controller
     val request = FakeRequest().withCookies(vehicleAndKeeperDetailsCookie())
 

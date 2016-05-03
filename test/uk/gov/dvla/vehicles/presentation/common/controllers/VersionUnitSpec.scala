@@ -8,7 +8,7 @@ import play.api.mvc.{Action, AnyContent}
 import play.api.test.FakeRequest
 import play.api.test.Helpers.{contentAsString, defaultAwaitTimeout}
 import scala.tools.nsc.util.ScalaClassLoader.URLClassLoader
-import uk.gov.dvla.vehicles.presentation.common.{UnitSpec, WithApplication}
+import uk.gov.dvla.vehicles.presentation.common.{UnitSpec, TestWithApplication}
 import uk.gov.dvla.vehicles.presentation.common.testhelpers.WireMockFixture
 
 class VersionUnitSpec extends UnitSpec with BeforeAndAfterAll with WireMockFixture {
@@ -24,7 +24,7 @@ class VersionUnitSpec extends UnitSpec with BeforeAndAfterAll with WireMockFixtu
   }
 
   "version" should {
-    "show the build-details.txt if exists along with runtime information" in new WithApplication {
+    "show the build-details.txt if exists along with runtime information" in new TestWithApplication {
       val loader = new URLClassLoader(Seq[URL](), getClass.getClassLoader) {
         override def loadClass(name: String) = {
           if (name.startsWith(classOf[Version].getName)) {
@@ -75,7 +75,7 @@ class VersionUnitSpec extends UnitSpec with BeforeAndAfterAll with WireMockFixtu
       resultContent should include("Runtime Java:")
     }
 
-    "fetch the version strings from microservices" in new WithApplication {
+    "fetch the version strings from microservices" in new TestWithApplication {
       wireMock.register(get(urlEqualTo("/version1")).willReturn(aResponse().withBody("version1-body")))
       wireMock.register(get(urlEqualTo("/version2")).willReturn(aResponse().withBody("version2-body")))
       wireMock.register(get(urlEqualTo("/version3")).willReturn(aResponse().withBody("version3-body")))
@@ -92,7 +92,7 @@ class VersionUnitSpec extends UnitSpec with BeforeAndAfterAll with WireMockFixtu
       versionString should include("version2-body")
     }
 
-    "fetch the version strings from not existing url" in new WithApplication {
+    "fetch the version strings from not existing url" in new TestWithApplication {
       val versionController = new Version("http://localh:36234/test", "http://localh:36234/test2")
       val versionString = contentAsString(versionController.version(FakeRequest()))
 
@@ -101,7 +101,7 @@ class VersionUnitSpec extends UnitSpec with BeforeAndAfterAll with WireMockFixtu
       versionString should include("NettyConnectListener")
     }
 
-    "fetch the version sting from a non parsing url" in new WithApplication {
+    "fetch the version sting from a non parsing url" in new TestWithApplication {
       val versionController = new Version("not parsing url 1", "not parsing url 2")
       val versionString = contentAsString(versionController.version(FakeRequest()))
 

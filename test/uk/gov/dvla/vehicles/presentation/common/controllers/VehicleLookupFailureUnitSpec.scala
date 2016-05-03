@@ -1,21 +1,16 @@
 package uk.gov.dvla.vehicles.presentation.common.controllers
 
+import play.api.test.FakeRequest
 import play.api.test.Helpers.OK
-import play.api.test.{FakeRequest}
-import uk.gov.dvla.vehicles.presentation.common.{WithApplication, UnitSpec}
+import uk.gov.dvla.vehicles.presentation.common
+import common.{TestWithApplication, UnitSpec}
+import common.clientsidesession.{ClearTextClientSideSessionFactory, NoCookieFlags}
+import common.model.CacheKeyPrefix
+import common.testhelpers.CookieFactoryForUnitSpecs.{bruteForcePreventionCookie, vehicleLookupFormModel, vehicleLookupResponseCode}
+
 import scala.concurrent.Await
 import scala.concurrent.duration.DurationInt
 import scala.language.postfixOps
-import uk.gov.dvla.vehicles.presentation.common
-import common.clientsidesession.ClearTextClientSideSessionFactory
-import common.clientsidesession.CookieImplicits.RichResult
-import common.clientsidesession.NoCookieFlags
-import common.model.CacheKeyPrefix
-import common.testhelpers.CookieHelper
-import common.testhelpers.CookieFactoryForUnitSpecs.bruteForcePreventionCookie
-import common.testhelpers.CookieFactoryForUnitSpecs.vehicleLookupFormModel
-import common.testhelpers.CookieFactoryForUnitSpecs.vehicleLookupResponseCode
-import common.UnitSpec
 
 class VehicleLookupFailureUnitSpec extends UnitSpec {
 
@@ -28,7 +23,7 @@ class VehicleLookupFailureUnitSpec extends UnitSpec {
   import VehicleLookupFailureTesting._
 
   "present" should {
-    "display the page" in new WithApplication {
+    "display the page" in new TestWithApplication {
       val vehicleLookupFailure = controller
       val request = FakeRequest()
         .withCookies(bruteForcePreventionCookie())
@@ -41,7 +36,7 @@ class VehicleLookupFailureUnitSpec extends UnitSpec {
 
     }
 
-    "handle when the brute force prevention cookie is missing" in new WithApplication {
+    "handle when the brute force prevention cookie is missing" in new TestWithApplication {
       val vehicleLookupFailure = controller
       val request = FakeRequest()
         .withCookies(vehicleLookupFormModel())
@@ -50,7 +45,7 @@ class VehicleLookupFailureUnitSpec extends UnitSpec {
       result should equal(missingPresentCookieDataTestResult)
     }
 
-    "handle when the vehicle lookup form model cookie is missing" in new WithApplication {
+    "handle when the vehicle lookup form model cookie is missing" in new TestWithApplication {
       val vehicleLookupFailure = controller
       val request = FakeRequest()
         .withCookies(bruteForcePreventionCookie())
@@ -62,7 +57,7 @@ class VehicleLookupFailureUnitSpec extends UnitSpec {
   }
 
   "submit" should {
-    "display the page" in new WithApplication {
+    "display the page" in new TestWithApplication {
       val vehicleLookupFailure = controller
       val request = FakeRequest()
         .withCookies(vehicleLookupFormModel())
@@ -70,7 +65,7 @@ class VehicleLookupFailureUnitSpec extends UnitSpec {
       result should equal(submitTestResult)
     }
 
-    "handle when the cookie data is missing" in new WithApplication {
+    "handle when the cookie data is missing" in new TestWithApplication {
       val vehicleLookupFailure = controller
       val result = Await.result(vehicleLookupFailure.submit(FakeRequest()), 5 seconds)
       result should equal(missingSubmitCookieDataTestResult)
