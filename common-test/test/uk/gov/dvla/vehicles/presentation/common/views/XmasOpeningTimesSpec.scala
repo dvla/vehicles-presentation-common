@@ -5,7 +5,7 @@ import com.tzavellas.sse.guice.ScalaModule
 import org.joda.time.Instant
 import org.scalatest.selenium.WebBrowser.go
 import org.scalatest.selenium.WebBrowser.pageTitle
-import uk.gov.dvla.vehicles.presentation.common.composition.{TestComposition, CommonTestGlobal, TestHarness}
+import uk.gov.dvla.vehicles.presentation.common.composition.{TestComposition, CommonTestGlobalSettings, TestHarness}
 import uk.gov.dvla.vehicles.presentation.common.helpers.UiSpec
 import uk.gov.dvla.vehicles.presentation.common.pages.XmasOpeningTimesPage
 import uk.gov.dvla.vehicles.presentation.common.services.DateService
@@ -41,13 +41,13 @@ class XmasOpeningTimesSpec extends UiSpec with TestHarness {
 
   "Xmas opening times link" should {
     "be on a page with the correct title" in
-      new WebBrowserForSelenium(LightFakeApplication(new TestCommonTestGlobalWithMockDate(newYear))) {
+      new WebBrowserForSelenium(LightFakeApplication(new CommonTestGlobalSettingsWithMockDate(newYear))) {
         go to XmasOpeningTimesPage.instance
         pageTitle should equal(XmasOpeningTimesPage.instance.title)
       }
 
     "be displayed within the correct time frame" in
-      new WebBrowserForSelenium(LightFakeApplication(new TestCommonTestGlobalWithMockDate(newYear))) {
+      new WebBrowserForSelenium(LightFakeApplication(new CommonTestGlobalSettingsWithMockDate(newYear))) {
         go to XmasOpeningTimesPage.instance
 
         val link1 = XmasOpeningTimesPage.instance.link
@@ -56,7 +56,7 @@ class XmasOpeningTimesSpec extends UiSpec with TestHarness {
     }
 
     "not be displayed before" in
-      new WebBrowserForSelenium(LightFakeApplication(new TestCommonTestGlobalWithMockDate(beforeDisplayDate))) {
+      new WebBrowserForSelenium(LightFakeApplication(new CommonTestGlobalSettingsWithMockDate(beforeDisplayDate))) {
         go to XmasOpeningTimesPage.instance
 
         val link1 = XmasOpeningTimesPage.instance.xmasOpeningTimesLink
@@ -64,7 +64,7 @@ class XmasOpeningTimesSpec extends UiSpec with TestHarness {
       }
 
     "not be displayed after" in
-      new WebBrowserForSelenium(LightFakeApplication(new TestCommonTestGlobalWithMockDate(afterDisplayDate))) {
+      new WebBrowserForSelenium(LightFakeApplication(new CommonTestGlobalSettingsWithMockDate(afterDisplayDate))) {
         go to XmasOpeningTimesPage.instance
 
         val link1 = XmasOpeningTimesPage.instance.xmasOpeningTimesLink
@@ -72,7 +72,7 @@ class XmasOpeningTimesSpec extends UiSpec with TestHarness {
       }
   }
 
-  private class TestCommonTestGlobalWithMockDate(dateService: DateService) extends CommonTestGlobal with TestComposition {
+  private class CommonTestGlobalSettingsWithMockDate(dateService: DateService) extends CommonTestGlobalSettings with TestComposition {
 
     override lazy val injector: Injector = Guice.createInjector(testModule(new ScalaModule {
       override def configure(): Unit = { bind[DateService].toInstance(dateService) }

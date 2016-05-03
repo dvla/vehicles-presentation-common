@@ -1,6 +1,6 @@
 package uk.gov.dvla.vehicles.presentation.common.controllers
 
-import uk.gov.dvla.vehicles.presentation.common.composition.WithTestApplication
+import uk.gov.dvla.vehicles.presentation.common.helpers.TestWithApplication
 import uk.gov.dvla.vehicles.presentation.common.helpers.UnitSpec
 import uk.gov.dvla.vehicles.presentation.common.mappings.BusinessName.MaxLength
 import uk.gov.dvla.vehicles.presentation.common.models
@@ -10,14 +10,14 @@ import models.BusinessNameModel.Form.BusinessNameId
 final class BusinessNameFormSpec extends UnitSpec {
 
   "form" should {
-    "accept if form is valid with business name field filled in" in new WithTestApplication {
+    "accept if form is valid with business name field filled in" in new TestWithApplication {
       val model = formWithValidDefaults().get
       model.name should equal(BusinessNameValid.toUpperCase)
     }
   }
 
   "dealerName" should {
-    "reject if business name is blank" in new WithTestApplication {
+    "reject if business name is blank" in new TestWithApplication {
       // IMPORTANT: The messages.en being returned by the form validation are overridden by the Controller
       val errors = formWithValidDefaults(businessName = "").errors
       errors should have length 3
@@ -29,11 +29,11 @@ final class BusinessNameFormSpec extends UnitSpec {
       errors(2).message should equal("error.validBusinessName")
     }
 
-    "reject if business name is less than minimum length" in new WithTestApplication {
+    "reject if business name is less than minimum length" in new TestWithApplication {
       formWithValidDefaults(businessName = "A").errors should have length 1
     }
 
-    "reject if business name is more than the maximum length" in new WithTestApplication {
+    "reject if business name is more than the maximum length" in new TestWithApplication {
       formWithValidDefaults(businessName = "A" * MaxLength + 1).errors should have length 1
     }
   }

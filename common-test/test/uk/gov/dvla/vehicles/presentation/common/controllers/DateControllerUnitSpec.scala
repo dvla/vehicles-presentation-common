@@ -1,6 +1,6 @@
 package uk.gov.dvla.vehicles.presentation.common.controllers
 
-import uk.gov.dvla.vehicles.presentation.common.composition.WithTestApplication
+import uk.gov.dvla.vehicles.presentation.common.helpers.TestWithApplication
 import uk.gov.dvla.vehicles.presentation.common.helpers.UnitSpec
 import uk.gov.dvla.vehicles.presentation.common.models
 import models.DateModel
@@ -19,14 +19,14 @@ class DateControllerUnitSpec extends UnitSpec {
   }
 
   "Private keeper detail complete controller" should {
-    "present an empty form" in new WithTestApplication {
+    "present an empty form" in new TestWithApplication {
       val request = FakeRequest()
       whenReady(dateController.present(request)) {
         r => r.header.status should equal(OK)
       }
     }
 
-    "present a full form" in new WithTestApplication {
+    "present a full form" in new TestWithApplication {
       val value = DateModel(Some(new LocalDate(1234, 12, 24)), new LocalDate(1234, 12, 24))
 
       val request = FakeRequest()
