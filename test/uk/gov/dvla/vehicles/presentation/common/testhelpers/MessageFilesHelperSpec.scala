@@ -3,12 +3,10 @@ package uk.gov.dvla.vehicles.presentation.common.testhelpers
 import uk.gov.dvla.vehicles.presentation.common.UnitSpec
 import MessageFilesSpecHelper.messagesFilesHelper
 
-final class MessagesFilesHelperSpec extends UnitSpec with UnitTestHelper {
+final class MessageFilesHelperSpec extends UnitSpec with UnitTestHelper {
 
   val TESTFILE1 = "test/resources/messagesTest1.txt"
   val TESTFILE2 = "test/resources/messagesTest2.txt"
-
-  //val messageFilesHelper: MessageFilesSpecHelper = new MessageFilesSpecHelper
 
   "Message files" should {
     val file1Keys = messagesFilesHelper.extractMessageKeys(TESTFILE1)
