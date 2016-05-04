@@ -1,0 +1,13 @@
+# this is a test file that mimics a Play message file
+# one blank
+test.one =
+# one non-blank
+test.two = Hello
+# both non-blank
+test.three = Goodbye
+# both blank
+test.four =
+# no equals
+test.five
+# test.six not present in other text file
+test.six

@@ -1,0 +1,6 @@
+# this is a test file that mimics a Play message file
+test.one = Hello
+test.two =
+test.three = Goodbye
+test.four =
+test.five
