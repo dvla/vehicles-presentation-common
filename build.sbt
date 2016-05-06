@@ -44,7 +44,6 @@ addCommandAlias("common-tests-run", ";project commonTests;run;project root")
 sources in doc in Compile := List()
 
 libraryDependencies ++= Seq(
-  cache,
   ws,
   "commons-codec" % "commons-codec" % "1.9" withSources() withJavadoc(),
   "com.google.inject" % "guice" % "4.0-beta4" withSources() withJavadoc(),

@@ -90,21 +90,6 @@ dateOfBirth.day = Day
 dateOfBirth.month = Month
 dateOfBirth.year = Year
 
-#v5cRegistrationNumber test page (uses valtechInputText)
-v5cRegistrationNumber.pageTitle = V5C Registration Number
-v5cRegistrationNumber.label = V5C registration certificate (logbook)
-v5cRegistrationNumber.button = Submit
-v5cRegistrationNumber = Registration number
-v5cRegistrationNumber.v5c = Tooltip Heading for V5C registration certificate (logbook)
-error.restricted.validVrnOnly = Must be as shown on the latest V5C registration certificate (logbook)
-
-#validateHtml5ClientSide test page (uses valtechInputText, hintTextSnippet, optionalToggle, valtechInputDigits, email widgets)
-validateHtml5ClientSide.pageTitle = Validate Html5 Client Side
-validateHtml5ClientSide.label = Validate label
-validateHtml5ClientSide.hint = Validate hint
-validateHtml5ClientSide.v5cRegistrationNumber.hint = V5C hint
-validateHtml5ClientSide.v5cRegistrationNumber.label = V5C label
-
 #valtechInputDigits widget
 valtechInputDigits.pageTitle = Valtech input digits
 valtechInputDigits.label = Mileage

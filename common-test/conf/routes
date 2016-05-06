@@ -33,9 +33,6 @@ POST    /valtech-select                 @uk.gov.dvla.vehicles.presentation.commo
 GET     /postcode                       @uk.gov.dvla.vehicles.presentation.common.controllers.PostcodeController.present
 POST    /postcode                       @uk.gov.dvla.vehicles.presentation.common.controllers.PostcodeController.submit
 
-GET     /v5c-registration-number        @uk.gov.dvla.vehicles.presentation.common.controllers.V5cRegistrationNumberController.present
-POST    /v5c-registration-number        @uk.gov.dvla.vehicles.presentation.common.controllers.V5cRegistrationNumberController.submit
-
 GET     /valtech-input-digits           @uk.gov.dvla.vehicles.presentation.common.controllers.ValtechInputDigitsController.present
 POST    /valtech-input-digits           @uk.gov.dvla.vehicles.presentation.common.controllers.ValtechInputDigitsController.submit
 
@@ -112,5 +109,3 @@ GET     /xmas-opening-times             @uk.gov.dvla.vehicles.presentation.commo
 GET     /tandc                          @uk.gov.dvla.vehicles.presentation.common.controllers.TermsAndConditionsController.present
 GET     /privacy-policy                 @uk.gov.dvla.vehicles.presentation.common.controllers.PrivacyPolicyController.present
 
-GET     /validateHtml5ClientSide        @uk.gov.dvla.vehicles.presentation.common.controllers.ValidateHTML5ClientSide.present
-POST    /validateHtml5ClientSide        @uk.gov.dvla.vehicles.presentation.common.controllers.ValidateHTML5ClientSide.submit
