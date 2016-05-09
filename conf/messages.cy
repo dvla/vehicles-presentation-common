@@ -1,7 +1,7 @@
 # footer
 footer.builtbyintro = Adeiladwyd gan
 footer.builtby = Asiantaeth Trwyddedu Gyrwyr a Cherbydau
-footer.text1 = Mae''r holl gynnwys ar gael ar delerau''r
+footer.text1 = Mae’r holl gynnwys ar gael ar delerau’r
 footer.link = Drwydded Llywodraeth Agored v3.0
 footer.text2 = , ac eithrio lle nodir yn wahanol
 
@@ -21,31 +21,31 @@ formSteps.exitbutton = Gorffen
 # Cookie Policy
 footer.cookies = Cwcis
 cookie-policy-title = Cwcis
-cookie-policy-p1 = Ffeiliau bach (a elwir yn 'cwcis') yn cael eu rhoi ar eich cyfrifiadur i gasglu gwybodaeth am sut rydych yn pori'r safle.
+cookie-policy-p1 = Ffeiliau bach (a elwir yn ’cwcis’) yn cael eu rhoi ar eich cyfrifiadur i gasglu gwybodaeth am sut rydych yn pori’r safle.
 cookie-policy-p2 = Mae cwcis yn cael eu defnyddio i:
-cookie-policy-p3 = mesur sut yr ydych yn defnyddio'r wefan fel y gellir ei diweddaru a'i gwella yn seiliedig ar eich anghenion
-cookie-policy-p4 = cofio'r hysbysiadau rydych wedi ei weld fel nad ydych yn ei ddangos eto
-cookie-policy-p5 = Nid yw cwcis GOV.UK yn cael eu defnyddio i nodi chi'n bersonol.
+cookie-policy-p3 = mesur sut yr ydych yn defnyddio’r wefan fel y gellir ei diweddaru a’i gwella yn seiliedig ar eich anghenion
+cookie-policy-p4 = cofio’r hysbysiadau rydych wedi ei weld fel nad ydych yn ei ddangos eto
+cookie-policy-p5 = Nid yw cwcis GOV.UK yn cael eu defnyddio i nodi chi’n bersonol.
 cookie-policy-p6 = Fel arfer, byddwch yn gweld neges ar y safle cyn cwci yn cael ei storio ar eich cyfrifiadur.
 cookie-policy-p7 = Cael gwybod mwy am
 cookie-policy-p8 = sut i reoli cwcis
 cookie-policy-p9 = Sut y cwcis yn cael eu defnyddio
-cookie-policy.table.name = enw'r cwci
+cookie-policy.table.name = enw’r cwci
 cookie-policy.table.purpose = diben cwci
 cookie-policy.table.expires = yn dod i ben ar
-cookie-policy-p10 = Mae'r cwcis canlynol yn cael eu defnyddio:
+cookie-policy-p10 = Mae’r cwcis canlynol yn cael eu defnyddio:
 
-cookie-policy.name.google_analytics = Mesur defnydd o'r wefan (Google Analytics)
-cookie-policy.name.google_analytics.p1 = Meddalwedd Google Analytics yn casglu gwybodaeth am sut y byddwch yn defnyddio'r safle. Gwneir hyn er mwyn helpu i sicrhau bod y safle yn diwallu anghenion ei defnyddwyr ac i helpu i wneud gwelliannau.
-cookie-policy.name.google_analytics.p2 = Mae Google Analytics yn storio gwybodaeth am: <ul> <li> y tudalennau rydych yn ymweld - pa mor hir rydych yn ei wario ar bob tudalen </ li> <li> sut yr ydych yn cyrraedd y safle </ li> <li> yr hyn yr ydych yn clicio ar wrth i chi chi'n ymweld â'r safle </ li> </ ul>
+cookie-policy.name.google_analytics = Mesur defnydd o’r wefan (Google Analytics)
+cookie-policy.name.google_analytics.p1 = Meddalwedd Google Analytics yn casglu gwybodaeth am sut y byddwch yn defnyddio’r safle. Gwneir hyn er mwyn helpu i sicrhau bod y safle yn diwallu anghenion ei defnyddwyr ac i helpu i wneud gwelliannau.
+cookie-policy.name.google_analytics.p2 = Mae Google Analytics yn storio gwybodaeth am: <ul> <li> y tudalennau rydych yn ymweld - pa mor hir rydych yn ei wario ar bob tudalen </ li> <li> sut yr ydych yn cyrraedd y safle </ li> <li> yr hyn yr ydych yn clicio ar wrth i chi chi’n ymweld â’r safle </ li> </ ul>
 cookie-policy.name.google_analytics.p3 = Nid ydym yn casglu nac yn cadw eich gwybodaeth bersonol (ee eich enw neu gyfeiriad) felly ni ellir wybodaeth hon yn cael ei defnyddio i nodi pwy ydych chi.
 cookie-policy.name.google_analytics.p4 = Nid yw Google yn cael defnyddio neu rannu ein data analytics. Gallwch <a href="https://tools.google.com/dlpage/gaoptout" target="_blank" data-sso="false">optio allan o cwcis Google Analytics</a>
-cookie-policy.cookies.google_analytics.utma = Penderfynu ar y nifer o ymwelwyr unigryw i'r safle
+cookie-policy.cookies.google_analytics.utma = Penderfynu ar y nifer o ymwelwyr unigryw i’r safle
 cookie-policy.cookies.google_analytics.utmb = Mae hyn yn gweithio gyda _utmc i gyfrifo hyd cyfartalog yr amser y byddwch yn ei dreulio ar ein safle
 cookie-policy.cookies.google_analytics.utmc = Mae hyn yn gweithio gyda _utmb i gyfrifo pan fyddwch yn cau eich porwr
 cookie-policy.cookies.google_analytics.utmz = Mae hyn yn darparu gwybodaeth am sut yr ydych yn cyrraedd y safle (ee o wefan arall neu beiriant chwilio)
 cookie-policy.cookies.google_analytics.ga_nextpage_params = Mae hyn yn storfeydd data i gael ei anfon at Google ar y dudalen nesaf byddwch yn gofyn
-cookie-policy.cookies.google_analytics.GDS_successEvents = Mae'r rhain yn ein helpu i nodi sut yr ydych yn defnyddio GOV.UK fel y gallwn wneud y safle yn well
+cookie-policy.cookies.google_analytics.GDS_successEvents = Mae’r rhain yn ein helpu i nodi sut yr ydych yn defnyddio GOV.UK fel y gallwn wneud y safle yn well
 
 cookie-policy.name.sessions = Sesiwn
 cookie-policy.name.sessions.p1 =  Mae cwci yn cael ei osod i gofnodi eich gweithgaredd sesiwn.
@@ -62,11 +62,11 @@ cookie-policy.name.introductory_message.p4 =
 cookie-policy.cookies.introductory_message.seen_cookie_message = Yn Achub neges i roi gwybod i ni eich bod wedi gweld ein neges cwci
 
 cookie-policy.name.language = Yr Iaith Gymraeg
-cookie-policy.name.language.p1 = Rydym yn logio cwci er mwyn cofio'r iaith a ddewiswyd gennych fel nad oes angen i chi ei newid y tro nesaf y byddwch yn ymweld.
+cookie-policy.name.language.p1 = Rydym yn logio cwci er mwyn cofio’r iaith a ddewiswyd gennych fel nad oes angen i chi ei newid y tro nesaf y byddwch yn ymweld.
 cookie-policy.name.language.p2 =
 cookie-policy.name.language.p3 =
 cookie-policy.name.language.p4 =
-cookie-policy.cookies.language.PLAY_LANG = Gosodwch i gofio'ch dewis iaith
+cookie-policy.cookies.language.PLAY_LANG = Gosodwch i gofio’ch dewis iaith
 
 cookie-policy.expires.1month = 1 mis
 cookie-policy.expires.4months= 4 mis
@@ -78,8 +78,8 @@ cookie-policy.expires.inactivity = Ar ôl 15 munud o anweithgarwch neu pan fyddw
 cookie-policy.expires.close = Pan fyddwch yn cau eich porwr
 
 #microServiceError widget
-micro_service_error.title = Mae''n ddrwg gennym
-micro_service_error.text1 = Nid yw''r gwasanaeth ar gael dros dro.
+micro_service_error.title = Mae’n ddrwg gennym
+micro_service_error.text1 = Nid yw’r gwasanaeth ar gael dros dro.
 micro_service_error.text2 =
 micro_service_error.back.button = Yn ôl
 micro_service_error.exit.button = Allan
@@ -90,9 +90,9 @@ xmas-opening-times.text = View Christmas opening times
 # feedback
 common_feedback.title = Rhoi adborth
 common_feedback.message = Peidiwch â chynnwys unrhyw wybodaeth bersonol neu ariannol.
-common_feedback.warning = Mae'r dudalen hon ar gyfer adborth yn unig ac ni allwn gynnig ateb personol i'ch ebost
-common_feedback.label = Beth aeth o''i le, os unrhyw beth? Beth aeth yn dda? Sut y gallem wella''r gwasanaeth hwn?
-common_feedback.charactersRemaining = cymeriadau sy''n weddill
+common_feedback.warning = Mae’r dudalen hon ar gyfer adborth yn unig ac ni allwn gynnig ateb personol i’ch ebost
+common_feedback.label = Beth aeth o’i le, os unrhyw beth? Beth aeth yn dda? Sut y gallem wella’r gwasanaeth hwn?
+common_feedback.charactersRemaining = cymeriadau sy’n weddill
 common_feedback.submit_button = Cyflwyno adborth
 common_feedback.thankyou = Diolch i chi am eich adborth
 common_feedback.webChat.option = If you were unable to complete your transaction successfully and were offered Webchat did you use this service?
@@ -101,35 +101,35 @@ common_feedback.webChat.option.no = Na
 common_feedback.webChat.label = What went well? Did anything go wrong? How could we improve the Webchat experience?
 common_feedback.name = Enw
 common_feedback.email = Ebost
-common_feedback.feedbackTitle = Os gwelwch yn dda gadewch eich enw a''ch cyfeiriad ebost rhag ofn y bydd angen i ni gysylltu â chi
+common_feedback.feedbackTitle = Os gwelwch yn dda gadewch eich enw a’ch cyfeiriad ebost rhag ofn y bydd angen i ni gysylltu â chi
 error.feedback = Ni all fod yn fwy na 500 o adborth cymeriadau
 error.feedbackName = Ni all Enw fod yn fwy na 60 o gymeriadau
 feedbackEmail = Ebost
 feedbackName = Enw
 feedback = Ffurflen adborth
 feedbackWebChat = Webchat
-feedback_return = ◄ Dychwelyd i''ch cais
-feedback_close = Caewch y dudalen hon i ddychwelyd i''ch cais
+feedback_return = ◄ Dychwelyd i’ch cais
+feedback_close = Caewch y dudalen hon i ddychwelyd i’ch cais
 
 # Terms and Conditions
 tandc-title = Amodau a Thelerau
 footer.tandc = Amodau a Thelerau
 
 tandc.tandc.header = Amodau a Thelerau
-tandc.tandc.p1 = Mae’r Amodau a Thelerau hyn yn rheoli’ch defnydd o wefan Rheoli Cerbydau a Chofrestru Personol Ar-lein y DVLA a’ch perthynas gyda’r wefan hon. Byddwch cystal â'u darllen yn ofalus gan eu bod yn effeithio ar eich hawliau a rhwymedigaethau dan y gyfraith. Os nad ydych yn cytuno â’r Amodau a Thelerau hyn, peidiwch â defnyddio’r wefan hon.
-tandc.use_of_website.header = Defnydd o'r wefan hon
-tandc.use_of_website.p1 = Mae'r DVLA yn gwneud pob ymdrech i sicrhau bod yr wybodaeth a gyhoeddir ar y wefan hon yn gywir. Fodd bynnag, ni all y DVLA dderbyn unrhyw atebolrwydd ynghylch y cywirdeb na'r cynnwys. Mae ymwelwyr sy'n dibynnu ar yr wybodaeth hon yn gwneud hynny ar eu menter eu hun.
+tandc.tandc.p1 = Mae’r Amodau a Thelerau hyn yn rheoli’ch defnydd o wefan Rheoli Cerbydau a Chofrestru Personol Ar-lein y DVLA a’ch perthynas gyda’r wefan hon. Byddwch cystal â’u darllen yn ofalus gan eu bod yn effeithio ar eich hawliau a rhwymedigaethau dan y gyfraith. Os nad ydych yn cytuno â’r Amodau a Thelerau hyn, peidiwch â defnyddio’r wefan hon.
+tandc.use_of_website.header = Defnydd o’r wefan hon
+tandc.use_of_website.p1 = Mae’r DVLA yn gwneud pob ymdrech i sicrhau bod yr wybodaeth a gyhoeddir ar y wefan hon yn gywir. Fodd bynnag, ni all y DVLA dderbyn unrhyw atebolrwydd ynghylch y cywirdeb na’r cynnwys. Mae ymwelwyr sy’n dibynnu ar yr wybodaeth hon yn gwneud hynny ar eu menter eu hun.
 tandc.use_of_website.p2 = Mae’r gwasanaeth hwn ar gael o ddydd Llun i ddydd Sadwrn, 8am i 6pm.  Ni allwn warantu y bydd y gwasanaeth yn rhydd rhag diffygion. Os bydd diffyg yn digwydd byddwn yn ceisio cywiro’r diffyg hwnnw cyn gynted ag y byddo hynny’n rhesymol bosibl.
 tandc.hyperlinking.header = Hypergysylltu
-tandc.hyperlinking.p1 = Mae’n bolisi gennym gael caniatâd i ddolennu i wefannau eraill. Nid yw'r DVLA yn gyfrifol am gynnwys na dibynadwyedd y gwefannau cysylltiedig ac nid yw o angenrheidrwydd yn cymeradwyo'r safbwyntiau a fynegir arnynt. Ni ddylid tybio bod rhestriadau'n golygu cymeradwyaeth o unrhyw fath. Ni allwn warantu y bydd y cysylltiadau/dolenni hyn yn gweithio drwy’r amser ac nid oes gennym unrhyw reolaeth dros argaeledd y tudalennau cysylltiedig.
+tandc.hyperlinking.p1 = Mae’n bolisi gennym gael caniatâd i ddolennu i wefannau eraill. Nid yw’r DVLA yn gyfrifol am gynnwys na dibynadwyedd y gwefannau cysylltiedig ac nid yw o angenrheidrwydd yn cymeradwyo’r safbwyntiau a fynegir arnynt. Ni ddylid tybio bod rhestriadau’n golygu cymeradwyaeth o unrhyw fath. Ni allwn warantu y bydd y cysylltiadau/dolenni hyn yn gweithio drwy’r amser ac nid oes gennym unrhyw reolaeth dros argaeledd y tudalennau cysylltiedig.
 tandc.payment_cards.header = Cardiau Talu
-tandc.payment_cards.p1 = Derbynnir cardiau debyd a chredyd fel taliadau ar y wefan hon. Trosglwyddir gwybodaeth cardiau yn unol â'n datganiad diogeledd ac fe'i delir yn unol â'n datganiad preifatrwydd.
+tandc.payment_cards.p1 = Derbynnir cardiau debyd a chredyd fel taliadau ar y wefan hon. Trosglwyddir gwybodaeth cardiau yn unol â’n datganiad diogeledd ac fe’i delir yn unol â’n datganiad preifatrwydd.
 tandc.data_protection_act.header = Deddf Diogelu Data 1998
 tandc.data_protection_act.p1 = Mae’n ofynnol dan y Ddeddf hon ein bod yn eich hysbysu y gall ein cadarnhad dros e-bost gynnwys gwybodaeth amdanoch (gelwir hyn yn ‘ddata personol’ yn y Ddeddf) a’n bod ni yn ‘reolwr data’ i dibenion y Ddeddf.
 tandc.data_protection_act.p2 = Mae’n drosedd dan adran 55 o Ddeddf Diogelu Data 1998 i gaffael neu ddatgelu’n anghyfreithlon (neu gaffael ddatgeliad o) ddata personol o Reolwyr Data heb ganiatâd yr unigolyn sy’n destun y data hwnnw.  Mae’n drosedd hefyd gwerthu data personol a gafwyd yn anghyfreithlon.  Cosbir euogfarnau am droseddau mewn Llys Ynadon drwy ddirwy o hyd at £5000 neu gan ddirwy anghyfyngedig yn Llys y Goron.
 tandc.data_protection_act.p3 = Byddwn yn prosesu unrhyw adborth a roddwch i ni am y wefan hon. Byddwn ond yn defnyddio’r wybodaeth hon i wella’r wefan hon.
 tandc.data_protection_act.p4 = Efallai y byddwn yn datgelu unrhyw ddata sydd gennym i unrhyw berson neu sefydliad i’r dibenion y casglwyd ef neu pan fydd y Ddeddf yn caniatáu datgeliad. Fel gwrthrych data, mae gennych yr hawl i ofyn am gopi o’r data a gofyn am i unrhyw anghywirdebau gael eu cywiro.
-tandc.site_usage_information.header = Gwybodaeth am Ddefnyddio'r Safle
+tandc.site_usage_information.header = Gwybodaeth am Ddefnyddio’r Safle
 tandc.site_usage_information.p1 = Mae ffeiliau log yn caniatáu i ni gofnodi defnydd ymwelwyr i’r wefan hon, a ddefnyddir gennym i wella llunwedd y wefan a’r wybodaeth arni, yn seiliedig ar y modd y bydd ymwelwyr yn ei defnyddio. Nid yw ffeiliau log yn cynnwys unrhyw wybodaeth bersonol amdanoch chi.
 tandc.online_cookies_policies.header = Polisi Cwcis Ar-lein
 tandc.online_cookies_policies.p1 = Pan fyddwn yn darparu gwasanaethau, rydym am eu gwneud yn rhwydd, defnyddiol a dibynadwy. Pan gyflenwir gwasanaethau ar y Rhyngrwyd, bydd hyn weithiau yn rhoi ychydig o wybodaeth ar eich dyfais chi, er enghraifft, cyfrifiadur neu ffôn symudol. Bydd y rhain yn cynnwys ffeiliau a elwir yn cwcis. Ni ellir eu defnyddio i’ch adnabod chi yn bersonol.
@@ -140,7 +140,7 @@ tandc.disclaimer.header = Ymwadiad
 tandc.disclaimer.p1 = Nid ydym yn derbyn atebolrwydd am golledion neu ddifrod a achoswyd gan ddefnyddwyr y gwasanaeth hwn, p’un a yw’n uniongyrchol, anuniongyrchol neu’n ôl-ddilynol, p’un a achoswyd gan gamwedd, torri cytundeb neu fel arall, mewn cysylltiad â’n safle, ei ddefnydd, anallu i ddefnyddio, neu ganlyniadau defnydd o’n safle, unrhyw wefannau sy’n gysylltiedig ag ef ac unrhyw ddeunyddiau a gyhoeddir arno.
 tandc.disclaimer.p2 = Mae hyn yn cynnwys colli:
 tandc.disclaimer.list1 = incwm neu refeniw,busnes,elw neu gytundebau,cynilion a ragwelir,data,ewyllys da,eiddo diriaethol,gwastraffu amser rheoli neu swyddfa
-tandc.disclaimer.p3 = Mae gwefannau neu dudalennau o’r we sydd wedi eu cysylltu â’r wefan hon er gwybodaeth yn unig. Nid yw’r DVLA yn rheoli, ardystio, noddi neu gymeradwyo cynnwys ar wefannau neu dudalennau o’r fath, ac eithrio ble mae wedi ei fynegi’n benodol fel arall. Nid yw’r DVLA yn derbyn cyfrifoldeb nac atebolrwydd am unrhyw golledion na chosbau sy’n codi o ganlyniad i’ch defnydd o unrhyw ddolenni neu ddibyniaeth ar gynnwys unrhyw wefan neu dudalennau gwe y mae'r wefan hon yn gysylltiedig â nhw.
+tandc.disclaimer.p3 = Mae gwefannau neu dudalennau o’r we sydd wedi eu cysylltu â’r wefan hon er gwybodaeth yn unig. Nid yw’r DVLA yn rheoli, ardystio, noddi neu gymeradwyo cynnwys ar wefannau neu dudalennau o’r fath, ac eithrio ble mae wedi ei fynegi’n benodol fel arall. Nid yw’r DVLA yn derbyn cyfrifoldeb nac atebolrwydd am unrhyw golledion na chosbau sy’n codi o ganlyniad i’ch defnydd o unrhyw ddolenni neu ddibyniaeth ar gynnwys unrhyw wefan neu dudalennau gwe y mae’r wefan hon yn gysylltiedig â nhw.
 tandc.disclaimer.p4 = Ni chewch fframio na dolennu’r wefan hon i unrhyw wefan arall heb ganiatâd ysgrifenedig y DVLA.
 tandc.virus_protection.header = Diogelu rhag firysau
 tandc.virus_protection.p1 = Bydd y DVLA yn gwneud pob ymdrech i wirio a phrofi deunydd ar bob cam o’r cynhyrchu. Fodd bynnag, rhaid i chi gymryd eich rhagofalon eich hun i sicrhau nad yw’r broses a ddefnyddiwch i gael mynediad at y wefan hon yn cyflwyno perygl o firysau, cod cyfrifiadurol maleisus neu fathau eraill o ryngwyneb a allai ddifrodi eich system gyfrifiadurol eich hun.
@@ -149,13 +149,13 @@ tandc.virus_hacking_other_offences.header = Firysau, hacio a throseddau eraill
 tandc.virus_hacking_other_offences.p1 = Rhaid i chi beidio â chamddefnyddio’n safle drwy gyflwyno firysau, ceffylau pren Troea, mwydion, bomiau rhesymeg neu ddeunydd arall yn fwriadol sydd yn faleisus neu’n niweidiol yn dechnolegol. Rhaid i chi beidio â cheisio mynediad anawdurdodedig i’n safle, y gweinydd sy’n cadw ein safle neu unrhyw weinydd, cyfrifiadur neu gronfa ddata sy’n gysylltiedig â’n safle. Rhaid i chi beidio ag ymosod ar ein safle drwy ymosodiad atal gwasanaeth neu ymosodiad atal gwasanaeth a ddosbarthwyd.
 tandc.virus_hacking_other_offences.p2 = Wrth dramgwyddo’r ddarpariaeth hon, byddech yn troseddu dan Ddeddf Camddefnyddio Cyfrifiaduron 1990. Byddwn yn cyflwyno unrhyw dramgwyddo o’r fath i’r awdurdodau cyfreithiol perthnasol a byddwn yn cydweithredu â’r awdurdodau hynny drwy ddweud wrthynt pwy ydych chi.
 tandc.copyright_and_reproduction.header = Hawlfraint ac atgynhyrchu
-tandc.copyright_and_reproduction.p1 = Mae'r deunydd a gynhwysir ar y wefan hon yn ddarostyngedig i warchodaeth Hawlfraint y Goron oni nodir yn wahanol. Darllenwch y <a href="http://www.nationalarchives.gov.uk/information-management/re-using-public-sector-information/copyright/crown-copyright/">dudalen hawlfraint y Goron</a> am ragor o wybodaeth.
+tandc.copyright_and_reproduction.p1 = Mae’r deunydd a gynhwysir ar y wefan hon yn ddarostyngedig i warchodaeth Hawlfraint y Goron oni nodir yn wahanol. Darllenwch y <a href="http://www.nationalarchives.gov.uk/information-management/re-using-public-sector-information/copyright/crown-copyright/">dudalen hawlfraint y Goron</a> am ragor o wybodaeth.
 tandc.copyright_and_reproduction.p2 = Ni chaniateir i chi addasu na newid yr Wybodaeth nac unrhyw ran ohoni, ac eithrio ble rhoddir caniatâd penodol.
 tandc.copyright_and_reproduction.p3 = Mae’r enwau, delweddau a’r logos sy’n dynodi’r DVLA yn nodau perchnogol o’r DVLA. Ni chaniateir copïo ein logos a/neu logos unrhyw drydydd parti arall y ceir mynediad atynt drwy’r wefan hon heb ganiatâd gan berchennog perthnasol yr hawlfraint.
 tandc.changes.header = Newidiadau
 tandc.changes.p1 = Mae’r DVLA yn cadw’r hawl, yn ôl ei ddisgresiwn ei hun, i wneud newidiadau i unrhyw ran o’r wefan hon, yr wybodaeth neu’r telerau hyn. Os digwydd i’r DVLA newid y telerau hyn, bydd yn cyhoeddi manylion y newidiadau hyn ar ei wefan. Bydd unrhyw newidiadau’n effeithiol wrth eu cyhoeddi ar y wefan.
 tandc.amendments_to_tandc.header = Newidiadau i Amodau a Thelerau
-tandc.amendments_to_tandc.p1 = Efallai y byddwn yn diweddaru’r Amodau a Thelerau hyn o bryd i’w gilydd. Os byddwch yn dal i ddefnyddio'r wefan hon ar ôl y dyddiad y bydd newidiadau'n dod i rym, bydd eich defnydd o'r wefan yn arddangos eich bod yn cytuno i gael eich rhwymo gan yr Amodau a Thelerau newydd.
+tandc.amendments_to_tandc.p1 = Efallai y byddwn yn diweddaru’r Amodau a Thelerau hyn o bryd i’w gilydd. Os byddwch yn dal i ddefnyddio’r wefan hon ar ôl y dyddiad y bydd newidiadau’n dod i rym, bydd eich defnydd o’r wefan yn arddangos eich bod yn cytuno i gael eich rhwymo gan yr Amodau a Thelerau newydd.
 tandc.severability.header = Toradwyedd
 tandc.severability.p1 = Os bydd unrhyw un o’r amodau a thelerau hyn i’w hystyried yn annilys, yn anweithredol neu’n anghyfreithlon am unrhyw reswm, bydd yr amodau a thelerau sydd yn weddill yn parhau’n weithredol yn llwyr serch hynny.
 tandc.events_beyond_dvla_control.header = Digwyddiadau y tu hwnt i reolaeth y DVLA
