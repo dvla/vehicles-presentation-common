@@ -15,12 +15,13 @@ trait EnsureServiceOpenFilter extends Filter {
   protected val opening: Int
   protected val closing: Int
   protected val dateTimeZone: DateTimeZoneService
-  private def millisInMinute = 60 * 1000L
+  private final val MillisInMinute = 60 * 1000L
 
-  private def openingHourMillis = opening * millisInMinute
-  private def closingHourMillis = closing * millisInMinute
+  private def openingHourMillis = opening * MillisInMinute
+  private def closingHourMillis = closing * MillisInMinute
   protected val html: HtmlFormat.Appendable
-  protected val closedDays: List[Int] = List(7) // a list of closed days 1 to 7, Sunday by default
+  private final val Sunday = 7
+  protected val closedDays: List[Int] = List(Sunday) // The service is closed on Sunday
 
   protected def html(openingTime: String, closingTime: String): HtmlFormat.Appendable = html
 
@@ -30,8 +31,7 @@ trait EnsureServiceOpenFilter extends Filter {
     else nextFilter(requestHeader)
   }
 
-  // unable to mark private due to unit test
-  def serviceOpen(currentDateTime: DateTime = new DateTime(dateTimeZone.currentDateTimeZone)): Boolean = {
+  private[filters] def serviceOpen(currentDateTime: DateTime = new DateTime(dateTimeZone.currentDateTimeZone)): Boolean = {
     val result: Boolean = isOpenToday(currentDateTime) && isDuringOpeningHours(currentDateTime.getMillisOfDay)
     Logger.trace(s"service opening times: $openingHourMillis" + s" : $closingHourMillis")
     Logger.trace(s"serviceOpen? $result")
