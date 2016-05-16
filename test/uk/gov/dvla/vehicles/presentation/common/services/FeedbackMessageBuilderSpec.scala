@@ -13,7 +13,7 @@ class FeedbackMessageBuilderSpec extends UnitSpec {
 
   "Message builder" should {
     "contain correct details" in new TestWithApplication {
-      val feedbackForm = FeedbackForm(feedback = "Feedback text", webChat = None, name = Some(name), email = Some(email))
+      val feedbackForm = FeedbackForm(feedback = "Feedback text", name = Some(name), email = Some(email))
       val message: Contents = FeedbackMessageBuilder.buildWith(feedbackForm, trackingId)
       message.htmlMessage should include(s"<p>trackingId : $trackingId</p>")
       message.htmlMessage should include(s"received from: $name")
@@ -24,7 +24,7 @@ class FeedbackMessageBuilderSpec extends UnitSpec {
     }
 
     "handle no name or email address" in new TestWithApplication() {
-      val feedbackForm = FeedbackForm(feedback = "Feedback text", webChat = None, name = None, email = None)
+      val feedbackForm = FeedbackForm(feedback = "Feedback text", name = None, email = None)
       val message: Contents = FeedbackMessageBuilder.buildWith(feedbackForm, trackingId)
       message.htmlMessage should include("received from: 'no name given'")
       message.htmlMessage should include("email: 'no email given'")
@@ -33,17 +33,9 @@ class FeedbackMessageBuilderSpec extends UnitSpec {
     }
 
     "correctly convert reserved characters" in new TestWithApplication() {
-      val feedbackForm = FeedbackForm(feedback = "Feedback text: <>", webChat = None, name = None, email = None)
+      val feedbackForm = FeedbackForm(feedback = "Feedback text: <>", name = None, email = None)
       val message: Contents = FeedbackMessageBuilder.buildWith(feedbackForm, trackingId)
       message.htmlMessage should include("&lt;&gt;")
-    }
-
-    "include webchat feedback" in new TestWithApplication {
-      val webChatFeedbackText = "Webchat feedback text"
-      val feedbackForm = FeedbackForm(feedback = "Feedback text", webChat = Some(webChatFeedbackText), name = Some(name), email = Some(email))
-      val message: Contents = FeedbackMessageBuilder.buildWith(feedbackForm, trackingId)
-      message.htmlMessage should include(s"<p>$webChatFeedbackText</p>")
-      message.plainMessage should include(s"$webChatFeedbackText")
     }
   }
 }

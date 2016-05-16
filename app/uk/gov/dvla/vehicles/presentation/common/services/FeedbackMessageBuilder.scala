@@ -28,17 +28,13 @@ object FeedbackMessageBuilder {
 
     val htmlContents = form.feedback.map { htmlSubstitution }.mkString
 
-    val webChat = form.webChat.getOrElse("Webchat was not used when offered")
-
-    val htmlWebChat = webChat.map { htmlSubstitution }.mkString
-
     Contents(
-      buildHtml(htmlContents, htmlWebChat, date, sender, trackingId),
-      buildText(form.feedback, webChat, date, sender, trackingId)
+      buildHtml(htmlContents, date, sender, trackingId),
+      buildText(form.feedback, date, sender, trackingId)
     )
   }
 
-  private def buildHtml(contents: String, webChat: String, date: String,
+  private def buildHtml(contents: String, date: String,
                         sender: String, trackingId: TrackingId): String =
     s"""
         |<html>
@@ -58,13 +54,11 @@ object FeedbackMessageBuilder {
         |<h2>Feedback</h2>
         |<p>$contents</p>
         |
-        |<h2>Webchat</h2>
-        |<p>$webChat</p>
         |<p>trackingId : $trackingId</p>
         |</body>
         |</html>""".stripMargin
 
-  private def buildText(contents: String, webChat: String, date: String,
+  private def buildText(contents: String, date: String,
                         sender: String, trackingId: TrackingId): String =
     s"""
         |New feedback received on $date
@@ -72,9 +66,6 @@ object FeedbackMessageBuilder {
         |
         |Feedback:
         |$contents
-        |
-        |Webchat:
-        |$webChat
         |
         |trackingId : $trackingId""".stripMargin
 }
