@@ -3,7 +3,7 @@ package uk.gov.dvla.vehicles.presentation.common.testhelpers
 import uk.gov.dvla.vehicles.presentation.common.UnitSpec
 import MessageFilesSpecHelper.messagesFilesHelper
 
-final class MessageFilesHelperSpec extends UnitSpec with UnitTestHelper {
+final class MessageFilesHelperSpec extends UnitSpec {
 
   val TESTFILE1 = "test/resources/messagesTest1.txt"
   val TESTFILE2 = "test/resources/messagesTest2.txt"
@@ -32,6 +32,14 @@ final class MessageFilesHelperSpec extends UnitSpec with UnitTestHelper {
 
     "have a File2 value and a corresponding non-blank File1 value" in {
       messagesFilesHelper.getBlankNonBlankValuesCount(mapFile2, mapFile1) should equal(1)
+    }
+
+    "have no blank values in map1 and map2" in {
+      messagesFilesHelper.getBlankBlankValuesCount(mapFile1, mapFile2) should equal(3)
+    }
+
+    "have no blank values in map2 and map1" in {
+      messagesFilesHelper.getBlankBlankValuesCount(mapFile2, mapFile1) should equal(2)
     }
 
   }

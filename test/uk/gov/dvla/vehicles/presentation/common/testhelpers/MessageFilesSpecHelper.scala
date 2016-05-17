@@ -43,4 +43,19 @@ class MessageFilesSpecHelper {
       result
   }
 
+  def getBlankBlankValuesCount(m1: Map[String, String], m2: Map[String, String]): Integer = {
+    var result = 0
+    m1 foreach {
+      case (m1key, m1value) => {
+        val m2valFromm1Key = m2.get(m1key).getOrElse("")
+
+        if (m1value.length == 0 && m2valFromm1Key.length == 0) {
+          println(s"m1 value empty and m2 value empty for key: $m1key")
+          result += 1
+        }
+      }
+    }
+    result
+  }
+
 }
