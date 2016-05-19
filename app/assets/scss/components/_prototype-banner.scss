@@ -1,6 +1,8 @@
 //coloured prototype banner
 
 #{$prototype-banner} {
+    border-top: 10px solid phase-colour($phase);
+    border-bottom:1px solid #DCDCDC;
     padding:0.750em 0 0 0;
     margin:0 15px;
 
@@ -12,6 +14,7 @@
     span.phase-tag {
         display:inline-block;
         vertical-align:baseline;
+        background:phase-tag-colour($phase);
         color:$white;
         font: {
           size:16px;

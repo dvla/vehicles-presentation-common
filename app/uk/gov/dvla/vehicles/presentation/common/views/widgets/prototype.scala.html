@@ -1,0 +1,14 @@
+@(feedbackLink: Call)(implicit lang: Lang, config: uk.gov.dvla.vehicles.presentation.common.utils.helpers.CommonConfig)
+
+@import uk.gov.dvla.vehicles.presentation.common.views.widgets.Prototype.FeedbackId
+
+@if(config.isPrototypeBannerVisible) {
+<div class="prototype">
+    <p>
+        <span class="phase-tag beta">BETA</span> @Messages("prototype.banner")
+        <a id="@FeedbackId" href="@feedbackLink" target="_blank">@Messages("prototype.link")</a>
+        <!-- <a id="at FeedbackId" href="at controllers.routes.FeedbackController.present()" target="_blank">at Messages("prototype.link")</a> -->
+        @Messages("prototype.bannerPart2")
+    </p>
+</div>
+}

@@ -1,3 +1,12 @@
+#prototype
+prototype.banner = Mae''r gwasanaeth hwn yn cael ei ddatblygu -
+prototype.link =  dysgwch fwy
+prototype.link.source = mailto:vm.feedback@digital.dvla.gov.uk?Subject=Gwerthu i''r fasnach - adborth
+prototype.bannerPart2 = bydd yn ein helpu i wella
+
+# feedback
+common_feedback.subject = Gwerthu i''r fasnach - adborth
+
 # footer
 footer.builtbyintro = Adeiladwyd gan
 footer.builtby = Asiantaeth Trwyddedu Gyrwyr a Cherbydau
