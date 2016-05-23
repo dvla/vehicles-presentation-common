@@ -89,7 +89,7 @@ cookie-policy.expires.close = Pan fyddwch yn cau eich porwr
 #microServiceError widget
 micro_service_error.title = Mae’n ddrwg gennym
 micro_service_error.text1 = Nid yw’r gwasanaeth ar gael dros dro.
-micro_service_error.text2 =
+micro_service_error.text2 = Mae’r gwasanaeth ar gael o ddydd Llun i ddydd Sadwrn yn unig {0} to {1}.
 micro_service_error.back.button = Yn ôl
 micro_service_error.exit.button = Allan
 

@@ -24,6 +24,6 @@ class MicroServiceErrorController @Inject()(implicit clientSideSessionFactory: C
 
   def present = Action { implicit request =>
     val trackingId = request.cookies.trackingId()
-    Ok(views.html.microServiceErrorView(tryAgainTarget, exitTarget, trackingId))
+    Ok(views.html.microServiceErrorView(tryAgainTarget, exitTarget))
   }
 }
