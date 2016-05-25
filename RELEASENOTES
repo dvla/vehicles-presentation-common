@@ -1,3 +1,12 @@
+======= 2.49 ======
+Time of release binaries creation:
+
+VMPRCI-4379   Update the service unavailable holding page to include business hours
+VMPRCI-4369   Prototype border inconsistency
+VMPRCI-4359   Revert to original VMPR feedback questionnaire
+VMPRCI-4377   PR page title style inconsistent with VM
+VMPRCI-4337   Some message properties are missing a value in the welsh messages file
+
 ======= 2.48 ======
 Time of release binaries creation:
 Wed May 11 10:34:31 UTC 2016
