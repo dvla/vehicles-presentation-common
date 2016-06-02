@@ -20,20 +20,15 @@ credentials += sbtCredentials
 
 licenses += ("MIT", url("http://opensource.org/licenses/MIT"))
 
-crossScalaVersions := Seq("2.10.3", "2.11.4")
-
-lazy val root = project.in(file(".")).enablePlugins(PlayScala, SbtWeb)
-
 libraryDependencies ++= Seq(
-  "commons-codec" % "commons-codec" % "1.9" withSources() withJavadoc(),
-  "com.github.nscala-time" %% "nscala-time" % "1.4.0" withSources() withJavadoc(),
+  "commons-codec" % "commons-codec" % "1.10" withSources() withJavadoc(),
+  "com.github.nscala-time" %% "nscala-time" % "2.12.0" withSources() withJavadoc(),
   // test
   "com.github.detro" % "phantomjsdriver" % "1.2.0" % "test" withSources() withJavadoc(),
-  "com.github.tomakehurst" % "wiremock" % "1.46" % "test" withSources() withJavadoc() exclude("log4j", "log4j"),
-  "org.mockito" % "mockito-all" % "1.9.5" % "test" withSources() withJavadoc(),
-  "org.scalatest" %% "scalatest" % "2.2.1" % "test" withSources() withJavadoc(),
-  "org.seleniumhq.selenium" % "selenium-java" % "2.42.2" % "test" withSources() withJavadoc(),
-  "org.slf4j" % "log4j-over-slf4j" % "1.7.7" % "test" withSources() withJavadoc()
+  "com.github.tomakehurst" % "wiremock" % "1.58" % "test" withSources() withJavadoc() exclude("log4j", "log4j"),
+  "org.mockito" % "mockito-all" % "1.10.19" % "test" withSources() withJavadoc(),
+  "org.scalatest" %% "scalatest" % "2.2.6" % "test" withSources() withJavadoc(),
+  "org.slf4j" % "log4j-over-slf4j" % "1.7.21" % "test" withSources() withJavadoc()
 )
 
 val myTestOptions =

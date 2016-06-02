@@ -18,12 +18,11 @@ credentials += sbtCredentials
 
 licenses += ("MIT", url("http://opensource.org/licenses/MIT"))
 
-crossScalaVersions := Seq("2.10.3", "2.11.4")
-
-val root = project.in(file(".")).enablePlugins(PlayScala, SbtWeb)
+lazy val root = project.in(file("."))
+  .enablePlugins(PlayScala, SbtWeb)
   .settings(moduleName in Assets := "vehicles-presentation-common")
 
-val commonTests = project.in(file(testProjectName))
+lazy val commonTests = project.in(file(testProjectName))
   .dependsOn(root % "compile->test" )
   .enablePlugins(PlayScala, SbtWeb)
 
@@ -45,23 +44,22 @@ sources in doc in Compile := List()
 
 libraryDependencies ++= Seq(
   ws,
-  "commons-codec" % "commons-codec" % "1.9" withSources() withJavadoc(),
-  "com.google.inject" % "guice" % "4.0-beta4" withSources() withJavadoc(),
+  "commons-codec" % "commons-codec" % "1.10" withSources() withJavadoc(),
+  "commons-io" % "commons-io" % "2.4" withSources() withJavadoc(),
+  "com.google.inject" % "guice" % "4.0" withSources() withJavadoc(),
+  "com.github.nscala-time" %% "nscala-time" % "2.12.0" withSources() withJavadoc(),
   "com.rabbitmq" % "amqp-client" % "3.4.1",
   "com.tzavellas" % "sse-guice" % "0.7.1" withSources() withJavadoc(), // Scala DSL for Guice
-  "net.htmlparser.jericho" % "jericho-html" % "3.3" withSources() withJavadoc(),
-  "org.webjars" %% "webjars-play" % "2.3.0-2",
+  "net.htmlparser.jericho" % "jericho-html" % "3.4" withSources() withJavadoc(),
+  "org.apache.commons" % "commons-email" % "1.2" withSources() withJavadoc(),
+  "org.webjars" %% "webjars-play" % "2.3.0-3",
   "org.webjars" % "jquery" % "1.9.1",
-  "org.webjars" % "jquery-migrate" % "1.2.1",
   // test
   "com.github.detro" % "phantomjsdriver" % "1.2.0" % "test" withSources() withJavadoc(),
-  "com.github.nscala-time" %% "nscala-time" % "1.4.0" withSources() withJavadoc(),
-  "com.github.tomakehurst" % "wiremock" % "1.46" % "test" withSources() withJavadoc() exclude("log4j", "log4j"),
-  "org.apache.commons" % "commons-io" % "1.3.2" withSources() withJavadoc(),
-  "org.apache.commons" % "commons-email" % "1.2" withSources() withJavadoc(),
-  "org.mockito" % "mockito-all" % "1.9.5" % "test" withSources() withJavadoc(),
-  "org.scalatest" %% "scalatest" % "2.2.1" % "test" withSources() withJavadoc(),
-  "org.slf4j" % "log4j-over-slf4j" % "1.7.7" % "test" withSources() withJavadoc()
+  "com.github.tomakehurst" % "wiremock" % "1.58" % "test" withSources() withJavadoc() exclude("log4j", "log4j"),
+  "org.mockito" % "mockito-all" % "1.10.19" % "test" withSources() withJavadoc(),
+  "org.scalatest" %% "scalatest" % "2.2.6" % "test" withSources() withJavadoc(),
+  "org.slf4j" % "log4j-over-slf4j" % "1.7.21" % "test" withSources() withJavadoc()
 )
 
 coverageExcludedPackages := "<empty>;Reverse.*"
@@ -69,8 +67,6 @@ coverageExcludedPackages := "<empty>;Reverse.*"
 coverageMinimum := 70
 
 coverageFailOnMinimum := false
-
-net.virtualvoid.sbt.graph.Plugin.graphSettings
 
 sbt.Keys.fork in Test := false
 
