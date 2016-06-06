@@ -59,7 +59,6 @@ GET     /version                        @uk.gov.dvla.vehicles.presentation.commo
 GET     /feedback-form                  @uk.gov.dvla.vehicles.presentation.common.controllers.FeedbackFormController.present
 POST    /feedback-form                  @uk.gov.dvla.vehicles.presentation.common.controllers.FeedbackFormController.submit
 
-GET     /jstest/option-toggle           @uk.gov.dvla.vehicles.presentation.common.controllers.OptionToggleController.jsTest
 GET     /option-toggle                  @uk.gov.dvla.vehicles.presentation.common.controllers.OptionToggleController.present
 POST    /option-toggle                  @uk.gov.dvla.vehicles.presentation.common.controllers.OptionToggleController.submit
 
@@ -67,7 +66,6 @@ GET     /ga-events                      @uk.gov.dvla.vehicles.presentation.commo
 POST    /ga-events                      @uk.gov.dvla.vehicles.presentation.common.controllers.GaEventsController.submit
 
 GET     /address-picker                 @uk.gov.dvla.vehicles.presentation.common.controllers.AddressPicker.present
-GET     /jstest/address-picker          @uk.gov.dvla.vehicles.presentation.common.controllers.AddressPicker.jsTest
 POST    /address-picker                 @uk.gov.dvla.vehicles.presentation.common.controllers.AddressPicker.submit
 
 GET     /cookie-policy                  @uk.gov.dvla.vehicles.presentation.common.controllers.CookiePolicyController.present

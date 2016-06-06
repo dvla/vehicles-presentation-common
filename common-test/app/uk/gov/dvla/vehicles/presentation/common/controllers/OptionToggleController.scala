@@ -13,10 +13,6 @@ class OptionToggleController @Inject()(implicit clientSideSessionFactory: Client
     OptionalToggleModel.Form.Mapping
   )
 
-  def jsTest = Action { implicit request =>
-    Ok(views.html.optionToggle(form, true))
-  }
-
   def present = Action { implicit request =>
     Ok(views.html.optionToggle(form))
   }
