@@ -31,7 +31,7 @@ abstract class VehicleLookupFailureBase[FormModel <: VehicleLookupFormModelBase]
             presentResult(vehicleLookUpFormModelDetails)
       case _ =>
         val msg = "VehicleLookupFailure present could not find all the cookie data. A redirection will now occur"
-        logMessage(request.cookies.trackingId, Debug, msg)
+        logMessage(request.cookies.trackingId(), Debug, msg)
         missingPresentCookieDataResult()
     }
   }
@@ -39,11 +39,11 @@ abstract class VehicleLookupFailureBase[FormModel <: VehicleLookupFormModelBase]
   def submit = Action { implicit request =>
     request.cookies.getModel[FormModel] match {
       case Some(vehicleLookUpFormModelDetails) =>
-        logMessage(request.cookies.trackingId, Debug, "VehicleLookupFailure submit successfully found cookie data")
+        logMessage(request.cookies.trackingId(), Debug, "VehicleLookupFailure submit successfully found cookie data")
         submitResult()
       case _ =>
         val msg = "VehicleLookupFailure submit could not find all the cookie data. A redirection will now occur"
-        logMessage(request.cookies.trackingId, Debug, msg)
+        logMessage(request.cookies.trackingId(), Debug, msg)
         missingSubmitCookieDataResult()
     }
   }

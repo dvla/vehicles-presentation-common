@@ -179,7 +179,7 @@ abstract class NewKeeperChooseYourAddressBase @Inject()(protected val addressLoo
 
   private def fetchAddresses(postcode: String)(implicit request: Request[_]) = {
     val session = clientSideSessionFactory.getSession(request.cookies)
-    addressLookupService.fetchAddressesForPostcode(postcode, request.cookies.trackingId)
+    addressLookupService.fetchAddressesForPostcode(postcode, request.cookies.trackingId())
   }
 
   private def openView(name: String,

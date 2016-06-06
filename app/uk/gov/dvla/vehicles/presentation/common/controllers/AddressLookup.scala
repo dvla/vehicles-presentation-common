@@ -18,11 +18,11 @@ abstract class AddressLookup(implicit clientSideSessionFactory: ClientSideSessio
     else {
       val session = clientSideSessionFactory.getSession(request.cookies)
 
-      addressLookup.addresses(postCode, request.cookies.trackingId).map { addressLines =>
+      addressLookup.addresses(postCode, request.cookies.trackingId()).map { addressLines =>
         Ok(Json.toJson(addressLines))
       } recover {
         case NonFatal(e) =>
-          logMessage(request.cookies.trackingId, Warn, s"${e.getMessage} ${e.getStackTraceString}")
+          logMessage(request.cookies.trackingId(), Warn, s"${e.getMessage} ${e.getStackTraceString}")
           InternalServerError(e.getMessage)
       }
     }

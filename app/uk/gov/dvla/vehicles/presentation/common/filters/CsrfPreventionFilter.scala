@@ -125,7 +125,7 @@ class CsrfPreventionAction(next: EssentialAction)
     val remoteAddress = requestHeader.remoteAddress
     val path = requestHeader.path
     val msg = s"CsrfPreventionException remote address: $remoteAddress path: $path, message: $message"
-    logMessage(requestHeader.cookies.trackingId, Error, msg)
+    logMessage(requestHeader.cookies.trackingId(), Error, msg)
 
     Done(Results.Forbidden)
   }

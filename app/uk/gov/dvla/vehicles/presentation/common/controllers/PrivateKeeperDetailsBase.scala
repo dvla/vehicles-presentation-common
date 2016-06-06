@@ -71,7 +71,7 @@ abstract class PrivateKeeperDetailsBase @Inject()()
     ).distinctErrors
 
   private def redirectToSetupTradeDetails(message:String)(implicit request: Request[_]) = {
-    logMessage(request.cookies.trackingId, Warn, message)
+    logMessage(request.cookies.trackingId(), Warn, message)
     missingVehicleDetails
   }
 }
