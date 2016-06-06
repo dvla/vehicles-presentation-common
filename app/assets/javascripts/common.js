@@ -574,27 +574,6 @@ var formCheckedSelection = function() {
     });
 };
 
-var hideEmailOnOther = function(radioOtherId, emailId) {
-    if (!radioOtherId.length || !emailId.length) {
-        return;
-    }
-
-    var checkStateOfRadio = function(radioOtherId, emailId) {
-        if(!$(radioOtherId).prop('checked')) {
-            $(emailId).parent().hide().removeClass('item-visible');
-            $(emailId).val('');
-        } else {
-            $(emailId).parent().show().addClass('item-visible');
-        }
-    };
-
-    checkStateOfRadio(radioOtherId, emailId);
-
-    $("input:radio" ).click(function() {
-        checkStateOfRadio(radioOtherId, emailId);
-    });
-};
-
 var preventPasteOnEmailConfirm = function() {
     $('.js-email-confirm').bind("paste",function(e) {
         e.preventDefault();
@@ -646,9 +625,7 @@ var gaTrackEvent = function(category, action, label, value) {
     // version of GA used in a project
     if (typeof ga !== 'undefined') {
         ga('send', 'event', category, action, label, value)
-    } else if (typeof _gaq !== 'undefined') {
-        _gaq.push(['_trackEvent', category, action, label, value]);
-    } else {
+    } else if (typeof console !== 'undefined') {
         console.log("GA event tracking not available");
     }
 }
