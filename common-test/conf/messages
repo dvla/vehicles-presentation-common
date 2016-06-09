@@ -1,5 +1,6 @@
 #main header
 main.banner = Generic widgets
+main.back = Back
 
 # close widget
 #closed-title = Close
@@ -406,3 +407,9 @@ micro_service_error.exit.button=Exit
 
 #xmasOpeningTimes widget
 xmas-opening-times.title = View Christmas opening times
+
+#alternateLanguages widget
+alternate-languages.title = Alternate Languages
+
+#prototype widget
+prototype.title = Prototype

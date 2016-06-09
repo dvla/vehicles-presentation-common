@@ -1,0 +1,11 @@
+@(cyLink: Call, enLink: Call)(implicit lang: Lang)
+
+@import uk.gov.dvla.vehicles.presentation.common.controllers.AlternateLanguages.{CyId, EnId}
+
+@if(lang.code != CyId) {
+    <a id="@CyId" href="@cyLink">@Messages("language.cy.button")</a>
+}
+
+@if(lang.code != EnId) {
+    <a id="@EnId" href="@enLink">@Messages("language.en.button")</a>
+}

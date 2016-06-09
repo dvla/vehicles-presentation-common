@@ -1,12 +1,23 @@
-@(title: String, currentForm: Option[Form[_]] = None)(content: Html)(implicit lang: Lang)
+@(title: String,
+  currentForm: Option[Form[_]] = None,
+  backNavigation: Boolean = true)(content: Html)(implicit lang: Lang)
 
-@import uk.gov.dvla.vehicles.presentation.common
-@import common.views.html.widgets.errorsSummary
+@import uk.gov.dvla.vehicles.presentation.common.controllers.routes.CookiePolicyController
+@import uk.gov.dvla.vehicles.presentation.common.views.html.layouts.footer
+@import uk.gov.dvla.vehicles.presentation.common.views.html.layouts.head
+@import uk.gov.dvla.vehicles.presentation.common.views.html.layouts.header
+@import uk.gov.dvla.vehicles.presentation.common.views.html.widgets.errorsSummary
 
-@govMain(title) {
+@mainContent = {
     <div class="app common-test">
 
         <div class="section-content" style="margin-bottom:0;padding-bottom:4em;">
+            @if(backNavigation) {
+                <div class="back-navigation">
+                  <a class="back" id="back" href="/">@Messages("main.back")</a>
+              </div>
+            }
+
             <h1>@title</h1>
 
             @errorsSummary(currentForm)
@@ -14,4 +25,17 @@
             @content
         </div>
     </div>
+}
+
+@defining(routes.Assets.versioned("").url) { assetsPrefix =>
+
+@uk.gov.dvla.vehicles.presentation.common.views.html.layouts.govTemplate(
+  head = head(title, assetsPrefix, googleAnalyticsTrackingId = None),
+  bodyAttributes = Nil,
+  serviceClosingWarning = None,
+  header = header(assetsPrefix = assetsPrefix, cookiePolicyLink = CookiePolicyController.present),
+  content = mainContent,
+  footer = footer(assetsPrefix, None)
+)
+
 }

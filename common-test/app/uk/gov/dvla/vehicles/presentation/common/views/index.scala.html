@@ -2,10 +2,11 @@
 
 @import uk.gov.dvla.vehicles.presentation.common.controllers
 
-@main(Messages("index.title")) {
+@main(title = Messages("index.title"), currentForm = None, backNavigation = false) {
     <ul>
         <li><a href="@controllers.routes.AddressAndPostcodeController.present">Address And Postcode</a></li>
         <li><a href="@controllers.routes.AddressPicker.present">Address Picker</a></li>
+        <li><a href="@controllers.routes.AlternateLanguagesController.present">Alternate Languages</a></li>
         <li><a href="@controllers.routes.AlertSuccessController.present">Alert Success</a></li>
         <li><a href="@controllers.routes.AlertWarningController.present">Alert Warning</a></li>
         <li><a href="@controllers.routes.BusinessNameController.present">Business name</a></li>
@@ -23,6 +24,7 @@
         <li><a href="@controllers.routes.PleaseWaitController.present">Please Wait</a></li>
         <li><a href="@controllers.routes.PostcodeController.present">Postcode Capture</a></li>
         <li><a href="@controllers.routes.PrivacyPolicyController.present">Privacy Policy</a></li>
+        <li><a href="@controllers.routes.PrototypeController.present">Prototype</a></li>
         <li><a href="@controllers.routes.RegistrationNumberController.present">RegistrationNumber</a></li>
         <li><a href="@controllers.routes.ServiceClosingWarningController.present">Service Closing Warning</a></li>
         <li><a href="@controllers.routes.SummaryWrapperController.present">Summary Wrapper</a></li>

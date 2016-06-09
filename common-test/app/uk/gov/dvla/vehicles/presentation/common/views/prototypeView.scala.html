@@ -1,0 +1,10 @@
+@()(implicit lang: Lang, config: uk.gov.dvla.vehicles.presentation.common.utils.helpers.CommonConfig)
+
+@import uk.gov.dvla.vehicles.presentation.common.controllers
+@import uk.gov.dvla.vehicles.presentation.common.views.html.widgets.prototype
+
+@main(
+    title = Messages("prototype.title")
+) {
+    @prototype(controllers.routes.FeedbackFormController.present())
+}

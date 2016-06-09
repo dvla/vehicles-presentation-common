@@ -1,0 +1,29 @@
+@(head: Html,
+  bodyAttributes: Seq[(Symbol, Any)],
+  serviceClosingWarning: Option[Html],
+  header: Html,
+  content: Html,
+  footer: Html)(implicit lang: Lang)
+
+<!DOCTYPE html>
+    <!--[if IE 6]>         <html class="ie ie6" lang="en"> <![endif]-->
+    <!--[if IE 7]>         <html class="ie ie7" lang="en"> <![endif]-->
+    <!--[if IE 8]>         <html class="ie ie8" lang="en"> <![endif]-->
+    <!--[if IE 9]>         <html class="ie ie9" lang="en"> <![endif]-->
+    <!--[if gt IE 9]><!--> <html class="no-js" lang="en"> <!--<![endif]-->
+    @head
+
+    <body class="js-disabled" @for((s,v) <- bodyAttributes) {@{s.name}="@v"}>
+        <script type="text/javascript">document.body.className = document.body.className.replace('js-disabled','js-enabled');</script>
+
+        @serviceClosingWarning
+
+        @header
+
+        <div role="main" id="main">
+            @content
+        </div>
+
+        @footer
+    </body>
+</html>

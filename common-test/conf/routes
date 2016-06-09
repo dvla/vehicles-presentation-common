@@ -13,10 +13,8 @@ GET     /                               @uk.gov.dvla.vehicles.presentation.commo
 
 GET     /webjars/*file                  controllers.WebJarAssets.at(file)
 
-#GET     /tests/*file                   controllers.Assets.at(path="/assets/javascripts/tests", file:Asset)
-
 # Map static resources from the /public folder to the /assets URL path
-GET     /assets/*file                   controllers.Assets.at(path="/public", file)
+GET     /assets/*file                   controllers.Assets.versioned(path="/public", file: Asset)
 
 GET     /valtech-input-text             @uk.gov.dvla.vehicles.presentation.common.controllers.ValtechInputTextController.present
 POST    /valtech-input-text             @uk.gov.dvla.vehicles.presentation.common.controllers.ValtechInputTextController.submit
@@ -107,3 +105,6 @@ GET     /xmas-opening-times             @uk.gov.dvla.vehicles.presentation.commo
 GET     /tandc                          @uk.gov.dvla.vehicles.presentation.common.controllers.TermsAndConditionsController.present
 GET     /privacy-policy                 @uk.gov.dvla.vehicles.presentation.common.controllers.PrivacyPolicyController.present
 
+GET     /alternate-languages             @uk.gov.dvla.vehicles.presentation.common.controllers.AlternateLanguagesController.present
+
+GET     /prototype                      @uk.gov.dvla.vehicles.presentation.common.controllers.PrototypeController.present

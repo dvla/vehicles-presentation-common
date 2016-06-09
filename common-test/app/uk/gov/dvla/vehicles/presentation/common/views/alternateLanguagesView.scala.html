@@ -1,0 +1,13 @@
+@()(implicit lang: Lang)
+
+@import uk.gov.dvla.vehicles.presentation.common.controllers.AlternateLanguages.{CyId, EnId}
+@import uk.gov.dvla.vehicles.presentation.common.controllers.routes.AlternateLanguages
+
+@import uk.gov.dvla.vehicles.presentation.common.views.html.widgets.alternateLanguages
+
+@main(
+    title = Messages("alternate-languages.title")
+) {
+    @alternateLanguages(AlternateLanguages.withLanguage(chosenLanguage = CyId),
+                        AlternateLanguages.withLanguage(chosenLanguage = EnId))
+}

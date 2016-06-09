@@ -1,0 +1,44 @@
+@(assetsPrefix: String, links: Option[Html])(implicit lang: Lang)
+
+@import uk.gov.dvla.vehicles.presentation.common.views.html.widgets.pleaseWait
+
+<div class="footer" id="footer" role="contentinfo">
+    <div class="footer-wrapper vehicles-online-footer">
+        <div class="footer-meta">
+            <div class="footer-meta-inner">
+                @if(links.isDefined) {
+                  <ul>@links</ul>
+                }
+                <div class="open-government-licence">
+                    <h2>
+                        <a href="http://www.nationalarchives.gov.uk/doc/open-government-licence/version/3">
+                            <img src="@{assetsPrefix}lib/vehicles-presentation-common/images/open-government-licence_2x.png" alt="@Messages("footer.link")">
+                        </a>
+                    </h2>
+                    <p>@Messages("footer.text1") <a href="http://www.nationalarchives.gov.uk/doc/open-government-licence/version/3">@Messages("footer.link")</a>@Messages("footer.text2")</p>
+                </div>
+            </div>
+            <!--start copyright-->
+            <div class="copyright print-only">
+                <img src="@{assetsPrefix}lib/vehicles-presentation-common/images/govuk-crest.png" alt="@Messages("crown-copyright")">
+            </div>
+            <div class="copyright">
+                <a href="http://www.nationalarchives.gov.uk/information-management/our-services/crown-copyright.htm" target="_blank">&copy;
+                    @Messages("crown-copyright")</a>
+            </div>
+            <!--end copyright-->
+        </div>
+    </div>
+</div>
+
+@pleaseWait()
+
+<div id="global-app-error" class="app-error hidden"></div>
+<script type="text/javascript" src="@{assetsPrefix}lib/jquery/jquery.min.js"></script>
+<script type="text/javascript" src="@{assetsPrefix}lib/vehicles-presentation-common/javascripts/common.js"></script>
+<script type="text/javascript">
+    if (typeof $ !== "function" || $('html').hasClass('js-ready') === false) {
+        // Either Jquery or common are not available so revert to the no-js view
+        document.body.className = document.body.className.replace('js-enabled','js-disabled');
+    }
+</script>
