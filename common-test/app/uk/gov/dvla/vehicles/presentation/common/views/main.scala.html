@@ -2,6 +2,7 @@
   currentForm: Option[Form[_]] = None,
   backNavigation: Boolean = true)(content: Html)(implicit lang: Lang)
 
+@import controllers.Assets.Asset
 @import uk.gov.dvla.vehicles.presentation.common.controllers.routes.CookiePolicyController
 @import uk.gov.dvla.vehicles.presentation.common.views.html.layouts.footer
 @import uk.gov.dvla.vehicles.presentation.common.views.html.layouts.head
@@ -27,7 +28,7 @@
     </div>
 }
 
-@defining(routes.Assets.versioned("").url) { assetsPrefix =>
+@defining((file: Asset) => routes.Assets.versioned(file).url) { assetsPrefix =>
 
 @uk.gov.dvla.vehicles.presentation.common.views.html.layouts.govTemplate(
   head = head(title, assetsPrefix, googleAnalyticsTrackingId = None),
