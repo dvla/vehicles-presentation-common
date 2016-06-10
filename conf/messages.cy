@@ -55,23 +55,14 @@ cookie-policy.cookies.google_analytics.GDS_successEvents = Mae’r rhain yn ein 
 
 cookie-policy.name.sessions = Sesiwn
 cookie-policy.name.sessions.p1 =  Mae cwci yn cael ei osod i gofnodi eich gweithgaredd sesiwn.
-cookie-policy.name.sessions.p2 =
-cookie-policy.name.sessions.p3 =
-cookie-policy.name.sessions.p4 =
 cookie-policy.cookies.sessions.mdtp = Data sesiwn stores
 
 cookie-policy.name.introductory_message = Ein neges rhagarweiniol
 cookie-policy.name.introductory_message.p1 =  Efallai y byddwch yn gweld neges groeso pop-up pan fyddwch ymweliad cyntaf. Mae cwci yn cael ei storio fel bod eich cyfrifiadur yn gwybod eich bod wedi ei weld, ac nid yn gwybod i ddangos ei fod unwaith eto.
-cookie-policy.name.introductory_message.p2 =
-cookie-policy.name.introductory_message.p3 =
-cookie-policy.name.introductory_message.p4 =
 cookie-policy.cookies.introductory_message.seen_cookie_message = Yn Achub neges i roi gwybod i ni eich bod wedi gweld ein neges cwci
 
 cookie-policy.name.language = Yr Iaith Gymraeg
 cookie-policy.name.language.p1 = Rydym yn logio cwci er mwyn cofio’r iaith a ddewiswyd gennych fel nad oes angen i chi ei newid y tro nesaf y byddwch yn ymweld.
-cookie-policy.name.language.p2 =
-cookie-policy.name.language.p3 =
-cookie-policy.name.language.p4 =
 cookie-policy.cookies.language.PLAY_LANG = Gosodwch i gofio’ch dewis iaith
 
 cookie-policy.expires.1month = 1 mis
@@ -207,3 +198,4 @@ privacy.notifications.p2 = Byddwch yn ymwybodol nad yw’r polisi preifatrwydd h
 privacy.amendments.header = Newidiadau i’r Datganiad Diogelu a Phreifatrwydd
 privacy.amendments.p1 = Os bydd y datganiad diogelu a phreifatrwydd hwn yn newid mewn unrhyw ffordd, byddwn yn rhoi fersiwn a ddiweddarwyd ar y dudalen hon. Drwy adolygu’r dudalen hon mae’n sicrhau eich bod bob amser yn ymwybodol o ba wybodaeth a gasglwn, sut ydym yn ei defnyddio a than ba amgylchiadau, os o gwbl, y byddwn yn ei rhannu gyda phartïon eraill.
 privacy.last_updated = Diweddarwyd y polisi preifatrwydd hwn ddiwethaf ar 24 Mawrth 2016
+

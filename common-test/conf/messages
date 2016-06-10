@@ -13,24 +13,7 @@ closed.closing = 18:00
 #widget messages
 errorsummary.title = Please check the form
 errorsummary.p1 = Please fix the following:
-widget.optional=(optional)
-
-#day month year control
-datePlaceholder.day=Day
-datePlaceholder.month=Month
-datePlaceholder.year=Year
-datePlaceholder.January=January
-datePlaceholder.February=February
-datePlaceholder.March=March
-datePlaceholder.April=April
-datePlaceholder.May=May
-datePlaceholder.June=June
-datePlaceholder.July=July
-datePlaceholder.August=August
-datePlaceholder.September=September
-datePlaceholder.October=October
-datePlaceholder.November=November
-datePlaceholder.December=December
+widget.optional = (optional)
 
 select_default = Please select
 
@@ -229,20 +212,14 @@ cookie-policy.cookies.google_analytics.GDS_successEvents = These help us identif
 
 cookie-policy.name.sessions = Session
 cookie-policy.name.sessions.p1 =  A cookie is set to record your session activity.
-cookie-policy.name.sessions.p2 =
-cookie-policy.name.sessions.p3 =
-cookie-policy.name.sessions.p4 =
 cookie-policy.cookies.sessions.mdtp = Stores session data
 
 cookie-policy.name.introductory_message = Our introductory message
 cookie-policy.name.introductory_message.p1 =  You may see a pop-up welcome message when you first visit. A cookie is stored so that your computer knows you’ve seen it and knows not to show it again.
-cookie-policy.name.introductory_message.p2 =
-cookie-policy.name.introductory_message.p3 =
-cookie-policy.name.introductory_message.p4 =
 cookie-policy.cookies.introductory_message.seen_cookie_message = Saves a message to let us know that you have seen our cookie message
 
 cookie-policy.expires.1month = 1 month
-cookie-policy.expires.4months= 4 months
+cookie-policy.expires.4months = 4 months
 cookie-policy.expires.6months = 6 months
 cookie-policy.expires.1year = 1 year
 cookie-policy.expires.2years = 2 years
@@ -329,9 +306,7 @@ addressAndPostcode.addressLines.postTown.hint = e.g. SWANSEA
 address.lines.label = Building/number and street
 address.buildingNameOrNumber.label =
 address.buildingNameOrNumber.hint = e.g. 1 HIGH STREET
-address.line2.label=
-address.line3.label=
-address.postTown.label= Town or city
+address.postTown.label = Town or city
 address.postcode.label = Postcode
 address.postcode.label.prompt = e.g. SA99 1BD
 address.postcode.validation = Enter a valid postcode
@@ -399,11 +374,10 @@ form-steps.button.mobile = Mobile only
 #micro-service-error widget
 micro-service-error.title = Micro Service Error
 
-micro_service_error.title=We are sorry
-micro_service_error.text1=The service is temporarily unavailable.
-micro_service_error.text2=
-micro_service_error.back.button=Try again
-micro_service_error.exit.button=Exit
+micro_service_error.title = We are sorry
+micro_service_error.text1 = The service is temporarily unavailable.
+micro_service_error.back.button = Try again
+micro_service_error.exit.button = Exit
 
 #xmasOpeningTimes widget
 xmas-opening-times.title = View Christmas opening times

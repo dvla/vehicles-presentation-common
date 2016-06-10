@@ -19,10 +19,12 @@ class MessageFilesSpecHelper {
     lines
   }
 
+  // TODO: this method doesn't cope with line continuation (back slash)
   def extractMessageKeys(file: String): List[String] = {
     getLines(file).map(keyValue => keyValue.split("=").head.trim)
   }
 
+  // TODO: this method doesn't cope with line continuation (back slash)
   def extractMessageMap(file: String): Map[String, String] = {
     (extractMessageKeys(file) zip getLines(file).map(keyValue => keyValue.split("=").tail.mkString))(breakOut): Map[String,String]
   }

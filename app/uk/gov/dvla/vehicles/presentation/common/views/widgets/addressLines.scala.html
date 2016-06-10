@@ -13,18 +13,13 @@
             @valtechInputText(field(BuildingNameOrNumberId),
             hintText = Some(Messages("address.buildingNameOrNumber.hint")),
             args = Map(
-                '_label -> Messages("address.buildingNameOrNumber.label"),
-                'placeholder -> Messages("address.buildingNameOrNumber.label"),
                 '_showConstraints -> false,
                 'maxLength -> LineMaxLength.toString,
-                //'title -> Messages("address.buildingNameOrNumber.label"),
                 'showErrors -> false))
         </div>
         <div class="form-item">
             @valtechInputText(field(Line2Id),
             args = Map(
-                '_label -> Messages("address.line2.label"),
-                'placeholder -> Messages("address.line2.label"),
                 '_showConstraints -> false,
                 'maxLength -> LineMaxLength.toString,
                 'title -> Messages("")))
@@ -32,8 +27,6 @@
         <div class="form-item">
             @valtechInputText(field(Line3Id),
             args = Map(
-                '_label -> Messages("address.line3.label"),
-                'placeholder -> Messages("address.line3.label"),
                 '_showConstraints -> false,
                 'maxLength -> LineMaxLength.toString,
                 'title -> Messages("")))
@@ -46,7 +39,6 @@
                     '_label -> Messages("addressAndPostcode.addressLines.postTown"),
                     '_showConstraints -> false,
                     'maxLength -> args('_postTownMaxLength),
-                    //'title -> Messages("address.buildingNameOrNumber.label"),
                     'showErrors -> false))
             } else {
                 @valtechInputText(field(PostTownId),
@@ -54,7 +46,6 @@
                     '_label -> Messages("addressAndPostcode.addressLines.postTown"),
                     '_showConstraints -> false,
                     'maxLength -> LineMaxLength.toString,
-                    //'title -> Messages("address.buildingNameOrNumber.label"),
                     'showErrors -> false))
             }
         </div>
