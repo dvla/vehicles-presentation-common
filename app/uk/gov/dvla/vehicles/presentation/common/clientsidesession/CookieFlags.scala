@@ -2,7 +2,8 @@ package uk.gov.dvla.vehicles.presentation.common.clientsidesession
 
 import com.google.inject.Inject
 import play.api.mvc.Cookie
-import uk.gov.dvla.vehicles.presentation.common.ConfigProperties.{getProperty, getOptionalProperty, intProp, booleanProp}
+import uk.gov.dvla.vehicles.presentation.common.ConfigProperties.{booleanProp, getOptionalProperty, getProperty, intProp}
+import uk.gov.dvla.vehicles.presentation.common.utils.helpers.CommonConfig
 
 trait CookieFlags {
 
@@ -21,9 +22,7 @@ final class NoCookieFlags extends CookieFlags {
 final class CookieFlagsFromConfig @Inject()() extends CookieFlags {
 
   private val cookieMaxAgeSeconds = getProperty[Int]("application.cookieMaxAge")
-  private val secureCookies = getOptionalProperty[Boolean]("secureCookies").getOrElse(true)
-//  private val cookieMaxAgeSeconds = getProperty("application.cookieMaxAge", 30.minutes.toSeconds.toInt)
-//  private val secureCookies = getProperty("secureCookies", default = true)
+  private val secureCookies = getOptionalProperty[Boolean]("secureCookies").getOrElse(CommonConfig.DEFAULT_SECURE_COOKIES)
 
   override def applyToCookie(cookie: Cookie, key: String = ""): Cookie =
     cookie.copy(

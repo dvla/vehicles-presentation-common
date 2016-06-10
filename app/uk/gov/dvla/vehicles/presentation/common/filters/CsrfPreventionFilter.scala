@@ -2,29 +2,29 @@ package uk.gov.dvla.vehicles.presentation.common.filters
 
 import com.google.inject.Inject
 import org.apache.commons.codec.binary.Base64
+import play.api.Logger
 import play.api.http.ContentTypes.HTML
 import play.api.http.HeaderNames.REFERER
 import play.api.http.HttpVerbs.{GET, POST}
-import play.api.libs.concurrent.Execution.Implicits.defaultContext
 import play.api.libs.Crypto
+import play.api.libs.concurrent.Execution.Implicits.defaultContext
 import play.api.libs.iteratee.{Done, Enumerator, Iteratee, Traversable}
-import play.api.Logger
 import play.api.mvc.BodyParsers.parse.tolerantFormUrlEncoded
 import play.api.mvc.{EssentialAction, EssentialFilter, Headers, RequestHeader, Result, Results}
-import scala.util.Try
 import uk.gov.dvla.vehicles.presentation.common
-import common.clientsidesession.{TrackingId, AesEncryption, ClientSideSessionFactory}
-import common.clientsidesession.CookieImplicits.RichCookies
-import common.ConfigProperties.{getProperty, getOptionalProperty, stringProp, booleanProp}
-import common.LogFormats.DVLALogger
+import uk.gov.dvla.vehicles.presentation.common.ConfigProperties.{booleanProp, getOptionalProperty, getProperty, stringProp}
+import uk.gov.dvla.vehicles.presentation.common.LogFormats.DVLALogger
+import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicits.RichCookies
+import uk.gov.dvla.vehicles.presentation.common.clientsidesession.{AesEncryption, ClientSideSessionFactory, TrackingId}
+import uk.gov.dvla.vehicles.presentation.common.utils.helpers.CommonConfig
+
+import scala.util.Try
 
 class CsrfPreventionFilter @Inject()
 (implicit clientSideSessionFactory: ClientSideSessionFactory) extends EssentialFilter {
 
   def apply(next: EssentialAction): EssentialAction = new CsrfPreventionAction(next)
 }
-
-//final case class CsrfPreventionException(nestedException: Throwable) extends Exception(nestedException: Throwable)
 
 /**
  * This class is based upon the Play's v2.2 CSRF protection. It has been stripped of code not relevant to this project, and
@@ -38,12 +38,7 @@ class CsrfPreventionAction(next: EssentialAction)
                           (implicit clientSideSessionFactory: ClientSideSessionFactory)
                           extends EssentialAction with DVLALogger {
 
-  import uk.gov.dvla.vehicles.presentation.common.filters.CsrfPreventionAction.aesEncryption
-  import uk.gov.dvla.vehicles.presentation.common.filters.CsrfPreventionAction.buildTokenWithUri
-  import uk.gov.dvla.vehicles.presentation.common.filters.CsrfPreventionAction.buildTokenWithReferer
-  import uk.gov.dvla.vehicles.presentation.common.filters.CsrfPreventionAction.preventionEnabled
-  import uk.gov.dvla.vehicles.presentation.common.filters.CsrfPreventionAction.split
-  import uk.gov.dvla.vehicles.presentation.common.filters.CsrfPreventionAction.TokenName
+  import uk.gov.dvla.vehicles.presentation.common.filters.CsrfPreventionAction.{TokenName, aesEncryption, buildTokenWithReferer, buildTokenWithUri, preventionEnabled, split}
 
   def apply(requestHeader: RequestHeader) = {
     // check if csrf prevention is switched on
@@ -136,22 +131,12 @@ object CsrfPreventionAction {
   final val TokenName = "csrf_prevention_token"
   private final val Delimiter = "-"
   lazy val preventionEnabled = {
-    val enabled = getOptionalProperty[Boolean]("csrf.prevention").getOrElse(true)
+    val enabled = getOptionalProperty[Boolean]("csrf.prevention").getOrElse(CommonConfig.DEFAULT_CSRF_PREVENTION)
     Logger.info(s"[CSRF] is ${if (enabled) "enabled" else "disabled"}")
     enabled
   }
   lazy val postWhitelist = getProperty[String]("csrf.post.whitelist").split(",")
-/*
-  private val aesEncryption = {
-    if (getOptionalProperty[Boolean]("encryptCookies").getOrElse(true)) {
-      Logger.info("[CSRF] is using AES encryption for the prevention token")
-      new AesEncryption()
-    } else {
-      Logger.info("[CSRF] is using no encryption for the prevention token")
-      new NoEncryption()
-    }
-  }
-*/
+
   private val aesEncryption = {
     Logger.info("[CSRF] is using AES encryption for the prevention token")
     new AesEncryption()

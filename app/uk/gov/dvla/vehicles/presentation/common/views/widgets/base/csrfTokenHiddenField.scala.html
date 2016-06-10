@@ -2,8 +2,9 @@
 
 @import uk.gov.dvla.vehicles.presentation.common.ConfigProperties._
 @import uk.gov.dvla.vehicles.presentation.common.filters.CsrfPreventionAction
+@import uk.gov.dvla.vehicles.presentation.common.utils.helpers.CommonConfig
 
 @defining(getOptionalProperty[Boolean]("csrf.prevention")) { csrfPrevention =>
-@if(csrfPrevention.getOrElse(true)) {
+@if(csrfPrevention.getOrElse(CommonConfig.DEFAULT_CSRF_PREVENTION)) {
 <input type="hidden" name="@{CsrfPreventionAction.TokenName}" value="@token.value"/> <!-- Token -->
 }}

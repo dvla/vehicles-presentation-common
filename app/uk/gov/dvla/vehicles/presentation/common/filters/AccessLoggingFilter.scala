@@ -1,21 +1,22 @@
 package uk.gov.dvla.vehicles.presentation.common.filters
 
-import com.google.inject.Inject
-import com.google.inject.name.Named
 import java.net.URI
 import java.text.SimpleDateFormat
 import java.util.Date
+
+import com.google.inject.Inject
+import com.google.inject.name.Named
+import play.api.LoggerLike
 import play.api.http.HeaderNames.CONTENT_LENGTH
 import play.api.libs.concurrent.Execution.Implicits.defaultContext
-import play.api.LoggerLike
 import play.api.mvc.{Filter, RequestHeader, Result}
 import play.mvc.Http
-import scala.concurrent.Future
-import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClientSideSessionFactory
-import uk.gov.dvla.vehicles.presentation.common.clientsidesession.TrackingId
-import uk.gov.dvla.vehicles.presentation.common.ConfigProperties.getOptionalProperty
-import uk.gov.dvla.vehicles.presentation.common.ConfigProperties.stringProp
+import uk.gov.dvla.vehicles.presentation.common.ConfigProperties.{getOptionalProperty, stringProp}
 import uk.gov.dvla.vehicles.presentation.common.LogFormats.DVLALogger
+import uk.gov.dvla.vehicles.presentation.common.clientsidesession.{ClientSideSessionFactory, TrackingId}
+import uk.gov.dvla.vehicles.presentation.common.utils.helpers.CommonConfig
+
+import scala.concurrent.Future
 
 class AccessLoggingFilter @Inject()(clfEntryBuilder: ClfEntryBuilder,
                                     @Named("AccessLogger") accessLogger: LoggerLike,
@@ -83,7 +84,7 @@ trait AccessLoggingConfig {
 }
 
 class DefaultAccessLoggingConfig extends AccessLoggingConfig {
-  override val contextPath: String = getOptionalProperty[String]("application.context").getOrElse("")
+  override val contextPath: String = getOptionalProperty[String]("application.context").getOrElse(CommonConfig.DEFAULT_APPLICATION_CONTEXT)
 }
 
 object AccessLoggingFilter {

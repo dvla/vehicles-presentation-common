@@ -4,7 +4,8 @@ import com.google.inject.Inject
 import org.apache.commons.codec.binary.Hex
 import play.api.mvc.Cookie
 import uk.gov.dvla.vehicles.presentation.common
-import common.ConfigProperties.{getProperty, getOptionalProperty, stringProp, booleanProp, intProp}
+import common.ConfigProperties.{booleanProp, getOptionalProperty, getProperty, intProp, stringProp}
+import uk.gov.dvla.vehicles.presentation.common.utils.helpers.CommonConfig
 
 class EncryptedClientSideSessionFactory @Inject()()
                                                  (implicit cookieFlags: CookieFlags,
@@ -16,11 +17,8 @@ class EncryptedClientSideSessionFactory @Inject()()
    */
   private lazy val TrackingIdCookieMaxAge: Option[Int] = getOptionalProperty[Int](TrackingIdCookieMaxAgeKey)
   private lazy val SessionCookieMaxAge: Option[Int] = getOptionalProperty[Int](SessionCookieMaxAgeKey)
-//  private val secureCookies: Boolean = getProperty[Boolean]("secureCookies", default = true)
-  protected lazy val secureCookies: Boolean = getOptionalProperty[Boolean]("secureCookies").getOrElse(true)
+  protected lazy val secureCookies: Boolean = getOptionalProperty[Boolean]("secureCookies").getOrElse(CommonConfig.DEFAULT_SECURE_COOKIES)
   protected lazy val sessionSecretKeySuffixKey: String = getProperty[String](SessionSecretKeySuffixKey)
-//private val sessionSecretKeySuffixKey: String =
-//    getProperty(SessionSecretKeySuffixKey, SessionSecretKeySuffixDefaultValue)
 
   /**
     * This method is responsible for checking to see if the session cookies are present in the request object.
