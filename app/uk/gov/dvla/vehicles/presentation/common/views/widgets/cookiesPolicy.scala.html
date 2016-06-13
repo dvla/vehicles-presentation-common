@@ -25,9 +25,14 @@
 @for(section <- cookiesPolicyMap.keys) {
   <h3>@Messages(s"cookie-policy.name.$section")</h3>
   @displayMessage(Messages(s"cookie-policy.name.$section.p1"))
-  @displayMessage(Messages(s"cookie-policy.name.$section.p2"))
-  @displayMessage(Messages(s"cookie-policy.name.$section.p3"))
-  @displayMessage(Messages(s"cookie-policy.name.$section.p4"))
+  @* This template also demostrates how to avoid the default rendering (the key) by testing for a missing definition in
+     messages (properties-like) file. Otherwise an entry with a blank value is required in this example that displayMessage handles *@
+  @if(Messages.isDefinedAt((s"cookie-policy.name.$section.p2"))) {
+    @displayMessage(Messages(s"cookie-policy.name.$section.p2"))}
+  @if(Messages.isDefinedAt((s"cookie-policy.name.$section.p3"))) {
+    @displayMessage(Messages(s"cookie-policy.name.$section.p3"))}
+  @if(Messages.isDefinedAt((s"cookie-policy.name.$section.p4"))) {
+    @displayMessage(Messages(s"cookie-policy.name.$section.p4"))}
   @displayMessage(Messages("cookie-policy-p10"))
   <table>
     <thead>
