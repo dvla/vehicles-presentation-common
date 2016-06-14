@@ -40,6 +40,10 @@ body {
     }
 }
 
+.app {
+    padding: 20px;
+}
+
 .global-header h1, h2, h3, h4, h5, h6 {
     font-weight: bold;
 }
@@ -59,7 +63,7 @@ h2, h3, h4, .info-notice {
     page-break-after: avoid;
 }
 .print-only {
-  display:block;
+    display:block;
 }
 .global-header {
     h1 {
@@ -210,6 +214,12 @@ img {
     text-transform:lowercase;
 }
 
+.playback {
+    dd {
+        text-transform: uppercase;
+    }
+}
+
 div.playback {
     display:inline-block;
     vertical-align:top;
@@ -334,20 +344,36 @@ select {
 }
 
 //hide specific elements/sections
-.please-wait-overlay,
-.please-wait-overlay h2,
-.serviceClosingWarning,
-.prototype,
-.print-message,
-.footer .footer-meta-inner,
-.visuallyhidden,
-.form-inline label,
-#global-cookie-message,
+#get-started,
 #global-browser-prompt,
+#global-cookie-message,
+#local-locator-form,
+#location-loading,
+body .actions,
 button,
 .button,
+.button-not-implemented
 .button-secondary,
 .button-text,
-.pdf-link img {
+.enter-address-manually label,
+.enter-address-manually label em,
+.enter-address-manually legend,
+.exit,
+.finding_location,
+.footer .footer-meta-inner,
+.form-inline label,
+.found_location,
+.loading_location,
+.location_error,
+.pdf-link,
+.please-wait-overlay h2,
+.please-wait-overlay,
+.print-message,
+.prototype,
+.report-a-problem-container,
+.report-a-problem-toggle,
+.serviceClosingWarning,
+.trader-details .img-wrap-desktop,
+.visuallyhidden {
     display: none !important;
 }
