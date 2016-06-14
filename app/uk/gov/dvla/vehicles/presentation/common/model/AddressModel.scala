@@ -1,19 +1,14 @@
 package uk.gov.dvla.vehicles.presentation.common.model
 
 import play.api.libs.json.Json
-import uk.gov.dvla.vehicles.presentation.common.views.models.{AddressLinesViewModel, AddressAndPostcodeViewModel}
 import uk.gov.dvla.vehicles.presentation.common.views.constraints.Postcode
-
-import scala.collection.immutable.IndexedSeq
+import uk.gov.dvla.vehicles.presentation.common.views.models.AddressAndPostcodeViewModel
 
 /**
  * UPRN is optional because if user is manually entering the address they will not be allowed to enter a UPRN, it is
  * only populated by address lookup services.
  */
-final case class AddressModel(uprn: Option[Long] = None, address: Seq[String]) {
-
-  // UPRN is optional because if user is manually entering the address they will not be allowed to enter a UPRN, it
-  // is only populated by address lookup services.
+final case class AddressModel(address: Seq[String]) {
 
   def formatPostcode: AddressModel = {
     val formattedPostcode = Postcode.formatPostcode(address.last)
@@ -29,6 +24,6 @@ object AddressModel {
     AddressModel(address = address.toViewFormat)
 
   def from(addressString: String): AddressModel =
-    AddressModel(uprn = None, address = addressString.split(",") map (line => line.trim))
+    AddressModel(address = addressString.split(",") map (line => line.trim))
   
 }

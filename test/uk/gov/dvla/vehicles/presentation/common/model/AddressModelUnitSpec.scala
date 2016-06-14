@@ -13,7 +13,6 @@ class AddressModelUnitSpec extends UnitSpec {
       addressModel.address(2) should equal("line3")
       addressModel.address(3) should equal("post town")
       addressModel.address(4) should equal("post code")
-      addressModel.uprn should equal (None)
     }
     "construct an address model from a string containing blank lines commas" in new TestWithApplication {
       val addressString = "line1,, line3, post town, post code"
@@ -23,19 +22,16 @@ class AddressModelUnitSpec extends UnitSpec {
       addressModel.address(2) should equal("line3")
       addressModel.address(3) should equal("post town")
       addressModel.address(4) should equal("post code")
-      addressModel.uprn should equal (None)
     }
     "construct an address model from a supplied string with no comma" in new TestWithApplication {
       val addressString = "line1"
       val addressModel = AddressModel.from(addressString)
       addressModel.address(0) should equal("line1")
-      addressModel.uprn should equal (None)
     }
   }
   "construct an address model from an empty string" in new TestWithApplication {
     val addressString = ""
     val addressModel = AddressModel.from(addressString)
     addressModel.address(0) should equal("")
-    addressModel.uprn should equal (None)
   }
 }

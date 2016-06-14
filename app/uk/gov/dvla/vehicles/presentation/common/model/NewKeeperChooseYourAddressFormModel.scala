@@ -5,7 +5,7 @@ import play.api.libs.json.Json
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CacheKey
 import uk.gov.dvla.vehicles.presentation.common.mappings.DropDown
 
-final case class NewKeeperChooseYourAddressFormModel(uprnSelected: String)
+final case class NewKeeperChooseYourAddressFormModel(addressSelected: String)
 
 object NewKeeperChooseYourAddressFormModel {
   implicit val JsonFormat = Json.format[NewKeeperChooseYourAddressFormModel]

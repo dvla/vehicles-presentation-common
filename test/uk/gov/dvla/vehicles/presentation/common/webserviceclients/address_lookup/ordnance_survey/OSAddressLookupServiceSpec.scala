@@ -5,29 +5,25 @@ import org.mockito.Matchers._
 import org.mockito.Mockito._
 import org.mockito.invocation.InvocationOnMock
 import org.mockito.stubbing.Answer
-import play.api.http.Status.{OK, NOT_FOUND}
-import play.api.libs.json.Json
-import play.api.libs.json.JsValue
+import play.api.http.Status.{NOT_FOUND, OK}
+import play.api.libs.json.{JsValue, Json}
 import play.api.libs.ws.WSResponse
-import uk.gov.dvla.vehicles.presentation.common.services.{DateService, DateServiceImpl}
-import uk.gov.dvla.vehicles.presentation.common.webserviceclients.healthstats.{HealthStatsSuccess, HealthStatsFailure, HealthStats}
-import scala.concurrent.ExecutionContext.Implicits.global
-import scala.concurrent.Future
 import uk.gov.dvla.vehicles.presentation.common
-import uk.gov.dvla.vehicles.presentation.common.UnitSpec
+import common.UnitSpec
 import common.clientsidesession.ClearTextClientSideSessionFactory
+import common.services.DateService
 import common.webserviceclients.addresslookup.AddressLookupService
-import common.webserviceclients.addresslookup.ordnanceservey.UprnToAddressResponseDto
-import common.webserviceclients.addresslookup.ordnanceservey.PostcodeToAddressResponseDto
 import common.webserviceclients.addresslookup.ordnanceservey.AddressLookupServiceImpl
+import common.webserviceclients.addresslookup.ordnanceservey.PostcodeToAddressResponseDto
 import common.webserviceclients.fakes.FakeAddressLookupService.PostcodeValid
 import common.webserviceclients.fakes.FakeAddressLookupWebServiceImpl
 import common.webserviceclients.fakes.FakeAddressLookupWebServiceImpl.postcodeToAddressResponseValid
 import common.webserviceclients.fakes.FakeAddressLookupWebServiceImpl.responseValidForPostcodeToAddress
-import common.webserviceclients.fakes.FakeAddressLookupWebServiceImpl.responseValidForUprnToAddress
-import common.webserviceclients.fakes.FakeAddressLookupWebServiceImpl.traderUprnValid
-import common.webserviceclients.fakes.FakeAddressLookupWebServiceImpl.uprnToAddressResponseValid
 import common.webserviceclients.fakes.FakeResponse
+import common.webserviceclients.healthstats.{HealthStats, HealthStatsFailure, HealthStatsSuccess}
+
+import scala.concurrent.ExecutionContext.Implicits.global
+import scala.concurrent.Future
 
 
 final class OSAddressLookupServiceSpec extends UnitSpec {
@@ -139,12 +135,6 @@ final class OSAddressLookupServiceSpec extends UnitSpec {
 
   private def responsePostcode(statusCode: Int,
                        input: PostcodeToAddressResponseDto = postcodeToAddressResponseValid): Future[WSResponse] = {
-    val inputAsJson = Json.toJson(input)
-    response(statusCode, inputAsJson)
-  }
-
-  private def responseUprn(statusCode: Int,
-                   input: UprnToAddressResponseDto = uprnToAddressResponseValid): Future[WSResponse] = {
     val inputAsJson = Json.toJson(input)
     response(statusCode, inputAsJson)
   }

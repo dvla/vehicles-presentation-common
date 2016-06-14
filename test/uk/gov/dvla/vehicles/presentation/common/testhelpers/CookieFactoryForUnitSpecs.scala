@@ -123,9 +123,9 @@ object CookieFactoryForUnitSpecs {
     defaultVehicleAndKeeperDetailsModel
   )
 
-  def newKeeperChooseYourAddress(uprnSelected: String = "0"): Cookie = {
+  def newKeeperChooseYourAddress(uprnSelected: String): Cookie = {
     val key = "newKeeperChooseYourAddress"
-    val value = NewKeeperChooseYourAddressFormModel(uprnSelected = uprnSelected)
+    val value = NewKeeperChooseYourAddressFormModel(uprnSelected)
     createCookie(key, value)
   }
 

@@ -6,7 +6,7 @@ import uk.gov.dvla.vehicles.presentation.common.views.models.AddressLinesViewMod
 
 case class Address(line: Seq[String])
 
-case class AddressDto(line: Seq[String], postTown: Option[String], postCode: String, uprn: Option[Long])
+case class AddressDto(line: Seq[String], postTown: Option[String], postCode: String)
 
 object AddressDto {
   import play.api.libs.json.Json
@@ -22,7 +22,6 @@ object AddressDto {
     val addressMandatoryLines =
       if (addressViewModel.address.size == 2)
         AddressModel(
-          addressViewModel.uprn,
           Seq(BuildingNameOrNumberHolder) ++ addressViewModel.address
         )
       else addressViewModel
@@ -40,7 +39,7 @@ object AddressDto {
   private def buildStandardDisposalAddressDto(addressViewModel: AddressModel): AddressDto = {
     val postcode = addressViewModel.address.last.replace(" ","")
     val postTown = Some(addressViewModel.address.takeRight(2).head)
-    AddressDto(addressViewModel.address.dropRight(2), postTown , postcode, addressViewModel.uprn)
+    AddressDto(addressViewModel.address.dropRight(2), postTown , postcode)
   }
 
   private def rebuildDisposalAddressDto(addressViewModel: AddressModel): AddressDto = {
@@ -60,7 +59,7 @@ object AddressDto {
     val legacyAddressLines = trimLines(amendedAddressLines.dropRight(1), Nil)
 
     val postcode = addressViewModel.address.last.replaceAll(" ","")
-    AddressDto(legacyAddressLines.dropRight(1), Some(legacyAddressLines.last), postcode, addressViewModel.uprn)
+    AddressDto(legacyAddressLines.dropRight(1), Some(legacyAddressLines.last), postcode)
   }
 
   private def assignEmptyLines(address: Seq[String]) : Seq[String] = {

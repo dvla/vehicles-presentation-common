@@ -200,8 +200,7 @@ abstract class NewKeeperChooseYourAddressBase @Inject()(protected val addressLoo
                                                postCode: String)
                                               (implicit request: Request[_]): Future[Result] = {
     fetchAddresses(postCode)(request).map { addresses =>
-      val lookedUpAddress = model.uprnSelected
-        val addressModel = VmAddressModel.from(lookedUpAddress)
+        val addressModel = VmAddressModel.from(model.addressSelected)
         createNewKeeper(addressModel) match {
           case Some(newKeeperDetails) => nextPage(model, newKeeperDetails, addressModel)
           case _ => error("No new keeper details found in cache, redirecting to vehicle lookup")

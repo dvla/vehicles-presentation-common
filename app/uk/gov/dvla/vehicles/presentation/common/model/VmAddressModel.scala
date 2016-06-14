@@ -11,7 +11,7 @@ object VmAddressModel {
     AddressModel(address = joinAddressesIfNeeded(address.toViewFormat))
 
   def from(addressString: String): AddressModel =
-    AddressModel(uprn = None, address = joinAddressesIfNeeded(addressString.split(",") map (line => line.trim)))
+    AddressModel(address = joinAddressesIfNeeded(addressString.split(",") map (line => line.trim)))
 
   private def countAllowedLineCharacters(s: String) = s.count(_.isLetter)
 

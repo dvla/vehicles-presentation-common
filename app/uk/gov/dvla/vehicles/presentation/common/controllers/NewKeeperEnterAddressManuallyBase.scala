@@ -98,7 +98,6 @@ abstract class NewKeeperEnterAddressManuallyBase @Inject()()
               form.fill(
                 NewKeeperEnterAddressManuallyFormModel(
                   AddressAndPostcodeViewModel(
-                    None,
                     AddressLinesViewModel("", None, None, ""),
                     postcode
                   )

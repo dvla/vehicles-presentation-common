@@ -35,7 +35,7 @@ object VehicleAndKeeperDetailsModel {
       )
       vehicleAndKeeperDetailsDto.keeperPostcode match {
         case Some(postCode) => AddressModel.from(
-          AddressAndPostcodeViewModel(None, addressLineModel, formatPostcode(postCode))
+          AddressAndPostcodeViewModel(addressLineModel, formatPostcode(postCode))
         )
         case None => AddressModel(address = addressLineModel.toViewFormat)
       }

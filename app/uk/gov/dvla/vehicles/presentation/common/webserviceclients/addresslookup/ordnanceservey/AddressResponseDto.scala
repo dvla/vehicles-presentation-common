@@ -3,7 +3,6 @@ package uk.gov.dvla.vehicles.presentation.common.webserviceclients.addresslookup
 import play.api.libs.json.Json
 
 final case class AddressResponseDto(address: String,
-                                    uprn: Option[String],
                                     businessName: Option[String])
 
 object AddressResponseDto {

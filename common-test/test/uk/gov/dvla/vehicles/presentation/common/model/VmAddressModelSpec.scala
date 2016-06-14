@@ -12,8 +12,7 @@ class VmAddressModelSpec extends UnitSpec {
     VmAddressModel.from(firstLine + "," + testAddressWithPostCode.mkString(",")).address(0)
 
   private def vmAddresssModelWithAddressAndPostcodeViewModel(firstLine: String): String =
-    VmAddressModel.from(AddressAndPostcodeViewModel(None,
-      AddressLinesViewModel(buildingNameOrNumber = firstLine,
+    VmAddressModel.from(AddressAndPostcodeViewModel(AddressLinesViewModel(buildingNameOrNumber = firstLine,
         line2 = Option(testAddress(0)),
         postTown =  testAddress(1)
       ), postCode

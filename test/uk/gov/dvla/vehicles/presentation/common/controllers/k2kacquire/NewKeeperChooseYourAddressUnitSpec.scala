@@ -9,17 +9,18 @@ import uk.gov.dvla.vehicles.presentation.common
 import common.testhelpers.CookieFactoryForUnitSpecs.{privateKeeperDetailsCookie, vehicleAndKeeperDetailsCookie}
 import common.testhelpers.CookieFactoryForUnitSpecs.businessKeeperDetailsCookie
 import common.testhelpers.CookieFactoryForUnitSpecs.{PostcodeValid, defaultKeeperChooseYourAddressViewModel}
-
 import common.{TestWithApplication, UnitSpec}
-import uk.gov.dvla.vehicles.presentation.common.clientsidesession.{TrackingId, ClearTextClientSideSessionFactory, NoCookieFlags}
+import uk.gov.dvla.vehicles.presentation.common.clientsidesession.{ClearTextClientSideSessionFactory, NoCookieFlags, TrackingId}
 import uk.gov.dvla.vehicles.presentation.common.testhelpers.CookieFactoryForUnitSpecs
-import uk.gov.dvla.vehicles.presentation.common.webserviceclients.addresslookup.ordnanceservey.{AddressResponseDto, AddressDto}
+import uk.gov.dvla.vehicles.presentation.common.webserviceclients.addresslookup.ordnanceservey.{AddressDto, AddressResponseDto}
+
 import scala.concurrent.duration.DurationInt
 import uk.gov.dvla.vehicles.presentation.common.controllers.k2kacquire.PrivateKeeperDetailsTesting.presentTestResult
 import uk.gov.dvla.vehicles.presentation.common.model.{AddressModel, CacheKeyPrefix}
 import uk.gov.dvla.vehicles.presentation.common.webserviceclients.addresslookup.AddressLookupService
+import uk.gov.dvla.vehicles.presentation.common.webserviceclients.fakes.FakeAddressLookupWebServiceImpl
 
-import scala.concurrent.{Await, Future, ExecutionContext}
+import scala.concurrent.{Await, ExecutionContext, Future}
 import ExecutionContext.Implicits.global
 import scala.language.postfixOps
 
@@ -66,7 +67,7 @@ final class NewKeeperChooseYourAddressUnitSpec extends UnitSpec {
     val newKeeperChooseYourAddress = controller
     val request = FakeRequest().withCookies(privateKeeperDetailsCookie(), 
       vehicleAndKeeperDetailsCookie(),
-      CookieFactoryForUnitSpecs.newKeeperChooseYourAddress(12345L.toString))
+      CookieFactoryForUnitSpecs.newKeeperChooseYourAddress(FakeAddressLookupWebServiceImpl.selectedAddress))
 
     val result = newKeeperChooseYourAddress.present(request)
     val content = contentAsString(result)
@@ -77,7 +78,7 @@ final class NewKeeperChooseYourAddressUnitSpec extends UnitSpec {
     val newKeeperChooseYourAddress = controller
     val request = FakeRequest().withCookies(businessKeeperDetailsCookie(),
       vehicleAndKeeperDetailsCookie(),
-      CookieFactoryForUnitSpecs.newKeeperChooseYourAddress(12345L.toString))
+      CookieFactoryForUnitSpecs.newKeeperChooseYourAddress(FakeAddressLookupWebServiceImpl.selectedAddress))
 
     val result = newKeeperChooseYourAddress.present(request)
     val content = contentAsString(result)
