@@ -11,7 +11,7 @@
   currentForm = Some(valtechDateForm)) {
   @form(action = controllers.routes.DateController.submit) {
 
-    @valtechDate(valtechDateForm(models.DateModel.Form.OptionalDateId), Messages("dateInput.label"),
+    @valtechDate(valtechDateForm(models.OptionalDateModel.Form.OptionalDateId), Messages("dateInput.label"),
         args = Map(
             '_showConstraints -> false,
             'autofocus -> true

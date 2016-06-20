@@ -9,7 +9,7 @@ import play.api.data.validation.Constraints.{nonEmpty, pattern}
 import play.api.libs.json.Json
 import uk.gov.dvla.vehicles.presentation.common
 import common.clientsidesession.CacheKey
-import common.mappings.Date.optionalDateOfBirth
+import common.mappings.DateOfBirth.optionalDateOfBirth
 import common.mappings.DriverNumber.driverNumber
 import common.mappings.Email.emailConfirm
 import common.mappings.Postcode.postcode

@@ -1,6 +1,6 @@
 package uk.gov.dvla.vehicles.presentation.common.pages
 
-import org.openqa.selenium.{WebDriver}
+import org.openqa.selenium.WebDriver
 import org.scalatest.selenium.WebBrowser.click
 import org.scalatest.selenium.WebBrowser.cssSelector
 import org.scalatest.selenium.WebBrowser.Element
@@ -10,7 +10,8 @@ import org.scalatest.selenium.WebBrowser.go
 import org.scalatest.selenium.WebBrowser.{telField, TelField}
 import uk.gov.dvla.vehicles.presentation.common.helpers.webbrowser.Page
 import uk.gov.dvla.vehicles.presentation.common.helpers.webbrowser.WebDriverFactory
-import uk.gov.dvla.vehicles.presentation.common.models.DateModel.Form.{DateId, OptionalDateId}
+import uk.gov.dvla.vehicles.presentation.common.models.DateModel.Form.DateId
+import uk.gov.dvla.vehicles.presentation.common.models.OptionalDateModel.Form.OptionalDateId
 
 class DatePage(implicit driver: WebDriver) extends Page {
 

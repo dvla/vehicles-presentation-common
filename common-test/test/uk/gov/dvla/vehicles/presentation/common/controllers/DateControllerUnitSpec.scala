@@ -27,7 +27,7 @@ class DateControllerUnitSpec extends UnitSpec {
     }
 
     "present a full form" in new TestWithApplication {
-      val value = DateModel(Some(new LocalDate(1234, 12, 24)), new LocalDate(1234, 12, 24))
+      val value = DateModel(new LocalDate(1234, 12, 24))
 
       val request = FakeRequest()
         .withCookies(createCookie(Key.value, value))

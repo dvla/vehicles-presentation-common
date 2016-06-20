@@ -5,27 +5,27 @@ import uk.gov.dvla.vehicles.presentation.common.services.DateService
 import uk.gov.dvla.vehicles.presentation.common.views.models.DayMonthYear
 
 class FakeDateServiceImpl extends DateService {
-  import FakeDateServiceImpl.{DateOfDisposalDayValid, DateOfDisposalMonthValid, DateOfDisposalYearValid}
+  import FakeDateServiceImpl.{DateDayValid, DateMonthValid, DateYearValid}
 
   override def today = DayMonthYear(
-    DateOfDisposalDayValid.toInt,
-    DateOfDisposalMonthValid.toInt,
-    DateOfDisposalYearValid.toInt
+    DateDayValid.toInt,
+    DateMonthValid.toInt,
+    DateYearValid.toInt
   )
 
   override def now = Instant.now()
 
   override def dateTimeISOChronology: String = new DateTime(
-    DateOfDisposalYearValid.toInt,
-    DateOfDisposalMonthValid.toInt,
-    DateOfDisposalDayValid.toInt,
+    DateYearValid.toInt,
+    DateMonthValid.toInt,
+    DateDayValid.toInt,
     0,
     0).toString
 }
 
 object FakeDateServiceImpl {
   val today = LocalDate.now()
-  final val DateOfDisposalDayValid = today.toString("dd")
-  final val DateOfDisposalMonthValid = today.toString("MM")
-  final val DateOfDisposalYearValid = today.toString("YYYY")
+  final val DateDayValid = today.toString("dd")
+  final val DateMonthValid = today.toString("MM")
+  final val DateYearValid = today.toString("YYYY")
 }

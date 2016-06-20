@@ -2,7 +2,7 @@ package uk.gov.dvla.vehicles.presentation.common.mappings
 
 import org.joda.time.LocalDate
 import play.api.data.FormError
-import play.api.data.Forms.{of, optional}
+import play.api.data.Forms.of
 import play.api.data.format.Formatter
 import play.api.data.validation.{Constraint, Invalid, Valid, ValidationError}
 import play.api.i18n.Messages
@@ -17,8 +17,6 @@ object Date {
   final val TodaysDateId = "todays_date"
   final val MaxDaysInMonth = 31
   final val MaxMonthsInYear = 12
-  final val OptionalDateOfBirth = "optional.date"
-  final val ValidYearsAgo = 110
 
   def formatter(errorMessageKey: String = "error.date.invalid") = new Formatter[LocalDate] {
     def bind(key: String, data: Map[String, String]): Either[Seq[FormError], LocalDate] = {
@@ -37,15 +35,15 @@ object Date {
       date.toRight(Seq[FormError](FormError(key, errorMessageKey)))
     }
 
-    def datePart(datePartText: String, length: Int): Option[String] = {
+    private def datePart(datePartText: String, length: Int): Option[String] = {
       if (datePartText.length == length) Some(datePartText) else None
     }
 
-    def toInt(datePartText: String): Option[Int] = {
+    private def toInt(datePartText: String): Option[Int] = {
       Try(datePartText.toInt).toOption
     }
 
-    def createDate(year: Int, month: Int, day: Int): Option[LocalDate] = {
+    private def createDate(year: Int, month: Int, day: Int): Option[LocalDate] = {
       Try(new LocalDate(year, month, day)).toOption
     }
 
@@ -58,26 +56,11 @@ object Date {
 
   val dateMapping = of[LocalDate](formatter()) verifying required
 
-  val optionalDateMapping = optional(of[LocalDate](formatter()))
-
-  def optionalNonFutureDateMapping(implicit dateService: DateService) =
-    optional(of[LocalDate](formatter()) verifying notInTheFuture())
-
-  private def genericDateOfBirth(implicit dateService: DateService) =
-    of[LocalDate](formatter("error.dateOfBirth.invalid"))
-      .verifying(notInTheFuture(Messages("error.dateOfBirth.inTheFuture")))
-      .verifying(notBefore(dateService.now.toDateTime.toLocalDate.minusYears(ValidYearsAgo),
-      Messages("error.dateOfBirth.110yearsInThePast")))
-
-  def dateOfBirth()(implicit dateService: DateService) = genericDateOfBirth verifying required
-
-  def optionalDateOfBirth()(implicit dateService: DateService) = optional(genericDateOfBirth)
-
   def required = Constraint[LocalDate](Required.RequiredField) {
     case _ => Valid
   }
 
-  def notAfter(notAfter: LocalDate,
+  private def notAfter(notAfter: LocalDate,
                message: String = Messages("error.date.notAfter"),
                name: String = "constraint.notAfter") = Constraint[LocalDate](name) {
     case d: LocalDate =>
@@ -97,6 +80,7 @@ object Date {
       else Valid
   }
 
+  // TODO - remove this as it is not used by exemplars/widget (only unit test)
   def notInThePast(message: String = Messages("error.date.notInThePast"),
                    name: String = "constraint.notInThePast")(implicit dateService: DateService) =
     notBefore(dateService.now.toDateTime.toLocalDate, message, name)
