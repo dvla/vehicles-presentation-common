@@ -11,7 +11,6 @@ import uk.gov.dvla.vehicles.presentation.common.helpers.UiSpec
 import uk.gov.dvla.vehicles.presentation.common.model.{Address, SearchFields}
 import uk.gov.dvla.vehicles.presentation.common.models.AddressPickerModel
 import uk.gov.dvla.vehicles.presentation.common.pages.{AddressPickerPage, ErrorPanel}
-import uk.gov.dvla.vehicles.presentation.common.views.widgetdriver.AddressPickerDriver
 
 class AddressPickerSpec extends UiSpec with TestHarness with AppendedClues {
   "Address picker widget" should {
