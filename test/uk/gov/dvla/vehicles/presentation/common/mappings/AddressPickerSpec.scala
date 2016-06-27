@@ -135,7 +135,7 @@ class AddressPickerSpec extends UnitSpec {
     "return validation error if postcode is visible and valid and address fields are invisible" in {
       val searchFields = SearchFields(true, false, false, Some("BB22BB"), None, remember = false)
       formatter.bind("dp", formatter.unbind("dp", fullModel.copy(searchFields = searchFields))) match {
-        case Left(errors) => errors should contain(FormError(s"dp.$SearchByPostcodeField", "error.required.address"))
+        case Left(errors) => errors should contain(FormError(s"dp.$SearchByPostcodeField", "error.address.required"))
         case _ => fail("Errors expected at that point")
       }
     }

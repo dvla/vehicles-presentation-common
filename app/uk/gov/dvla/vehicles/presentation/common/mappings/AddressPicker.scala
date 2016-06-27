@@ -49,7 +49,7 @@ object AddressPicker {
           Postcode.postcode.withPrefix(s"$key.$SearchByPostcodeField").bind(data) match {
             case Left(errors) => errors
             case Right(postCode) =>
-              if (!showAddressFields) Seq(FormError(s"$key.$SearchByPostcodeField", "error.required.address"))
+              if (!showAddressFields) Seq(FormError(s"$key.$SearchByPostcodeField", "error.address.required"))
               else Seq.empty[FormError]
           }
         else Seq.empty[FormError]
