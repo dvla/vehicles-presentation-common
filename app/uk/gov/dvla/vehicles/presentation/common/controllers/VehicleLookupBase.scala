@@ -1,7 +1,8 @@
 package uk.gov.dvla.vehicles.presentation.common.controllers
 
 import play.api.libs.json.Writes
-import play.api.mvc.{Action, Controller, Result, Request}
+import play.api.mvc.{Action, Controller, Request, Result}
+
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 import scala.util.{Failure, Success}
@@ -10,8 +11,8 @@ import uk.gov.dvla.vehicles.presentation.common
 import common.clientsidesession.{CacheKey, ClientSideSessionFactory, TrackingId}
 import common.clientsidesession.CookieImplicits.{RichCookies, RichResult}
 import common.controllers.VehicleLookupBase.{LookupResult, VehicleFound, VehicleNotFound}
-import common.LogFormats.{anonymize, optionNone, DVLALogger}
-import uk.gov.dvla.vehicles.presentation.common.model.{MicroserviceResponseModel, CacheKeyPrefix, BruteForcePreventionModel}
+import common.LogFormats.{DVLALogger, anonymize, optionNone}
+import uk.gov.dvla.vehicles.presentation.common.model.{BruteForcePreventionModel, CacheKeyPrefix, MicroserviceResponseModel}
 import common.services.DateService
 import common.webserviceclients.bruteforceprevention.BruteForcePreventionService
 import common.webserviceclients.common.DmsWebHeaderDto
@@ -19,6 +20,12 @@ import common.webserviceclients.vehicleandkeeperlookup.VehicleAndKeeperLookupDet
 import common.webserviceclients.vehicleandkeeperlookup.VehicleAndKeeperLookupFailureResponse
 import common.webserviceclients.vehicleandkeeperlookup.VehicleAndKeeperLookupRequest
 import common.webserviceclients.vehicleandkeeperlookup.VehicleAndKeeperLookupService
+import org.joda.time.DateTime
+import org.joda.time.DateTimeZone
+import org.joda.time.format.ISODateTimeFormat
+import common.views.models.DayMonthYear
+import uk.gov.dvla.vehicles.presentation.common.LogFormats
+import common.views.constraints.Postcode.formatPostcode
 
 trait VehicleLookupFormModelBase {
   val referenceNumber: String
@@ -201,6 +208,72 @@ abstract class VehicleLookupBase[FormModel <: VehicleLookupFormModelBase]
       languageCode = englishLanguage,
       endUser = None)
   }
+
+  // payment solve requires (for each day) a unique six digit number
+  // use time from midnight in tenths of a second units
+  private def calculatePaymentTransNo = {
+    val milliSecondsFromMidnight = dateService.today.toDateTime.get.millisOfDay().get()
+    val tenthSecondsFromMidnight = (milliSecondsFromMidnight / 100.0).toInt
+    // prepend with zeros
+    "%06d".format(tenthSecondsFromMidnight)
+  }
+
+  protected def addDefaultCookies(result: Result, transactionId: String, txnIdCacheKey: String, paymentTxnNoCacheKey: String)
+                               (implicit request: Request[_]): Result = result
+    .withCookie(txnIdCacheKey, transactionId)
+    .withCookie(paymentTxnNoCacheKey, calculatePaymentTransNo)
+
+  protected def transactionId(registrationNumber: String): String = {
+      val transactionTimestamp =
+        DayMonthYear.from(new DateTime(dateService.now, DateTimeZone.forID("Europe/London"))).toDateTimeMillis.get
+      val isoDateTimeString = ISODateTimeFormat.yearMonthDay().print(transactionTimestamp).drop(2) + " " +
+        ISODateTimeFormat.hourMinuteSecond().print(transactionTimestamp)
+      registrationNumber +
+        isoDateTimeString.replace(" ", "").replace("-", "").replace(":", "").replace(".", "")
+    }
+
+  protected def postcodesMatch(formModelPostcode: String, dtoPostcode: Option[String])
+                              (trackingId: TrackingId) = {
+      dtoPostcode match {
+        case Some(postcode) =>
+          val msg = s"formModelPostcode = ${LogFormats.anonymize(formModelPostcode)}, " +
+          s"dtoPostcode = ${LogFormats.anonymize(postcode)}"
+          logMessage(trackingId, Info, msg)
+
+          def formatPartialPostcode(postcode: String): String = {
+            val SpaceCharDelimiter = " "
+            val A99AA = "([A-Z][0-9][*]{3})".r
+            val A099AA = "([A-Z][0][0-9][*]{3})".r
+            val A999AA = "([A-Z][0-9]{2}[*]{3})".r
+            val A9A9AA = "([A-Z][0-9][A-Z][*]{3})".r
+            val AA99AA = "([A-Z]{2}[0-9][*]{3})".r
+            val AA099AA = "([A-Z]{2}[0][0-9][*]{3})".r
+            val AA999AA = "([A-Z]{2}[0-9]{2}[*]{3})".r
+            val AA9A9AA = "([A-Z]{2}[0-9][A-Z][*]{3})".r
+
+            postcode.toUpperCase.replace(SpaceCharDelimiter, "") match {
+              case A99AA(p) => p.substring(0, 2)
+              case A099AA(p) => p.substring(0, 1) + p.substring(2, 3)
+              case A999AA(p) => p.substring(0, 3)
+              case A9A9AA(p) => p.substring(0, 3)
+              case AA99AA(p) => p.substring(0, 3)
+              case AA099AA(p) => p.substring(0, 2) + p.substring(3, 4)
+              case AA999AA(p) => p.substring(0, 4)
+              case AA9A9AA(p) => p.substring(0, 4)
+              case _ => formatPostcode(postcode)
+            }
+          }
+
+          // strip the spaces before comparison
+          formatPostcode(formModelPostcode).filterNot(" " contains _).toUpperCase ==
+            formatPartialPostcode(postcode).filterNot(" " contains _).toUpperCase
+
+        case None =>
+          logMessage(trackingId, Info, s"formModelPostcode = ${LogFormats.anonymize(formModelPostcode)}")
+          formModelPostcode.isEmpty
+      }
+    }
+
 }
 
 object VehicleLookupBase {
@@ -209,4 +282,11 @@ object VehicleLookupBase {
   final case class VehicleNotFound(failure: VehicleAndKeeperLookupFailureResponse) extends LookupResult
 
   final case class VehicleFound(result: Result) extends LookupResult
+
+  final val RESPONSE_CODE_DELIMITER = " - "
+  // ms response codes (correlate to the name of a template html file in views.<exemplar>.lookup_failure)
+  final val RESPONSE_CODE_VRM_LOCKED = "vrm_locked"
+  final val RESPONSE_CODE_POSTCODE_MISMATCH = "vehicle_and_keeper_lookup_keeper_postcode_mismatch"
+  // exemplar failure codes
+  final val FAILURE_CODE_VKL_UNHANDLED_EXCEPTION = "VMPR6"
 }
