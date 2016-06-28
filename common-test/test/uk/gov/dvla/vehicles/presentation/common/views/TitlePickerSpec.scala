@@ -80,4 +80,14 @@ class TitlePickerSpec extends UiSpec with TestHarness {
       ErrorPanel.numberOfErrors should equal(1)
     }
   }
+
+  "Javascript enabled" should {
+    "still have other text box visible after error" in new WebBrowserWithJs {
+      go to TitlePickerPage
+      click on TitlePickerPage.other
+      click on TitlePickerPage.submit
+      ErrorPanel.numberOfErrors should equal(1)
+      TitlePickerPage.otherText.isDisplayed shouldBe (true)
+    }
+  }
 }
