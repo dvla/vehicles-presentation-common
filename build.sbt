@@ -53,7 +53,7 @@ libraryDependencies ++= Seq(
   "net.htmlparser.jericho" % "jericho-html" % "3.4" withSources() withJavadoc(),
   "org.apache.commons" % "commons-email" % "1.2" withSources() withJavadoc(),
   "org.webjars" %% "webjars-play" % "2.3.0-3",
-  "org.webjars" % "jquery" % "1.9.1",
+  "org.webjars" % "jquery" % "1.12.4",
   // test
   "com.github.detro" % "phantomjsdriver" % "1.2.0" % "test" withSources() withJavadoc(),
   "com.github.tomakehurst" % "wiremock" % "1.58" % "test" withSources() withJavadoc() exclude("log4j", "log4j"),
