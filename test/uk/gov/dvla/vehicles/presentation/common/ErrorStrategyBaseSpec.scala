@@ -66,7 +66,7 @@ class ErrorStrategyBaseSpec extends UnitSpec {
                           loggerLike: LoggerLike,
                           dateService: DateService,
                           sessionExceptionTarget: Call,
-                          errorTarget: Call)
+                          errorTarget: String => Call)
     extends ErrorStrategyBase(clfEntryBuilder, logger, loggerLike, dateService, sessionExceptionTarget, errorTarget) {
 
     val mockErrorPageResult = mock[Result]
@@ -93,7 +93,7 @@ class ErrorStrategyBaseSpec extends UnitSpec {
     val request = mock[RequestHeader]
     val loggerLike = new MockLogger
     val mockSessionExceptionPage = mock[Call]
-    val mockErrorPage = mock[Call]
+    val mockErrorPage = mock[String => Call]
     val errorStrategy = new ErrorStrategyTest(clfEntryBuilder, logger, loggerLike, dateService, mockSessionExceptionPage, mockErrorPage)
     (clfEntryBuilder, logger, dateService, request, errorStrategy, loggerLike)
   }

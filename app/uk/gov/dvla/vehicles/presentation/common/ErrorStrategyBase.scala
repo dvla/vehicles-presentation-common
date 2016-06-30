@@ -18,7 +18,7 @@ abstract class ErrorStrategyBase(clfEntryBuilder: ClfEntryBuilder,
                                  @Named("AccessLogger") accessLogger: LoggerLike,
                                  dateService: DateService,
                                  sessionExceptionTarget: Call,
-                                 errorTarget: Call) extends DVLALogger {
+                                 errorTarget: String => Call) extends DVLALogger {
 
   def apply(request: RequestHeader, ex: Throwable)
            (implicit executionContext: ExecutionContext): Result = {
@@ -30,7 +30,7 @@ abstract class ErrorStrategyBase(clfEntryBuilder: ClfEntryBuilder,
         val msg = s"Exception caught [${cause.getMessage}] " +
           s"whose digest is '$exceptionDigest' - will now display error page..."
         play.Logger.error(msg)
-        errorPageResult(errorTarget)
+        errorPageResult(errorTarget(exceptionDigest))
     }
     clfEntryLog(clfEntryBuilder.clfEntry(dateService.now.toDate, request, result)(accessLogger))
     result
