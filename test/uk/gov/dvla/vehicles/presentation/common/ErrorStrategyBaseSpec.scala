@@ -4,13 +4,12 @@ import java.security.GeneralSecurityException
 import java.util.Date
 import org.joda.time.Instant
 import org.mockito.Mockito.{verify, when}
-import play.api.libs.Codecs
 import play.api.LoggerLike
-import play.api.mvc.{RequestHeader, Result}
+import play.api.mvc.{Call, RequestHeader, Result}
 import scala.collection.mutable.ArrayBuffer
 import scala.concurrent.ExecutionContext.Implicits.global
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.InvalidSessionException
-import uk.gov.dvla.vehicles.presentation.common.filters.{MockLogger, ClfEntryBuilder}
+import uk.gov.dvla.vehicles.presentation.common.filters.{ClfEntryBuilder, MockLogger}
 import uk.gov.dvla.vehicles.presentation.common.services.DateService
 
 class ErrorStrategyBaseSpec extends UnitSpec {
@@ -36,9 +35,6 @@ class ErrorStrategyBaseSpec extends UnitSpec {
 
       // Then
       errorStrategy.requests should be(empty)
-      errorStrategy.exceptionDigests should equal(
-        ArrayBuffer(Codecs.sha1("some exception message"))
-      )
       verify(logger).apply(errorPageResultClfEntry)
     }
   }
@@ -58,29 +54,34 @@ class ErrorStrategyBaseSpec extends UnitSpec {
     )
 
     // Then
+    // sessionExceptionResult is called once with the request
     errorStrategy.requests should equal(ArrayBuffer(request))
-    errorStrategy.exceptionDigests should be(empty)
+    // errorPageResult is not called
+    errorStrategy.errorPageResultInvokeCount should equal(0)
     verify(logger).apply(sessionExceptionClfEntry)
   }
 
   class ErrorStrategyTest(clfEntryBuilder: ClfEntryBuilder,
                           logger: String => Unit,
                           loggerLike: LoggerLike,
-                          dateService: DateService)
-    extends ErrorStrategyBase(clfEntryBuilder, logger, loggerLike, dateService) {
+                          dateService: DateService,
+                          sessionExceptionTarget: Call,
+                          errorTarget: Call)
+    extends ErrorStrategyBase(clfEntryBuilder, logger, loggerLike, dateService, sessionExceptionTarget, errorTarget) {
 
     val mockErrorPageResult = mock[Result]
     var requests = ArrayBuffer[RequestHeader]()
-    var exceptionDigests = ArrayBuffer[String]()
+    var errorPageResultInvokeCount : Int = 0
+
     val mockSessionExceptionResult = mock[Result]
 
-    override protected def sessionExceptionResult(request: RequestHeader): Result = {
+    override protected def sessionExceptionResult(request: RequestHeader, target: Call): Result = {
       requests += request
       mockSessionExceptionResult
     }
 
-    override protected def errorPageResult(exceptionDigest: String): Result = {
-      exceptionDigests += exceptionDigest
+    override protected def errorPageResult(target: Call): Result = {
+      errorPageResultInvokeCount += 1
       mockErrorPageResult
     }
   }
@@ -91,7 +92,9 @@ class ErrorStrategyBaseSpec extends UnitSpec {
     val dateService = mock[DateService]
     val request = mock[RequestHeader]
     val loggerLike = new MockLogger
-    val errorStrategy = new ErrorStrategyTest(clfEntryBuilder, logger, loggerLike, dateService)
+    val mockSessionExceptionPage = mock[Call]
+    val mockErrorPage = mock[Call]
+    val errorStrategy = new ErrorStrategyTest(clfEntryBuilder, logger, loggerLike, dateService, mockSessionExceptionPage, mockErrorPage)
     (clfEntryBuilder, logger, dateService, request, errorStrategy, loggerLike)
   }
 }
