@@ -1,3 +1,14 @@
+======= 2.51 ======
+Time of release binaries creation:
+
+
+VMPRCI-4410 	Feedback name validation message is incorrect
+VMPRCI-4406 	Bump jQuery used to latest 1.x
+VMPRCI-4428 	Error page is holding the previous VRM entered details
+VMPRCI-4400 	Address Picker error message
+VMPRCI-4383 	Other Field Left Blank
+VMPRCI-4424 	Refactor exemplar ErrorStrategy into VPC
+
 ======= 2.50 ======
 Time of release binaries creation:
 Wed Jun 22 11:02:03 UTC 2016
