@@ -1,6 +1,6 @@
 package uk.gov.dvla.vehicles.presentation.common
 
-import play.api.{Logger, Play}
+import play.api.Play
 
 object ConfigProperties {
   implicit val stringProp = (property: String) => Play.current.configuration.getString(property)
@@ -8,6 +8,7 @@ object ConfigProperties {
   implicit val booleanProp = (property: String) => Play.current.configuration.getBoolean(property)
   implicit val longProp = (property: String) => Play.current.configuration.getLong(property)
   implicit val listStringProp = (property: String) => Play.current.configuration.getStringList(property)
+  implicit val listIntProp = (property: String) => Play.current.configuration.getIntList(property)
 
   /**
    * Returns a property or throws a Runtime error if this property doesn't exist.
@@ -24,7 +25,6 @@ object ConfigProperties {
     Play.current.configuration.getMilliseconds(property)
 
   private def error(property: String) = {
-    Logger.error(s"Property with name $property was not found. Try adding this property to application.conf file") // TODO not sure we need this line
     throw new RuntimeException(s"Property with name $property was not found. Try adding this property to application.conf file")
   }
 
@@ -43,4 +43,10 @@ object ConfigProperties {
     // so import this here and convert the list bellow to a scala list
     getOptionalProperty[java.util.List[String]](property).map(_.toList)
   }
+
+  def getIntListProperty(property: String): Option[List[Int]] = {
+    import collection.JavaConverters._
+    getOptionalProperty[java.util.List[Integer]](property).map(_.asScala.toList.map(_.intValue))
+  }
+
 }

@@ -20,8 +20,7 @@ trait EnsureServiceOpenFilter extends Filter {
   private def openingHourMillis = opening * MillisInMinute
   private def closingHourMillis = closing * MillisInMinute
   protected val html: HtmlFormat.Appendable
-  private final val Sunday = 7
-  protected val closedDays: List[Int] = List(Sunday) // The service is closed on Sunday
+  protected val closedDays: List[Int] = List()
 
   protected def html(openingTime: String, closingTime: String): HtmlFormat.Appendable = html
 
@@ -43,6 +42,7 @@ trait EnsureServiceOpenFilter extends Filter {
   }
 
   private def isDuringOpeningHours(timeInMillis: Int): Boolean = {
+    // note: when open 24x7 there is no ServiceOpenFilter applied
     if (closingHourMillis >= openingHourMillis) (timeInMillis >= openingHourMillis) && (timeInMillis < closingHourMillis)
     else (timeInMillis >= openingHourMillis) || (timeInMillis < closingHourMillis)
   }

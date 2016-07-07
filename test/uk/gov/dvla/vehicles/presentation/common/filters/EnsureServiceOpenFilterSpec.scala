@@ -34,6 +34,13 @@ class EnsureServiceOpenFilterSpec extends UnitSpec {
     }, dateTime)
   }
 
+  "Return False for an in hours time on a closed day, with the current timezone as GMT" in {
+    val dateTime = new DateTime(dateTimeService.currentDateTimeZone)
+    setUpInHoursClosedToday((setup: SetUp) => {
+      setup.filter.serviceOpen(dateTime) should equal(false)
+    }, dateTime)
+  }
+
   "Return True for a timezone time falling within opening hours, and False for a time in another timezone falling outside opening hours" in {
     setUpInHours ((setup: SetUp) => {
         setup.filter.serviceOpen() should equal(true)
@@ -124,7 +131,8 @@ class EnsureServiceOpenFilterSpec extends UnitSpec {
                            sessionFactory:ClientSideSessionFactory,
                            nextFilter: MockFilter,
                            opening: Long,
-                           closing: Long)
+                           closing: Long,
+                           closedDays: List[Int])
 
   private def setUpInHours(test: SetUp => Any, dateTime: DateTime): Unit = {
     val opening = Math.min(0, dateTime.getMillisOfDay / minuteMilllis - 1)
@@ -148,15 +156,23 @@ class EnsureServiceOpenFilterSpec extends UnitSpec {
     setUp(test, opening, closing, dateTimeZoneService)
   }
 
+  private def setUpInHoursClosedToday(test: SetUp => Any, dateTime: DateTime): Unit = {
+    val opening = Math.min(0, dateTime.getMillisOfDay / minuteMilllis - 1)
+    val closing = Math.max(1380, dateTime.getMillisOfDay / minuteMilllis + 1)
+    setUp(test, opening, closing, closedDays = List(dateTime.getDayOfWeek))
+  }
+
   private def setUp(test: SetUp => Any,
                     opening: Int = 0,
                     closing: Int = 1440,
-                    dateTimeZoneService: DateTimeZoneService = new DateTimeZoneServiceImpl) {
+                    dateTimeZoneService: DateTimeZoneService = new DateTimeZoneServiceImpl,
+                    closedDays: List[Int] = List() ) {
     val sessionFactory =  org.scalatest.mock.MockitoSugar.mock[ClientSideSessionFactory]
 
     case class TestServiceOpenFilter(override val opening: Int,
                                 override val closing: Int,
-                                override val dateTimeZone: DateTimeZoneService) extends EnsureServiceOpenFilter {
+                                override val dateTimeZone: DateTimeZoneService,
+                                override val closedDays: List[Int]) extends EnsureServiceOpenFilter {
       override val html = Html("")
 
       override def html(o: String, c: String): HtmlFormat.Appendable =
@@ -164,12 +180,13 @@ class EnsureServiceOpenFilterSpec extends UnitSpec {
     }
 
     test(SetUp(
-      filter = TestServiceOpenFilter(opening, closing, dateTimeZoneService),
+      filter = TestServiceOpenFilter(opening, closing, dateTimeZoneService, closedDays),
       request = FakeRequest(),
       sessionFactory = sessionFactory,
       nextFilter = new MockFilter(),
       opening,
-      closing
+      closing,
+      closedDays
     ))
   }
 
