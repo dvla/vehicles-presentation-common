@@ -5,5 +5,8 @@
 @main(
   title = Messages("tandc-title")
 ) {
-    @termsAndConditions(uk.gov.dvla.vehicles.presentation.common.controllers.routes.CookiePolicyController.present())
+    @termsAndConditions(uk.gov.dvla.vehicles.presentation.common.controllers.routes.CookiePolicyController.present(),
+        Messages("tandc.opening"),
+        Messages("tandc.closing"),
+        Messages("openDays.lastDay.pr"))
 }

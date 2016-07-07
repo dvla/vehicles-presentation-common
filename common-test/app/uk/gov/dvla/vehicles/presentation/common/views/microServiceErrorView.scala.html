@@ -7,5 +7,8 @@
 @main(
 title = Messages("micro-service-error.title")
 ) {
-    @microServiceError(Messages("closed.opening"), Messages("closed.closing"), tryAgainTarget, exitTarget)
+    @microServiceError(Messages("micro-service-error.opening"), Messages("micro-service-error.closing"), tryAgainTarget, exitTarget, Messages("openDays.lastDay.pr"))
+
+    @microServiceError(Messages("micro-service-error.opening"), Messages("micro-service-error.closing"), tryAgainTarget, exitTarget, Messages("openDays.lastDay.vm"))
+
 }

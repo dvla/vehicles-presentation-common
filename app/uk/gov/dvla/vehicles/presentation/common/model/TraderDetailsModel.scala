@@ -5,9 +5,7 @@ import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CacheKey
 
 final case class TraderDetailsModel(traderName: String, traderAddress: AddressModel, traderEmail: Option[String])
 
-/**
- * Current serving as both a view-model and model. Needs splitting.
- */
+// TODO refactor into view-model and model
 object TraderDetailsModel {
   implicit val JsonFormat = Json.format[TraderDetailsModel]
 

@@ -1,14 +1,16 @@
 @(opening: String,
   closing: String,
   tryAgainTarget: play.api.mvc.Call,
-  exitTarget: play.api.mvc.Call)(implicit lang: Lang)
+  exitTarget: play.api.mvc.Call,
+  lastDay: String
+)(implicit lang: Lang)
 
 @import uk.gov.dvla.vehicles.presentation.common.views.widgets.MicroServiceError.{TryAgainId, ExitId}
 
 <h1>@Messages("micro_service_error.title")</h1>
 
 <p>@Messages("micro_service_error.text1")</p>
-<p>@Messages("micro_service_error.text2", opening, closing)</p>
+<p>@Messages("micro_service_error.text2", opening, closing, lastDay)</p>
 
 <div class="form-steps">
 @* Note the reverse routing syntax for the hyperlink *@

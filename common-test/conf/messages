@@ -2,16 +2,15 @@
 main.banner = Generic widgets
 main.back = Back
 
-# close widget
-#closed-title = Close
+# closed widget
 closed.title = Service Unavailable
-closed.p1 = This service is only available Monday to Saturday {0} to {1}.
+closed.p1 = This service is only available Monday to {2} {0} to {1}.
 closed.exit_button = Exit
-closed.opening = 08:00
-closed.closing = 18:00
+
+openDays.lastDay.pr = Saturday
+openDays.lastDay.vm = Sunday
 
 #widget messages
-errorsummary.title = Please check the form
 errorsummary.p1 = Please fix the following:
 widget.optional = (optional)
 
@@ -297,7 +296,6 @@ playback-callback.title-2 = Your personal registration number is being placed on
 address-and-postcode.title = Address and Postcode
 address-and-postcode.submitbutton = Next
 
-addressAndPostcode.addressLines.buildingNameOrNumber = Building name or number
 addressAndPostcode.addressLines.line2 = Street name
 addressAndPostcode.addressLines.line3 = Area
 addressAndPostcode.addressLines.postTown = Town or city
@@ -372,8 +370,6 @@ form-steps.button.desktop = Desktop only
 form-steps.button.mobile = Mobile only
 
 #micro-service-error widget
-micro-service-error.title = Micro Service Error
-
 micro_service_error.title = We are sorry
 micro_service_error.text1 = The service is temporarily unavailable.
 micro_service_error.back.button = Try again
@@ -387,3 +383,18 @@ alternate-languages.title = Alternate Languages
 
 #prototype widget
 prototype.title = Prototype
+
+
+# common-test - microServiceErrorView
+micro-service-error.title = Micro Service Error
+micro-service-error.opening = 08:00
+micro-service-error.closing = 18:00
+
+# common-test - closedView
+closed-view.title = Closed
+closed-view.opening = 08:00
+closed-view.closing = 18:00
+
+# terms7AndConditionsView
+tandc.opening = 08:00
+tandc.closing = 08:00
