@@ -19,6 +19,14 @@ object Postcode {
     error = "error.restricted.validPostcode"
   )
 
+  // Postcode constraint for VPDS keeper postcodes ie exactly what is on the V5C
+  def validPostcodePR: Constraint[String] = pattern(
+    regex =
+      """^[A-Z0-9 ]*$""".stripMargin.replace("\n", "").r,
+    name = "constraint.restricted.validPostcode",
+    error = "error.restricted.validV5CPostcode")
+
+
   // TODO I think this should move out of the constraint as it is not a constraint, it re-formats for viewing. It could live in a model but we don't yet have a model for postcode
   def formatPostcode(postcode: String) = {
     val SpaceCharDelimiter = " "
