@@ -55,7 +55,9 @@ libraryDependencies ++= Seq(
   "org.webjars" %% "webjars-play" % "2.3.0-3",
   "org.webjars" % "jquery" % "1.12.4",
   // test
-  "com.github.detro" % "phantomjsdriver" % "1.2.0" % "test" withSources() withJavadoc(),
+  "org.seleniumhq.selenium" % "selenium-java" % "2.52.0" % "test",
+  "com.codeborne" % "phantomjsdriver" % "1.2.1" % "test" withSources() withJavadoc(),
+  "net.sourceforge.htmlunit" % "htmlunit" % "2.19" % "test" exclude("commons-collections", "commons-collections"),
   "com.github.tomakehurst" % "wiremock" % "1.58" % "test" withSources() withJavadoc() exclude("log4j", "log4j"),
   "org.mockito" % "mockito-all" % "1.10.19" % "test" withSources() withJavadoc(),
   "org.scalatest" %% "scalatest" % "2.2.6" % "test" withSources() withJavadoc(),
