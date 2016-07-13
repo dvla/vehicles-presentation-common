@@ -1,12 +1,86 @@
+# TODO test these DayMonthYear
+error.dropDownInvalid = Please select a value from the drop down list.
+error.invalid = Invalid value
+
+# exemplar - main
+footer.builtbyintro = Built by
+footer.builtby = Driver & Vehicle Licensing Agency
+footer.cookies = Cookies
+footer.tandc = Terms & Conditions
+footer.privacy = Privacy Policy
+
+# exemplar - feedbackSuccess
+feedback_return = ◄ Return to your application
+feedback_close = Please close this page to return to your application
+common_feedback.thankyou = Thank you for your feedback
+
+# exemplar - feedback
+common_feedback.title = Give feedback
+
+# VPC - valtechSelect widget
+select_default = Please select
+
+# VPC - valtechLabelText widget
+widget.optional = (optional)
+
+# VPC - errorsSummary widget
+errorsummary.title = Please correct the details below
+
+# VPC - addressAndPostcode widget
+address.lines.label = Building/number and street
+address.postcode.label = Postcode
+
+# VPC - addressLines widget (also uses addressAndPostcode.addressLines.postTown)
+address.buildingNameOrNumber.hint = e.g. 1 HIGH STREET
+
+# NewKeeperEnterAddressManuallyBase form errors
+addressAndPostcode.addressLines.postTown = Town or city
+addressAndPostcode.postcode = Postcode
+
+# email widget
+error.email.confirm.required = Please confirm the email address
+error.email.not.match = The email addresses did not match
+email.verify.label = Confirm email address
+
+# VPC - header
+global.cookiemessage = GOV.UK uses cookies to make the site simpler.
+global.cookiefindoutmore = Find out more about cookies
+
+# VPC - serviceClosingWarning widget
+global.serviceCloseWarning = This service is available from {0} to {1}, you have
+global.serviceCloseWarning.p2 = to complete this service.
+global.serviceClosed = Service now closed. Service is available {0} to {1}
+
+# VPC pleaseWait widget
+global-please-wait-header = Please wait
+global-please-wait-p1 = We are currently receiving a large volume of applications which has led to our service performance being slower than usual.
+global-please-wait-p2 = This page will update automatically, please do not close your browser.
+global-please-wait-close = Close this message
+
+# alternateLanuages widget
+language.cy.button = Cymraeg
+language.en.button = YAGNI
+
+#titlePicker widget
+titlePicker.label = Title
+titlePicker.mr = Mr
+titlePicker.miss = Miss
+titlePicker.mrs = Mrs
+titlePicker.other = Other
+titlePicker.textLabel = Other title
+titlePicker.textHint = (10 characters maximum)
+
+# Date labels
+dateOfBirth.day = Day
+dateOfBirth.month = Month
+dateOfBirth.year = Year
+
 #prototype
 prototype.banner = This is a new service -
 prototype.link = your feedback
-prototype.link.source = mailto:vm.feedback@digital.dvla.gov.uk?Subject=Sell to the Trade feedback
 prototype.bannerPart2 = will help us to improve it
 
 # footer
-footer.builtbyintro = Built by
-footer.builtby = Driver & Vehicle Licensing Agency
 footer.text1 = All content is available under the
 footer.link = Open Government Licence v3.0
 footer.text2 = , except where otherwise stated
@@ -25,7 +99,6 @@ formSteps.newdisposalbutton = Notify another purchase
 formSteps.exitbutton = Finish
 
 # Cookie Policy
-footer.cookies = Cookies
 cookie-policy-title = Cookies
 cookie-policy-p1 = Small files (known as ‘cookies’) are put onto your computer to collect information about how you browse the site.
 cookie-policy-p2 = Cookies are used to:
@@ -41,6 +114,7 @@ cookie-policy.table.purpose = cookie purpose
 cookie-policy.table.expires = expires on
 cookie-policy-p10 = The following cookies are used:
 
+# cookie policy section - google_analytics
 cookie-policy.name.google_analytics = Measuring website usage (Google Analytics)
 cookie-policy.name.google_analytics.p1 = Google Analytics software collects information about how you use the site. This is done to help make sure the site is meeting the needs of its users and to help make improvements.
 cookie-policy.name.google_analytics.p2 = Google Analytics stores information about: <ul><li>the pages you visit - how long you spend on each page</li><li>how you got to the site</li><li>what you click on while you’re visiting the site</li></ul>
@@ -53,14 +127,17 @@ cookie-policy.cookies.google_analytics.utmz = This provides information about ho
 cookie-policy.cookies.google_analytics.ga_nextpage_params = This stores data to be sent to Google on the next page you request
 cookie-policy.cookies.google_analytics.GDS_successEvents = These help us identify how you use GOV.UK so we can make the site better
 
+# cookie policy section - sessions
 cookie-policy.name.sessions = Session
 cookie-policy.name.sessions.p1 =  A cookie is set to record your session activity.
 cookie-policy.cookies.sessions.mdtp = Stores session data
 
+# cookie policy section - introductory_message
 cookie-policy.name.introductory_message = Our introductory message
 cookie-policy.name.introductory_message.p1 =  You may see a pop-up welcome message when you first visit. A cookie is stored so that your computer knows you’ve seen it and knows not to show it again.
 cookie-policy.cookies.introductory_message.seen_cookie_message = Saves a message to let us know that you have seen our cookie message
 
+# cookie policy section - language
 cookie-policy.name.language = Welsh language
 cookie-policy.name.language.p1 = We log a cookie to remember the language you selected so you don’t need to change it next time you visit.
 cookie-policy.cookies.language.PLAY_LANG = Set to remember your language preference
@@ -85,13 +162,11 @@ micro_service_error.exit.button = Exit
 xmas-opening-times.text = View Christmas opening times
 
 # feedback
-common_feedback.title = Give feedback
 common_feedback.warning = This page is for feedback only and we are unable to offer a personal reply to your email
 common_feedback.message = Please don’t include any personal or financial information.
 common_feedback.label = What went wrong, if anything? What went well? How could we improve this service?
 common_feedback.charactersRemaining = characters remaining
 common_feedback.submit_button = Submit feedback
-common_feedback.thankyou = Thank you for your feedback
 common_feedback.name = Name
 common_feedback.email = Email
 common_feedback.feedbackTitle = Please leave your name and email address in case we need to contact you
@@ -100,13 +175,9 @@ error.feedbackName = Name must be between 2 and 60 characters
 feedbackEmail = Email
 feedbackName = Name
 feedback = Feedback form
-feedback_return = ◄ Return to your application
-feedback_close = Please close this page to return to your application
 
 # Terms and Conditions
 tandc-title = Terms and Conditions
-footer.tandc = Terms & Conditions
-
 tandc.tandc.header = Terms and Conditions
 tandc.tandc.p1 = These Terms and Conditions govern your use of the DVLA’s Vehicle Management and Personalised Registration Online website and your relationship with this website. Please read them carefully as they affect your rights and liabilities under the law. If you do not agree to these Terms and Conditions, please do not use this website.
 tandc.use_of_website.header = Use of this Website
@@ -159,7 +230,6 @@ tandc.last_updated = These Terms and Conditions were last updated 30 March 2016.
 
 # Privacy policy
 privacy-title = Vehicle Management and Personalised Registration Online Privacy Policy
-footer.privacy = Privacy Policy
 
 privacy.privacy.header = Vehicle Management and Personalised Registration Online Privacy Policy
 privacy.general.header = General
@@ -198,3 +268,69 @@ privacy.notifications.p2 = Please be aware that this privacy policy does not app
 privacy.amendments.header = Amendments to the Security and Privacy Statement
 privacy.amendments.p1 = If this security and privacy statement changes in any way, we will place an updated version on this page. By reviewing this page it ensures you are always aware of what information we collect, how we use it and under what circumstances, if any, we will share it with other parties.
 privacy.last_updated = This privacy policy was last updated on 24 March 2016
+
+# VPC - addressPicker widget
+address.picker.common.postcode = Postcode
+address.picker.common.findAddress = Find UK address
+address.picker.common.manualAddress = Enter address manually
+address.picker.common.pickAddress = Pick an address
+address.picker.common.pleaseSelect = Please select
+address.picker.common.street = Street
+address.picker.common.streetNameNumber = Street name and number
+address.picker.common.townCity = Town/city
+address.picker.common.townOrCity = Town or city
+address.picker.common.changeDetails = Change my details
+address.picker.common.rememberDetails = Remember these details
+address.picker.common.postCodeNotFound = Postcode not found
+address.picker.common.serverError = Error from the server:
+business-address.address-postcode-lookup = Business postcode
+# PR - SetupBusinessDetails form errors
+business-address.address-line-1 = Business address line 1
+business-address.post-town = Business town/city
+business-address.post-code = Business postcode
+
+# constraints
+error.restricted.validPostcode = Must be between five and eight characters and in a valid format, e.g. AB1 2BA or AB12BA
+error.restricted.validV5CPostcode = Must be the postcode of the registered keeper exactly as printed on the V5C registration certificate (logbook)
+error.restricted.validVrnOnly = Vehicle registration number must be valid format
+error.restricted.validNumberOnly = This field only accepts numbers
+error.fleetNumber = The fleet number can only be a 6 digit number, please try again.
+error.email = Must be a valid email address
+error.driverNumber = OBSOLETE?
+error.notInFuture = Date must not be in the future
+error.required = A value is required
+error.withinTwoYears = Date cannot be more than two year ago
+error.validBusinessName = Must be between 2 and 58 characters and only contain valid characters (a-z, A-Z, 0-9, &, -,(), /, ‘ and , or .). The following characters cannot be used at the start of trader name name  (&,-,(), /, ‘ and , or .)
+error.validBusinessKeeperName = Must be between 2 and 30 characters, contain at least one alpha character and only contain valid characters (a-z, A-Z, 0-9, &, -,(), /, ‘ and , or .). The following characters cannot be used at the start of business name (&,-,(), /, ‘ and , or .)
+error.invalidBracesOrQuotes = Brackets and quotes must be used as a pair e.g. (...) or "..."
+error.atLeastOneChar = OBSOLETE?
+
+# AddressPicker mapping
+error.address.buildingNameOrNumber.invalid = Building/number and street must contain between 4 and 30 characters
+error.address.characterInvalid = The first character of the address must be alphanumeric. Other characters must be valid (a-z, A-Z, 0-9, &, -,(), /, ‘ and , or .)
+error.address.postTown = Post town requires a minimum length of three characters
+error.address.postTown.characterInvalid = Post town contains invalid characters
+error.address.threeAlphas = Must have at least 3 alpha characters
+
+# VPC - Date mapping
+error.date.notBefore = We cannot accept a date of sale more than 5 years in the past. Please check and enter the correct date. If the date is correct then please submit the transaction via post.
+error.date.inTheFuture = Must be a valid date DD MM YYYY and not be in the future.
+error.date.invalid = Must be a valid date DD MM YYYY and not be in the future.
+
+# VPC - DateOfBirth mapping
+error.dateOfBirth.inTheFuture = Must be a valid date DD MM YYYY and not be in the future.
+error.dateOfBirth.invalid = Must be a valid date DD MM YYYY and not be in the future.
+error.dateOfBirth.110yearsInThePast = Date of birth cannot be more than 110 years in the past
+
+# VPC - PrivateKeeperDetailsFormModel
+error.validFirstName = Must contain between 1 and 25 characters from the following A-Z, hyphen, apostrophe, full stop and space
+error.validLastName = Must contain between 1 and 25 characters from the following A-Z, hyphen, apostrophe, full stop and space
+privatekeeper_option_email = Email confirmation
+privatekeeper_title = Title
+privatekeeper_email = Email
+privatekeeper_firstname = First name
+privatekeeper_lastname = Last name
+use_todays_date.label = Use today''s date
+privatekeeper_postcode = Postcode
+privatekeeper_drivernumber = Driver number
+privatekeeper_dateofbirth = Date of Birth

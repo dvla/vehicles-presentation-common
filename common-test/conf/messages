@@ -11,7 +11,6 @@ openDays.lastDay.pr = Saturday
 openDays.lastDay.vm = Sunday
 
 #widget messages
-errorsummary.p1 = Please fix the following:
 widget.optional = (optional)
 
 select_default = Please select
@@ -34,25 +33,24 @@ inputText = Input text
 
 #valtechInputTextArea widget
 valtechInputTextArea.pageTitle = Valtech input text area
-valtechInputTextArea.name = Valtech Input text area
-valtechInputTextArea.label = Example label
+#valtechInputTextArea.name = Valtech Input text area
+#valtechInputTextArea.label = Example label
 valtechInputTextArea.hint = Enter at least 2 characters
-valtechInputTextArea.validation = You must at least 2 characters
+#valtechInputTextArea.validation = You must at least 2 characters
 valtechInputTextArea.button = Submit
 
 #valtechDeclareCheck widget
 valtechDeclareCheck.pageTitle = Valtech declare check
-valtechDeclareCheck.name = Valtech declare check
+#valtechDeclareCheck.name = Valtech declare check
 valtechDeclareCheck.label = I have the consent of the current keeper to notify the sale of this vehicle
 valtechDeclareCheck.button = Confirm
 declareSelectId = Consent
 
 #valtechSelect widget
 valtechSelect.pageTitle = Valtech select
-valtechSelect.name = Valtech select
+#valtechSelect.name = Valtech select
 valtechSelect.label = Please select an option
 valtechSelect.button = Submit
-valtechSelect_default = Please select
 demo_select = Select an option
 error.dropDownInvalid = No option has been chosen
 
@@ -64,10 +62,11 @@ postcode.label = Postcode
 postcode.button = Submit
 error.restricted.validPostcode = Must be between five and eight characters and in a valid format, eg. AB1 2Ba or AB12BA
 
+use_todays_date.label = Use today's date
 #valtechInputDayMonthYear widget
-valtechInputDayMonthYear.pageTitle = Valtech input day month year
-valtechInputDayMonthYear.label = Date of birth
-valtechInputDayMonthYear.button = Submit
+#valtechInputDayMonthYear.pageTitle = Valtech input day month year
+#valtechInputDayMonthYear.label = Date of birth
+#valtechInputDayMonthYear.button = Submit
 # Convert the ids to text to use in error messages
 dateOfBirth.day = Day
 dateOfBirth.month = Month
@@ -92,12 +91,12 @@ keeperType = Keeper type
 
 #email widget
 email.pageTitle = Email capture
-email.name = Email capture
-email.hint = e.g. test@test.com
-email.label = Email address
+#email.name = Email capture
+#email.hint = e.g. test@test.com
+#email.label = Email address
 email.verify.label = Confirm email address
 email.button = Submit
-error.restricted.validEmail = Email must be in valid format
+#error.restricted.validEmail = Email must be in valid format
 error.email = Email address is required
 error.email.confirm.required = Please confirm the email address
 error.email.not.match = The email addresses did not match
@@ -120,30 +119,30 @@ error.date.invalid = Please enter a valid date in the format DD MM YYYY
 error.dateOfBirth.110yearsInThePast = Date of birth cannot be more than 110 years in the past
 
 DateFieldId = Optional date of birth
-DateFieldId.day = Birth day
-DateFieldId.month = Birth month
-DateFieldId.year = Birth year
+#DateFieldId.day = Birth day
+#DateFieldId.month = Birth month
+#DateFieldId.year = Birth year
 DateFieldId1 = Required date of birth
-DateFieldId1.day = Birth day
-DateFieldId1.month = Birth month
-DateFieldId1.year = Birth year
+#DateFieldId1.day = Birth day
+#DateFieldId1.month = Birth month
+#DateFieldId1.year = Birth year
 
 #Date of sale widget
-dateOfSaleInput.pageTitle = Date Of Sale Input
-dateOfSaleInput.label = Testing date of sale
-dateOfSaleInput.hint = for example, 20 3 1976
-DateOfSaleFieldId = Optional date of sale
-DateOfSaleFieldId.day = Day of sale
-DateOfSaleFieldId.month = Month of sale
-DateOfSaleFieldId.year = Year of sale
-DateOfSaleFieldId1 = Required date of sale
-DateOfSaleFieldId1.day = Day of sale
-DateOfSaleFieldId1.month = Month of sale
-DateOfSaleFieldId1.year = Year of sale
+#dateOfSaleInput.pageTitle = Date Of Sale Input
+#dateOfSaleInput.label = Testing date of sale
+#dateOfSaleInput.hint = for example, 20 3 1976
+#DateOfSaleFieldId = Optional date of sale
+#DateOfSaleFieldId.day = Day of sale
+#DateOfSaleFieldId.month = Month of sale
+#DateOfSaleFieldId.year = Year of sale
+#DateOfSaleFieldId1 = Required date of sale
+#DateOfSaleFieldId1.day = Day of sale
+#DateOfSaleFieldId1.month = Month of sale
+#DateOfSaleFieldId1.year = Year of sale
 
 #Non future date
-nonFutureDate = Non Future Date
-nonFutureDateInput.pageTitle = Non Future Date Input
+#nonFutureDate = Non Future Date
+#nonFutureDateInput.pageTitle = Non Future Date Input
 
 #mileage widget
 mileage.pageTitle = Mileage
@@ -158,7 +157,7 @@ titlePicker.mr = Mr
 titlePicker.miss = Miss
 titlePicker.mrs = Mrs
 titlePicker.other = Other
-titlePicker.or = Or
+#titlePicker.or = Or
 titlePicker.textLabel = Please provide your 'Other' title
 titlePicker.textHint = (10 characters maximum)
 error.title.unknownOption = Please enter a title
@@ -174,7 +173,7 @@ feedbackForm.pageTitle = Feedback Form
 common_feedback.warning = This page is for feedback only and we are unable to offer a personal reply to your email
 common_feedback.message = Please enter your message
 common_feedback.label = This should be bold
-common_feedback.placeholder = placeholder
+#common_feedback.placeholder = placeholder
 common_feedback.submit_button = send feedback
 common_feedback.name = Name
 common_feedback.email = Email
@@ -197,34 +196,34 @@ cookie-policy.table.purpose = cookie purpose
 cookie-policy.table.expires = expires on
 cookie-policy-p10 = The following cookies are used:
 
-cookie-policy.name.google_analytics = Measuring website usage (Google Analytics)
-cookie-policy.name.google_analytics.p1 = Google Analytics software collects information about how you use the site. This is done to help make sure the site is meeting the needs of its users and to help make improvements.
-cookie-policy.name.google_analytics.p2 = Google Analytics stores information about: <ul><li>the pages you visit - how long you spend on each page</li><li>how you got to the site</li><li>what you click on while you’re visiting the site</li></ul>
-cookie-policy.name.google_analytics.p3 = We don’t collect or store your personal information (eg your name or address) so this information can’t be used to identify who you are.
-cookie-policy.name.google_analytics.p4 = Google isn’t allowed to use or share our analytics data. You can <a href="https://tools.google.com/dlpage/gaoptout" target="_blank" data-sso="false">opt out of Google Analytics cookies</a>
-cookie-policy.cookies.google_analytics.utma = Determines the number of unique visitors to the site
-cookie-policy.cookies.google_analytics.utmb = This works with _utmc to calculate the average length of time you spend on our site
-cookie-policy.cookies.google_analytics.utmc = This works with _utmb to calculate when you close your browser
-cookie-policy.cookies.google_analytics.utmz = This provides information about how you reached the site (eg from another website or a search engine)
-cookie-policy.cookies.google_analytics.ga_nextpage_params = This stores data to be sent to Google on the next page you request
-cookie-policy.cookies.google_analytics.GDS_successEvents = These help us identify how you use GOV.UK so we can make the site better
+#cookie-policy.name.google_analytics = Measuring website usage (Google Analytics)
+#cookie-policy.name.google_analytics.p1 = Google Analytics software collects information about how you use the site. This is done to help make sure the site is meeting the needs of its users and to help make improvements.
+#cookie-policy.name.google_analytics.p2 = Google Analytics stores information about: <ul><li>the pages you visit - how long you spend on each page</li><li>how you got to the site</li><li>what you click on while you’re visiting the site</li></ul>
+#cookie-policy.name.google_analytics.p3 = We don’t collect or store your personal information (eg your name or address) so this information can’t be used to identify who you are.
+#cookie-policy.name.google_analytics.p4 = Google isn’t allowed to use or share our analytics data. You can <a href="https://tools.google.com/dlpage/gaoptout" target="_blank" data-sso="false">opt out of Google Analytics cookies</a>
+#cookie-policy.cookies.google_analytics.utma = Determines the number of unique visitors to the site
+#cookie-policy.cookies.google_analytics.utmb = This works with _utmc to calculate the average length of time you spend on our site
+#cookie-policy.cookies.google_analytics.utmc = This works with _utmb to calculate when you close your browser
+#cookie-policy.cookies.google_analytics.utmz = This provides information about how you reached the site (eg from another website or a search engine)
+#cookie-policy.cookies.google_analytics.ga_nextpage_params = This stores data to be sent to Google on the next page you request
+#cookie-policy.cookies.google_analytics.GDS_successEvents = These help us identify how you use GOV.UK so we can make the site better
+#
+#cookie-policy.name.sessions = Session
+#cookie-policy.name.sessions.p1 =  A cookie is set to record your session activity.
+#cookie-policy.cookies.sessions.mdtp = Stores session data
+#
+#cookie-policy.name.introductory_message = Our introductory message
+#cookie-policy.name.introductory_message.p1 =  You may see a pop-up welcome message when you first visit. A cookie is stored so that your computer knows you’ve seen it and knows not to show it again.
+#cookie-policy.cookies.introductory_message.seen_cookie_message = Saves a message to let us know that you have seen our cookie message
 
-cookie-policy.name.sessions = Session
-cookie-policy.name.sessions.p1 =  A cookie is set to record your session activity.
-cookie-policy.cookies.sessions.mdtp = Stores session data
-
-cookie-policy.name.introductory_message = Our introductory message
-cookie-policy.name.introductory_message.p1 =  You may see a pop-up welcome message when you first visit. A cookie is stored so that your computer knows you’ve seen it and knows not to show it again.
-cookie-policy.cookies.introductory_message.seen_cookie_message = Saves a message to let us know that you have seen our cookie message
-
-cookie-policy.expires.1month = 1 month
-cookie-policy.expires.4months = 4 months
-cookie-policy.expires.6months = 6 months
-cookie-policy.expires.1year = 1 year
-cookie-policy.expires.2years = 2 years
-cookie-policy.expires.30min = 30 minutes
-cookie-policy.expires.inactivity = After 15 minutes of inactivity or when you close your browser
-cookie-policy.expires.close = When you close your browser
+#cookie-policy.expires.1month = 1 month
+#cookie-policy.expires.4months = 4 months
+#cookie-policy.expires.6months = 6 months
+#cookie-policy.expires.1year = 1 year
+#cookie-policy.expires.2years = 2 years
+#cookie-policy.expires.30min = 30 minutes
+#cookie-policy.expires.inactivity = After 15 minutes of inactivity or when you close your browser
+#cookie-policy.expires.close = When you close your browser
 
 address.picker.common.postcode = Postcode
 address.picker.common.findAddress = Find UK address
@@ -239,9 +238,9 @@ address.picker.common.changeDetails = Change my details
 address.picker.common.rememberDetails = Remember these details
 address.picker.common.postCodeNotFound = Postcode not found
 address.picker.common.serverError = Error from the server:
-address.picker.common.townOrCityLength = 20
-address.picker.common.postcodeLength = 8
-address.picker.common.addressStreetLength = 30
+#address.picker.common.townOrCityLength = 20
+#address.picker.common.postcodeLength = 8
+#address.picker.common.addressStreetLength = 30
 
 # Alert Warning
 alertWarning.pageTitle = Alert Warning
@@ -296,37 +295,37 @@ playback-callback.title-2 = Your personal registration number is being placed on
 address-and-postcode.title = Address and Postcode
 address-and-postcode.submitbutton = Next
 
-addressAndPostcode.addressLines.line2 = Street name
-addressAndPostcode.addressLines.line3 = Area
+#addressAndPostcode.addressLines.line2 = Street name
+#addressAndPostcode.addressLines.line3 = Area
 addressAndPostcode.addressLines.postTown = Town or city
-addressAndPostcode.addressLines.postTown.hint = e.g. SWANSEA
+#addressAndPostcode.addressLines.postTown.hint = e.g. SWANSEA
+addressAndPostcode = Building name or number
+#addressAndPostcode.addressLines = Address
+addressAndPostcode.postcode = Postcode
+#addressAndPostcode.addressLines.buildingNameOrNumber = Building name or number
 
 address.lines.label = Building/number and street
-address.buildingNameOrNumber.label =
+#address.buildingNameOrNumber.label =
 address.buildingNameOrNumber.hint = e.g. 1 HIGH STREET
-address.postTown.label = Town or city
+#address.postTown.label = Town or city
 address.postcode.label = Postcode
-address.postcode.label.prompt = e.g. SA99 1BD
-address.postcode.validation = Enter a valid postcode
+#address.postcode.label.prompt = e.g. SA99 1BD
+#address.postcode.validation = Enter a valid postcode
 
 errorsummary.title = Please correct the details below
-addressAndPostcode = Building name or number
-addressAndPostcode.addressLines = Address
-addressAndPostcode.postcode = Postcode
-addressAndPostcode.addressLines.buildingNameOrNumber = Building name or number
 
 # common to both addressPicker widget and addressAndPostcode widget
 error.address.buildingNameOrNumber.invalid = Building/number and street must contain between 4 and 30 characters
-error.address.characterInvalid = Invalid character in line of address
+#error.address.characterInvalid = Invalid character in line of address
 #error.address.maxLengthOfLinesConcatenated = Address can have no more than 120 characters
 error.address.postTown = Town or city must contain between 3 and 20 characters
-error.address.postTown.characterInvalid = Invalid character in post town
+#error.address.postTown.characterInvalid = Invalid character in post town
 error.address.threeAlphas = Entry requires at least three letters
 
 # addressPicker widget
 error.address.addressLine1 = This field is mandatory
 error.address.postCode = This field is mandatory
-error.address.required = Address is required
+#error.address.required = Address is required
 
 #pleaseWait widget
 please-wait.title = Please Wait
