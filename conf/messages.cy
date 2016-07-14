@@ -57,9 +57,9 @@ global-please-wait-p1 = Ar hyn o bryd rydym yn derbyn nifer fawr o geisiadau ac 
 global-please-wait-p2 = Bydd y dudalen hon yn diweddaru’n awtomatig, felly peidiwch â chau eich porwr.
 global-please-wait-close = Ceuwch y neges hon
 
-# alternateLanuages widget
+# alternateLanuages widget - DO NOT TRANSLATE language.en.button
 language.cy.button = Cymraeg
-language.en.button = YAGNI
+language.en.button = English
 
 #titlePicker widget
 titlePicker.label = Title
@@ -330,8 +330,7 @@ privatekeeper_title = Title
 privatekeeper_email = Email
 privatekeeper_firstname = First name
 privatekeeper_lastname = Last name
-use_todays_date.label = Use today''s date
+use_todays_date.label = Defnyddiwch ddyddiad heddiw
 privatekeeper_postcode = Postcode
 privatekeeper_drivernumber = Driver number
 privatekeeper_dateofbirth = Date of Birth
-

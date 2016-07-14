@@ -59,7 +59,7 @@ global-please-wait-close = Close this message
 
 # alternateLanuages widget
 language.cy.button = Cymraeg
-language.en.button = YAGNI
+language.en.button = English
 
 #titlePicker widget
 titlePicker.label = Title
