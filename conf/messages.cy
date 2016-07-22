@@ -41,6 +41,8 @@ addressAndPostcode.postcode = Côd post
 error.email.confirm.required = Cadarnhewch y cyfeiriad ebost
 error.email.not.match = Nid oedd y cyfeiriadau ebost yn cyfateb
 email.verify.label = Cadarnhau cyfeiriad ebost
+option_email = Opsiynau ebost
+email = Ebost
 
 # VPC - header
 global.cookiemessage = Mae GOV.UK yn defnyddio cwcis i wneud y safle’n fwy syml.
@@ -311,6 +313,9 @@ error.address.characterInvalid = Rhaid iddo gynnwys rhwng cymeriadau dilys gan y
 error.address.postTown = Tref bost - rhaid cael tri nod o leiaf
 error.address.postTown.characterInvalid = Tref bost yn cynnwys nodau annilys
 error.address.threeAlphas = Must have at least 3 alpha characters
+error.address.addressLine1 = Mae’r maes hwn yn orfodol
+error.address.postCode = Mae’r maes hwn yn orfodol
+error.address.required = Mae angen cyfeiriad
 
 # VPC - Date mapping
 error.date.notBefore = We cannot accept a date of sale more than 5 years in the past. Please check and enter the correct date. If the date is correct then please submit the transaction via post.
