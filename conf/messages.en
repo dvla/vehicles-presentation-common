@@ -41,6 +41,8 @@ addressAndPostcode.postcode = Postcode
 error.email.confirm.required = Please confirm the email address
 error.email.not.match = The email addresses did not match
 email.verify.label = Confirm email address
+option_email = Email options
+email = Email
 
 # VPC - header
 global.cookiemessage = GOV.UK uses cookies to make the site simpler.
@@ -311,6 +313,9 @@ error.address.characterInvalid = The first character of the address must be alph
 error.address.postTown = Post town requires a minimum length of three characters
 error.address.postTown.characterInvalid = Post town contains invalid characters
 error.address.threeAlphas = Must have at least 3 alpha characters
+error.address.addressLine1 = This field is mandatory
+error.address.postCode = This field is mandatory
+error.address.required = Address is required
 
 # VPC - Date mapping
 error.date.notBefore = We cannot accept a date of sale more than 5 years in the past. Please check and enter the correct date. If the date is correct then please submit the transaction via post.
