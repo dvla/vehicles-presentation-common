@@ -11,6 +11,7 @@ import common.views.models.AddressLinesViewModel.Form.BuildingNameOrNumberId
 import common.views.models.AddressLinesViewModel.Form.Line2Id
 import common.views.models.AddressLinesViewModel.Form.Line3Id
 import common.views.models.AddressLinesViewModel.Form.LineMaxLength
+import common.views.models.AddressLinesViewModel.Form.TownMaxLength
 import common.views.models.AddressLinesViewModel.Form.PostTownId
 import common.views.models.AddressAndPostcodeViewModel.Form.PostcodeId
 
@@ -119,12 +120,12 @@ class NewKeeperEnterAddressManuallyFormSpec extends UnitSpec {
         List("error.minLength")
     }
 
-    "reject if total length of all address lines is more than maxLengthOfLinesConcatenated" in new TestWithApplication {
+    "reject if total length of all address lines is exceeded" in new TestWithApplication {
       formWithValidDefaults(
         buildingNameOrNumber = "a" * LineMaxLength + 1,
         line2 = "b" * LineMaxLength,
         line3 = "c" * LineMaxLength,
-        postTown = "d" * LineMaxLength
+        postTown = "d" * TownMaxLength
       ).errors should have length 1
     }
 

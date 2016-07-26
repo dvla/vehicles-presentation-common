@@ -25,7 +25,6 @@ object AddressPicker {
   final val ShowAddressSelect = "show-address-select"
   final val ShowAddressFields = "show-address-fields"
   final val AddressListSelect = "address-list"
-  //Maximum total length of address lines was 174 (3 x 58) and limited to 120.
 
   def formatter() = new Formatter[Address] {
     override def bind(key: String, data: Map[String, String]): Either[Seq[FormError], Address] = {

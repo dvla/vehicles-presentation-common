@@ -5,6 +5,7 @@ import play.api.data.validation.Constraints.pattern
 
 object BusinessName {
 
+  // string must contain at least one number or letter, can also include punctuation.
   final val Pattern = """^[a-zA-Z0-9][a-zA-Z0-9\s\-\'\,\&\/\(\)\.]*$"""
 
   def validBusinessName: Constraint[String] = pattern(

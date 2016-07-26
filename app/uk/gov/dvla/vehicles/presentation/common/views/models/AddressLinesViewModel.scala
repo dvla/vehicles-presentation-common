@@ -35,10 +35,10 @@ object AddressLinesViewModel {
     final val PostTownId = "postTown"
     final val BuildingNameOrNumberMinLength = 4
     final val PostTownMinLength = 3
-    final val TownMaxLength = 20
+    final val TownMaxLength = 30
     final val LineMaxLength = 30
 
-    def mapping(postTownMaxLength: Int = LineMaxLength): Mapping[AddressLinesViewModel] = play.api.data.Forms.mapping(
+    def mapping(postTownMaxLength: Int = TownMaxLength): Mapping[AddressLinesViewModel] = play.api.data.Forms.mapping(
       BuildingNameOrNumberId ->
         nonEmptyTextWithTransform(fieldTransform)(minLength = BuildingNameOrNumberMinLength, maxLength = LineMaxLength),
       Line2Id -> optional(textWithTransform(fieldTransform)(maxLength = LineMaxLength)),

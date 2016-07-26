@@ -22,7 +22,6 @@ object AddressAndPostcodeViewModel {
 
   object Form {
     final val PostcodeId = "postcode"
-    //final val MaxLengthOfLinesConcatenated = 120
     // NOTE: total address line max is actually defined by line length x number of address lines i.e. 30 x 3 = 90
 
     // First line must contain at least 3 alpha characters
@@ -31,20 +30,12 @@ object AddressAndPostcodeViewModel {
     // Post town cannot contain numbers, can also include punctuation.
     final val postTownFormat = """^[a-zA-Z][A-Za-z\s\-\,\.\/\\]*$""".r
 
-    // Regex states string must contain at least one number or letter, can also include punctuation.
     final val addressLinesFormat = BusinessName.Pattern.r // to be applied on combined address lines
 
-    // This is being left for backwards compatibility
     final val Mapping: Mapping[AddressAndPostcodeViewModel] = mapping(
       AddressLinesId -> addressLinesMapping().verifying(validAddressLines),
       PostcodeId -> postcode
     )(AddressAndPostcodeViewModel.apply)(AddressAndPostcodeViewModel.unapply)
-
-    def mappingWithCustomPostTownMaxLength(postTownMaxLength: Int): Mapping[AddressAndPostcodeViewModel] =
-      play.api.data.Forms.mapping(
-        AddressLinesId -> addressLinesMapping(postTownMaxLength).verifying(validAddressLines),
-        PostcodeId -> postcode
-      )(AddressAndPostcodeViewModel.apply)(AddressAndPostcodeViewModel.unapply)
 
     private def validAddressLines: Constraint[AddressLinesViewModel] = Constraint[AddressLinesViewModel](RequiredField) {
       case input: AddressLinesViewModel =>
@@ -53,8 +44,6 @@ object AddressAndPostcodeViewModel {
 
         val postTown = input.toViewFormat.last.mkString
 
-//        if (input.totalCharacters > MaxLengthOfLinesConcatenated)
-//          Invalid(ValidationError("error.address.maxLengthOfLinesConcatenated"))
         if (!addressLinesFormat.pattern.matcher(addressLines).matches)
           Invalid(ValidationError("error.address.characterInvalid"))
         else if (!postTownFormat.pattern.matcher(postTown).matches)
