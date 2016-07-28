@@ -7,8 +7,7 @@ closed.title = Service Unavailable
 closed.p1 = This service is only available Monday to {2} {0} to {1}.
 closed.exit_button = Exit
 
-openDays.lastDay.pr = Saturday
-openDays.lastDay.vm = Sunday
+closed.lastDayOpen = Saturday
 
 #widget messages
 widget.optional = (optional)
