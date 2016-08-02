@@ -115,10 +115,8 @@ class SendSpec extends UnitSpec {
     }
   }
 
-  // Ignored as I need to figure out how to test a method that is called on a dependent object
-  // in the Future callback, which is on a different thread to the one that has the assertions
   "When failing to send a message to the email micro service the SEND service" should {
-    "inform the health stats service of failure" ignore new TestWithApplication {
+    "inform the health stats service of failure" in new TestWithApplication {
       implicit val emailServiceMock = mock[EmailService]
       when(emailServiceMock.invoke(any[EmailServiceSendRequest](), any[TrackingId]))
         .thenReturn(Future.failed(new RuntimeException("BOOM")))
@@ -131,14 +129,12 @@ class SendSpec extends UnitSpec {
       val receivers = List("test@valtech.co.uk")
       SEND email template withSubject "Some Subject" to receivers send TrackingId("test-tracking-id")
 
-      verify(healthStatsMock, times(1)).failure(any[HealthStatsFailure])
+      verify(healthStatsMock, org.mockito.Mockito.timeout(5000).times(1)).failure(any[HealthStatsFailure])
     }
   }
 
-  // Ignored as I need to figure out how to test a method that is called on a dependent object
-  // in the Future callback, which is on a different thread to the one that has the assertions
   "When successfully sending a message to the email micro service the SEND service" should {
-    "inform the health stats service of success" ignore new TestWithApplication {
+    "inform the health stats service of success" in new TestWithApplication {
       implicit val emailServiceMock = mock[EmailService]
       when(emailServiceMock.invoke(any[EmailServiceSendRequest](), any[TrackingId]))
         .thenReturn(Future(EmailServiceSendResponse()))
@@ -151,7 +147,7 @@ class SendSpec extends UnitSpec {
       val receivers = List("test@valtech.co.uk")
       SEND email template withSubject "Some Subject" to receivers send TrackingId("test-tracking-id")
 
-      verify(healthStatsMock, times(1)).success(HealthStatsSuccess(EmailServiceName, expectedInstant))
+      verify(healthStatsMock, org.mockito.Mockito.timeout(5000).times(1)).success(HealthStatsSuccess(EmailServiceName, expectedInstant))
     }
   }
 }
