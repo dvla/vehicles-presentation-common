@@ -1,6 +1,6 @@
 ======= 2.53 ======
 Time of release binaries creation:
-
+Wed Aug 03 09:01:33 UTC 2016
 
 VMPRCI-4320 	Review ignored and pending tests
 VMPRCI-4467 	Fix post town max length and remove references to maxLengthOfLinesConcatenated
