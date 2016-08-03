@@ -1,3 +1,12 @@
+======= 2.53 ======
+Time of release binaries creation:
+
+
+VMPRCI-4320 	Review ignored and pending tests
+VMPRCI-4467 	Fix post town max length and remove references to maxLengthOfLinesConcatenated
+VMPRCI-4454 	Revert back to opening hrs to pre 31/7
+VMPRCI-4476 	Remove unused RabbitMQ API
+
 ======= 2.52.1 ======
 Time of release binaries creation:
 Fri Jul 22 13:06:23 UTC 2016
