@@ -76,7 +76,7 @@ object HtmlArgsExtensions {
         ('onkeydown -> """this.value=this.value.replace(/[^a-zA-Z]/g,'')""")
 
     def withTypeAttributeAlphaNumericOnly: Map[Symbol, Any] =
-      htmlArgs - 'alphaNumericOnly + ('type -> "text") + ('onkeypress -> """check(event, this, /[a-zA-Z0-9|/]/ );""")
+      htmlArgs - 'alphaNumericOnly + ('type -> "text") + ('onkeypress -> """check(event, this, /[a-zA-Z0-9]/);""")
 
     def withTypeAttributeText: Map[Symbol, Any] = htmlArgs + ('type -> "text")
 
