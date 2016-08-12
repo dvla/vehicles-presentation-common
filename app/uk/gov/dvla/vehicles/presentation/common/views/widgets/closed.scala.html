@@ -1,9 +1,8 @@
 @(opening: String,
-  closing: String,
-  lastDay: String)(implicit lang: Lang)
+  closing: String)(implicit lang: Lang)
 
 <h1>@Messages("closed.title")</h1>
-<p>@Messages("closed.p1", opening, closing, lastDay)</p>
+<p>@Messages("closed.p1", opening, closing)</p>
 <div class="form-steps">
     <a id="exit-button" href="https://www.gov.uk/" class="button">@Messages("closed.exit_button")</a>
 </div>
