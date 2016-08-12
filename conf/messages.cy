@@ -17,6 +17,11 @@ common_feedback.thankyou = Diolch i chi am eich adborth
 # exemplar - feedback
 common_feedback.title = Rhoi adborth
 
+# VPC - closed widget
+closed.title = Nid yw’r gwasanaeth ar gael
+closed.p1 = Mae’r gwasanaeth ar gael bob dydd {0} i {1}
+closed.exit_button = Gadael
+
 # VPC - valtechSelect widget
 select_default = Dewiswch
 
@@ -184,7 +189,7 @@ tandc.tandc.header = Amodau a Thelerau
 tandc.tandc.p1 = Mae’r Amodau a Thelerau hyn yn rheoli’ch defnydd o wefan Rheoli Cerbydau a Chofrestru Personol Ar-lein y DVLA a’ch perthynas gyda’r wefan hon. Byddwch cystal â’u darllen yn ofalus gan eu bod yn effeithio ar eich hawliau a rhwymedigaethau dan y gyfraith. Os nad ydych yn cytuno â’r Amodau a Thelerau hyn, peidiwch â defnyddio’r wefan hon.
 tandc.use_of_website.header = Defnydd o’r wefan hon
 tandc.use_of_website.p1 = Mae’r DVLA yn gwneud pob ymdrech i sicrhau bod yr wybodaeth a gyhoeddir ar y wefan hon yn gywir. Fodd bynnag, ni all y DVLA dderbyn unrhyw atebolrwydd ynghylch y cywirdeb na’r cynnwys. Mae ymwelwyr sy’n dibynnu ar yr wybodaeth hon yn gwneud hynny ar eu menter eu hun.
-tandc.use_of_website.p2 = Mae’r gwasanaeth hwn ar gael o ddydd Llun i ddydd {2}, {0} i {1}.  Ni allwn warantu y bydd y gwasanaeth yn rhydd rhag diffygion. Os bydd diffyg yn digwydd byddwn yn ceisio cywiro’r diffyg hwnnw cyn gynted ag y byddo hynny’n rhesymol bosibl.
+tandc.use_of_website.p2 = Mae’r gwasanaeth hwn ar gael pob dydd {0} i {1}.  Ni allwn warantu y bydd y gwasanaeth yn rhydd rhag diffygion. Os bydd diffyg yn digwydd byddwn yn ceisio cywiro’r diffyg hwnnw cyn gynted ag y byddo hynny’n rhesymol bosibl.
 tandc.hyperlinking.header = Hypergysylltu
 tandc.hyperlinking.p1 = Mae’n bolisi gennym gael caniatâd i ddolennu i wefannau eraill. Nid yw’r DVLA yn gyfrifol am gynnwys na dibynadwyedd y gwefannau cysylltiedig ac nid yw o angenrheidrwydd yn cymeradwyo’r safbwyntiau a fynegir arnynt. Ni ddylid tybio bod rhestriadau’n golygu cymeradwyaeth o unrhyw fath. Ni allwn warantu y bydd y cysylltiadau/dolenni hyn yn gweithio drwy’r amser ac nid oes gennym unrhyw reolaeth dros argaeledd y tudalennau cysylltiedig.
 tandc.payment_cards.header = Cardiau Talu

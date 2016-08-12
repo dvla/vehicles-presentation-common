@@ -2,13 +2,6 @@
 main.banner = Generic widgets
 main.back = Back
 
-# closed widget
-closed.title = Service Unavailable
-closed.p1 = This service is only available Monday to {2} {0} to {1}.
-closed.exit_button = Exit
-
-closed.lastDayOpen = Saturday
-
 #widget messages
 widget.optional = (optional)
 
@@ -280,12 +273,6 @@ form-steps.button = Desktop / Mobile
 form-steps.button.desktop = Desktop only
 form-steps.button.mobile = Mobile only
 
-#micro-service-error widget
-micro_service_error.title = We are sorry
-micro_service_error.text1 = The service is temporarily unavailable.
-micro_service_error.back.button = Try again
-micro_service_error.exit.button = Exit
-
 #xmasOpeningTimes widget
 xmas-opening-times.title = View Christmas opening times
 
@@ -303,8 +290,8 @@ micro-service-error.closing = 18:00
 # common-test - closedView
 closed-view.title = Closed
 closed-view.opening = 08:00
-closed-view.closing = 18:00
+closed-view.closing = 20:00
 
-# terms7AndConditionsView
+# common-test - termsAndConditionsPage
 tandc.opening = 08:00
-tandc.closing = 08:00
+tandc.closing = 19:00

@@ -1,13 +1,12 @@
 @(cookiePolicyLink: Call,
   opening: String,
-  closing: String,
-  lastDay: String)(implicit lang: Lang)
+  closing: String)(implicit lang: Lang)
 
 <h1>@Messages("tandc.tandc.header")</h1>
 <p>@Messages("tandc.tandc.p1")</p>
 <h2>@Messages("tandc.use_of_website.header")</h2>
 <p>@Messages("tandc.use_of_website.p1")</p>
-<p>@Messages("tandc.use_of_website.p2", opening, closing, lastDay)</p>
+<p>@Messages("tandc.use_of_website.p2", opening, closing)</p>
 <h2>@Messages("tandc.hyperlinking.header")</h2>
 <p>@Messages("tandc.hyperlinking.p1")</p>
 <h2>@Messages("tandc.payment_cards.header")</h2>
