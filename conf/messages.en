@@ -160,7 +160,7 @@ cookie-policy.expires.close = When you close your browser
 
 #microServiceError widget
 micro_service_error.title = We are sorry
-micro_service_error.text1 = The service is temporarily unavailable.
+micro_service_error.text1 = This service is temporarily unavailable. We apologise for any inconvenience this may cause.
 micro_service_error.text2 = This service should be available daily {0} to {1}.
 micro_service_error.back.button = Try again
 micro_service_error.exit.button = Exit
