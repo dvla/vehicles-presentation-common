@@ -1,4 +1,4 @@
-@(cookiesPolicyMap: Map[String, List[uk.gov.dvla.vehicles.presentation.common.model.CookieReport]])(implicit lang: Lang)
+@(cookiesPolicyReport: List[uk.gov.dvla.vehicles.presentation.common.model.CookieReport])(implicit lang: Lang)
 
 @displayMessage(message: String) = {
   @if(!message.isEmpty) {
@@ -13,42 +13,44 @@
   <li>@Messages("cookie-policy-p3")</li>
   <li>@Messages("cookie-policy-p4")</li>
 </ul>
-<div>
-  @displayMessage(Messages("cookie-policy-p5"))
-</div>
-@displayMessage(Messages("cookie-policy-p6"))
-@displayMessage(Messages("cookie-policy-p7"))&nbsp;<a href="http://www.aboutcookies.org/" target="_blank" data-sso="false">
-@displayMessage(Messages("cookie-policy-p8"))</a>.
+<p>@Messages("cookie-policy-p5") <a href="https://www.gov.uk/help/cookies" target="_blank" data-sso="false">@Messages("cookie-policy-p6")</a>.</p>
+@displayMessage(Messages("cookie-policy-p7"))
+<p>@Messages("cookie-policy-p8") <a href="http://www.aboutcookies.org/" target="_blank" data-sso="false">@Messages("cookie-policy-p9")</a>.</p>
 
-<h2>@Messages("cookie-policy-p9")</h2>
+<h2>@Messages("cookie-policy.usage")</h2>
 
-@for(section <- cookiesPolicyMap.keys) {
-  <h3>@Messages(s"cookie-policy.name.$section")</h3>
-  @displayMessage(Messages(s"cookie-policy.name.$section.p1"))
-  @* This template also demostrates how to avoid the default rendering (the key) by testing for a missing definition in
-     messages (properties-like) file. Otherwise an entry with a blank value is required in this example that displayMessage handles *@
-  @if(Messages.isDefinedAt((s"cookie-policy.name.$section.p2"))) {
-    @displayMessage(Messages(s"cookie-policy.name.$section.p2"))}
-  @if(Messages.isDefinedAt((s"cookie-policy.name.$section.p3"))) {
-    @displayMessage(Messages(s"cookie-policy.name.$section.p3"))}
-  @if(Messages.isDefinedAt((s"cookie-policy.name.$section.p4"))) {
-    @displayMessage(Messages(s"cookie-policy.name.$section.p4"))}
-  @displayMessage(Messages("cookie-policy-p10"))
-  <table>
-    <thead>
-      <tr>
-        <td>@Messages("cookie-policy.table.name")</td>
-        <td>@Messages("cookie-policy.table.purpose")</td>
-        <td>@Messages("cookie-policy.table.expires")</td>
-      </tr>
-    </thead>
-    @for(entry <- cookiesPolicyMap(section)) {
+<h3>@Messages("cookie-policy.name")</h3>
+@displayMessage(Messages("cookie-policy.name.p1"))
+@* This template also demostrates how to avoid the default rendering (the key) by testing for a missing definition in
+   messages (properties-like) file. Otherwise an entry with a blank value is required in this example that displayMessage handles *@
+@if(Messages.isDefinedAt(("cookie-policy.name.p2"))) {
+  @displayMessage(Messages("cookie-policy.name.p2"))
+  @Html(Messages("cookie-policy.name.p2.list"))
+}
+@if(Messages.isDefinedAt(("cookie-policy.name.p3"))) {
+  @displayMessage(Messages("cookie-policy.name.p3"))}
+@if(Messages.isDefinedAt(("cookie-policy.name.p4"))) {
+  @displayMessage(Messages("cookie-policy.name.p4"))}
+
+<h3>@Messages("cookie-policy.name.sessions")</h3>
+@displayMessage(Messages("cookie-policy.name.sessions.p1"))
+
+@displayMessage(Messages("cookie-policy.used"))
+<table>
+  <thead>
+    <tr>
+      <td><b>@Messages("cookie-policy.table.name")</b></td>
+      <td><b>@Messages("cookie-policy.table.purpose")</b></td>
+      <td><b>@Messages("cookie-policy.table.type")</b></td>
+      <td><b>@Messages("cookie-policy.table.expires")</b></td>
+    </tr>
+  </thead>
+    @for(entry <- cookiesPolicyReport) {
       <tr>
         <td>@entry.name</td>
-        <td>@Messages(s"cookie-policy.cookies.$section.${entry.purpose}")</td>
+        <td>@Messages(s"cookie-policy.cookies.${entry.purpose}")</td>
+        <td>@Messages(s"cookie-policy.cookies.${entry.cookieType}")</td>
         <td>@Messages(s"cookie-policy.expires.${entry.expires}")</td>
       </tr>
     }
-  </table>
-  <p></p>
-}
+</table>

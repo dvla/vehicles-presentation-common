@@ -1,4 +1,4 @@
-@(cookiesPolicyMap: Map[String, List[uk.gov.dvla.vehicles.presentation.common.model.CookieReport]])(implicit lang: Lang)
+@(cookiesPolicyReport: List[uk.gov.dvla.vehicles.presentation.common.model.CookieReport])(implicit lang: Lang)
 
 @import uk.gov.dvla.vehicles.presentation.common
 @import common.views.html.widgets.cookiesPolicy
@@ -7,5 +7,5 @@
 @main(
   title = Messages("cookie-policy-title")
 ) {
-  @cookiesPolicy(cookiesPolicyMap)
+  @cookiesPolicy(cookiesPolicyReport)
 }

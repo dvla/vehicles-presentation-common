@@ -130,23 +130,6 @@ common_feedback.name = Name
 common_feedback.email = Email
 common_feedback.feedbackTitle = Please leave your name and email address in case we need to contact you
 
-
-# Cookie policy
-cookie-policy-title = Cookies
-cookie-policy-p1 = Small files (known as ‘cookies’) are put onto your computer to collect information about how you browse the site.
-cookie-policy-p2 = Cookies are used to:
-cookie-policy-p3 = measure how you use the website so it can be updated and improved based on your needs
-cookie-policy-p4 = remember the notifications you’ve seen so that you’re not shown them again
-cookie-policy-p5 = GOV.UK cookies aren’t used to identify you personally.
-cookie-policy-p6 = You’ll normally see a message on the site before a cookie is stored on your computer.
-cookie-policy-p7 = Find out more about
-cookie-policy-p8 = how to manage cookies
-cookie-policy-p9 = How cookies are used
-cookie-policy.table.name = Cookie name
-cookie-policy.table.purpose = cookie purpose
-cookie-policy.table.expires = expires on
-cookie-policy-p10 = The following cookies are used:
-
 address.picker.common.postcode = Postcode
 address.picker.common.findAddress = Find UK address
 address.picker.common.manualAddress = Enter address manually
