@@ -123,10 +123,6 @@ cookie-policy.name.p2.list = <ul><li>the pages you visit - how long you spend on
 cookie-policy.name.p3 = We don’t collect or store your personal information (eg your name or address) so this information can’t be used to identify who you are.
 cookie-policy.name.p4 = Google isn’t allowed to use or share our analytics data. You can <a href="https://tools.google.com/dlpage/gaoptout" target="_blank" data-sso="false">opt out of Google Analytics cookies</a>.
 
-# cookie policy section - sessions
-cookie-policy.name.sessions = Session
-cookie-policy.name.sessions.p1 =  A cookie is set to record your session activity.
-
 cookie-policy.table.name = Cookie name
 cookie-policy.table.purpose = Cookie purpose
 cookie-policy.table.type = Cookie type

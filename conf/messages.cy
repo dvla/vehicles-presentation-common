@@ -123,10 +123,6 @@ cookie-policy.name.p2.list = <ul> <li> y tudalennau rydych yn ymweld - pa mor hi
 cookie-policy.name.p3 = Nid ydym yn casglu nac yn cadw eich gwybodaeth bersonol (ee eich enw neu gyfeiriad) felly ni ellir wybodaeth hon yn cael ei defnyddio i nodi pwy ydych chi.
 cookie-policy.name.p4 = Nid yw Google yn cael defnyddio neu rannu ein data analytics. Gallwch <a href="https://tools.google.com/dlpage/gaoptout" target="_blank" data-sso="false">optio allan o cwcis Google Analytics</a>.
 
-# cookie policy section - sessions
-cookie-policy.name.sessions = Sesiwn
-cookie-policy.name.sessions.p1 =  Mae cwci yn cael ei osod i gofnodi eich gweithgaredd sesiwn.
-
 cookie-policy.table.name = enw’r cwci
 cookie-policy.table.purpose = diben cwci
 cookie-policy.table.type = Cookie type
