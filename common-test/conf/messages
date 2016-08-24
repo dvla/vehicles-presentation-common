@@ -70,11 +70,16 @@ valtechRadio.button = Submit
 # Convert the id to text to use in error messages
 keeperType = Keeper type
 
+# see messages.default in root of play jar for list of default constraint and error messages,
+# https://github.com/playframework/playframework/blob/master/framework/src/play/src/main/resources/messages.default
+
+# override play default error messages
+error.email = Email address is required
+
 #email widget
 email.pageTitle = Email capture
 email.verify.label = Confirm email address
 email.button = Submit
-error.email = Email address is required
 error.email.confirm.required = Please confirm the email address
 error.email.not.match = The email addresses did not match
 
@@ -213,8 +218,10 @@ error.address.postTown = Town or city must contain between 3 and 20 characters
 error.address.threeAlphas = Entry requires at least three letters
 
 # addressPicker widget
-error.address.addressLine1 = This field is mandatory
-error.address.postCode = This field is mandatory
+address-picker-1.address-line-1 = Address picker address line 1
+address-picker-1.post-town = Address picker post town
+address-picker-1.address-postcode-lookup = Address picker postcode
+address-picker-1.post-code = Address picker postcode
 
 #pleaseWait widget
 please-wait.title = Please Wait

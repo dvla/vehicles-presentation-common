@@ -24,7 +24,6 @@ libraryDependencies ++= Seq(
   "commons-codec" % "commons-codec" % "1.10" withSources() withJavadoc(),
   "com.github.nscala-time" %% "nscala-time" % "2.12.0" withSources() withJavadoc(),
   // test
-  "com.github.detro" % "phantomjsdriver" % "1.2.0" % "test" withSources() withJavadoc(),
   "com.github.tomakehurst" % "wiremock" % "1.58" % "test" withSources() withJavadoc() exclude("log4j", "log4j"),
   "org.mockito" % "mockito-all" % "1.10.19" % "test" withSources() withJavadoc(),
   "org.scalatest" %% "scalatest" % "2.2.6" % "test" withSources() withJavadoc(),

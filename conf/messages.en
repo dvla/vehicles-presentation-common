@@ -1,7 +1,3 @@
-# TODO test these DayMonthYear
-error.dropDownInvalid = Please select a value from the drop down list.
-error.invalid = Invalid value
-
 # exemplar - main
 footer.builtbyintro = Built by
 footer.builtby = Driver & Vehicle Licensing Agency
@@ -294,36 +290,43 @@ address.picker.common.rememberDetails = Remember these details
 address.picker.common.postCodeNotFound = Postcode not found
 address.picker.common.serverError = Error from the server:
 business-address.address-postcode-lookup = Business postcode
-# PR - SetupBusinessDetails form errors
+# PR - SetupBusinessDetails (AddressPicker) form errors
 business-address.address-line-1 = Business address line 1
 business-address.post-town = Business town/city
 business-address.post-code = Business postcode
 
-# constraints
+# override play default error messages
+error.email = Must be a valid email address
+error.invalid = Invalid value
+error.minLength=Minimum length is {0}
+error.required=A value is required
+
+# DayMonthYear constraint
+error.dropDownInvalid = Please select a value from the drop down list.
+
+# Common mapping error messages
 error.restricted.validPostcode = Must be between five and eight characters and in a valid format, e.g. AB1 2BA or AB12BA
 error.restricted.validV5CPostcode = Must be the postcode of the registered keeper exactly as printed on the V5C registration certificate (logbook)
 error.restricted.validVrnOnly = Vehicle registration number must be valid format
 error.restricted.validNumberOnly = This field only accepts numbers
 error.fleetNumber = The fleet number can only be a 6 digit number, please try again.
-error.email = Must be a valid email address
 error.driverNumber = OBSOLETE?
 error.notInFuture = Date must not be in the future
-error.required = A value is required
 error.withinTwoYears = Date cannot be more than two year ago
-error.validBusinessName = Must be between 2 and 58 characters and only contain valid characters (a-z, A-Z, 0-9, &, -,(), /, ‘ and , or .). The following characters cannot be used at the start of trader name name  (&,-,(), /, ‘ and , or .)
+error.validBusinessName = Must be between 2 and 58 characters and only contain valid characters (a-z, A-Z, 0-9, &, -,(), /, ‘ and , or .). The following characters cannot be used at the start of trader name (&,-,(), /, ‘ and , or .)
 error.validBusinessKeeperName = Must be between 2 and 30 characters, contain at least one alpha character and only contain valid characters (a-z, A-Z, 0-9, &, -,(), /, ‘ and , or .). The following characters cannot be used at the start of business name (&,-,(), /, ‘ and , or .)
 error.invalidBracesOrQuotes = Brackets and quotes must be used as a pair e.g. (...) or "..."
 error.atLeastOneChar = OBSOLETE?
 
 # AddressPicker mapping
+error.address.addressLine1 = This field is mandatory
 error.address.buildingNameOrNumber.invalid = Building/number and street must contain between 4 and 30 characters
 error.address.characterInvalid = The first character of the address must be alphanumeric. Other characters must be valid (a-z, A-Z, 0-9, &, -,(), /, ‘ and , or .)
+error.address.postCode = This field is mandatory
 error.address.postTown = Post town requires a minimum length of three characters
 error.address.postTown.characterInvalid = Post town contains invalid characters
-error.address.threeAlphas = Must have at least 3 alpha characters
-error.address.addressLine1 = This field is mandatory
-error.address.postCode = This field is mandatory
 error.address.required = Address is required
+error.address.threeAlphas = Must have at least 3 alpha characters
 
 # VPC - Date mapping
 error.date.notBefore = We cannot accept a date of sale more than 5 years in the past. Please check and enter the correct date. If the date is correct then please submit the transaction via post.

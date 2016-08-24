@@ -1,7 +1,3 @@
-# TODO test these DayMonthYear
-error.dropDownInvalid = Please select a value from the drop down list.
-error.invalid = Gwerth annilys
-
 # exemplar - main
 footer.builtbyintro = Adeiladwyd gan
 footer.builtby = Asiantaeth Trwyddedu Gyrwyr a Cherbydau
@@ -294,21 +290,28 @@ address.picker.common.rememberDetails = Cofiwch y manylion hyn
 address.picker.common.postCodeNotFound = Ni chanfuwyd y cod post
 address.picker.common.serverError = Gwall o’r gweinydd:
 business-address.address-postcode-lookup = Cod post busnes
-# PR - SetupBusinessDetails form errors
+# PR - SetupBusinessDetails (AddressPicker) form errors
 business-address.address-line-1 = Cyfeiriad busnes llinell 1
 business-address.post-town = Tref/dinas busnes
 business-address.post-code = Cod post busnes
 
-# constraints
+# override play default error messages
+error.email = Mae angen cyfeiriad ebost
+error.invalid = Gwerth annilys
+error.minLength=Minimum length is {0}
+error.required = Mae angen y maes hwn
+
+# DayMonthYear constraint
+error.dropDownInvalid = Please select a value from the drop down list.
+
+# Common mapping error messages
 error.restricted.validPostcode = Must be between five and eight characters and in a valid format, e.g. AB1 2BA or AB12BA
 error.restricted.validV5CPostcode = Rhaid iddo fod yn god post y ceidwad cofrestredig yn union fel yr argraffwyd ar y ddogfen tystysgrif cofrestru V5CW (llyfr log)
 error.restricted.validVrnOnly = Rhaid iddo fod ar ffurf ddilys
 error.restricted.validNumberOnly = Mae’r maes hwn yn derbyn rhifau yn unig
 error.fleetNumber = The fleet number can only be a 6 digit number, please try again.
-error.email = Mae angen cyfeiriad ebost
 error.driverNumber = OBSOLETE?
 error.notInFuture = Date must not be in the future
-error.required = Mae angen y maes hwn
 error.withinTwoYears = Date cannot be more than two year ago
 error.validBusinessName = Rhaid bod rhwng 2 a 58 o nodau o hyd a dim ond nodau dilys (a-z, A-Z, 0-9, &, -,(), /, ‘ a , neu .)
 error.validBusinessKeeperName = Must be between 2 and 30 characters, contain at least one alpha character and only contain valid characters (a-z, A-Z, 0-9, &, -,(), /, ‘ and , or .). The following characters cannot be used at the start of business name (&,-,(), /, ‘ and , or .)
@@ -316,14 +319,14 @@ error.invalidBracesOrQuotes = Brackets and quotes must be used as a pair e.g. (.
 error.atLeastOneChar = OBSOLETE?
 
 # AddressPicker mapping
+error.address.addressLine1 = Mae’r maes hwn yn orfodol
 error.address.buildingNameOrNumber.invalid = Rhaid i adeilad/ rhif a stryd gynnwys rhwng 4 a 30 o nodau
 error.address.characterInvalid = Rhaid iddo gynnwys rhwng cymeriadau dilys gan y AZ, 0-9, cysylltnod, collnod, stopio a lle llawn yn dilyn.
+error.address.postCode = Mae’r maes hwn yn orfodol
 error.address.postTown = Tref bost - rhaid cael tri nod o leiaf
 error.address.postTown.characterInvalid = Tref bost yn cynnwys nodau annilys
-error.address.threeAlphas = Must have at least 3 alpha characters
-error.address.addressLine1 = Mae’r maes hwn yn orfodol
-error.address.postCode = Mae’r maes hwn yn orfodol
 error.address.required = Mae angen cyfeiriad
+error.address.threeAlphas = Must have at least 3 alpha characters
 
 # VPC - Date mapping
 error.date.notBefore = We cannot accept a date of sale more than 5 years in the past. Please check and enter the correct date. If the date is correct then please submit the transaction via post.
