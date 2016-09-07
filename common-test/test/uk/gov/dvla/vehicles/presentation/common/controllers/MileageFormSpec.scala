@@ -2,12 +2,10 @@ package uk.gov.dvla.vehicles.presentation.common.controllers
 
 import uk.gov.dvla.vehicles.presentation.common.helpers.TestWithApplication
 import uk.gov.dvla.vehicles.presentation.common.helpers.UnitSpec
-import uk.gov.dvla.vehicles.presentation.common.models
-
 import uk.gov.dvla.vehicles.presentation.common.mappings.Mileage.MaxLength
-import models.MileageModel.Form.MileageId
+import uk.gov.dvla.vehicles.presentation.common.models.MileageModel.Form.MileageId
 
-final class MileageFormSpec extends UnitSpec {
+class MileageFormSpec extends UnitSpec {
 
   "form" should {
     "accept if form is valid with mileage field filled in" in new TestWithApplication {

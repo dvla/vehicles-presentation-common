@@ -8,6 +8,8 @@ import org.mockito.stubbing.Answer
 import play.api.http.Status.{NOT_FOUND, OK}
 import play.api.libs.json.{JsValue, Json}
 import play.api.libs.ws.WSResponse
+import scala.concurrent.ExecutionContext.Implicits.global
+import scala.concurrent.Future
 import uk.gov.dvla.vehicles.presentation.common
 import common.UnitSpec
 import common.clientsidesession.ClearTextClientSideSessionFactory
@@ -22,11 +24,7 @@ import common.webserviceclients.fakes.FakeAddressLookupWebServiceImpl.responseVa
 import common.webserviceclients.fakes.FakeResponse
 import common.webserviceclients.healthstats.{HealthStats, HealthStatsFailure, HealthStatsSuccess}
 
-import scala.concurrent.ExecutionContext.Implicits.global
-import scala.concurrent.Future
-
-
-final class OSAddressLookupServiceSpec extends UnitSpec {
+class OSAddressLookupServiceSpec extends UnitSpec {
   val dateService = mock[DateService]
   when(dateService.now).thenReturn(new Instant(0))
 

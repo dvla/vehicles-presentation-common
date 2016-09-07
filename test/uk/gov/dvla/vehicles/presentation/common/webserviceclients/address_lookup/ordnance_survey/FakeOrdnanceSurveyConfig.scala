@@ -11,5 +11,6 @@ import scala.concurrent.duration.DurationInt
  */
 class FakeOrdnanceSurveyConfig extends OrdnanceSurveyConfig {
   override lazy val baseUrl = getOptionalProperty[String]("ordnancesurvey.baseUrl").getOrElse(CommonConfig.DEFAULT_BASE_URL)
-  override lazy val requestTimeout = getOptionalProperty[Int]("ordnancesurvey.requestTimeout").getOrElse(CommonConfig.DEFAULT_REQ_TIMEOUT.seconds.toMillis.toInt)
+  override lazy val requestTimeout = getOptionalProperty[Int]("ordnancesurvey.requestTimeout")
+    .getOrElse(CommonConfig.DEFAULT_REQ_TIMEOUT.seconds.toMillis.toInt)
 }

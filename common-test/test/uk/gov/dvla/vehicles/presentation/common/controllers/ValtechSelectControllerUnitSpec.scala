@@ -6,7 +6,7 @@ import uk.gov.dvla.vehicles.presentation.common.TestWithApplication
 import uk.gov.dvla.vehicles.presentation.common.helpers.{CookieFactoryForUnitSpecs, UnitSpec}
 import uk.gov.dvla.vehicles.presentation.common.models.ValtechSelectModel.Form.{FirstOption, SecondOption}
 
-final class ValtechSelectControllerUnitSpec extends UnitSpec {
+class ValtechSelectControllerUnitSpec extends UnitSpec {
 
   "present" should {
     "display the page" in new TestWithApplication {
@@ -20,7 +20,7 @@ final class ValtechSelectControllerUnitSpec extends UnitSpec {
       val request = FakeRequest()
       val result = valtechSelectController.present(request)
       val content = contentAsString(result)
-      content should not include("selected>")
+      content should not include "selected>"
     }
 
     "display drop down pre-selected when cookie contains first option" in new TestWithApplication {

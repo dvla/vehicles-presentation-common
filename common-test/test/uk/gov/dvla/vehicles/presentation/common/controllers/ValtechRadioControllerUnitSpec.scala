@@ -1,10 +1,8 @@
 package uk.gov.dvla.vehicles.presentation.common.controllers
 
-import uk.gov.dvla.vehicles.presentation.common.helpers.TestWithApplication
-
-import uk.gov.dvla.vehicles.presentation.common.helpers.{ CookieFactoryForUnitSpecs, UnitSpec}
 import play.api.test.FakeRequest
 import play.api.test.Helpers.{OK, contentAsString, defaultAwaitTimeout}
+import uk.gov.dvla.vehicles.presentation.common.helpers.{CookieFactoryForUnitSpecs, TestWithApplication, UnitSpec}
 import uk.gov.dvla.vehicles.presentation.common.views
 import views.ValtechRadioView.{KeeperType_Business, KeeperType_Private}
 
@@ -27,8 +25,8 @@ final class ValtechRadioControllerUnitSpec extends UnitSpec {
     }
 
     "display correct radio button pre-selected when cookie contains business keeper" in new TestWithApplication {
-      val request = FakeRequest().
-        withCookies(CookieFactoryForUnitSpecs.valtechRadio(keeperType = KeeperType_Business))
+      val request = FakeRequest()
+        .withCookies(CookieFactoryForUnitSpecs.valtechRadio(keeperType = KeeperType_Business))
       val result = valtechRadioController.present(request)
       val content = contentAsString(result)
       content should include(expectedRadioButtonSelected(KeeperType_Business))
@@ -43,5 +41,4 @@ final class ValtechRadioControllerUnitSpec extends UnitSpec {
     val request = FakeRequest()
     valtechRadioController.present(request)
   }
-
 }

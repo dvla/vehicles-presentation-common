@@ -8,7 +8,7 @@ import common.models
 
 import models.EmailModel.Form.EmailId
 
-final class EmailFormSpec extends UnitSpec {
+class EmailFormSpec extends UnitSpec {
 
   "form" should {
     "accept if form is valid with email name field filled in" in new TestWithApplication {
