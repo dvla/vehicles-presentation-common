@@ -46,8 +46,8 @@ abstract class NewKeeperEnterAddressManuallyBase @Inject()()
     "Now redirecting to vehicle lookup"
 
   def present = Action { implicit request => switch(
-    privateKeeperDetails => openView(privateKeeperDetails.postcode),
-    businessKeeperDetails => openView(businessKeeperDetails.postcode),
+    privateKeeperDetails => openView(),
+    businessKeeperDetails => openView(),
     message => error(message)
   )}
 
@@ -85,8 +85,7 @@ abstract class NewKeeperEnterAddressManuallyBase @Inject()()
     }
   }
 
-  private def openView(postcode: String)
-                      (implicit request: Request[_]) = {
+  private def openView()(implicit request: Request[_]) = {
     request.cookies.getModel[VehicleAndKeeperDetailsModel] match {
       case Some(vehicleAndKeeperDetails) =>
         request.cookies.getModel[NewKeeperEnterAddressManuallyFormModel] match {
@@ -99,7 +98,7 @@ abstract class NewKeeperEnterAddressManuallyBase @Inject()()
                 NewKeeperEnterAddressManuallyFormModel(
                   AddressAndPostcodeViewModel(
                     AddressLinesViewModel("", None, None, ""),
-                    postcode
+                    postCode = ""
                   )
                 )
               )
