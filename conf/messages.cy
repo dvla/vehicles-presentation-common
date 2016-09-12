@@ -310,7 +310,7 @@ error.driverNumber = OBSOLETE?
 error.notInFuture = Date must not be in the future
 error.withinTwoYears = Date cannot be more than two year ago
 error.validBusinessName = Rhaid bod rhwng 2 a 58 o nodau o hyd a dim ond nodau dilys (a-z, A-Z, 0-9, &, -,(), /, ‘ a , neu .)
-error.validBusinessKeeperName = Must be between 2 and 30 characters, contain at least one alpha character and only contain valid characters (a-z, A-Z, 0-9, &, -,(), /, ‘ and , or .). The following characters cannot be used at the start of business name (&,-,(), /, ‘ and , or .)
+error.validBusinessKeeperName = Must be between 2 and 30 characters, contain at least one alpha character and only contain valid characters (a-z, A-Z, 0-9, &, -, (), /, ‘ and , or .). The following characters cannot be used at the start of business name (&, -, (), /, ‘ and , or .)
 error.invalidBracesOrQuotes = Brackets and quotes must be used as a pair e.g. (...) or "..."
 error.atLeastOneChar = OBSOLETE?
 
@@ -335,7 +335,7 @@ error.dateOfBirth.invalid = Must be a valid date DD MM YYYY and not be in the fu
 error.dateOfBirth.110yearsInThePast = Date of birth cannot be more than 110 years in the past
 
 # VPC - PrivateKeeperDetailsFormModel
-error.validFirstName = Must contain between 1 and 25 characters from the following A-Z, hyphen, apostrophe, full stop and space
+error.validFirstName = Must contain between 1 and 25 characters from the following A-Z, hyphen, apostrophe, full stop and space. The following characters cannot be used at the start of the first name (hyphen, apostrophe, full stop and space)
 error.validLastName = Must contain between 1 and 25 characters from the following A-Z, hyphen, apostrophe, full stop and space
 privatekeeper_option_email = Email confirmation
 privatekeeper_title = Title
