@@ -334,7 +334,20 @@ error.dateOfBirth.inTheFuture = Must be a valid date DD MM YYYY and not be in th
 error.dateOfBirth.invalid = Must be a valid date DD MM YYYY and not be in the future.
 error.dateOfBirth.110yearsInThePast = Date of birth cannot be more than 110 years in the past
 
+# VPC - TitlePickerString mapping
+error.title.unknownOption = Please enter the title of the new keeper
+error.title.missing = Please enter the title of the new keeper
+error.title.tooLong = Other title field can only contain characters from the following A-Z, hyphen, apostrophe, full stop and space.
+error.title.illegalCharacters = Other title field can only contain characters from the following A-Z, hyphen, apostrophe, full stop and space.
+
+# VPC - OptionalToggle widget
+mandatory-alternative.not-selected = This field is mandatory. Please select one of the options.
+
+# VPC - PrivateKeeperDetailsBase
+error.validDriverNumber = The driver number that you have entered does not appear to be in an acceptable format. Please amend your entry or delete and re-submit.
+
 # VPC - PrivateKeeperDetailsFormModel
+error.titlePlusFirstName.tooLong = The combined length of your title e.g. Mr/Mrs/Miss/Other and first name(s) cannot exceed 26 characters. Please amend your entry and re-submit.
 error.validFirstName = Must contain between 1 and 25 characters from the following A-Z, hyphen, apostrophe, full stop and space. The following characters cannot be used at the start of the first name (hyphen, apostrophe, full stop and space)
 error.validLastName = Must contain between 1 and 25 characters from the following A-Z, hyphen, apostrophe, full stop and space
 privatekeeper_option_email = Email confirmation
