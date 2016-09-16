@@ -284,13 +284,13 @@ final class HtmlArgsExtensionsSpec extends UnitSpec {
 
   private def htmlArgsWithAutoCompleteOff: Map[Symbol, Any] = Map('title -> "test", 'autocomplete -> "off")
 
-  private def htmlArgsWithTypeTel = Map('title -> "test", 'typeTel -> true)
+  private def htmlArgsWithTypeTel: Map[Symbol, Any] = Map('title -> "test", 'typeTel -> true)
 
-  private def htmlArgsWithTypeFleetNumber = Map('title -> "test", 'typeFleetNumber -> true)
+  private def htmlArgsWithTypeFleetNumber: Map[Symbol, Any] = Map('title -> "test", 'typeFleetNumber -> true)
 
-  private def htmlArgsWithTypeEmail = Map('title -> "test", 'typeEmail -> true)
+  private def htmlArgsWithTypeEmail: Map[Symbol, Any] = Map('title -> "test", 'typeEmail -> true)
 
-  private def htmlArgsWithTypeAlphabeticalOnly = Map('title -> "test", 'alphabeticalOnly -> true)
+  private def htmlArgsWithTypeAlphabeticalOnly: Map[Symbol, Any] = Map('title -> "test", 'alphabeticalOnly -> true)
 
-  private def htmlArgsWithNoOptionalLabel = Map('title -> "test", 'NO_OPTIONAL_LABEL -> true)
+  private def htmlArgsWithNoOptionalLabel: Map[Symbol, Any] = Map('title -> "test", 'NO_OPTIONAL_LABEL -> true)
 }

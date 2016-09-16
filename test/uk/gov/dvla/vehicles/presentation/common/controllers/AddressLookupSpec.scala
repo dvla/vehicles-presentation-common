@@ -33,7 +33,7 @@ class AddressLookupSpec extends UnitSpec {
     "return a list of addresses as 200 json" in {
       test200(Seq(
         AddressDto(s"a, b, c, London, $postCode", None, "a, b, c", None, None, "London", postCode),
-        AddressDto(s"", Some("business"), "x, y, z, Chester, $postCode", None, None, "Chester", postCode))
+        AddressDto("", Some("business"), s"x, y, z, Chester, $postCode", None, None, "Chester", postCode))
       )
     }
 
