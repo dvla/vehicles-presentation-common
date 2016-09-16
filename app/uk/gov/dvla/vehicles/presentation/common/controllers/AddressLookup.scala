@@ -22,7 +22,7 @@ abstract class AddressLookup(implicit clientSideSessionFactory: ClientSideSessio
         Ok(Json.toJson(addressLines))
       } recover {
         case NonFatal(e) =>
-          logMessage(request.cookies.trackingId(), Warn, s"${e.getMessage} ${e.getStackTraceString}")
+          logMessage(request.cookies.trackingId(), Warn, s"${e.getMessage} ${e.getStackTrace}") // Throwable#getStackTrace
           InternalServerError(e.getMessage)
       }
     }

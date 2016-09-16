@@ -96,7 +96,7 @@ abstract class VehicleLookupBase[FormModel <: VehicleLookupFormModelBase]
       case exception: Throwable =>
         logMessage(request.cookies.trackingId(), Error,
           s"Exception thrown by BruteForceService so for safety we won't let anyone through. " +
-            s"Exception:\n${exception.getMessage}\n${exception.getStackTraceString}"
+            s"Exception:\n${exception.getMessage}\n${exception.getStackTrace}"
         )
         microServiceError(exception, formModel)
     } map (_.withCookie(formModel))
@@ -125,7 +125,7 @@ abstract class VehicleLookupBase[FormModel <: VehicleLookupFormModelBase]
             val msg = s"Brute force reset was called - it returned httpCode: $httpCode"
             logMessage(request.cookies.trackingId(), Debug, msg)
           case Failure(t) =>
-            val msg = s"Brute force reset failed: ${t.getStackTraceString} "
+            val msg = s"Brute force reset failed: ${t.getStackTrace} "
             logMessage(request.cookies.trackingId(), Error, msg)
         }
         result

@@ -54,7 +54,7 @@ final class BruteForcePreventionServiceImpl @Inject()(config: BruteForcePreventi
         }
       }.recover {
         case e: Throwable =>
-          logMessage(trackingId, Error, s"Brute force prevention service throw exception: ${e.getStackTraceString}")
+          logMessage(trackingId, Error, s"Brute force prevention service throw exception: ${e.getStackTrace}")
           returnedFuture.failure(e)
       }
       healthStats.report(ServiceName) {

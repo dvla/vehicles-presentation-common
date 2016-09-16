@@ -7,7 +7,7 @@ import org.scalatest.BeforeAndAfterAll
 import play.api.mvc.{Action, AnyContent}
 import play.api.test.FakeRequest
 import play.api.test.Helpers.{contentAsString, defaultAwaitTimeout}
-import scala.tools.nsc.util.ScalaClassLoader.URLClassLoader
+import scala.reflect.internal.util.ScalaClassLoader.URLClassLoader
 import uk.gov.dvla.vehicles.presentation.common.{UnitSpec, TestWithApplication}
 import uk.gov.dvla.vehicles.presentation.common.testhelpers.WireMockFixture
 
@@ -45,13 +45,13 @@ class VersionUnitSpec extends UnitSpec with BeforeAndAfterAll with WireMockFixtu
       val mirror = ru.runtimeMirror(loader)
       val classVersion = ru.typeOf[Version].typeSymbol.asClass
       val cm = mirror.reflectClass(classVersion)
-      val constructorMethod = ru.typeOf[Version].declaration(ru.nme.CONSTRUCTOR).asMethod
+      val constructorMethod = ru.typeOf[Version].decl(ru.termNames.CONSTRUCTOR).asMethod
       val constructor = cm.reflectConstructor(constructorMethod)
 
       wireMock.register(get(urlEqualTo("/version")).willReturn(aResponse()))
       val versionController = constructor(Seq(s"http://localhost:$wireMockPort/version"))
 
-      val versionSymbol = ru.typeOf[Version].member(ru.newTermName("version"))
+      val versionSymbol = ru.typeOf[Version].member(ru.TermName("version"))
       val im = mirror.reflect(versionController)
       val versionMethodMirror = im.reflectMethod(versionSymbol.asMethod).apply().asInstanceOf[Action[AnyContent]]
 
@@ -98,7 +98,7 @@ class VersionUnitSpec extends UnitSpec with BeforeAndAfterAll with WireMockFixtu
 
       versionString should include("http://localh:36234/test")
       versionString should include("http://localh:36234/test2")
-      versionString should include("NettyConnectListener")
+      versionString should not include("NettyConnectListener")
     }
 
     "fetch the version sting from a non parsing url" in new TestWithApplication {

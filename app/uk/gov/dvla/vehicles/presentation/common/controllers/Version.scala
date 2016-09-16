@@ -38,10 +38,10 @@ class Version(msVersionUrls: String*) extends Controller {
       Try(new URL(url)).map(_.toURI.toString) match {
         case Success(validUrl) =>
           WS.url(validUrl).get().map(_.body) recover {
-            case NonFatal(e) => s"Cannot fetch version from url $validUrl because of\n${e.getStackTraceString}"
+            case NonFatal(e) => s"Cannot fetch version from url $validUrl because of\n${e.getStackTrace}"
           }
         case Failure(t) =>
-          Future.successful(s"Cannot parse the given version url: $url . The error is : ${t.getStackTraceString}")
+          Future.successful(s"Cannot parse the given version url: $url . The error is : ${t.getStackTrace}")
       }
     }
 
