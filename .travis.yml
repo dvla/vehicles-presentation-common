@@ -7,7 +7,7 @@ after_success:
 - sbt bintrayCredentials
 - sbt publish
 scala:
-- 2.10.4
+- 2.11.8
 sbt_args: -DspanScaleFactor=5.0
 jdk:
 - oraclejdk7
