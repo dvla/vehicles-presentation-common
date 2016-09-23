@@ -37,13 +37,17 @@ address.buildingNameOrNumber.hint = e.e. 1 STRYD FAWR
 # NewKeeperEnterAddressManuallyBase form errors
 addressAndPostcode.addressLines.postTown = Tref neu ddinas
 addressAndPostcode.postcode = Côd post
+addressAndPostcode.addressLines = Address
+addressAndPostcode.addressLines.buildingNameOrNumber = Building name or number
 
 # email widget
 error.email.confirm.required = Cadarnhewch y cyfeiriad ebost
 error.email.not.match = Nid oedd y cyfeiriadau ebost yn cyfateb
 email.verify.label = Cadarnhau cyfeiriad ebost
-option_email = Opsiynau ebost
 email = Ebost
+
+# VM gatling and VO DisposeFormModel
+option_email = Opsiynau ebost
 
 # VPC - header
 global.cookiemessage = Mae GOV.UK yn defnyddio cwcis i wneud y safle’n fwy syml.
@@ -359,3 +363,20 @@ use_todays_date.label = Defnyddiwch ddyddiad heddiw
 privatekeeper_postcode = Postcode
 privatekeeper_drivernumber = Driver number
 privatekeeper_dateofbirth = Date of Birth
+
+# VPC - BusinessKeeperDetailsFormModel
+businessName = Business name
+businesskeeper_email = Contact email address
+businesskeeper_option_email = Email confirmation
+businesskeeper_postcode = Postcode
+fleetNumber = Fleet number
+fleetNumberOption = Fleet number
+
+#NewKeeperChooseYourAddressBase
+change_keeper_newKeeperChooseYourAddress.address.required = Please select a valid address
+
+# VPC SetupTradeDetailsFormModel
+traderEmail = Trader email address
+traderEmailOption = Email confirmation
+traderName = Enw''r masnachwr
+traderPostcode = Côd post
