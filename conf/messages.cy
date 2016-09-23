@@ -168,8 +168,9 @@ micro_service_error.exit.button = Allan
 xmas-opening-times.text = View Christmas opening times
 
 # feedback
-common_feedback.message = Peidiwch â chynnwys unrhyw wybodaeth bersonol neu ariannol.
+common_feedback.subject.suffix = adborth
 common_feedback.warning = Mae’r dudalen hon ar gyfer adborth yn unig ac ni allwn gynnig ateb personol i’ch ebost
+common_feedback.message = Peidiwch â chynnwys unrhyw wybodaeth bersonol neu ariannol.
 common_feedback.label = Beth aeth o’i le, os unrhyw beth? Beth aeth yn dda? Sut y gallem wella’r gwasanaeth hwn?
 common_feedback.charactersRemaining = cymeriadau sy’n weddill
 common_feedback.submit_button = Cyflwyno adborth

@@ -168,6 +168,7 @@ micro_service_error.exit.button = Exit
 xmas-opening-times.text = View Christmas opening times
 
 # feedback
+common_feedback.subject.suffix = feedback
 common_feedback.warning = This page is for feedback only and we are unable to offer a personal reply to your email
 common_feedback.message = Please don’t include any personal or financial information.
 common_feedback.label = What went wrong, if anything? What went well? How could we improve this service?
