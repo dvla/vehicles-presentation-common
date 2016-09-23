@@ -28,6 +28,5 @@ class DevModule extends ScalaModule {
     bind[HealthStats].asEagerSingleton()
     bind[AddressLookupService].to[AddressLookupServiceImpl].asEagerSingleton()
     bind[AddressLookupWebService].to[WebServiceImpl].asEagerSingleton()
-
   }
 }

@@ -11,6 +11,7 @@ import uk.gov.dvla.vehicles.presentation.common.pages.XmasOpeningTimesPage
 import uk.gov.dvla.vehicles.presentation.common.services.DateService
 import uk.gov.dvla.vehicles.presentation.common.testhelpers.LightFakeApplication
 import uk.gov.dvla.vehicles.presentation.common.views.models.DayMonthYear
+import uk.gov.dvla.vehicles.presentation.common.webserviceclients.MicroServices
 
 class XmasOpeningTimesSpec extends UiSpec with TestHarness {
 
@@ -41,13 +42,13 @@ class XmasOpeningTimesSpec extends UiSpec with TestHarness {
 
   "Xmas opening times link" should {
     "be on a page with the correct title" in
-      new WebBrowserForSelenium(LightFakeApplication(new CommonTestGlobalSettingsWithMockDate(newYear))) {
+      new WebBrowserForSelenium(LightFakeApplication(new CommonTestGlobalSettingsWithMockDate(newYear), MicroServices.DefaultBaseUrls)) {
         go to XmasOpeningTimesPage.instance
         pageTitle should equal(XmasOpeningTimesPage.instance.title)
       }
 
     "be displayed within the correct time frame" in
-      new WebBrowserForSelenium(LightFakeApplication(new CommonTestGlobalSettingsWithMockDate(newYear))) {
+      new WebBrowserForSelenium(LightFakeApplication(new CommonTestGlobalSettingsWithMockDate(newYear), MicroServices.DefaultBaseUrls)) {
         go to XmasOpeningTimesPage.instance
 
         val link1 = XmasOpeningTimesPage.instance.link
@@ -56,7 +57,7 @@ class XmasOpeningTimesSpec extends UiSpec with TestHarness {
     }
 
     "not be displayed before" in
-      new WebBrowserForSelenium(LightFakeApplication(new CommonTestGlobalSettingsWithMockDate(beforeDisplayDate))) {
+      new WebBrowserForSelenium(LightFakeApplication(new CommonTestGlobalSettingsWithMockDate(beforeDisplayDate), MicroServices.DefaultBaseUrls)) {
         go to XmasOpeningTimesPage.instance
 
         val link1 = XmasOpeningTimesPage.instance.xmasOpeningTimesLink
@@ -64,7 +65,7 @@ class XmasOpeningTimesSpec extends UiSpec with TestHarness {
       }
 
     "not be displayed after" in
-      new WebBrowserForSelenium(LightFakeApplication(new CommonTestGlobalSettingsWithMockDate(afterDisplayDate))) {
+      new WebBrowserForSelenium(LightFakeApplication(new CommonTestGlobalSettingsWithMockDate(afterDisplayDate), MicroServices.DefaultBaseUrls)) {
         go to XmasOpeningTimesPage.instance
 
         val link1 = XmasOpeningTimesPage.instance.xmasOpeningTimesLink

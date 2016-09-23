@@ -8,7 +8,7 @@ object TestConfiguration {
   private final val DefaultTestPort = "9001"
 
   def testUrl: String = {
-    Logger.debug(s"testUrl - Looking in for property $TestUrl in system props and environment vars...")
+    Logger.debug(s"testUrl - Looking for property $TestUrl in system props and environment vars...")
     val sysOrEnvProp = sys.props.get(TestUrl)
       .orElse(sys.env.get(environmentVariableName(TestUrl)))
       .getOrElse(throw new RuntimeException(s"testUrl - Error: cannot run tests. You need to configure property <$TestUrl>"))
@@ -22,7 +22,7 @@ object TestConfiguration {
 
   def configureTestUrl[T](port: Int = testPort)(code: => T): T = {
     val value = s"http://localhost:$port/"
-    Logger.debug(s"configureTestUrl - Set system property ${TestUrl} to value $value")
+    Logger.debug(s"configureTestUrl - Set system property $TestUrl to value $value")
     sys.props += ((TestUrl, value))
     try code
     finally sys.props -= TestUrl

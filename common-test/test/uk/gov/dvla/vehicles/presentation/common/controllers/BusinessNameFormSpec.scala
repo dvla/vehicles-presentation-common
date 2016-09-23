@@ -7,7 +7,7 @@ import uk.gov.dvla.vehicles.presentation.common.models
 import uk.gov.dvla.vehicles.presentation.common.controllers
 import models.BusinessNameModel.Form.BusinessNameId
 
-final class BusinessNameFormSpec extends UnitSpec {
+class BusinessNameFormSpec extends UnitSpec {
 
   "form" should {
     "accept if form is valid with business name field filled in" in new TestWithApplication {
@@ -21,8 +21,8 @@ final class BusinessNameFormSpec extends UnitSpec {
       // IMPORTANT: The messages.en being returned by the form validation are overridden by the Controller
       val errors = formWithValidDefaults(businessName = "").errors
       errors should have length 3
-      errors(0).key should equal(BusinessNameId)
-      errors(0).message should equal("error.minLength")
+      errors.head.key should equal(BusinessNameId)
+      errors.head.message should equal("error.minLength")
       errors(1).key should equal(BusinessNameId)
       errors(1).message should equal("error.required")
       errors(2).key should equal(BusinessNameId)
