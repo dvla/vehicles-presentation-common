@@ -2,6 +2,18 @@
 
 @import uk.gov.dvla.vehicles.presentation.common.views.html.widgets.base.valtechRadio
 
+@if(args.contains('listAlignment)) {
+    @if(args.get('listAlignment) == Some("horizontal")) {
+        <div class="expandable-optional">
+    }
+}
+
 <div class="radio" id="@field.id">
     @valtechRadio(field, options, args)
 </div>
+
+@if(args.contains('listAlignment)) {
+    @if(args.get('listAlignment) == Some("horizontal")) {
+        </div>
+    }
+}

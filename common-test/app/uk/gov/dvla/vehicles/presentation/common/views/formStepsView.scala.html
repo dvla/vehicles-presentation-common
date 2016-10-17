@@ -37,6 +37,24 @@
         Map.empty
     )
 
+    @formSteps(
+        exitFormTarget,
+        ExitId,
+        surveyUrl,
+        cssClasses = List("desktop-only"),
+        {
+            val args: Map[Symbol, Any] = Map()
+            hideNewSaleButton match {
+                case true => args.empty
+                case false => Map(
+                  'target -> newSaleFormTarget,
+                  'buttonId -> NewSaleId,
+                  'buttonText -> "Custom Button Text"
+                )
+            }
+        }
+    )
+
     <br>
     <legend>@Messages("form-steps.label")</legend>
     <a href="#" id="button" class="button">

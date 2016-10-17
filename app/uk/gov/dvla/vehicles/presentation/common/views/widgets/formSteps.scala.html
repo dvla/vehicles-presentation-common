@@ -33,7 +33,7 @@
                     class="button button-secondary ga-track-click-event-once"
                     data-ga-event-category="ct_link"
                     data-ga-event-action="sell-another">
-                    @Messages("formSteps.newdisposalbutton")
+                    @args.get('buttonText).getOrElse(Messages("formSteps.newdisposalbutton"))
                 </button>
             }
         </div>

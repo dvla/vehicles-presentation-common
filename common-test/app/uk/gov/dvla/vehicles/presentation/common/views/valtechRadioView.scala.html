@@ -29,7 +29,6 @@
             )
         )
 
-
         @* radio with hints and without default radio button and no autofocus option *@
 
         @listRadioGroup(field = valtechRadioForm("radiogroup2"),
@@ -54,6 +53,16 @@
             )
         )
 
+        @listRadioGroup(field = valtechRadioForm("radiogroup3"),
+            args = Map(
+                'items -> Seq(
+                    "yes" -> "Yes",
+                    "no" -> "No"
+                ),
+                '_label -> "Horizontal Alignment",
+                'listAlignment -> "horizontal"
+            )
+        )
 
         <div class="form-steps">
             <button id="submit" type="submit" name="action" class="button" aria-label="Next button">@Messages("valtechRadio.button")</button>
