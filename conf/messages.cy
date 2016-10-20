@@ -167,8 +167,10 @@ micro_service_error.exit.button = Allan
 #xmasOpeningTimes widget
 xmas-opening-times.text = View Christmas opening times
 
-# feedback
+# PR FeedbackController
 common_feedback.subject.suffix = adborth
+
+# feedback
 common_feedback.warning = Mae’r dudalen hon ar gyfer adborth yn unig ac ni allwn gynnig ateb personol i’ch ebost
 common_feedback.message = Peidiwch â chynnwys unrhyw wybodaeth bersonol neu ariannol.
 common_feedback.label = Beth aeth o’i le, os unrhyw beth? Beth aeth yn dda? Sut y gallem wella’r gwasanaeth hwn?
@@ -290,7 +292,7 @@ address.picker.common.changeDetails = Newid fy manylion
 address.picker.common.rememberDetails = Cofiwch y manylion hyn
 address.picker.common.postCodeNotFound = Ni chanfuwyd y cod post
 address.picker.common.serverError = Gwall o’r gweinydd:
-business-address.address-postcode-lookup = Cod post busnes
+business-address.address-postcode-lookup = Cod post
 # PR - SetupBusinessDetails (AddressPicker) form errors
 business-address.address-line-1 = Cyfeiriad busnes llinell 1
 business-address.post-town = Tref/dinas busnes

@@ -167,8 +167,10 @@ micro_service_error.exit.button = Exit
 #xmasOpeningTimes widget
 xmas-opening-times.text = View Christmas opening times
 
-# feedback
+# PR FeedbackController
 common_feedback.subject.suffix = feedback
+
+# feedback
 common_feedback.warning = This page is for feedback only and we are unable to offer a personal reply to your email
 common_feedback.message = Please don’t include any personal or financial information.
 common_feedback.label = What went wrong, if anything? What went well? How could we improve this service?
@@ -290,7 +292,7 @@ address.picker.common.changeDetails = Change my details
 address.picker.common.rememberDetails = Remember these details
 address.picker.common.postCodeNotFound = Postcode not found
 address.picker.common.serverError = Error from the server:
-business-address.address-postcode-lookup = Business postcode
+business-address.address-postcode-lookup = Postcode
 # PR - SetupBusinessDetails (AddressPicker) form errors
 business-address.address-line-1 = Business address line 1
 business-address.post-town = Business town/city
