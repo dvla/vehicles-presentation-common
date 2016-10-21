@@ -358,11 +358,13 @@ var disableSubmitOnClick = function() {
         closeWaitOverlay  = $('.please-wait-overlay a'),
         submitId, submitSelector;
 
+    /*
     $('input').on('invalid',function(e) {
         // This event handler, will handle html5 validation, and supress the validation bubble
         e.preventDefault();
         return html5Validation.validateField(this);
     });
+    */
 
     $(':submit').on('click', function(e) {
         var pageForm = $(this).closest('form:first');
@@ -370,27 +372,27 @@ var disableSubmitOnClick = function() {
             pageForm = $('form');
         }
 
-        if (html5Validation.validateForm(pageForm)) {
-            submitId = $(this).attr('id') || "";
-            submitSelector = $('#' + submitId + '');
-            if ( submitSelector.hasClass("disabled") ) {
-                return false;
-            }
-            submitSelector.html('Loading').addClass('loading-action disabled');
-            var runTimes = 0;
-            setInterval(function() {
-                if ( runTimes < 3 ){
-                    $(':submit').append('.');
-                    runTimes++;
-                } else {
-                    runTimes = 0;
-                    $(':submit').html('Loading');
-                }
-            }, 1000);
-            setTimeout(function() {
-                pleaseWaitOverlay.toggle();
-            }, 5000);
+        //if (html5Validation.validateForm(pageForm)) {
+        submitId = $(this).attr('id') || "";
+        submitSelector = $('#' + submitId + '');
+        if ( submitSelector.hasClass("disabled") ) {
+            return false;
         }
+        submitSelector.html('Loading').addClass('loading-action disabled');
+        var runTimes = 0;
+        setInterval(function() {
+            if ( runTimes < 3 ){
+                $(':submit').append('.');
+                runTimes++;
+            } else {
+                runTimes = 0;
+                $(':submit').html('Loading');
+            }
+        }, 1000);
+        setTimeout(function() {
+            pleaseWaitOverlay.toggle();
+        }, 5000);
+        //}
     });
     closeWaitOverlay.on('click', function(e) {
         e.preventDefault();
