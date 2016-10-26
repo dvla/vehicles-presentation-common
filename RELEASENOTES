@@ -1,3 +1,11 @@
+======= 2.57 ======
+Time of release binaries creation:
+
+
+VMPRCI-4525 	Error message holding on new keeper's page
+VMPRCI-4526 	[PR] Setup business details postcode lookup validation message
+VMPRCI-4534 	VM Dispose private route - add Notify another sale button
+
 ======= 2.56 ======
 Time of release binaries creation:
 Wed Sep 28 10:45:01 UTC 2016
