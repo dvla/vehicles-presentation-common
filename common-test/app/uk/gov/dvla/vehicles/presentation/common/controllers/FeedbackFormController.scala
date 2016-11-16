@@ -8,7 +8,7 @@ import common.clientsidesession.ClientSideSessionFactory
 import common.clientsidesession.TrackingId
 import common.filters.CsrfPreventionAction.CsrfPreventionToken
 import common.model.FeedbackForm
-import common.model.FeedbackForm.Form.{emailMapping, feedback, nameMapping}
+import common.model.FeedbackForm.Form.feedback
 import common.services.FeedbackMessageBuilder
 import common.views
 import common.views.helpers.FormExtensions.formBinding
@@ -33,22 +33,12 @@ class FeedbackFormController @Inject()(implicit clientSideSessionFactory: Client
   def submit = Action {
     implicit request => {
       form.bindFromRequest.fold(
-        invalidForm => BadRequest(views.html.feedbackFormView(formWithReplacedErrors(invalidForm))),
+        invalidForm => BadRequest(views.html.feedbackFormView(invalidForm)),
         validForm => {
           val fb = FeedbackMessageBuilder.buildWith(validForm, TrackingId("123"))
           Ok(views.html.success(fb.htmlMessage))
         }
       )
     }
-  }
-
-  private def formWithReplacedErrors(form: Form[FeedbackForm]) = {
-    form.replaceError(
-      feedback, FormError(key = feedback,message = "error.feedback", args = Seq.empty)
-    ).replaceError(
-        nameMapping, FormError(key = nameMapping, message = "error.feedbackName", args = Seq.empty)
-      ).replaceError(
-        emailMapping, FormError(key = emailMapping, message = "error.email", args = Seq.empty)
-      ).distinctErrors
   }
 }

@@ -1,25 +1,19 @@
 package uk.gov.dvla.vehicles.presentation.common.model
 
-import play.api.data.Forms.{mapping, nonEmptyText, optional, text}
-import play.api.data.{FormError, Mapping}
-import play.api.data.format.Formatter
-import uk.gov.dvla.vehicles.presentation.common.mappings.Email.email
+import play.api.data.Forms.{mapping, nonEmptyText, text}
 import play.api.libs.json.Json
-import play.api.data.Forms.of
 
-case class FeedbackForm(feedback: String, name: Option[String], email: Option[String])
+case class FeedbackForm(rating: String, feedback: String)
 
 object FeedbackForm {
 
   object Form {
+    final val rating = "rating"
     final val feedback = "feedback"
-    final val nameMapping = "feedbackName"
-    final val emailMapping = "feedbackEmail"
 
     final val Mapping = mapping(
-      feedback -> nonEmptyText(minLength = 2, maxLength = 500),
-      nameMapping -> optional(text(minLength = 2, maxLength = 60)),
-      emailMapping -> optional(email)
+      rating -> nonEmptyText.verifying(play.api.data.validation.Constraints.pattern("""[1-5]""".r)),
+      feedback -> text(maxLength = 500)
     )(FeedbackForm.apply)(FeedbackForm.unapply)
   }
 

@@ -12,10 +12,6 @@ object FeedbackMessageBuilder {
   def buildWith(form: FeedbackForm, trackingId: TrackingId): Contents = {
     val date = new SimpleDateFormat("dd/MM/yyyy hh:mm").format(new Date())
 
-    val sender =
-      s"""received from: ${form.name.getOrElse("'no name given'")}
-         |with email: ${form.email.getOrElse("'no email given'")}""".stripMargin
-
     def htmlSubstitution(ch: Char): String = ch match {
       case '\n' => "<br />"
       case '<' => "&lt;"
@@ -29,13 +25,12 @@ object FeedbackMessageBuilder {
     val htmlContents = form.feedback.map { htmlSubstitution }.mkString
 
     Contents(
-      buildHtml(htmlContents, date, sender, trackingId),
-      buildText(form.feedback, date, sender, trackingId)
+      buildHtml(htmlContents, date, trackingId),
+      buildText(form.feedback, date, trackingId)
     )
   }
 
-  private def buildHtml(contents: String, date: String,
-                        sender: String, trackingId: TrackingId): String =
+  private def buildHtml(contents: String, date: String, trackingId: TrackingId): String =
     s"""
         |<html>
         |<head>
@@ -49,7 +44,6 @@ object FeedbackMessageBuilder {
         |<body>
         |
         |<p>New feedback received on $date</p>
-        |<p>$sender</p>
         |
         |<h2>Feedback</h2>
         |<p>$contents</p>
@@ -58,11 +52,9 @@ object FeedbackMessageBuilder {
         |</body>
         |</html>""".stripMargin
 
-  private def buildText(contents: String, date: String,
-                        sender: String, trackingId: TrackingId): String =
+  private def buildText(contents: String, date: String, trackingId: TrackingId): String =
     s"""
         |New feedback received on $date
-        |$sender
         |
         |Feedback:
         |$contents

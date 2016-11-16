@@ -20,13 +20,15 @@ class FeedbackFormIntegrationSpec extends UiSpec with TestHarness {
       pageTitle should equal("Success")
     }
 
-    "reject submit when feedback field is blank" in new WebBrowserForSelenium {
+    "redirect to the next page when feedback field is blank" in new WebBrowserForSelenium {
       FeedbackFormPage.navigate(feedback = "")
-      ErrorPanel.numberOfErrors should equal(1)
+      pageTitle should equal("Success")
     }
 
-    "reject submit when feedback field contains less than minimum characters" in new WebBrowserForSelenium {
-      FeedbackFormPage.navigate(feedback = "1")
+    "reject submit when no rating given" in new WebBrowserForSelenium {
+      go to FeedbackFormPage
+      FeedbackFormPage.feedbackElement.value = "f" * 10
+      click on FeedbackFormPage.submit
       ErrorPanel.numberOfErrors should equal(1)
     }
 

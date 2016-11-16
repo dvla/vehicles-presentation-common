@@ -5,10 +5,10 @@
 @import views.html.helper.form
 @import uk.gov.dvla.vehicles.presentation.common
 @import common.views.html.widgets.base.csrfTokenHiddenField
-@import common.views.html.widgets.base.{valtechInputTextArea, valtechInputText}
-@import common.views.html.widgets.optionalToggle
+@import common.views.html.widgets.base.valtechInputTextArea
+@import common.views.html.widgets.radioListPlaceholder
 @import common.mappings.Email.EmailMaxLength
-@import common.model.FeedbackForm.Form.{feedback, nameMapping, emailMapping}
+@import common.model.FeedbackForm.Form.{feedback, rating}
 @import common.views.helpers.BaseTemplate.fieldConstructor
 
 @form(action = controls("submit")) {
@@ -18,42 +18,28 @@
   }
 
   <p>@Messages("common_feedback.message")</p>
-  <p>@Messages("common_feedback.label")</p>
 
-  <dl class="playback" id="feedback-form">
-    <dl>
-    @valtechInputTextArea(feedbackForm(feedback),
-      showCharacterCountdown = true,
-      args = Map(
-        '_label -> "",
-        '_showConstraints -> false,
-        'maxLength -> "500",
-        'showErrors -> true))
-    </dl>
-
-    <dl>
-      <p>@Messages("common_feedback.feedbackTitle")</p>
-    </dl>
-
-    <dl>
-    @valtechInputText(feedbackForm(nameMapping),
-      hintText = Some(Messages("")),
-      args =  Map('_label -> Messages("common_feedback.name"),
-        '_showConstraints -> false)
-    )
-    </dl>
-
-    <dl>
-    @valtechInputText(feedbackForm(emailMapping),
-      hintText = Some(Messages("")),
-      args = Map('_label -> Messages("common_feedback.email"),
-        '_showConstraints -> false,
-        'maxLength -> EmailMaxLength
-      )
-    )
-
-    </dl>
-  </dl>
+  <div id="feedback-form">
+    <div>
+      <label for="@rating">@Messages("common_feedback.rating.label")</label>
+      @radioListPlaceholder(field = feedbackForm(rating),
+        options = Seq("5" -> Messages("common_feedback.rating.5"),
+                      "4" -> Messages("common_feedback.rating.4"),
+                      "3" -> Messages("common_feedback.rating.3"),
+                      "2" -> Messages("common_feedback.rating.2"),
+                      "1" -> Messages("common_feedback.rating.1")
+        ), args = Map.empty)
+    </div>
+    <div>
+      @valtechInputTextArea(feedbackForm(feedback),
+        showCharacterCountdown = true,
+        args = Map(
+          '_label -> Messages("common_feedback.feedback.label"),
+          '_showConstraints -> false,
+          'maxLength -> "500",
+          'showErrors -> true))
+    </div>
+  </div>
 
   <div class="form-steps">
 

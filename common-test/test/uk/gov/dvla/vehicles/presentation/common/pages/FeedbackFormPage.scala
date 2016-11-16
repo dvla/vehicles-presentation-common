@@ -12,7 +12,7 @@ import org.scalatest.selenium.WebBrowser.textArea
 import org.scalatest.selenium.WebBrowser.TextArea
 import uk.gov.dvla.vehicles.presentation.common.helpers.webbrowser.Page
 import uk.gov.dvla.vehicles.presentation.common.helpers.webbrowser.WebDriverFactory
-import uk.gov.dvla.vehicles.presentation.common.model.FeedbackForm.Form.feedback
+import uk.gov.dvla.vehicles.presentation.common.model.FeedbackForm.Form.{feedback, rating}
 
 object FeedbackFormPage extends Page {
 
@@ -22,11 +22,14 @@ object FeedbackFormPage extends Page {
 
   def feedbackElement(implicit driver: WebDriver): TextArea = textArea(id(feedback))
 
+  def rating_x(rate: String)(implicit driver: WebDriver) = radioButton(id(s"${rating}_${rate}"))
+
   def submit(implicit driver: WebDriver): Element = find(id("submit")).get
 
-  def navigate (feedback: String = "f" * 100)(implicit driver: WebDriver) {
+  def navigate (rate: String = "3", feedback: String = "f" * 100)(implicit driver: WebDriver) {
     go to FeedbackFormPage
     feedbackElement.value = feedback
+    click on rating_x(rate)
     click on submit
   }
 
