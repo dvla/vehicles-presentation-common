@@ -171,7 +171,7 @@ xmas-opening-times.text = View Christmas opening times
 common_feedback.subject.suffix = adborth
 
 # feedback
-common_feedback.warning = Mae’r dudalen hon ar gyfer adborth yn unig ac ni allwn gynnig ateb personol i’ch ebost
+common_feedback.warning = Mae’r dudalen hon ar gyfer adborth yn unig. Ni allwn ymateb i’ch ebost
 common_feedback.message = Peidiwch â chynnwys unrhyw wybodaeth bersonol neu ariannol.
 common_feedback.rating.label = Pa mor fodlon oeddech chi gyda’r dudalen neu’r gwasanaeth:
 common_feedback.rating.1 = Anfodlon iawn
@@ -179,7 +179,7 @@ common_feedback.rating.2 = Anfodlon
 common_feedback.rating.3 = Ddim yn fodlon nac yn anfodlon
 common_feedback.rating.4 = Bodlon
 common_feedback.rating.5 = Bodlon iawn
-common_feedback.feedback.label = Beth aeth o’i le, os unrhyw beth? Beth aeth yn dda? Sut y gallem wella’r gwasanaeth hwn?
+common_feedback.feedback.label = Beth aeth o’i le, os unrhywbeth? Beth aeth yn dda? Sut allwn wella’r gwasanaeth hwn?
 common_feedback.charactersRemaining = cymeriadau sy’n weddill
 common_feedback.submit_button = Cyflwyno adborth
 feedback = Ffurflen adborth
