@@ -93,7 +93,8 @@ class AddressLookupServiceImpl @Inject()(ws: AddressLookupWebService,
   def toDropDownFormat(addresses: Seq[AddressResponseDto]): Seq[(String, String)] =
       addresses.map(aR => ( (aR.address, aR.businessName) match {
         case (_, Some(businessName)) =>
-          if (!aR.address.contains(businessName)) (businessName + ", " + aR.address, businessName + ", " + aR.address)
+          // do not include business name in value part because we don't want it part of the address playback (in VM at least)
+          if (!aR.address.contains(businessName)) (aR.address, businessName + ", " + aR.address)
           else (aR.address, aR.address)
         case (_, _) => (aR.address, aR.address)
     }))
