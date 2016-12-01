@@ -1,63 +1,39 @@
 package uk.gov.dvla.vehicles.presentation.common.testhelpers
 
-import scala.collection.breakOut
+import java.net.URL
+import java.nio.file.Paths
+import play.api.i18n.Messages.{messages, UrlMessageSource}
+import play.api.PlayException
 
 object MessageFilesSpecHelper {
   private val MESSAGES_FILE = "conf/messages"
-  final val WELSH_FILE = MESSAGES_FILE + ".en"
-  final val ENGLISH_FILE = MESSAGES_FILE + ".cy"
+  final val WELSH_FILE: URL = Paths.get(s"$MESSAGES_FILE.en").toUri.toURL
+  final val ENGLISH_FILE: URL = Paths.get(s"$MESSAGES_FILE.cy").toUri.toURL
 
-  final val messagesFilesHelper : MessageFilesSpecHelper = new MessageFilesSpecHelper
+  final val messagesFilesHelper: MessageFilesSpecHelper = new MessageFilesSpecHelper
 }
 
 class MessageFilesSpecHelper {
 
-  def getLines(file: String): List[String] = {
-    val source = scala.io.Source.fromFile(file)
-    val lines: List[String] = source.getLines().filterNot(_.isEmpty).filterNot(_.startsWith("#")).toList
-    source.close()
-    lines
-  }
+  def parse(url: URL): Either[PlayException.ExceptionSource, Map[String, String]] =
+    messages(UrlMessageSource(url), url.getFile)
 
-  // TODO: this method doesn't cope with line continuation (back slash)
-  def extractMessageKeys(file: String): List[String] = {
-    getLines(file).map(keyValue => keyValue.split("=").head.trim)
-  }
-
-  // TODO: this method doesn't cope with line continuation (back slash)
-  def extractMessageMap(file: String): Map[String, String] = {
-    (extractMessageKeys(file) zip getLines(file).map(keyValue => keyValue.split("=").tail.mkString))(breakOut): Map[String,String]
-  }
-
-  // count increments if vals are different lengths
-  def getBlankNonBlankValuesCount(m1: Map[String, String], m2: Map[String, String]): Integer = {
-      var result = 0
-      m1 foreach {
-        case (m1key, m1value) => {
-          val m2valFromm1Key = m2.get(m1key).getOrElse("")
-
-          if (m1value.length == 0 && m2valFromm1Key.length != 0) {
-            println(s"m1 value empty and m2 value not for key: $m1key , val: $m2valFromm1Key")
-            result += 1
-          }
-        }
-      }
-      result
-  }
-
-  def getBlankBlankValuesCount(m1: Map[String, String], m2: Map[String, String]): Integer = {
-    var result = 0
-    m1 foreach {
-      case (m1key, m1value) => {
-        val m2valFromm1Key = m2.get(m1key).getOrElse("")
-
-        if (m1value.length == 0 && m2valFromm1Key.length == 0) {
-          println(s"m1 value empty and m2 value empty for key: $m1key")
-          result += 1
-        }
+  private def count(m1: Map[String, String],
+                    m2: Map[String, String],
+                    condition: (String, String) => Boolean): Integer =
+    m1.foldLeft(0) { case (acc, (k, v)) =>
+      if (condition(v, m2.getOrElse(k, ""))) {
+        println(s"key $k, m1: $v, m2: ${m2.getOrElse(k, "")}")
+        acc + 1
+      } else {
+        acc
       }
     }
-    result
-  }
 
+  // count increments if vals are different lengths
+  def getNonBlankValuesCount(m1: Map[String, String], m2: Map[String, String]): Integer =
+    count(m1, m2, (v1, v2) => v1.length == 0 && v2.length != 0)
+
+  def getBlankValuesCount(m1: Map[String, String], m2: Map[String, String]): Integer =
+    count(m1, m2, (v1, v2) => v1.length == 0 && v2.length == 0)
 }

@@ -7,7 +7,6 @@ test.two = Hello
 test.three = Goodbye
 # both blank
 test.four =
-# no equals
-test.five
+test.five =
 # test.six not present in other text file
-test.six
+test.six =

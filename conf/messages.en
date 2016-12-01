@@ -323,7 +323,7 @@ error.atLeastOneChar = OBSOLETE?
 # AddressPicker mapping
 error.address.addressLine1 = This field is mandatory
 error.address.buildingNameOrNumber.invalid = Building/number and street must contain between 4 and 30 characters
-error.address.characterInvalid = The first character of the address must be alphanumeric. Other characters must be valid (a-z, A-Z, 0-9, &, -,(), /, ‘ and , or .)
+error.address.characterInvalid = The first character of the address must be alphanumeric. Other characters must be valid (a-z, A-Z, 0-9, &, -, (), /, ‘ and , or .)
 error.address.postCode = This field is mandatory
 error.address.postTown = Post town requires a minimum length of three characters
 error.address.postTown.characterInvalid = Post town contains invalid characters

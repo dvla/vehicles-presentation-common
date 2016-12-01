@@ -3,19 +3,19 @@ footer.builtbyintro = Adeiladwyd gan
 footer.builtby = Asiantaeth Trwyddedu Gyrwyr a Cherbydau
 footer.cookies = Cwcis
 footer.tandc = Amodau a Thelerau
-footer.privacy = Privacy Policy
+footer.privacy = Polisi Preifatrwydd
 
 # exemplar - feedbackSuccess
 feedback_return = ◄ Dychwelyd i’ch cais
-feedback_close = Caewch y dudalen hon i ddychwelyd i’ch cais
-common_feedback.thankyou = Diolch i chi am eich adborth
+feedback_close = A wnewch chi gau’r dudalen hon i ddychwelyd i’ch cais
+common_feedback.thankyou = Diolch am eich adborth
 
 # exemplar - feedback
 common_feedback.title = Rhoi adborth
 
 # VPC - closed widget
 closed.title = Nid yw’r gwasanaeth ar gael
-closed.p1 = Mae’r gwasanaeth ar gael bob dydd {0} i {1}
+closed.p1 = Mae’r gwasanaeth ar gael bob Dydd {0} i {1}
 closed.exit_button = Gadael
 
 # VPC - valtechSelect widget
@@ -25,57 +25,57 @@ select_default = Dewiswch
 widget.optional = (optional)
 
 # VPC - errorsSummary widget
-errorsummary.title = Cywirwch y manylion isod
+errorsummary.title = A wnewch chi gywiro’r manylion isod
 
 # VPC - addressAndPostcode widget
 address.lines.label = Adeilad/rhif a stryd
-address.postcode.label = Côd post
+address.postcode.label = Cod post
 
 # VPC - addressLines widget (also uses addressAndPostcode.addressLines.postTown)
 address.buildingNameOrNumber.hint = e.e. 1 STRYD FAWR
 
 # NewKeeperEnterAddressManuallyBase form errors
 addressAndPostcode.addressLines.postTown = Tref neu ddinas
-addressAndPostcode.postcode = Côd post
-addressAndPostcode.addressLines = Address
-addressAndPostcode.addressLines.buildingNameOrNumber = Building name or number
+addressAndPostcode.postcode = Cod post
+addressAndPostcode.addressLines = Cyfeiriad
+addressAndPostcode.addressLines.buildingNameOrNumber = Enw neu rif yr adeilad
 
 # email widget
-error.email.confirm.required = Cadarnhewch y cyfeiriad ebost
+error.email.confirm.required = A wnewch chi gadarnhau’r cyfeiriad ebost
 error.email.not.match = Nid oedd y cyfeiriadau ebost yn cyfateb
-email.verify.label = Cadarnhau cyfeiriad ebost
+email.verify.label = Cadarnhau’r cyfeiriad ebost
 email = Ebost
 
 # VM gatling and VO DisposeFormModel
 option_email = Opsiynau ebost
 
 # VPC - header
-global.cookiemessage = Mae GOV.UK yn defnyddio cwcis i wneud y safle’n fwy syml.
-global.cookiefindoutmore = Dysgwch fwy am gwcis
+global.cookiemessage = Mae GOV.UK yn defnyddio cwcis i wneud y wefan yn fwy syml.
+global.cookiefindoutmore = Cael gwybod mwy am gwcis
 
 # VPC - serviceClosingWarning widget
-global.serviceCloseWarning = Mae’r gwasanaeth hwn ar gael o {0} to {1}, rhaid i chi
+global.serviceCloseWarning = Mae’r gwasanaeth hwn ar gael o {0} i {1}, mae’n rhaid i chi
 global.serviceCloseWarning.p2 = gwblhau’r gwasanaeth hwn.
-global.serviceClosed = Mae’r gwasanaeth wedi cau yn awr. Gwasanaeth ar gael o {0} to {1}
+global.serviceClosed = Mae’r gwasanaeth nawr wedi’i gau. Mae’r gwasanaeth ar gael {0} i {1}
 
 # VPC pleaseWait widget
 global-please-wait-header = Arhoswch os gwelwch yn dda
-global-please-wait-p1 = Ar hyn o bryd rydym yn derbyn nifer fawr o geisiadau ac mae ein gwasanaeth yn arafach na’r arfer yn sgil hynny.
-global-please-wait-p2 = Bydd y dudalen hon yn diweddaru’n awtomatig, felly peidiwch â chau eich porwr.
-global-please-wait-close = Ceuwch y neges hon
+global-please-wait-p1 = Ar hyn o bryd rydym yn derbyn nifer fawr o geisiadau ac o ganlyniad i hyn  mae ein gwasanaeth yn fwy araf na’r arfer.
+global-please-wait-p2 = Bydd y dudalen hon yn diweddaru’n awtomatig, peidiwch â chau eich porwr.
+global-please-wait-close = Cau’r neges hon
 
 # alternateLanuages widget - DO NOT TRANSLATE language.en.button
 language.cy.button = Cymraeg
 language.en.button = English
 
 #titlePicker widget
-titlePicker.label = Title
+titlePicker.label = Teitl
 titlePicker.mr = Mr
 titlePicker.miss = Miss
 titlePicker.mrs = Mrs
-titlePicker.other = Other
-titlePicker.textLabel = Other title
-titlePicker.textHint = (10 characters maximum)
+titlePicker.other = Arall
+titlePicker.textLabel = Teitl arall
+titlePicker.textHint = (uchafswm nodau yw 10)
 
 # Date labels
 dateOfBirth.day = Dyddiad y gwerthiant
@@ -83,9 +83,9 @@ dateOfBirth.month = Mis y gwerthiant
 dateOfBirth.year = Blwyddyn y gwerthiant
 
 #prototype
-prototype.banner = Mae''r gwasanaeth hwn yn cael ei ddatblygu -
-prototype.link =  dysgwch fwy
-prototype.bannerPart2 = bydd yn ein helpu i wella
+prototype.banner = Mae hwn yn wasanaeth newydd
+prototype.link =  bydd eich adborth chi
+prototype.bannerPart2 = yn ein helpu ni i’w wella
 
 # footer
 footer.text1 = Mae’r holl gynnwys ar gael ar delerau’r
@@ -101,55 +101,55 @@ vehicle-detail-playback.mileage = Milltiredd y cerbyd
 vehicle-detail-playback.mileageNotEntered = HEB EI ROI
 
 #formSteps widget
-formSteps.buttonnavprint = Argraffwch
-formSteps.newdisposalbutton = Notify another purchase
+formSteps.buttonnavprint = Argraffu
+formSteps.newdisposalbutton = Rhoi gwybod am bryniant arall
 formSteps.exitbutton = Gorffen
 
 # Cookie Policy
 cookie-policy-title = Cwcis
-cookie-policy-p1 = Ffeiliau bach (a elwir yn ’cwcis’) yn cael eu rhoi ar eich cyfrifiadur i gasglu gwybodaeth am sut rydych yn pori’r safle.
+cookie-policy-p1 = Mae ffeiliau bach (a elwir yn ‘cwcis’) yn cael eu rhoi ar eich cyfrifiadur i gasglu gwybodaeth am sut rydych yn pori’r safle.
 cookie-policy-p2 = Mae cwcis yn cael eu defnyddio i:
-cookie-policy-p3 = mesur sut yr ydych yn defnyddio’r wefan fel y gellir ei diweddaru a’i gwella yn seiliedig ar eich anghenion
-cookie-policy-p4 = cofio’r hysbysiadau rydych wedi ei weld fel nad ydych yn ei ddangos eto
-cookie-policy-p5 = Nid yw cwcis GOV.UK yn cael eu defnyddio i nodi chi’n bersonol.
-cookie-policy-p6 = here
-cookie-policy-p7 = Fel arfer, byddwch yn gweld neges ar y safle cyn cwci yn cael ei storio ar eich cyfrifiadur.
+cookie-policy-p3 = fesur sut yr ydych yn defnyddio’r wefan fel y gellir ei ddiweddaru a’i wella yn seiliedig ar eich anghenion
+cookie-policy-p4 = gofio’r hysbysiadau rydych wedi eu gweld fel nad ydych yn cael eu dangos eto
+cookie-policy-p5 = Nid yw cwcis GOV.UK yn cael eu defnyddio i’ch adnabod yn bersonol. Mae mwy o wybodaeth ar gael am gwcis GOV.UK ar gael
+cookie-policy-p6 = yma
+cookie-policy-p7 = Fel arfer, byddwch yn gweld neges ar y wefan cyn i gwci gael ei storio ar eich cyfrifiadur.
 cookie-policy-p8 = Cael gwybod mwy am
 cookie-policy-p9 = sut i reoli cwcis
 
-cookie-policy.usage = Sut y cwcis yn cael eu defnyddio
+cookie-policy.usage = Sut y mae cwcis yn cael eu defnyddio
 
 # cookie policy section - google_analytics
-cookie-policy.name = Mesur defnydd o’r wefan (Google Analytics)
-cookie-policy.name.p1 = Meddalwedd Google Analytics yn casglu gwybodaeth am sut y byddwch yn defnyddio’r safle. Gwneir hyn er mwyn helpu i sicrhau bod y safle yn diwallu anghenion ei defnyddwyr ac i helpu i wneud gwelliannau.
+cookie-policy.name = Mesur y defnydd o’r wefan (Google Analytics)
+cookie-policy.name.p1 = Mae meddalwedd Google Analytics yn casglu gwybodaeth am sut ydych yn defnyddio’r wefan. Gwneir hyn er mwyn helpu i sicrhau bod y wefan yn cwrdd ag anghenion y defnyddwyr ac i helpu i wneud gwelliannau.
 cookie-policy.name.p2 = Mae Google Analytics yn storio gwybodaeth am:
-cookie-policy.name.p2.list = <ul> <li> y tudalennau rydych yn ymweld - pa mor hir rydych yn ei wario ar bob tudalen </li> <li> sut yr ydych yn cyrraedd y safle </li> <li> yr hyn yr ydych yn clicio ar wrth i chi chi’n ymweld â’r safle </li> </ul>
-cookie-policy.name.p3 = Nid ydym yn casglu nac yn cadw eich gwybodaeth bersonol (ee eich enw neu gyfeiriad) felly ni ellir wybodaeth hon yn cael ei defnyddio i nodi pwy ydych chi.
-cookie-policy.name.p4 = Nid yw Google yn cael defnyddio neu rannu ein data analytics. Gallwch <a href="https://tools.google.com/dlpage/gaoptout" target="_blank" data-sso="false">optio allan o cwcis Google Analytics</a>.
+cookie-policy.name.p2.list =<ul><li> y tudalennau rydych yn ymweld â hwy - yr amser yr ydych yn treulio ar bob tudalen</li><li> sut yr ydych yn cyrraedd y wefan</li><li>yr hyn yr ydych yn clicio arno tra’ch bod yn ymweld â’r wefan</li></ul>
+cookie-policy.name.p3 = Nid ydym yn casglu nac yn cadw eich gwybodaeth bersonol (ee eich enw neu gyfeiriad) felly ni all y wybodaeth hon gael ei yn cael ei defnyddio i adnabod pwy ydych chi.
+cookie-policy.name.p4 = Nid yw Google yn cael defnyddio na rhannu ein data dadansoddi. Gallwch <a href="https://tools.google.com/dlpage/gaoptout" target="_blank" data-sso="false">optio allan o cwcis Google Analytics</a>.
 
-cookie-policy.table.name = enw’r cwci
-cookie-policy.table.purpose = diben cwci
-cookie-policy.table.type = Cookie type
-cookie-policy.table.expires = yn dod i ben ar
+cookie-policy.table.name = Enw’r cwci
+cookie-policy.table.purpose = Bwriad y cwci
+cookie-policy.table.type = Math o gwci
+cookie-policy.table.expires = Mae’n dod i ben ar
 
 cookie-policy.used = Mae’r cwcis canlynol yn cael eu defnyddio:
 
 cookie-policy.cookies.ga = Google analytics
 cookie-policy.cookies.gat = Google analytics
-cookie-policy.cookies.tracking_id = Set to uniquely identity an application
-cookie-policy.cookies.encrypted = An encrypted VMPR application cookie
-cookie-policy.cookies.multi-encrypted = Encrypted VMPR application cookies
-cookie-policy.cookies.chat-support = Chat support
-cookie-policy.cookies.PLAY_LANG = Gosodwch i gofio’ch dewis iaith
+cookie-policy.cookies.tracking_id = Wedi ei osod i adnabod cais yn unigryw
+cookie-policy.cookies.encrypted = Cwci cais VMPR wedi ei amgryptio
+cookie-policy.cookies.multi-encrypted = Cwcis cais VMPR wedi’u hamgryptio
+cookie-policy.cookies.chat-support = Cymorth sgwrsio
+cookie-policy.cookies.PLAY_LANG = Gosod i gofio’ch dewis iaith
 
 # Cookie type
 cookie-policy.cookies.normal = Normal
-cookie-policy.cookies.session = Session
-cookie-policy.cookies.normal-secure = Normal, Secure
-cookie-policy.cookies.session-secure = Session, Secure
+cookie-policy.cookies.session = Sesiwn
+cookie-policy.cookies.normal-secure = Normal, Diogel
+cookie-policy.cookies.session-secure = Sesiwn, Diogel
 
 # Cookie expiry
-cookie-policy.expires.10years = 10 flynedd
+cookie-policy.expires.10years = 10 mlynedd
 cookie-policy.expires.2years = 2 flynedd
 cookie-policy.expires.7days = 7 diwrnod
 cookie-policy.expires.7daysOr8hours = 7 diwrnod neu 8 awr
@@ -159,18 +159,16 @@ cookie-policy.expires.close = Pan fyddwch yn cau eich porwr
 
 #microServiceError widget
 micro_service_error.title = Mae’n ddrwg gennym
-micro_service_error.text1 = Nid yw’r gwasanaeth ar gael dros dro.
-micro_service_error.text2 = Mae’r gwasanaeth ar gael o ddydd Llun i ddydd {2} yn unig {0} to {1}.
-micro_service_error.back.button = Yn ôl
+micro_service_error.text1 = Nid yw’r gwasanaeth hwn ar gael dros dro. Rydym yn ymddiheuro am unrhyw anghyfleustra y gall hwn ei achosi
+micro_service_error.text2 = Dylai’r gwasanaeth fod ar gael yn ddyddiol {0} i {1}.
+micro_service_error.back.button = Ceisio eto
 micro_service_error.exit.button = Allan
 
 #xmasOpeningTimes widget
-xmas-opening-times.text = View Christmas opening times
-
-# PR FeedbackController
-common_feedback.subject.suffix = adborth
+xmas-opening-times.text = Gweld amseroedd agor y Nadolig
 
 # feedback
+common_feedback.subject.suffix = adborth
 common_feedback.warning = Mae’r dudalen hon ar gyfer adborth yn unig. Ni allwn ymateb i’ch ebost
 common_feedback.message = Peidiwch â chynnwys unrhyw wybodaeth bersonol neu ariannol.
 common_feedback.rating.label = Pa mor fodlon oeddech chi gyda’r dudalen neu’r gwasanaeth:
@@ -180,7 +178,7 @@ common_feedback.rating.3 = Ddim yn fodlon nac yn anfodlon
 common_feedback.rating.4 = Bodlon
 common_feedback.rating.5 = Bodlon iawn
 common_feedback.feedback.label = Beth aeth o’i le, os unrhywbeth? Beth aeth yn dda? Sut allwn wella’r gwasanaeth hwn?
-common_feedback.charactersRemaining = cymeriadau sy’n weddill
+common_feedback.charactersRemaining = nodau sy’n weddill
 common_feedback.submit_button = Cyflwyno adborth
 feedback = Ffurflen adborth
 
@@ -196,8 +194,8 @@ tandc.hyperlinking.p1 = Mae’n bolisi gennym gael caniatâd i ddolennu i wefann
 tandc.payment_cards.header = Cardiau Talu
 tandc.payment_cards.p1 = Derbynnir cardiau debyd a chredyd fel taliadau ar y wefan hon. Trosglwyddir gwybodaeth cardiau yn unol â’n datganiad diogeledd ac fe’i delir yn unol â’n datganiad preifatrwydd.
 tandc.data_protection_act.header = Deddf Diogelu Data 1998
-tandc.data_protection_act.p1 = Mae’n ofynnol dan y Ddeddf hon ein bod yn eich hysbysu y gall ein cadarnhad dros e-bost gynnwys gwybodaeth amdanoch (gelwir hyn yn ‘ddata personol’ yn y Ddeddf) a’n bod ni yn ‘reolwr data’ i dibenion y Ddeddf.
-tandc.data_protection_act.p2 = Mae’n drosedd dan adran 55 o Ddeddf Diogelu Data 1998 i gaffael neu ddatgelu’n anghyfreithlon (neu gaffael ddatgeliad o) ddata personol o Reolwyr Data heb ganiatâd yr unigolyn sy’n destun y data hwnnw.  Mae’n drosedd hefyd gwerthu data personol a gafwyd yn anghyfreithlon.  Cosbir euogfarnau am droseddau mewn Llys Ynadon drwy ddirwy o hyd at £5000 neu gan ddirwy anghyfyngedig yn Llys y Goron.
+tandc.data_protection_act.p1 = Mae’n ofynnol dan y Ddeddf hon ein bod yn eich hysbysu y gall ein cadarnhad dros e-bost gynnwys gwybodaeth amdanoch (gelwir hyn yn ‘ddata personol’ yn y Ddeddf) a’n bod ni yn ‘reolwr data’ i ddibenion y Ddeddf.
+tandc.data_protection_act.p2 = Mae’n drosedd dan adran 55 o Ddeddf Diogelu Data 1998 i gaffael neu ddatgelu’n anghyfreithlon (neu gaffael datgeliad o) ddata personol o Reolwyr Data heb ganiatâd yr unigolyn sy’n destun y data hwnnw.  Mae’n drosedd hefyd gwerthu data personol a gafwyd yn anghyfreithlon.  Cosbir euogfarnau am droseddau mewn Llys Ynadon drwy ddirwy o hyd at £5000 neu gan ddirwy anghyfyngedig yn Llys y Goron.
 tandc.data_protection_act.p3 = Byddwn yn prosesu unrhyw adborth a roddwch i ni am y wefan hon. Byddwn ond yn defnyddio’r wybodaeth hon i wella’r wefan hon.
 tandc.data_protection_act.p4 = Efallai y byddwn yn datgelu unrhyw ddata sydd gennym i unrhyw berson neu sefydliad i’r dibenion y casglwyd ef neu pan fydd y Ddeddf yn caniatáu datgeliad. Fel gwrthrych data, mae gennych yr hawl i ofyn am gopi o’r data a gofyn am i unrhyw anghywirdebau gael eu cywiro.
 tandc.site_usage_information.header = Gwybodaeth am Ddefnyddio’r Safle
@@ -215,7 +213,7 @@ tandc.disclaimer.p3 = Mae gwefannau neu dudalennau o’r we sydd wedi eu cysyllt
 tandc.disclaimer.p4 = Ni chewch fframio na dolennu’r wefan hon i unrhyw wefan arall heb ganiatâd ysgrifenedig y DVLA.
 tandc.virus_protection.header = Diogelu rhag firysau
 tandc.virus_protection.p1 = Bydd y DVLA yn gwneud pob ymdrech i wirio a phrofi deunydd ar bob cam o’r cynhyrchu. Fodd bynnag, rhaid i chi gymryd eich rhagofalon eich hun i sicrhau nad yw’r broses a ddefnyddiwch i gael mynediad at y wefan hon yn cyflwyno perygl o firysau, cod cyfrifiadurol maleisus neu fathau eraill o ryngwyneb a allai ddifrodi eich system gyfrifiadurol eich hun.
-tandc.virus_protection.p2 = Ni all y DVLA dderbyn y cyfrifoldeb am unrhyw golled, amhariad neu ddifrod i’ch data neu eich system gyfrifiadurol allai ddigwydd tra’n defnyddio deunydd yn deillio o’r wefan hon.
+tandc.virus_protection.p2 = Ni all y DVLA dderbyn y cyfrifoldeb am unrhyw golled, amhariad neu ddifrod i’ch data neu eich system gyfrifiadurol allai ddigwydd wrth ddefnyddio deunydd yn deillio o’r wefan hon.
 tandc.virus_hacking_other_offences.header = Firysau, hacio a throseddau eraill
 tandc.virus_hacking_other_offences.p1 = Rhaid i chi beidio â chamddefnyddio’n safle drwy gyflwyno firysau, ceffylau pren Troea, mwydion, bomiau rhesymeg neu ddeunydd arall yn fwriadol sydd yn faleisus neu’n niweidiol yn dechnolegol. Rhaid i chi beidio â cheisio mynediad anawdurdodedig i’n safle, y gweinydd sy’n cadw ein safle neu unrhyw weinydd, cyfrifiadur neu gronfa ddata sy’n gysylltiedig â’n safle. Rhaid i chi beidio ag ymosod ar ein safle drwy ymosodiad atal gwasanaeth neu ymosodiad atal gwasanaeth a ddosbarthwyd.
 tandc.virus_hacking_other_offences.p2 = Wrth dramgwyddo’r ddarpariaeth hon, byddech yn troseddu dan Ddeddf Camddefnyddio Cyfrifiaduron 1990. Byddwn yn cyflwyno unrhyw dramgwyddo o’r fath i’r awdurdodau cyfreithiol perthnasol a byddwn yn cydweithredu â’r awdurdodau hynny drwy ddweud wrthynt pwy ydych chi.
@@ -230,15 +228,14 @@ tandc.amendments_to_tandc.p1 = Efallai y byddwn yn diweddaru’r Amodau a Theler
 tandc.severability.header = Toradwyedd
 tandc.severability.p1 = Os bydd unrhyw un o’r amodau a thelerau hyn i’w hystyried yn annilys, yn anweithredol neu’n anghyfreithlon am unrhyw reswm, bydd yr amodau a thelerau sydd yn weddill yn parhau’n weithredol yn llwyr serch hynny.
 tandc.events_beyond_dvla_control.header = Digwyddiadau y tu hwnt i reolaeth y DVLA
-tandc.events_beyond_dvla_control.p1 = Nid yw’r DVLA yn derbyn unrhyw gyfrifoldeb am fethiant o gwbl i gydymffurfio â’r amodau a thelerau hyn lle mae’r fath fethiant yn ganlyniad amgylchiadau sydd tu hwnt i’n rheolaeth resymol.
+tandc.events_beyond_dvla_control.p1 = Nid yw’r DVLA yn derbyn unrhyw gyfrifoldeb am fethiant o gwbl i gydymffurfio â’r amodau a thelerau hyn lle mae’r fath fethiant yn ganlyniad amgylchiadau sydd du hwnt i’n rheolaeth resymol.
 tandc.events_beyond_dvla_control.p2 = Os yw’r DVLA yn ildio unrhyw hawliau sydd ar gael iddo dan yr amodau a thelerau hyn ar un achlysur, nid yw hyn yn golygu y bydd yr hawliau hynny yn cael eu hildio yn awtomatig ar unrhyw achlysur arall.
 tandc.governing_law.header = Y gyfraith lywodraethol
 tandc.governing_law.p1 = Bydd yr amodau a’r telerau hyn yn cael eu llywodraethu a’u dehongli yn unol â chyfreithiau Cymru a Lloegr. Bydd unrhyw anghydfod dan yr amodau a thelerau hyn yn destun awdurdodaeth unigryw llysoedd Cymru a Lloegr.
 tandc.last_updated = Diweddarwyd yr Amodau a Thelerau hyn ddiwethaf 30 Mawrth 2016. © Hawlfraint y Goron
 
 # Privacy policy
-privacy-title = Vehicle Management and Personalised Registration Online Privacy Policy
-
+privacy-title = Polisi Preifatrwydd Rheoli Cerbydau a Chofrestru Personol Ar-lein
 privacy.privacy.header = Polisi Preifatrwydd Rheoli Cerbydau a Chofrestru Personol Ar-lein
 privacy.general.header = Cyffredinol
 privacy.general.p1 = Mae’r Asiantaeth Trwyddedu Gyrwyr a Cherbydau (DVLA) wedi datblygu cyfleuster ar-lein diogel am ddim i’ch galluogi i
@@ -250,7 +247,7 @@ privacy.access.p3 = Ni ddylech geisio cael mynediad at y gwasanaethau hyn os nad
 privacy.access.p4 = Bydd gan staff DVLA a awdurdodwyd hefyd fynediad at yr wybodaeth hon er mwyn delio gydag ymholiadau gan gwsmeriaid a darparu cymorth technegol.
 privacy.information.header = Sut yr ydym yn defnyddio’ch gwybodaeth?
 privacy.information.p1 = Bydd yr wybodaeth a gasglwn amdanoch chi yn dibynnu ar ba wasanaethau ar-lein y gwnewch gais amdanynt.
-privacy.information.p2 = Rydym yn casglu gwybodaeth berthnasol gan ymwelwyr i’r wefan hon: adborth (drwy i ymwelwyr gwblhau holiaduron adborth neu ein e-bostio ni) a gwybodaeth ar y defnydd o’r safle, o gwci a thagio tudalennau. Byddwn hefyd yn storio cyfeiriadau e-bost a roddir fel rhan o’r gwasanaethau hyn ar gyfer cadanrhau’r trafodyn unigol.
+privacy.information.p2 = Rydym yn casglu gwybodaeth berthnasol gan ymwelwyr i’r wefan hon: adborth (drwy i ymwelwyr gwblhau holiaduron adborth neu anfon e-bost i ni) a gwybodaeth ar y defnydd o’r safle, o gwci a thagio tudalennau. Byddwn hefyd yn storio cyfeiriadau e-bost a roddir fel rhan o’r gwasanaethau hyn ar gyfer cadarnhau’r trafodyn unigol.
 privacy.information.p3 = Pan fydd Gwesgwrs ar gael ar y gwasanaethau hyn a byddwch yn dewis defnyddio’r ffwythiant hwn, cedwir eich cyfeiriad e-bost hefyd am 3 mis fel rhan o hanes eich cyswllt Gwesgwrs.
 privacy.information.p4 = Byddwn yn defnyddio’r wybodaeth a roddwch i ni i ddatblygu ar unrhyw fusnes trwyddedu gyrwyr a cherbydau. Efallai y byddwn yn gwirio’r wybodaeth a ddarparwch i ni er mwyn gweld sut mae’n cymharu gyda gwybodaeth sydd gennym eisoes (er enghraifft, gallwn ofyn am eich enw, dyddiad geni a chyfeiriad fel ein bod yn gallu dod o hyd i’ch cofnod).
 privacy.information.p5 = Gallwn hefyd gael gwybodaeth amdanoch gan rai trydydd partïon, neu roi gwybodaeth iddynt er mwyn gwirio cywirdeb yr wybodaeth. Defnyddiwn yr wybodaeth ar gyfer:
@@ -259,12 +256,12 @@ privacy.information.p6 = Gellir darllen ein <a href="{0}">Polisi cwcis</a> ar wa
 privacy.accuracy.header = Cywirdeb a chywiro gwybodaeth cerbyd
 privacy.accuracy.p1 = Bydd DVLA yn cymryd pob cam rhesymol yn unol â rhwymedigaethau cyfreithiol i ddiweddaru neu gywiro gwybodaeth a ddelir ar eich cofnod cerbyd.  Os bydd y manylion wedi dyddio neu’n anghywir mae gennych rwymedigaeth gyfreithiol i hysbysu DVLA o unrhyw newidiadau. Diweddarwch a dychwelwch eich tystysgrif cofrestru V5CW i DVLA, SA99 1BA ynghyd â llythyr i ddweud wrthym am y camgymeriadau.
 privacy.security.header = Diogelwch
-privacy.security.p1 = Mae’r DVLA yn cymryd diogelwch wirioneddol o ddifri. Bydd DVLA yn cymryd pob cam rhesymol i ddiogelu’r data personol fydd ar gael drwy’r gwasanaethau hyn yn unol â deddfwriaeth megis Deddf Diogelu Data 1998.
+privacy.security.p1 = Mae’r DVLA yn cymryd diogelwch gwirioneddol o ddifri. Bydd DVLA yn cymryd pob cam rhesymol i ddiogelu’r data personol fydd ar gael drwy’r gwasanaethau hyn yn unol â deddfwriaeth megis Deddf Diogelu Data 1998.
 privacy.security.p2 = Mae’n drosedd dan adran 55 o Ddeddf Diogelu Data 1998 (fel y’i diwygiwyd) i gaffael neu gael mynediad at ddata personol yn anghyfreithlon. Fel rheolydd data, a gofrestrwyd gyda Swyddfa’r Comisiynydd Gwybodaeth, bydd yr Adran Drafnidiaeth yn ymchwilio i unrhyw gamddefnydd o’r gwasanaethau hyn.
 privacy.security.p3 = Cedwir data mewn amgylchedd diogel sy’n bodloni safonau diogelwch y diwydiant a’r Llywodraeth.
 privacy.security.p4 = Mae yna nifer o nodweddion diogelwch yn weithredol i ddiogelu’ch gwybodaeth bersonol wrth deithio o’ch cyfrifiadur i’r gwasanaeth. Fodd bynnag, nid yw trosglwyddo data dros y rhyngrwyd yn gyffredinol gwbl ddiogel, ac ni allwn warantu diogelwch eich data.
 privacy.security.p5 = Ni fyddwn yn datgelu gwybodaeth amdanoch chi i unrhyw un tu allan i DVLA oni bai bod y gyfraith yn caniatáu i ni wneud hynny neu eich bod chi wedi rhoi eich caniatâd penodol i ni.
-privacy.security.p6 = Nid yw ein gwefan yn galluogi ein ymwelwyr i gyfathrebu gydag ymwelwyr eraill na chaniatáu iddynt bostio gwybodaeth y gellir cael mynediad ato gan eraill. DVLA yw’r Rheolydd Data i ddibenion y Ddeddf Diogelu Data.
+privacy.security.p6 = Nid yw ein gwefan yn galluogi ein hymwelwyr i gyfathrebu gydag ymwelwyr eraill na chaniatáu iddynt bostio gwybodaeth y gellir cael mynediad ato gan eraill. DVLA yw’r Rheolydd Data i ddibenion y Ddeddf Diogelu Data.
 privacy.monitoring.header = Monitro’r defnydd o’r gwasanaeth
 privacy.monitoring.p1 = Bydd DVLA yn cadw llwybr awdit o gynigion llwyddiannus ac aflwyddiannus i gael mynediad at eich gwybodaeth cofnod cerbyd a byddwn yn monitro’r defnydd o’r gwasanaeth. Nod hyn yw helpu i atal a chanfod mynediad anawdurdodedig.
 privacy.complaints.header = Y Drefn Gwyno
@@ -279,8 +276,8 @@ privacy.last_updated = Diweddarwyd y polisi preifatrwydd hwn ddiwethaf ar 24 Maw
 
 # VPC - addressPicker widget
 address.picker.common.postcode = Cod post
-address.picker.common.findAddress = Canfod cyfeiriad yn y du
-address.picker.common.manualAddress = Rhowch eich cyfeiriad â llaw
+address.picker.common.findAddress = Dod o hyd i gyfeiriad yn y DU
+address.picker.common.manualAddress = Teipiwch eich cyfeiriad
 address.picker.common.pickAddress = Dewis cyfeiriad
 address.picker.common.pleaseSelect = Dewiswch
 address.picker.common.street = Stryd
@@ -300,85 +297,86 @@ business-address.post-code = Cod post busnes
 # override play default error messages
 error.email = Mae angen cyfeiriad ebost
 error.invalid = Gwerth annilys
-error.minLength=Minimum length is {0}
-error.required = Mae angen y maes hwn
+error.minLength = Minimum length is {0}
+error.required = Mae gwerth yn ofynnol
 
 # DayMonthYear constraint
-error.dropDownInvalid = Please select a value from the drop down list.
+error.dropDownInvalid = Dewiswch werth o’r ddewislen gwympo
 
 # Common mapping error messages
-error.restricted.validPostcode = Must be between five and eight characters and in a valid format, e.g. AB1 2BA or AB12BA
-error.restricted.validV5CPostcode = Rhaid iddo fod yn god post y ceidwad cofrestredig yn union fel yr argraffwyd ar y ddogfen tystysgrif cofrestru V5CW (llyfr log)
+error.restricted.validPostcode = Mae’n rhaid iddo fod rhwng pump ac wyth nod ac mewn fformat dilys, er enghraifft AB1 2BA neu AB12BA
+error.restricted.validV5CPostcode = Rhaid iddo fod yn god post y ceidwad cofrestredig yn union fel yr argraffwyd ar y ddogfen dystysgrif gofrestru V5CW (llyfr log)
 error.restricted.validVrnOnly = Rhaid iddo fod ar ffurf ddilys
 error.restricted.validNumberOnly = Mae’r maes hwn yn derbyn rhifau yn unig
-error.fleetNumber = The fleet number can only be a 6 digit number, please try again.
-error.driverNumber = OBSOLETE?
-error.notInFuture = Date must not be in the future
-error.withinTwoYears = Date cannot be more than two year ago
+error.fleetNumber = Mae’n rhaid bod y rhif fflyd yn rhif 6 digid yn unig, ceisiwch eto os gwelwch yn dda.
+error.driverNumber = WEDI’I OROESI?
+error.notInFuture = Ni all y dyddiad bod yn y dyfodol
+error.withinTwoYears = Ni all y dyddiad bod yn fwy na dwy flynedd yn ôl
 error.validBusinessName = Rhaid bod rhwng 2 a 58 o nodau o hyd a dim ond nodau dilys (a-z, A-Z, 0-9, &, -,(), /, ‘ a , neu .)
-error.validBusinessKeeperName = Must be between 2 and 30 characters, contain at least one alpha character and only contain valid characters (a-z, A-Z, 0-9, &, -, (), /, ‘ and , or .). The following characters cannot be used at the start of business name (&, -, (), /, ‘ and , or .)
-error.invalidBracesOrQuotes = Brackets and quotes must be used as a pair e.g. (...) or "..."
-error.atLeastOneChar = OBSOLETE?
+error.validBusinessKeeperName = Rhaid iddo fod rhwng 2 a 30 o nodau, yn cynnwys o leiaf un nod alffa ac yn cynnwys nodau dilys yn unig (a-z, A-Z, 0-9, &, -, (), /, ‘, a, neu.). Ni all y nodau canlynol gael eu defnyddio ar ddechrau’r enw cyswllt (&, -, (), ‘ a, neu.)
+
+error.invalidBracesOrQuotes = Mae’n rhaid i gromfachau a dyfynodau gael eu defnyddio mewn pâr, er enghraifft (...) neu ‘...’
+error.atLeastOneChar = WEDI’I OROESI?
 
 # AddressPicker mapping
 error.address.addressLine1 = Mae’r maes hwn yn orfodol
 error.address.buildingNameOrNumber.invalid = Rhaid i adeilad/ rhif a stryd gynnwys rhwng 4 a 30 o nodau
-error.address.characterInvalid = Rhaid iddo gynnwys rhwng cymeriadau dilys gan y AZ, 0-9, cysylltnod, collnod, stopio a lle llawn yn dilyn.
+error.address.characterInvalid = Mae’n rhaid bod y nod cyntaf y cyfeiriad yn alffaniwmerig. Mae’n rhaid bod y nodau eraill yn ddilys (a-z, A-Z, 0-9, &, -, (), /, ‘, a, neu.)
 error.address.postCode = Mae’r maes hwn yn orfodol
-error.address.postTown = Tref bost - rhaid cael tri nod o leiaf
-error.address.postTown.characterInvalid = Tref bost yn cynnwys nodau annilys
+error.address.postTown = Mae angen o leiaf tri nod ar y dref bost
+error.address.postTown.characterInvalid = Mae’r dref bost yn cynnwys nodau annilys
 error.address.required = Mae angen cyfeiriad
-error.address.threeAlphas = Must have at least 3 alpha characters
+error.address.threeAlphas = Mae’n rhaid cael o leiaf 3 nod alffa
 
 # VPC - Date mapping
-error.date.notBefore = We cannot accept a date of sale more than 5 years in the past. Please check and enter the correct date. If the date is correct then please submit the transaction via post.
-error.date.inTheFuture = Must be a valid date DD MM YYYY and not be in the future.
-error.date.invalid = Must be a valid date DD MM YYYY and not be in the future.
+error.date.notBefore = Ni allwn dderbyn dyddiad gwerthiant sy’n fwy na 5 mlynedd yn y gorffennol. A wnewch chi wirio a rhoi’r dyddiad cywir os gwelwch yn dda. Os ydy’r dyddiad yn gywir, a wnewch chi gyflwyno’r trafodyn drwy’r post.
+error.date.inTheFuture = Mae’n rhaid bod y dyddiad yn ddilys DD MM BBBB ac nid yn y dyfodol
+error.date.invalid = Mae’n rhaid bod y dyddiad yn ddilys DD MM BBBB ac nid yn y dyfodol
 
 # VPC - DateOfBirth mapping
-error.dateOfBirth.inTheFuture = Must be a valid date DD MM YYYY and not be in the future.
-error.dateOfBirth.invalid = Must be a valid date DD MM YYYY and not be in the future.
-error.dateOfBirth.110yearsInThePast = Date of birth cannot be more than 110 years in the past
+error.dateOfBirth.inTheFuture = Mae’n rhaid bod y dyddiad yn ddilys DD MM BBBB ac nid yn y dyfodol
+error.dateOfBirth.invalid = Mae’n rhaid bod y dyddiad yn ddilys DD MM BBBB ac nid yn y dyfodol
+error.dateOfBirth.110yearsInThePast = Ni all y dyddiad geni bod mwy na 110 o flynyddoedd yn y gorffennol.
 
 # VPC - TitlePickerString mapping
-error.title.unknownOption = Please enter the title of the new keeper
-error.title.missing = Please enter the title of the new keeper
-error.title.tooLong = Other title field can only contain characters from the following A-Z, hyphen, apostrophe, full stop and space.
-error.title.illegalCharacters = Other title field can only contain characters from the following A-Z, hyphen, apostrophe, full stop and space.
+error.title.unknownOption = Rhowch deitl y ceidwad newydd
+error.title.missing = Rhowch deitl y ceidwad newydd
+error.title.tooLong = Gall y maes teitl arall gynnwys y nodau canlynol A-Z, cysylltnod, collnod, atalnod llawn a bwlch yn unig
+error.title.illegalCharacters = Gall y maes teitl arall gynnwys y nodau canlynol A-Z, cysylltnod, collnod, atalnod llawn a bwlch yn unig
 
 # VPC - OptionalToggle widget
-mandatory-alternative.not-selected = This field is mandatory. Please select one of the options.
+mandatory-alternative.not-selected = Mae’r maes hwn yn ofynnol. Dewiswch un o’r opsiynau os gwelwch yn dda.
 
 # VPC - PrivateKeeperDetailsBase
-error.validDriverNumber = The driver number that you have entered does not appear to be in an acceptable format. Please amend your entry or delete and re-submit.
+error.validDriverNumber = Nid yw’r rhif gyrrwr yr ydych wedi’i roi yn ymddangos mewn fformat derbyniol. A wnewch chi ei gywiro neu ei ddileu a’i ail-gyflwyno os gwelwch yn dda.
 
 # VPC - PrivateKeeperDetailsFormModel
-error.titlePlusFirstName.tooLong = The combined length of your title e.g. Mr/Mrs/Miss/Other and first name(s) cannot exceed 26 characters. Please amend your entry and re-submit.
-error.validFirstName = Must contain between 1 and 25 characters from the following A-Z, hyphen, apostrophe, full stop and space. The following characters cannot be used at the start of the first name (hyphen, apostrophe, full stop and space)
-error.validLastName = Must contain between 1 and 25 characters from the following A-Z, hyphen, apostrophe, full stop and space
-privatekeeper_option_email = Email confirmation
-privatekeeper_title = Title
-privatekeeper_email = Email
-privatekeeper_firstname = First name
-privatekeeper_lastname = Last name
+error.titlePlusFirstName.tooLong = Ni all hyd cyfunol eich teitl er enghraifft Mr/Mrs/Miss/Arall a’ch enw(au) cyntaf bod yn fwy na 26 o nodau. A wnewch chi ei gywiro a’i ail-gyflwyno os gwelwch yn dda.
+error.validFirstName = Mae’n rhaid cynnwys rhwng 1 a 25 o nodau o’r canlynol A-Z, cysylltnod, collnod, atalnod llawn a bwlch. Ni all y nodau canlynol gael eu defnyddio ar ddechrau’r enw cyntaf (cysylltnod, collnod, atalnod llawn a bwlch)
+error.validLastName = Mae’n rhaid cynnwys rhwng 1 a 25 o nodau o’r canlynol A-Z, cysylltnod, collnod, atalnod llawn a bwlch.
+privatekeeper_option_email = Cadarnhad ebost
+privatekeeper_title = Teitl
+privatekeeper_email = Ebost
+privatekeeper_firstname = Enw cyntaf
+privatekeeper_lastname = Cyfenw
 use_todays_date.label = Defnyddiwch ddyddiad heddiw
-privatekeeper_postcode = Postcode
-privatekeeper_drivernumber = Driver number
-privatekeeper_dateofbirth = Date of Birth
+privatekeeper_postcode = Cod post
+privatekeeper_drivernumber = Rhif gyrrwr
+privatekeeper_dateofbirth = Dyddiad Geni
 
 # VPC - BusinessKeeperDetailsFormModel
-businessName = Business name
-businesskeeper_email = Contact email address
-businesskeeper_option_email = Email confirmation
-businesskeeper_postcode = Postcode
-fleetNumber = Fleet number
-fleetNumberOption = Fleet number
+businessName = Enw’r busnes
+businesskeeper_email = Cyfeiriad ebost
+businesskeeper_option_email = Cadarnhad ebost
+businesskeeper_postcode = Cod post
+fleetNumber = Rhif fflyd
+fleetNumberOption = Rhif fflyd
 
 #NewKeeperChooseYourAddressBase
-change_keeper_newKeeperChooseYourAddress.address.required = Please select a valid address
+change_keeper_newKeeperChooseYourAddress.address.required = Dewiswch gyfeiriad dilys
 
 # VPC SetupTradeDetailsFormModel
-traderEmail = Trader email address
-traderEmailOption = Email confirmation
-traderName = Enw''r masnachwr
-traderPostcode = Côd post
+traderEmail = Cyfeiriad ebost y masnachwr
+traderEmailOption = Cadarnhad ebost
+traderName = Enw’r masnachwr
+traderPostcode = Cod post
