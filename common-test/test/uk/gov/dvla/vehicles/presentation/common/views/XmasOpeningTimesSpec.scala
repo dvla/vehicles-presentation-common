@@ -29,14 +29,14 @@ class XmasOpeningTimesSpec extends UiSpec with TestHarness {
   val beforeDisplayDate = new DateService {
     override def now = dateNow
     private def date = now.toDateTime
-    override def today = DayMonthYear(6, 12, date.getDayOfYear)
+    override def today = DayMonthYear(14, 12, date.getDayOfYear)
     override def dateTimeISOChronology: String = date.toString
   }
 
   val afterDisplayDate = new DateService {
     override def now = dateNow
     private def date = now.toDateTime
-    override def today = DayMonthYear(3, 1, date.getDayOfYear)
+    override def today = DayMonthYear(4, 1, date.getDayOfYear)
     override def dateTimeISOChronology: String = date.toString
   }
 

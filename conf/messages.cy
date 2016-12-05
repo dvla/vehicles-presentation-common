@@ -165,7 +165,7 @@ micro_service_error.back.button = Ceisio eto
 micro_service_error.exit.button = Allan
 
 #xmasOpeningTimes widget
-xmas-opening-times.text = Gweld amseroedd agor y Nadolig
+xmas-opening-times.text = Cliciwch yma am oriau agor Nadolig y DVLA
 
 # feedback
 common_feedback.subject.suffix = adborth

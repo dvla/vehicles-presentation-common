@@ -165,7 +165,7 @@ micro_service_error.back.button = Try again
 micro_service_error.exit.button = Exit
 
 #xmasOpeningTimes widget
-xmas-opening-times.text = View Christmas opening times
+xmas-opening-times.text = Click here for DVLA Christmas opening times
 
 # PR FeedbackController
 common_feedback.subject.suffix = feedback
