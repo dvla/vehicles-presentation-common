@@ -11,7 +11,6 @@ object CommonConfig {
   final val DEFAULT_CSRF_PREVENTION = true
   final val DEFAULT_REQ_TIMEOUT = 5 // in seconds
   final val DEFAULT_VKL_REQ_TIMEOUT = 2 * DEFAULT_REQ_TIMEOUT // in seconds
-  final val DEFAULT_GDS_AUTH = ""
 
   // brute force
   final val DEFAULT_BF_ENABLED = true
