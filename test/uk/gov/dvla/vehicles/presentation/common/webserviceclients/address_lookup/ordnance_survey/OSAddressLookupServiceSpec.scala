@@ -8,6 +8,7 @@ import org.mockito.stubbing.Answer
 import play.api.http.Status.{NOT_FOUND, OK}
 import play.api.libs.json.{JsValue, Json}
 import play.api.libs.ws.WSResponse
+
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 import uk.gov.dvla.vehicles.presentation.common
@@ -15,8 +16,7 @@ import common.UnitSpec
 import common.clientsidesession.ClearTextClientSideSessionFactory
 import common.services.DateService
 import common.webserviceclients.addresslookup.AddressLookupService
-import common.webserviceclients.addresslookup.ordnanceservey.AddressLookupServiceImpl
-import common.webserviceclients.addresslookup.ordnanceservey.PostcodeToAddressResponseDto
+import common.webserviceclients.addresslookup.ordnanceservey.{AddressDto, AddressLookupServiceImpl}
 import common.webserviceclients.fakes.FakeAddressLookupService.PostcodeValid
 import common.webserviceclients.fakes.FakeAddressLookupWebServiceImpl
 import common.webserviceclients.fakes.FakeAddressLookupWebServiceImpl.postcodeToAddressResponseValid
@@ -28,19 +28,19 @@ class OSAddressLookupServiceSpec extends UnitSpec {
   val dateService = mock[DateService]
   when(dateService.now).thenReturn(new Instant(0))
 
-  "fetchAddressesForPostcode" should {
+  "addresses" should {
     "return seq when response status is 200 OK and returns results" in {
       val (service, healthStatsMock) = addressServiceMock(responseValidForPostcodeToAddress)
 
-      val result = service.fetchAddressesForPostcode(
+      val result = service.addresses(
         PostcodeValid,
         ClearTextClientSideSessionFactory.DefaultTrackingId
       )
 
       whenReady(result, timeout) {
         r =>
-          r.length should equal(postcodeToAddressResponseValid.addresses.length)
-          r should equal(postcodeToAddressResponseValid.addresses.map(i => (i.address, i.address)))
+          r.length should equal(postcodeToAddressResponseValid.length)
+          r should equal(postcodeToAddressResponseValid)
       }
       verify(healthStatsMock).success(
         new HealthStatsSuccess("os-address-lookup-microservice", dateService.now)
@@ -49,9 +49,9 @@ class OSAddressLookupServiceSpec extends UnitSpec {
 
     "return empty seq when response status is Ok but results is empty" in {
       val (service, healthStatsMock) =
-        addressServiceMock(responsePostcode(OK, PostcodeToAddressResponseDto(addresses = Seq.empty)))
+        addressServiceMock(responsePostcode(OK, Seq.empty))
 
-      val result = service.fetchAddressesForPostcode(
+      val result = service.addresses(
         PostcodeValid,
         ClearTextClientSideSessionFactory.DefaultTrackingId
       )
@@ -67,7 +67,7 @@ class OSAddressLookupServiceSpec extends UnitSpec {
     "return empty seq when response status is not 200 OK" in {
       val (service, healthStatsMock)  = addressServiceMock(responsePostcode(NOT_FOUND))
 
-      val result = service.fetchAddressesForPostcode(
+      val result = service.addresses(
         PostcodeValid,
         ClearTextClientSideSessionFactory.DefaultTrackingId
       )
@@ -83,7 +83,7 @@ class OSAddressLookupServiceSpec extends UnitSpec {
     "return empty seq when response throws" in {
       val (service, healthStatsMock)  = addressServiceMock(responseThrows)
 
-      val result = service.fetchAddressesForPostcode(
+      val result = service.addresses(
         PostcodeValid,
         ClearTextClientSideSessionFactory.DefaultTrackingId
       )
@@ -100,7 +100,7 @@ class OSAddressLookupServiceSpec extends UnitSpec {
       val inputAsJson = Json.obj("addresses" -> "INVALID")
       val (service, healthStatsMock)  = addressServiceMock(response(OK, inputAsJson))
 
-      val result = service.fetchAddressesForPostcode(
+      val result = service.addresses(
         PostcodeValid,
         ClearTextClientSideSessionFactory.DefaultTrackingId
       )
@@ -132,7 +132,7 @@ class OSAddressLookupServiceSpec extends UnitSpec {
   }
 
   private def responsePostcode(statusCode: Int,
-                       input: PostcodeToAddressResponseDto = postcodeToAddressResponseValid): Future[WSResponse] = {
+                       input: Seq[AddressDto] = postcodeToAddressResponseValid): Future[WSResponse] = {
     val inputAsJson = Json.toJson(input)
     response(statusCode, inputAsJson)
   }

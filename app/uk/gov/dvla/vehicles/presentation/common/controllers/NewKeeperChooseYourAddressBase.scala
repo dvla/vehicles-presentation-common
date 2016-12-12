@@ -33,7 +33,7 @@ abstract class NewKeeperChooseYourAddressBase @Inject()(protected val addressLoo
                             name: String,
                             postcode: String,
                             email: Option[String],
-                            addresses: Seq[(String, String)],
+                            dropDownOptions: Seq[(String, String)],
                             isBusinessKeeper: Boolean,
                             fleetNumber: Option[String])(implicit request: Request[_]): Result
 
@@ -42,7 +42,7 @@ abstract class NewKeeperChooseYourAddressBase @Inject()(protected val addressLoo
                                   name: String,
                                   postcode: String,
                                   email: Option[String],
-                                  addresses: Seq[(String, String)],
+                                  dropDownOptions: Seq[(String, String)],
                                   isBusinessKeeper: Boolean,
                                   fleetNumber: Option[String])(implicit request: Request[_]): Result
   
@@ -75,22 +75,22 @@ abstract class NewKeeperChooseYourAddressBase @Inject()(protected val addressLoo
   }
 
   def present = Action.async { implicit request => switch(
-    privateKeeperDetails => fetchAddresses(privateKeeperDetails.postcode).map { addresses =>
+    privateKeeperDetails => fetchAddresses(privateKeeperDetails.postcode).map { dropDownOptions =>
         openView(
         constructPrivateKeeperName(privateKeeperDetails),
         privateKeeperDetails.postcode,
         privateKeeperDetails.email,
-        addresses,
+        dropDownOptions,
         isBusinessKeeper = false,
         None
       )
     },
-    businessKeeperDetails => fetchAddresses(businessKeeperDetails.postcode).map { addresses =>
+    businessKeeperDetails => fetchAddresses(businessKeeperDetails.postcode).map { dropDownOptions =>
       openView(
         businessKeeperDetails.businessName,
         businessKeeperDetails.postcode,
         businessKeeperDetails.email,
-        addresses,
+        dropDownOptions,
         isBusinessKeeper = true,
         businessKeeperDetails.fleetNumber
       )
@@ -100,22 +100,22 @@ abstract class NewKeeperChooseYourAddressBase @Inject()(protected val addressLoo
 
   def submit = Action.async { implicit request =>
     def onInvalidForm(implicit invalidForm: Form[NewKeeperChooseYourAddressFormModel]) = switch(
-      privateKeeperDetails => fetchAddresses(privateKeeperDetails.postcode).map { addresses =>
+      privateKeeperDetails => fetchAddresses(privateKeeperDetails.postcode).map { dropDownOptions =>
         handleInvalidForm(
           constructPrivateKeeperName(privateKeeperDetails),
           privateKeeperDetails.postcode,
           privateKeeperDetails.email,
-          addresses,
+          dropDownOptions,
           isBusinessKeeper = false,
           None
         )
       },
-      businessKeeperDetails => fetchAddresses(businessKeeperDetails.postcode).map { addresses =>
+      businessKeeperDetails => fetchAddresses(businessKeeperDetails.postcode).map { dropDownOptions =>
         handleInvalidForm(
           businessKeeperDetails.businessName,
           businessKeeperDetails.postcode,
           businessKeeperDetails.email,
-          addresses,
+          dropDownOptions,
           isBusinessKeeper = true,
           businessKeeperDetails.fleetNumber
         )
@@ -143,7 +143,7 @@ abstract class NewKeeperChooseYourAddressBase @Inject()(protected val addressLoo
   private def handleInvalidForm(name: String,
                                 postcode: String,
                                 email: Option[String],
-                                addresses: Seq[(String, String)],
+                                dropDownOptions: Seq[(String, String)],
                                 isBusinessKeeper: Boolean,
                                 fleetNumber: Option[String])
                                (implicit invalidForm: Form[NewKeeperChooseYourAddressFormModel], request: Request[_]) = {
@@ -153,7 +153,7 @@ abstract class NewKeeperChooseYourAddressBase @Inject()(protected val addressLoo
           name,
           postcode,
           email,
-          addresses,
+          dropDownOptions,
           isBusinessKeeper,
           fleetNumber
         )
@@ -179,20 +179,20 @@ abstract class NewKeeperChooseYourAddressBase @Inject()(protected val addressLoo
 
   private def fetchAddresses(postcode: String)(implicit request: Request[_]) = {
     val session = clientSideSessionFactory.getSession(request.cookies)
-    addressLookupService.fetchAddressesForPostcode(postcode, request.cookies.trackingId())
+    addressLookupService.addressesToDropDown(postcode, request.cookies.trackingId())
   }
 
   private def openView(name: String,
                        postcode: String,
                        email: Option[String],
-                       addresses: Seq[(String, String)],
+                       dropDownOptions: Seq[(String, String)],
                        isBusinessKeeper: Boolean,
                        fleetNumber: Option[String])
                       (implicit request: Request[_]) =
     request.cookies.getModel[VehicleAndKeeperDetailsModel] match {
       case Some(vehicleAndKeeperDetails) =>
         presentView(NewKeeperChooseYourAddressViewModel(form.fill(), vehicleAndKeeperDetails),
-          name, postcode, email, addresses, isBusinessKeeper, fleetNumber)
+          name, postcode, email, dropDownOptions, isBusinessKeeper, fleetNumber)
       case _ => error(VehicleDetailsNotInCacheMessage)
     }
 

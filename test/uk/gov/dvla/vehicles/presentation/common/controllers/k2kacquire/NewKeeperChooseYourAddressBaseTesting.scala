@@ -36,7 +36,7 @@ class NewKeeperChooseYourAddressBaseTesting(protected override val addressLookup
                             name: String,
                             postcode: String,
                             email: Option[String],
-                            addresses: Seq[(String, String)],
+                            dropDownOptions: Seq[(String, String)],
                             isBusinessKeeper: Boolean,
                             fleetNumber: Option[String])(implicit request: Request[_]): Result = {
     presentResultArgs.append(model)
@@ -47,7 +47,7 @@ class NewKeeperChooseYourAddressBaseTesting(protected override val addressLookup
                                   name: String,
                                   postcode: String,
                                   email: Option[String],
-                                  addresses: Seq[(String, String)],
+                                  dropDownOptions: Seq[(String, String)],
                                   isBusinessKeeper: Boolean,
                                   fleetNumber: Option[String])(implicit request: Request[_]): Result = {
 
