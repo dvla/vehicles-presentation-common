@@ -20,6 +20,7 @@ final case class DayMonthYear(day: Int,
   def `dd shortMonth yyyy`: String = format("dd MMM yyyy")
   def `yyyy-MM-dd'T'HH:mm:00`: String = format("yyyy-MM-dd'T'HH:mm:00")
   def `HH:mm`: String = format("HH:mm")
+  def `hh:mm a`: String = format("hh:mm a")
 
   def `dd/MM/yyyy`: String = {
     def pad(i: Int): String = if (i < 10) s"0$i" else s"$i"
