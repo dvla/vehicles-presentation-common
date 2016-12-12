@@ -1,6 +1,5 @@
 package uk.gov.dvla.vehicles.presentation.common.filters
 
-import java.util.Locale
 import org.joda.time.format.DateTimeFormat
 import org.joda.time.{DateTime, DateTimeZone}
 import org.mockito.Mockito.when
@@ -14,6 +13,7 @@ import scala.concurrent.Future
 import scala.language.existentials
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClientSideSessionFactory
 import uk.gov.dvla.vehicles.presentation.common.{UnitSpec, TestWithApplication}
+import uk.gov.dvla.vehicles.presentation.common.mappings.Time.fromMinutes
 
 class EnsureServiceOpenFilterSpec extends UnitSpec {
   private val minuteMilllis = 60 * 1000
@@ -83,23 +83,18 @@ class EnsureServiceOpenFilterSpec extends UnitSpec {
     setUpOutOfHours((setup: SetUp) => {
       val result = setup.filter.apply(next)(requestHeader)
       val resultString = contentAsString(result)
-      resultString should include(h(setup.opening))
-      resultString should include(h(setup.closing))
+      resultString should include(fromMinutes(setup.opening))
+      resultString should include(fromMinutes(setup.closing))
     }, dateTime)
 
     setUpOutOfHours((setup: SetUp) => {
       val result = setup.filter.apply(next)(requestHeader)
       val resultString = contentAsString(result)
-      resultString should include(h(setup.opening))
-      resultString should include(h(setup.closing))
+      resultString should include(fromMinutes(setup.opening))
+      resultString should include(fromMinutes(setup.closing))
     }, dateTime, new DateTimeZoneService {
       override def currentDateTimeZone = DateTimeZone.forID("Europe/London")
     })
-
-    def h(minute: Long) = {
-      DateTimeFormat.forPattern("HH:mm").withLocale(Locale.UK)
-        .print(new DateTime(minute * 60000, DateTimeZone.forID("UTC"))).toLowerCase
-    }
   }
 
   private class MockFilter extends ((RequestHeader) => Future[Result]) {
