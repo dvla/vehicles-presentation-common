@@ -274,14 +274,14 @@ prototype.title = Prototype
 
 # common-test - microServiceErrorView
 micro-service-error.title = Micro Service Error
-micro-service-error.opening = 08:00
-micro-service-error.closing = 18:00
+micro-service-error.opening = 7am
+micro-service-error.closing = 7pm
 
 # common-test - closedView
 closed-view.title = Closed
-closed-view.opening = 08:00
-closed-view.closing = 20:00
+closed-view.opening = 7am
+closed-view.closing = 7pm
 
 # common-test - termsAndConditionsPage
-tandc.opening = 08:00
-tandc.closing = 19:00
+tandc.opening = 7am
+tandc.closing = 7pm
