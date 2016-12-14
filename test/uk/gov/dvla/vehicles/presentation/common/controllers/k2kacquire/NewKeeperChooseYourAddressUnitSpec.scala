@@ -6,23 +6,23 @@ import play.api.i18n.Lang
 import play.api.test.FakeRequest
 import play.api.test.Helpers.contentAsString
 import uk.gov.dvla.vehicles.presentation.common
+import common.clientsidesession.{ClearTextClientSideSessionFactory, NoCookieFlags, TrackingId}
+import common.controllers.k2kacquire.PrivateKeeperDetailsTesting.presentTestResult
+import common.model.CacheKeyPrefix
+import common.testhelpers.CookieFactoryForUnitSpecs
+import common.testhelpers.CookieFactoryForUnitSpecs.PostcodeValid
+import common.testhelpers.CookieFactoryForUnitSpecs.{businessKeeperDetailsCookie, defaultKeeperChooseYourAddressViewModel}
 import common.testhelpers.CookieFactoryForUnitSpecs.{privateKeeperDetailsCookie, vehicleAndKeeperDetailsCookie}
-import common.testhelpers.CookieFactoryForUnitSpecs.businessKeeperDetailsCookie
-import common.testhelpers.CookieFactoryForUnitSpecs.{PostcodeValid, defaultKeeperChooseYourAddressViewModel}
+import common.webserviceclients.addresslookup.AddressLookupService
+import common.webserviceclients.addresslookup.ordnanceservey.AddressDto
+import common.webserviceclients.fakes.FakeAddressLookupWebServiceImpl
 import common.{TestWithApplication, UnitSpec}
-import uk.gov.dvla.vehicles.presentation.common.clientsidesession.{ClearTextClientSideSessionFactory, NoCookieFlags, TrackingId}
-import uk.gov.dvla.vehicles.presentation.common.testhelpers.CookieFactoryForUnitSpecs
-import uk.gov.dvla.vehicles.presentation.common.webserviceclients.addresslookup.ordnanceservey.{AddressDto, AddressResponseDto}
 
 import scala.concurrent.duration.DurationInt
-import uk.gov.dvla.vehicles.presentation.common.controllers.k2kacquire.PrivateKeeperDetailsTesting.presentTestResult
-import uk.gov.dvla.vehicles.presentation.common.model.{AddressModel, CacheKeyPrefix}
-import uk.gov.dvla.vehicles.presentation.common.webserviceclients.addresslookup.AddressLookupService
-import uk.gov.dvla.vehicles.presentation.common.webserviceclients.fakes.FakeAddressLookupWebServiceImpl
-
-import scala.concurrent.{Await, ExecutionContext, Future}
-import ExecutionContext.Implicits.global
+import scala.concurrent.{Await, Future}
 import scala.language.postfixOps
+
+import scala.concurrent.ExecutionContext.Implicits.global
 
 final class NewKeeperChooseYourAddressUnitSpec extends UnitSpec {
 
@@ -31,14 +31,21 @@ final class NewKeeperChooseYourAddressUnitSpec extends UnitSpec {
   implicit val sideSessionFactory = new ClearTextClientSideSessionFactory()
   implicit val cacheKeyPrefix = CacheKeyPrefix("testing-prefix")
   implicit val AddressService: AddressLookupService = new AddressLookupService {
-    override def fetchAddressesForPostcode(postcode: String,
-                                           trackingId: TrackingId)
-                                          (implicit lang: Lang): Future[Seq[(String, String)]] =
-      Future(Seq((PostcodeValid, "not an address")))
 
-    override def addresses(postcode: String, trackingId: TrackingId)(implicit lang: Lang): Future[Seq[AddressDto]] = ???
+    override def addresses(postcode: String, trackingId: TrackingId)(implicit lang: Lang): Future[Seq[AddressDto]] =
+          Future(Seq((AddressDto(addressLine = "not an address" + PostcodeValid,
+            None,
+            "blah",
+            None,
+            None,
+            s"ATown",
+            PostcodeValid))))
 
-    override def toDropDownFormat(addresses: Seq[AddressResponseDto]): Seq[(String, String)] = ???
+
+    override def addressesToDropDown(postcode: String, trackingId: TrackingId)
+                           (implicit lang: Lang): Future[Seq[(String, String)]] =
+          Future(Seq(("some address", "Orgname, some address")))
+
   }
 
   private def controller = new NewKeeperChooseYourAddressBaseTesting(AddressService)
