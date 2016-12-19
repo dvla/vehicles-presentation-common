@@ -401,7 +401,7 @@ class AddressPickerSpec extends UiSpec with TestHarness with AppendedClues {
       click on AddressPickerPage.submit
       pageTitle should equal(AddressPickerPage.title)
       widget.addressLine1.value.length should equal(30)
-      widget.town.value.length should equal(30)
+      widget.town.value.length should equal(20)
 
       widget.assertLookupInputVisible()
       widget.assertAddressListInvisible()
