@@ -19,16 +19,16 @@ class SendSpec extends UnitSpec {
   implicit val emailConfiguration = EmailConfiguration(
                                       From("donotreplypronline@dvla.gsi.gov.uk", "DO-NOT-REPLY"),
                                       From("some@feedback", "dummy Feedback email"),
-                                      Some(List("@valtech.co.uk","@dvla.gsi.gov.uk","@digital.dvla.gov.uk"))
+                                      Some(List("@gmail.com","@dvla.gsi.gov.uk"))
                                     )
   "whitelist" should {
     "return true if an email belongs to this list" in new TestWithApplication {
-      val receivers = List("test@valtech.co.uk")
+      val receivers = List("test@gmail.com")
       SEND.isWhiteListed(receivers) shouldEqual true
     }
 
     "return false if an email doesn't belong to this list" in new TestWithApplication {
-      val receivers = List("test@gmail.com")
+      val receivers = List("test@valtech.co.uk")
       SEND.isWhiteListed(receivers) shouldEqual false
     }
 
@@ -46,7 +46,7 @@ class SendSpec extends UnitSpec {
   "Adding people to the email" should {
     "add people if it is a list" in {
       val template = Contents("<h1>Email</h1>", "text email")
-      val receivers = List("test@valtech.co.uk")
+      val receivers = List("test@gmail.com")
       val email = SEND email template withSubject ""
       val appendedEmail = email.to(receivers)
 
@@ -55,8 +55,8 @@ class SendSpec extends UnitSpec {
 
     "add people if we add one by one" in {
       val template = Contents("<h1>Email</h1>", "text email")
-      val person1 = "test1@valtech.co.uk"
-      val person2 = "test2@valtech.co.uk"
+      val person1 = "test1@gmail.com"
+      val person2 = "test2@gmail.com"
 
       val email = SEND email template withSubject ""
       val appendedEmail = email to (person1, person2)
@@ -66,8 +66,8 @@ class SendSpec extends UnitSpec {
 
     "add people ic cc" in {
       val template = Contents("<h1>Email</h1>", "text email")
-      val person1 = "test1@valtech.co.uk"
-      val person2 = "test2@valtech.co.uk"
+      val person1 = "test1@gmail.com"
+      val person2 = "test2@gmail.com"
 
       val email = SEND email template withSubject "" cc (person1, person2)
 
@@ -78,7 +78,7 @@ class SendSpec extends UnitSpec {
   "Adding a template and some addresses" should {
     "create a MicroServiceEmailOps if the user belongs to the whitelist" in new TestWithApplication {
       val template = Contents("<h1>Email</h1>", "text email")
-      val receivers = List("test@valtech.co.uk")
+      val receivers = List("test@gmail.com")
       val email = SEND email template withSubject "Some Subject" to receivers
 
       email shouldBe a[SEND.Email]
@@ -126,7 +126,7 @@ class SendSpec extends UnitSpec {
       implicit val healthStatsMock = mock[HealthStats]
 
       val template = Contents("<h1>Email</h1>", "text email")
-      val receivers = List("test@valtech.co.uk")
+      val receivers = List("test@gmail.com")
       SEND email template withSubject "Some Subject" to receivers send TrackingId("test-tracking-id")
 
       verify(healthStatsMock, org.mockito.Mockito.timeout(5000).times(1)).failure(any[HealthStatsFailure])
@@ -144,7 +144,7 @@ class SendSpec extends UnitSpec {
       implicit val healthStatsMock = mock[HealthStats]
 
       val template = Contents("<h1>Email</h1>", "text email")
-      val receivers = List("test@valtech.co.uk")
+      val receivers = List("test@gmail.com")
       SEND email template withSubject "Some Subject" to receivers send TrackingId("test-tracking-id")
 
       verify(healthStatsMock, org.mockito.Mockito.timeout(5000).times(1)).success(HealthStatsSuccess(EmailServiceName, expectedInstant))
