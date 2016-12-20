@@ -15,7 +15,7 @@ common_feedback.title = Give feedback
 
 # VPC - closed widget
 closed.title = Service unavailable
-closed.p1 = This service should be available daily {0} to {1}.
+closed.p1 = This service should be available daily {0} - {1}.
 closed.exit_button = Exit
 
 # VPC - valtechSelect widget
@@ -54,9 +54,9 @@ global.cookiemessage = GOV.UK uses cookies to make the site simpler.
 global.cookiefindoutmore = Find out more about cookies
 
 # VPC - serviceClosingWarning widget
-global.serviceCloseWarning = This service is available from {0} to {1}, you have
+global.serviceCloseWarning = This service is available from {0} - {1}, you have
 global.serviceCloseWarning.p2 = to complete this service.
-global.serviceClosed = Service now closed. Service is available {0} to {1}
+global.serviceClosed = Service now closed. Service is available {0} - {1}
 
 # VPC pleaseWait widget
 global-please-wait-header = Please wait
@@ -160,7 +160,7 @@ cookie-policy.expires.close = When you close your browser
 #microServiceError widget
 micro_service_error.title = We are sorry
 micro_service_error.text1 = This service is temporarily unavailable. We apologise for any inconvenience this may cause.
-micro_service_error.text2 = This service should be available daily {0} to {1}.
+micro_service_error.text2 = This service should be available daily {0} - {1}.
 micro_service_error.back.button = Try again
 micro_service_error.exit.button = Exit
 
@@ -190,7 +190,7 @@ tandc.tandc.header = Terms and Conditions
 tandc.tandc.p1 = These Terms and Conditions govern your use of the DVLA’s Vehicle Management and Personalised Registration Online website and your relationship with this website. Please read them carefully as they affect your rights and liabilities under the law. If you do not agree to these Terms and Conditions, please do not use this website.
 tandc.use_of_website.header = Use of this Website
 tandc.use_of_website.p1 = DVLA takes every effort to ensure that the information published on this website is accurate. However, the DVLA cannot accept any liability for the accuracy or content. Visitors who rely on this information do so at their own risk.
-tandc.use_of_website.p2 = This service should be available daily {0} to {1}.  We cannot guarantee that the service will be fault free. If a fault occurs we will attempt to correct the fault as soon as we reasonably can.
+tandc.use_of_website.p2 = This service should be available daily {0} - {1}.  We cannot guarantee that the service will be fault free. If a fault occurs we will attempt to correct the fault as soon as we reasonably can.
 tandc.hyperlinking.header = Hyperlinking
 tandc.hyperlinking.p1 = It is our policy to obtain permission to link to other websites. The DVLA is not responsible for the content or reliability of the linked websites and does not necessarily endorse the views expressed within them. Listings should not be taken as endorsement of any kind. We cannot guarantee that these links will work all of the time and we have no control over the availability of linked pages.
 tandc.payment_cards.header = Payment Cards

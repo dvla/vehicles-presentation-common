@@ -6,7 +6,8 @@ import org.joda.time.format.DateTimeFormat
 
 object Time {
 
-  val format = "hh:mm a"
+  val format = "h:mm a"
+  val formatHour = "h a"
 
   def fromMinutes(mins: Long) = {
     val millisPerMinute = 60000
@@ -22,6 +23,10 @@ object Time {
   }
 
   def print(date: DateTime) = {
+    if (date.minuteOfHour().get() == 0)
+      DateTimeFormat.forPattern(formatHour).withLocale(Locale.UK)
+        .print(date).toLowerCase
+    else
     DateTimeFormat.forPattern(format).withLocale(Locale.UK)
       .print(date).toLowerCase
   }
