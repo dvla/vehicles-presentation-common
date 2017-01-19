@@ -205,7 +205,7 @@ tandc.site_usage_information.p1 = Log files allow us to record visitors’ use o
 tandc.online_cookies_policies.header = Online Cookies policies
 tandc.online_cookies_policies.p1 = When we provide services, we want to make them easy, useful and reliable. Where services are delivered on the Internet, this sometimes involves placing small amounts of information on your device, for example, computer or mobile phone. These include small files known as cookies. They cannot be used to identify you personally.
 tandc.online_cookies_policies.p2 = These pieces of information are used to improve services for you through, for example:
-tandc.online_cookies_policies.p3 = enabling a service to recognise your device so you don’t have to give the same information several times during one task recognising that you may already have given a username and password so you don’t need to do it for every web page requested measuring how many people are using services, so they can be made easier to use and there’s enough capacity to ensure they are fast
+tandc.online_cookies_policies.p3 = enabling a service to recognise your device so you don’t have to give the same information several times during one task recognising that you may already have given a username and password so you don’t need to do it for every web page requested measuring how many people are using services, so they can be made easier to use and there’s enough capacity to ensure they are fast.
 tandc.online_cookies_policies.p4 = You can configure your web-browser to reject cookies.  Note that you may not be able to access or use certain features of this website if you reject a cookie.  Please read the <a href="{0}">cookie policy</a> for more information.
 tandc.disclaimer.header = Disclaimer
 tandc.disclaimer.p1 = We don’t accept liability for loss or damage incurred by users of this service, whether direct, indirect or consequential, whether caused by tort, breach of contract or otherwise, in connection with our site, its use, the inability to use, or results of the use of our site, any websites linked to it and any materials posted on it.
@@ -238,7 +238,6 @@ tandc.last_updated = These Terms and Conditions were last updated 30 March 2016.
 
 # Privacy policy
 privacy-title = Vehicle Management and Personalised Registration Online Privacy Policy
-
 privacy.privacy.header = Vehicle Management and Personalised Registration Online Privacy Policy
 privacy.general.header = General
 privacy.general.p1 = The Driver and Vehicle Licensing Agency (DVLA) have developed a free secure online facility to enable you to
@@ -382,3 +381,5 @@ traderEmail = Trader email address
 traderEmailOption = Email confirmation
 traderPostcode = Postcode
 traderName = Trader name
+
+close.label = Close

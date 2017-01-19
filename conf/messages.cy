@@ -22,7 +22,7 @@ closed.exit_button = Gadael
 select_default = Dewiswch
 
 # VPC - valtechLabelText widget
-widget.optional = (optional)
+widget.optional = (opsiynol)
 
 # VPC - errorsSummary widget
 errorsummary.title = A wnewch chi gywiro’r manylion isod
@@ -78,9 +78,9 @@ titlePicker.textLabel = Teitl arall
 titlePicker.textHint = (uchafswm nodau yw 10)
 
 # Date labels
-dateOfBirth.day = Dyddiad y gwerthiant
-dateOfBirth.month = Mis y gwerthiant
-dateOfBirth.year = Blwyddyn y gwerthiant
+dateOfBirth.day = Dyddiad
+dateOfBirth.month = Mis
+dateOfBirth.year = Blwyddyn
 
 #prototype
 prototype.banner = Mae hwn yn wasanaeth newydd
@@ -124,7 +124,7 @@ cookie-policy.name = Mesur y defnydd o’r wefan (Google Analytics)
 cookie-policy.name.p1 = Mae meddalwedd Google Analytics yn casglu gwybodaeth am sut ydych yn defnyddio’r wefan. Gwneir hyn er mwyn helpu i sicrhau bod y wefan yn cwrdd ag anghenion y defnyddwyr ac i helpu i wneud gwelliannau.
 cookie-policy.name.p2 = Mae Google Analytics yn storio gwybodaeth am:
 cookie-policy.name.p2.list =<ul><li> y tudalennau rydych yn ymweld â hwy - yr amser yr ydych yn treulio ar bob tudalen</li><li> sut yr ydych yn cyrraedd y wefan</li><li>yr hyn yr ydych yn clicio arno tra’ch bod yn ymweld â’r wefan</li></ul>
-cookie-policy.name.p3 = Nid ydym yn casglu nac yn cadw eich gwybodaeth bersonol (ee eich enw neu gyfeiriad) felly ni all y wybodaeth hon gael ei yn cael ei defnyddio i adnabod pwy ydych chi.
+cookie-policy.name.p3 = Nid ydym yn casglu nac yn cadw eich gwybodaeth bersonol (ee eich enw neu gyfeiriad) felly ni all y wybodaeth hon gael ei defnyddio i adnabod pwy ydych chi.
 cookie-policy.name.p4 = Nid yw Google yn cael defnyddio na rhannu ein data dadansoddi. Gallwch <a href="https://tools.google.com/dlpage/gaoptout" target="_blank" data-sso="false">optio allan o cwcis Google Analytics</a>.
 
 cookie-policy.table.name = Enw’r cwci
@@ -159,7 +159,7 @@ cookie-policy.expires.close = Pan fyddwch yn cau eich porwr
 
 #microServiceError widget
 micro_service_error.title = Mae’n ddrwg gennym
-micro_service_error.text1 = Nid yw’r gwasanaeth hwn ar gael dros dro. Rydym yn ymddiheuro am unrhyw anghyfleustra y gall hwn ei achosi
+micro_service_error.text1 = Nid yw’r gwasanaeth hwn ar gael dros dro. Rydym yn ymddiheuro am unrhyw anghyfleustra y gall hwn ei achosi.
 micro_service_error.text2 = Dylai’r gwasanaeth fod ar gael yn ddyddiol {0} - {1}.
 micro_service_error.back.button = Ceisio eto
 micro_service_error.exit.button = Allan
@@ -167,8 +167,10 @@ micro_service_error.exit.button = Allan
 #xmasOpeningTimes widget
 xmas-opening-times.text = Cliciwch yma am oriau agor Nadolig y DVLA
 
-# feedback
+# PR FeedbackController
 common_feedback.subject.suffix = adborth
+
+# feedback
 common_feedback.warning = Mae’r dudalen hon ar gyfer adborth yn unig. Ni allwn ymateb i’ch ebost
 common_feedback.message = Peidiwch â chynnwys unrhyw wybodaeth bersonol neu ariannol.
 common_feedback.rating.label = Pa mor fodlon oeddech chi gyda’r dudalen neu’r gwasanaeth:
@@ -203,7 +205,7 @@ tandc.site_usage_information.p1 = Mae ffeiliau log yn caniatáu i ni gofnodi def
 tandc.online_cookies_policies.header = Polisi Cwcis Ar-lein
 tandc.online_cookies_policies.p1 = Pan fyddwn yn darparu gwasanaethau, rydym am eu gwneud yn rhwydd, defnyddiol a dibynadwy. Pan gyflenwir gwasanaethau ar y Rhyngrwyd, bydd hyn weithiau yn rhoi ychydig o wybodaeth ar eich dyfais chi, er enghraifft, cyfrifiadur neu ffôn symudol. Bydd y rhain yn cynnwys ffeiliau a elwir yn cwcis. Ni ellir eu defnyddio i’ch adnabod chi yn bersonol.
 tandc.online_cookies_policies.p2 = Defnyddir y pytiau hyn o wybodaeth i wella gwasanaethau i chi, er enghraifft, drwy:
-tandc.online_cookies_policies.p3 = alluogi gwasanaeth i adnabod eich dyfais fel na fydd yn rhaid i chi roi’r un wybodaeth sawl gwaith yn ystod un dasg, gan gydnabod y gallech fod wedi rhoi enw defnyddiwr a chyfrinair, fel na fydd raid i chi wneud hynny ar gyfer pob tudalen we y gofynnir amdani sy’n mesur faint o bobl sy’n defnyddio’r gwasanaethau, fel y gellir eu gwneud yn haws i’w defnyddio a bod digon o gapasiti i sicrhau eu bod yn gyflym
+tandc.online_cookies_policies.p3 = alluogi gwasanaeth i adnabod eich dyfais fel na fydd yn rhaid i chi roi’r un wybodaeth sawl gwaith yn ystod un dasg, gan gydnabod y gallech fod wedi rhoi enw defnyddiwr a chyfrinair, fel na fydd raid i chi wneud hynny ar gyfer pob tudalen we y gofynnir amdani sy’n mesur faint o bobl sy’n defnyddio’r gwasanaethau, fel y gellir eu gwneud yn haws i’w defnyddio a bod digon o gapasiti i sicrhau eu bod yn gyflym.
 tandc.online_cookies_policies.p4 = Gallwch ffurfweddu’ch porwr y we i wrthod cwcis.  Sylwch efallai na fyddwch yn medru cael mynediad at rai nodweddion penodol ar y wefan hon os byddwch yn gwrthod cwcis.  Darllenwch y <a href="/cookies-policy">polisi cwcis</a> am fwy o wybodaeth.
 tandc.disclaimer.header = Ymwadiad
 tandc.disclaimer.p1 = Nid ydym yn derbyn atebolrwydd am golledion neu ddifrod a achoswyd gan ddefnyddwyr y gwasanaeth hwn, p’un a yw’n uniongyrchol, anuniongyrchol neu’n ôl-ddilynol, p’un a achoswyd gan gamwedd, torri cytundeb neu fel arall, mewn cysylltiad â’n safle, ei ddefnydd, anallu i ddefnyddio, neu ganlyniadau defnydd o’n safle, unrhyw wefannau sy’n gysylltiedig ag ef ac unrhyw ddeunyddiau a gyhoeddir arno.
@@ -306,15 +308,14 @@ error.dropDownInvalid = Dewiswch werth o’r ddewislen gwympo
 # Common mapping error messages
 error.restricted.validPostcode = Mae’n rhaid iddo fod rhwng pump ac wyth nod ac mewn fformat dilys, er enghraifft AB1 2BA neu AB12BA
 error.restricted.validV5CPostcode = Rhaid iddo fod yn god post y ceidwad cofrestredig yn union fel yr argraffwyd ar y ddogfen dystysgrif gofrestru V5CW (llyfr log)
-error.restricted.validVrnOnly = Rhaid iddo fod ar ffurf ddilys
+error.restricted.validVrnOnly = Rhaid i'r rhif cofrestru cerbyd fod ar ffurf ddilys
 error.restricted.validNumberOnly = Mae’r maes hwn yn derbyn rhifau yn unig
 error.fleetNumber = Mae’n rhaid bod y rhif fflyd yn rhif 6 digid yn unig, ceisiwch eto os gwelwch yn dda.
 error.driverNumber = WEDI’I OROESI?
 error.notInFuture = Ni all y dyddiad bod yn y dyfodol
 error.withinTwoYears = Ni all y dyddiad bod yn fwy na dwy flynedd yn ôl
-error.validBusinessName = Rhaid bod rhwng 2 a 58 o nodau o hyd a dim ond nodau dilys (a-z, A-Z, 0-9, &, -,(), /, ‘ a , neu .)
+error.validBusinessName = Rhaid bod rhwng 2 a 58 o nodau o hyd a dim ond nodau dilys (a-z, A-Z, 0-9, &, -,(), /, ‘ a , neu .). Ni all y nodau canlynol gael eu defnyddio ar ddechrau’r enw cyswllt (&, -, (), ‘ a, neu.)
 error.validBusinessKeeperName = Rhaid iddo fod rhwng 2 a 30 o nodau, yn cynnwys o leiaf un nod alffa ac yn cynnwys nodau dilys yn unig (a-z, A-Z, 0-9, &, -, (), /, ‘, a, neu.). Ni all y nodau canlynol gael eu defnyddio ar ddechrau’r enw cyswllt (&, -, (), ‘ a, neu.)
-
 error.invalidBracesOrQuotes = Mae’n rhaid i gromfachau a dyfynodau gael eu defnyddio mewn pâr, er enghraifft (...) neu ‘...’
 error.atLeastOneChar = WEDI’I OROESI?
 
@@ -380,3 +381,5 @@ traderEmail = Cyfeiriad ebost y masnachwr
 traderEmailOption = Cadarnhad ebost
 traderName = Enw’r masnachwr
 traderPostcode = Cod post
+
+close.label = Cau

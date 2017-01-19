@@ -10,7 +10,7 @@
     @if(args.contains('tooltipImgSrc)) {
         <a href="?#@field.id" tabindex="-1" class="toggle-element field-help js-only ga-track-click-event-once" data-ga-event-action="@field.id" data-target="#tooltip_@field.id" data-tooltip="tooltip_@field.id" aria-hidden="true">
             <span class="field-help-icon">i</span>
-            <span class="field-help-close" >Close</span>
+            <span class="field-help-close" >@Messages("close.label")</span>
         </a>
     }
 </label>
