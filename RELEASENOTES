@@ -1,3 +1,14 @@
+======= 2.60 ======
+Time of release binaries creation:
+
+
+VMPRCI-4487 	Changed '7am to 7pm' worded times to '7am - 7pm'
+VMPRCI-4543 	Test helpers clean up
+VMPRCI-4562 	Consolidate VM and PR web app postcode address lookup calls
+VMPRCI-4572 	Reintroduce email.whitelist property for non preprod and live environments
+VMPRCI-4579 	Post town allows too many characters
+VMPRCI-4588 	Further revisions to welsh translation
+
 ======= 2.59 ======
 Time of release binaries creation:
 Wed Dec 07 10:44:03 UTC 2016
