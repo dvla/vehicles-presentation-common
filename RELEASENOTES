@@ -257,13 +257,13 @@ US3975  Create and implement Vehicle Detail Playback as common widget in vehicle
 Time of release binaries creation:
 Wed Oct 28 08:03:32 UTC 2015
 
-US3823  Ensure all widgets and field types are available within vehicles-presentation-common test project
-US3849  All email addresses to play back in lower case (on screen and printed summary etc)
-US3850  Remove email validation that checks for upper or lower case letters
-US3896  Amend Vehicle Lookup Error Message to mention 'Not latest V5C'
-US3898  Change Manual Address Entry screen to allow for Postcode Amendment
-US3899  Understand what customers chose on the Acquire 'Vehicle Tax or Sorn Page'
-US3902  Remove inputDayMonthYearTextbox widget
+US3823 Ensure all widgets and field types are available within vehicles-presentation-common test project
+US3849 All email addresses to play back in lower case (on screen and printed summary etc)
+US3850 Remove email validation that checks for upper or lower case letters
+US3896 Amend Vehicle Lookup Error Message to mention 'Not latest V5C'
+US3898 Change Manual Address Entry screen to allow for Postcode Amendment
+US3899 Understand what customers chose on the Acquire 'Vehicle Tax or Sorn' Page'
+US3902 Remove inputDayMonthYearTextbox widget
 
 ======= 2.34 ======
 Time of release binaries creation:
